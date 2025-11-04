@@ -6,6 +6,7 @@ package opa
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opa "github.com/oracle/oci-go-sdk/v65/opa"
 
@@ -19,15 +20,15 @@ func OpaOpaInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpaOpaInstanceResource(), fieldMap, readSingularOpaOpaInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpaOpaInstanceResource(), fieldMap, readSingularOpaOpaInstanceWithContext)
 }
 
-func readSingularOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpaOpaInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpaOpaInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OpaOpaInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpaOpaInstanceDataSourceCrud) Get() error {
+func (s *OpaOpaInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opa.GetOpaInstanceRequest{}
 
 	if opaInstanceId, ok := s.D.GetOkExists("opa_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *OpaOpaInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opa")
 
-	response, err := s.Client.GetOpaInstance(context.Background(), request)
+	response, err := s.Client.GetOpaInstance(ctx, request)
 	if err != nil {
 		return err
 	}

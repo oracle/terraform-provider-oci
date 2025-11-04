@@ -6,6 +6,7 @@ package recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -19,15 +20,15 @@ func RecoveryProtectedDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(RecoveryProtectedDatabaseResource(), fieldMap, readSingularRecoveryProtectedDatabase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(RecoveryProtectedDatabaseResource(), fieldMap, readSingularRecoveryProtectedDatabaseWithContext)
 }
 
-func readSingularRecoveryProtectedDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularRecoveryProtectedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectedDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RecoveryProtectedDatabaseDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *RecoveryProtectedDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryProtectedDatabaseDataSourceCrud) Get() error {
+func (s *RecoveryProtectedDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.GetProtectedDatabaseRequest{}
 
 	if protectedDatabaseId, ok := s.D.GetOkExists("protected_database_id"); ok {
@@ -50,7 +51,7 @@ func (s *RecoveryProtectedDatabaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.GetProtectedDatabase(context.Background(), request)
+	response, err := s.Client.GetProtectedDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

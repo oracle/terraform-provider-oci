@@ -6,6 +6,8 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +17,7 @@ import (
 
 func GoldenGateConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGateConnections,
+		ReadContext: readGoldenGateConnectionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"assignable_deployment_id": {
@@ -74,12 +76,12 @@ func GoldenGateConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateConnections(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateConnectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResource(sync))
 }
 
 type GoldenGateConnectionsDataSourceCrud struct {

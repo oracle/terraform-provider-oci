@@ -6,16 +6,17 @@ package datacatalog
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogCatalogPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatacatalogCatalogPrivateEndpoints,
+		ReadContext: readDatacatalogCatalogPrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func DatacatalogCatalogPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readDatacatalogCatalogPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readDatacatalogCatalogPrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogPrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatacatalogCatalogPrivateEndpointsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) Get() error {
+func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.ListCatalogPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datacatalog")
 
-	response, err := s.Client.ListCatalogPrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListCatalogPrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCatalogPrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListCatalogPrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

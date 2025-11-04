@@ -6,6 +6,7 @@ package visual_builder
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func VisualBuilderVbInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(VisualBuilderVbInstanceResource(), fieldMap, readSingularVisualBuilderVbInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(VisualBuilderVbInstanceResource(), fieldMap, readSingularVisualBuilderVbInstanceWithContext)
 }
 
-func readSingularVisualBuilderVbInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularVisualBuilderVbInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VisualBuilderVbInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type VisualBuilderVbInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VisualBuilderVbInstanceDataSourceCrud) Get() error {
+func (s *VisualBuilderVbInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_visual_builder.GetVbInstanceRequest{}
 
 	if vbInstanceId, ok := s.D.GetOkExists("vb_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "visual_builder")
 
-	response, err := s.Client.GetVbInstance(context.Background(), request)
+	response, err := s.Client.GetVbInstance(ctx, request)
 	if err != nil {
 		return err
 	}

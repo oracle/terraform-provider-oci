@@ -7,11 +7,12 @@ import (
 	"context"
 	"log"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WafWebAppFirewallDataSource() *schema.Resource {
@@ -20,15 +21,15 @@ func WafWebAppFirewallDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(WafWebAppFirewallResource(), fieldMap, readSingularWafWebAppFirewall)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(WafWebAppFirewallResource(), fieldMap, readSingularWafWebAppFirewallWithContext)
 }
 
-func readSingularWafWebAppFirewall(d *schema.ResourceData, m interface{}) error {
+func readSingularWafWebAppFirewallWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WafWebAppFirewallDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type WafWebAppFirewallDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *WafWebAppFirewallDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WafWebAppFirewallDataSourceCrud) Get() error {
+func (s *WafWebAppFirewallDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waf.GetWebAppFirewallRequest{}
 
 	if webAppFirewallId, ok := s.D.GetOkExists("web_app_firewall_id"); ok {
@@ -51,7 +52,7 @@ func (s *WafWebAppFirewallDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waf")
 
-	response, err := s.Client.GetWebAppFirewall(context.Background(), request)
+	response, err := s.Client.GetWebAppFirewall(ctx, request)
 	if err != nil {
 		return err
 	}

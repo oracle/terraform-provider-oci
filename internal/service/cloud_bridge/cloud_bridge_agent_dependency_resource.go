@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func CloudBridgeAgentDependencyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudBridgeAgentDependency,
-		Read:     readCloudBridgeAgentDependency,
-		Update:   updateCloudBridgeAgentDependency,
-		Delete:   deleteCloudBridgeAgentDependency,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudBridgeAgentDependencyWithContext,
+		ReadContext:   readCloudBridgeAgentDependencyWithContext,
+		UpdateContext: updateCloudBridgeAgentDependencyWithContext,
+		DeleteContext: deleteCloudBridgeAgentDependencyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bucket": {
@@ -113,41 +113,41 @@ func CloudBridgeAgentDependencyResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeAgentDependency(d *schema.ResourceData, m interface{}) error {
+func createCloudBridgeAgentDependencyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAgentDependencyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudBridgeAgentDependency(d *schema.ResourceData, m interface{}) error {
+func readCloudBridgeAgentDependencyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAgentDependencyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudBridgeAgentDependency(d *schema.ResourceData, m interface{}) error {
+func updateCloudBridgeAgentDependencyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAgentDependencyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudBridgeAgentDependency(d *schema.ResourceData, m interface{}) error {
+func deleteCloudBridgeAgentDependencyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAgentDependencyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudBridgeAgentDependencyResourceCrud struct {
@@ -186,7 +186,7 @@ func (s *CloudBridgeAgentDependencyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) Create() error {
+func (s *CloudBridgeAgentDependencyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.CreateAgentDependencyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -251,14 +251,14 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.CreateAgentDependency(context.Background(), request)
+	response, err := s.Client.CreateAgentDependency(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_cloud_bridge.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_cloud_bridge.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -274,20 +274,20 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getAgentDependencyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAgentDependencyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) getAgentDependencyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudBridgeAgentDependencyResourceCrud) getAgentDependencyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_bridge.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	agentDependencyId, err := agentDependencyWaitForWorkRequest(workId, "agentdependency",
+	agentDependencyId, err := agentDependencyWaitForWorkRequest(ctx, workId, "agentdependency",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, agentDependencyId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
 			oci_cloud_bridge.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -301,7 +301,7 @@ func (s *CloudBridgeAgentDependencyResourceCrud) getAgentDependencyFromWorkReque
 	}
 	s.D.SetId(*agentDependencyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func agentDependencyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -327,7 +327,7 @@ func agentDependencyWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func agentDependencyWaitForWorkRequest(wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
+func agentDependencyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_bridge.CommonClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_bridge")
 	retryPolicy.ShouldRetryOperation = agentDependencyWorkRequestShouldRetryFunc(timeout)
@@ -346,7 +346,7 @@ func agentDependencyWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cloud_bridge.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -375,13 +375,13 @@ func agentDependencyWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_bridge.OperationStatusFailed || response.Status == oci_cloud_bridge.OperationStatusCanceled {
-		return nil, getErrorFromCloudBridgeAgentDependencyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudBridgeAgentDependencyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudBridgeAgentDependencyWorkRequest(client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
+func getErrorFromCloudBridgeAgentDependencyWorkRequest(ctx context.Context, client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_cloud_bridge.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -404,7 +404,7 @@ func getErrorFromCloudBridgeAgentDependencyWorkRequest(client *oci_cloud_bridge.
 	return workRequestErr
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) Get() error {
+func (s *CloudBridgeAgentDependencyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetAgentDependencyRequest{}
 
 	tmp := s.D.Id()
@@ -412,7 +412,7 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.GetAgentDependency(context.Background(), request)
+	response, err := s.Client.GetAgentDependency(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -421,11 +421,11 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) Update() error {
+func (s *CloudBridgeAgentDependencyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -493,16 +493,16 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.UpdateAgentDependency(context.Background(), request)
+	response, err := s.Client.UpdateAgentDependency(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAgentDependencyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAgentDependencyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) Delete() error {
+func (s *CloudBridgeAgentDependencyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.DeleteAgentDependencyRequest{}
 
 	tmp := s.D.Id()
@@ -510,7 +510,7 @@ func (s *CloudBridgeAgentDependencyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err := s.Client.DeleteAgentDependency(context.Background(), request)
+	_, err := s.Client.DeleteAgentDependency(ctx, request)
 	return err
 }
 
@@ -648,7 +648,7 @@ func AgentDependencySummaryToMap(obj oci_cloud_bridge.AgentDependencySummary) ma
 	return result
 }
 
-func (s *CloudBridgeAgentDependencyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CloudBridgeAgentDependencyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_cloud_bridge.ChangeAgentDependencyCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -659,12 +659,12 @@ func (s *CloudBridgeAgentDependencyResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err := s.Client.ChangeAgentDependencyCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAgentDependencyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

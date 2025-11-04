@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
@@ -22,12 +23,14 @@ func LogAnalyticsNamespaceLookupsUpdateDataManagementResource() *schema.Resource
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+
+		CreateContext: createLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext,
+		ReadContext:   readLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext,
+		DeleteContext: deleteLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("30m"),
 		},
-		Create: createLogAnalyticsNamespaceLookupsUpdateDataManagement,
-		Read:   readLogAnalyticsNamespaceLookupsUpdateDataManagement,
-		Delete: deleteLogAnalyticsNamespaceLookupsUpdateDataManagement,
+
 		Schema: map[string]*schema.Schema{
 			// Required
 			"update_lookup_file": {
@@ -71,19 +74,19 @@ func LogAnalyticsNamespaceLookupsUpdateDataManagementResource() *schema.Resource
 	}
 }
 
-func createLogAnalyticsNamespaceLookupsUpdateDataManagement(d *schema.ResourceData, m interface{}) error {
+func createLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceLookupsUpdateDataManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLogAnalyticsNamespaceLookupsUpdateDataManagement(d *schema.ResourceData, m interface{}) error {
+func readLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteLogAnalyticsNamespaceLookupsUpdateDataManagement(d *schema.ResourceData, m interface{}) error {
+func deleteLogAnalyticsNamespaceLookupsUpdateDataManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -98,7 +101,7 @@ func (s *LogAnalyticsNamespaceLookupsUpdateDataManagementResourceCrud) ID() stri
 	return tfresource.GenerateDataSourceHashID("LogAnalyticsNamespaceLookupsUpdateDataManagementResource-", LogAnalyticsNamespaceLookupsUpdateDataManagementResource(), s.D)
 }
 
-func (s *LogAnalyticsNamespaceLookupsUpdateDataManagementResourceCrud) Create() error {
+func (s *LogAnalyticsNamespaceLookupsUpdateDataManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_log_analytics.UpdateLookupDataRequest{}
 	var namespaceName string
 
@@ -138,14 +141,14 @@ func (s *LogAnalyticsNamespaceLookupsUpdateDataManagementResourceCrud) Create() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.UpdateLookupData(context.Background(), request)
+	response, err := s.Client.UpdateLookupData(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, workRequestErr := namespaceLookupWaitForWorkRequest(&namespaceName, workId, "log_analytics",
+	_, workRequestErr := namespaceLookupWaitForWorkRequest(ctx, &namespaceName, workId, "log_analytics",
 		oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeUpdateLookupData, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 	return workRequestErr
 }

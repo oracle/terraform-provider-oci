@@ -9,12 +9,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_bastion "github.com/oracle/oci-go-sdk/v65/bastion"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -24,11 +24,11 @@ func BastionBastionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBastionBastion,
-		Read:     readBastionBastion,
-		Update:   updateBastionBastion,
-		Delete:   deleteBastionBastion,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBastionBastionWithContext,
+		ReadContext:   readBastionBastionWithContext,
+		UpdateContext: updateBastionBastionWithContext,
+		DeleteContext: deleteBastionBastionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bastion_type": {
@@ -145,37 +145,37 @@ func BastionBastionResource() *schema.Resource {
 	}
 }
 
-func createBastionBastion(d *schema.ResourceData, m interface{}) error {
+func createBastionBastionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBastionBastion(d *schema.ResourceData, m interface{}) error {
+func readBastionBastionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBastionBastion(d *schema.ResourceData, m interface{}) error {
+func updateBastionBastionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBastionBastion(d *schema.ResourceData, m interface{}) error {
+func deleteBastionBastionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionBastionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BastionBastionResourceCrud struct {
@@ -213,7 +213,7 @@ func (s *BastionBastionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BastionBastionResourceCrud) Create() error {
+func (s *BastionBastionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bastion.CreateBastionRequest{}
 
 	if bastionType, ok := s.D.GetOkExists("bastion_type"); ok {
@@ -294,7 +294,7 @@ func (s *BastionBastionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
-	response, err := s.Client.CreateBastion(context.Background(), request)
+	response, err := s.Client.CreateBastion(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -305,14 +305,14 @@ func (s *BastionBastionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getBastionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBastionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BastionBastionResourceCrud) getBastionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BastionBastionResourceCrud) getBastionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bastion.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bastionId, err := bastionWaitForWorkRequest(workId, "bastion",
+	bastionId, err := bastionWaitForWorkRequest(ctx, workId, "bastion",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -320,7 +320,7 @@ func (s *BastionBastionResourceCrud) getBastionFromWorkRequest(workId *string, r
 	}
 	s.D.SetId(*bastionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bastionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -346,7 +346,7 @@ func bastionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastion.ActionTypeEnum,
+func bastionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bastion.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bastion.BastionClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bastion")
 	retryPolicy.ShouldRetryOperation = bastionWorkRequestShouldRetryFunc(timeout)
@@ -365,7 +365,7 @@ func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bastion.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -394,14 +394,14 @@ func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bastion.OperationStatusFailed || response.Status == oci_bastion.OperationStatusCanceled {
-		return nil, getErrorFromBastionBastionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBastionBastionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBastionBastionWorkRequest(client *oci_bastion.BastionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bastion.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBastionBastionWorkRequest(ctx context.Context, client *oci_bastion.BastionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bastion.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bastion.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -423,7 +423,7 @@ func getErrorFromBastionBastionWorkRequest(client *oci_bastion.BastionClient, wo
 	return workRequestErr
 }
 
-func (s *BastionBastionResourceCrud) Get() error {
+func (s *BastionBastionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bastion.GetBastionRequest{}
 
 	tmp := s.D.Id()
@@ -431,7 +431,7 @@ func (s *BastionBastionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
-	response, err := s.Client.GetBastion(context.Background(), request)
+	response, err := s.Client.GetBastion(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -440,11 +440,11 @@ func (s *BastionBastionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BastionBastionResourceCrud) Update() error {
+func (s *BastionBastionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -504,16 +504,16 @@ func (s *BastionBastionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
-	response, err := s.Client.UpdateBastion(context.Background(), request)
+	response, err := s.Client.UpdateBastion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBastionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBastionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BastionBastionResourceCrud) Delete() error {
+func (s *BastionBastionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bastion.DeleteBastionRequest{}
 
 	tmp := s.D.Id()
@@ -521,14 +521,14 @@ func (s *BastionBastionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
-	response, err := s.Client.DeleteBastion(context.Background(), request)
+	response, err := s.Client.DeleteBastion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bastionWaitForWorkRequest(workId, "bastion", oci_bastion.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	_, delWorkRequestErr := bastionWaitForWorkRequest(ctx, workId, "bastion", oci_bastion.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
@@ -611,7 +611,7 @@ func (s *BastionBastionResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *BastionBastionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *BastionBastionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_bastion.ChangeBastionCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -622,12 +622,12 @@ func (s *BastionBastionResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
-	_, err := s.Client.ChangeBastionCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeBastionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

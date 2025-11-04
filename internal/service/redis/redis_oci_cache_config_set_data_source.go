@@ -6,6 +6,7 @@ package redis
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -19,15 +20,15 @@ func RedisOciCacheConfigSetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(RedisOciCacheConfigSetResource(), fieldMap, readSingularRedisOciCacheConfigSet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(RedisOciCacheConfigSetResource(), fieldMap, readSingularRedisOciCacheConfigSetWithContext)
 }
 
-func readSingularRedisOciCacheConfigSet(d *schema.ResourceData, m interface{}) error {
+func readSingularRedisOciCacheConfigSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RedisOciCacheConfigSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheConfigSetClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RedisOciCacheConfigSetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *RedisOciCacheConfigSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisOciCacheConfigSetDataSourceCrud) Get() error {
+func (s *RedisOciCacheConfigSetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_redis.GetOciCacheConfigSetRequest{}
 
 	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok {
@@ -50,7 +51,7 @@ func (s *RedisOciCacheConfigSetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.GetOciCacheConfigSet(context.Background(), request)
+	response, err := s.Client.GetOciCacheConfigSet(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -24,15 +24,16 @@ func GloballyDistributedDatabasePrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+
+		CreateContext: createGloballyDistributedDatabasePrivateEndpointWithContext,
+		ReadContext:   readGloballyDistributedDatabasePrivateEndpointWithContext,
+		UpdateContext: updateGloballyDistributedDatabasePrivateEndpointWithContext,
+		DeleteContext: deleteGloballyDistributedDatabasePrivateEndpointWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("1h"),
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createGloballyDistributedDatabasePrivateEndpoint,
-		Read:   readGloballyDistributedDatabasePrivateEndpoint,
-		Update: updateGloballyDistributedDatabasePrivateEndpoint,
-		Delete: deleteGloballyDistributedDatabasePrivateEndpoint,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -127,34 +128,34 @@ func GloballyDistributedDatabasePrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createGloballyDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabasePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("reinstate_proxy_instance_trigger"); ok {
-		err := sync.ReinstateProxyInstance()
+		err := sync.ReinstateProxyInstance(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readGloballyDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabasePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateGloballyDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabasePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
@@ -164,31 +165,31 @@ func updateGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ReinstateProxyInstance()
+			err := sync.ReinstateProxyInstance(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("reinstate_proxy_instance_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteGloballyDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GloballyDistributedDatabasePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GloballyDistributedDatabasePrivateEndpointResourceCrud struct {
@@ -226,7 +227,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) DeletedTarget()
 	}
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Create() error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.CreatePrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -277,7 +278,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Create() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.CreatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -288,14 +289,14 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Create() error 
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_globally_distributed_database.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	privateEndpointId, err := privateEndpointWaitForWorkRequest(workId, "privateendpoint",
+	privateEndpointId, err := privateEndpointWaitForWorkRequest(ctx, workId, "privateendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -303,7 +304,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) getPrivateEndpo
 	}
 	s.D.SetId(*privateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -329,7 +330,7 @@ func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_globally_distributed_database.ActionTypeEnum,
+func privateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_globally_distributed_database.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_globally_distributed_database.ShardedDatabaseServiceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "globally_distributed_database")
 	retryPolicy.ShouldRetryOperation = privateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -348,7 +349,7 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_globally_distributed_database.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -376,14 +377,14 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_globally_distributed_database.OperationStatusFailed || response.Status == oci_globally_distributed_database.OperationStatusCanceled {
-		return nil, getErrorFromGloballyDistributedDatabasePrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGloballyDistributedDatabasePrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGloballyDistributedDatabasePrivateEndpointWorkRequest(client *oci_globally_distributed_database.ShardedDatabaseServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_globally_distributed_database.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGloballyDistributedDatabasePrivateEndpointWorkRequest(ctx context.Context, client *oci_globally_distributed_database.ShardedDatabaseServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_globally_distributed_database.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_globally_distributed_database.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -405,7 +406,7 @@ func getErrorFromGloballyDistributedDatabasePrivateEndpointWorkRequest(client *o
 	return workRequestErr
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Get() error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.GetPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -413,7 +414,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -422,11 +423,11 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Update() error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -475,7 +476,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Update() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -484,7 +485,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Update() error 
 	return nil
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Delete() error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_globally_distributed_database.DeletePrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -492,14 +493,14 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) Delete() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeletePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(workId, "privateendpoint",
+	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(ctx, workId, "privateendpoint",
 		oci_globally_distributed_database.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -568,7 +569,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) SetData() error
 	return nil
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) ReinstateProxyInstance() error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) ReinstateProxyInstance(ctx context.Context) error {
 	request := oci_globally_distributed_database.ReinstateProxyInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -581,7 +582,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) ReinstateProxyI
 		return err
 	}*/
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -658,7 +659,7 @@ func PrivateEndpointSummaryToMap(obj oci_globally_distributed_database.PrivateEn
 	return result
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_globally_distributed_database.ChangePrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -669,11 +670,11 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) updateCompartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
 
-	response, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangePrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database"), oci_globally_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

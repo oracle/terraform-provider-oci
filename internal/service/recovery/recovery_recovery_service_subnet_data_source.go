@@ -6,6 +6,7 @@ package recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -19,15 +20,15 @@ func RecoveryRecoveryServiceSubnetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(RecoveryRecoveryServiceSubnetResource(), fieldMap, readSingularRecoveryRecoveryServiceSubnet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(RecoveryRecoveryServiceSubnetResource(), fieldMap, readSingularRecoveryRecoveryServiceSubnetWithContext)
 }
 
-func readSingularRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
+func readSingularRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryRecoveryServiceSubnetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RecoveryRecoveryServiceSubnetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) Get() error {
+func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.GetRecoveryServiceSubnetRequest{}
 
 	if recoveryServiceSubnetId, ok := s.D.GetOkExists("recovery_service_subnet_id"); ok {
@@ -50,7 +51,7 @@ func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.GetRecoveryServiceSubnet(context.Background(), request)
+	response, err := s.Client.GetRecoveryServiceSubnet(ctx, request)
 	if err != nil {
 		return err
 	}

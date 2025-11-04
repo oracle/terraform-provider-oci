@@ -427,7 +427,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) getDrPlanFromWorkRequest(ctx contex
 	actionTypeEnum oci_disaster_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	drPlanId, err := drPlanWaitForWorkRequest(ctx, workId, "drplan",
+	drPlanId, err := drPlanWaitForWorkRequest(ctx, workId, "drPlan",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -511,7 +511,7 @@ func drPlanWaitForWorkRequest(ctx context.Context, wId *string, entityType strin
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
 			if res.ActionType == action {
 				identifier = res.Identifier
 				break
@@ -569,9 +569,41 @@ func (s *DisasterRecoveryDrPlanResourceCrud) GetWithContext(ctx context.Context)
 
 func (s *DisasterRecoveryDrPlanResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.UpdateDrPlanRequest{}
-	err := s.populateTopLevelPolymorphicUpdateDrPlanRequest(&request)
-	if err != nil {
-		return err
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	tmp := s.D.Id()
+	request.DrPlanId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if planGroups, ok := s.D.GetOkExists("plan_groups"); ok {
+		interfaces := planGroups.([]interface{})
+		tmp := make([]oci_disaster_recovery.UpdateDrPlanGroupDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "plan_groups", stateDataIndex)
+			converted, err := s.mapToUpdateDrPlanGroupDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("plan_groups") {
+			request.PlanGroups = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
@@ -673,7 +705,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan(ctx context.Context) 
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -704,7 +736,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan(ctx context.Context) e
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -720,6 +752,42 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan(ctx context.Context) e
 	return s.getDrPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanGroup(fieldKeyFormat string) (oci_disaster_recovery.DrPlanGroup, error) {
+	result := oci_disaster_recovery.DrPlanGroup{}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if steps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "steps")); ok {
+		interfaces := steps.([]interface{})
+		tmp := make([]oci_disaster_recovery.DrPlanStep, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "steps"), stateDataIndex)
+			converted, err := s.mapToDrPlanStep(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "steps")) {
+			result.Steps = tmp
+		}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_disaster_recovery.DrPlanGroupTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanGroupDetails, error) {
 	result := oci_disaster_recovery.UpdateDrPlanGroupDetails{}
 
@@ -760,34 +828,6 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(field
 	}
 
 	return result, nil
-}
-
-func DrPlanGroupToMap(obj oci_disaster_recovery.DrPlanGroup) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.IsPauseEnabled != nil {
-		result["is_pause_enabled"] = bool(*obj.IsPauseEnabled)
-	}
-
-	result["refresh_status"] = string(obj.RefreshStatus)
-
-	steps := []interface{}{}
-	for _, item := range obj.Steps {
-		steps = append(steps, DrPlanStepToMap(item))
-	}
-	result["steps"] = steps
-
-	result["type"] = string(obj.Type)
-
-	return result
 }
 
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanStepDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanStepDetails, error) {
@@ -831,6 +871,73 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanStepDetails(fieldK
 	return result, nil
 }
 
+func DrPlanGroupToMap(obj oci_disaster_recovery.DrPlanGroup) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsPauseEnabled != nil {
+		result["is_pause_enabled"] = bool(*obj.IsPauseEnabled)
+	}
+
+	result["refresh_status"] = string(obj.RefreshStatus)
+
+	steps := []interface{}{}
+	for _, item := range obj.Steps {
+		steps = append(steps, DrPlanStepToMap(item))
+	}
+	result["steps"] = steps
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanStep(fieldKeyFormat string) (oci_disaster_recovery.DrPlanStep, error) {
+	result := oci_disaster_recovery.DrPlanStep{}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if errorMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "error_mode")); ok {
+		result.ErrorMode = oci_disaster_recovery.DrPlanStepErrorModeEnum(errorMode.(string))
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if timeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout")); ok {
+		tmp := timeout.(int)
+		result.Timeout = &tmp
+	}
+
+	if userDefinedStep, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_defined_step")); ok {
+		if tmpList := userDefinedStep.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user_defined_step"), 0)
+			tmp, err := s.mapToDrPlanUserDefinedStep(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert user_defined_step, encountered error: %v", err)
+			}
+			result.UserDefinedStep = tmp
+		}
+	}
+
+	return result, nil
+}
 func DrPlanStepToMap(obj oci_disaster_recovery.DrPlanStep) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -937,6 +1044,74 @@ func DrPlanSummaryToMap(obj oci_disaster_recovery.DrPlanSummary) map[string]inte
 	return result
 }
 
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanUserDefinedStep(fieldKeyFormat string) (oci_disaster_recovery.DrPlanUserDefinedStep, error) {
+	var baseObject oci_disaster_recovery.DrPlanUserDefinedStep
+	//discriminator
+	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
+	var stepType string
+	if ok {
+		stepType = stepTypeRaw.(string)
+	} else {
+		stepType = "" // default value
+	}
+	switch strings.ToLower(stepType) {
+	case strings.ToLower("INVOKE_FUNCTION"):
+		details := oci_disaster_recovery.UpdateInvokeFunctionUserDefinedStepDetails{}
+		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
+			tmp := functionId.(string)
+			details.FunctionId = &tmp
+		}
+		if requestBody, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_body")); ok {
+			tmp := requestBody.(string)
+			details.RequestBody = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("INVOKE_FUNCTION_PRECHECK"):
+		details := oci_disaster_recovery.UpdateInvokeFunctionPrecheckStepDetails{}
+		baseObject = details
+	case strings.ToLower("RUN_LOCAL_SCRIPT"):
+		details := oci_disaster_recovery.UpdateRunLocalScriptUserDefinedStepDetails{}
+		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
+		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
+			tmp := runOnInstanceId.(string)
+			details.RunOnInstanceId = &tmp
+		}
+		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
+			tmp := scriptCommand.(string)
+			details.ScriptCommand = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("RUN_LOCAL_SCRIPT_PRECHECK"):
+		details := oci_disaster_recovery.UpdateLocalScriptPrecheckStepDetails{}
+		baseObject = details
+	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT"):
+		details := oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedStepDetails{}
+		if objectStorageScriptLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_script_location")); ok {
+			if tmpList := objectStorageScriptLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_script_location"), 0)
+				tmp, err := s.mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_script_location, encountered error: %v", err)
+				}
+				details.ObjectStorageScriptLocation = &tmp
+			}
+		}
+		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
+			tmp := runOnInstanceId.(string)
+			details.RunOnInstanceId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_PRECHECK"):
+		details := oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
+	}
+	return baseObject, nil
+}
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanUserDefinedStepDetails, error) {
 	var baseObject oci_disaster_recovery.UpdateDrPlanUserDefinedStepDetails
 	//discriminator
@@ -1018,17 +1193,9 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 				details.ObjectStorageScriptLocation = &tmp
 			}
 		}
-		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
-			tmp := runAsUser.(string)
-			details.RunAsUser = &tmp
-		}
 		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
 			tmp := runOnInstanceId.(string)
 			details.RunOnInstanceId = &tmp
-		}
-		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
-			tmp := scriptCommand.(string)
-			details.ScriptCommand = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_PRECHECK"):
@@ -1046,17 +1213,9 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 				details.ObjectStorageScriptLocation = &tmp
 			}
 		}
-		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
-			tmp := runAsUser.(string)
-			details.RunAsUser = &tmp
-		}
 		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
 			tmp := runOnInstanceId.(string)
 			details.RunOnInstanceId = &tmp
-		}
-		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
-			tmp := scriptCommand.(string)
-			details.ScriptCommand = &tmp
 		}
 		baseObject = details
 	default:
@@ -1127,16 +1286,8 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 			result["object_storage_script_location"] = []interface{}{UpdateObjectStorageScriptLocationDetailsToMap(v.ObjectStorageScriptLocation)}
 		}
 
-		if v.RunAsUser != nil {
-			result["run_as_user"] = string(*v.RunAsUser)
-		}
-
 		if v.RunOnInstanceId != nil {
 			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
-		}
-
-		if v.ScriptCommand != nil {
-			result["script_command"] = string(*v.ScriptCommand)
 		}
 	case oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails:
 		result["step_type"] = "RUN_OBJECTSTORE_SCRIPT_PRECHECK"
@@ -1147,16 +1298,8 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 			result["object_storage_script_location"] = []interface{}{UpdateObjectStorageScriptLocationDetailsToMap(v.ObjectStorageScriptLocation)}
 		}
 
-		if v.RunAsUser != nil {
-			result["run_as_user"] = string(*v.RunAsUser)
-		}
-
 		if v.RunOnInstanceId != nil {
 			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
-		}
-
-		if v.ScriptCommand != nil {
-			result["script_command"] = string(*v.ScriptCommand)
 		}
 	default:
 		log.Printf("[WARN] Received 'step_type' of unknown type %v", *obj)
@@ -1168,6 +1311,26 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails, error) {
 	result := oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails{}
+
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.Bucket = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
+		tmp := object.(string)
+		result.Object = &tmp
+	}
+
+	return result, nil
+}
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToObjectStorageScriptLocation(fieldKeyFormat string) (oci_disaster_recovery.ObjectStorageScriptLocation, error) {
+	result := oci_disaster_recovery.ObjectStorageScriptLocation{}
 
 	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 		tmp := bucket.(string)

@@ -6,6 +6,7 @@ package blockchain
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func BlockchainBlockchainPlatformsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBlockchainBlockchainPlatforms,
+		ReadContext: readBlockchainBlockchainPlatformsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func BlockchainBlockchainPlatformsDataSource() *schema.Resource {
 	}
 }
 
-func readBlockchainBlockchainPlatforms(d *schema.ResourceData, m interface{}) error {
+func readBlockchainBlockchainPlatformsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainBlockchainPlatformsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BlockchainBlockchainPlatformsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainBlockchainPlatformsDataSourceCrud) Get() error {
+func (s *BlockchainBlockchainPlatformsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_blockchain.ListBlockchainPlatformsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.ListBlockchainPlatforms(context.Background(), request)
+	response, err := s.Client.ListBlockchainPlatforms(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBlockchainPlatforms(context.Background(), request)
+		listResponse, err := s.Client.ListBlockchainPlatforms(ctx, request)
 		if err != nil {
 			return err
 		}

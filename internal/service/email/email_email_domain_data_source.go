@@ -6,11 +6,12 @@ package email
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func EmailEmailDomainDataSource() *schema.Resource {
@@ -19,15 +20,15 @@ func EmailEmailDomainDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(EmailEmailDomainResource(), fieldMap, readSingularEmailEmailDomain)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(EmailEmailDomainResource(), fieldMap, readSingularEmailEmailDomainWithContext)
 }
 
-func readSingularEmailEmailDomain(d *schema.ResourceData, m interface{}) error {
+func readSingularEmailEmailDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailEmailDomainDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type EmailEmailDomainDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *EmailEmailDomainDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailEmailDomainDataSourceCrud) Get() error {
+func (s *EmailEmailDomainDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_email.GetEmailDomainRequest{}
 
 	if emailDomainId, ok := s.D.GetOkExists("email_domain_id"); ok {
@@ -50,7 +51,7 @@ func (s *EmailEmailDomainDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.GetEmailDomain(context.Background(), request)
+	response, err := s.Client.GetEmailDomain(ctx, request)
 	if err != nil {
 		return err
 	}

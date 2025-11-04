@@ -6,6 +6,7 @@ package apigateway
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -15,7 +16,7 @@ import (
 
 func ApigatewayCertificatesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readApigatewayCertificates,
+		ReadContext: readApigatewayCertificatesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func ApigatewayCertificatesDataSource() *schema.Resource {
 	}
 }
 
-func readApigatewayCertificates(d *schema.ResourceData, m interface{}) error {
+func readApigatewayCertificatesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayCertificatesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApigatewayCertificatesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *ApigatewayCertificatesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayCertificatesDataSourceCrud) Get() error {
+func (s *ApigatewayCertificatesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apigateway.ListCertificatesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *ApigatewayCertificatesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.ListCertificates(context.Background(), request)
+	response, err := s.Client.ListCertificates(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *ApigatewayCertificatesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCertificates(context.Background(), request)
+		listResponse, err := s.Client.ListCertificates(ctx, request)
 		if err != nil {
 			return err
 		}

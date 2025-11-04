@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func JmsFleetResource() *schema.Resource {
@@ -25,11 +25,11 @@ func JmsFleetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createJmsFleet,
-		Read:     readJmsFleet,
-		Update:   updateJmsFleet,
-		Delete:   deleteJmsFleet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createJmsFleetWithContext,
+		ReadContext:   readJmsFleetWithContext,
+		UpdateContext: updateJmsFleetWithContext,
+		DeleteContext: deleteJmsFleetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -163,37 +163,37 @@ func JmsFleetResource() *schema.Resource {
 	}
 }
 
-func createJmsFleet(d *schema.ResourceData, m interface{}) error {
+func createJmsFleetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readJmsFleet(d *schema.ResourceData, m interface{}) error {
+func readJmsFleetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateJmsFleet(d *schema.ResourceData, m interface{}) error {
+func updateJmsFleetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteJmsFleet(d *schema.ResourceData, m interface{}) error {
+func deleteJmsFleetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type JmsFleetResourceCrud struct {
@@ -232,7 +232,7 @@ func (s *JmsFleetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *JmsFleetResourceCrud) Create() error {
+func (s *JmsFleetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_jms.CreateFleetRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -291,14 +291,14 @@ func (s *JmsFleetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
-	response, err := s.Client.CreateFleet(context.Background(), request)
+	response, err := s.Client.CreateFleet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_jms.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_jms.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -314,20 +314,20 @@ func (s *JmsFleetResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getFleetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFleetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *JmsFleetResourceCrud) getFleetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *JmsFleetResourceCrud) getFleetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_jms.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fleetId, err := fleetWaitForWorkRequest(workId, "fleet",
+	fleetId, err := fleetWaitForWorkRequest(ctx, workId, "fleet",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, fleetId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_jms.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -341,7 +341,7 @@ func (s *JmsFleetResourceCrud) getFleetFromWorkRequest(workId *string, retryPoli
 	}
 	s.D.SetId(*fleetId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func fleetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -367,7 +367,7 @@ func fleetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func fleetWaitForWorkRequest(wId *string, entityType string, action oci_jms.ActionTypeEnum,
+func fleetWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_jms.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_jms.JavaManagementServiceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "jms")
 	retryPolicy.ShouldRetryOperation = fleetWorkRequestShouldRetryFunc(timeout)
@@ -386,7 +386,7 @@ func fleetWaitForWorkRequest(wId *string, entityType string, action oci_jms.Acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_jms.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -419,7 +419,7 @@ func fleetWaitForWorkRequest(wId *string, entityType string, action oci_jms.Acti
 	return identifier, workRequestErr
 }
 
-func (s *JmsFleetResourceCrud) Get() error {
+func (s *JmsFleetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.GetFleetRequest{}
 
 	tmp := s.D.Id()
@@ -427,7 +427,7 @@ func (s *JmsFleetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
-	response, err := s.Client.GetFleet(context.Background(), request)
+	response, err := s.Client.GetFleet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -436,11 +436,11 @@ func (s *JmsFleetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *JmsFleetResourceCrud) Update() error {
+func (s *JmsFleetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -502,16 +502,16 @@ func (s *JmsFleetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
-	response, err := s.Client.UpdateFleet(context.Background(), request)
+	response, err := s.Client.UpdateFleet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFleetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFleetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *JmsFleetResourceCrud) Delete() error {
+func (s *JmsFleetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_jms.DeleteFleetRequest{}
 
 	tmp := s.D.Id()
@@ -519,7 +519,7 @@ func (s *JmsFleetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
-	_, err := s.Client.DeleteFleet(context.Background(), request)
+	_, err := s.Client.DeleteFleet(ctx, request)
 	return err
 }
 
@@ -715,7 +715,7 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 	return result
 }
 
-func (s *JmsFleetResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *JmsFleetResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_jms.ChangeFleetCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -726,9 +726,10 @@ func (s *JmsFleetResourceCrud) updateCompartment(compartment interface{}) error 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
-	_, err := s.Client.ChangeFleetCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeFleetCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

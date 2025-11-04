@@ -5,6 +5,7 @@ package database_migration
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
 
@@ -14,7 +15,7 @@ import (
 
 func DatabaseMigrationConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseMigrationConnections,
+		ReadContext: readDatabaseMigrationConnectionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -65,12 +66,12 @@ func DatabaseMigrationConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseMigrationConnections(d *schema.ResourceData, m interface{}) error {
+func readDatabaseMigrationConnectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseMigrationConnectionsDataSourceCrud struct {
@@ -83,7 +84,7 @@ func (s *DatabaseMigrationConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseMigrationConnectionsDataSourceCrud) Get() error {
+func (s *DatabaseMigrationConnectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_migration.ListConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -133,7 +134,7 @@ func (s *DatabaseMigrationConnectionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_migration")
 
-	response, err := s.Client.ListConnections(context.Background(), request)
+	response, err := s.Client.ListConnections(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -142,7 +143,7 @@ func (s *DatabaseMigrationConnectionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConnections(context.Background(), request)
+		listResponse, err := s.Client.ListConnections(ctx, request)
 		if err != nil {
 			return err
 		}

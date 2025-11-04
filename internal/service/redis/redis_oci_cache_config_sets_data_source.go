@@ -6,6 +6,7 @@ package redis
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -15,7 +16,7 @@ import (
 
 func RedisOciCacheConfigSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRedisOciCacheConfigSets,
+		ReadContext: readRedisOciCacheConfigSetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func RedisOciCacheConfigSetsDataSource() *schema.Resource {
 	}
 }
 
-func readRedisOciCacheConfigSets(d *schema.ResourceData, m interface{}) error {
+func readRedisOciCacheConfigSetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RedisOciCacheConfigSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheConfigSetClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RedisOciCacheConfigSetsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *RedisOciCacheConfigSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisOciCacheConfigSetsDataSourceCrud) Get() error {
+func (s *RedisOciCacheConfigSetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_redis.ListOciCacheConfigSetsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +103,7 @@ func (s *RedisOciCacheConfigSetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.ListOciCacheConfigSets(context.Background(), request)
+	response, err := s.Client.ListOciCacheConfigSets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *RedisOciCacheConfigSetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOciCacheConfigSets(context.Background(), request)
+		listResponse, err := s.Client.ListOciCacheConfigSets(ctx, request)
 		if err != nil {
 			return err
 		}

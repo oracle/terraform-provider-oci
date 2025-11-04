@@ -6,6 +6,7 @@ package adm
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 
@@ -19,15 +20,15 @@ func AdmKnowledgeBaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AdmKnowledgeBaseResource(), fieldMap, readSingularAdmKnowledgeBase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AdmKnowledgeBaseResource(), fieldMap, readSingularAdmKnowledgeBaseWithContext)
 }
 
-func readSingularAdmKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func readSingularAdmKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AdmKnowledgeBaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AdmKnowledgeBaseDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AdmKnowledgeBaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AdmKnowledgeBaseDataSourceCrud) Get() error {
+func (s *AdmKnowledgeBaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_adm.GetKnowledgeBaseRequest{}
 
 	if knowledgeBaseId, ok := s.D.GetOkExists("knowledge_base_id"); ok {
@@ -50,7 +51,7 @@ func (s *AdmKnowledgeBaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "adm")
 
-	response, err := s.Client.GetKnowledgeBase(context.Background(), request)
+	response, err := s.Client.GetKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}

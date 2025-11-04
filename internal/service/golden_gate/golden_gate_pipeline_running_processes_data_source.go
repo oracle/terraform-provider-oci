@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -15,7 +16,7 @@ import (
 
 func GoldenGatePipelineRunningProcessesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGoldenGatePipelineRunningProcesses,
+		ReadContext: readGoldenGatePipelineRunningProcessesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"pipeline_id": {
@@ -72,12 +73,12 @@ func GoldenGatePipelineRunningProcessesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGatePipelineRunningProcesses(d *schema.ResourceData, m interface{}) error {
+func readGoldenGatePipelineRunningProcessesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGatePipelineRunningProcessesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGatePipelineRunningProcessesDataSourceCrud struct {
@@ -90,7 +91,7 @@ func (s *GoldenGatePipelineRunningProcessesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGatePipelineRunningProcessesDataSourceCrud) Get() error {
+func (s *GoldenGatePipelineRunningProcessesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListPipelineRunningProcessesRequest{}
 
 	if pipelineId, ok := s.D.GetOkExists("pipeline_id"); ok {
@@ -100,7 +101,7 @@ func (s *GoldenGatePipelineRunningProcessesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListPipelineRunningProcesses(context.Background(), request)
+	response, err := s.Client.ListPipelineRunningProcesses(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -109,7 +110,7 @@ func (s *GoldenGatePipelineRunningProcessesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPipelineRunningProcesses(context.Background(), request)
+		listResponse, err := s.Client.ListPipelineRunningProcesses(ctx, request)
 		if err != nil {
 			return err
 		}

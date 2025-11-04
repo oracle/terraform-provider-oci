@@ -6,6 +6,7 @@ package vbs_inst
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_vbs_inst "github.com/oracle/oci-go-sdk/v65/vbsinst"
 
@@ -15,7 +16,7 @@ import (
 
 func VbsInstVbsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVbsInstVbsInstances,
+		ReadContext: readVbsInstVbsInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func VbsInstVbsInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readVbsInstVbsInstances(d *schema.ResourceData, m interface{}) error {
+func readVbsInstVbsInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VbsInstVbsInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type VbsInstVbsInstancesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *VbsInstVbsInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VbsInstVbsInstancesDataSourceCrud) Get() error {
+func (s *VbsInstVbsInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_vbs_inst.ListVbsInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *VbsInstVbsInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "vbs_inst")
 
-	response, err := s.Client.ListVbsInstances(context.Background(), request)
+	response, err := s.Client.ListVbsInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *VbsInstVbsInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVbsInstances(context.Background(), request)
+		listResponse, err := s.Client.ListVbsInstances(ctx, request)
 		if err != nil {
 			return err
 		}

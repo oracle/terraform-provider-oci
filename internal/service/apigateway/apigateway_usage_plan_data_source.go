@@ -6,6 +6,7 @@ package apigateway
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -19,15 +20,15 @@ func ApigatewayUsagePlanDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ApigatewayUsagePlanResource(), fieldMap, readSingularApigatewayUsagePlan)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApigatewayUsagePlanResource(), fieldMap, readSingularApigatewayUsagePlanWithContext)
 }
 
-func readSingularApigatewayUsagePlan(d *schema.ResourceData, m interface{}) error {
+func readSingularApigatewayUsagePlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayUsagePlanDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).UsagePlansClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApigatewayUsagePlanDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ApigatewayUsagePlanDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayUsagePlanDataSourceCrud) Get() error {
+func (s *ApigatewayUsagePlanDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apigateway.GetUsagePlanRequest{}
 
 	if usagePlanId, ok := s.D.GetOkExists("usage_plan_id"); ok {
@@ -50,7 +51,7 @@ func (s *ApigatewayUsagePlanDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.GetUsagePlan(context.Background(), request)
+	response, err := s.Client.GetUsagePlan(ctx, request)
 	if err != nil {
 		return err
 	}

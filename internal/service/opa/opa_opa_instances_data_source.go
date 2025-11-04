@@ -6,6 +6,7 @@ package opa
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opa "github.com/oracle/oci-go-sdk/v65/opa"
 
@@ -15,7 +16,7 @@ import (
 
 func OpaOpaInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpaOpaInstances,
+		ReadContext: readOpaOpaInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func OpaOpaInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readOpaOpaInstances(d *schema.ResourceData, m interface{}) error {
+func readOpaOpaInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpaOpaInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpaOpaInstancesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *OpaOpaInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpaOpaInstancesDataSourceCrud) Get() error {
+func (s *OpaOpaInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opa.ListOpaInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *OpaOpaInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opa")
 
-	response, err := s.Client.ListOpaInstances(context.Background(), request)
+	response, err := s.Client.ListOpaInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *OpaOpaInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOpaInstances(context.Background(), request)
+		listResponse, err := s.Client.ListOpaInstances(ctx, request)
 		if err != nil {
 			return err
 		}

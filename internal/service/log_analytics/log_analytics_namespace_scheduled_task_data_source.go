@@ -11,6 +11,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
@@ -25,15 +26,15 @@ func LogAnalyticsNamespaceScheduledTaskDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LogAnalyticsNamespaceScheduledTaskResource(), fieldMap, readSingularLogAnalyticsNamespaceScheduledTask)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LogAnalyticsNamespaceScheduledTaskResource(), fieldMap, readSingularLogAnalyticsNamespaceScheduledTaskWithContext)
 }
 
-func readSingularLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
+func readSingularLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceScheduledTaskDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LogAnalyticsNamespaceScheduledTaskDataSourceCrud struct {
@@ -46,7 +47,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) Get() error {
+func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_log_analytics.GetScheduledTaskRequest{}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -65,7 +66,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.GetScheduledTask(context.Background(), request)
+	response, err := s.Client.GetScheduledTask(ctx, request)
 	if err != nil {
 		return err
 	}

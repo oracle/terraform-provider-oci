@@ -6,6 +6,7 @@ package recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -15,7 +16,7 @@ import (
 
 func RecoveryProtectionPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRecoveryProtectionPolicies,
+		ReadContext: readRecoveryProtectionPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func RecoveryProtectionPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readRecoveryProtectionPolicies(d *schema.ResourceData, m interface{}) error {
+func readRecoveryProtectionPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RecoveryProtectionPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RecoveryProtectionPoliciesDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *RecoveryProtectionPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryProtectionPoliciesDataSourceCrud) Get() error {
+func (s *RecoveryProtectionPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_recovery.ListProtectionPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +103,7 @@ func (s *RecoveryProtectionPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.ListProtectionPolicies(context.Background(), request)
+	response, err := s.Client.ListProtectionPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *RecoveryProtectionPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProtectionPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListProtectionPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

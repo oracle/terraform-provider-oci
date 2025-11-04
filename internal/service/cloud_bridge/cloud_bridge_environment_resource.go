@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func CloudBridgeEnvironmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudBridgeEnvironment,
-		Read:     readCloudBridgeEnvironment,
-		Update:   updateCloudBridgeEnvironment,
-		Delete:   deleteCloudBridgeEnvironment,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudBridgeEnvironmentWithContext,
+		ReadContext:   readCloudBridgeEnvironmentWithContext,
+		UpdateContext: updateCloudBridgeEnvironmentWithContext,
+		DeleteContext: deleteCloudBridgeEnvironmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -83,41 +83,41 @@ func CloudBridgeEnvironmentResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeEnvironment(d *schema.ResourceData, m interface{}) error {
+func createCloudBridgeEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudBridgeEnvironment(d *schema.ResourceData, m interface{}) error {
+func readCloudBridgeEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudBridgeEnvironment(d *schema.ResourceData, m interface{}) error {
+func updateCloudBridgeEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudBridgeEnvironment(d *schema.ResourceData, m interface{}) error {
+func deleteCloudBridgeEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudBridgeEnvironmentResourceCrud struct {
@@ -156,7 +156,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) Create() error {
+func (s *CloudBridgeEnvironmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.CreateEnvironmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -183,7 +183,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.CreateEnvironment(context.Background(), request)
+	response, err := s.Client.CreateEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -192,17 +192,17 @@ func (s *CloudBridgeEnvironmentResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) getEnvironmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudBridgeEnvironmentResourceCrud) getEnvironmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_bridge.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	environmentId, err := environmentWaitForWorkRequest(workId, "environment",
+	environmentId, err := environmentWaitForWorkRequest(ctx, workId, "environment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, environmentId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
 			oci_cloud_bridge.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -216,7 +216,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) getEnvironmentFromWorkRequest(workI
 	}
 	s.D.SetId(*environmentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func environmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -242,7 +242,7 @@ func environmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func environmentWaitForWorkRequest(wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
+func environmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_bridge.CommonClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_bridge")
 	retryPolicy.ShouldRetryOperation = environmentWorkRequestShouldRetryFunc(timeout)
@@ -261,7 +261,7 @@ func environmentWaitForWorkRequest(wId *string, entityType string, action oci_cl
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cloud_bridge.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -290,13 +290,13 @@ func environmentWaitForWorkRequest(wId *string, entityType string, action oci_cl
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_bridge.OperationStatusFailed || response.Status == oci_cloud_bridge.OperationStatusCanceled {
-		return nil, getErrorFromCloudBridgeEnvironmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudBridgeEnvironmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudBridgeEnvironmentWorkRequest(client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
+func getErrorFromCloudBridgeEnvironmentWorkRequest(ctx context.Context, client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_cloud_bridge.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -319,7 +319,7 @@ func getErrorFromCloudBridgeEnvironmentWorkRequest(client *oci_cloud_bridge.Comm
 	return workRequestErr
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) Get() error {
+func (s *CloudBridgeEnvironmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetEnvironmentRequest{}
 
 	tmp := s.D.Id()
@@ -327,7 +327,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.GetEnvironment(context.Background(), request)
+	response, err := s.Client.GetEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -336,11 +336,11 @@ func (s *CloudBridgeEnvironmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) Update() error {
+func (s *CloudBridgeEnvironmentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -370,7 +370,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.UpdateEnvironment(context.Background(), request)
+	response, err := s.Client.UpdateEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -379,7 +379,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) Delete() error {
+func (s *CloudBridgeEnvironmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.DeleteEnvironmentRequest{}
 
 	tmp := s.D.Id()
@@ -387,7 +387,7 @@ func (s *CloudBridgeEnvironmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err := s.Client.DeleteEnvironment(context.Background(), request)
+	_, err := s.Client.DeleteEnvironment(ctx, request)
 	return err
 }
 
@@ -469,7 +469,7 @@ func EnvironmentSummaryToMap(obj oci_cloud_bridge.EnvironmentSummary) map[string
 	return result
 }
 
-func (s *CloudBridgeEnvironmentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CloudBridgeEnvironmentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_cloud_bridge.ChangeEnvironmentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -480,11 +480,11 @@ func (s *CloudBridgeEnvironmentResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.ChangeEnvironmentCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeEnvironmentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnvironmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEnvironmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

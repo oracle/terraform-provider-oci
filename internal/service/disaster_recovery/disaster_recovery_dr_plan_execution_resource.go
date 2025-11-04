@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -26,11 +26,11 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDisasterRecoveryDrPlanExecution,
-		Read:     readDisasterRecoveryDrPlanExecution,
-		Update:   updateDisasterRecoveryDrPlanExecution,
-		Delete:   deleteDisasterRecoveryDrPlanExecution,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDisasterRecoveryDrPlanExecutionWithContext,
+		ReadContext:   readDisasterRecoveryDrPlanExecutionWithContext,
+		UpdateContext: updateDisasterRecoveryDrPlanExecutionWithContext,
+		DeleteContext: deleteDisasterRecoveryDrPlanExecutionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"execution_options": {
@@ -480,37 +480,37 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 	}
 }
 
-func createDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
+func createDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
+func readDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
+func updateDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
+func deleteDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DisasterRecoveryDrPlanExecutionResourceCrud struct {
@@ -548,7 +548,7 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Create() error {
+func (s *DisasterRecoveryDrPlanExecutionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.CreateDrPlanExecutionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -586,7 +586,7 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.CreateDrPlanExecution(context.Background(), request)
+	response, err := s.Client.CreateDrPlanExecution(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -597,20 +597,20 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDrPlanExecutionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDrPlanExecutionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DisasterRecoveryDrPlanExecutionResourceCrud) getDrPlanExecutionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DisasterRecoveryDrPlanExecutionResourceCrud) getDrPlanExecutionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_disaster_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	drPlanExecutionId, err := drPlanExecutionWaitForWorkRequest(workId, "drPlanExecution",
+	drPlanExecutionId, err := drPlanExecutionWaitForWorkRequest(ctx, workId, "drPlanExecution",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, drPlanExecutionId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_disaster_recovery.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -624,7 +624,7 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) getDrPlanExecutionFromWork
 	}
 	s.D.SetId(*drPlanExecutionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func drPlanExecutionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -650,7 +650,7 @@ func drPlanExecutionWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func drPlanExecutionWaitForWorkRequest(wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
+func drPlanExecutionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_disaster_recovery.DisasterRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "disaster_recovery")
 	retryPolicy.ShouldRetryOperation = drPlanExecutionWorkRequestShouldRetryFunc(timeout)
@@ -669,7 +669,7 @@ func drPlanExecutionWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_disaster_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -698,14 +698,14 @@ func drPlanExecutionWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_disaster_recovery.OperationStatusFailed || response.Status == oci_disaster_recovery.OperationStatusCanceled {
-		return nil, getErrorFromDisasterRecoveryDrPlanExecutionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDisasterRecoveryDrPlanExecutionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDisasterRecoveryDrPlanExecutionWorkRequest(client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDisasterRecoveryDrPlanExecutionWorkRequest(ctx context.Context, client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_disaster_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -727,7 +727,7 @@ func getErrorFromDisasterRecoveryDrPlanExecutionWorkRequest(client *oci_disaster
 	return workRequestErr
 }
 
-func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Get() error {
+func (s *DisasterRecoveryDrPlanExecutionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.GetDrPlanExecutionRequest{}
 
 	tmp := s.D.Id()
@@ -735,7 +735,7 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.GetDrPlanExecution(context.Background(), request)
+	response, err := s.Client.GetDrPlanExecution(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -744,7 +744,7 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Update() error {
+func (s *DisasterRecoveryDrPlanExecutionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.UpdateDrPlanExecutionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -769,16 +769,16 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.UpdateDrPlanExecution(context.Background(), request)
+	response, err := s.Client.UpdateDrPlanExecution(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrPlanExecutionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDrPlanExecutionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Delete() error {
+func (s *DisasterRecoveryDrPlanExecutionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.DeleteDrPlanExecutionRequest{}
 
 	tmp := s.D.Id()
@@ -786,14 +786,14 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.DeleteDrPlanExecution(context.Background(), request)
+	response, err := s.Client.DeleteDrPlanExecution(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := drPlanExecutionWaitForWorkRequest(workId, "drPlanExecution",
+	_, delWorkRequestErr := drPlanExecutionWaitForWorkRequest(ctx, workId, "drPlanExecution",
 		oci_disaster_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -142,28 +142,28 @@ func createLustreFileStorageObjectStorageLinkWithContext(ctx context.Context, d 
 	}
 
 	if _, ok := sync.D.GetOkExists("start_export_to_object_trigger"); ok {
-		err := sync.StartExportToObject()
+		err := sync.StartExportToObject(ctx)
 		if err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("start_import_from_object_trigger"); ok {
-		err := sync.StartImportFromObject()
+		err := sync.StartImportFromObject(ctx)
 		if err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("stop_export_to_object_trigger"); ok {
-		err := sync.StopExportToObject()
+		err := sync.StopExportToObject(ctx)
 		if err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("stop_import_from_object_trigger"); ok {
-		err := sync.StopImportFromObject()
+		err := sync.StopImportFromObject(ctx)
 		if err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
@@ -190,7 +190,7 @@ func updateLustreFileStorageObjectStorageLinkWithContext(ctx context.Context, d 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StartExportToObject()
+			err := sync.StartExportToObject(ctx)
 
 			if err != nil {
 				return tfresource.HandleDiagError(m, err)
@@ -206,7 +206,7 @@ func updateLustreFileStorageObjectStorageLinkWithContext(ctx context.Context, d 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StartImportFromObject()
+			err := sync.StartImportFromObject(ctx)
 
 			if err != nil {
 				return tfresource.HandleDiagError(m, err)
@@ -222,7 +222,7 @@ func updateLustreFileStorageObjectStorageLinkWithContext(ctx context.Context, d 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StopExportToObject()
+			err := sync.StopExportToObject(ctx)
 
 			if err != nil {
 				return tfresource.HandleDiagError(m, err)
@@ -238,7 +238,7 @@ func updateLustreFileStorageObjectStorageLinkWithContext(ctx context.Context, d 
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.StopImportFromObject()
+			err := sync.StopImportFromObject(ctx)
 
 			if err != nil {
 				return tfresource.HandleDiagError(m, err)
@@ -637,7 +637,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartExportToObject() error {
+func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartExportToObject(ctx context.Context) error {
 	request := oci_lustre_file_storage.StartExportToObjectRequest{}
 
 	idTmp := s.D.Id()
@@ -645,12 +645,12 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartExportToObject() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	_, err := s.Client.StartExportToObject(context.Background(), request)
+	_, err := s.Client.StartExportToObject(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -661,7 +661,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartExportToObject() e
 	return nil
 }
 
-func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartImportFromObject() error {
+func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartImportFromObject(ctx context.Context) error {
 	request := oci_lustre_file_storage.StartImportFromObjectRequest{}
 
 	idTmp := s.D.Id()
@@ -669,12 +669,12 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartImportFromObject()
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	_, err := s.Client.StartImportFromObject(context.Background(), request)
+	_, err := s.Client.StartImportFromObject(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -685,7 +685,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartImportFromObject()
 	return nil
 }
 
-func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopExportToObject() error {
+func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopExportToObject(ctx context.Context) error {
 	request := oci_lustre_file_storage.StopExportToObjectRequest{}
 
 	idTmp := s.D.Id()
@@ -693,12 +693,12 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopExportToObject() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	_, err := s.Client.StopExportToObject(context.Background(), request)
+	_, err := s.Client.StopExportToObject(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -709,7 +709,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopExportToObject() er
 	return nil
 }
 
-func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopImportFromObject() error {
+func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopImportFromObject(ctx context.Context) error {
 	request := oci_lustre_file_storage.StopImportFromObjectRequest{}
 
 	idTmp := s.D.Id()
@@ -717,12 +717,12 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopImportFromObject() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	_, err := s.Client.StopImportFromObject(context.Background(), request)
+	_, err := s.Client.StopImportFromObject(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -819,7 +819,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) updateCompartment(ctx c
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

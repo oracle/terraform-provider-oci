@@ -6,6 +6,7 @@ package fusion_apps
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -23,15 +24,15 @@ func FusionAppsFusionEnvironmentServiceAttachmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentServiceAttachmentResource(), fieldMap, readSingularFusionAppsFusionEnvironmentServiceAttachment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentServiceAttachmentResource(), fieldMap, readSingularFusionAppsFusionEnvironmentServiceAttachmentWithContext)
 }
 
-func readSingularFusionAppsFusionEnvironmentServiceAttachment(d *schema.ResourceData, m interface{}) error {
+func readSingularFusionAppsFusionEnvironmentServiceAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) VoidState()
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.GetServiceAttachmentRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -62,7 +63,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) Get() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetServiceAttachment(context.Background(), request)
+	response, err := s.Client.GetServiceAttachment(ctx, request)
 	if err != nil {
 		return err
 	}

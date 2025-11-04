@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -19,15 +20,15 @@ func DatascienceModelGroupVersionHistoryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelGroupVersionHistoryResource(), fieldMap, readSingularDatascienceModelGroupVersionHistory)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelGroupVersionHistoryResource(), fieldMap, readSingularDatascienceModelGroupVersionHistoryWithContext)
 }
 
-func readSingularDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelGroupVersionHistoryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) Get() error {
+func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelGroupVersionHistoryRequest{}
 
 	if modelGroupVersionHistoryId, ok := s.D.GetOkExists("model_group_version_history_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelGroupVersionHistory(context.Background(), request)
+	response, err := s.Client.GetModelGroupVersionHistory(ctx, request)
 	if err != nil {
 		return err
 	}

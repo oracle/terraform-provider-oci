@@ -6,11 +6,12 @@ package logging
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LoggingLogGroupDataSource() *schema.Resource {
@@ -19,15 +20,15 @@ func LoggingLogGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LoggingLogGroupResource(), fieldMap, readSingularLoggingLogGroup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LoggingLogGroupResource(), fieldMap, readSingularLoggingLogGroupWithContext)
 }
 
-func readSingularLoggingLogGroup(d *schema.ResourceData, m interface{}) error {
+func readSingularLoggingLogGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingLogGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoggingLogGroupDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *LoggingLogGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoggingLogGroupDataSourceCrud) Get() error {
+func (s *LoggingLogGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.GetLogGroupRequest{}
 
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
@@ -50,7 +51,7 @@ func (s *LoggingLogGroupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "logging")
 
-	response, err := s.Client.GetLogGroup(context.Background(), request)
+	response, err := s.Client.GetLogGroup(ctx, request)
 	if err != nil {
 		return err
 	}

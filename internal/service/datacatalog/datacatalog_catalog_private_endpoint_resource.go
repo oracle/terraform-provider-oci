@@ -9,14 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {
@@ -24,11 +24,11 @@ func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatacatalogCatalogPrivateEndpoint,
-		Read:     readDatacatalogCatalogPrivateEndpoint,
-		Update:   updateDatacatalogCatalogPrivateEndpoint,
-		Delete:   deleteDatacatalogCatalogPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatacatalogCatalogPrivateEndpointWithContext,
+		ReadContext:   readDatacatalogCatalogPrivateEndpointWithContext,
+		UpdateContext: updateDatacatalogCatalogPrivateEndpointWithContext,
+		DeleteContext: deleteDatacatalogCatalogPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -136,37 +136,37 @@ func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createDatacatalogCatalogPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createDatacatalogCatalogPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatacatalogCatalogPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readDatacatalogCatalogPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatacatalogCatalogPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateDatacatalogCatalogPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatacatalogCatalogPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteDatacatalogCatalogPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogCatalogPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatacatalogCatalogPrivateEndpointResourceCrud struct {
@@ -204,7 +204,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datacatalog.CreateCatalogPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -254,14 +254,14 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.CreateCatalogPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateCatalogPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_datacatalog.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_datacatalog.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -277,14 +277,14 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) getCatalogPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) getCatalogPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datacatalog.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	catalogPrivateEndpointId, err := catalogPrivateEndpointWaitForWorkRequest(workId, "catalogPrivateEndpoint",
+	catalogPrivateEndpointId, err := catalogPrivateEndpointWaitForWorkRequest(ctx, workId, "catalogPrivateEndpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -292,7 +292,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) getCatalogPrivateEndpoin
 	}
 	s.D.SetId(*catalogPrivateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func catalogPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -318,7 +318,7 @@ func catalogPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) fun
 	}
 }
 
-func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
+func catalogPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datacatalog.DataCatalogClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datacatalog")
 	retryPolicy.ShouldRetryOperation = catalogPrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -337,7 +337,7 @@ func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datacatalog.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -366,14 +366,14 @@ func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, ac
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datacatalog.WorkRequestStatusFailed || response.Status == oci_datacatalog.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatacatalogCatalogPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatacatalogCatalogPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatacatalogCatalogPrivateEndpointWorkRequest(client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatacatalogCatalogPrivateEndpointWorkRequest(ctx context.Context, client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datacatalog.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -395,7 +395,7 @@ func getErrorFromDatacatalogCatalogPrivateEndpointWorkRequest(client *oci_dataca
 	return workRequestErr
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Get() error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.GetCatalogPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -403,7 +403,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.GetCatalogPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetCatalogPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -412,11 +412,11 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -469,16 +469,16 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.UpdateCatalogPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateCatalogPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(detachCatalogs []interface{}) error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(ctx context.Context, detachCatalogs []interface{}) error {
 	for _, detachCatalog := range detachCatalogs {
 		detachCatalogId := detachCatalog.(string)
 		catalogPrivateEndpointId := s.D.Id()
@@ -494,13 +494,12 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(detachCata
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, err = catalogWaitForWorkRequest(workId, "catalog",
+		_, err = catalogWaitForWorkRequest(ctx, workId, "catalog",
 			oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	}
 	return nil
 }
-
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Delete() error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datacatalog.DeleteCatalogPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -513,14 +512,14 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.DeleteCatalogPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteCatalogPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := catalogPrivateEndpointWaitForWorkRequest(workId, "catalogPrivateEndpoint",
+	_, delWorkRequestErr := catalogPrivateEndpointWaitForWorkRequest(ctx, workId, "catalogPrivateEndpoint",
 		oci_datacatalog.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -599,7 +598,7 @@ func ResourceLockToMapPe(obj oci_datacatalog.ResourceLock) map[string]interface{
 	return result
 }
 
-func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datacatalog.ChangeCatalogPrivateEndpointCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -615,11 +614,11 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.ChangeCatalogPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCatalogPrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,6 +6,7 @@ package service_catalog
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
@@ -15,7 +16,7 @@ import (
 
 func ServiceCatalogPrivateApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readServiceCatalogPrivateApplications,
+		ReadContext: readServiceCatalogPrivateApplicationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func ServiceCatalogPrivateApplicationsDataSource() *schema.Resource {
 	}
 }
 
-func readServiceCatalogPrivateApplications(d *schema.ResourceData, m interface{}) error {
+func readServiceCatalogPrivateApplicationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ServiceCatalogPrivateApplicationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ServiceCatalogPrivateApplicationsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) Get() error {
+func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_service_catalog.ListPrivateApplicationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +87,7 @@ func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_catalog")
 
-	response, err := s.Client.ListPrivateApplications(context.Background(), request)
+	response, err := s.Client.ListPrivateApplications(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPrivateApplications(context.Background(), request)
+		listResponse, err := s.Client.ListPrivateApplications(ctx, request)
 		if err != nil {
 			return err
 		}

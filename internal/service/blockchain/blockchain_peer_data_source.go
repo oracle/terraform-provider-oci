@@ -6,6 +6,7 @@ package blockchain
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -23,15 +24,15 @@ func BlockchainPeerDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BlockchainPeerResource(), fieldMap, readSingularBlockchainPeer)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BlockchainPeerResource(), fieldMap, readSingularBlockchainPeerWithContext)
 }
 
-func readSingularBlockchainPeer(d *schema.ResourceData, m interface{}) error {
+func readSingularBlockchainPeerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeerDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BlockchainPeerDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BlockchainPeerDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainPeerDataSourceCrud) Get() error {
+func (s *BlockchainPeerDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_blockchain.GetPeerRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -59,7 +60,7 @@ func (s *BlockchainPeerDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.GetPeer(context.Background(), request)
+	response, err := s.Client.GetPeer(ctx, request)
 	if err != nil {
 		return err
 	}

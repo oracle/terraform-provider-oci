@@ -6,6 +6,7 @@ package kms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func KmsVaultReplicasDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readKmsVaultReplicas,
+		ReadContext: readKmsVaultReplicasWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"vault_id": {
@@ -55,12 +56,12 @@ func KmsVaultReplicasDataSource() *schema.Resource {
 	}
 }
 
-func readKmsVaultReplicas(d *schema.ResourceData, m interface{}) error {
+func readKmsVaultReplicasWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &KmsVaultReplicasDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KmsVaultClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type KmsVaultReplicasDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *KmsVaultReplicasDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *KmsVaultReplicasDataSourceCrud) Get() error {
+func (s *KmsVaultReplicasDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_kms.ListVaultReplicasRequest{}
 
 	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
@@ -83,7 +84,7 @@ func (s *KmsVaultReplicasDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "kms")
 
-	response, err := s.Client.ListVaultReplicas(context.Background(), request)
+	response, err := s.Client.ListVaultReplicas(ctx, request)
 	if err != nil {
 		return err
 	}

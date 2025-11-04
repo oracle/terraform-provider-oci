@@ -6,6 +6,7 @@ package queue
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
 
@@ -15,7 +16,7 @@ import (
 
 func QueueQueuesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readQueueQueues,
+		ReadContext: readQueueQueuesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func QueueQueuesDataSource() *schema.Resource {
 	}
 }
 
-func readQueueQueues(d *schema.ResourceData, m interface{}) error {
+func readQueueQueuesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueuesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type QueueQueuesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *QueueQueuesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueQueuesDataSourceCrud) Get() error {
+func (s *QueueQueuesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.ListQueuesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *QueueQueuesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.ListQueues(context.Background(), request)
+	response, err := s.Client.ListQueues(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *QueueQueuesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListQueues(context.Background(), request)
+		listResponse, err := s.Client.ListQueues(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -27,12 +27,12 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+		CreateContext: createFusionAppsFusionEnvironmentRefreshActivityWithContext,
+		ReadContext:   readFusionAppsFusionEnvironmentRefreshActivityWithContext,
+		DeleteContext: deleteFusionAppsFusionEnvironmentRefreshActivityWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createFusionAppsFusionEnvironmentRefreshActivity,
-		Read:   readFusionAppsFusionEnvironmentRefreshActivity,
-		Delete: deleteFusionAppsFusionEnvironmentRefreshActivity,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"fusion_environment_id": {
@@ -114,24 +114,24 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 	}
 }
 
-func createFusionAppsFusionEnvironmentRefreshActivity(d *schema.ResourceData, m interface{}) error {
+func createFusionAppsFusionEnvironmentRefreshActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentRefreshActivityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFusionAppsFusionEnvironmentRefreshActivity(d *schema.ResourceData, m interface{}) error {
+func readFusionAppsFusionEnvironmentRefreshActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentRefreshActivityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteFusionAppsFusionEnvironmentRefreshActivity(d *schema.ResourceData, m interface{}) error {
-	return nil
+func deleteFusionAppsFusionEnvironmentRefreshActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return tfresource.HandleDiagError(m, nil)
 }
 
 type FusionAppsFusionEnvironmentRefreshActivityResourceCrud struct {
@@ -165,7 +165,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) DeletedTarget()
 	return []string{}
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Create() error {
+func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.CreateRefreshActivityRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -185,14 +185,14 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Create() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.CreateRefreshActivity(context.Background(), request)
+	response, err := s.Client.CreateRefreshActivity(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.setIdFromWorkRequest(workId)
-	return s.getFusionEnvironmentRefreshActivityFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFusionEnvironmentRefreshActivityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) setIdFromWorkRequest(workId *string) {
@@ -222,13 +222,13 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) setIdFromWorkRe
 	}
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) getFusionEnvironmentRefreshActivityFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) getFusionEnvironmentRefreshActivityFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fusion_apps.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// We don't wait for the actual refresh complete,
 	// the work request will track the actual refresh instead of the refresh resource creation
 	// As long as the work request is returned, that means the refresh resource is created
-	fusionEnvironmentRefreshActivityId, err := fusionEnvironmentRefreshActivityWaitForWorkRequest(workId, "refreshactivity",
+	fusionEnvironmentRefreshActivityId, err := fusionEnvironmentRefreshActivityWaitForWorkRequest(ctx, workId, "refreshactivity",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -236,7 +236,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) getFusionEnviro
 	}
 	s.D.Set("refresh_activity_id", fusionEnvironmentRefreshActivityId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func fusionEnvironmentRefreshActivityWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -263,7 +263,7 @@ func fusionEnvironmentRefreshActivityWorkRequestShouldRetryFunc(timeout time.Dur
 	}
 }
 
-func fusionEnvironmentRefreshActivityWaitForWorkRequest(wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
+func fusionEnvironmentRefreshActivityWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fusion_apps.FusionApplicationsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fusion_apps")
 	retryPolicy.ShouldRetryOperation = fusionEnvironmentRefreshActivityWorkRequestShouldRetryFunc(timeout)
@@ -285,7 +285,7 @@ func fusionEnvironmentRefreshActivityWaitForWorkRequest(wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fusion_apps.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -312,14 +312,14 @@ func fusionEnvironmentRefreshActivityWaitForWorkRequest(wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fusion_apps.WorkRequestStatusFailed || response.Status == oci_fusion_apps.WorkRequestStatusCanceled {
-		return nil, getErrorFromFusionAppsFusionEnvironmentRefreshActivityWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFusionAppsFusionEnvironmentRefreshActivityWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFusionAppsFusionEnvironmentRefreshActivityWorkRequest(client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFusionAppsFusionEnvironmentRefreshActivityWorkRequest(ctx context.Context, client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fusion_apps.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -341,7 +341,7 @@ func getErrorFromFusionAppsFusionEnvironmentRefreshActivityWorkRequest(client *o
 	return workRequestErr
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.GetRefreshActivityRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -364,7 +364,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.GetRefreshActivity(context.Background(), request)
+	response, err := s.Client.GetRefreshActivity(ctx, request)
 	if err != nil {
 		return err
 	}

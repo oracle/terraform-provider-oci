@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -30,26 +27,25 @@ variable "cloud_guard_configuration_self_manage_resources" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+#  version             = "7.19.0"
 }
 
 //CloudGuard enabling and disabling is a tenant-level operation so the compartment-id needs to be a tenant-ocid.
 resource "oci_cloud_guard_cloud_guard_configuration" "test_cloud_guard_configuration" {
   #Required
-  compartment_id   = "${var.tenancy_ocid}"
-  reporting_region = "${var.cloud_guard_configuration_reporting_region}"
-  status           = "${var.cloud_guard_configuration_status}"
+  compartment_id   = var.tenancy_ocid
+  reporting_region = var.cloud_guard_configuration_reporting_region
+  status           = var.cloud_guard_configuration_status
 
   #Optional
-  self_manage_resources = "${var.cloud_guard_configuration_self_manage_resources}"
+  self_manage_resources = var.cloud_guard_configuration_self_manage_resources
 }
 
 //You can inspect the details of a tenant (whether CloudGuard is enabled/disabled) through any of its child compartments.
 data "oci_cloud_guard_cloud_guard_configuration" "test_cloud_guard_configuration" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 }

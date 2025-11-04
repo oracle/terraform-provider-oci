@@ -6,6 +6,7 @@ package ai_vision
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -15,7 +16,7 @@ import (
 
 func AiVisionStreamJobsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAiVisionStreamJobs,
+		ReadContext: readAiVisionStreamJobsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func AiVisionStreamJobsDataSource() *schema.Resource {
 	}
 }
 
-func readAiVisionStreamJobs(d *schema.ResourceData, m interface{}) error {
+func readAiVisionStreamJobsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionStreamJobsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiVisionStreamJobsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *AiVisionStreamJobsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionStreamJobsDataSourceCrud) Get() error {
+func (s *AiVisionStreamJobsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.ListStreamJobsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *AiVisionStreamJobsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.ListStreamJobs(context.Background(), request)
+	response, err := s.Client.ListStreamJobs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *AiVisionStreamJobsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListStreamJobs(context.Background(), request)
+		listResponse, err := s.Client.ListStreamJobs(ctx, request)
 		if err != nil {
 			return err
 		}

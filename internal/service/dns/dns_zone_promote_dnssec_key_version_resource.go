@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -18,10 +18,10 @@ import (
 
 func DnsZonePromoteDnssecKeyVersionResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDnsZonePromoteDnssecKeyVersion,
-		Read:     readDnsZonePromoteDnssecKeyVersion,
-		Delete:   deleteDnsZonePromoteDnssecKeyVersion,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDnsZonePromoteDnssecKeyVersionWithContext,
+		ReadContext:   readDnsZonePromoteDnssecKeyVersionWithContext,
+		DeleteContext: deleteDnsZonePromoteDnssecKeyVersionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"dnssec_key_version_uuid": {
@@ -48,20 +48,20 @@ func DnsZonePromoteDnssecKeyVersionResource() *schema.Resource {
 	}
 }
 
-func createDnsZonePromoteDnssecKeyVersion(d *schema.ResourceData, m interface{}) error {
+func createDnsZonePromoteDnssecKeyVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DnsZonePromoteDnssecKeyVersionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DnsClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDnsZonePromoteDnssecKeyVersion(d *schema.ResourceData, m interface{}) error {
+func readDnsZonePromoteDnssecKeyVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDnsZonePromoteDnssecKeyVersion(d *schema.ResourceData, m interface{}) error {
+func deleteDnsZonePromoteDnssecKeyVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -76,7 +76,7 @@ func (s *DnsZonePromoteDnssecKeyVersionResourceCrud) ID() string {
 	return s.D.Id()
 }
 
-func (s *DnsZonePromoteDnssecKeyVersionResourceCrud) Create() error {
+func (s *DnsZonePromoteDnssecKeyVersionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_dns.PromoteZoneDnssecKeyVersionRequest{}
 
 	if dnssecKeyVersionUuid, ok := s.D.GetOkExists("dnssec_key_version_uuid"); ok {
@@ -95,7 +95,7 @@ func (s *DnsZonePromoteDnssecKeyVersionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
-	response, err := s.Client.PromoteZoneDnssecKeyVersion(context.Background(), request)
+	response, err := s.Client.PromoteZoneDnssecKeyVersion(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiAgentAgentEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiAgentAgentEndpoints,
+		ReadContext: readGenerativeAiAgentAgentEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"agent_id": {
@@ -52,12 +53,12 @@ func GenerativeAiAgentAgentEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiAgentAgentEndpoints(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentAgentEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentAgentEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentAgentEndpointsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *GenerativeAiAgentAgentEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentAgentEndpointsDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentAgentEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.ListAgentEndpointsRequest{}
 
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
@@ -94,7 +95,7 @@ func (s *GenerativeAiAgentAgentEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.ListAgentEndpoints(context.Background(), request)
+	response, err := s.Client.ListAgentEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *GenerativeAiAgentAgentEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAgentEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListAgentEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

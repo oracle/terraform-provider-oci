@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -23,18 +20,17 @@ variable "security_recipe_description" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+#  version             = "7.19.0"
 }
 
 data "oci_cloud_guard_security_recipes" "test_security_recipes" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   #Optional
-  state          = "${var.lifecycle_state_active}"
+  state          = var.lifecycle_state_active
 }
 
 /*
@@ -42,9 +38,9 @@ This data sources is used to get the security policy id to attach to security zo
 */
 data "oci_cloud_guard_security_policies" "test_security_policies" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   #Optional
-  state          = "${var.lifecycle_state_active}"
+  state          = var.lifecycle_state_active
 }
 
 /*
@@ -58,12 +54,12 @@ the collection for creating new recipe.
 */
 resource "oci_cloud_guard_security_recipe" "test_security_recipe" {
   #Required
-  compartment_id    = "${var.compartment_id}"
-  display_name      = "${var.security_recipe_display_name}"
+  compartment_id    = var.compartment_id
+  display_name      = var.security_recipe_display_name
   security_policies = [
-    "${data.oci_cloud_guard_security_policies.test_security_policies.security_policy_collection[0].items[0].id}",
+    data.oci_cloud_guard_security_policies.test_security_policies.security_policy_collection[0].items[0].id,
   ]
   #Optional
-  description       = "${var.security_recipe_description}"
+  description       = var.security_recipe_description
 
 }

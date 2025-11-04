@@ -6,6 +6,7 @@ package bastion
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func BastionSessionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBastionSessions,
+		ReadContext: readBastionSessionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bastion_id": {
@@ -43,12 +44,12 @@ func BastionSessionsDataSource() *schema.Resource {
 	}
 }
 
-func readBastionSessions(d *schema.ResourceData, m interface{}) error {
+func readBastionSessionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BastionSessionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BastionSessionsDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *BastionSessionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BastionSessionsDataSourceCrud) Get() error {
+func (s *BastionSessionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bastion.ListSessionsRequest{}
 
 	if bastionId, ok := s.D.GetOkExists("bastion_id"); ok {
@@ -85,7 +86,7 @@ func (s *BastionSessionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bastion")
 
-	response, err := s.Client.ListSessions(context.Background(), request)
+	response, err := s.Client.ListSessions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *BastionSessionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSessions(context.Background(), request)
+		listResponse, err := s.Client.ListSessions(ctx, request)
 		if err != nil {
 			return err
 		}

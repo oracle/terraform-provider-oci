@@ -790,7 +790,7 @@ func (s *GenerativeAiImportedModelResourceCrud) updateCompartment(ctx context.Co
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

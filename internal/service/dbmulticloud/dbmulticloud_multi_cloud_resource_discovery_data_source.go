@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudMultiCloudResourceDiscoveryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudMultiCloudResourceDiscoveryResource(), fieldMap, readSingularDbmulticloudMultiCloudResourceDiscovery)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudMultiCloudResourceDiscoveryResource(), fieldMap, readSingularDbmulticloudMultiCloudResourceDiscoveryWithContext)
 }
 
-func readSingularDbmulticloudMultiCloudResourceDiscovery(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudMultiCloudResourceDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) Get() error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetMultiCloudResourceDiscoveryRequest{}
 
 	if multiCloudResourceDiscoveryId, ok := s.D.GetOkExists("multi_cloud_resource_discovery_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetMultiCloudResourceDiscovery(context.Background(), request)
+	response, err := s.Client.GetMultiCloudResourceDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}

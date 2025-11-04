@@ -6,16 +6,17 @@ package waf
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WafWebAppFirewallPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWafWebAppFirewallPolicies,
+		ReadContext: readWafWebAppFirewallPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -55,12 +56,12 @@ func WafWebAppFirewallPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readWafWebAppFirewallPolicies(d *schema.ResourceData, m interface{}) error {
+func readWafWebAppFirewallPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WafWebAppFirewallPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type WafWebAppFirewallPoliciesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *WafWebAppFirewallPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WafWebAppFirewallPoliciesDataSourceCrud) Get() error {
+func (s *WafWebAppFirewallPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waf.ListWebAppFirewallPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -109,7 +110,7 @@ func (s *WafWebAppFirewallPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waf")
 
-	response, err := s.Client.ListWebAppFirewallPolicies(context.Background(), request)
+	response, err := s.Client.ListWebAppFirewallPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -118,7 +119,7 @@ func (s *WafWebAppFirewallPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWebAppFirewallPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListWebAppFirewallPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

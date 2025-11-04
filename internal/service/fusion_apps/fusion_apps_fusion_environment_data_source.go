@@ -6,6 +6,7 @@ package fusion_apps
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -19,15 +20,15 @@ func FusionAppsFusionEnvironmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentResource(), fieldMap, readSingularFusionAppsFusionEnvironment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentResource(), fieldMap, readSingularFusionAppsFusionEnvironmentWithContext)
 }
 
-func readSingularFusionAppsFusionEnvironment(d *schema.ResourceData, m interface{}) error {
+func readSingularFusionAppsFusionEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FusionAppsFusionEnvironmentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentDataSourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.GetFusionEnvironmentRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -50,7 +51,7 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetFusionEnvironment(context.Background(), request)
+	response, err := s.Client.GetFusionEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}

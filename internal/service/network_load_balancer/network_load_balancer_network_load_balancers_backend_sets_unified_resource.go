@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -30,11 +31,11 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified,
-		Read:     readNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified,
-		Update:   updateNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified,
-		Delete:   deleteNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext,
+		ReadContext:   readNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext,
+		UpdateContext: updateNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext,
+		DeleteContext: deleteNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"health_checker": {
@@ -250,37 +251,37 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 	}
 }
 
-func createNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified(d *schema.ResourceData, m interface{}) error {
+func createNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified(d *schema.ResourceData, m interface{}) error {
+func readNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified(d *schema.ResourceData, m interface{}) error {
+func updateNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnified(d *schema.ResourceData, m interface{}) error {
+func deleteNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud struct {
@@ -294,7 +295,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	return GetNetworkLoadBalancersBackendSetsUnifiedCompositeId(s.D.Get("name").(string), s.D.Get("network_load_balancer_id").(string))
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Create() error {
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_network_load_balancer.CreateBackendSetRequest{}
 
 	if areOperationallyActiveBackendsPreferred, ok := s.D.GetOkExists("are_operationally_active_backends_preferred"); ok {
@@ -371,21 +372,21 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
-	response, err := s.Client.CreateBackendSet(context.Background(), request)
+	response, err := s.Client.CreateBackendSet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.D.SetId(s.ID())
-	return s.getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_network_load_balancer.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	networkLoadBalancersBackendSetsUnifiedId, err := networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(workId,
+	networkLoadBalancersBackendSetsUnifiedId, err := networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(ctx, workId,
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -393,10 +394,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	}
 	s.D.Set("network_load_balancer_id", networkLoadBalancersBackendSetsUnifiedId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(wId *string, action oci_network_load_balancer.ActionTypeEnum,
+func networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(ctx context.Context, wId *string, action oci_network_load_balancer.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_network_load_balancer.NetworkLoadBalancerClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "network_load_balancer")
 	retryPolicy.ShouldRetryOperation = networkLoadBalancerWorkRequestShouldRetryFunc(timeout)
@@ -415,7 +416,7 @@ func networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(wId *string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_network_load_balancer.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -475,7 +476,7 @@ func getErrorFromNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWorkRe
 	return errorMessage
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Get() error {
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_network_load_balancer.GetBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
@@ -498,7 +499,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
-	response, err := s.Client.GetBackendSet(context.Background(), request)
+	response, err := s.Client.GetBackendSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -507,7 +508,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	return nil
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Update() error {
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_network_load_balancer.UpdateBackendSetRequest{}
 
 	if areOperationallyActiveBackendsPreferred, ok := s.D.GetOkExists("are_operationally_active_backends_preferred"); ok {
@@ -585,16 +586,16 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
-	response, err := s.Client.UpdateBackendSet(context.Background(), request)
+	response, err := s.Client.UpdateBackendSet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNetworkLoadBalancersBackendSetsUnifiedFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) Delete() error {
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_network_load_balancer.DeleteBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
@@ -609,7 +610,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
-	response, err := s.Client.DeleteBackendSet(context.Background(), request)
+	response, err := s.Client.DeleteBackendSet(ctx, request)
 	if err != nil {
 		return err
 	}

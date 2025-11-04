@@ -6,6 +6,7 @@ package ai_vision
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -19,15 +20,15 @@ func AiVisionStreamJobDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiVisionStreamJobResource(), fieldMap, readSingularAiVisionStreamJob)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiVisionStreamJobResource(), fieldMap, readSingularAiVisionStreamJobWithContext)
 }
 
-func readSingularAiVisionStreamJob(d *schema.ResourceData, m interface{}) error {
+func readSingularAiVisionStreamJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionStreamJobDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiVisionStreamJobDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiVisionStreamJobDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionStreamJobDataSourceCrud) Get() error {
+func (s *AiVisionStreamJobDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.GetStreamJobRequest{}
 
 	if streamJobId, ok := s.D.GetOkExists("stream_job_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiVisionStreamJobDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.GetStreamJob(context.Background(), request)
+	response, err := s.Client.GetStreamJob(ctx, request)
 	if err != nil {
 		return err
 	}

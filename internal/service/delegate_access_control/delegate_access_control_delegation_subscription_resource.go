@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_delegate_access_control "github.com/oracle/oci-go-sdk/v65/delegateaccesscontrol"
 
@@ -24,11 +24,11 @@ func DelegateAccessControlDelegationSubscriptionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDelegateAccessControlDelegationSubscription,
-		Read:     readDelegateAccessControlDelegationSubscription,
-		Update:   updateDelegateAccessControlDelegationSubscription,
-		Delete:   deleteDelegateAccessControlDelegationSubscription,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDelegateAccessControlDelegationSubscriptionWithContext,
+		ReadContext:   readDelegateAccessControlDelegationSubscriptionWithContext,
+		UpdateContext: updateDelegateAccessControlDelegationSubscriptionWithContext,
+		DeleteContext: deleteDelegateAccessControlDelegationSubscriptionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -96,40 +96,40 @@ func DelegateAccessControlDelegationSubscriptionResource() *schema.Resource {
 	}
 }
 
-func createDelegateAccessControlDelegationSubscription(d *schema.ResourceData, m interface{}) error {
+func createDelegateAccessControlDelegationSubscriptionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDelegateAccessControlDelegationSubscription(d *schema.ResourceData, m interface{}) error {
+func readDelegateAccessControlDelegationSubscriptionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDelegateAccessControlDelegationSubscription(d *schema.ResourceData, m interface{}) error {
+func updateDelegateAccessControlDelegationSubscriptionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDelegateAccessControlDelegationSubscription(d *schema.ResourceData, m interface{}) error {
+func deleteDelegateAccessControlDelegationSubscriptionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DelegateAccessControlDelegationSubscriptionResourceCrud struct {
@@ -168,7 +168,7 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) DeletedTarget(
 	}
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Create() error {
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.CreateDelegationSubscriptionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -204,7 +204,7 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Create() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.CreateDelegationSubscription(context.Background(), request)
+	response, err := s.Client.CreateDelegationSubscription(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -215,14 +215,14 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Create() error
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDelegationSubscriptionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDelegationSubscriptionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) getDelegationSubscriptionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) getDelegationSubscriptionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_delegate_access_control.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	delegationSubscriptionId, err := delegationSubscriptionWaitForWorkRequest(workId, "delegationsubscription",
+	delegationSubscriptionId, err := delegationSubscriptionWaitForWorkRequest(ctx, workId, "delegationsubscription",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) getDelegationS
 	}
 	s.D.SetId(*delegationSubscriptionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func delegationSubscriptionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -256,7 +256,7 @@ func delegationSubscriptionWorkRequestShouldRetryFunc(timeout time.Duration) fun
 	}
 }
 
-func delegationSubscriptionWaitForWorkRequest(wId *string, entityType string, action oci_delegate_access_control.ActionTypeEnum,
+func delegationSubscriptionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_delegate_access_control.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_delegate_access_control.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "delegate_access_control")
 	retryPolicy.ShouldRetryOperation = delegationSubscriptionWorkRequestShouldRetryFunc(timeout)
@@ -275,7 +275,7 @@ func delegationSubscriptionWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_delegate_access_control.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -304,14 +304,14 @@ func delegationSubscriptionWaitForWorkRequest(wId *string, entityType string, ac
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_delegate_access_control.OperationStatusFailed || response.Status == oci_delegate_access_control.OperationStatusCanceled {
-		return nil, getErrorFromDelegateAccessControlDelegationSubscriptionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDelegateAccessControlDelegationSubscriptionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDelegateAccessControlDelegationSubscriptionWorkRequest(client *oci_delegate_access_control.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_delegate_access_control.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDelegateAccessControlDelegationSubscriptionWorkRequest(ctx context.Context, client *oci_delegate_access_control.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_delegate_access_control.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_delegate_access_control.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -333,7 +333,7 @@ func getErrorFromDelegateAccessControlDelegationSubscriptionWorkRequest(client *
 	return workRequestErr
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Get() error {
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.GetDelegationSubscriptionRequest{}
 
 	tmp := s.D.Id()
@@ -341,7 +341,7 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.GetDelegationSubscription(context.Background(), request)
+	response, err := s.Client.GetDelegationSubscription(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -350,11 +350,11 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Update() error {
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -384,16 +384,16 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Update() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.UpdateDelegationSubscription(context.Background(), request)
+	response, err := s.Client.UpdateDelegationSubscription(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDelegationSubscriptionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDelegationSubscriptionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Delete() error {
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.DeleteDelegationSubscriptionRequest{}
 
 	tmp := s.D.Id()
@@ -401,14 +401,14 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) Delete() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.DeleteDelegationSubscription(context.Background(), request)
+	response, err := s.Client.DeleteDelegationSubscription(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := delegationSubscriptionWaitForWorkRequest(workId, "delegationsubscription",
+	_, delWorkRequestErr := delegationSubscriptionWaitForWorkRequest(ctx, workId, "delegationsubscription",
 		oci_delegate_access_control.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -507,7 +507,7 @@ func DelegationSubscriptionSummaryToMap(obj oci_delegate_access_control.Delegati
 	return result
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_delegate_access_control.ChangeDelegationSubscriptionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -518,11 +518,11 @@ func (s *DelegateAccessControlDelegationSubscriptionResourceCrud) updateCompartm
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.ChangeDelegationSubscriptionCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDelegationSubscriptionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDelegationSubscriptionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDelegationSubscriptionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,6 +6,7 @@ package security_attribute
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_security_attribute "github.com/oracle/oci-go-sdk/v65/securityattribute"
 
@@ -23,15 +24,15 @@ func SecurityAttributeSecurityAttributeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(SecurityAttributeSecurityAttributeResource(), fieldMap, readSingularSecurityAttributeSecurityAttribute)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(SecurityAttributeSecurityAttributeResource(), fieldMap, readSingularSecurityAttributeSecurityAttributeWithContext)
 }
 
-func readSingularSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
+func readSingularSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type SecurityAttributeSecurityAttributeDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *SecurityAttributeSecurityAttributeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SecurityAttributeSecurityAttributeDataSourceCrud) Get() error {
+func (s *SecurityAttributeSecurityAttributeDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_security_attribute.GetSecurityAttributeRequest{}
 
 	if securityAttributeName, ok := s.D.GetOkExists("security_attribute_name"); ok {
@@ -59,7 +60,7 @@ func (s *SecurityAttributeSecurityAttributeDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "security_attribute")
 
-	response, err := s.Client.GetSecurityAttribute(context.Background(), request)
+	response, err := s.Client.GetSecurityAttribute(ctx, request)
 	if err != nil {
 		return err
 	}

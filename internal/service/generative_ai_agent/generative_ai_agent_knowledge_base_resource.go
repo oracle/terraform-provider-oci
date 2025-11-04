@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -27,15 +27,17 @@ func GenerativeAiAgentKnowledgeBaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+
+		CreateContext: createGenerativeAiAgentKnowledgeBaseWithContext,
+		ReadContext:   readGenerativeAiAgentKnowledgeBaseWithContext,
+		UpdateContext: updateGenerativeAiAgentKnowledgeBaseWithContext,
+		DeleteContext: deleteGenerativeAiAgentKnowledgeBaseWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("60m"),
 			Update: tfresource.GetTimeoutDuration("30m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
-		Create: createGenerativeAiAgentKnowledgeBase,
-		Read:   readGenerativeAiAgentKnowledgeBase,
-		Update: updateGenerativeAiAgentKnowledgeBase,
-		Delete: deleteGenerativeAiAgentKnowledgeBase,
+
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -291,37 +293,37 @@ func GenerativeAiAgentKnowledgeBaseResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiAgentKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func createGenerativeAiAgentKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiAgentKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiAgentKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func updateGenerativeAiAgentKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiAgentKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func deleteGenerativeAiAgentKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GenerativeAiAgentKnowledgeBaseResourceCrud struct {
@@ -359,7 +361,7 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Create() error {
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.CreateKnowledgeBaseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -402,7 +404,7 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.CreateKnowledgeBase(context.Background(), request)
+	response, err := s.Client.CreateKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -413,20 +415,20 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai_agent.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	knowledgeBaseId, err := knowledgeBaseWaitForWorkRequest(workId, "knowledgebase",
+	knowledgeBaseId, err := knowledgeBaseWaitForWorkRequest(ctx, workId, "knowledgebase",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, knowledgeBaseId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_generative_ai_agent.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -440,7 +442,7 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) getKnowledgeBaseFromWorkReq
 	}
 	s.D.SetId(*knowledgeBaseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func knowledgeBaseWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -466,7 +468,7 @@ func knowledgeBaseWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
+func knowledgeBaseWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai_agent.GenerativeAiAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai_agent")
 	retryPolicy.ShouldRetryOperation = knowledgeBaseWorkRequestShouldRetryFunc(timeout)
@@ -485,7 +487,7 @@ func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_generative_ai_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -514,14 +516,14 @@ func knowledgeBaseWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai_agent.OperationStatusFailed || response.Status == oci_generative_ai_agent.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiAgentKnowledgeBaseWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiAgentKnowledgeBaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiAgentKnowledgeBaseWorkRequest(client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGenerativeAiAgentKnowledgeBaseWorkRequest(ctx context.Context, client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -543,7 +545,7 @@ func getErrorFromGenerativeAiAgentKnowledgeBaseWorkRequest(client *oci_generativ
 	return workRequestErr
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Get() error {
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetKnowledgeBaseRequest{}
 
 	tmp := s.D.Id()
@@ -551,7 +553,7 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.GetKnowledgeBase(context.Background(), request)
+	response, err := s.Client.GetKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -560,11 +562,11 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Update() error {
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -619,16 +621,16 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.UpdateKnowledgeBase(context.Background(), request)
+	response, err := s.Client.UpdateKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Delete() error {
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.DeleteKnowledgeBaseRequest{}
 
 	tmp := s.D.Id()
@@ -636,14 +638,14 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.DeleteKnowledgeBase(context.Background(), request)
+	response, err := s.Client.DeleteKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := knowledgeBaseWaitForWorkRequest(workId, "knowledgebase",
+	_, delWorkRequestErr := knowledgeBaseWaitForWorkRequest(ctx, workId, "knowledgebase",
 		oci_generative_ai_agent.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1127,7 +1129,7 @@ func SecretDetailToMap(obj *oci_generative_ai_agent.SecretDetail) map[string]int
 	return result
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_generative_ai_agent.ChangeKnowledgeBaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1138,11 +1140,11 @@ func (s *GenerativeAiAgentKnowledgeBaseResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.ChangeKnowledgeBaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeKnowledgeBaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKnowledgeBaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKnowledgeBaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

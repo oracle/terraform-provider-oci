@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_cluster_placement_groups "github.com/oracle/oci-go-sdk/v65/clusterplacementgroups"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -26,11 +26,11 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createClusterPlacementGroupsClusterPlacementGroup,
-		Read:     readClusterPlacementGroupsClusterPlacementGroup,
-		Update:   updateClusterPlacementGroupsClusterPlacementGroup,
-		Delete:   deleteClusterPlacementGroupsClusterPlacementGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createClusterPlacementGroupsClusterPlacementGroupWithContext,
+		ReadContext:   readClusterPlacementGroupsClusterPlacementGroupWithContext,
+		UpdateContext: updateClusterPlacementGroupsClusterPlacementGroupWithContext,
+		DeleteContext: deleteClusterPlacementGroupsClusterPlacementGroupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -179,7 +179,7 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 	}
 }
 
-func createClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m interface{}) error {
+func createClusterPlacementGroupsClusterPlacementGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
@@ -191,13 +191,13 @@ func createClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m
 		}
 	}
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if powerOff {
-		if err := sync.StopClusterPlacementGroup(); err != nil {
-			return err
+		if err := sync.StopClusterPlacementGroup(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateInactive)
 	}
@@ -205,15 +205,15 @@ func createClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m
 
 }
 
-func readClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m interface{}) error {
+func readClusterPlacementGroupsClusterPlacementGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m interface{}) error {
+func updateClusterPlacementGroupsClusterPlacementGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
@@ -230,19 +230,19 @@ func updateClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m
 	}
 
 	if powerOn {
-		if err := sync.StartClusterPlacementGroup(); err != nil {
-			return err
+		if err := sync.StartClusterPlacementGroup(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
-		if err := sync.StopClusterPlacementGroup(); err != nil {
-			return err
+		if err := sync.StopClusterPlacementGroup(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateInactive)
 	}
@@ -250,13 +250,13 @@ func updateClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m
 	return nil
 }
 
-func deleteClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m interface{}) error {
+func deleteClusterPlacementGroupsClusterPlacementGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ClusterPlacementGroupsClusterPlacementGroupResourceCrud struct {
@@ -294,7 +294,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) DeletedTarget(
 	}
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Create() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cluster_placement_groups.CreateClusterPlacementGroupRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -362,7 +362,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Create() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	response, err := s.Client.CreateClusterPlacementGroup(context.Background(), request)
+	response, err := s.Client.CreateClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -373,20 +373,20 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Create() error
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getClusterPlacementGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups"), oci_cluster_placement_groups.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getClusterPlacementGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups"), oci_cluster_placement_groups.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) getClusterPlacementGroupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) getClusterPlacementGroupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cluster_placement_groups.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	clusterPlacementGroupId, err := clusterPlacementGroupWaitForWorkRequest(workId, "clusterplacementgroup",
+	clusterPlacementGroupId, err := clusterPlacementGroupWaitForWorkRequest(ctx, workId, "clusterplacementgroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, clusterPlacementGroupId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_cluster_placement_groups.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -400,7 +400,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) getClusterPlac
 	}
 	s.D.SetId(*clusterPlacementGroupId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func clusterPlacementGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -426,7 +426,7 @@ func clusterPlacementGroupWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func clusterPlacementGroupWaitForWorkRequest(wId *string, entityType string, action oci_cluster_placement_groups.ActionTypeEnum,
+func clusterPlacementGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cluster_placement_groups.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cluster_placement_groups.ClusterPlacementGroupsCPClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cluster_placement_groups")
 	retryPolicy.ShouldRetryOperation = clusterPlacementGroupWorkRequestShouldRetryFunc(timeout)
@@ -445,7 +445,7 @@ func clusterPlacementGroupWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cluster_placement_groups.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -474,14 +474,14 @@ func clusterPlacementGroupWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cluster_placement_groups.OperationStatusFailed || response.Status == oci_cluster_placement_groups.OperationStatusCanceled {
-		return nil, getErrorFromClusterPlacementGroupsClusterPlacementGroupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromClusterPlacementGroupsClusterPlacementGroupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromClusterPlacementGroupsClusterPlacementGroupWorkRequest(client *oci_cluster_placement_groups.ClusterPlacementGroupsCPClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cluster_placement_groups.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromClusterPlacementGroupsClusterPlacementGroupWorkRequest(ctx context.Context, client *oci_cluster_placement_groups.ClusterPlacementGroupsCPClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cluster_placement_groups.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_cluster_placement_groups.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -503,7 +503,7 @@ func getErrorFromClusterPlacementGroupsClusterPlacementGroupWorkRequest(client *
 	return workRequestErr
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Get() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cluster_placement_groups.GetClusterPlacementGroupRequest{}
 
 	tmp := s.D.Id()
@@ -511,7 +511,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	response, err := s.Client.GetClusterPlacementGroup(context.Background(), request)
+	response, err := s.Client.GetClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -520,11 +520,11 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Update() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -554,16 +554,16 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Update() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	response, err := s.Client.UpdateClusterPlacementGroup(context.Background(), request)
+	response, err := s.Client.UpdateClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getClusterPlacementGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups"), oci_cluster_placement_groups.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getClusterPlacementGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups"), oci_cluster_placement_groups.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Delete() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cluster_placement_groups.DeleteClusterPlacementGroupRequest{}
 
 	tmp := s.D.Id()
@@ -571,14 +571,14 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) Delete() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	response, err := s.Client.DeleteClusterPlacementGroup(context.Background(), request)
+	response, err := s.Client.DeleteClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := clusterPlacementGroupWaitForWorkRequest(workId, "clusterplacementgroup",
+	_, delWorkRequestErr := clusterPlacementGroupWaitForWorkRequest(ctx, workId, "clusterplacementgroup",
 		oci_cluster_placement_groups.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -641,7 +641,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) SetData() erro
 	return nil
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StartClusterPlacementGroup() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StartClusterPlacementGroup(ctx context.Context) error {
 	request := oci_cluster_placement_groups.ActivateClusterPlacementGroupRequest{}
 
 	idTmp := s.D.Id()
@@ -649,7 +649,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StartClusterPl
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	_, err := s.Client.ActivateClusterPlacementGroup(context.Background(), request)
+	_, err := s.Client.ActivateClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -657,10 +657,10 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StartClusterPl
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateActive
 	}
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StopClusterPlacementGroup() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StopClusterPlacementGroup(ctx context.Context) error {
 	request := oci_cluster_placement_groups.DeactivateClusterPlacementGroupRequest{}
 
 	idTmp := s.D.Id()
@@ -668,7 +668,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StopClusterPla
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	_, err := s.Client.DeactivateClusterPlacementGroup(context.Background(), request)
+	_, err := s.Client.DeactivateClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -676,7 +676,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StopClusterPla
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateInactive
 	}
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) mapToCapabilitiesCollection(fieldKeyFormat string) (oci_cluster_placement_groups.CapabilitiesCollection, error) {
@@ -819,7 +819,7 @@ func PlacementInstructionDetailsToMap(obj *oci_cluster_placement_groups.Placemen
 	return result
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_cluster_placement_groups.ChangeClusterPlacementGroupCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -830,12 +830,12 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) updateCompartm
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cluster_placement_groups")
 
-	_, err := s.Client.ChangeClusterPlacementGroupCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeClusterPlacementGroupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

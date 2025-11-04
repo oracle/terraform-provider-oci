@@ -6,6 +6,8 @@ package appmgmt_control
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func AppmgmtControlMonitoredInstanceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAppmgmtControlMonitoredInstance,
+		ReadContext: readSingularAppmgmtControlMonitoredInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			"monitored_instance_id": {
 				Type:     schema.TypeString,
@@ -62,12 +64,12 @@ func AppmgmtControlMonitoredInstanceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAppmgmtControlMonitoredInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularAppmgmtControlMonitoredInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AppmgmtControlMonitoredInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AppmgmtControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AppmgmtControlMonitoredInstanceDataSourceCrud struct {
@@ -80,7 +82,7 @@ func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) Get() error {
+func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_appmgmt_control.GetMonitoredInstanceRequest{}
 
 	if monitoredInstanceId, ok := s.D.GetOkExists("monitored_instance_id"); ok {
@@ -90,7 +92,7 @@ func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "appmgmt_control")
 
-	response, err := s.Client.GetMonitoredInstance(context.Background(), request)
+	response, err := s.Client.GetMonitoredInstance(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,16 +6,17 @@ package log_analytics
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LogAnalyticsNamespacesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLogAnalyticsNamespaces,
+		ReadContext: readLogAnalyticsNamespacesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,8 +54,7 @@ func LogAnalyticsNamespacesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"is_logset_enabled": {
-										Type:     schema.TypeBool,
+									"is_logset_enabled": {Type: schema.TypeBool,
 										Computed: true,
 									},
 									"is_data_ever_ingested": {
@@ -71,12 +71,12 @@ func LogAnalyticsNamespacesDataSource() *schema.Resource {
 	}
 }
 
-func readLogAnalyticsNamespaces(d *schema.ResourceData, m interface{}) error {
+func readLogAnalyticsNamespacesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespacesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LogAnalyticsNamespacesDataSourceCrud struct {
@@ -89,7 +89,7 @@ func (s *LogAnalyticsNamespacesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespacesDataSourceCrud) Get() error {
+func (s *LogAnalyticsNamespacesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_log_analytics.ListNamespacesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -99,7 +99,7 @@ func (s *LogAnalyticsNamespacesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.ListNamespaces(context.Background(), request)
+	response, err := s.Client.ListNamespaces(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -154,7 +154,6 @@ func NamespaceSummaryToMap(obj oci_log_analytics.NamespaceSummary) map[string]in
 	if obj.NamespaceName != nil {
 		result["namespace"] = string(*obj.NamespaceName)
 	}
-
 	if obj.IsLogSetEnabled != nil {
 		result["is_logset_enabled"] = bool(*obj.IsLogSetEnabled)
 	}
@@ -162,6 +161,5 @@ func NamespaceSummaryToMap(obj oci_log_analytics.NamespaceSummary) map[string]in
 	if obj.IsDataEverIngested != nil {
 		result["is_data_ever_ingested"] = bool(*obj.IsDataEverIngested)
 	}
-
 	return result
 }

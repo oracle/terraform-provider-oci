@@ -6,11 +6,12 @@ package dataflow
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DataflowPrivateEndpointDataSource() *schema.Resource {
@@ -19,15 +20,15 @@ func DataflowPrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataflowPrivateEndpointResource(), fieldMap, readSingularDataflowPrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataflowPrivateEndpointResource(), fieldMap, readSingularDataflowPrivateEndpointWithContext)
 }
 
-func readSingularDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataflowPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataflowPrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataflowPrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowPrivateEndpointDataSourceCrud) Get() error {
+func (s *DataflowPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dataflow.GetPrivateEndpointRequest{}
 
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataflowPrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}

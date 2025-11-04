@@ -6,6 +6,7 @@ package cloud_bridge
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -19,15 +20,15 @@ func CloudBridgeEnvironmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CloudBridgeEnvironmentResource(), fieldMap, readSingularCloudBridgeEnvironment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudBridgeEnvironmentResource(), fieldMap, readSingularCloudBridgeEnvironmentWithContext)
 }
 
-func readSingularCloudBridgeEnvironment(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudBridgeEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudBridgeEnvironmentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CloudBridgeEnvironmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeEnvironmentDataSourceCrud) Get() error {
+func (s *CloudBridgeEnvironmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetEnvironmentRequest{}
 
 	if environmentId, ok := s.D.GetOkExists("environment_id"); ok {
@@ -50,7 +51,7 @@ func (s *CloudBridgeEnvironmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.GetEnvironment(context.Background(), request)
+	response, err := s.Client.GetEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}

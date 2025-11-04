@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudOracleDbGcpIdentityConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbGcpIdentityConnectorResource(), fieldMap, readSingularDbmulticloudOracleDbGcpIdentityConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbGcpIdentityConnectorResource(), fieldMap, readSingularDbmulticloudOracleDbGcpIdentityConnectorWithContext)
 }
 
-func readSingularDbmulticloudOracleDbGcpIdentityConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudOracleDbGcpIdentityConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbGcpIdentityConnectorRequest{}
 
 	if oracleDbGcpIdentityConnectorId, ok := s.D.GetOkExists("oracle_db_gcp_identity_connector_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbGcpIdentityConnector(context.Background(), request)
+	response, err := s.Client.GetOracleDbGcpIdentityConnector(ctx, request)
 	if err != nil {
 		return err
 	}

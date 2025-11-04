@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OceOceInstanceResource() *schema.Resource {
@@ -26,14 +26,14 @@ func OceOceInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("2h"),
-			Update: tfresource.GetTimeoutDuration("60m"),
-			Delete: tfresource.GetTimeoutDuration("1h"),
+			Create: tfresource.GetTimeoutDuration("30m"),
+			Update: tfresource.GetTimeoutDuration("20m"),
+			Delete: tfresource.GetTimeoutDuration("20m"),
 		},
-		Create: createOceOceInstance,
-		Read:   readOceOceInstance,
-		Update: updateOceOceInstance,
-		Delete: deleteOceOceInstance,
+		CreateContext: createOceOceInstanceWithContext,
+		ReadContext:   readOceOceInstanceWithContext,
+		UpdateContext: updateOceOceInstanceWithContext,
+		DeleteContext: deleteOceOceInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_email": {
@@ -175,37 +175,37 @@ func OceOceInstanceResource() *schema.Resource {
 	}
 }
 
-func createOceOceInstance(d *schema.ResourceData, m interface{}) error {
+func createOceOceInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOceOceInstance(d *schema.ResourceData, m interface{}) error {
+func readOceOceInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOceOceInstance(d *schema.ResourceData, m interface{}) error {
+func updateOceOceInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOceOceInstance(d *schema.ResourceData, m interface{}) error {
+func deleteOceOceInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OceOceInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OceOceInstanceResourceCrud struct {
@@ -243,7 +243,7 @@ func (s *OceOceInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OceOceInstanceResourceCrud) Create() error {
+func (s *OceOceInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_oce.CreateOceInstanceRequest{}
 
 	if addOnFeatures, ok := s.D.GetOkExists("add_on_features"); ok {
@@ -339,14 +339,14 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	response, err := s.Client.CreateOceInstance(context.Background(), request)
+	response, err := s.Client.CreateOceInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_oce.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_oce.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -356,19 +356,19 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	if err == nil {
 		// The work request response contains an array of objects
 		for _, res := range workRequestResponse.Resources {
-			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "oce") && res.Identifier != nil {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "oceinstance") && res.Identifier != nil {
 				s.D.SetId(*res.Identifier)
 				break
 			}
 		}
 	}
-	return s.getOceInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOceInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OceOceInstanceResourceCrud) getOceInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OceOceInstanceResourceCrud) getOceInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_oce.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
-	oceInstanceId, err := oceInstanceWaitForWorkRequest(workId, "oce",
+	oceInstanceId, err := oceInstanceWaitForWorkRequest(ctx, workId, "oce",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -382,7 +382,7 @@ func (s *OceOceInstanceResourceCrud) getOceInstanceFromWorkRequest(workId *strin
 
 	s.D.SetId(*oceInstanceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func oceInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -408,7 +408,7 @@ func oceInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum,
+func oceInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oce.OceInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "oce")
 	retryPolicy.ShouldRetryOperation = oceInstanceWorkRequestShouldRetryFunc(timeout)
@@ -427,7 +427,7 @@ func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_oce.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -456,14 +456,14 @@ func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_oce.WorkRequestStatusFailed || response.Status == oci_oce.WorkRequestStatusCanceled {
-		return nil, getErrorFromOceOceInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOceOceInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOceOceInstanceWorkRequest(client *oci_oce.OceInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOceOceInstanceWorkRequest(ctx context.Context, client *oci_oce.OceInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_oce.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -485,7 +485,7 @@ func getErrorFromOceOceInstanceWorkRequest(client *oci_oce.OceInstanceClient, wo
 	return workRequestErr
 }
 
-func (s *OceOceInstanceResourceCrud) Get() error {
+func (s *OceOceInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_oce.GetOceInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -493,7 +493,7 @@ func (s *OceOceInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	response, err := s.Client.GetOceInstance(context.Background(), request)
+	response, err := s.Client.GetOceInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -502,11 +502,11 @@ func (s *OceOceInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OceOceInstanceResourceCrud) Update() error {
+func (s *OceOceInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -571,16 +571,16 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	response, err := s.Client.UpdateOceInstance(context.Background(), request)
+	response, err := s.Client.UpdateOceInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOceInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOceInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OceOceInstanceResourceCrud) Delete() error {
+func (s *OceOceInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_oce.DeleteOceInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -588,14 +588,14 @@ func (s *OceOceInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	response, err := s.Client.DeleteOceInstance(context.Background(), request)
+	response, err := s.Client.DeleteOceInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := oceInstanceWaitForWorkRequest(workId, "oce",
+	_, delWorkRequestErr := oceInstanceWaitForWorkRequest(ctx, workId, "oceinstance",
 		oci_oce.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -649,7 +649,7 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 		s.D.Set("object_storage_namespace", *s.Res.ObjectStorageNamespace)
 	}
 
-	s.D.Set("service", tfresource.GenericMapToJsonMap(s.Res.Service))
+	s.D.Set("service", s.Res.Service)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -686,7 +686,7 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OceOceInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_oce.ChangeOceInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -697,11 +697,11 @@ func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
-	response, err := s.Client.ChangeOceInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOceInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOceInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOceInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

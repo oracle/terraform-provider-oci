@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
@@ -25,11 +25,11 @@ func ManagementAgentNamedCredentialResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createManagementAgentNamedCredential,
-		Read:     readManagementAgentNamedCredential,
-		Update:   updateManagementAgentNamedCredential,
-		Delete:   deleteManagementAgentNamedCredential,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createManagementAgentNamedCredentialWithContext,
+		ReadContext:   readManagementAgentNamedCredentialWithContext,
+		UpdateContext: updateManagementAgentNamedCredentialWithContext,
+		DeleteContext: deleteManagementAgentNamedCredentialWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"management_agent_id": {
@@ -115,37 +115,37 @@ func ManagementAgentNamedCredentialResource() *schema.Resource {
 	}
 }
 
-func createManagementAgentNamedCredential(d *schema.ResourceData, m interface{}) error {
+func createManagementAgentNamedCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentNamedCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readManagementAgentNamedCredential(d *schema.ResourceData, m interface{}) error {
+func readManagementAgentNamedCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentNamedCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateManagementAgentNamedCredential(d *schema.ResourceData, m interface{}) error {
+func updateManagementAgentNamedCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentNamedCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteManagementAgentNamedCredential(d *schema.ResourceData, m interface{}) error {
+func deleteManagementAgentNamedCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentNamedCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ManagementAgentNamedCredentialResourceCrud struct {
@@ -183,7 +183,7 @@ func (s *ManagementAgentNamedCredentialResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ManagementAgentNamedCredentialResourceCrud) Create() error {
+func (s *ManagementAgentNamedCredentialResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_management_agent.CreateNamedCredentialRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -237,7 +237,7 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.CreateNamedCredential(context.Background(), request)
+	response, err := s.Client.CreateNamedCredential(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -248,14 +248,14 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getNamedCredentialFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent"), oci_management_agent.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamedCredentialFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent"), oci_management_agent.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ManagementAgentNamedCredentialResourceCrud) getNamedCredentialFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ManagementAgentNamedCredentialResourceCrud) getNamedCredentialFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_management_agent.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	namedCredentialId, err := namedCredentialWaitForWorkRequest(workId, "namedcredential",
+	namedCredentialId, err := namedCredentialWaitForWorkRequest(ctx, workId, "namedcredential",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -275,7 +275,7 @@ func (s *ManagementAgentNamedCredentialResourceCrud) getNamedCredentialFromWorkR
 	}
 	//s.D.SetId(*namedCredentialId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func namedCredentialWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -301,7 +301,7 @@ func namedCredentialWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func namedCredentialWaitForWorkRequest(wId *string, entityType string, action oci_management_agent.ActionTypesEnum,
+func namedCredentialWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_management_agent.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_management_agent.ManagementAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "management_agent")
 	retryPolicy.ShouldRetryOperation = namedCredentialWorkRequestShouldRetryFunc(timeout)
@@ -320,7 +320,7 @@ func namedCredentialWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_management_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -349,14 +349,14 @@ func namedCredentialWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_management_agent.OperationStatusFailed || response.Status == oci_management_agent.OperationStatusCanceled {
-		return nil, getErrorFromManagementAgentNamedCredentialWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromManagementAgentNamedCredentialWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromManagementAgentNamedCredentialWorkRequest(client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromManagementAgentNamedCredentialWorkRequest(ctx context.Context, client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_management_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -378,7 +378,7 @@ func getErrorFromManagementAgentNamedCredentialWorkRequest(client *oci_managemen
 	return workRequestErr
 }
 
-func (s *ManagementAgentNamedCredentialResourceCrud) Get() error {
+func (s *ManagementAgentNamedCredentialResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_management_agent.GetNamedCredentialRequest{}
 
 	tmp := s.D.Id()
@@ -386,7 +386,7 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.GetNamedCredential(context.Background(), request)
+	response, err := s.Client.GetNamedCredential(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -395,7 +395,7 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ManagementAgentNamedCredentialResourceCrud) Update() error {
+func (s *ManagementAgentNamedCredentialResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_management_agent.UpdateNamedCredentialRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -437,16 +437,16 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.UpdateNamedCredential(context.Background(), request)
+	response, err := s.Client.UpdateNamedCredential(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamedCredentialFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent"), oci_management_agent.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNamedCredentialFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent"), oci_management_agent.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ManagementAgentNamedCredentialResourceCrud) Delete() error {
+func (s *ManagementAgentNamedCredentialResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_management_agent.DeleteNamedCredentialRequest{}
 
 	tmp := s.D.Id()
@@ -454,14 +454,14 @@ func (s *ManagementAgentNamedCredentialResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.DeleteNamedCredential(context.Background(), request)
+	response, err := s.Client.DeleteNamedCredential(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := namedCredentialWaitForWorkRequest(workId, "namedcredential",
+	_, delWorkRequestErr := namedCredentialWaitForWorkRequest(ctx, workId, "namedcredential",
 		oci_management_agent.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

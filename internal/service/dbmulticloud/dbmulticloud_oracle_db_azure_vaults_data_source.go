@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -15,7 +16,7 @@ import (
 
 func DbmulticloudOracleDbAzureVaultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbmulticloudOracleDbAzureVaults,
+		ReadContext: readDbmulticloudOracleDbAzureVaultsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func DbmulticloudOracleDbAzureVaultsDataSource() *schema.Resource {
 	}
 }
 
-func readDbmulticloudOracleDbAzureVaults(d *schema.ResourceData, m interface{}) error {
+func readDbmulticloudOracleDbAzureVaultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureVaultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDbAzureVaultClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureVaultsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DbmulticloudOracleDbAzureVaultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureVaultsDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureVaultsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.ListOracleDbAzureVaultsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *DbmulticloudOracleDbAzureVaultsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.ListOracleDbAzureVaults(context.Background(), request)
+	response, err := s.Client.ListOracleDbAzureVaults(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *DbmulticloudOracleDbAzureVaultsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOracleDbAzureVaults(context.Background(), request)
+		listResponse, err := s.Client.ListOracleDbAzureVaults(ctx, request)
 		if err != nil {
 			return err
 		}

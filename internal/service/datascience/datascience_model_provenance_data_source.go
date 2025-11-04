@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func DatascienceModelProvenanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelProvenanceResource(), fieldMap, readSingularDatascienceModelProvenance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelProvenanceResource(), fieldMap, readSingularDatascienceModelProvenanceWithContext)
 }
 
-func readSingularDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceModelProvenanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelProvenanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelProvenanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceModelProvenanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelProvenanceDataSourceCrud) Get() error {
+func (s *DatascienceModelProvenanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelProvenanceRequest{}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceModelProvenanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelProvenance(context.Background(), request)
+	response, err := s.Client.GetModelProvenance(ctx, request)
 	if err != nil {
 		return err
 	}

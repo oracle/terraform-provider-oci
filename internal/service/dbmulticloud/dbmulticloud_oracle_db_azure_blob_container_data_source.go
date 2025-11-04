@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudOracleDbAzureBlobContainerDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbAzureBlobContainerResource(), fieldMap, readSingularDbmulticloudOracleDbAzureBlobContainer)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbAzureBlobContainerResource(), fieldMap, readSingularDbmulticloudOracleDbAzureBlobContainerWithContext)
 }
 
-func readSingularDbmulticloudOracleDbAzureBlobContainer(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudOracleDbAzureBlobContainerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureBlobContainerDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureBlobContainerDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureBlobContainerDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbAzureBlobContainerRequest{}
 
 	if oracleDbAzureBlobContainerId, ok := s.D.GetOkExists("oracle_db_azure_blob_container_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbAzureBlobContainer(context.Background(), request)
+	response, err := s.Client.GetOracleDbAzureBlobContainer(ctx, request)
 	if err != nil {
 		return err
 	}

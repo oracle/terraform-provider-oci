@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -28,10 +28,10 @@ func GoldenGateDeploymentCertificateResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGoldenGateDeploymentCertificate,
-		Read:     readGoldenGateDeploymentCertificate,
-		Delete:   deleteGoldenGateDeploymentCertificate,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createGoldenGateDeploymentCertificateWithContext,
+		ReadContext:   readGoldenGateDeploymentCertificateWithContext,
+		DeleteContext: deleteGoldenGateDeploymentCertificateWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"certificate_content": {
@@ -131,29 +131,29 @@ func GoldenGateDeploymentCertificateResource() *schema.Resource {
 	}
 }
 
-func createGoldenGateDeploymentCertificate(d *schema.ResourceData, m interface{}) error {
+func createGoldenGateDeploymentCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGoldenGateDeploymentCertificate(d *schema.ResourceData, m interface{}) error {
+func readGoldenGateDeploymentCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteGoldenGateDeploymentCertificate(d *schema.ResourceData, m interface{}) error {
+func deleteGoldenGateDeploymentCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateDeploymentCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GoldenGateDeploymentCertificateResourceCrud struct {
@@ -212,7 +212,7 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GoldenGateDeploymentCertificateResourceCrud) Create() error {
+func (s *GoldenGateDeploymentCertificateResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_golden_gate.CreateCertificateRequest{}
 
 	if certificateContent, ok := s.D.GetOkExists("certificate_content"); ok {
@@ -237,20 +237,20 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.CreateCertificate(context.Background(), request)
+	response, err := s.Client.CreateCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentCertificateFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentCertificateFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GoldenGateDeploymentCertificateResourceCrud) getDeploymentCertificateFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GoldenGateDeploymentCertificateResourceCrud) getDeploymentCertificateFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	certificateKey, deploymentId, err := deploymentCertificateWaitForWorkRequest(workId,
+	certificateKey, deploymentId, err := deploymentCertificateWaitForWorkRequest(ctx, workId,
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -258,7 +258,7 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) getDeploymentCertificateFr
 	}
 	s.D.SetId(GetDeploymentCertificateCompositeId(*certificateKey, *deploymentId))
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func deploymentCertificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -284,7 +284,7 @@ func deploymentCertificateWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func deploymentCertificateWaitForWorkRequest(wId *string, action oci_golden_gate.ActionTypeEnum,
+func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, *string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = deploymentCertificateWorkRequestShouldRetryFunc(timeout)
@@ -365,7 +365,7 @@ func getErrorFromGoldenGateDeploymentCertificateWorkRequest(client *oci_golden_g
 	return workRequestErr
 }
 
-func (s *GoldenGateDeploymentCertificateResourceCrud) Get() error {
+func (s *GoldenGateDeploymentCertificateResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetCertificateRequest{}
 
 	certificateKey, deploymentId, err := parseDeploymentCertificateCompositeId(s.D.Id())
@@ -378,7 +378,7 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetCertificate(context.Background(), request)
+	response, err := s.Client.GetCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -387,7 +387,7 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GoldenGateDeploymentCertificateResourceCrud) Delete() error {
+func (s *GoldenGateDeploymentCertificateResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_golden_gate.DeleteCertificateRequest{}
 
 	if key, ok := s.D.GetOkExists("key"); ok {
@@ -407,14 +407,14 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeleteCertificate(context.Background(), request)
+	response, err := s.Client.DeleteCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, _, delWorkRequestErr := deploymentCertificateWaitForWorkRequest(workId,
+	_, _, delWorkRequestErr := deploymentCertificateWaitForWorkRequest(ctx, workId,
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

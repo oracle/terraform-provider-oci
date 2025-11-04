@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_vn_monitoring "github.com/oracle/oci-go-sdk/v65/vnmonitoring"
 
@@ -26,10 +26,10 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createVnMonitoringPathAnalysi,
-		Read:     readVnMonitoringPathAnalysi,
-		Delete:   deleteVnMonitoringPathAnalysi,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createVnMonitoringPathAnalysiWithContext,
+		ReadContext:   readVnMonitoringPathAnalysiWithContext,
+		DeleteContext: deleteVnMonitoringPathAnalysiWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"type": {
@@ -339,19 +339,19 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 	}
 }
 
-func createVnMonitoringPathAnalysi(d *schema.ResourceData, m interface{}) error {
+func createVnMonitoringPathAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VnMonitoringPathAnalysiResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VnMonitoringClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readVnMonitoringPathAnalysi(d *schema.ResourceData, m interface{}) error {
+func readVnMonitoringPathAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteVnMonitoringPathAnalysi(d *schema.ResourceData, m interface{}) error {
+func deleteVnMonitoringPathAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -365,7 +365,7 @@ func (s *VnMonitoringPathAnalysiResourceCrud) ID() string {
 	return s.D.Id()
 }
 
-func (s *VnMonitoringPathAnalysiResourceCrud) Create() error {
+func (s *VnMonitoringPathAnalysiResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_vn_monitoring.GetPathAnalysisRequest{}
 	err := s.populateTopLevelPolymorphicGetPathAnalysisRequest(&request)
 	if err != nil {
@@ -374,14 +374,14 @@ func (s *VnMonitoringPathAnalysiResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vn_monitoring")
 
-	response, err := s.Client.GetPathAnalysis(context.Background(), request)
+	response, err := s.Client.GetPathAnalysis(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_vn_monitoring.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_vn_monitoring.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -397,14 +397,14 @@ func (s *VnMonitoringPathAnalysiResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getPathAnalysiFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vn_monitoring"), oci_vn_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPathAnalysiFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vn_monitoring"), oci_vn_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *VnMonitoringPathAnalysiResourceCrud) getPathAnalysiFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *VnMonitoringPathAnalysiResourceCrud) getPathAnalysiFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_vn_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	pathAnalysiId, err := pathAnalysiWaitForWorkRequest(workId, "vn_monitoring",
+	pathAnalysiId, err := pathAnalysiWaitForWorkRequest(ctx, workId, "vn_monitoring",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 	log.Printf("[WARN] Received 'type' of unknown type %v", *pathAnalysiId)
 
@@ -439,7 +439,7 @@ func pathAnalysiWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func pathAnalysiWaitForWorkRequest(wId *string, entityType string, action oci_vn_monitoring.ActionTypeEnum,
+func pathAnalysiWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_vn_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_vn_monitoring.VnMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "vn_monitoring")
 	retryPolicy.ShouldRetryOperation = pathAnalysiWorkRequestShouldRetryFunc(timeout)
@@ -458,7 +458,7 @@ func pathAnalysiWaitForWorkRequest(wId *string, entityType string, action oci_vn
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_vn_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -485,14 +485,14 @@ func pathAnalysiWaitForWorkRequest(wId *string, entityType string, action oci_vn
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.Status == oci_vn_monitoring.OperationStatusFailed || response.Status == oci_vn_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromVnMonitoringPathAnalysiWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromVnMonitoringPathAnalysiWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return wId, nil
 }
 
-func getErrorFromVnMonitoringPathAnalysiWorkRequest(client *oci_vn_monitoring.VnMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_vn_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromVnMonitoringPathAnalysiWorkRequest(ctx context.Context, client *oci_vn_monitoring.VnMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_vn_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_vn_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

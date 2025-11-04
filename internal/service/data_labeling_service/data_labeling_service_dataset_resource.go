@@ -10,15 +10,15 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v65/datalabelingservice"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v65/datalabelingservice"
 )
 
 func DataLabelingServiceDatasetResource() *schema.Resource {
@@ -26,11 +26,11 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataLabelingServiceDataset,
-		Read:     readDataLabelingServiceDataset,
-		Update:   updateDataLabelingServiceDataset,
-		Delete:   deleteDataLabelingServiceDataset,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataLabelingServiceDatasetWithContext,
+		ReadContext:   readDataLabelingServiceDatasetWithContext,
+		UpdateContext: updateDataLabelingServiceDatasetWithContext,
+		DeleteContext: deleteDataLabelingServiceDatasetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"annotation_format": {
@@ -359,37 +359,37 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 	}
 }
 
-func createDataLabelingServiceDataset(d *schema.ResourceData, m interface{}) error {
+func createDataLabelingServiceDatasetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataLabelingServiceDataset(d *schema.ResourceData, m interface{}) error {
+func readDataLabelingServiceDatasetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataLabelingServiceDataset(d *schema.ResourceData, m interface{}) error {
+func updateDataLabelingServiceDatasetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataLabelingServiceDataset(d *schema.ResourceData, m interface{}) error {
+func deleteDataLabelingServiceDatasetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataLabelingServiceDatasetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataLabelingServiceDatasetResourceCrud struct {
@@ -428,7 +428,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
+func (s *DataLabelingServiceDatasetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_labeling_service.CreateDatasetRequest{}
 
 	if annotationFormat, ok := s.D.GetOkExists("annotation_format"); ok {
@@ -525,7 +525,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	response, err := s.Client.CreateDataset(context.Background(), request)
+	response, err := s.Client.CreateDataset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -536,14 +536,14 @@ func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDatasetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatasetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) getDatasetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataLabelingServiceDatasetResourceCrud) getDatasetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_labeling_service.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	datasetId, err := datasetWaitForWorkRequest(workId, "dataset",
+	datasetId, err := datasetWaitForWorkRequest(ctx, workId, "dataset",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -551,7 +551,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) getDatasetFromWorkRequest(workI
 	}
 	s.D.SetId(*datasetId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func datasetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -577,7 +577,7 @@ func datasetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func datasetWaitForWorkRequest(wId *string, entityType string, action oci_data_labeling_service.ActionTypeEnum,
+func datasetWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_labeling_service.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_labeling_service.DataLabelingManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_labeling_service")
 	retryPolicy.ShouldRetryOperation = datasetWorkRequestShouldRetryFunc(timeout)
@@ -596,7 +596,7 @@ func datasetWaitForWorkRequest(wId *string, entityType string, action oci_data_l
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_labeling_service.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -625,14 +625,14 @@ func datasetWaitForWorkRequest(wId *string, entityType string, action oci_data_l
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_labeling_service.OperationStatusFailed || response.Status == oci_data_labeling_service.OperationStatusCanceled {
-		return nil, getErrorFromDataLabelingServiceDatasetWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataLabelingServiceDatasetWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataLabelingServiceDatasetWorkRequest(client *oci_data_labeling_service.DataLabelingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_labeling_service.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataLabelingServiceDatasetWorkRequest(ctx context.Context, client *oci_data_labeling_service.DataLabelingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_labeling_service.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_labeling_service.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -654,7 +654,7 @@ func getErrorFromDataLabelingServiceDatasetWorkRequest(client *oci_data_labeling
 	return workRequestErr
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) Get() error {
+func (s *DataLabelingServiceDatasetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_labeling_service.GetDatasetRequest{}
 
 	tmp := s.D.Id()
@@ -662,7 +662,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	response, err := s.Client.GetDataset(context.Background(), request)
+	response, err := s.Client.GetDataset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -671,10 +671,10 @@ func (s *DataLabelingServiceDatasetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
+func (s *DataLabelingServiceDatasetResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("importFormat"); ok && s.D.HasChange("importFormat") {
-		err := s.ImportPreAnnotatedData()
+		err := s.ImportPreAnnotatedData(ctx)
 		if err != nil {
 			return err
 		}
@@ -682,7 +682,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -700,7 +700,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 		if err != nil {
 			return err
 		}
-		err = s.updateLabelSet(oldLabelSet, newLabelSet)
+		err = s.updateLabelSet(ctx, oldLabelSet, newLabelSet)
 		if err != nil {
 			return err
 		}
@@ -740,7 +740,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	response, err := s.Client.UpdateDataset(context.Background(), request)
+	response, err := s.Client.UpdateDataset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -749,7 +749,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) Delete() error {
+func (s *DataLabelingServiceDatasetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_labeling_service.DeleteDatasetRequest{}
 
 	tmp := s.D.Id()
@@ -757,14 +757,14 @@ func (s *DataLabelingServiceDatasetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	response, err := s.Client.DeleteDataset(context.Background(), request)
+	response, err := s.Client.DeleteDataset(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := datasetWaitForWorkRequest(workId, "dataset",
+	_, delWorkRequestErr := datasetWaitForWorkRequest(ctx, workId, "dataset",
 		oci_data_labeling_service.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -855,7 +855,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) ImportPreAnnotatedData() error {
+func (s *DataLabelingServiceDatasetResourceCrud) ImportPreAnnotatedData(ctx context.Context) error {
 	request := oci_data_labeling_service.ImportPreAnnotatedDataRequest{}
 
 	idTmp := s.D.Id()
@@ -885,12 +885,12 @@ func (s *DataLabelingServiceDatasetResourceCrud) ImportPreAnnotatedData() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	_, err := s.Client.ImportPreAnnotatedData(context.Background(), request)
+	_, err := s.Client.ImportPreAnnotatedData(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1347,7 +1347,7 @@ func TextFileTypeMetadataToMap(obj *oci_data_labeling_service.TextFileTypeMetada
 	return result
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataLabelingServiceDatasetResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_labeling_service.ChangeDatasetCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1358,16 +1358,16 @@ func (s *DataLabelingServiceDatasetResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 
-	response, err := s.Client.ChangeDatasetCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDatasetCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatasetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatasetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(oldLabelSet, newLabelSet oci_data_labeling_service.LabelSet) error {
+func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(ctx context.Context, oldLabelSet, newLabelSet oci_data_labeling_service.LabelSet) error {
 	addDatasetLabelsRequest := oci_data_labeling_service.AddDatasetLabelsRequest{}
 	labelSetDiffAdd := make([]oci_data_labeling_service.Label, 0)
 
@@ -1397,7 +1397,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(oldLabelSet, new
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getDatasetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getDatasetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -1431,7 +1431,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(oldLabelSet, new
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getDatasetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getDatasetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service"), oci_data_labeling_service.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}

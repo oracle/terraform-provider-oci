@@ -6,6 +6,7 @@ package security_attribute
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_security_attribute "github.com/oracle/oci-go-sdk/v65/securityattribute"
 
@@ -15,7 +16,7 @@ import (
 
 func SecurityAttributeSecurityAttributesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSecurityAttributeSecurityAttributes,
+		ReadContext: readSecurityAttributeSecurityAttributesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"security_attribute_namespace_id": {
@@ -35,12 +36,12 @@ func SecurityAttributeSecurityAttributesDataSource() *schema.Resource {
 	}
 }
 
-func readSecurityAttributeSecurityAttributes(d *schema.ResourceData, m interface{}) error {
+func readSecurityAttributeSecurityAttributesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type SecurityAttributeSecurityAttributesDataSourceCrud struct {
@@ -53,7 +54,7 @@ func (s *SecurityAttributeSecurityAttributesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SecurityAttributeSecurityAttributesDataSourceCrud) Get() error {
+func (s *SecurityAttributeSecurityAttributesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_security_attribute.ListSecurityAttributesRequest{}
 
 	if securityAttributeNamespaceId, ok := s.D.GetOkExists("security_attribute_namespace_id"); ok {
@@ -67,7 +68,7 @@ func (s *SecurityAttributeSecurityAttributesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "security_attribute")
 
-	response, err := s.Client.ListSecurityAttributes(context.Background(), request)
+	response, err := s.Client.ListSecurityAttributes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func (s *SecurityAttributeSecurityAttributesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSecurityAttributes(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityAttributes(ctx, request)
 		if err != nil {
 			return err
 		}

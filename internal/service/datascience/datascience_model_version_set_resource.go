@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -25,11 +25,11 @@ func DatascienceModelVersionSetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceModelVersionSet,
-		Read:     readDatascienceModelVersionSet,
-		Update:   updateDatascienceModelVersionSet,
-		Delete:   deleteDatascienceModelVersionSet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceModelVersionSetWithContext,
+		ReadContext:   readDatascienceModelVersionSetWithContext,
+		UpdateContext: updateDatascienceModelVersionSetWithContext,
+		DeleteContext: deleteDatascienceModelVersionSetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -97,37 +97,37 @@ func DatascienceModelVersionSetResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelVersionSet(d *schema.ResourceData, m interface{}) error {
+func createDatascienceModelVersionSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelVersionSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceModelVersionSet(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelVersionSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelVersionSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceModelVersionSet(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceModelVersionSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelVersionSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatascienceModelVersionSet(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceModelVersionSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelVersionSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatascienceModelVersionSetResourceCrud struct {
@@ -163,7 +163,7 @@ func (s *DatascienceModelVersionSetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) Create() error {
+func (s *DatascienceModelVersionSetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateModelVersionSetRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -200,7 +200,7 @@ func (s *DatascienceModelVersionSetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateModelVersionSet(context.Background(), request)
+	response, err := s.Client.CreateModelVersionSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -209,11 +209,11 @@ func (s *DatascienceModelVersionSetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) getModelVersionSetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceModelVersionSetResourceCrud) getModelVersionSetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	modelVersionSetId, err := modelVersionSetWaitForWorkRequest(workId, "modelversionset",
+	modelVersionSetId, err := modelVersionSetWaitForWorkRequest(ctx, workId, "modelversionset",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -233,7 +233,7 @@ func (s *DatascienceModelVersionSetResourceCrud) getModelVersionSetFromWorkReque
 	}
 	s.D.SetId(*modelVersionSetId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func modelVersionSetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -259,7 +259,7 @@ func modelVersionSetWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func modelVersionSetWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func modelVersionSetWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = modelVersionSetWorkRequestShouldRetryFunc(timeout)
@@ -336,7 +336,7 @@ func getErrorFromDatascienceModelVersionSetWorkRequest(client *oci_datascience.D
 	return workRequestErr
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) Get() error {
+func (s *DatascienceModelVersionSetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelVersionSetRequest{}
 
 	tmp := s.D.Id()
@@ -344,7 +344,7 @@ func (s *DatascienceModelVersionSetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetModelVersionSet(context.Background(), request)
+	response, err := s.Client.GetModelVersionSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -353,11 +353,11 @@ func (s *DatascienceModelVersionSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) Update() error {
+func (s *DatascienceModelVersionSetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -387,7 +387,7 @@ func (s *DatascienceModelVersionSetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateModelVersionSet(context.Background(), request)
+	response, err := s.Client.UpdateModelVersionSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -396,7 +396,7 @@ func (s *DatascienceModelVersionSetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) Delete() error {
+func (s *DatascienceModelVersionSetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteModelVersionSetRequest{}
 
 	if isDeleteRelatedModels, ok := s.D.GetOkExists("is_delete_related_models"); ok {
@@ -409,14 +409,14 @@ func (s *DatascienceModelVersionSetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteModelVersionSet(context.Background(), request)
+	response, err := s.Client.DeleteModelVersionSet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := modelVersionSetWaitForWorkRequest(workId, "modelversionset",
+	_, delWorkRequestErr := modelVersionSetWaitForWorkRequest(ctx, workId, "modelversionset",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -467,7 +467,7 @@ func (s *DatascienceModelVersionSetResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatascienceModelVersionSetResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatascienceModelVersionSetResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeModelVersionSetCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -484,5 +484,5 @@ func (s *DatascienceModelVersionSetResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelVersionSetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getModelVersionSetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

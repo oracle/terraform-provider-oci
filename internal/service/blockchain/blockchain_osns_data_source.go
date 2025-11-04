@@ -6,6 +6,7 @@ package blockchain
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func BlockchainOsnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBlockchainOsns,
+		ReadContext: readBlockchainOsnsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
@@ -44,12 +45,12 @@ func BlockchainOsnsDataSource() *schema.Resource {
 	}
 }
 
-func readBlockchainOsns(d *schema.ResourceData, m interface{}) error {
+func readBlockchainOsnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainOsnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BlockchainOsnsDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *BlockchainOsnsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainOsnsDataSourceCrud) Get() error {
+func (s *BlockchainOsnsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_blockchain.ListOsnsRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -77,7 +78,7 @@ func (s *BlockchainOsnsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.ListOsns(context.Background(), request)
+	response, err := s.Client.ListOsns(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *BlockchainOsnsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOsns(context.Background(), request)
+		listResponse, err := s.Client.ListOsns(ctx, request)
 		if err != nil {
 			return err
 		}

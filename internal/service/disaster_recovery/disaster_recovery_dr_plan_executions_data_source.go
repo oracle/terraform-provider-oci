@@ -6,6 +6,7 @@ package disaster_recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -15,7 +16,7 @@ import (
 
 func DisasterRecoveryDrPlanExecutionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDisasterRecoveryDrPlanExecutions,
+		ReadContext: readDisasterRecoveryDrPlanExecutionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -52,12 +53,12 @@ func DisasterRecoveryDrPlanExecutionsDataSource() *schema.Resource {
 	}
 }
 
-func readDisasterRecoveryDrPlanExecutions(d *schema.ResourceData, m interface{}) error {
+func readDisasterRecoveryDrPlanExecutionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DisasterRecoveryDrPlanExecutionsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) Get() error {
+func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.ListDrPlanExecutionsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -94,7 +95,7 @@ func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.ListDrPlanExecutions(context.Background(), request)
+	response, err := s.Client.ListDrPlanExecutions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDrPlanExecutions(context.Background(), request)
+		listResponse, err := s.Client.ListDrPlanExecutions(ctx, request)
 		if err != nil {
 			return err
 		}

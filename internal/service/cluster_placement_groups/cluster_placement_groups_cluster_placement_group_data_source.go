@@ -6,6 +6,7 @@ package cluster_placement_groups
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cluster_placement_groups "github.com/oracle/oci-go-sdk/v65/clusterplacementgroups"
 
@@ -19,15 +20,15 @@ func ClusterPlacementGroupsClusterPlacementGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ClusterPlacementGroupsClusterPlacementGroupResource(), fieldMap, readSingularClusterPlacementGroupsClusterPlacementGroup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ClusterPlacementGroupsClusterPlacementGroupResource(), fieldMap, readSingularClusterPlacementGroupsClusterPlacementGroupWithContext)
 }
 
-func readSingularClusterPlacementGroupsClusterPlacementGroup(d *schema.ResourceData, m interface{}) error {
+func readSingularClusterPlacementGroupsClusterPlacementGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud) Get() error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cluster_placement_groups.GetClusterPlacementGroupRequest{}
 
 	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
@@ -50,7 +51,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupDataSourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cluster_placement_groups")
 
-	response, err := s.Client.GetClusterPlacementGroup(context.Background(), request)
+	response, err := s.Client.GetClusterPlacementGroup(ctx, request)
 	if err != nil {
 		return err
 	}

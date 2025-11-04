@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -25,15 +26,15 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+		CreateContext: createLustreFileStorageLustreFileSystemWithContext,
+		ReadContext:   readLustreFileStorageLustreFileSystemWithContext,
+		UpdateContext: updateLustreFileStorageLustreFileSystemWithContext,
+		DeleteContext: deleteLustreFileStorageLustreFileSystemWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("2h0m"),
 			Update: tfresource.GetTimeoutDuration("2h0m"),
 			Delete: tfresource.GetTimeoutDuration("2h0m"),
 		},
-		Create: createLustreFileStorageLustreFileSystem,
-		Read:   readLustreFileStorageLustreFileSystem,
-		Update: updateLustreFileStorageLustreFileSystem,
-		Delete: deleteLustreFileStorageLustreFileSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -217,37 +218,37 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 	}
 }
 
-func createLustreFileStorageLustreFileSystem(d *schema.ResourceData, m interface{}) error {
+func createLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LustreFileStorageLustreFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLustreFileStorageLustreFileSystem(d *schema.ResourceData, m interface{}) error {
+func readLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LustreFileStorageLustreFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLustreFileStorageLustreFileSystem(d *schema.ResourceData, m interface{}) error {
+func updateLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LustreFileStorageLustreFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLustreFileStorageLustreFileSystem(d *schema.ResourceData, m interface{}) error {
+func deleteLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LustreFileStorageLustreFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LustreFileStorageLustreFileSystemResourceCrud struct {
@@ -285,7 +286,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) Create() error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_lustre_file_storage.CreateLustreFileSystemRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -376,7 +377,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	response, err := s.Client.CreateLustreFileSystem(context.Background(), request)
+	response, err := s.Client.CreateLustreFileSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -387,20 +388,20 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getLustreFileSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLustreFileSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) getLustreFileSystemFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *LustreFileStorageLustreFileSystemResourceCrud) getLustreFileSystemFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_lustre_file_storage.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	lustreFileSystemId, err := lustreFileSystemWaitForWorkRequest(workId, "lustrefilesystem",
+	lustreFileSystemId, err := lustreFileSystemWaitForWorkRequest(ctx, workId, "lustrefilesystem",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, lustreFileSystemId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_lustre_file_storage.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -414,7 +415,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) getLustreFileSystemFromW
 	}
 	s.D.SetId(*lustreFileSystemId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func lustreFileSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -440,7 +441,7 @@ func lustreFileSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func lustreFileSystemWaitForWorkRequest(wId *string, entityType string, action oci_lustre_file_storage.ActionTypeEnum,
+func lustreFileSystemWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_lustre_file_storage.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_lustre_file_storage.LustreFileStorageClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "lustre_file_storage")
 	retryPolicy.ShouldRetryOperation = lustreFileSystemWorkRequestShouldRetryFunc(timeout)
@@ -459,7 +460,7 @@ func lustreFileSystemWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_lustre_file_storage.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -488,14 +489,14 @@ func lustreFileSystemWaitForWorkRequest(wId *string, entityType string, action o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_lustre_file_storage.OperationStatusFailed || response.Status == oci_lustre_file_storage.OperationStatusCanceled {
-		return nil, getErrorFromLustreFileStorageLustreFileSystemWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLustreFileStorageLustreFileSystemWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromLustreFileStorageLustreFileSystemWorkRequest(client *oci_lustre_file_storage.LustreFileStorageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_lustre_file_storage.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromLustreFileStorageLustreFileSystemWorkRequest(ctx context.Context, client *oci_lustre_file_storage.LustreFileStorageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_lustre_file_storage.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_lustre_file_storage.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -517,7 +518,7 @@ func getErrorFromLustreFileStorageLustreFileSystemWorkRequest(client *oci_lustre
 	return workRequestErr
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) Get() error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_lustre_file_storage.GetLustreFileSystemRequest{}
 
 	tmp := s.D.Id()
@@ -525,7 +526,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	response, err := s.Client.GetLustreFileSystem(context.Background(), request)
+	response, err := s.Client.GetLustreFileSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -534,11 +535,11 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) Update() error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -616,16 +617,16 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	response, err := s.Client.UpdateLustreFileSystem(context.Background(), request)
+	response, err := s.Client.UpdateLustreFileSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLustreFileSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLustreFileSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) Delete() error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_lustre_file_storage.DeleteLustreFileSystemRequest{}
 
 	tmp := s.D.Id()
@@ -633,14 +634,14 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	response, err := s.Client.DeleteLustreFileSystem(context.Background(), request)
+	response, err := s.Client.DeleteLustreFileSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := lustreFileSystemWaitForWorkRequest(workId, "lustrefilesystem",
+	_, delWorkRequestErr := lustreFileSystemWaitForWorkRequest(ctx, workId, "lustrefilesystem",
 		oci_lustre_file_storage.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -922,7 +923,7 @@ func RootSquashConfigurationToMap(obj *oci_lustre_file_storage.RootSquashConfigu
 	return result
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_lustre_file_storage.ChangeLustreFileSystemCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -933,11 +934,11 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	response, err := s.Client.ChangeLustreFileSystemCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeLustreFileSystemCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLustreFileSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLustreFileSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage"), oci_lustre_file_storage.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

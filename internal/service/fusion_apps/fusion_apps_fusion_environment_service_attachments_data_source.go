@@ -6,6 +6,7 @@ package fusion_apps
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -15,7 +16,7 @@ import (
 
 func FusionAppsFusionEnvironmentServiceAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFusionAppsFusionEnvironmentServiceAttachments,
+		ReadContext: readFusionAppsFusionEnvironmentServiceAttachmentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -52,12 +53,12 @@ func FusionAppsFusionEnvironmentServiceAttachmentsDataSource() *schema.Resource 
 	}
 }
 
-func readFusionAppsFusionEnvironmentServiceAttachments(d *schema.ResourceData, m interface{}) error {
+func readFusionAppsFusionEnvironmentServiceAttachmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) VoidState(
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.ListServiceAttachmentsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -93,7 +94,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) Get() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.ListServiceAttachments(context.Background(), request)
+	response, err := s.Client.ListServiceAttachments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -102,7 +103,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) Get() erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListServiceAttachments(context.Background(), request)
+		listResponse, err := s.Client.ListServiceAttachments(ctx, request)
 		if err != nil {
 			return err
 		}

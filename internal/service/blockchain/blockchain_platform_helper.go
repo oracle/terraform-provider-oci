@@ -31,7 +31,7 @@ func blockchainPlatformComputeShapeDiffSuppressFunction(key string, old string, 
 	return upperCaseOldValue == upperCaseNewValue
 }
 
-func sendUpdateBlockchainPlatformRequest(s *BlockchainBlockchainPlatformResourceCrud, request oci_blockchain.UpdateBlockchainPlatformRequest) error {
+func sendUpdateBlockchainPlatformRequest(ctx context.Context, s *BlockchainBlockchainPlatformResourceCrud, request oci_blockchain.UpdateBlockchainPlatformRequest) error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.UpdateBlockchainPlatform(context.Background(), request)
@@ -40,7 +40,7 @@ func sendUpdateBlockchainPlatformRequest(s *BlockchainBlockchainPlatformResource
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBlockchainPlatformFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getBlockchainPlatformFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

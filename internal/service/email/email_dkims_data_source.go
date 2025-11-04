@@ -6,6 +6,7 @@ package email
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func EmailDkimsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readEmailDkims,
+		ReadContext: readEmailDkimsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"email_domain_id": {
@@ -52,12 +53,12 @@ func EmailDkimsDataSource() *schema.Resource {
 	}
 }
 
-func readEmailDkims(d *schema.ResourceData, m interface{}) error {
+func readEmailDkimsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &EmailDkimsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type EmailDkimsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *EmailDkimsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailDkimsDataSourceCrud) Get() error {
+func (s *EmailDkimsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_email.ListDkimsRequest{}
 
 	if emailDomainId, ok := s.D.GetOkExists("email_domain_id"); ok {
@@ -94,7 +95,7 @@ func (s *EmailDkimsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.ListDkims(context.Background(), request)
+	response, err := s.Client.ListDkims(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *EmailDkimsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDkims(context.Background(), request)
+		listResponse, err := s.Client.ListDkims(ctx, request)
 		if err != nil {
 			return err
 		}

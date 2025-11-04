@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -25,11 +25,11 @@ func DbmulticloudOracleDbGcpIdentityConnectorResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDbmulticloudOracleDbGcpIdentityConnector,
-		Read:     readDbmulticloudOracleDbGcpIdentityConnector,
-		Update:   updateDbmulticloudOracleDbGcpIdentityConnector,
-		Delete:   deleteDbmulticloudOracleDbGcpIdentityConnector,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDbmulticloudOracleDbGcpIdentityConnectorWithContext,
+		ReadContext:   readDbmulticloudOracleDbGcpIdentityConnectorWithContext,
+		UpdateContext: updateDbmulticloudOracleDbGcpIdentityConnectorWithContext,
+		DeleteContext: deleteDbmulticloudOracleDbGcpIdentityConnectorWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -143,40 +143,40 @@ func DbmulticloudOracleDbGcpIdentityConnectorResource() *schema.Resource {
 	}
 }
 
-func createDbmulticloudOracleDbGcpIdentityConnector(d *schema.ResourceData, m interface{}) error {
+func createDbmulticloudOracleDbGcpIdentityConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDbmulticloudOracleDbGcpIdentityConnector(d *schema.ResourceData, m interface{}) error {
+func readDbmulticloudOracleDbGcpIdentityConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDbmulticloudOracleDbGcpIdentityConnector(d *schema.ResourceData, m interface{}) error {
+func updateDbmulticloudOracleDbGcpIdentityConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDbmulticloudOracleDbGcpIdentityConnector(d *schema.ResourceData, m interface{}) error {
+func deleteDbmulticloudOracleDbGcpIdentityConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DbmulticloudOracleDbGcpIdentityConnectorResourceCrud struct {
@@ -215,7 +215,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) DeletedTarget() [
 	}
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Create() error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.CreateOracleDbGcpIdentityConnectorRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -277,7 +277,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.CreateOracleDbGcpIdentityConnector(context.Background(), request)
+	response, err := s.Client.CreateOracleDbGcpIdentityConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -288,20 +288,20 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) getOracleDbGcpIdentityConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) getOracleDbGcpIdentityConnectorFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dbmulticloud.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	oracleDbGcpIdentityConnectorId, err := oracleDbGcpIdentityConnectorWaitForWorkRequest(workId, "oracledbgcpconnector",
+	oracleDbGcpIdentityConnectorId, err := oracleDbGcpIdentityConnectorWaitForWorkRequest(ctx, workId, "oracledbgcpconnector",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, oracleDbGcpIdentityConnectorId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
 			oci_dbmulticloud.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -315,7 +315,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) getOracleDbGcpIde
 	}
 	s.D.SetId(*oracleDbGcpIdentityConnectorId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func oracleDbGcpIdentityConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -341,7 +341,7 @@ func oracleDbGcpIdentityConnectorWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func oracleDbGcpIdentityConnectorWaitForWorkRequest(wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
+func oracleDbGcpIdentityConnectorWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dbmulticloud.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dbmulticloud")
 	retryPolicy.ShouldRetryOperation = oracleDbGcpIdentityConnectorWorkRequestShouldRetryFunc(timeout)
@@ -360,7 +360,7 @@ func oracleDbGcpIdentityConnectorWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_dbmulticloud.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -389,14 +389,14 @@ func oracleDbGcpIdentityConnectorWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dbmulticloud.OperationStatusFailed || response.Status == oci_dbmulticloud.OperationStatusCanceled {
-		return nil, getErrorFromDbmulticloudOracleDbGcpIdentityConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDbmulticloudOracleDbGcpIdentityConnectorWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDbmulticloudOracleDbGcpIdentityConnectorWorkRequest(client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDbmulticloudOracleDbGcpIdentityConnectorWorkRequest(ctx context.Context, client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_dbmulticloud.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -418,7 +418,7 @@ func getErrorFromDbmulticloudOracleDbGcpIdentityConnectorWorkRequest(client *oci
 	return workRequestErr
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Get() error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbGcpIdentityConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -426,7 +426,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbGcpIdentityConnector(context.Background(), request)
+	response, err := s.Client.GetOracleDbGcpIdentityConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -435,11 +435,11 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Update() error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -504,16 +504,16 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.UpdateOracleDbGcpIdentityConnector(context.Background(), request)
+	response, err := s.Client.UpdateOracleDbGcpIdentityConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Delete() error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.DeleteOracleDbGcpIdentityConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -521,14 +521,14 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.DeleteOracleDbGcpIdentityConnector(context.Background(), request)
+	response, err := s.Client.DeleteOracleDbGcpIdentityConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := oracleDbGcpIdentityConnectorWaitForWorkRequest(workId, "oracledbgcpconnector",
+	_, delWorkRequestErr := oracleDbGcpIdentityConnectorWaitForWorkRequest(ctx, workId, "oracledbgcpconnector",
 		oci_dbmulticloud.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -703,7 +703,7 @@ func OracleDbGcpIdentityConnectorSummaryToMap(obj oci_dbmulticloud.OracleDbGcpId
 	return result
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_dbmulticloud.ChangeOracleDbGcpIdentityConnectorCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -714,11 +714,11 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorResourceCrud) updateCompartment
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.ChangeOracleDbGcpIdentityConnectorCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOracleDbGcpIdentityConnectorCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbGcpIdentityConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

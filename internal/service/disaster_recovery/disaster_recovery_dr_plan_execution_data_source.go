@@ -6,6 +6,7 @@ package disaster_recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -19,15 +20,15 @@ func DisasterRecoveryDrPlanExecutionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DisasterRecoveryDrPlanExecutionResource(), fieldMap, readSingularDisasterRecoveryDrPlanExecution)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DisasterRecoveryDrPlanExecutionResource(), fieldMap, readSingularDisasterRecoveryDrPlanExecutionWithContext)
 }
 
-func readSingularDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
+func readSingularDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanExecutionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DisasterRecoveryDrPlanExecutionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) Get() error {
+func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.GetDrPlanExecutionRequest{}
 
 	if drPlanExecutionId, ok := s.D.GetOkExists("dr_plan_execution_id"); ok {
@@ -50,7 +51,7 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.GetDrPlanExecution(context.Background(), request)
+	response, err := s.Client.GetDrPlanExecution(ctx, request)
 	if err != nil {
 		return err
 	}

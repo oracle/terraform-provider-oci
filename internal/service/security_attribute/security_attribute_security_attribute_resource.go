@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_security_attribute "github.com/oracle/oci-go-sdk/v65/securityattribute"
 
@@ -33,10 +33,10 @@ func SecurityAttributeSecurityAttributeResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("15m"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createSecurityAttributeSecurityAttribute,
-		Read:   readSecurityAttributeSecurityAttribute,
-		Update: updateSecurityAttributeSecurityAttribute,
-		Delete: deleteSecurityAttributeSecurityAttribute,
+		CreateContext: createSecurityAttributeSecurityAttributeWithContext,
+		ReadContext:   readSecurityAttributeSecurityAttributeWithContext,
+		UpdateContext: updateSecurityAttributeSecurityAttributeWithContext,
+		DeleteContext: deleteSecurityAttributeSecurityAttributeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -119,37 +119,37 @@ func SecurityAttributeSecurityAttributeResource() *schema.Resource {
 	}
 }
 
-func createSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
+func createSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
+func readSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
+func updateSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
+func deleteSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &SecurityAttributeSecurityAttributeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type SecurityAttributeSecurityAttributeResourceCrud struct {
@@ -185,7 +185,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *SecurityAttributeSecurityAttributeResourceCrud) Create() error {
+func (s *SecurityAttributeSecurityAttributeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_security_attribute.CreateSecurityAttributeRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -216,7 +216,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "security_attribute")
 
-	response, err := s.Client.CreateSecurityAttribute(context.Background(), request)
+	response, err := s.Client.CreateSecurityAttribute(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -225,11 +225,11 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SecurityAttributeSecurityAttributeResourceCrud) getSecurityAttributeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *SecurityAttributeSecurityAttributeResourceCrud) getSecurityAttributeFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_security_attribute.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	securityAttributeId, err := securityAttributeWaitForWorkRequest(workId, "securityattributenamespace",
+	securityAttributeId, err := securityAttributeWaitForWorkRequest(ctx, workId, "securityattributenamespace",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -237,7 +237,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) getSecurityAttributeFro
 	}
 	s.D.SetId(*securityAttributeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func securityAttributeWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -263,7 +263,7 @@ func securityAttributeWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func securityAttributeWaitForWorkRequest(wId *string, entityType string, action oci_security_attribute.WorkRequestResourceActionTypeEnum,
+func securityAttributeWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_security_attribute.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_security_attribute.SecurityAttributeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "security_attribute")
 	retryPolicy.ShouldRetryOperation = securityAttributeWorkRequestShouldRetryFunc(timeout)
@@ -309,13 +309,13 @@ func securityAttributeWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_security_attribute.WorkRequestStatusFailed || response.Status == oci_security_attribute.WorkRequestStatusCanceled {
-		return nil, getErrorFromSecurityAttributeSecurityAttributeWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromSecurityAttributeSecurityAttributeWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromSecurityAttributeSecurityAttributeWorkRequest(client *oci_security_attribute.SecurityAttributeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_security_attribute.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromSecurityAttributeSecurityAttributeWorkRequest(ctx context.Context, client *oci_security_attribute.SecurityAttributeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_security_attribute.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListSecurityAttributeWorkRequestErrors(context.Background(),
 		oci_security_attribute.ListSecurityAttributeWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -338,7 +338,7 @@ func getErrorFromSecurityAttributeSecurityAttributeWorkRequest(client *oci_secur
 	return workRequestErr
 }
 
-func (s *SecurityAttributeSecurityAttributeResourceCrud) Get() error {
+func (s *SecurityAttributeSecurityAttributeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_security_attribute.GetSecurityAttributeRequest{}
 
 	if securityAttributeName, ok := s.D.GetOkExists("name"); ok {
@@ -361,7 +361,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "security_attribute")
 
-	response, err := s.Client.GetSecurityAttribute(context.Background(), request)
+	response, err := s.Client.GetSecurityAttribute(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -370,7 +370,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SecurityAttributeSecurityAttributeResourceCrud) Update() error {
+func (s *SecurityAttributeSecurityAttributeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_security_attribute.UpdateSecurityAttributeRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -406,7 +406,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "security_attribute")
 
-	response, err := s.Client.UpdateSecurityAttribute(context.Background(), request)
+	response, err := s.Client.UpdateSecurityAttribute(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -415,7 +415,7 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SecurityAttributeSecurityAttributeResourceCrud) Delete() error {
+func (s *SecurityAttributeSecurityAttributeResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_security_attribute.DeleteSecurityAttributeRequest{}
 
 	if securityAttributeName, ok := s.D.GetOkExists("name"); ok {
@@ -430,14 +430,14 @@ func (s *SecurityAttributeSecurityAttributeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "security_attribute")
 
-	response, err := s.Client.DeleteSecurityAttribute(context.Background(), request)
+	response, err := s.Client.DeleteSecurityAttribute(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := securityAttributeWaitForWorkRequest(workId, "securityattributenamespace",
+	_, delWorkRequestErr := securityAttributeWaitForWorkRequest(ctx, workId, "securityattributenamespace",
 		oci_security_attribute.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

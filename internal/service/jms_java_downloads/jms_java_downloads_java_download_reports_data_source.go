@@ -6,6 +6,7 @@ package jms_java_downloads
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsJavaDownloadsJavaDownloadReportsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsJavaDownloadsJavaDownloadReports,
+		ReadContext: readJmsJavaDownloadsJavaDownloadReportsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func JmsJavaDownloadsJavaDownloadReportsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsJavaDownloadsJavaDownloadReports(d *schema.ResourceData, m interface{}) error {
+func readJmsJavaDownloadsJavaDownloadReportsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsJavaDownloadsJavaDownloadReportsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsJavaDownloadsJavaDownloadReportsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportsDataSourceCrud) Get() error {
+func (s *JmsJavaDownloadsJavaDownloadReportsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms_java_downloads.ListJavaDownloadReportsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_java_downloads")
 
-	response, err := s.Client.ListJavaDownloadReports(context.Background(), request)
+	response, err := s.Client.ListJavaDownloadReports(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJavaDownloadReports(context.Background(), request)
+		listResponse, err := s.Client.ListJavaDownloadReports(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -63,44 +60,43 @@ variable "data_mask_rule_iam_group_id" {
 
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
-  user_ocid        = "${var.user_ocid}"
-  fingerprint      = "${var.fingerprint}"
-  private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+#  version             = "7.19.0"
 }
 
 resource "oci_cloud_guard_data_mask_rule" "test_data_mask_rule" {
   #Required
-  compartment_id       = "${var.tenancy_ocid}"
-  data_mask_categories = "${var.data_mask_rule_data_mask_categories}"
-  display_name         = "${var.data_mask_rule_display_name}"
-  iam_group_id         = "${var.data_mask_rule_iam_group_id}"
+  compartment_id       = var.tenancy_ocid
+  data_mask_categories = var.data_mask_rule_data_mask_categories
+  display_name         = var.data_mask_rule_display_name
+  iam_group_id         = var.data_mask_rule_iam_group_id
   target_selected {
     #Required
-    kind = "${var.data_mask_rule_target_selected_kind}"
+    kind = var.data_mask_rule_target_selected_kind
 
     #Optional
-    values = "${var.data_mask_rule_target_selected_values}"
+    values = var.data_mask_rule_target_selected_values
   }
 
   #Optional
-  data_mask_rule_status = "${var.data_mask_rule_data_mask_rule_status}"
-  description           = "${var.data_mask_rule_description}"
-  state                 = "${var.data_mask_rule_state}"
+  data_mask_rule_status = var.data_mask_rule_data_mask_rule_status
+  description           = var.data_mask_rule_description
+  state                 = var.data_mask_rule_state
 }
 
 data "oci_cloud_guard_data_mask_rules" "test_data_mask_rules" {
   #Required
-  compartment_id            = "${var.tenancy_ocid}"
+  compartment_id            = var.tenancy_ocid
 
   #Optional
-  access_level          = "${var.data_mask_rule_access_level}"
-  data_mask_rule_status = "${var.data_mask_rule_data_mask_rule_status}"
-  display_name          = "${var.data_mask_rule_display_name}"
-  iam_group_id          = "${var.data_mask_rule_iam_group_id}"
-  state                 = "${var.data_mask_rule_state}"
-  target_id             = "${var.data_mask_rule_target_id}"
-  target_type           = "${var.data_mask_rule_target_type}"
+  access_level          = var.data_mask_rule_access_level
+  data_mask_rule_status = var.data_mask_rule_data_mask_rule_status
+  display_name          = var.data_mask_rule_display_name
+  iam_group_id          = var.data_mask_rule_iam_group_id
+  state                 = var.data_mask_rule_state
+  target_id             = var.data_mask_rule_target_id
+  target_type           = var.data_mask_rule_target_type
 }
 

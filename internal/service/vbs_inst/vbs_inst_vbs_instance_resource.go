@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_vbs_inst "github.com/oracle/oci-go-sdk/v65/vbsinst"
 
@@ -24,11 +24,11 @@ func VbsInstVbsInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createVbsInstVbsInstance,
-		Read:     readVbsInstVbsInstance,
-		Update:   updateVbsInstVbsInstance,
-		Delete:   deleteVbsInstVbsInstance,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createVbsInstVbsInstanceWithContext,
+		ReadContext:   readVbsInstVbsInstanceWithContext,
+		UpdateContext: updateVbsInstVbsInstanceWithContext,
+		DeleteContext: deleteVbsInstVbsInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -106,37 +106,37 @@ func VbsInstVbsInstanceResource() *schema.Resource {
 	}
 }
 
-func createVbsInstVbsInstance(d *schema.ResourceData, m interface{}) error {
+func createVbsInstVbsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VbsInstVbsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readVbsInstVbsInstance(d *schema.ResourceData, m interface{}) error {
+func readVbsInstVbsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VbsInstVbsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateVbsInstVbsInstance(d *schema.ResourceData, m interface{}) error {
+func updateVbsInstVbsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VbsInstVbsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteVbsInstVbsInstance(d *schema.ResourceData, m interface{}) error {
+func deleteVbsInstVbsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &VbsInstVbsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type VbsInstVbsInstanceResourceCrud struct {
@@ -174,7 +174,7 @@ func (s *VbsInstVbsInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) Create() error {
+func (s *VbsInstVbsInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_vbs_inst.CreateVbsInstanceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -221,14 +221,14 @@ func (s *VbsInstVbsInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst")
 
-	response, err := s.Client.CreateVbsInstance(context.Background(), request)
+	response, err := s.Client.CreateVbsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_vbs_inst.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_vbs_inst.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -244,14 +244,14 @@ func (s *VbsInstVbsInstanceResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getVbsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getVbsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) getVbsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *VbsInstVbsInstanceResourceCrud) getVbsInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_vbs_inst.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	vbsInstanceId, err := vbsInstanceWaitForWorkRequest(workId, "vbsinstance",
+	vbsInstanceId, err := vbsInstanceWaitForWorkRequest(ctx, workId, "vbsinstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -259,7 +259,7 @@ func (s *VbsInstVbsInstanceResourceCrud) getVbsInstanceFromWorkRequest(workId *s
 	}
 	s.D.SetId(*vbsInstanceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func vbsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -285,7 +285,7 @@ func vbsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func vbsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vbs_inst.ActionTypeEnum,
+func vbsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_vbs_inst.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_vbs_inst.VbsInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "vbs_inst")
 	retryPolicy.ShouldRetryOperation = vbsInstanceWorkRequestShouldRetryFunc(timeout)
@@ -304,7 +304,7 @@ func vbsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vb
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_vbs_inst.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -333,14 +333,14 @@ func vbsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vb
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_vbs_inst.OperationStatusFailed || response.Status == oci_vbs_inst.OperationStatusCanceled {
-		return nil, getErrorFromVbsInstVbsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromVbsInstVbsInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromVbsInstVbsInstanceWorkRequest(client *oci_vbs_inst.VbsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_vbs_inst.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromVbsInstVbsInstanceWorkRequest(ctx context.Context, client *oci_vbs_inst.VbsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_vbs_inst.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_vbs_inst.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -362,7 +362,7 @@ func getErrorFromVbsInstVbsInstanceWorkRequest(client *oci_vbs_inst.VbsInstanceC
 	return workRequestErr
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) Get() error {
+func (s *VbsInstVbsInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_vbs_inst.GetVbsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -370,7 +370,7 @@ func (s *VbsInstVbsInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst")
 
-	response, err := s.Client.GetVbsInstance(context.Background(), request)
+	response, err := s.Client.GetVbsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -379,11 +379,11 @@ func (s *VbsInstVbsInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) Update() error {
+func (s *VbsInstVbsInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -423,16 +423,16 @@ func (s *VbsInstVbsInstanceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst")
 
-	response, err := s.Client.UpdateVbsInstance(context.Background(), request)
+	response, err := s.Client.UpdateVbsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVbsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVbsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) Delete() error {
+func (s *VbsInstVbsInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_vbs_inst.DeleteVbsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -440,14 +440,14 @@ func (s *VbsInstVbsInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst")
 
-	response, err := s.Client.DeleteVbsInstance(context.Background(), request)
+	response, err := s.Client.DeleteVbsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := vbsInstanceWaitForWorkRequest(workId, "vbsinstance",
+	_, delWorkRequestErr := vbsInstanceWaitForWorkRequest(ctx, workId, "vbsinstance",
 		oci_vbs_inst.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -554,7 +554,7 @@ func VbsInstanceSummaryToMap(obj oci_vbs_inst.VbsInstanceSummary) map[string]int
 	return result
 }
 
-func (s *VbsInstVbsInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *VbsInstVbsInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_vbs_inst.ChangeVbsInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -565,11 +565,11 @@ func (s *VbsInstVbsInstanceResourceCrud) updateCompartment(compartment interface
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst")
 
-	response, err := s.Client.ChangeVbsInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeVbsInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVbsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVbsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

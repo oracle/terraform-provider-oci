@@ -9,14 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogMetastoreResource() *schema.Resource {
@@ -24,11 +24,11 @@ func DatacatalogMetastoreResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatacatalogMetastore,
-		Read:     readDatacatalogMetastore,
-		Update:   updateDatacatalogMetastore,
-		Delete:   deleteDatacatalogMetastore,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatacatalogMetastoreWithContext,
+		ReadContext:   readDatacatalogMetastoreWithContext,
+		UpdateContext: updateDatacatalogMetastoreWithContext,
+		DeleteContext: deleteDatacatalogMetastoreWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -121,37 +121,37 @@ func DatacatalogMetastoreResource() *schema.Resource {
 	}
 }
 
-func createDatacatalogMetastore(d *schema.ResourceData, m interface{}) error {
+func createDatacatalogMetastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogMetastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatacatalogMetastore(d *schema.ResourceData, m interface{}) error {
+func readDatacatalogMetastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogMetastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatacatalogMetastore(d *schema.ResourceData, m interface{}) error {
+func updateDatacatalogMetastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogMetastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatacatalogMetastore(d *schema.ResourceData, m interface{}) error {
+func deleteDatacatalogMetastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatacatalogMetastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatacatalogMetastoreResourceCrud struct {
@@ -189,7 +189,7 @@ func (s *DatacatalogMetastoreResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatacatalogMetastoreResourceCrud) Create() error {
+func (s *DatacatalogMetastoreResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datacatalog.CreateMetastoreRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -226,14 +226,14 @@ func (s *DatacatalogMetastoreResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.CreateMetastore(context.Background(), request)
+	response, err := s.Client.CreateMetastore(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_datacatalog.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_datacatalog.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -249,18 +249,18 @@ func (s *DatacatalogMetastoreResourceCrud) Create() error {
 			}
 		}
 	}
-	err = s.getMetastoreFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getMetastoreFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *DatacatalogMetastoreResourceCrud) getMetastoreFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatacatalogMetastoreResourceCrud) getMetastoreFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datacatalog.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	catalogId, err := catalogMetastoreWaitForWorkRequest(workId, "metastore",
+	catalogId, err := catalogMetastoreWaitForWorkRequest(ctx, workId, "metastore",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -268,10 +268,9 @@ func (s *DatacatalogMetastoreResourceCrud) getMetastoreFromWorkRequest(workId *s
 	}
 	s.D.SetId(*catalogId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
-
-func catalogMetastoreWaitForWorkRequest(wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
+func catalogMetastoreWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datacatalog.DataCatalogClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datacatalog")
 	retryPolicy.ShouldRetryOperation = catalogMetastoreWorkRequestShouldRetryFunc(timeout)
@@ -290,7 +289,7 @@ func catalogMetastoreWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datacatalog.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -319,7 +318,7 @@ func catalogMetastoreWaitForWorkRequest(wId *string, entityType string, action o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datacatalog.WorkRequestStatusFailed || response.Status == oci_datacatalog.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatacatalogCatalogMetastoreWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatacatalogCatalogMetastoreWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -347,9 +346,8 @@ func catalogMetastoreWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 		return false
 	}
 }
-
-func getErrorFromDatacatalogCatalogMetastoreWorkRequest(client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatacatalogCatalogMetastoreWorkRequest(ctx context.Context, client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datacatalog.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -371,7 +369,7 @@ func getErrorFromDatacatalogCatalogMetastoreWorkRequest(client *oci_datacatalog.
 	return workRequestErr
 }
 
-func (s *DatacatalogMetastoreResourceCrud) Get() error {
+func (s *DatacatalogMetastoreResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datacatalog.GetMetastoreRequest{}
 
 	tmp := s.D.Id()
@@ -379,7 +377,7 @@ func (s *DatacatalogMetastoreResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.GetMetastore(context.Background(), request)
+	response, err := s.Client.GetMetastore(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -388,11 +386,11 @@ func (s *DatacatalogMetastoreResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatacatalogMetastoreResourceCrud) Update() error {
+func (s *DatacatalogMetastoreResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -427,7 +425,7 @@ func (s *DatacatalogMetastoreResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.UpdateMetastore(context.Background(), request)
+	response, err := s.Client.UpdateMetastore(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -436,7 +434,7 @@ func (s *DatacatalogMetastoreResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatacatalogMetastoreResourceCrud) Delete() error {
+func (s *DatacatalogMetastoreResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datacatalog.DeleteMetastoreRequest{}
 
 	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
@@ -449,8 +447,9 @@ func (s *DatacatalogMetastoreResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	_, err := s.Client.DeleteMetastore(context.Background(), request)
+	_, err := s.Client.DeleteMetastore(ctx, request)
 	return err
+
 }
 
 func (s *DatacatalogMetastoreResourceCrud) SetData() error {
@@ -502,7 +501,6 @@ func (s *DatacatalogMetastoreResourceCrud) SetData() error {
 
 	return nil
 }
-
 func ResourceLockToMapMetastore(obj oci_datacatalog.ResourceLock) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -522,8 +520,7 @@ func ResourceLockToMapMetastore(obj oci_datacatalog.ResourceLock) map[string]int
 
 	return result
 }
-
-func (s *DatacatalogMetastoreResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatacatalogMetastoreResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datacatalog.ChangeMetastoreCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -539,7 +536,7 @@ func (s *DatacatalogMetastoreResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	_, err := s.Client.ChangeMetastoreCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeMetastoreCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

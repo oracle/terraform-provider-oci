@@ -6,6 +6,7 @@ package opensearch
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -19,15 +20,15 @@ func OpensearchOpensearchClusterPipelineDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpensearchOpensearchClusterPipelineResource(), fieldMap, readSingularOpensearchOpensearchClusterPipeline)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpensearchOpensearchClusterPipelineResource(), fieldMap, readSingularOpensearchOpensearchClusterPipelineWithContext)
 }
 
-func readSingularOpensearchOpensearchClusterPipeline(d *schema.ResourceData, m interface{}) error {
+func readSingularOpensearchOpensearchClusterPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterPipelineDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpensearchOpensearchClusterPipelineDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OpensearchOpensearchClusterPipelineDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpensearchOpensearchClusterPipelineDataSourceCrud) Get() error {
+func (s *OpensearchOpensearchClusterPipelineDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opensearch.GetOpensearchClusterPipelineRequest{}
 
 	if opensearchClusterPipelineId, ok := s.D.GetOkExists("opensearch_cluster_pipeline_id"); ok {
@@ -50,7 +51,7 @@ func (s *OpensearchOpensearchClusterPipelineDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opensearch")
 
-	response, err := s.Client.GetOpensearchClusterPipeline(context.Background(), request)
+	response, err := s.Client.GetOpensearchClusterPipeline(ctx, request)
 	if err != nil {
 		return err
 	}

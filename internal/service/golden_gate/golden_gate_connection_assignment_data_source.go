@@ -6,6 +6,7 @@ package golden_gate
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -19,15 +20,15 @@ func GoldenGateConnectionAssignmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GoldenGateConnectionAssignmentResource(), fieldMap, readSingularGoldenGateConnectionAssignment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateConnectionAssignmentResource(), fieldMap, readSingularGoldenGateConnectionAssignmentWithContext)
 }
 
-func readSingularGoldenGateConnectionAssignment(d *schema.ResourceData, m interface{}) error {
+func readSingularGoldenGateConnectionAssignmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GoldenGateConnectionAssignmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateConnectionAssignmentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GoldenGateConnectionAssignmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateConnectionAssignmentDataSourceCrud) Get() error {
+func (s *GoldenGateConnectionAssignmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.GetConnectionAssignmentRequest{}
 
 	if connectionAssignmentId, ok := s.D.GetOkExists("connection_assignment_id"); ok {
@@ -50,7 +51,7 @@ func (s *GoldenGateConnectionAssignmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetConnectionAssignment(context.Background(), request)
+	response, err := s.Client.GetConnectionAssignment(ctx, request)
 	if err != nil {
 		return err
 	}

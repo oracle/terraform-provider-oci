@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_network_firewall "github.com/oracle/oci-go-sdk/v65/networkfirewall"
 
@@ -25,11 +25,11 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createNetworkFirewallNetworkFirewallPolicy,
-		Read:     readNetworkFirewallNetworkFirewallPolicy,
-		Update:   updateNetworkFirewallNetworkFirewallPolicy,
-		Delete:   deleteNetworkFirewallNetworkFirewallPolicy,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createNetworkFirewallNetworkFirewallPolicyWithContext,
+		ReadContext:   readNetworkFirewallNetworkFirewallPolicyWithContext,
+		UpdateContext: updateNetworkFirewallNetworkFirewallPolicyWithContext,
+		DeleteContext: deleteNetworkFirewallNetworkFirewallPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -56,7 +56,6 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"attached_network_firewall_count": {
 				Type:     schema.TypeInt,
@@ -87,58 +86,60 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 	}
 }
 
-func createNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func createNetworkFirewallNetworkFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkFirewallNetworkFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("apply_policy_trigger"); ok {
-		err := sync.ApplyNetworkFirewallPolicy()
+		err := sync.ApplyNetworkFirewallPolicy(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("clone_policy_trigger"); ok {
-		err := sync.CloneNetworkFirewallPolicy()
+		err := sync.CloneNetworkFirewallPolicy(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
+
 	return nil
+
 }
 
-func readNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func readNetworkFirewallNetworkFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkFirewallNetworkFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func updateNetworkFirewallNetworkFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkFirewallNetworkFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteNetworkFirewallNetworkFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkFirewallNetworkFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type NetworkFirewallNetworkFirewallPolicyResourceCrud struct {
@@ -155,7 +156,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ID() string {
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_network_firewall.LifecycleStateCreating),
-		//string(oci_network_firewall.LifecycleStateAttaching),
 	}
 }
 
@@ -169,7 +169,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreatedTarget() []str
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_network_firewall.LifecycleStateDeleting),
-		//string(oci_network_firewall.LifecycleStateDetaching),
 	}
 }
 
@@ -179,7 +178,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_network_firewall.CreateNetworkFirewallPolicyRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -206,7 +205,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.CreateNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.CreateNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -217,22 +216,20 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getNetworkFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall"), oci_network_firewall.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNetworkFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall"), oci_network_firewall.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) getNetworkFirewallPolicyFromWorkRequest(
-	workId *string,
-	retryPolicy *oci_common.RetryPolicy,
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) getNetworkFirewallPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_network_firewall.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	networkFirewallPolicyId, err := networkFirewallPolicyWaitForWorkRequest(workId, "networkfirewallpolicy",
+	networkFirewallPolicyId, err := networkFirewallPolicyWaitForWorkRequest(ctx, workId, "networkfirewallpolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, networkFirewallPolicyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_network_firewall.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -246,7 +243,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) getNetworkFirewallPol
 	}
 	s.D.SetId(*networkFirewallPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func networkFirewallPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -272,7 +269,7 @@ func networkFirewallPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func networkFirewallPolicyWaitForWorkRequest(wId *string, entityType string, action oci_network_firewall.ActionTypeEnum,
+func networkFirewallPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_network_firewall.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_network_firewall.NetworkFirewallClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "network_firewall")
 	retryPolicy.ShouldRetryOperation = networkFirewallPolicyWorkRequestShouldRetryFunc(timeout)
@@ -291,7 +288,7 @@ func networkFirewallPolicyWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_network_firewall.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -320,14 +317,14 @@ func networkFirewallPolicyWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_network_firewall.OperationStatusFailed || response.Status == oci_network_firewall.OperationStatusCanceled {
-		return nil, getErrorFromNetworkFirewallNetworkFirewallPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromNetworkFirewallNetworkFirewallPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromNetworkFirewallNetworkFirewallPolicyWorkRequest(client *oci_network_firewall.NetworkFirewallClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_network_firewall.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromNetworkFirewallNetworkFirewallPolicyWorkRequest(ctx context.Context, client *oci_network_firewall.NetworkFirewallClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_network_firewall.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_network_firewall.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -349,7 +346,7 @@ func getErrorFromNetworkFirewallNetworkFirewallPolicyWorkRequest(client *oci_net
 	return workRequestErr
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Get() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_network_firewall.GetNetworkFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -357,7 +354,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.GetNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.GetNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,11 +363,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Update() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -400,16 +397,16 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.UpdateNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.UpdateNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNetworkFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall"), oci_network_firewall.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNetworkFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall"), oci_network_firewall.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Delete() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_network_firewall.DeleteNetworkFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -417,14 +414,14 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.DeleteNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.DeleteNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := networkFirewallPolicyWaitForWorkRequest(workId, "networkfirewallpolicy",
+	_, delWorkRequestErr := networkFirewallPolicyWaitForWorkRequest(ctx, workId, "networkfirewallpolicy",
 		oci_network_firewall.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -469,7 +466,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ApplyNetworkFirewallPolicy() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ApplyNetworkFirewallPolicy(ctx context.Context) error {
 	request := oci_network_firewall.ApplyNetworkFirewallPolicyRequest{}
 
 	if firewalls, ok := s.D.GetOkExists("firewalls"); ok {
@@ -495,7 +492,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ApplyNetworkFirewallP
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -506,7 +503,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ApplyNetworkFirewallP
 	return nil
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallPolicy() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallPolicy(ctx context.Context) error {
 	request := oci_network_firewall.CloneNetworkFirewallPolicyRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -541,7 +538,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallP
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -552,7 +549,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallP
 	return nil
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) MigrateNetworkFirewallPolicy() error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) MigrateNetworkFirewallPolicy(ctx context.Context) error {
 	request := oci_network_firewall.MigrateNetworkFirewallPolicyRequest{}
 
 	idTmp := s.D.Id()
@@ -565,7 +562,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) MigrateNetworkFirewal
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -590,7 +587,6 @@ func NetworkFirewallPolicySummaryToMap(obj oci_network_firewall.NetworkFirewallP
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
@@ -618,7 +614,7 @@ func NetworkFirewallPolicySummaryToMap(obj oci_network_firewall.NetworkFirewallP
 	return result
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_network_firewall.ChangeNetworkFirewallPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -629,12 +625,12 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) updateCompartment(com
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	_, err := s.Client.ChangeNetworkFirewallPolicyCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeNetworkFirewallPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

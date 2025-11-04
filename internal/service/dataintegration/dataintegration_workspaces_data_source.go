@@ -6,6 +6,7 @@ package dataintegration
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func DataintegrationWorkspacesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataintegrationWorkspaces,
+		ReadContext: readDataintegrationWorkspacesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func DataintegrationWorkspacesDataSource() *schema.Resource {
 	}
 }
 
-func readDataintegrationWorkspaces(d *schema.ResourceData, m interface{}) error {
+func readDataintegrationWorkspacesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataintegrationWorkspacesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataintegrationWorkspacesDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataintegrationWorkspacesDataSourceCrud) Get() error {
+func (s *DataintegrationWorkspacesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dataintegration.ListWorkspacesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataintegration")
 
-	response, err := s.Client.ListWorkspaces(context.Background(), request)
+	response, err := s.Client.ListWorkspaces(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWorkspaces(context.Background(), request)
+		listResponse, err := s.Client.ListWorkspaces(ctx, request)
 		if err != nil {
 			return err
 		}

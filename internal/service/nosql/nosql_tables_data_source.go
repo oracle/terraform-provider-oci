@@ -6,6 +6,7 @@ package nosql
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
 
@@ -15,7 +16,7 @@ import (
 
 func NosqlTablesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNosqlTables,
+		ReadContext: readNosqlTablesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func NosqlTablesDataSource() *schema.Resource {
 	}
 }
 
-func readNosqlTables(d *schema.ResourceData, m interface{}) error {
+func readNosqlTablesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlTablesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type NosqlTablesDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *NosqlTablesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NosqlTablesDataSourceCrud) Get() error {
+func (s *NosqlTablesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_nosql.ListTablesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *NosqlTablesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "nosql")
 
-	response, err := s.Client.ListTables(context.Background(), request)
+	response, err := s.Client.ListTables(ctx, request)
 	if err != nil {
 		return err
 	}
