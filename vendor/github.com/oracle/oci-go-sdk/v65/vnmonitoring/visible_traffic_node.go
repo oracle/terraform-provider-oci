@@ -27,6 +27,10 @@ type VisibleTrafficNode struct {
 
 	IngressSecurityAction SecurityAction `mandatory:"false" json:"ingressSecurityAction"`
 
+	ZprEgressSecurityAction SecurityAction `mandatory:"false" json:"zprEgressSecurityAction"`
+
+	ZprIngressSecurityAction SecurityAction `mandatory:"false" json:"zprIngressSecurityAction"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI entity that
 	// represents the traffic node (Instance, GW, LB, etc.).
 	EntityId *string `mandatory:"false" json:"entityId"`
@@ -54,6 +58,16 @@ func (m VisibleTrafficNode) GetEgressSecurityAction() SecurityAction {
 // GetIngressSecurityAction returns IngressSecurityAction
 func (m VisibleTrafficNode) GetIngressSecurityAction() SecurityAction {
 	return m.IngressSecurityAction
+}
+
+// GetZprEgressSecurityAction returns ZprEgressSecurityAction
+func (m VisibleTrafficNode) GetZprEgressSecurityAction() SecurityAction {
+	return m.ZprEgressSecurityAction
+}
+
+// GetZprIngressSecurityAction returns ZprIngressSecurityAction
+func (m VisibleTrafficNode) GetZprIngressSecurityAction() SecurityAction {
+	return m.ZprIngressSecurityAction
 }
 
 func (m VisibleTrafficNode) String() string {
@@ -93,6 +107,8 @@ func (m *VisibleTrafficNode) UnmarshalJSON(data []byte) (e error) {
 		NextHopRoutingAction      routingaction      `json:"nextHopRoutingAction"`
 		EgressSecurityAction      securityaction     `json:"egressSecurityAction"`
 		IngressSecurityAction     securityaction     `json:"ingressSecurityAction"`
+		ZprEgressSecurityAction   securityaction     `json:"zprEgressSecurityAction"`
+		ZprIngressSecurityAction  securityaction     `json:"zprIngressSecurityAction"`
 		EntityId                  *string            `json:"entityId"`
 		TransformationDescription *string            `json:"transformationDescription"`
 	}{}
@@ -132,6 +148,26 @@ func (m *VisibleTrafficNode) UnmarshalJSON(data []byte) (e error) {
 		m.IngressSecurityAction = nn.(SecurityAction)
 	} else {
 		m.IngressSecurityAction = nil
+	}
+
+	nn, e = model.ZprEgressSecurityAction.UnmarshalPolymorphicJSON(model.ZprEgressSecurityAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ZprEgressSecurityAction = nn.(SecurityAction)
+	} else {
+		m.ZprEgressSecurityAction = nil
+	}
+
+	nn, e = model.ZprIngressSecurityAction.UnmarshalPolymorphicJSON(model.ZprIngressSecurityAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ZprIngressSecurityAction = nn.(SecurityAction)
+	} else {
+		m.ZprIngressSecurityAction = nil
 	}
 
 	m.EntityId = model.EntityId

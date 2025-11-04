@@ -93,21 +93,27 @@ type InstancePoolInstanceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for InstancePoolInstanceLifecycleStateEnum
 const (
-	InstancePoolInstanceLifecycleStateAttaching InstancePoolInstanceLifecycleStateEnum = "ATTACHING"
-	InstancePoolInstanceLifecycleStateActive    InstancePoolInstanceLifecycleStateEnum = "ACTIVE"
-	InstancePoolInstanceLifecycleStateDetaching InstancePoolInstanceLifecycleStateEnum = "DETACHING"
+	InstancePoolInstanceLifecycleStateAttaching          InstancePoolInstanceLifecycleStateEnum = "ATTACHING"
+	InstancePoolInstanceLifecycleStateActive             InstancePoolInstanceLifecycleStateEnum = "ACTIVE"
+	InstancePoolInstanceLifecycleStateDetaching          InstancePoolInstanceLifecycleStateEnum = "DETACHING"
+	InstancePoolInstanceLifecycleStateTerminationAwait   InstancePoolInstanceLifecycleStateEnum = "TERMINATION_AWAIT"
+	InstancePoolInstanceLifecycleStateTerminationProceed InstancePoolInstanceLifecycleStateEnum = "TERMINATION_PROCEED"
 )
 
 var mappingInstancePoolInstanceLifecycleStateEnum = map[string]InstancePoolInstanceLifecycleStateEnum{
-	"ATTACHING": InstancePoolInstanceLifecycleStateAttaching,
-	"ACTIVE":    InstancePoolInstanceLifecycleStateActive,
-	"DETACHING": InstancePoolInstanceLifecycleStateDetaching,
+	"ATTACHING":           InstancePoolInstanceLifecycleStateAttaching,
+	"ACTIVE":              InstancePoolInstanceLifecycleStateActive,
+	"DETACHING":           InstancePoolInstanceLifecycleStateDetaching,
+	"TERMINATION_AWAIT":   InstancePoolInstanceLifecycleStateTerminationAwait,
+	"TERMINATION_PROCEED": InstancePoolInstanceLifecycleStateTerminationProceed,
 }
 
 var mappingInstancePoolInstanceLifecycleStateEnumLowerCase = map[string]InstancePoolInstanceLifecycleStateEnum{
-	"attaching": InstancePoolInstanceLifecycleStateAttaching,
-	"active":    InstancePoolInstanceLifecycleStateActive,
-	"detaching": InstancePoolInstanceLifecycleStateDetaching,
+	"attaching":           InstancePoolInstanceLifecycleStateAttaching,
+	"active":              InstancePoolInstanceLifecycleStateActive,
+	"detaching":           InstancePoolInstanceLifecycleStateDetaching,
+	"termination_await":   InstancePoolInstanceLifecycleStateTerminationAwait,
+	"termination_proceed": InstancePoolInstanceLifecycleStateTerminationProceed,
 }
 
 // GetInstancePoolInstanceLifecycleStateEnumValues Enumerates the set of values for InstancePoolInstanceLifecycleStateEnum
@@ -125,6 +131,8 @@ func GetInstancePoolInstanceLifecycleStateEnumStringValues() []string {
 		"ATTACHING",
 		"ACTIVE",
 		"DETACHING",
+		"TERMINATION_AWAIT",
+		"TERMINATION_PROCEED",
 	}
 }
 

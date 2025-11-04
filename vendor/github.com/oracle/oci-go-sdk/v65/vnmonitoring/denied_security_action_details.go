@@ -22,7 +22,7 @@ type DeniedSecurityActionDetails struct {
 	// If true, the evaluated security list and network security group ID details are incomplete.
 	IsRestrictedOrPartial *bool `mandatory:"true" json:"isRestrictedOrPartial"`
 
-	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of evaluated security lists associcated
+	// The list of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of evaluated security lists associated
 	// with the OCI resource's subnet.
 	EvaluatedSecurityListIds []string `mandatory:"false" json:"evaluatedSecurityListIds"`
 
