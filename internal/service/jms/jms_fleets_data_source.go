@@ -6,6 +6,7 @@ package jms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsFleetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsFleets,
+		ReadContext: readJmsFleetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func JmsFleetsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsFleets(d *schema.ResourceData, m interface{}) error {
+func readJmsFleetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *JmsFleetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetsDataSourceCrud) Get() error {
+func (s *JmsFleetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.ListFleetsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *JmsFleetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.ListFleets(context.Background(), request)
+	response, err := s.Client.ListFleets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *JmsFleetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFleets(context.Background(), request)
+		listResponse, err := s.Client.ListFleets(ctx, request)
 		if err != nil {
 			return err
 		}

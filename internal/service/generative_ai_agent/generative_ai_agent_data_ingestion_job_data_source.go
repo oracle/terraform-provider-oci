@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -19,15 +20,15 @@ func GenerativeAiAgentDataIngestionJobDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentDataIngestionJobResource(), fieldMap, readSingularGenerativeAiAgentDataIngestionJob)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiAgentDataIngestionJobResource(), fieldMap, readSingularGenerativeAiAgentDataIngestionJobWithContext)
 }
 
-func readSingularGenerativeAiAgentDataIngestionJob(d *schema.ResourceData, m interface{}) error {
+func readSingularGenerativeAiAgentDataIngestionJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataIngestionJobDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentDataIngestionJobDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetDataIngestionJobRequest{}
 
 	if dataIngestionJobId, ok := s.D.GetOkExists("data_ingestion_job_id"); ok {
@@ -50,7 +51,7 @@ func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.GetDataIngestionJob(context.Background(), request)
+	response, err := s.Client.GetDataIngestionJob(ctx, request)
 	if err != nil {
 		return err
 	}

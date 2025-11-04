@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -27,10 +28,10 @@ func NosqlIndexResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createNosqlIndex,
-		Read:     readNosqlIndex,
-		Delete:   deleteNosqlIndex,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createNosqlIndexWithContext,
+		ReadContext:   readNosqlIndexWithContext,
+		DeleteContext: deleteNosqlIndexWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"keys": {
@@ -111,29 +112,29 @@ func NosqlIndexResource() *schema.Resource {
 	}
 }
 
-func createNosqlIndex(d *schema.ResourceData, m interface{}) error {
+func createNosqlIndexWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readNosqlIndex(d *schema.ResourceData, m interface{}) error {
+func readNosqlIndexWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteNosqlIndex(d *schema.ResourceData, m interface{}) error {
+func deleteNosqlIndexWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type NosqlIndexResourceCrud struct {
@@ -171,7 +172,7 @@ func (s *NosqlIndexResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *NosqlIndexResourceCrud) Create() error {
+func (s *NosqlIndexResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_nosql.CreateIndexRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -213,26 +214,26 @@ func (s *NosqlIndexResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.CreateIndex(context.Background(), request)
+	response, err := s.Client.CreateIndex(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getIndexFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getIndexFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *NosqlIndexResourceCrud) getIndexFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *NosqlIndexResourceCrud) getIndexFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_nosql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	indexId, err := indexWaitForWorkRequest(workId, "TABLE",
+	indexId, err := indexWaitForWorkRequest(ctx, workId, "TABLE",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, indexId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_nosql.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -246,7 +247,7 @@ func (s *NosqlIndexResourceCrud) getIndexFromWorkRequest(workId *string, retryPo
 	}
 	s.D.SetId(*indexId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func indexWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -272,7 +273,7 @@ func indexWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func indexWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
+func indexWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = indexWorkRequestShouldRetryFunc(timeout)
@@ -291,7 +292,7 @@ func indexWaitForWorkRequest(wId *string, entityType string, action oci_nosql.Wo
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_nosql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -320,14 +321,14 @@ func indexWaitForWorkRequest(wId *string, entityType string, action oci_nosql.Wo
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.WorkRequest.Status == oci_nosql.WorkRequestStatusFailed || response.WorkRequest.Status == oci_nosql.WorkRequestStatusCanceled {
-		return nil, getErrorFromNosqlIndexWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromNosqlIndexWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromNosqlIndexWorkRequest(client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromNosqlIndexWorkRequest(ctx context.Context, client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_nosql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -349,7 +350,7 @@ func getErrorFromNosqlIndexWorkRequest(client *oci_nosql.NosqlClient, workId *st
 	return workRequestErr
 }
 
-func (s *NosqlIndexResourceCrud) Get() error {
+func (s *NosqlIndexResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_nosql.GetIndexRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -377,7 +378,7 @@ func (s *NosqlIndexResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.GetIndex(context.Background(), request)
+	response, err := s.Client.GetIndex(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -386,7 +387,7 @@ func (s *NosqlIndexResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NosqlIndexResourceCrud) Delete() error {
+func (s *NosqlIndexResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_nosql.DeleteIndexRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -411,14 +412,14 @@ func (s *NosqlIndexResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.DeleteIndex(context.Background(), request)
+	response, err := s.Client.DeleteIndex(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := indexWaitForWorkRequest(workId, "TABLE",
+	_, delWorkRequestErr := indexWaitForWorkRequest(ctx, workId, "TABLE",
 		oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

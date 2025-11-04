@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
@@ -17,7 +18,7 @@ import (
 
 func JmsFleetPerformanceTuningAnalysisResultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsFleetPerformanceTuningAnalysisResults,
+		ReadContext: readJmsFleetPerformanceTuningAnalysisResultsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"application_id": {
@@ -141,12 +142,12 @@ func JmsFleetPerformanceTuningAnalysisResultsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsFleetPerformanceTuningAnalysisResults(d *schema.ResourceData, m interface{}) error {
+func readJmsFleetPerformanceTuningAnalysisResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud struct {
@@ -159,7 +160,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) Get() error {
+func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.ListPerformanceTuningAnalysisResultsRequest{}
 
 	if applicationId, ok := s.D.GetOkExists("application_id"); ok {
@@ -205,7 +206,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.ListPerformanceTuningAnalysisResults(context.Background(), request)
+	response, err := s.Client.ListPerformanceTuningAnalysisResults(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -214,7 +215,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPerformanceTuningAnalysisResults(context.Background(), request)
+		listResponse, err := s.Client.ListPerformanceTuningAnalysisResults(ctx, request)
 		if err != nil {
 			return err
 		}

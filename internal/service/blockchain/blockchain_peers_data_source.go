@@ -6,6 +6,7 @@ package blockchain
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func BlockchainPeersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBlockchainPeers,
+		ReadContext: readBlockchainPeersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
@@ -44,12 +45,12 @@ func BlockchainPeersDataSource() *schema.Resource {
 	}
 }
 
-func readBlockchainPeers(d *schema.ResourceData, m interface{}) error {
+func readBlockchainPeersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BlockchainPeersDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *BlockchainPeersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainPeersDataSourceCrud) Get() error {
+func (s *BlockchainPeersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_blockchain.ListPeersRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -77,7 +78,7 @@ func (s *BlockchainPeersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.ListPeers(context.Background(), request)
+	response, err := s.Client.ListPeers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *BlockchainPeersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPeers(context.Background(), request)
+		listResponse, err := s.Client.ListPeers(ctx, request)
 		if err != nil {
 			return err
 		}

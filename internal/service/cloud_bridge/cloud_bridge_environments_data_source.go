@@ -6,6 +6,7 @@ package cloud_bridge
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudBridgeEnvironmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudBridgeEnvironments,
+		ReadContext: readCloudBridgeEnvironmentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func CloudBridgeEnvironmentsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudBridgeEnvironments(d *schema.ResourceData, m interface{}) error {
+func readCloudBridgeEnvironmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeEnvironmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudBridgeEnvironmentsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *CloudBridgeEnvironmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeEnvironmentsDataSourceCrud) Get() error {
+func (s *CloudBridgeEnvironmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.ListEnvironmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *CloudBridgeEnvironmentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.ListEnvironments(context.Background(), request)
+	response, err := s.Client.ListEnvironments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *CloudBridgeEnvironmentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEnvironments(context.Background(), request)
+		listResponse, err := s.Client.ListEnvironments(ctx, request)
 		if err != nil {
 			return err
 		}

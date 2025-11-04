@@ -6,6 +6,7 @@ package cloud_bridge
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"log"
 	"strconv"
 	"strings"
@@ -24,11 +25,11 @@ func CloudBridgeAssetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudBridgeAsset,
-		Read:     readCloudBridgeAsset,
-		Update:   updateCloudBridgeAsset,
-		Delete:   deleteCloudBridgeAsset,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudBridgeAssetWithContext,
+		ReadContext:   readCloudBridgeAssetWithContext,
+		UpdateContext: updateCloudBridgeAssetWithContext,
+		DeleteContext: deleteCloudBridgeAssetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"asset_type": {
@@ -627,37 +628,37 @@ func CloudBridgeAssetResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeAsset(d *schema.ResourceData, m interface{}) error {
+func createCloudBridgeAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudBridgeAsset(d *schema.ResourceData, m interface{}) error {
+func readCloudBridgeAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudBridgeAsset(d *schema.ResourceData, m interface{}) error {
+func updateCloudBridgeAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudBridgeAsset(d *schema.ResourceData, m interface{}) error {
+func deleteCloudBridgeAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudBridgeAssetResourceCrud struct {
@@ -692,7 +693,7 @@ func (s *CloudBridgeAssetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeAssetResourceCrud) Create() error {
+func (s *CloudBridgeAssetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.CreateAssetRequest{}
 	err := s.populateTopLevelPolymorphicCreateAssetRequest(&request)
 	if err != nil {
@@ -701,7 +702,7 @@ func (s *CloudBridgeAssetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.CreateAsset(context.Background(), request)
+	response, err := s.Client.CreateAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -710,7 +711,7 @@ func (s *CloudBridgeAssetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CloudBridgeAssetResourceCrud) Get() error {
+func (s *CloudBridgeAssetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetAssetRequest{}
 
 	tmp := s.D.Id()
@@ -718,7 +719,7 @@ func (s *CloudBridgeAssetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.GetAsset(context.Background(), request)
+	response, err := s.Client.GetAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -727,7 +728,7 @@ func (s *CloudBridgeAssetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudBridgeAssetResourceCrud) Update() error {
+func (s *CloudBridgeAssetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -745,7 +746,7 @@ func (s *CloudBridgeAssetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err = s.Client.UpdateAsset(context.Background(), request)
+	_, err = s.Client.UpdateAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -773,7 +774,7 @@ func (s *CloudBridgeAssetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudBridgeAssetResourceCrud) Delete() error {
+func (s *CloudBridgeAssetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.DeleteAssetRequest{}
 
 	tmp := s.D.Id()
@@ -781,7 +782,7 @@ func (s *CloudBridgeAssetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err := s.Client.DeleteAsset(context.Background(), request)
+	_, err := s.Client.DeleteAsset(ctx, request)
 	return err
 }
 
@@ -2108,7 +2109,7 @@ func (s *CloudBridgeAssetResourceCrud) updateCompartment(compartment interface{}
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

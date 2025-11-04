@@ -6,12 +6,12 @@ package waas
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
-	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 )
 
 func WaasPurgeCacheResource() *schema.Resource {
@@ -21,9 +21,9 @@ func WaasPurgeCacheResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createWaasPurgeCache,
-		Read:   readWaasPurgeCache,
-		Delete: deleteWaasPurgeCache,
+		CreateContext: createWaasPurgeCacheWithContext,
+		ReadContext:   readWaasPurgeCacheWithContext,
+		DeleteContext: deleteWaasPurgeCacheWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"waas_policy_id": {
@@ -48,19 +48,19 @@ func WaasPurgeCacheResource() *schema.Resource {
 	}
 }
 
-func createWaasPurgeCache(d *schema.ResourceData, m interface{}) error {
+func createWaasPurgeCacheWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasPurgeCacheResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readWaasPurgeCache(d *schema.ResourceData, m interface{}) error {
+func readWaasPurgeCacheWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteWaasPurgeCache(d *schema.ResourceData, m interface{}) error {
+func deleteWaasPurgeCacheWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -75,7 +75,7 @@ func (s *WaasPurgeCacheResourceCrud) ID() string {
 	return tfresource.Timestamp()
 }
 
-func (s *WaasPurgeCacheResourceCrud) Create() error {
+func (s *WaasPurgeCacheResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_waas.PurgeCacheRequest{}
 
 	if resources, ok := s.D.GetOkExists("resources"); ok {
@@ -104,11 +104,10 @@ func (s *WaasPurgeCacheResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	_, delWorkRequestErr := waasPolicyWaitForWorkRequest(workId, "waas",
+	_, delWorkRequestErr := waasPolicyWaitForWorkRequest(ctx, workId, "waas",
 		oci_waas.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
-
 func (s *WaasPurgeCacheResourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceID())
 	return nil

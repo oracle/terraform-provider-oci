@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudOracleDbGcpKeyRingDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbGcpKeyRingResource(), fieldMap, readSingularDbmulticloudOracleDbGcpKeyRing)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbGcpKeyRingResource(), fieldMap, readSingularDbmulticloudOracleDbGcpKeyRingWithContext)
 }
 
-func readSingularDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbGcpKeyRingDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbGcpKeyRingDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbGcpKeyRingRequest{}
 
 	if oracleDbGcpKeyRingId, ok := s.D.GetOkExists("oracle_db_gcp_key_ring_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbGcpKeyRing(context.Background(), request)
+	response, err := s.Client.GetOracleDbGcpKeyRing(ctx, request)
 	if err != nil {
 		return err
 	}

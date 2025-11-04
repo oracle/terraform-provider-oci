@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
@@ -17,7 +18,7 @@ import (
 
 func JmsFleetCryptoAnalysisResultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsFleetCryptoAnalysisResults,
+		ReadContext: readJmsFleetCryptoAnalysisResultsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"aggregation_mode": {
@@ -161,12 +162,12 @@ func JmsFleetCryptoAnalysisResultsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsFleetCryptoAnalysisResults(d *schema.ResourceData, m interface{}) error {
+func readJmsFleetCryptoAnalysisResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetCryptoAnalysisResultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetCryptoAnalysisResultsDataSourceCrud struct {
@@ -179,7 +180,7 @@ func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) Get() error {
+func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.ListCryptoAnalysisResultsRequest{}
 
 	if aggregationMode, ok := s.D.GetOkExists("aggregation_mode"); ok {
@@ -239,7 +240,7 @@ func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.ListCryptoAnalysisResults(context.Background(), request)
+	response, err := s.Client.ListCryptoAnalysisResults(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -248,7 +249,7 @@ func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCryptoAnalysisResults(context.Background(), request)
+		listResponse, err := s.Client.ListCryptoAnalysisResults(ctx, request)
 		if err != nil {
 			return err
 		}

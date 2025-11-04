@@ -7,17 +7,18 @@ import (
 	"context"
 	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WaasHttpRedirectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWaasHttpRedirects,
+		ReadContext: readWaasHttpRedirectsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -62,12 +63,12 @@ func WaasHttpRedirectsDataSource() *schema.Resource {
 	}
 }
 
-func readWaasHttpRedirects(d *schema.ResourceData, m interface{}) error {
+func readWaasHttpRedirectsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasHttpRedirectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedirectClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type WaasHttpRedirectsDataSourceCrud struct {
@@ -80,7 +81,7 @@ func (s *WaasHttpRedirectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaasHttpRedirectsDataSourceCrud) Get() error {
+func (s *WaasHttpRedirectsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waas.ListHttpRedirectsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -145,7 +146,7 @@ func (s *WaasHttpRedirectsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waas")
 
-	response, err := s.Client.ListHttpRedirects(context.Background(), request)
+	response, err := s.Client.ListHttpRedirects(ctx, request)
 	if err != nil {
 		return err
 	}

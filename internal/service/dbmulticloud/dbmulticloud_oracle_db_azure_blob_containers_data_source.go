@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -15,7 +16,7 @@ import (
 
 func DbmulticloudOracleDbAzureBlobContainersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbmulticloudOracleDbAzureBlobContainers,
+		ReadContext: readDbmulticloudOracleDbAzureBlobContainersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"azure_storage_account_name": {
@@ -60,12 +61,12 @@ func DbmulticloudOracleDbAzureBlobContainersDataSource() *schema.Resource {
 	}
 }
 
-func readDbmulticloudOracleDbAzureBlobContainers(d *schema.ResourceData, m interface{}) error {
+func readDbmulticloudOracleDbAzureBlobContainersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureBlobContainersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureBlobContainersDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainersDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureBlobContainersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.ListOracleDbAzureBlobContainersRequest{}
 
 	if azureStorageAccountName, ok := s.D.GetOkExists("azure_storage_account_name"); ok {
@@ -112,7 +113,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.ListOracleDbAzureBlobContainers(context.Background(), request)
+	response, err := s.Client.ListOracleDbAzureBlobContainers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOracleDbAzureBlobContainers(context.Background(), request)
+		listResponse, err := s.Client.ListOracleDbAzureBlobContainers(ctx, request)
 		if err != nil {
 			return err
 		}

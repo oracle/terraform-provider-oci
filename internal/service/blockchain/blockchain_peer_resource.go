@@ -12,12 +12,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -32,10 +32,10 @@ func BlockchainPeerResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("30m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
-		Create: createBlockchainPeer,
-		Read:   readBlockchainPeer,
-		Update: updateBlockchainPeer,
-		Delete: deleteBlockchainPeer,
+		CreateContext: createBlockchainPeerWithContext,
+		ReadContext:   readBlockchainPeerWithContext,
+		UpdateContext: updateBlockchainPeerWithContext,
+		DeleteContext: deleteBlockchainPeerWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"ad": {
@@ -99,37 +99,37 @@ func BlockchainPeerResource() *schema.Resource {
 	}
 }
 
-func createBlockchainPeer(d *schema.ResourceData, m interface{}) error {
+func createBlockchainPeerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBlockchainPeer(d *schema.ResourceData, m interface{}) error {
+func readBlockchainPeerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBlockchainPeer(d *schema.ResourceData, m interface{}) error {
+func updateBlockchainPeerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBlockchainPeer(d *schema.ResourceData, m interface{}) error {
+func deleteBlockchainPeerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BlockchainPeerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BlockchainPeerResourceCrud struct {
@@ -149,7 +149,7 @@ func (s *BlockchainPeerResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *BlockchainPeerResourceCrud) Create() error {
+func (s *BlockchainPeerResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_blockchain.CreatePeerRequest{}
 
 	if ad, ok := s.D.GetOkExists("ad"); ok {
@@ -183,14 +183,14 @@ func (s *BlockchainPeerResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.CreatePeer(context.Background(), request)
+	response, err := s.Client.CreatePeer(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.setIdFromWorkRequest(workId)
-	return s.getPeerFromWorkRequest(request.BlockchainPlatformId, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPeerFromWorkRequest(ctx, request.BlockchainPlatformId, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BlockchainPeerResourceCrud) setIdFromWorkRequest(workId *string) {
@@ -221,17 +221,17 @@ func (s *BlockchainPeerResourceCrud) setIdFromWorkRequest(workId *string) {
 	}
 }
 
-func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(ctx context.Context, blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_blockchain.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	peerId, err := peerWaitForWorkRequest(workId, "instance",
+	peerId, err := peerWaitForWorkRequest(ctx, workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, blockchainPlatformId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_blockchain.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -249,7 +249,7 @@ func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId
 	}
 	s.D.SetId(*peerId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func peerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -275,7 +275,7 @@ func peerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 	}
 }
 
-func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
+func peerWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_blockchain.BlockchainPlatformClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "blockchain")
 	retryPolicy.ShouldRetryOperation = peerWorkRequestShouldRetryFunc(timeout)
@@ -294,7 +294,7 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_blockchain.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -326,15 +326,15 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
 	var workRequestErr error
 	if response.Status == oci_blockchain.WorkRequestStatusFailed {
-		errorMessage := getErrorFromBlockchainPeerWorkRequest(client, wId, retryPolicy, entityType, action)
+		errorMessage := getErrorFromBlockchainPeerWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
 	return subTypeKey, workRequestErr
 }
 
-func getErrorFromBlockchainPeerWorkRequest(client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBlockchainPeerWorkRequest(ctx context.Context, client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_blockchain.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -356,7 +356,7 @@ func getErrorFromBlockchainPeerWorkRequest(client *oci_blockchain.BlockchainPlat
 	return workRequestErr
 }
 
-func (s *BlockchainPeerResourceCrud) Get() error {
+func (s *BlockchainPeerResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_blockchain.GetPeerRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -377,7 +377,7 @@ func (s *BlockchainPeerResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.GetPeer(context.Background(), request)
+	response, err := s.Client.GetPeer(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -386,7 +386,7 @@ func (s *BlockchainPeerResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BlockchainPeerResourceCrud) Update() error {
+func (s *BlockchainPeerResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_blockchain.UpdatePeerRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -410,23 +410,23 @@ func (s *BlockchainPeerResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.UpdatePeer(context.Background(), request)
+	response, err := s.Client.UpdatePeer(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, err = peerWaitForWorkRequest(workId, "instance",
+	_, err = peerWaitForWorkRequest(ctx, workId, "instance",
 		oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *BlockchainPeerResourceCrud) Delete() error {
+func (s *BlockchainPeerResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_blockchain.DeletePeerRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -439,14 +439,14 @@ func (s *BlockchainPeerResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.DeletePeer(context.Background(), request)
+	response, err := s.Client.DeletePeer(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := peerWaitForWorkRequest(workId, "instance",
+	_, delWorkRequestErr := peerWaitForWorkRequest(ctx, workId, "instance",
 		oci_blockchain.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -6,6 +6,7 @@ package jms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsFleetJavaMigrationAnalysisResultDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularJmsFleetJavaMigrationAnalysisResult,
+		ReadContext: readSingularJmsFleetJavaMigrationAnalysisResultWithContext,
 		Schema: map[string]*schema.Schema{
 			"fleet_id": {
 				Type:     schema.TypeString,
@@ -93,12 +94,12 @@ func JmsFleetJavaMigrationAnalysisResultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsFleetJavaMigrationAnalysisResult(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsFleetJavaMigrationAnalysisResultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetJavaMigrationAnalysisResultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetJavaMigrationAnalysisResultDataSourceCrud struct {
@@ -111,7 +112,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) Get() error {
+func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.GetJavaMigrationAnalysisResultRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -126,7 +127,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetJavaMigrationAnalysisResult(context.Background(), request)
+	response, err := s.Client.GetJavaMigrationAnalysisResult(ctx, request)
 	if err != nil {
 		return err
 	}

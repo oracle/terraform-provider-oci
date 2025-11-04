@@ -6,6 +6,7 @@ package jms_utils
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_utils "github.com/oracle/oci-go-sdk/v65/jmsutils"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsUtilsJavaMigrationAnalysisDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsUtilsJavaMigrationAnalysis,
+		ReadContext: readJmsUtilsJavaMigrationAnalysisWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"analysis_project_name": {
@@ -138,12 +139,12 @@ func JmsUtilsJavaMigrationAnalysisDataSource() *schema.Resource {
 	}
 }
 
-func readJmsUtilsJavaMigrationAnalysis(d *schema.ResourceData, m interface{}) error {
+func readJmsUtilsJavaMigrationAnalysisWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsUtilsJavaMigrationAnalysisDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsUtilsJavaMigrationAnalysisDataSourceCrud struct {
@@ -156,7 +157,7 @@ func (s *JmsUtilsJavaMigrationAnalysisDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsUtilsJavaMigrationAnalysisDataSourceCrud) Get() error {
+func (s *JmsUtilsJavaMigrationAnalysisDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms_utils.ListJavaMigrationAnalysisRequest{}
 
 	if analysisProjectName, ok := s.D.GetOkExists("analysis_project_name"); ok {
@@ -176,7 +177,7 @@ func (s *JmsUtilsJavaMigrationAnalysisDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_utils")
 
-	response, err := s.Client.ListJavaMigrationAnalysis(context.Background(), request)
+	response, err := s.Client.ListJavaMigrationAnalysis(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -185,7 +186,7 @@ func (s *JmsUtilsJavaMigrationAnalysisDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJavaMigrationAnalysis(context.Background(), request)
+		listResponse, err := s.Client.ListJavaMigrationAnalysis(ctx, request)
 		if err != nil {
 			return err
 		}

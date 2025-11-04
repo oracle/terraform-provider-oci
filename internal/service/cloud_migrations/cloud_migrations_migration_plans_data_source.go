@@ -6,6 +6,7 @@ package cloud_migrations
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudMigrationsMigrationPlansDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudMigrationsMigrationPlans,
+		ReadContext: readCloudMigrationsMigrationPlansWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func CloudMigrationsMigrationPlansDataSource() *schema.Resource {
 	}
 }
 
-func readCloudMigrationsMigrationPlans(d *schema.ResourceData, m interface{}) error {
+func readCloudMigrationsMigrationPlansWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationPlansDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudMigrationsMigrationPlansDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *CloudMigrationsMigrationPlansDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsMigrationPlansDataSourceCrud) Get() error {
+func (s *CloudMigrationsMigrationPlansDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.ListMigrationPlansRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *CloudMigrationsMigrationPlansDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.ListMigrationPlans(context.Background(), request)
+	response, err := s.Client.ListMigrationPlans(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *CloudMigrationsMigrationPlansDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMigrationPlans(context.Background(), request)
+		listResponse, err := s.Client.ListMigrationPlans(ctx, request)
 		if err != nil {
 			return err
 		}

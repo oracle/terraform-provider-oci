@@ -6,6 +6,7 @@ package cloud_migrations
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudMigrationsMigrationAssetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudMigrationsMigrationAssets,
+		ReadContext: readCloudMigrationsMigrationAssetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -52,12 +53,12 @@ func CloudMigrationsMigrationAssetsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudMigrationsMigrationAssets(d *schema.ResourceData, m interface{}) error {
+func readCloudMigrationsMigrationAssetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationAssetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudMigrationsMigrationAssetsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *CloudMigrationsMigrationAssetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsMigrationAssetsDataSourceCrud) Get() error {
+func (s *CloudMigrationsMigrationAssetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.ListMigrationAssetsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -94,7 +95,7 @@ func (s *CloudMigrationsMigrationAssetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.ListMigrationAssets(context.Background(), request)
+	response, err := s.Client.ListMigrationAssets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *CloudMigrationsMigrationAssetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMigrationAssets(context.Background(), request)
+		listResponse, err := s.Client.ListMigrationAssets(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -6,6 +6,7 @@ package cloud_bridge
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -19,15 +20,15 @@ func CloudBridgeInventoryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CloudBridgeInventoryResource(), fieldMap, readSingularCloudBridgeInventory)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudBridgeInventoryResource(), fieldMap, readSingularCloudBridgeInventoryWithContext)
 }
 
-func readSingularCloudBridgeInventory(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudBridgeInventoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeInventoryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudBridgeInventoryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CloudBridgeInventoryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeInventoryDataSourceCrud) Get() error {
+func (s *CloudBridgeInventoryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetInventoryRequest{}
 
 	if inventoryId, ok := s.D.GetOkExists("inventory_id"); ok {
@@ -50,7 +51,7 @@ func (s *CloudBridgeInventoryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.GetInventory(context.Background(), request)
+	response, err := s.Client.GetInventory(ctx, request)
 	if err != nil {
 		return err
 	}

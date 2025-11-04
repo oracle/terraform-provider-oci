@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -20,15 +21,15 @@ func CloudMigrationsTargetAssetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CloudMigrationsTargetAssetResource(), fieldMap, readSingularCloudMigrationsTargetAsset)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudMigrationsTargetAssetResource(), fieldMap, readSingularCloudMigrationsTargetAssetWithContext)
 }
 
-func readSingularCloudMigrationsTargetAsset(d *schema.ResourceData, m interface{}) error {
+func readSingularCloudMigrationsTargetAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsTargetAssetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudMigrationsTargetAssetDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CloudMigrationsTargetAssetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsTargetAssetDataSourceCrud) Get() error {
+func (s *CloudMigrationsTargetAssetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.GetTargetAssetRequest{}
 
 	if targetAssetId, ok := s.D.GetOkExists("target_asset_id"); ok {
@@ -51,7 +52,7 @@ func (s *CloudMigrationsTargetAssetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.GetTargetAsset(context.Background(), request)
+	response, err := s.Client.GetTargetAsset(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -19,15 +20,15 @@ func GenerativeAiAgentToolDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentToolResource(), fieldMap, readSingularGenerativeAiAgentTool)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiAgentToolResource(), fieldMap, readSingularGenerativeAiAgentToolWithContext)
 }
 
-func readSingularGenerativeAiAgentTool(d *schema.ResourceData, m interface{}) error {
+func readSingularGenerativeAiAgentToolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentToolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentToolDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GenerativeAiAgentToolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentToolDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentToolDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetToolRequest{}
 
 	if toolId, ok := s.D.GetOkExists("tool_id"); ok {
@@ -50,7 +51,7 @@ func (s *GenerativeAiAgentToolDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.GetTool(context.Background(), request)
+	response, err := s.Client.GetTool(ctx, request)
 	if err != nil {
 		return err
 	}

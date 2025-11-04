@@ -6,6 +6,7 @@ package fusion_apps
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -23,15 +24,15 @@ func FusionAppsFusionEnvironmentDataMaskingActivityDataSource() *schema.Resource
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentDataMaskingActivityResource(), fieldMap, readSingularFusionAppsFusionEnvironmentDataMaskingActivity)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentDataMaskingActivityResource(), fieldMap, readSingularFusionAppsFusionEnvironmentDataMaskingActivityWithContext)
 }
 
-func readSingularFusionAppsFusionEnvironmentDataMaskingActivity(d *schema.ResourceData, m interface{}) error {
+func readSingularFusionAppsFusionEnvironmentDataMaskingActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud) VoidState
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.GetDataMaskingActivityRequest{}
 
 	if dataMaskingActivityId, ok := s.D.GetOkExists("data_masking_activity_id"); ok {
@@ -59,7 +60,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityDataSourceCrud) Get() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetDataMaskingActivity(context.Background(), request)
+	response, err := s.Client.GetDataMaskingActivity(ctx, request)
 	if err != nil {
 		return err
 	}

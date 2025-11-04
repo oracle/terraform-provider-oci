@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -19,15 +20,15 @@ func GenerativeAiAgentKnowledgeBaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentKnowledgeBaseResource(), fieldMap, readSingularGenerativeAiAgentKnowledgeBase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiAgentKnowledgeBaseResource(), fieldMap, readSingularGenerativeAiAgentKnowledgeBaseWithContext)
 }
 
-func readSingularGenerativeAiAgentKnowledgeBase(d *schema.ResourceData, m interface{}) error {
+func readSingularGenerativeAiAgentKnowledgeBaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentKnowledgeBaseDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GenerativeAiAgentKnowledgeBaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentKnowledgeBaseDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentKnowledgeBaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetKnowledgeBaseRequest{}
 
 	if knowledgeBaseId, ok := s.D.GetOkExists("knowledge_base_id"); ok {
@@ -50,7 +51,7 @@ func (s *GenerativeAiAgentKnowledgeBaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.GetKnowledgeBase(context.Background(), request)
+	response, err := s.Client.GetKnowledgeBase(ctx, request)
 	if err != nil {
 		return err
 	}

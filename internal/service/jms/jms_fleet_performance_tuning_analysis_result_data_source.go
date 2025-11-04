@@ -6,6 +6,7 @@ package jms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsFleetPerformanceTuningAnalysisResultDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularJmsFleetPerformanceTuningAnalysisResult,
+		ReadContext: readSingularJmsFleetPerformanceTuningAnalysisResultWithContext,
 		Schema: map[string]*schema.Schema{
 			"fleet_id": {
 				Type:     schema.TypeString,
@@ -90,12 +91,12 @@ func JmsFleetPerformanceTuningAnalysisResultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsFleetPerformanceTuningAnalysisResult(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsFleetPerformanceTuningAnalysisResultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetPerformanceTuningAnalysisResultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetPerformanceTuningAnalysisResultDataSourceCrud struct {
@@ -108,7 +109,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) Get() error {
+func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.GetPerformanceTuningAnalysisResultRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -123,7 +124,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetPerformanceTuningAnalysisResult(context.Background(), request)
+	response, err := s.Client.GetPerformanceTuningAnalysisResult(ctx, request)
 	if err != nil {
 		return err
 	}

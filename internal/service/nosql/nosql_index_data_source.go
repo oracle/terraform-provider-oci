@@ -6,11 +6,12 @@ package nosql
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func NosqlIndexDataSource() *schema.Resource {
@@ -27,15 +28,15 @@ func NosqlIndexDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(NosqlIndexResource(), fieldMap, readSingularNosqlIndex)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(NosqlIndexResource(), fieldMap, readSingularNosqlIndexWithContext)
 }
 
-func readSingularNosqlIndex(d *schema.ResourceData, m interface{}) error {
+func readSingularNosqlIndexWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlIndexDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type NosqlIndexDataSourceCrud struct {
@@ -48,7 +49,7 @@ func (s *NosqlIndexDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NosqlIndexDataSourceCrud) Get() error {
+func (s *NosqlIndexDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_nosql.GetIndexRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -68,7 +69,7 @@ func (s *NosqlIndexDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "nosql")
 
-	response, err := s.Client.GetIndex(context.Background(), request)
+	response, err := s.Client.GetIndex(ctx, request)
 	if err != nil {
 		return err
 	}

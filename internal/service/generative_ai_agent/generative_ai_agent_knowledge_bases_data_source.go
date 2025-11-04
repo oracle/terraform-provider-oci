@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiAgentKnowledgeBasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiAgentKnowledgeBases,
+		ReadContext: readGenerativeAiAgentKnowledgeBasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func GenerativeAiAgentKnowledgeBasesDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiAgentKnowledgeBases(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentKnowledgeBasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentKnowledgeBasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentKnowledgeBasesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *GenerativeAiAgentKnowledgeBasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentKnowledgeBasesDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentKnowledgeBasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.ListKnowledgeBasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *GenerativeAiAgentKnowledgeBasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.ListKnowledgeBases(context.Background(), request)
+	response, err := s.Client.ListKnowledgeBases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *GenerativeAiAgentKnowledgeBasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListKnowledgeBases(context.Background(), request)
+		listResponse, err := s.Client.ListKnowledgeBases(ctx, request)
 		if err != nil {
 			return err
 		}

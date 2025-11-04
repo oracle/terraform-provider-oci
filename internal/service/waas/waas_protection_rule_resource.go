@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -32,10 +33,10 @@ func WaasProtectionRuleResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createWaasProtectionRule,
-		Read:   readWaasProtectionRule,
-		Update: updateWaasProtectionRule,
-		Delete: deleteWaasProtectionRule,
+		CreateContext: createWaasProtectionRuleWithContext,
+		ReadContext:   readWaasProtectionRuleWithContext,
+		UpdateContext: updateWaasProtectionRuleWithContext,
+		DeleteContext: deleteWaasProtectionRuleWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"waas_policy_id": {
@@ -107,31 +108,31 @@ func WaasProtectionRuleResource() *schema.Resource {
 	}
 }
 
-func createWaasProtectionRule(d *schema.ResourceData, m interface{}) error {
+func createWaasProtectionRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasProtectionRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readWaasProtectionRule(d *schema.ResourceData, m interface{}) error {
+func readWaasProtectionRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasProtectionRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateWaasProtectionRule(d *schema.ResourceData, m interface{}) error {
+func updateWaasProtectionRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasProtectionRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteWaasProtectionRule(d *schema.ResourceData, m interface{}) error {
+func deleteWaasProtectionRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -166,21 +167,21 @@ func parseWaasProtectionRuleCompositeId(compositeId string) (waasPolicyId, key s
 	return
 }
 
-func (s *WaasProtectionRuleResourceCrud) Create() error {
-	return s.Update()
+func (s *WaasProtectionRuleResourceCrud) CreateWithContext(ctx context.Context) error {
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *WaasProtectionRuleResourceCrud) getProtectionRuleFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WaasProtectionRuleResourceCrud) getProtectionRuleFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waas.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	waasPolicyId, err := protectionRuleWaitForWorkRequest(workId, "waas",
+	waasPolicyId, err := protectionRuleWaitForWorkRequest(ctx, workId, "waas",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, waasPolicyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_waas.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -193,7 +194,7 @@ func (s *WaasProtectionRuleResourceCrud) getProtectionRuleFromWorkRequest(workId
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func protectionRuleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -219,7 +220,7 @@ func protectionRuleWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func protectionRuleWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
+func protectionRuleWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = protectionRuleWorkRequestShouldRetryFunc(timeout)
@@ -238,7 +239,7 @@ func protectionRuleWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_waas.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -284,7 +285,7 @@ func getErrorFromProtectionRuleWorkRequest(response oci_waas.GetWorkRequestRespo
 	return errorMessage
 }
 
-func (s *WaasProtectionRuleResourceCrud) Get() error {
+func (s *WaasProtectionRuleResourceCrud) GetWithContext(ctx context.Context) error {
 
 	waasPolicyId, key, err := parseWaasProtectionRuleCompositeId(s.D.Id())
 	if err != nil {
@@ -300,7 +301,7 @@ func (s *WaasProtectionRuleResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.GetProtectionRule(context.Background(), request)
+	response, err := s.Client.GetProtectionRule(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -309,7 +310,7 @@ func (s *WaasProtectionRuleResourceCrud) Get() error {
 	return nil
 }
 
-func (s *WaasProtectionRuleResourceCrud) Update() error {
+func (s *WaasProtectionRuleResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_waas.UpdateProtectionRulesRequest{}
 	protectionRuleAction := oci_waas.ProtectionRuleAction{}
 
@@ -350,13 +351,13 @@ func (s *WaasProtectionRuleResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.UpdateProtectionRules(context.Background(), request)
+	response, err := s.Client.UpdateProtectionRules(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectionRuleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectionRuleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasProtectionRuleResourceCrud) SetData() error {

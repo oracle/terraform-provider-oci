@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
@@ -17,7 +18,7 @@ import (
 
 func JmsFleetJavaMigrationAnalysisResultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readJmsFleetJavaMigrationAnalysisResults,
+		ReadContext: readJmsFleetJavaMigrationAnalysisResultsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"application_name": {
@@ -140,12 +141,12 @@ func JmsFleetJavaMigrationAnalysisResultsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsFleetJavaMigrationAnalysisResults(d *schema.ResourceData, m interface{}) error {
+func readJmsFleetJavaMigrationAnalysisResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetJavaMigrationAnalysisResultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetJavaMigrationAnalysisResultsDataSourceCrud struct {
@@ -158,7 +159,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) Get() error {
+func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.ListJavaMigrationAnalysisResultsRequest{}
 
 	if applicationName, ok := s.D.GetOkExists("application_name"); ok {
@@ -199,7 +200,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.ListJavaMigrationAnalysisResults(context.Background(), request)
+	response, err := s.Client.ListJavaMigrationAnalysisResults(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -208,7 +209,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJavaMigrationAnalysisResults(context.Background(), request)
+		listResponse, err := s.Client.ListJavaMigrationAnalysisResults(ctx, request)
 		if err != nil {
 			return err
 		}

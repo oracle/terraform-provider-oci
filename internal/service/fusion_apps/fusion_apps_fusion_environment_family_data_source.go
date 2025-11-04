@@ -6,6 +6,7 @@ package fusion_apps
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -19,15 +20,15 @@ func FusionAppsFusionEnvironmentFamilyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentFamilyResource(), fieldMap, readSingularFusionAppsFusionEnvironmentFamily)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentFamilyResource(), fieldMap, readSingularFusionAppsFusionEnvironmentFamilyWithContext)
 }
 
-func readSingularFusionAppsFusionEnvironmentFamily(d *schema.ResourceData, m interface{}) error {
+func readSingularFusionAppsFusionEnvironmentFamilyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentFamilyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FusionAppsFusionEnvironmentFamilyDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.GetFusionEnvironmentFamilyRequest{}
 
 	if fusionEnvironmentFamilyId, ok := s.D.GetOkExists("fusion_environment_family_id"); ok {
@@ -50,7 +51,7 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetFusionEnvironmentFamily(context.Background(), request)
+	response, err := s.Client.GetFusionEnvironmentFamily(ctx, request)
 	if err != nil {
 		return err
 	}

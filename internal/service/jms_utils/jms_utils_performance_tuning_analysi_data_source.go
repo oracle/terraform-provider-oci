@@ -6,6 +6,7 @@ package jms_utils
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_utils "github.com/oracle/oci-go-sdk/v65/jmsutils"
 
@@ -15,7 +16,7 @@ import (
 
 func JmsUtilsPerformanceTuningAnalysiDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularJmsUtilsPerformanceTuningAnalysi,
+		ReadContext: readSingularJmsUtilsPerformanceTuningAnalysiWithContext,
 		Schema: map[string]*schema.Schema{
 			"performance_tuning_analysis_id": {
 				Type:     schema.TypeString,
@@ -87,12 +88,12 @@ func JmsUtilsPerformanceTuningAnalysiDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsUtilsPerformanceTuningAnalysi(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsUtilsPerformanceTuningAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsUtilsPerformanceTuningAnalysiDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsUtilsPerformanceTuningAnalysiDataSourceCrud struct {
@@ -105,7 +106,7 @@ func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) Get() error {
+func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms_utils.GetPerformanceTuningAnalysisRequest{}
 
 	if performanceTuningAnalysisId, ok := s.D.GetOkExists("performance_tuning_analysis_id"); ok {
@@ -115,7 +116,7 @@ func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_utils")
 
-	response, err := s.Client.GetPerformanceTuningAnalysis(context.Background(), request)
+	response, err := s.Client.GetPerformanceTuningAnalysis(ctx, request)
 	if err != nil {
 		return err
 	}

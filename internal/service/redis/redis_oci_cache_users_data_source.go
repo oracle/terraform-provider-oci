@@ -6,15 +6,17 @@ package redis
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func RedisOciCacheUsersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRedisOciCacheUsers,
+		ReadContext: readRedisOciCacheUsersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -34,6 +36,7 @@ func RedisOciCacheUsersDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -98,12 +101,12 @@ func OciCacheUserSummaryResource() *schema.Resource {
 	}
 }
 
-func readRedisOciCacheUsers(d *schema.ResourceData, m interface{}) error {
+func readRedisOciCacheUsersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RedisOciCacheUsersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RedisOciCacheUsersDataSourceCrud struct {
@@ -116,7 +119,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisOciCacheUsersDataSourceCrud) Get() error {
+func (s *RedisOciCacheUsersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_redis.ListOciCacheUsersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -135,7 +138,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.ListOciCacheUsers(context.Background(), request)
+	response, err := s.Client.ListOciCacheUsers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -144,7 +147,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOciCacheUsers(context.Background(), request)
+		listResponse, err := s.Client.ListOciCacheUsers(ctx, request)
 		if err != nil {
 			return err
 		}

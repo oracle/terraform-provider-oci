@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,10 +28,10 @@ func NosqlTableReplicaResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createNosqlTableReplica,
-		Read:     readNosqlTableReplica,
-		Delete:   deleteNosqlTableReplica,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createNosqlTableReplicaWithContext,
+		ReadContext:   readNosqlTableReplicaWithContext,
+		DeleteContext: deleteNosqlTableReplicaWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"region": {
@@ -74,29 +75,25 @@ func NosqlTableReplicaResource() *schema.Resource {
 	}
 }
 
-func createNosqlTableReplica(d *schema.ResourceData, m interface{}) error {
+func createNosqlTableReplicaWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlTableReplicaResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readNosqlTableReplica(d *schema.ResourceData, m interface{}) error {
-	sync := &NosqlTableReplicaResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).NosqlClient()
-
-	return tfresource.ReadResource(sync)
+func readNosqlTableReplicaWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return nil
 }
 
-func deleteNosqlTableReplica(d *schema.ResourceData, m interface{}) error {
+func deleteNosqlTableReplicaWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlTableReplicaResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type NosqlTableReplicaResourceCrud struct {
@@ -110,7 +107,7 @@ func (s *NosqlTableReplicaResourceCrud) ID() string {
 	return *s.Res.Region
 }
 
-func (s *NosqlTableReplicaResourceCrud) Create() error {
+func (s *NosqlTableReplicaResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_nosql.CreateReplicaRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -146,14 +143,14 @@ func (s *NosqlTableReplicaResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTableReplicaFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTableReplicaFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *NosqlTableReplicaResourceCrud) getTableReplicaFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *NosqlTableReplicaResourceCrud) getTableReplicaFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_nosql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	tableReplicaId, err := tableReplicaWaitForWorkRequest(workId, "TABLE",
+	tableReplicaId, err := tableReplicaWaitForWorkRequest(ctx, workId, "TABLE",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -173,7 +170,7 @@ func (s *NosqlTableReplicaResourceCrud) getTableReplicaFromWorkRequest(workId *s
 	}
 	s.D.SetId(*tableReplicaId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func tableReplicaWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -199,7 +196,7 @@ func tableReplicaWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func tableReplicaWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
+func tableReplicaWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = tableReplicaWorkRequestShouldRetryFunc(timeout)
@@ -247,14 +244,14 @@ func tableReplicaWaitForWorkRequest(wId *string, entityType string, action oci_n
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_nosql.WorkRequestStatusFailed || response.Status == oci_nosql.WorkRequestStatusCanceled {
-		return nil, getErrorFromNosqlTableReplicaWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromNosqlTableReplicaWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromNosqlTableReplicaWorkRequest(client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromNosqlTableReplicaWorkRequest(ctx context.Context, client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_nosql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -276,7 +273,7 @@ func getErrorFromNosqlTableReplicaWorkRequest(client *oci_nosql.NosqlClient, wor
 	return workRequestErr
 }
 
-func (s *NosqlTableReplicaResourceCrud) Get() error {
+func (s *NosqlTableReplicaResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_nosql.GetTableRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -322,7 +319,7 @@ func (s *NosqlTableReplicaResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NosqlTableReplicaResourceCrud) Delete() error {
+func (s *NosqlTableReplicaResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_nosql.DeleteReplicaRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -349,7 +346,7 @@ func (s *NosqlTableReplicaResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := tableReplicaWaitForWorkRequest(workId, "TABLE",
+	_, delWorkRequestErr := tableReplicaWaitForWorkRequest(ctx, workId, "TABLE",
 		oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

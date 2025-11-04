@@ -16,6 +16,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -35,10 +36,10 @@ func WaasWaasPolicyResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createWaasWaasPolicy,
-		Read:   readWaasWaasPolicy,
-		Update: updateWaasWaasPolicy,
-		Delete: deleteWaasWaasPolicy,
+		CreateContext: createWaasWaasPolicyWithContext,
+		ReadContext:   readWaasWaasPolicyWithContext,
+		UpdateContext: updateWaasWaasPolicyWithContext,
+		DeleteContext: deleteWaasWaasPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -1277,37 +1278,37 @@ func WaasWaasPolicyResource() *schema.Resource {
 	}
 }
 
-func createWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
+func createWaasWaasPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
+func readWaasWaasPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
+func updateWaasWaasPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteWaasWaasPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type WaasWaasPolicyResourceCrud struct {
@@ -1346,7 +1347,7 @@ func (s *WaasWaasPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *WaasWaasPolicyResourceCrud) Create() error {
+func (s *WaasWaasPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_waas.CreateWaasPolicyRequest{}
 
 	if additionalDomains, ok := s.D.GetOkExists("additional_domains"); ok {
@@ -1434,14 +1435,14 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 	retryPolicy := tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 	request.RequestMetadata.RetryPolicy = retryPolicy
 
-	response, err := s.Client.CreateWaasPolicy(context.Background(), request)
+	response, err := s.Client.CreateWaasPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_waas.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_waas.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1457,20 +1458,20 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getWaasPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWaasPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *WaasWaasPolicyResourceCrud) getWaasPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WaasWaasPolicyResourceCrud) getWaasPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waas.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	waasPolicyId, err := waasPolicyWaitForWorkRequest(workId, "waas",
+	waasPolicyId, err := waasPolicyWaitForWorkRequest(ctx, workId, "waas",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, waasPolicyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_waas.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -1484,7 +1485,7 @@ func (s *WaasWaasPolicyResourceCrud) getWaasPolicyFromWorkRequest(workId *string
 	}
 	s.D.SetId(*waasPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func waasPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1510,7 +1511,7 @@ func waasPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
+func waasPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = waasPolicyWorkRequestShouldRetryFunc(timeout)
@@ -1529,7 +1530,7 @@ func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waa
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_waas.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1634,7 +1635,7 @@ func (s *WaasWaasPolicyResourceCrud) mapToOriginGroup(fieldKeyFormat string) (oc
 	return result, nil
 }
 
-func (s *WaasWaasPolicyResourceCrud) Get() error {
+func (s *WaasWaasPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_waas.GetWaasPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -1642,7 +1643,7 @@ func (s *WaasWaasPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.GetWaasPolicy(context.Background(), request)
+	response, err := s.Client.GetWaasPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1651,11 +1652,11 @@ func (s *WaasWaasPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *WaasWaasPolicyResourceCrud) Update() error {
+func (s *WaasWaasPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1736,13 +1737,13 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.UpdateWaasPolicy(context.Background(), request)
+	response, err := s.Client.UpdateWaasPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWaasPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWaasPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasWaasPolicyResourceCrud) objectMapToOriginMap(origins interface{}) (map[string]oci_waas.Origin, error) {
@@ -1789,7 +1790,7 @@ func (s *WaasWaasPolicyResourceCrud) objectMapToOriginGroupMap(originGroups inte
 	return resultMap, nil
 }
 
-func (s *WaasWaasPolicyResourceCrud) Delete() error {
+func (s *WaasWaasPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_waas.DeleteWaasPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -1797,14 +1798,14 @@ func (s *WaasWaasPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.DeleteWaasPolicy(context.Background(), request)
+	response, err := s.Client.DeleteWaasPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := waasPolicyWaitForWorkRequest(workId, "waas",
+	_, delWorkRequestErr := waasPolicyWaitForWorkRequest(ctx, workId, "waas",
 		oci_waas.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -3937,7 +3938,7 @@ func WhitelistToMap(obj oci_waas.Whitelist) map[string]interface{} {
 	return result
 }
 
-func (s *WaasWaasPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *WaasWaasPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_waas.ChangeWaasPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -3948,12 +3949,12 @@ func (s *WaasWaasPolicyResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	_, err := s.Client.ChangeWaasPolicyCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeWaasPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

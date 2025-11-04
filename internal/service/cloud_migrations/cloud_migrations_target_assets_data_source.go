@@ -6,6 +6,7 @@ package cloud_migrations
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -15,7 +16,7 @@ import (
 
 func CloudMigrationsTargetAssetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCloudMigrationsTargetAssets,
+		ReadContext: readCloudMigrationsTargetAssetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -52,12 +53,12 @@ func CloudMigrationsTargetAssetsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudMigrationsTargetAssets(d *schema.ResourceData, m interface{}) error {
+func readCloudMigrationsTargetAssetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsTargetAssetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CloudMigrationsTargetAssetsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *CloudMigrationsTargetAssetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsTargetAssetsDataSourceCrud) Get() error {
+func (s *CloudMigrationsTargetAssetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.ListTargetAssetsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -94,7 +95,7 @@ func (s *CloudMigrationsTargetAssetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.ListTargetAssets(context.Background(), request)
+	response, err := s.Client.ListTargetAssets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *CloudMigrationsTargetAssetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTargetAssets(context.Background(), request)
+		listResponse, err := s.Client.ListTargetAssets(ctx, request)
 		if err != nil {
 			return err
 		}

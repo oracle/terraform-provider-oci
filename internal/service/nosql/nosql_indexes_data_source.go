@@ -6,16 +6,17 @@ package nosql
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func NosqlIndexesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNosqlIndexes,
+		ReadContext: readNosqlIndexesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +44,12 @@ func NosqlIndexesDataSource() *schema.Resource {
 	}
 }
 
-func readNosqlIndexes(d *schema.ResourceData, m interface{}) error {
+func readNosqlIndexesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NosqlIndexesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type NosqlIndexesDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *NosqlIndexesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NosqlIndexesDataSourceCrud) Get() error {
+func (s *NosqlIndexesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_nosql.ListIndexesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *NosqlIndexesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "nosql")
 
-	response, err := s.Client.ListIndexes(context.Background(), request)
+	response, err := s.Client.ListIndexes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -100,8 +101,8 @@ func (s *NosqlIndexesDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("NosqlIndexesDataSource-", NosqlIndexesDataSource(), s.D))
-
 	resources := []map[string]interface{}{}
+
 	for _, item := range s.Res.Items {
 		resources = append(resources, IndexSummaryToMap(item))
 	}
