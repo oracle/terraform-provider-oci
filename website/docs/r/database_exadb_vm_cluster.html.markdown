@@ -30,19 +30,19 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
 	hostname = var.exadb_vm_cluster_hostname
 	shape = var.exadb_vm_cluster_shape
     
-    node_config {
-      enabled_ecpu_count_per_node = var.exadb_vm_cluster_enabled_ecpu_count_per_node
-      total_ecpu_count_per_node            = var.exadb_vm_cluster_total_ecpu_count_per_node
-      vm_file_system_storage_size_gbs_per_node = var.exadb_vm_cluster_vm_file_system_storage_size_in_gbs_per_node
-    }
-  
-    node_resource {
-      node_name = "node1"
-    }
-  
-    node_resource {
-      node_name = "node2"
-    }
+	node_config {
+	  enabled_ecpu_count_per_node = var.exadb_vm_cluster_enabled_ecpu_count_per_node
+	  total_ecpu_count_per_node            = var.exadb_vm_cluster_total_ecpu_count_per_node
+	  vm_file_system_storage_size_gbs_per_node = var.exadb_vm_cluster_vm_file_system_storage_size_in_gbs_per_node
+	}
+	
+	node_resource {
+	  node_name = "node1"
+	}
+	
+	node_resource {
+	  node_name = "node2"
+	}
   
 	ssh_public_keys = var.exadb_vm_cluster_ssh_public_keys
 	subnet_id = oci_core_subnet.test_subnet.id
@@ -204,9 +204,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 12 hours), when creating the Exadb Vm Cluster
-	* `update` - (Defaults to 12 hours), when updating the Exadb Vm Cluster
-	* `delete` - (Defaults to 12 hours), when destroying the Exadb Vm Cluster
+* `create` - (Defaults to 12 hours), when creating the Exadb Vm Cluster
+* `update` - (Defaults to 12 hours), when updating the Exadb Vm Cluster
+* `delete` - (Defaults to 12 hours), when destroying the Exadb Vm Cluster
 
 
 ## Import
