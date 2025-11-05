@@ -1,3 +1,14 @@
+## 7.25.0 (November 4, 2025)
+
+### Added
+- Support for new service Data Intelligence Foundation
+- Support for VM Instance - Snapshot/Restore Read only
+- ZPR and PSA support
+- Support for IPA-Graceful Termination of Instance in Instance Pool
+
+### Bug Fix
+- make test compile failure
+
 ## 7.24.0 (October 29, 2025)
 
 ### Added
