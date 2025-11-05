@@ -19,6 +19,10 @@ import (
 // CreateSubnetDetails The representation of CreateSubnetDetails
 type CreateSubnetDetails struct {
 
+	// The availability domain to contain the subnet.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
+
 	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
 	// a. The CIDR block is valid and correctly formatted.
 	// b. The new range is within one of the parent VCN ranges.
@@ -30,18 +34,6 @@ type CreateSubnetDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to contain the subnet.
 	VcnId *string `mandatory:"true" json:"vcnId"`
-
-	// Controls whether the subnet is regional or specific to an availability domain. Oracle
-	// recommends creating regional subnets because they're more flexible and make it easier to
-	// implement failover across availability domains. Originally, AD-specific subnets were the
-	// only kind available to use.
-	// To create a regional subnet, omit this attribute. Then any resources later created in this
-	// subnet (such as a Compute instance) can be created in any availability domain in the region.
-	// To instead create an AD-specific subnet, set this attribute to the availability domain you
-	// want this subnet to be in. Then any resources later created in this subnet can only be
-	// created in that availability domain.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
@@ -79,20 +71,6 @@ type CreateSubnetDetails struct {
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
-	// The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
-	// - The CIDR blocks must be valid.
-	// - Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
-	// - The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a subnet.
-	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
-
-	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
-	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any
-	// IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
-	// `prohibitPublicIpOnVnic` will be set to the value of `prohibitInternetIngress` to dictate IPv4
-	// behavior in this subnet. Only one or the other flag should be specified.
-	// Example: `true`
-	ProhibitInternetIngress *bool `mandatory:"false" json:"prohibitInternetIngress"`
-
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified
@@ -101,8 +79,8 @@ type CreateSubnetDetails struct {
 	// If `prohibitPublicIpOnVnic` is set to true, VNICs created in this
 	// subnet cannot have public IP addresses (that is, it's a private
 	// subnet).
-	// If you intend to use an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to
-	// specify ingress internet traffic behavior of the subnet.
+	// For IPv6, if `prohibitPublicIpOnVnic` is set to `true`, internet access is not allowed for any
+	// IPv6s assigned to VNICs in the subnet.
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 

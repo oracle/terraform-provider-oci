@@ -62,6 +62,8 @@ type UpdateInstancePoolDetails struct {
 	// A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format.
 	// The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format
 	InstanceHostnameFormatter *string `mandatory:"false" json:"instanceHostnameFormatter"`
+
+	LifecycleManagement *InstancePoolLifecycleManagementDetails `mandatory:"false" json:"lifecycleManagement"`
 }
 
 func (m UpdateInstancePoolDetails) String() string {

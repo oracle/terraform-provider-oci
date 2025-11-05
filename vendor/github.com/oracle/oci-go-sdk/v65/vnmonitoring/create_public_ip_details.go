@@ -47,9 +47,6 @@ type CreatePublicIpDetails struct {
 	// assigned to a private IP. You can later assign the public IP with
 	// UpdatePublicIp.
 	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP pool.
-	PublicIpPoolId *string `mandatory:"false" json:"publicIpPoolId"`
 }
 
 func (m CreatePublicIpDetails) String() string {

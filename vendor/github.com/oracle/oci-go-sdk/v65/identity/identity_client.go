@@ -6812,6 +6812,7 @@ func (client IdentityClient) ListRegions(ctx context.Context) (response ListRegi
 
 // listRegions performs the request (retry policy is not enabled without a request object)
 func (client IdentityClient) listRegions(ctx context.Context) (common.OCIResponse, error) {
+
 	httpRequest := common.MakeDefaultHTTPRequest(http.MethodGet, "/regions")
 	var err error
 

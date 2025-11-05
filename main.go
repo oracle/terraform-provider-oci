@@ -8,6 +8,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
@@ -48,6 +49,7 @@ func main() {
 	var parallelism = flag.Int("parallelism", 1, "The number of threads to use for resource discovery. By default the value is 1")
 	var varsResourceLevel = flag.String("variables_resource_level", "", "[export] List of top-level attributes to be export as variable following format resourceType.attribute, if attribute is present in variables_global_level, it will be excluded for this resourceType")
 	var varsGlobalLevel = flag.String("variables_global_level", "", "[export] List of top-level attributes to be export as variable following format attribute1,attribute2, if attribute present in variables_resource_level, it will be excluded for this resourceType")
+	var customApiTimeout = flag.String("custom_api_timeout", "", "[export] The time duration for which API calls will wait for response from the service. By default, we rely on timeout set by SDK")
 
 	flag.Parse()
 	globalvar.PrintVersion()
@@ -139,6 +141,27 @@ func main() {
 
 			if filterFlag != nil {
 				args.Filters = filterFlag
+			}
+
+			if customApiTimeout != nil && *customApiTimeout != "" {
+				if timeInSeconds, err := strconv.Atoi(*customApiTimeout); err != nil || timeInSeconds < 0 {
+					log.Printf("[WARNING]: Custom API timeout - %s - found but could not be converted to a postive integer", *customApiTimeout)
+				} else {
+					log.Printf("[DEBUG]:Setting custom API timeout of %d seconds as ENV variable OCI_CUSTOM_CLIENT_TIMEOUT", timeInSeconds)
+					err := os.Setenv("OCI_CUSTOM_CLIENT_TIMEOUT", strconv.Itoa(timeInSeconds))
+					if err != nil {
+						log.Printf("[ERROR]: Error while setting custom API Timeout as ENV variable OCI_CUSTOM_CLIENT_TIMEOUT- %s", err)
+					} else {
+						log.Printf("[DEBUG]: Success setting custom API Timeout as ENV variable OCI_CUSTOM_CLIENT_TIMEOUT- %s", os.Getenv("OCI_CUSTOM_CLIENT_TIMEOUT"))
+					}
+				}
+			} else {
+				err := os.Setenv("OCI_CUSTOM_CLIENT_TIMEOUT", "")
+				if err != nil {
+					log.Printf("[ERROR]: Error while setting default API Timeout as ENV variable OCI_CUSTOM_CLIENT_TIMEOUT to empty string - %s", err)
+				} else {
+					log.Printf("[DEBUG]: Success setting default API Timeout as ENV variable OCI_CUSTOM_CLIENT_TIMEOUT to empty string - %s", os.Getenv("OCI_CUSTOM_CLIENT_TIMEOUT"))
+				}
 			}
 
 			err, status := resourcediscovery.RunExportCommand(args)

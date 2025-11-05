@@ -16,9 +16,7 @@ import (
 	"strings"
 )
 
-// TunnelConfig Deprecated. For tunnel information, instead see:
-//   - IPSecConnectionTunnel
-//   - IPSecConnectionTunnelSharedSecret
+// TunnelConfig Specific connection details for an IPSec tunnel.
 type TunnelConfig struct {
 
 	// The IP address of Oracle's VPN headend.
