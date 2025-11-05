@@ -87,7 +87,7 @@ The following attributes are exported:
 	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
-* `db_version` - A valid Oracle AI Database version for Autonomous AI Database.
+* `db_version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. 
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
