@@ -218,6 +218,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `optimizer` - Discovers optimizer resources within the specified compartment
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `psa` - Discovers psa resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
@@ -1261,6 +1262,10 @@ osp_gateway
     
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
+
+psa
+    
+* oci\_psa\_private\_service\_acces
 
 psql
     

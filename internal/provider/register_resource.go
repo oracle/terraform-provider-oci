@@ -114,6 +114,7 @@ import (
 	tf_osub_organization_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_organization_subscription"
 	tf_osub_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_subscription"
 	tf_osub_usage "github.com/oracle/terraform-provider-oci/internal/service/osub_usage"
+	tf_psa "github.com/oracle/terraform-provider-oci/internal/service/psa"
 	tf_psql "github.com/oracle/terraform-provider-oci/internal/service/psql"
 	tf_queue "github.com/oracle/terraform-provider-oci/internal/service/queue"
 	tf_recovery "github.com/oracle/terraform-provider-oci/internal/service/recovery"
@@ -472,6 +473,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("osubusage") {
 		tf_osub_usage.RegisterResource()
+	}
+	if common.CheckForEnabledServices("psa") {
+		tf_psa.RegisterResource()
 	}
 	if common.CheckForEnabledServices("psql") {
 		tf_psql.RegisterResource()
