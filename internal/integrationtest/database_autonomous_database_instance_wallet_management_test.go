@@ -30,7 +30,7 @@ var (
 
 	DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation = map[string]interface{}{
 		"autonomous_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"grace_period":           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"grace_period":           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `30`},
 		"should_rotate":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -101,7 +101,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseInstanceWalletManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "grace_period", "11"),
+				resource.TestCheckResourceAttr(resourceName, "grace_period", "30"),
 				resource.TestCheckResourceAttr(resourceName, "should_rotate", "true"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
