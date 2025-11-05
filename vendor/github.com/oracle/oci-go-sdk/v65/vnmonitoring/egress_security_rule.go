@@ -56,9 +56,6 @@ type EgressSecurityRule struct {
 	TcpOptions *TcpOptions `mandatory:"false" json:"tcpOptions"`
 
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
-
-	// An optional description of your choice for the rule.
-	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m EgressSecurityRule) String() string {

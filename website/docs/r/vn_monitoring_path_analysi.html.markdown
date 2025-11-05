@@ -43,6 +43,7 @@ resource "oci_vn_monitoring_path_analysi" "test_path_analysi" {
 		listener_id = oci_load_balancer_listener.test_listener.id
 		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 		network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+		psa_id = oci_vn_monitoring_psa.test_psa.id
 		subnet_id = oci_core_subnet.test_subnet.id
 		vlan_id = oci_core_vlan.test_vlan.id
 		vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
@@ -74,6 +75,7 @@ resource "oci_vn_monitoring_path_analysi" "test_path_analysi" {
 		listener_id = oci_load_balancer_listener.test_listener.id
 		load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 		network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+		psa_id = oci_vn_monitoring_psa.test_psa.id
 		subnet_id = oci_core_subnet.test_subnet.id
 		vlan_id = oci_core_vlan.test_vlan.id
 		vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
@@ -93,6 +95,7 @@ The following arguments are supported:
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 
 	* `network_load_balancer_id` - (Required when type=NETWORK_LOAD_BALANCER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's network load balancer. 
+	* `psa_id` - (Required when type=PRIVATE_SERVICE_ACCESS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PSA. 
 	* `subnet_id` - (Required when type=SUBNET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges). 
 	* `type` - (Required) The type of the `Endpoint`.
 	* `vlan_id` - (Required when type=VLAN) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges). 
@@ -113,6 +116,7 @@ The following arguments are supported:
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 
 	* `network_load_balancer_id` - (Required when type=NETWORK_LOAD_BALANCER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's network load balancer. 
+	* `psa_id` - (Required when type=PRIVATE_SERVICE_ACCESS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PSA. 
 	* `subnet_id` - (Required when type=SUBNET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet containing the IP address. This can be used to disambiguate which subnet is intended, in case the IP address is used in more than one subnet (when there are subnets with overlapping IP ranges). 
 	* `type` - (Required) The type of the `Endpoint`.
 	* `vlan_id` - (Required when type=VLAN) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN containing the IP address. This can be used to disambiguate which VLAN is queried, in case the endpoint IP address belongs to more than one VLAN (when there are VLANs with overlapping IP ranges). 

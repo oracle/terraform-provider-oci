@@ -206,6 +206,84 @@ func CoreInstancePoolResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"lifecycle_management": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"lifecycle_actions": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"pre_termination": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Required: true,
+												},
+												"on_timeout": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"preserve_block_volume_mode": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"preserve_boot_volume_mode": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"timeout": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"load_balancers": {
 				Type:             schema.TypeSet,
 				Optional:         true,
@@ -401,6 +479,17 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.InstanceHostnameFormatter = &tmp
 	}
 
+	if lifecycleManagement, ok := s.D.GetOkExists("lifecycle_management"); ok {
+		if tmpList := lifecycleManagement.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lifecycle_management", 0)
+			tmp, err := s.mapToInstancePoolLifecycleManagementDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LifecycleManagement = &tmp
+		}
+	}
+
 	if loadBalancers, ok := s.D.GetOkExists("load_balancers"); ok {
 		set := loadBalancers.(*schema.Set)
 		interfaces := set.List()
@@ -554,6 +643,17 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
+	if lifecycleManagement, ok := s.D.GetOkExists("lifecycle_management"); ok {
+		if tmpList := lifecycleManagement.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lifecycle_management", 0)
+			tmp, err := s.mapToInstancePoolLifecycleManagementDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LifecycleManagement = &tmp
+		}
+	}
+
 	if placementConfigurations, ok := s.D.GetOkExists("placement_configurations"); ok {
 		interfaces := placementConfigurations.([]interface{})
 		tmp := make([]oci_core.UpdateInstancePoolPlacementConfigurationDetails, len(interfaces))
@@ -647,6 +747,12 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 
 	if s.Res.InstanceHostnameFormatter != nil {
 		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
+	}
+
+	if s.Res.LifecycleManagement != nil {
+		s.D.Set("lifecycle_management", []interface{}{InstancePoolLifecycleManagementDetailsToMap(s.Res.LifecycleManagement)})
+	} else {
+		s.D.Set("lifecycle_management", nil)
 	}
 
 	loadBalancers := []interface{}{}
@@ -890,6 +996,60 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 	return result
 }
 
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLifecycleActionsDetails(fieldKeyFormat string) (oci_core.InstancePoolLifecycleActionsDetails, error) {
+	result := oci_core.InstancePoolLifecycleActionsDetails{}
+
+	if preTermination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pre_termination")); ok {
+		if tmpList := preTermination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pre_termination"), 0)
+			tmp, err := s.mapToInstancePoolPreTerminationActionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pre_termination, encountered error: %v", err)
+			}
+			result.PreTermination = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func InstancePoolLifecycleActionsDetailsToMap(obj *oci_core.InstancePoolLifecycleActionsDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PreTermination != nil {
+		result["pre_termination"] = []interface{}{InstancePoolPreTerminationActionDetailsToMap(obj.PreTermination)}
+	}
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLifecycleManagementDetails(fieldKeyFormat string) (oci_core.InstancePoolLifecycleManagementDetails, error) {
+	result := oci_core.InstancePoolLifecycleManagementDetails{}
+
+	if lifecycleActions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lifecycle_actions")); ok {
+		if tmpList := lifecycleActions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "lifecycle_actions"), 0)
+			tmp, err := s.mapToInstancePoolLifecycleActionsDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert lifecycle_actions, encountered error: %v", err)
+			}
+			result.LifecycleActions = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func InstancePoolLifecycleManagementDetailsToMap(obj *oci_core.InstancePoolLifecycleManagementDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LifecycleActions != nil {
+		result["lifecycle_actions"] = []interface{}{InstancePoolLifecycleActionsDetailsToMap(obj.LifecycleActions)}
+	}
+
+	return result
+}
+
 func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormat string) (oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, error) {
 	result := oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails{}
 
@@ -1024,6 +1184,75 @@ func InstancePoolPlacementSecondaryVnicSubnetToMap(obj oci_core.InstancePoolPlac
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPreTerminationActionDetails(fieldKeyFormat string) (oci_core.InstancePoolPreTerminationActionDetails, error) {
+	result := oci_core.InstancePoolPreTerminationActionDetails{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if onTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_timeout")); ok {
+		if tmpList := onTimeout.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "on_timeout"), 0)
+			tmp, err := s.mapToInstancePoolPreTerminationActionHandleTimeoutDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert on_timeout, encountered error: %v", err)
+			}
+			result.OnTimeout = &tmp
+		}
+	}
+
+	if timeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout")); ok {
+		tmp := timeout.(int)
+		result.Timeout = &tmp
+	}
+
+	return result, nil
+}
+
+func InstancePoolPreTerminationActionDetailsToMap(obj *oci_core.InstancePoolPreTerminationActionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.OnTimeout != nil {
+		result["on_timeout"] = []interface{}{InstancePoolPreTerminationActionHandleTimeoutDetailsToMap(obj.OnTimeout)}
+	}
+
+	if obj.Timeout != nil {
+		result["timeout"] = int(*obj.Timeout)
+	}
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPreTerminationActionHandleTimeoutDetails(fieldKeyFormat string) (oci_core.InstancePoolPreTerminationActionHandleTimeoutDetails, error) {
+	result := oci_core.InstancePoolPreTerminationActionHandleTimeoutDetails{}
+
+	if preserveBlockVolumeMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preserve_block_volume_mode")); ok {
+		result.PreserveBlockVolumeMode = oci_core.InstancePoolPreTerminationActionHandleTimeoutDetailsPreserveBlockVolumeModeEnum(preserveBlockVolumeMode.(string))
+	}
+
+	if preserveBootVolumeMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preserve_boot_volume_mode")); ok {
+		result.PreserveBootVolumeMode = oci_core.InstancePoolPreTerminationActionHandleTimeoutDetailsPreserveBootVolumeModeEnum(preserveBootVolumeMode.(string))
+	}
+
+	return result, nil
+}
+
+func InstancePoolPreTerminationActionHandleTimeoutDetailsToMap(obj *oci_core.InstancePoolPreTerminationActionHandleTimeoutDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["preserve_block_volume_mode"] = string(obj.PreserveBlockVolumeMode)
+
+	result["preserve_boot_volume_mode"] = string(obj.PreserveBootVolumeMode)
 
 	return result
 }

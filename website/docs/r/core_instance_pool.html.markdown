@@ -68,6 +68,23 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	freeform_tags = {"Department"= "Finance"}
 	instance_display_name_formatter = var.instance_pool_instance_display_name_formatter
 	instance_hostname_formatter = var.instance_pool_instance_hostname_formatter
+	lifecycle_management {
+		#Required
+		lifecycle_actions {
+
+			#Optional
+			pre_termination {
+				#Required
+				is_enabled = var.instance_pool_lifecycle_management_lifecycle_actions_pre_termination_is_enabled
+				on_timeout {
+					#Required
+					preserve_block_volume_mode = var.instance_pool_lifecycle_management_lifecycle_actions_pre_termination_on_timeout_preserve_block_volume_mode
+					preserve_boot_volume_mode = var.instance_pool_lifecycle_management_lifecycle_actions_pre_termination_on_timeout_preserve_boot_volume_mode
+				}
+				timeout = var.instance_pool_lifecycle_management_lifecycle_actions_pre_termination_timeout
+			}
+		}
+	}
 	load_balancers {
 		#Required
 		backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
@@ -89,6 +106,14 @@ The following arguments are supported:
 * `instance_configuration_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `lifecycle_management` - (Optional) (Updatable) The lifecycle management options for the instance pool. 
+	* `lifecycle_actions` - (Required) (Updatable) The lifecycle actions for the instance pool. 
+		* `pre_termination` - (Optional) (Updatable) The data for pre-termination action for an instance pool 
+			* `is_enabled` - (Required) (Updatable) Whether pre-termination action is enabled or not. 
+			* `on_timeout` - (Required) (Updatable) Options to handle timeout for pre-termination action. 
+				* `preserve_block_volume_mode` - (Required) (Updatable) Whether the block volume should be preserved after termination. 
+				* `preserve_boot_volume_mode` - (Required) (Updatable) Whether the boot volume should be preserved after termination. 
+			* `timeout` - (Required) (Updatable) The timeout in seconds for pre-termination action for an instance pool(min = 0 sec, max = 7200 secs).
 * `load_balancers` - (Optional) The load balancers to attach to the instance pool. (Note: From 6.16.0 load_balancers field in oci_core_instance_pool is changed from TypeList to TypeSet - to support load balancer insert operation. Also, LB cant by accessed by index)
 	* `backend_set_name` - (Required) The name of the backend set on the load balancer to add instances to.
 	* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer to attach to the instance pool. 
@@ -138,6 +163,14 @@ The following attributes are exported:
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `lifecycle_management` - The lifecycle management options for the instance pool. 
+	* `lifecycle_actions` - The lifecycle actions for the instance pool. 
+		* `pre_termination` - The data for pre-termination action for an instance pool 
+			* `is_enabled` - Whether pre-termination action is enabled or not. 
+			* `on_timeout` - Options to handle timeout for pre-termination action. 
+				* `preserve_block_volume_mode` - Whether the block volume should be preserved after termination. 
+				* `preserve_boot_volume_mode` - Whether the boot volume should be preserved after termination. 
+			* `timeout` - The timeout in seconds for pre-termination action for an instance pool(min = 0 sec, max = 7200 secs).
 * `load_balancers` - The load balancers attached to the instance pool. (Note: From 6.16.0 load_balancers field in oci_core_instance_pool is changed from TypeList to TypeSet - to support load balancer insert operation. Also, LB cant by accessed by index)
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attachment.

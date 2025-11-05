@@ -26,6 +26,10 @@ type AccessDeniedTrafficNode struct {
 	EgressSecurityAction SecurityAction `mandatory:"false" json:"egressSecurityAction"`
 
 	IngressSecurityAction SecurityAction `mandatory:"false" json:"ingressSecurityAction"`
+
+	ZprEgressSecurityAction SecurityAction `mandatory:"false" json:"zprEgressSecurityAction"`
+
+	ZprIngressSecurityAction SecurityAction `mandatory:"false" json:"zprIngressSecurityAction"`
 }
 
 // GetEgressTraffic returns EgressTraffic
@@ -46,6 +50,16 @@ func (m AccessDeniedTrafficNode) GetEgressSecurityAction() SecurityAction {
 // GetIngressSecurityAction returns IngressSecurityAction
 func (m AccessDeniedTrafficNode) GetIngressSecurityAction() SecurityAction {
 	return m.IngressSecurityAction
+}
+
+// GetZprEgressSecurityAction returns ZprEgressSecurityAction
+func (m AccessDeniedTrafficNode) GetZprEgressSecurityAction() SecurityAction {
+	return m.ZprEgressSecurityAction
+}
+
+// GetZprIngressSecurityAction returns ZprIngressSecurityAction
+func (m AccessDeniedTrafficNode) GetZprIngressSecurityAction() SecurityAction {
+	return m.ZprIngressSecurityAction
 }
 
 func (m AccessDeniedTrafficNode) String() string {
@@ -81,10 +95,12 @@ func (m AccessDeniedTrafficNode) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *AccessDeniedTrafficNode) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		EgressTraffic         *EgressTrafficSpec `json:"egressTraffic"`
-		NextHopRoutingAction  routingaction      `json:"nextHopRoutingAction"`
-		EgressSecurityAction  securityaction     `json:"egressSecurityAction"`
-		IngressSecurityAction securityaction     `json:"ingressSecurityAction"`
+		EgressTraffic            *EgressTrafficSpec `json:"egressTraffic"`
+		NextHopRoutingAction     routingaction      `json:"nextHopRoutingAction"`
+		EgressSecurityAction     securityaction     `json:"egressSecurityAction"`
+		IngressSecurityAction    securityaction     `json:"ingressSecurityAction"`
+		ZprEgressSecurityAction  securityaction     `json:"zprEgressSecurityAction"`
+		ZprIngressSecurityAction securityaction     `json:"zprIngressSecurityAction"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -122,6 +138,26 @@ func (m *AccessDeniedTrafficNode) UnmarshalJSON(data []byte) (e error) {
 		m.IngressSecurityAction = nn.(SecurityAction)
 	} else {
 		m.IngressSecurityAction = nil
+	}
+
+	nn, e = model.ZprEgressSecurityAction.UnmarshalPolymorphicJSON(model.ZprEgressSecurityAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ZprEgressSecurityAction = nn.(SecurityAction)
+	} else {
+		m.ZprEgressSecurityAction = nil
+	}
+
+	nn, e = model.ZprIngressSecurityAction.UnmarshalPolymorphicJSON(model.ZprIngressSecurityAction.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ZprIngressSecurityAction = nn.(SecurityAction)
+	} else {
+		m.ZprIngressSecurityAction = nil
 	}
 
 	return

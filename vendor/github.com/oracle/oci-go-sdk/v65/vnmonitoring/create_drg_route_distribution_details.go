@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// CreateDrgRouteDistributionDetails Details used to create a route distribution.
+// CreateDrgRouteDistributionDetails Details used to create an import route distribution. You can't create a new export route distribution.
 type CreateDrgRouteDistributionDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG the DRG route table belongs to.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	// States that this distribution defines how routes get imported into route tables.
 	DistributionType CreateDrgRouteDistributionDetailsDistributionTypeEnum `mandatory:"true" json:"distributionType"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

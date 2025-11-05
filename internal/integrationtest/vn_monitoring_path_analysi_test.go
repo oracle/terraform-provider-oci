@@ -32,9 +32,31 @@ var (
 		"query_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: pathAnalysiQueryOptionsRepresentation},
 		"source_endpoint":       acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiSourceEndpointRepresentation},
 	}
+	pathAnalysiRepresentationLoadBalancer = map[string]interface{}{
+		"type":                  acctest.Representation{RepType: acctest.Required, Create: `ADHOC_QUERY`},
+		"cache_control":         acctest.Representation{RepType: acctest.Optional, Create: `cacheControl`},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"destination_endpoint":  acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiLoadBalancerDestinationEndpointRepresentation},
+		"path_analyzer_test_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_vn_monitoring_path_analyzer_test.test_path_analyzer_test.id}`},
+		"protocol":              acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"protocol_parameters":   acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiProtocolParametersRepresentation},
+		"query_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: pathAnalysiQueryOptionsRepresentation},
+		"source_endpoint":       acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiSourceEndpointRepresentation},
+	}
+	pathAnalysiRepresentationNetworkLoadBalancer = map[string]interface{}{
+		"type":                  acctest.Representation{RepType: acctest.Required, Create: `ADHOC_QUERY`},
+		"cache_control":         acctest.Representation{RepType: acctest.Optional, Create: `cacheControl`},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"destination_endpoint":  acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiNetworkLoadBalancerDestinationEndpointRepresentation},
+		"path_analyzer_test_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_vn_monitoring_path_analyzer_test.test_path_analyzer_test.id}`},
+		"protocol":              acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"protocol_parameters":   acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiProtocolParametersRepresentation},
+		"query_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: pathAnalysiQueryOptionsRepresentation},
+		"source_endpoint":       acctest.RepresentationGroup{RepType: acctest.Required, Group: pathAnalysiSourceEndpointRepresentation},
+	}
 	pathAnalysiDestinationEndpointRepresentation = map[string]interface{}{
 		"type":                     acctest.Representation{RepType: acctest.Required, Create: `IP_ADDRESS`},
-		"address":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.private_ip}`},
+		"address":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.public_ip}`},
 		"instance_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance.id}`},
 		"listener_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_listener.test_listener.id}`},
 		"load_balancer_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
@@ -42,6 +64,14 @@ var (
 		"subnet_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 		"vlan_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_vlan.id}`},
 		"vnic_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}`},
+	}
+	pathAnalysiLoadBalancerDestinationEndpointRepresentation = map[string]interface{}{
+		"type":             acctest.Representation{RepType: acctest.Required, Create: `LOAD_BALANCER`},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+	}
+	pathAnalysiNetworkLoadBalancerDestinationEndpointRepresentation = map[string]interface{}{
+		"type":                     acctest.Representation{RepType: acctest.Required, Create: `NETWORK_LOAD_BALANCER`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 	pathAnalysiProtocolParametersRepresentation = map[string]interface{}{
 		"type":             acctest.Representation{RepType: acctest.Required, Create: `ICMP`},
@@ -55,7 +85,7 @@ var (
 	}
 	pathAnalysiSourceEndpointRepresentation = map[string]interface{}{
 		"type":                     acctest.Representation{RepType: acctest.Required, Create: `IP_ADDRESS`},
-		"address":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance2.private_ip}`},
+		"address":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance2.public_ip}`},
 		"instance_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance.test_instance2.id}`},
 		"listener_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_listener.test_listener.id}`},
 		"load_balancer_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
@@ -77,6 +107,14 @@ var (
 		"rule_set_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		"ssl_configuration":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerSslConfigurationRepresentationOciCerts},
 	}
+	nblistenerRepresentation = map[string]interface{}{
+		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `myListener1`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
+	}
+
 	vlanRepresentationVnMonitoring = map[string]interface{}{
 		"cidr_block":          acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`, Update: "10.0.0.0/16"},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -134,6 +172,46 @@ func TestVnMonitoringPathAnalysiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_endpoint.0.address"),
 				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.0.type", "IP_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_endpoint.0.address"),
+				resource.TestCheckResourceAttr(resourceName, "source_endpoint.0.type", "IP_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ADHOC_QUERY"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + PathAnalysiResourceDependencies,
+		},
+		{
+			Config: config + compartmentIdVariableStr + PathAnalysiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_vn_monitoring_path_analysi", "test_path_analysi", acctest.Required, acctest.Create, pathAnalysiRepresentationLoadBalancer),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_endpoint.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.0.type", "LOAD_BALANCER"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_endpoint.0.address"),
+				resource.TestCheckResourceAttr(resourceName, "source_endpoint.0.type", "IP_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ADHOC_QUERY"),
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + PathAnalysiResourceDependencies,
+		},
+		{
+			Config: config + compartmentIdVariableStr + PathAnalysiResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_vn_monitoring_path_analysi", "test_path_analysi", acctest.Required, acctest.Create, pathAnalysiRepresentationNetworkLoadBalancer),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_endpoint.0.network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "destination_endpoint.0.type", "NETWORK_LOAD_BALANCER"),
 				resource.TestCheckResourceAttr(resourceName, "protocol", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source_endpoint.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_endpoint.0.address"),
