@@ -758,6 +758,8 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault
 * oci\_dbmulticloud\_oracle\_db\_gcp\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
+* oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
+* oci\_dbmulticloud\_oracle\_db\_aws\_key
 
 delegate_access_control
     

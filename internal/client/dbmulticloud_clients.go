@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_dbmulticloud.DbMulticloudAwsProviderClient", &OracleClient{InitClientFn: initDbmulticloudDbMulticloudAwsProviderClient})
 	RegisterOracleClient("oci_dbmulticloud.DbMulticloudGCPProviderClient", &OracleClient{InitClientFn: initDbmulticloudDbMulticloudGCPProviderClient})
 	RegisterOracleClient("oci_dbmulticloud.WorkRequestClient", &OracleClient{InitClientFn: initDbmulticloudWorkRequestClient})
 	RegisterOracleClient("oci_dbmulticloud.MultiCloudResourceDiscoveryClient", &OracleClient{InitClientFn: initDbmulticloudMultiCloudResourceDiscoveryClient})
@@ -19,6 +20,26 @@ func init() {
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureKeyClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureKeyClient})
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureVaultClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureVaultClient})
 	RegisterOracleClient("oci_dbmulticloud.OracleDbAzureVaultAssociationClient", &OracleClient{InitClientFn: initDbmulticloudOracleDbAzureVaultAssociationClient})
+}
+
+func initDbmulticloudDbMulticloudAwsProviderClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_dbmulticloud.NewDbMulticloudAwsProviderClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) DbMulticloudAwsProviderClient() *oci_dbmulticloud.DbMulticloudAwsProviderClient {
+	return m.GetClient("oci_dbmulticloud.DbMulticloudAwsProviderClient").(*oci_dbmulticloud.DbMulticloudAwsProviderClient)
 }
 
 func initDbmulticloudDbMulticloudGCPProviderClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

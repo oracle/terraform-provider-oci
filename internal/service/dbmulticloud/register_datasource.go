@@ -8,6 +8,10 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dbmulticloud_multi_cloud_resource_discoveries", DbmulticloudMultiCloudResourceDiscoveriesDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_multi_cloud_resource_discovery", DbmulticloudMultiCloudResourceDiscoveryDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_aws_identity_connector", DbmulticloudOracleDbAwsIdentityConnectorDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_aws_identity_connectors", DbmulticloudOracleDbAwsIdentityConnectorsDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_aws_key", DbmulticloudOracleDbAwsKeyDataSource())
+	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_aws_keys", DbmulticloudOracleDbAwsKeysDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_blob_container", DbmulticloudOracleDbAzureBlobContainerDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_blob_containers", DbmulticloudOracleDbAzureBlobContainersDataSource())
 	tfresource.RegisterDatasource("oci_dbmulticloud_oracle_db_azure_blob_mount", DbmulticloudOracleDbAzureBlobMountDataSource())
