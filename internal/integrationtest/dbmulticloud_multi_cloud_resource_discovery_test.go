@@ -40,8 +40,8 @@ var (
 		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `Tersi_Discover_Test`, Update: `Tersi_Discover_Test`},
 		"multi_cloud_resource_discovery_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_multi_cloud_resource_discovery.test_multi_cloud_resource_discovery.id}`},
-		"oracle_db_azure_connector_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
-		"resource_type":                     acctest.Representation{RepType: acctest.Optional, Create: `VAULTS`},
+		"oracle_db_azure_connector_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
+		"resource_type":                     acctest.Representation{RepType: acctest.Required, Create: `VAULTS`},
 		//"resources_filter":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"keyVault": "resourcesFilter"}, Update: map[string]string{"keyVault": "resourcesFilter2"}},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
 		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudMultiCloudResourceDiscoveryDataSourceFilterRepresentation}}
