@@ -6,6 +6,7 @@ package psql
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -23,15 +24,15 @@ func PsqlDbSystemDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Optional: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(PsqlDbSystemResource(), fieldMap, readSingularPsqlDbSystem)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(PsqlDbSystemResource(), fieldMap, readSingularPsqlDbSystemWithContext)
 }
 
-func readSingularPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
+func readSingularPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type PsqlDbSystemDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *PsqlDbSystemDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PsqlDbSystemDataSourceCrud) Get() error {
+func (s *PsqlDbSystemDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_psql.GetDbSystemRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -67,7 +68,7 @@ func (s *PsqlDbSystemDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
 
-	response, err := s.Client.GetDbSystem(context.Background(), request)
+	response, err := s.Client.GetDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,6 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InstanceCount != nil {
 		s.D.Set("instance_count", *s.Res.InstanceCount)
@@ -131,6 +131,16 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 		instances = append(instances, DbInstanceToMap(item))
 	}
 	s.D.Set("instances", instances)
+
+	if s.Res.KerberosAuthDetails != nil {
+		kerberosAuthDetailsArray := []interface{}{}
+		if kerberosAuthDetailsMap := KerberosAuthDetailsToMap(&s.Res.KerberosAuthDetails); kerberosAuthDetailsMap != nil {
+			kerberosAuthDetailsArray = append(kerberosAuthDetailsArray, kerberosAuthDetailsMap)
+		}
+		s.D.Set("kerberos_auth_details", kerberosAuthDetailsArray)
+	} else {
+		s.D.Set("kerberos_auth_details", nil)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

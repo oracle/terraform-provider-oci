@@ -57,6 +57,16 @@ The following attributes are exported:
 	* `state` - The current state of the database instance node.
 	* `time_created` - The date and time that the database instance node was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
 	* `time_updated` - The date and time that the database instance node was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
+* `kerberos_auth_details` - Kerberos Authentication details for the database system.
+	* `backup_credentials` - Optional. List of Kerberos Credentials previously configured for the dbsystem. Currently supports only one entry.
+		* `keytab_secret_id` - The OCID of the secret where the Kerberos keytab file is stored as base64 text.
+		* `keytab_secret_version` - The secret version of the stored Kerberos keytab file.
+		* `realm_name` - Kerberos realm name.  https://docs.oracle.com/cd/E36784_01/html/E37126/kplanning-27.html Realm names can consist of any ASCII string. Usually, the realm name is the same as your DNS domain name  except that the realm name is in uppercase. This convention helps differentiate problems with the Kerberos  service from problems with the DNS namespace, while keeping a name that is familiar. You can use any string,  but configuration and maintenance might then require more work. Use realm names that follow the standard  Internet naming structure.
+	* `credentials` - List of Kerberos Credentials to be configured for the dbsystem. Currently supports only one entry.
+		* `keytab_secret_id` - The OCID of the secret where the Kerberos keytab file is stored as base64 text.
+		* `keytab_secret_version` - The secret version of the stored Kerberos keytab file.
+		* `realm_name` - Kerberos realm name.  https://docs.oracle.com/cd/E36784_01/html/E37126/kplanning-27.html Realm names can consist of any ASCII string. Usually, the realm name is the same as your DNS domain name  except that the realm name is in uppercase. This convention helps differentiate problems with the Kerberos  service from problems with the DNS namespace, while keeping a name that is familiar. You can use any string,  but configuration and maintenance might then require more work. Use realm names that follow the standard  Internet naming structure.
+	* `kind` - Specifies the management of Kerberos Authentication for the dbSystem.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_policy` - PostgreSQL database system management policy.
 	* `backup_policy` - PostgreSQL database system backup policy.

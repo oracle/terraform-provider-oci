@@ -293,6 +293,92 @@ func PsqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"kerberos_auth_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return isKerberosDisabled(old, new, d)
+				},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kind": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DISABLED",
+								"ENABLED",
+							}, true),
+						},
+
+						// Optional
+						"backup_credentials": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"keytab_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"keytab_secret_version": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"realm_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return isKerberosDisabled(old, new, d)
+							},
+						},
+						"credentials": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"keytab_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"keytab_secret_version": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"realm_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return isKerberosDisabled(old, new, d)
+							},
+						},
+						// Computed
+					},
+				},
+			},
 			"management_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1222,6 +1308,26 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 		request.InstanceOcpuCount = &tmp
 	}
 
+	if kerberosAuthDetails, ok := s.D.GetOkExists("kerberos_auth_details"); ok && s.D.HasChange("kerberos_auth_details") {
+		if tmpList := kerberosAuthDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "kerberos_auth_details", 0)
+			oldVal, newVal := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "kind"))
+			if oldVal == "ENABLED" && newVal == "" {
+				s.D.Set("kerberos_auth_details.kind", "DISABLED")
+			}
+			tmp, err := s.mapToKerberosAuthDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.KerberosAuthDetails = tmp
+		} else {
+			var baseObject oci_psql.KerberosAuthDetails
+			details := oci_psql.DisabledKerberosAuthDetails{}
+			baseObject = details
+			request.KerberosAuthDetails = baseObject
+		}
+	}
+
 	if managementPolicy, ok := s.D.GetOkExists("management_policy"); ok && s.D.HasChange("management_policy") {
 		if tmpList := managementPolicy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "management_policy", 0)
@@ -1463,6 +1569,16 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 		}
 	} else {
 		s.D.Set("source", nil)
+	}
+
+	if s.Res.KerberosAuthDetails != nil {
+		kerberosAuthDetailsArray := []interface{}{}
+		if kerberosAuthDetailsMap := KerberosAuthDetailsToMap(&s.Res.KerberosAuthDetails); kerberosAuthDetailsMap != nil {
+			kerberosAuthDetailsArray = append(kerberosAuthDetailsArray, kerberosAuthDetailsMap)
+		}
+		s.D.Set("kerberos_auth_details", kerberosAuthDetailsArray)
+	} else {
+		s.D.Set("kerberos_auth_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -2060,6 +2176,131 @@ func DbSystemSummaryToMap(obj oci_psql.DbSystemSummary) map[string]interface{} {
 	return result
 }
 
+func (s *PsqlDbSystemResourceCrud) mapToKerberosAuthDetails(fieldKeyFormat string) (oci_psql.KerberosAuthDetails, error) {
+	var baseObject oci_psql.KerberosAuthDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("DISABLED"):
+		details := oci_psql.DisabledKerberosAuthDetails{}
+		baseObject = details
+	case strings.ToLower("ENABLED"):
+		details := oci_psql.EnabledKerberosAuthDetails{}
+		if backupCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_credentials")); ok {
+			interfaces := backupCredentials.([]interface{})
+			tmp := make([]oci_psql.KerberosCredential, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_credentials"), stateDataIndex)
+				converted, err := s.mapToKerberosCredential(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_credentials")) {
+				details.BackupCredentials = tmp
+			}
+		}
+		if credentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credentials")); ok {
+			interfaces := credentials.([]interface{})
+			tmp := make([]oci_psql.KerberosCredential, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "credentials"), stateDataIndex)
+				converted, err := s.mapToKerberosCredential(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "credentials")) {
+				details.Credentials = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func KerberosAuthDetailsToMap(obj *oci_psql.KerberosAuthDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_psql.DisabledKerberosAuthDetails:
+		result["kind"] = "DISABLED"
+	case oci_psql.EnabledKerberosAuthDetails:
+		result["kind"] = "ENABLED"
+
+		backupCredentials := []interface{}{}
+		for _, item := range v.BackupCredentials {
+			backupCredentials = append(backupCredentials, KerberosCredentialToMap(item))
+		}
+		result["backup_credentials"] = backupCredentials
+
+		credentials := []interface{}{}
+		for _, item := range v.Credentials {
+			credentials = append(credentials, KerberosCredentialToMap(item))
+		}
+		result["credentials"] = credentials
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToKerberosCredential(fieldKeyFormat string) (oci_psql.KerberosCredential, error) {
+	result := oci_psql.KerberosCredential{}
+
+	if keytabSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keytab_secret_id")); ok {
+		tmp := keytabSecretId.(string)
+		result.KeytabSecretId = &tmp
+	}
+
+	if keytabSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "keytab_secret_version")); ok {
+		tmp := keytabSecretVersion.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert keytabSecretVersion string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.KeytabSecretVersion = &tmpInt64
+	}
+
+	if realmName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "realm_name")); ok {
+		tmp := realmName.(string)
+		result.RealmName = &tmp
+	}
+
+	return result, nil
+}
+
+func KerberosCredentialToMap(obj oci_psql.KerberosCredential) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KeytabSecretId != nil {
+		result["keytab_secret_id"] = string(*obj.KeytabSecretId)
+	}
+
+	if obj.KeytabSecretVersion != nil {
+		result["keytab_secret_version"] = strconv.FormatInt(*obj.KeytabSecretVersion, 10)
+	}
+
+	if obj.RealmName != nil {
+		result["realm_name"] = string(*obj.RealmName)
+	}
+
+	return result
+}
+
 func (s *PsqlDbSystemResourceCrud) mapToManagementPolicyDetails(fieldKeyFormat string) (oci_psql.ManagementPolicyDetails, error) {
 	result := oci_psql.ManagementPolicyDetails{}
 
@@ -2619,6 +2860,21 @@ func normalizeShape(s string) string {
 
 func isOdspInsightDisabled(old, new string, d *schema.ResourceData) bool {
 	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "odsp_insight_details", 0)
+	_, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	if ok {
+		oldVal, newVal := d.GetChange(fmt.Sprintf(fieldKeyFormat, "kind"))
+		if oldVal == "" && newVal == "DISABLED" {
+			return true
+		}
+		if oldVal == "DISABLED" && newVal == "" {
+			return true
+		}
+	}
+	return false
+}
+
+func isKerberosDisabled(old, new string, d *schema.ResourceData) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "kerberos_auth_details", 0)
 	_, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
 	if ok {
 		oldVal, newVal := d.GetChange(fmt.Sprintf(fieldKeyFormat, "kind"))
