@@ -75,6 +75,7 @@ var (
 		"instance_memory_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `32`},
 		"instance_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: `2`},
 		"instances_details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemInstancesDetailsRepresentation},
+		"kerberos_auth_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsRepresentation},
 		"management_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyRepresentation},
 		"odsp_insight_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemOdspInsightDetailsRepresentation},
 		"source":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemSourceRepresentation},
@@ -109,6 +110,11 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `dbsystem-instance`},
 		"private_ip":   acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.10`},
 	}
+	PsqlDbSystemKerberosAuthDetailsRepresentation = map[string]interface{}{
+		"kind":               acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
+		"backup_credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsBackupCredentialsRepresentation},
+		"credentials":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsCredentialsRepresentation},
+	}
 	PsqlDbSystemManagementPolicyRepresentation = map[string]interface{}{
 		"backup_policy":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyBackupPolicyRepresentation},
 		"maintenance_window_start": acctest.Representation{RepType: acctest.Optional, Create: `SUN 12:00`},
@@ -125,6 +131,16 @@ var (
 	PsqlDbSystemCredentialsPasswordDetailsRepresentation = map[string]interface{}{
 		"password_type": acctest.Representation{RepType: acctest.Required, Create: `PLAIN_TEXT`, Update: `PLAIN_TEXT`},
 		"password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+	}
+	PsqlDbSystemKerberosAuthDetailsBackupCredentialsRepresentation = map[string]interface{}{
+		"keytab_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.krb_secret_id}`},
+		"keytab_secret_version": acctest.Representation{RepType: acctest.Optional, Update: `6`},
+		"realm_name":            acctest.Representation{RepType: acctest.Optional, Update: `AD.PSQL-KBS.COM`},
+	}
+	PsqlDbSystemKerberosAuthDetailsCredentialsRepresentation = map[string]interface{}{
+		"keytab_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.krb_backup_secret_id}`},
+		"keytab_secret_version": acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `8`},
+		"realm_name":            acctest.Representation{RepType: acctest.Optional, Update: `AD.PSQL-KBS.COM`},
 	}
 	PsqlDbSystemManagementPolicyBackupPolicyRepresentation = map[string]interface{}{
 		"backup_start":     acctest.Representation{RepType: acctest.Optional, Create: `02:00`, Update: `03:00`},
@@ -490,6 +506,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.10"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
@@ -556,6 +582,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.10"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
@@ -647,6 +683,14 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_memory_size_in_gbs", "32"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instances.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),

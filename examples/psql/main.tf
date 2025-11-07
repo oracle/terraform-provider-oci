@@ -139,6 +139,22 @@ resource "oci_psql_db_system" "test_flexdb_system" {
     }
     maintenance_window_start = "THU 15:00"
   }
+
+  # Kerberos authentication details for the database system
+  # Reapplying is required to apply the Kerberos configuration
+  kerberos_auth_details {
+    kind = "ENABLED"
+      credentials {
+        keytab_secret_id      = var.keytab_secret_id
+        keytab_secret_version = "7"
+        realm_name            = "AD.PSQL-KBS.COM"
+      }
+      backup_credentials {
+        keytab_secret_id      = var.backup_keytab_secret_id
+        keytab_secret_version = "6"
+        realm_name            = "AD.PSQL-KBS.COM"
+    }
+  }
 }
 
 # Creating a warm standby dbsystem

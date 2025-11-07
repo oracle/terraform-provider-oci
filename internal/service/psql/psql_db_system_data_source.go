@@ -132,6 +132,16 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 	}
 	s.D.Set("instances", instances)
 
+	if s.Res.KerberosAuthDetails != nil {
+		kerberosAuthDetailsArray := []interface{}{}
+		if kerberosAuthDetailsMap := KerberosAuthDetailsToMap(&s.Res.KerberosAuthDetails); kerberosAuthDetailsMap != nil {
+			kerberosAuthDetailsArray = append(kerberosAuthDetailsArray, kerberosAuthDetailsMap)
+		}
+		s.D.Set("kerberos_auth_details", kerberosAuthDetailsArray)
+	} else {
+		s.D.Set("kerberos_auth_details", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
