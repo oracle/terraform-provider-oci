@@ -9,7 +9,7 @@ description: |-
 
 # oci_os_management_hub_profile_attach_management_station_management
 This resource provides the Profile Attach Management Station Management resource in Oracle Cloud Infrastructure Os Management Hub service.
-Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/ProfileAttachManagementStationManagement
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/osmh/latest/Profile/AttachManagementStation
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 

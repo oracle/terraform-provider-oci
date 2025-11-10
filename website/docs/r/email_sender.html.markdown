@@ -9,7 +9,7 @@ description: |-
 
 # oci_email_sender
 This resource provides the Sender resource in Oracle Cloud Infrastructure Email service.
-Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/email/latest/Sender
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/emaildelivery/latest/Sender
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/email
 

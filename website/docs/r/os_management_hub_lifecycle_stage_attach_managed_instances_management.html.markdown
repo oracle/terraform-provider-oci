@@ -9,7 +9,7 @@ description: |-
 
 # oci_os_management_hub_lifecycle_stage_attach_managed_instances_management
 This resource provides the Lifecycle Stage Attach Managed Instances Management resource in Oracle Cloud Infrastructure Os Management Hub service.
-Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/LifecycleStageAttachManagedInstancesManagement
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/osmh/latest/LifecycleStage/AttachManagedInstances
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 

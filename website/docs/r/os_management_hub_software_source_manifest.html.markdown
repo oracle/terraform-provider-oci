@@ -9,7 +9,7 @@ description: |-
 
 # oci_os_management_hub_software_source_manifest
 This resource provides the Software Source Manifest resource in Oracle Cloud Infrastructure Os Management Hub service.
-Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/os-management/latest/SoftwareSourceManifest
+Api doc link for the resource: https://docs.oracle.com/en-us/iaas/api/#/en/osmh/20220901/SoftwareSource/UpdateSoftwareSourceManifest
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/os_management_hub
 
@@ -45,9 +45,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Software Source Manifest
-	* `update` - (Defaults to 20 minutes), when updating the Software Source Manifest
-	* `delete` - (Defaults to 20 minutes), when destroying the Software Source Manifest
+* `create` - (Defaults to 20 minutes), when creating the Software Source Manifest
+* `update` - (Defaults to 20 minutes), when updating the Software Source Manifest
+* `delete` - (Defaults to 20 minutes), when destroying the Software Source Manifest
 
 
 ## Import
@@ -57,4 +57,3 @@ SoftwareSourceManifests can be imported using the `id`, e.g.
 ```
 $ terraform import oci_os_management_hub_software_source_manifest.test_software_source_manifest "id" 
 ```
-

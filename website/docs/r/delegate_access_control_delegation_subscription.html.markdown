@@ -9,6 +9,9 @@ description: |-
 
 # oci_delegate_access_control_delegation_subscription
 This resource provides the Delegation Subscription resource in Oracle Cloud Infrastructure Delegate Access Control service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/delegate-access-control/latest/DelegationSubscription
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates Delegation Subscription in Delegation Control.
 

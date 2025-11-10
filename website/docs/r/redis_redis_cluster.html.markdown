@@ -9,7 +9,7 @@ description: |-
 
 # oci_redis_redis_cluster
 This resource provides the Redis Cluster resource in Oracle Cloud Infrastructure Redis service.
-Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/redis/latest/RedisCluster
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/ocicache/latest/RedisCluster
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis
 

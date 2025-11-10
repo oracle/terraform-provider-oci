@@ -9,6 +9,9 @@ description: |-
 
 # oci_delegate_access_control_delegation_control
 This resource provides the Delegation Control resource in Oracle Cloud Infrastructure Delegate Access Control service.
+Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/delegate-access-control/latest/DelegationControl
+
+Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates a Delegation Control.
 
