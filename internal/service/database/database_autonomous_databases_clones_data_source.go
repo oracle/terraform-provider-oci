@@ -99,6 +99,44 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"autonomous_database_maintenance_window": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"day_of_week": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"maintenance_end_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"maintenance_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"autonomous_maintenance_schedule_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -730,6 +768,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"local_adg_resource_pool_leader_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"local_disaster_recovery_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -985,11 +1027,19 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"available_storage_capacity_in_tbs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
 									"is_disabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"pool_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"pool_storage_size_in_tbs": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
@@ -1168,6 +1218,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_maintenance_end": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_pause_until": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1427,6 +1481,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
 
+		if r.AutonomousDatabaseMaintenanceWindow != nil {
+			autonomousDatabasesClone["autonomous_database_maintenance_window"] = []interface{}{AutonomousDatabaseMaintenanceWindowSummaryToMap(r.AutonomousDatabaseMaintenanceWindow)}
+		} else {
+			autonomousDatabasesClone["autonomous_database_maintenance_window"] = nil
+		}
+
 		autonomousDatabasesClone["autonomous_maintenance_schedule_type"] = r.AutonomousMaintenanceScheduleType
 
 		if r.AvailabilityDomain != nil {
@@ -1659,6 +1719,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["local_adg_auto_failover_max_data_loss_limit"] = *r.LocalAdgAutoFailoverMaxDataLossLimit
 		}
 
+		if r.LocalAdgResourcePoolLeaderId != nil {
+			autonomousDatabasesClone["local_adg_resource_pool_leader_id"] = *r.LocalAdgResourcePoolLeaderId
+		}
+
 		autonomousDatabasesClone["local_disaster_recovery_type"] = r.LocalDisasterRecoveryType
 
 		if r.LocalStandbyDb != nil {
@@ -1832,6 +1896,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabasesClone["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeMaintenancePauseUntil != nil {
+			autonomousDatabasesClone["time_maintenance_pause_until"] = r.TimeMaintenancePauseUntil.String()
 		}
 
 		if r.TimeOfAutoRefreshStart != nil {

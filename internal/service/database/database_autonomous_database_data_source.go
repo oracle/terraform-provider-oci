@@ -99,6 +99,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
 	}
 
+	if s.Res.AutonomousDatabaseMaintenanceWindow != nil {
+		s.D.Set("autonomous_database_maintenance_window", []interface{}{AutonomousDatabaseMaintenanceWindowSummaryToMap(s.Res.AutonomousDatabaseMaintenanceWindow)})
+	} else {
+		s.D.Set("autonomous_database_maintenance_window", nil)
+	}
+
 	s.D.Set("autonomous_maintenance_schedule_type", s.Res.AutonomousMaintenanceScheduleType)
 
 	if s.Res.AvailabilityDomain != nil {
@@ -331,6 +337,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("local_adg_auto_failover_max_data_loss_limit", *s.Res.LocalAdgAutoFailoverMaxDataLossLimit)
 	}
 
+	if s.Res.LocalAdgResourcePoolLeaderId != nil {
+		s.D.Set("local_adg_resource_pool_leader_id", *s.Res.LocalAdgResourcePoolLeaderId)
+	}
+
 	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
 
 	if s.Res.LocalStandbyDb != nil {
@@ -501,6 +511,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeMaintenancePauseUntil != nil {
+		s.D.Set("time_maintenance_pause_until", s.Res.TimeMaintenancePauseUntil.String())
 	}
 
 	if s.Res.TimeOfAutoRefreshStart != nil {

@@ -31,6 +31,17 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
 	autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+	autonomous_database_maintenance_window {
+		#Required
+		day_of_week {
+			#Required
+			name = var.autonomous_database_autonomous_database_maintenance_window_day_of_week_name
+		}
+
+		#Optional
+		maintenance_end_time = var.autonomous_database_autonomous_database_maintenance_window_maintenance_end_time
+		maintenance_start_time = var.autonomous_database_autonomous_database_maintenance_window_maintenance_start_time
+	}
 	autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
 	backup_retention_period_in_days = var.autonomous_database_backup_retention_period_in_days
 	byol_compute_count_limit = var.autonomous_database_byol_compute_count_limit
@@ -114,8 +125,10 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	resource_pool_summary {
 
 		#Optional
+		available_storage_capacity_in_tbs = var.autonomous_database_resource_pool_summary_available_storage_capacity_in_tbs
 		is_disabled = var.autonomous_database_resource_pool_summary_is_disabled
 		pool_size = var.autonomous_database_resource_pool_summary_pool_size
+		pool_storage_size_in_tbs = var.autonomous_database_resource_pool_summary_pool_storage_size_in_tbs
 	}
 	scheduled_operations {
 		#Required
@@ -156,6 +169,11 @@ The following arguments are supported:
 * `autonomous_database_backup_id` - (Required when source=BACKUP_FROM_ID) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous AI Database Backup that you will clone to create a new Autonomous AI Database.
 * `autonomous_database_id` - (Required when source=BACKUP_FROM_TIMESTAMP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous AI Database that you will clone to create a new Autonomous AI Database.
 * `autonomous_maintenance_schedule_type` - (Optional) (Updatable) The maintenance schedule type of the Autonomous AI Database Serverless. An EARLY maintenance schedule follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle 
+* `autonomous_database_maintenance_window` - (Optional) (Updatable) Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance. 
+	* `day_of_week` - (Required) (Updatable) Day of the week.
+		* `name` - (Required) (Updatable) Name of the day of the week.
+	* `maintenance_end_time` - (Optional) (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	* `maintenance_start_time` - (Optional) (Updatable) The maintenance start time. The value must use the ISO-8601 format "hh:mm".
 * `backup_retention_period_in_days` - (Optional) (Updatable) Retention period, in days, for long-term backups
 * `byol_compute_count_limit` - (Optional) (Updatable) The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
 * `character_set` - (Optional) The character set for the Autonomous AI Database. The default is AL32UTF8. Allowed values for an Autonomous AI Database Serverless instance as as returned by [List Autonomous AI Database Character Sets](https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)
@@ -277,7 +295,9 @@ The following arguments are supported:
 * `resource_pool_summary` - (Optional) (Updatable) The configuration details for resource pool
 	* `available_compute_capacity` - (Optional) (Updatable) Available capacity left for new elastic pool members provision
 	* `is_disabled` - (Optional) (Updatable) Indicates if the resource pool should be deleted for the Autonomous AI Database.
+	* `available_storage_capacity_in_tbs` - (Optional) (Updatable) Available storage capacity (in TB) that can be used for adding new members or scaling existing members in a dedicated elastic pool.
 	* `pool_size` - (Optional) (Updatable) Resource pool size.
+	* `pool_storage_size_in_tbs` - (Optional) (Updatable) Resource pool storage size in TBs.
 	* `total_compute_capacity` - (Optional) Resource Pool total capacity, it's currently 4x of pool size
 * `scheduled_operations` - (Optional) (Updatable) The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 
@@ -350,6 +370,11 @@ The following attributes are exported:
 * `availability_domain` - The availability domain where the Autonomous AI Database Serverless instance is located.
 * `available_upgrade_versions` - List of Oracle AI Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 * `backup_config` - Autonomous AI Database configuration details for storing [manual backups](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service. 
+* `autonomous_database_maintenance_window` - Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance. 
+	* `day_of_week` - Day of the week.
+		* `name` - Name of the day of the week.
+	* `maintenance_end_time` - The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	* `maintenance_start_time` - The maintenance start time. The value must use the ISO-8601 format "hh:mm".
 	* `manual_backup_bucket_name` - Name of [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) bucket to use for storing manual backups.
 	* `manual_backup_type` - The manual backup destination type.
 * `backup_retention_period_in_days` - Retention period, in days, for long-term backups
@@ -514,6 +539,7 @@ The following attributes are exported:
 * `lifecycle_details` - Information about the current lifecycle state.
 * `local_adg_auto_failover_max_data_loss_limit` - Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard
 * `local_disaster_recovery_type` - Indicates the local disaster recovery (DR) type of the Autonomous AI Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
+* `local_adg_resource_pool_leader_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
 * `local_standby_db` - Autonomous Data Guard standby database details. 
 	* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
@@ -580,7 +606,9 @@ The following attributes are exported:
 * `resource_pool_summary` - The configuration details for resource pool
 	* `available_compute_capacity` - Available capacity left for new elastic pool members provision
 	* `is_disabled` - Indicates if the resource pool should be deleted for the Autonomous AI Database.  
+	* `available_storage_capacity_in_tbs` - Available storage capacity (in TB) that can be used for adding new members or scaling existing members in a dedicated elastic pool.
 	* `pool_size` - Resource pool size.
+	* `pool_storage_size_in_tbs` - Resource pool storage size in TBs.
 	* `total_compute_capacity` - Resource Pool total capacity, it's currently 4x of pool size
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous AI Database, if Autonomous Data Guard is enabled. 
 * `scheduled_operations` - The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -632,6 +660,7 @@ The following attributes are exported:
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
 * `time_of_auto_refresh_start` - The the date and time that auto-refreshing will begin for an Autonomous AI Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
+* `time_maintenance_pause_until` - The date until which maintenance of Autonomous Database is temporarily paused.
 * `time_of_joining_resource_pool` - The time the member joined the resource pool.
 * `time_of_last_failover` - The timestamp of the last failover operation.
 * `time_of_last_refresh` - The date and time when last refresh happened.
