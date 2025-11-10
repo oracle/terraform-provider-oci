@@ -93,6 +93,51 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"autonomous_database_maintenance_window": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"day_of_week": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"maintenance_end_time": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"maintenance_start_time": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"autonomous_maintenance_schedule_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -541,12 +586,22 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_storage_capacity_in_tbs": {
+							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
 						"is_disabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 						},
 						"pool_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"pool_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -1126,6 +1181,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
+			"local_adg_resource_pool_leader_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
 			"local_disaster_recovery_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1469,6 +1529,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"time_maintenance_end": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"time_maintenance_pause_until": {
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"time_of_joining_resource_pool": {
 				Type:     schema.TypeString,
@@ -2052,6 +2118,17 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.ByolComputeCountLimit = &tmp
 	}
 
+	if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok && s.D.HasChange("autonomous_database_maintenance_window") {
+		if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+			tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AutonomousDatabaseMaintenanceWindow = &tmp
+		}
+	}
+
 	if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok && s.D.HasChange("autonomous_maintenance_schedule_type") {
 		request.AutonomousMaintenanceScheduleType = oci_database.UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 	}
@@ -2181,6 +2258,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	//WARNING..!! Do not add s.D.HasChange("display_name") to this check, it breaks the current behavior
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -2278,6 +2356,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if localAdgAutoFailoverMaxDataLossLimit, ok := s.D.GetOkExists("local_adg_auto_failover_max_data_loss_limit"); ok && s.D.HasChange("local_adg_auto_failover_max_data_loss_limit") {
 		tmp := localAdgAutoFailoverMaxDataLossLimit.(int)
 		request.LocalAdgAutoFailoverMaxDataLossLimit = &tmp
+	}
+
+	if localAdgResourcePoolLeaderId, ok := s.D.GetOkExists("local_adg_resource_pool_leader_id"); ok && s.D.HasChange("local_adg_resource_pool_leader_id") {
+		_, isDGEnabled := s.D.GetOkExists("is_data_guard_enabled")
+		_, isLocalDGEnabled := s.D.GetOkExists("is_local_data_guard_enabled")
+		if isDGEnabled == true || isLocalDGEnabled == true {
+			tmp := localAdgResourcePoolLeaderId.(string)
+			request.LocalAdgResourcePoolLeaderId = &tmp
+		}
 	}
 
 	if longTermBackupSchedule, ok := s.D.GetOkExists("long_term_backup_schedule"); ok && s.D.HasChange("long_term_backup_schedule") {
@@ -2439,6 +2526,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if timeMaintenancePauseUntil, ok := s.D.GetOkExists("time_maintenance_pause_until"); ok && s.D.HasChange("time_maintenance_pause_until") {
+		tmp, err := time.Parse(time.RFC3339, timeMaintenancePauseUntil.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeMaintenancePauseUntil = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if timeOfAutoRefreshStart, ok := s.D.GetOkExists("time_of_auto_refresh_start"); ok && s.D.HasChange("time_of_auto_refresh_start") {
 		tmp, err := time.Parse(time.RFC3339, timeOfAutoRefreshStart.(string))
 		if err != nil {
@@ -2555,6 +2650,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.AutonomousContainerDatabaseId != nil {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
+	}
+
+	if s.Res.AutonomousDatabaseMaintenanceWindow != nil {
+		s.D.Set("autonomous_database_maintenance_window", []interface{}{AutonomousDatabaseMaintenanceWindowSummaryToMap(s.Res.AutonomousDatabaseMaintenanceWindow)})
 	}
 
 	s.D.Set("autonomous_maintenance_schedule_type", s.Res.AutonomousMaintenanceScheduleType)
@@ -2797,6 +2896,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("local_adg_auto_failover_max_data_loss_limit", *s.Res.LocalAdgAutoFailoverMaxDataLossLimit)
 	}
 
+	if s.Res.LocalAdgResourcePoolLeaderId != nil {
+		s.D.Set("local_adg_resource_pool_leader_id", *s.Res.LocalAdgResourcePoolLeaderId)
+	}
+
 	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
 
 	if s.Res.LocalStandbyDb != nil {
@@ -2980,6 +3083,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeMaintenancePauseUntil != nil {
+		s.D.Set("time_maintenance_pause_until", s.Res.TimeMaintenancePauseUntil.Format(time.RFC3339))
 	}
 
 	if s.Res.TimeOfAutoRefreshStart != nil {
@@ -3399,6 +3506,52 @@ func AutonomousDatabaseKeyHistoryEntryToMap(obj oci_database.AutonomousDatabaseK
 
 	return result
 }
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat string) (oci_database.AutonomousDatabaseMaintenanceWindowSummary, error) {
+	result := oci_database.AutonomousDatabaseMaintenanceWindowSummary{}
+
+	if dayOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day_of_week")); ok {
+		if tmpList := dayOfWeek.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "day_of_week"), 0)
+			tmp, err := s.adbMapToDayOfWeek(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert day_of_week, encountered error: %v", err)
+			}
+			result.DayOfWeek = &tmp
+		}
+	}
+
+	if maintenanceEndTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_end_time")); ok {
+		tmp := maintenanceEndTime.(string)
+		result.MaintenanceEndTime = &tmp
+	}
+
+	if maintenanceStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_start_time")); ok {
+		tmp := maintenanceStartTime.(string)
+		result.MaintenanceStartTime = &tmp
+	}
+
+	return result, nil
+}
+
+func AutonomousDatabaseMaintenanceWindowSummaryToMap(obj *oci_database.AutonomousDatabaseMaintenanceWindowSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DayOfWeek != nil {
+		result["day_of_week"] = []interface{}{AdbDayOfWeekToMap(obj.DayOfWeek)}
+	}
+
+	if obj.MaintenanceEndTime != nil {
+		result["maintenance_end_time"] = string(*obj.MaintenanceEndTime)
+	}
+
+	if obj.MaintenanceStartTime != nil {
+		result["maintenance_start_time"] = string(*obj.MaintenanceStartTime)
+	}
+
+	return result
+}
+
 func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseStandbySummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3599,6 +3752,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDeta
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToResourcePoolSummary(fieldKeyFormat string) (oci_database.ResourcePoolSummary, error) {
 	result := oci_database.ResourcePoolSummary{}
 
+	if availableStorageCapacityInTBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "available_storage_capacity_in_tbs")); ok {
+		tmp := availableStorageCapacityInTBs.(float64)
+		result.AvailableStorageCapacityInTBs = &tmp
+	}
+
 	if isDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_disabled")); ok {
 		tmp := isDisabled.(bool)
 		result.IsDisabled = &tmp
@@ -3607,6 +3765,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToResourcePoolSummary(fieldK
 	if poolSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pool_size")); ok {
 		tmp := poolSize.(int)
 		result.PoolSize = &tmp
+	}
+
+	if poolStorageSizeInTBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pool_storage_size_in_tbs")); ok {
+		tmp := poolStorageSizeInTBs.(int)
+		result.PoolStorageSizeInTBs = &tmp
 	}
 
 	return result, nil
@@ -3619,12 +3782,20 @@ func ResourcePoolSummaryToMap(obj *oci_database.ResourcePoolSummary) map[string]
 		result["available_compute_capacity"] = int(*obj.AvailableComputeCapacity)
 	}
 
+	if obj.AvailableStorageCapacityInTBs != nil {
+		result["available_storage_capacity_in_tbs"] = float64(*obj.AvailableStorageCapacityInTBs)
+	}
+
 	if obj.IsDisabled != nil {
 		result["is_disabled"] = bool(*obj.IsDisabled)
 	}
 
 	if obj.PoolSize != nil {
 		result["pool_size"] = int(*obj.PoolSize)
+	}
+
+	if obj.PoolStorageSizeInTBs != nil {
+		result["pool_storage_size_in_tbs"] = int(*obj.PoolStorageSizeInTBs)
 	}
 
 	if obj.TotalComputeCapacity != nil {
@@ -3768,6 +3939,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
@@ -4093,6 +4274,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
 		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
+		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
@@ -4398,6 +4589,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
@@ -4985,6 +5186,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
 		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
+		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
@@ -5254,6 +5465,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
 		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
+		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
@@ -5513,6 +5734,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
@@ -5803,6 +6034,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
@@ -6096,6 +6337,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousDatabaseMaintenanceWindow, ok := s.D.GetOkExists("autonomous_database_maintenance_window"); ok {
+			if tmpList := autonomousDatabaseMaintenanceWindow.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_database_maintenance_window", 0)
+				tmp, err := s.mapToAutonomousDatabaseMaintenanceWindowSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AutonomousDatabaseMaintenanceWindow = &tmp
+			}
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))

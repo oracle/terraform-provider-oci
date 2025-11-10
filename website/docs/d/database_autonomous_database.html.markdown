@@ -49,6 +49,11 @@ The following attributes are exported:
 * `availability_domain` - The availability domain where the Autonomous AI Database Serverless instance is located.
 * `available_upgrade_versions` - List of Oracle AI Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
 * `backup_config` - Autonomous AI Database configuration details for storing [manual backups](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/backup-restore.html#GUID-9035DFB8-4702-4CEB-8281-C2A303820809) in the [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) service. 
+* `autonomous_database_maintenance_window` - Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance. 
+	* `day_of_week` - Day of the week.
+		* `name` - Name of the day of the week.
+	* `maintenance_end_time` - The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	* `maintenance_start_time` - The maintenance start time. The value must use the ISO-8601 format "hh:mm".
 	* `manual_backup_bucket_name` - Name of [Object Storage](https://docs.cloud.oracle.com/iaas/Content/Object/Concepts/objectstorageoverview.htm) bucket to use for storing manual backups.
 	* `manual_backup_type` - The manual backup destination type.
 * `backup_retention_period_in_days` - Retention period, in days, for long-term backups
@@ -214,6 +219,7 @@ The following attributes are exported:
 * `local_disaster_recovery_type` - Indicates the local disaster recovery (DR) type of the Autonomous AI Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `local_standby_db` - Autonomous Data Guard standby database details.
 	* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
+* `local_adg_resource_pool_leader_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `maintenance_target_component` - The component chosen for maintenance.
@@ -278,7 +284,9 @@ The following attributes are exported:
 * `resource_pool_summary` - The configuration details for resource pool
 	* `available_compute_capacity` - Available capacity left for new elastic pool members provision
 	* `is_disabled` - Indicates if the resource pool should be deleted for the Autonomous AI Database.  
+	* `available_storage_capacity_in_tbs` - Available storage capacity (in TB) that can be used for adding new members or scaling existing members in a dedicated elastic pool.
 	* `pool_size` - Resource pool size.
+	* `pool_storage_size_in_tbs` - Resource pool storage size in TBs.
 	* `total_compute_capacity` - Resource Pool total capacity, it's currently 4x of pool size
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous AI Database, if Autonomous Data Guard is enabled.
 * `enable_delete_scheduled_operations` - If omitted or set to false the provider will not delete scheduled_operations from the Autonomous AI Database. If set to true, provider will delete scheduled_operations from the Autonomous AI Database.
@@ -333,6 +341,7 @@ The following attributes are exported:
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
 * `time_of_auto_refresh_start` - The the date and time that auto-refreshing will begin for an Autonomous AI Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
+* `time_maintenance_pause_until` - The date until which maintenance of Autonomous Database is temporarily paused.
 * `time_of_joining_resource_pool` - The time the member joined the resource pool.
 * `time_of_last_failover` - The timestamp of the last failover operation.
 * `time_of_last_refresh` - The date and time when last refresh happened.
