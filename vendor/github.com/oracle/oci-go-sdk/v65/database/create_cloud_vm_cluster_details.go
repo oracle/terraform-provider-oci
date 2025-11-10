@@ -91,6 +91,9 @@ type CreateCloudVmClusterDetails struct {
 	// The percentage assigned to SPARSE storage (Exadata snapshots). See Storage Configuration (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
 	SparseStoragePercentage *int `mandatory:"false" json:"sparseStoragePercentage"`
 
+	// Indicates if the Accelerated Networking feature is enabled or disabled for provisioning an Exadata VM cluster. The default value is FALSE.
+	IsAcceleratedNetworkEnabled *bool `mandatory:"false" json:"isAcceleratedNetworkEnabled"`
+
 	// A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.

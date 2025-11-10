@@ -44,6 +44,12 @@ type ListExadbVmClustersRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only Exadata VM clusters that match the given managed HA enabled value.
+	IsManagedHaEnabled *bool `mandatory:"false" contributesTo:"query" name:"isManagedHaEnabled"`
+
+	// A filter to return only Exadata VM clusters that match the given managed HA type.
+	ManagedHaType ExadbVmClusterSummaryManagedHaTypeEnum `mandatory:"false" contributesTo:"query" name:"managedHaType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -88,6 +94,9 @@ func (request ListExadbVmClustersRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadbVmClusterSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetExadbVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterSummaryManagedHaTypeEnum(string(request.ManagedHaType)); !ok && request.ManagedHaType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaType: %s. Supported values are: %s.", request.ManagedHaType, strings.Join(GetExadbVmClusterSummaryManagedHaTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

@@ -36,6 +36,14 @@ type CheckObjectRequest struct {
 	// VersionId used to identify a particular version of the object
 	VersionId *string `mandatory:"false" contributesTo:"query" name:"versionId"`
 
+	// This is used by Data Migration service testing. The header can be specified as either storage, usp, or mixed.
+	// When this header is explicitly specified, the webserver will attempt to read from the mentioned backend type.
+	// When backend type is specified as mixed, atleast one chunk from both storage server and USP backends will be
+	// read (provided they are available in both backends). This header will be passed in only from the Data Migration
+	// OSTs so that the tests can validate that a given object can be successfully read when their chunks are in
+	// different storage backends.
+	StorageBackend *string `mandatory:"false" contributesTo:"query" name:"storageBackend"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

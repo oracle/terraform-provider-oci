@@ -124,6 +124,9 @@ type CreateExadbVmClusterDetails struct {
 
 	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
 	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
+
+	// Enable Managed HA Exadata VM cluster feature.
+	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`
 }
 
 func (m CreateExadbVmClusterDetails) String() string {

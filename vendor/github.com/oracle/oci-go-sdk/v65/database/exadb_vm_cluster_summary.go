@@ -179,6 +179,18 @@ type ExadbVmClusterSummary struct {
 
 	// The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later
 	ShapeAttribute ExadbVmClusterSummaryShapeAttributeEnum `mandatory:"false" json:"shapeAttribute,omitempty"`
+
+	// Managed HA Exadata VM cluster feature.
+	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`
+
+	// Represents managed HA type of Exadata VM cluster and database.
+	ManagedHaType ExadbVmClusterSummaryManagedHaTypeEnum `mandatory:"false" json:"managedHaType,omitempty"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Exadata VM Cluster and database.
+	PeerResourceId *string `mandatory:"false" json:"peerResourceId"`
+
+	// Represents HA status of Exadata VM cluster and database. If either of the VMCluster in a pair is down then state will be NEEDS_ATTENTION.
+	ManagedHaStatus ExadbVmClusterSummaryManagedHaStatusEnum `mandatory:"false" json:"managedHaStatus,omitempty"`
 }
 
 func (m ExadbVmClusterSummary) String() string {
@@ -202,6 +214,12 @@ func (m ExadbVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadbVmClusterSummaryShapeAttributeEnum(string(m.ShapeAttribute)); !ok && m.ShapeAttribute != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeAttribute: %s. Supported values are: %s.", m.ShapeAttribute, strings.Join(GetExadbVmClusterSummaryShapeAttributeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterSummaryManagedHaTypeEnum(string(m.ManagedHaType)); !ok && m.ManagedHaType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaType: %s. Supported values are: %s.", m.ManagedHaType, strings.Join(GetExadbVmClusterSummaryManagedHaTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterSummaryManagedHaStatusEnum(string(m.ManagedHaStatus)); !ok && m.ManagedHaStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaStatus: %s. Supported values are: %s.", m.ManagedHaStatus, strings.Join(GetExadbVmClusterSummaryManagedHaStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -394,5 +412,89 @@ func GetExadbVmClusterSummaryShapeAttributeEnumStringValues() []string {
 // GetMappingExadbVmClusterSummaryShapeAttributeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterSummaryShapeAttributeEnum(val string) (ExadbVmClusterSummaryShapeAttributeEnum, bool) {
 	enum, ok := mappingExadbVmClusterSummaryShapeAttributeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterSummaryManagedHaTypeEnum Enum with underlying type: string
+type ExadbVmClusterSummaryManagedHaTypeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterSummaryManagedHaTypeEnum
+const (
+	ExadbVmClusterSummaryManagedHaTypeOracleManaged   ExadbVmClusterSummaryManagedHaTypeEnum = "ORACLE_MANAGED"
+	ExadbVmClusterSummaryManagedHaTypeCustomerManaged ExadbVmClusterSummaryManagedHaTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingExadbVmClusterSummaryManagedHaTypeEnum = map[string]ExadbVmClusterSummaryManagedHaTypeEnum{
+	"ORACLE_MANAGED":   ExadbVmClusterSummaryManagedHaTypeOracleManaged,
+	"CUSTOMER_MANAGED": ExadbVmClusterSummaryManagedHaTypeCustomerManaged,
+}
+
+var mappingExadbVmClusterSummaryManagedHaTypeEnumLowerCase = map[string]ExadbVmClusterSummaryManagedHaTypeEnum{
+	"oracle_managed":   ExadbVmClusterSummaryManagedHaTypeOracleManaged,
+	"customer_managed": ExadbVmClusterSummaryManagedHaTypeCustomerManaged,
+}
+
+// GetExadbVmClusterSummaryManagedHaTypeEnumValues Enumerates the set of values for ExadbVmClusterSummaryManagedHaTypeEnum
+func GetExadbVmClusterSummaryManagedHaTypeEnumValues() []ExadbVmClusterSummaryManagedHaTypeEnum {
+	values := make([]ExadbVmClusterSummaryManagedHaTypeEnum, 0)
+	for _, v := range mappingExadbVmClusterSummaryManagedHaTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterSummaryManagedHaTypeEnumStringValues Enumerates the set of values in String for ExadbVmClusterSummaryManagedHaTypeEnum
+func GetExadbVmClusterSummaryManagedHaTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingExadbVmClusterSummaryManagedHaTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterSummaryManagedHaTypeEnum(val string) (ExadbVmClusterSummaryManagedHaTypeEnum, bool) {
+	enum, ok := mappingExadbVmClusterSummaryManagedHaTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterSummaryManagedHaStatusEnum Enum with underlying type: string
+type ExadbVmClusterSummaryManagedHaStatusEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterSummaryManagedHaStatusEnum
+const (
+	ExadbVmClusterSummaryManagedHaStatusAvailable      ExadbVmClusterSummaryManagedHaStatusEnum = "AVAILABLE"
+	ExadbVmClusterSummaryManagedHaStatusNeedsAttention ExadbVmClusterSummaryManagedHaStatusEnum = "NEEDS_ATTENTION"
+)
+
+var mappingExadbVmClusterSummaryManagedHaStatusEnum = map[string]ExadbVmClusterSummaryManagedHaStatusEnum{
+	"AVAILABLE":       ExadbVmClusterSummaryManagedHaStatusAvailable,
+	"NEEDS_ATTENTION": ExadbVmClusterSummaryManagedHaStatusNeedsAttention,
+}
+
+var mappingExadbVmClusterSummaryManagedHaStatusEnumLowerCase = map[string]ExadbVmClusterSummaryManagedHaStatusEnum{
+	"available":       ExadbVmClusterSummaryManagedHaStatusAvailable,
+	"needs_attention": ExadbVmClusterSummaryManagedHaStatusNeedsAttention,
+}
+
+// GetExadbVmClusterSummaryManagedHaStatusEnumValues Enumerates the set of values for ExadbVmClusterSummaryManagedHaStatusEnum
+func GetExadbVmClusterSummaryManagedHaStatusEnumValues() []ExadbVmClusterSummaryManagedHaStatusEnum {
+	values := make([]ExadbVmClusterSummaryManagedHaStatusEnum, 0)
+	for _, v := range mappingExadbVmClusterSummaryManagedHaStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterSummaryManagedHaStatusEnumStringValues Enumerates the set of values in String for ExadbVmClusterSummaryManagedHaStatusEnum
+func GetExadbVmClusterSummaryManagedHaStatusEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"NEEDS_ATTENTION",
+	}
+}
+
+// GetMappingExadbVmClusterSummaryManagedHaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterSummaryManagedHaStatusEnum(val string) (ExadbVmClusterSummaryManagedHaStatusEnum, bool) {
+	enum, ok := mappingExadbVmClusterSummaryManagedHaStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -44,7 +44,7 @@ type CreateFusionEnvironmentDetails struct {
 	// Language packs.
 	AdditionalLanguagePacks []string `mandatory:"false" json:"additionalLanguagePacks"`
 
-	// Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address. Default value will be false if not set
+	// Enable IPv4/IPv6 dual stack support for the environment (where available). Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address. The default value is false.
 	IsIPv6DualStackEnabled *bool `mandatory:"false" json:"isIPv6DualStackEnabled"`
 
 	// Rules.

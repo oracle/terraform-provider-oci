@@ -215,6 +215,68 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 	return response, err
 }
 
+// BatchDeleteObjects Deletes a batch of objects.
+// A default retry strategy applies to this operation BatchDeleteObjects()
+func (client ObjectStorageClient) BatchDeleteObjects(ctx context.Context, request BatchDeleteObjectsRequest) (response BatchDeleteObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.batchDeleteObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BatchDeleteObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BatchDeleteObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BatchDeleteObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BatchDeleteObjectsResponse")
+	}
+	return
+}
+
+// batchDeleteObjects implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) batchDeleteObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/batchDeleteObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(BatchDeleteObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response BatchDeleteObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/BatchDeleteObjects"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "BatchDeleteObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkCopyObjects Creates a request to copy a batch of objects within a region or to another region.
 // See Object Names (https://docs.oracle.com/iaas/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
@@ -341,7 +403,12 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 	return response, err
 }
 
-// CheckObject Retrieve an object's stored and calculated digests, specifically:
+// CheckObject CheckObject is now deprecated and clients should use CheckObjectV2
+// instead. CheckObject does not work for large objects as they can
+// take longer than the connection timeout to verify. CheckObjectV2
+// uses a response body with chunked encoding instead of headers
+// to indicate success and can keep the connection open.
+// Retrieve an object's stored and calculated digests, specifically:
 //   - The content MD5;
 //   - The SHA-256 of each chunk on each storage server.
 //
@@ -407,6 +474,82 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/CheckObject"
 		err = common.PostProcessServiceError(err, "ObjectStorage", "CheckObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CheckObjectV2 Retrieve an object's stored and calculated digests, specifically:
+//   - The content MD5;
+//   - The SHA-256 of each chunk on each storage server.
+//
+// If the MD5 digest calculated from the decrypted object data
+// does not match the MD5 digest stored in the object's metadata,
+// or any chunk's' SHA-256 does not match the one stored for it,
+// this API will signal an error and return false in response body.
+// Otherwise, the API will return true in the chunked response body.
+// Unlike CheckObject, CheckObjectV2 keeps the connection alive to
+// ensure that large streams complete without timing out as long as
+// the client awaits the chunked body.
+// This internal API allows Object Storage tooling to verify the
+// correctness of stored data.  Any tenancy's objects can be
+// verified with this API, so it must only protected by BOAT AAA.
+// A default retry strategy applies to this operation CheckObjectV2()
+func (client ObjectStorageClient) CheckObjectV2(ctx context.Context, request CheckObjectV2Request) (response CheckObjectV2Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.checkObjectV2, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckObjectV2Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckObjectV2Response{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckObjectV2Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckObjectV2Response")
+	}
+	return
+}
+
+// checkObjectV2 implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) checkObjectV2(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/actions/checkObjectV2/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CheckObjectV2Request).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CheckObjectV2Response
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/CheckObjectV2"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CheckObjectV2", apiReferenceLink)
 		return response, err
 	}
 

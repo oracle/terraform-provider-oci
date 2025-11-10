@@ -12,7 +12,6 @@
 package objectstorage
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -26,7 +25,7 @@ type AclRule struct {
 	// all matching requests to fail, overriding any ALLOW rules at any level (tenancy, compartment, or bucket).
 	Action AclRuleActionEnum `mandatory:"true" json:"action"`
 
-	NetworkSource NetworkSource `mandatory:"true" json:"networkSource"`
+	NetworkSource *NetworkSource `mandatory:"true" json:"networkSource"`
 
 	// Specifies whether this rule applies to ALL operations, or only READ or WRITE operations.
 	Operation AclRuleOperationEnum `mandatory:"true" json:"operation"`
@@ -59,45 +58,6 @@ func (m AclRule) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *AclRule) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		BucketTags       []string             `json:"bucketTags"`
-		BucketNameFilter *BucketNameFilter    `json:"bucketNameFilter"`
-		ObjectNameFilter *ObjectNameFilter    `json:"objectNameFilter"`
-		Action           AclRuleActionEnum    `json:"action"`
-		NetworkSource    networksource        `json:"networkSource"`
-		Operation        AclRuleOperationEnum `json:"operation"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.BucketTags = make([]string, len(model.BucketTags))
-	copy(m.BucketTags, model.BucketTags)
-	m.BucketNameFilter = model.BucketNameFilter
-
-	m.ObjectNameFilter = model.ObjectNameFilter
-
-	m.Action = model.Action
-
-	nn, e = model.NetworkSource.UnmarshalPolymorphicJSON(model.NetworkSource.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.NetworkSource = nn.(NetworkSource)
-	} else {
-		m.NetworkSource = nil
-	}
-
-	m.Operation = model.Operation
-
-	return
 }
 
 // AclRuleActionEnum Enum with underlying type: string

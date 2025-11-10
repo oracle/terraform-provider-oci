@@ -128,6 +128,9 @@ type CloudVmCluster struct {
 	// If true, sparse disk group is configured for the cloud VM cluster. If false, sparse disk group is not created.
 	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
 
+	// Indicates if the Accelerated Networking feature is enabled or disabled for provisioning an Exadata VM cluster. The default value is FALSE.
+	IsAcceleratedNetworkEnabled *bool `mandatory:"false" json:"isAcceleratedNetworkEnabled"`
+
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"false" json:"giVersion"`
 

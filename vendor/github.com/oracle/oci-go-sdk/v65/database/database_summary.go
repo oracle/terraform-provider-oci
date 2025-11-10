@@ -137,6 +137,18 @@ type DatabaseSummary struct {
 
 	// The patch version of the database.
 	PatchVersion *string `mandatory:"false" json:"patchVersion"`
+
+	// Managed HA Exadata VM cluster feature.
+	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`
+
+	// Represents managed HA type of Exadata VM cluster and database.
+	ManagedHaType DatabaseSummaryManagedHaTypeEnum `mandatory:"false" json:"managedHaType,omitempty"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Exadata VM Cluster and database.
+	PeerResourceId *string `mandatory:"false" json:"peerResourceId"`
+
+	// Represents HA status of Exadata VM cluster and database. If either of the VMCluster in a pair is down then state will be NEEDS_ATTENTION.
+	ManagedHaStatus DatabaseSummaryManagedHaStatusEnum `mandatory:"false" json:"managedHaStatus,omitempty"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -154,6 +166,12 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDatabaseSummaryHomeTypeEnum(string(m.HomeType)); !ok && m.HomeType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HomeType: %s. Supported values are: %s.", m.HomeType, strings.Join(GetDatabaseSummaryHomeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseSummaryManagedHaTypeEnum(string(m.ManagedHaType)); !ok && m.ManagedHaType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaType: %s. Supported values are: %s.", m.ManagedHaType, strings.Join(GetDatabaseSummaryManagedHaTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseSummaryManagedHaStatusEnum(string(m.ManagedHaStatus)); !ok && m.ManagedHaStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaStatus: %s. Supported values are: %s.", m.ManagedHaStatus, strings.Join(GetDatabaseSummaryManagedHaStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -198,6 +216,10 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		ManagedSoftwareUpdateDetails               *ManagedSoftwareUpdateDetails       `json:"managedSoftwareUpdateDetails"`
 		HomeType                                   DatabaseSummaryHomeTypeEnum         `json:"homeType"`
 		PatchVersion                               *string                             `json:"patchVersion"`
+		IsManagedHaEnabled                         *bool                               `json:"isManagedHaEnabled"`
+		ManagedHaType                              DatabaseSummaryManagedHaTypeEnum    `json:"managedHaType"`
+		PeerResourceId                             *string                             `json:"peerResourceId"`
+		ManagedHaStatus                            DatabaseSummaryManagedHaStatusEnum  `json:"managedHaStatus"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -285,6 +307,14 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.HomeType = model.HomeType
 
 	m.PatchVersion = model.PatchVersion
+
+	m.IsManagedHaEnabled = model.IsManagedHaEnabled
+
+	m.ManagedHaType = model.ManagedHaType
+
+	m.PeerResourceId = model.PeerResourceId
+
+	m.ManagedHaStatus = model.ManagedHaStatus
 
 	m.Id = model.Id
 
@@ -412,5 +442,89 @@ func GetDatabaseSummaryHomeTypeEnumStringValues() []string {
 // GetMappingDatabaseSummaryHomeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseSummaryHomeTypeEnum(val string) (DatabaseSummaryHomeTypeEnum, bool) {
 	enum, ok := mappingDatabaseSummaryHomeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryManagedHaTypeEnum Enum with underlying type: string
+type DatabaseSummaryManagedHaTypeEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryManagedHaTypeEnum
+const (
+	DatabaseSummaryManagedHaTypeOracleManaged   DatabaseSummaryManagedHaTypeEnum = "ORACLE_MANAGED"
+	DatabaseSummaryManagedHaTypeCustomerManaged DatabaseSummaryManagedHaTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingDatabaseSummaryManagedHaTypeEnum = map[string]DatabaseSummaryManagedHaTypeEnum{
+	"ORACLE_MANAGED":   DatabaseSummaryManagedHaTypeOracleManaged,
+	"CUSTOMER_MANAGED": DatabaseSummaryManagedHaTypeCustomerManaged,
+}
+
+var mappingDatabaseSummaryManagedHaTypeEnumLowerCase = map[string]DatabaseSummaryManagedHaTypeEnum{
+	"oracle_managed":   DatabaseSummaryManagedHaTypeOracleManaged,
+	"customer_managed": DatabaseSummaryManagedHaTypeCustomerManaged,
+}
+
+// GetDatabaseSummaryManagedHaTypeEnumValues Enumerates the set of values for DatabaseSummaryManagedHaTypeEnum
+func GetDatabaseSummaryManagedHaTypeEnumValues() []DatabaseSummaryManagedHaTypeEnum {
+	values := make([]DatabaseSummaryManagedHaTypeEnum, 0)
+	for _, v := range mappingDatabaseSummaryManagedHaTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryManagedHaTypeEnumStringValues Enumerates the set of values in String for DatabaseSummaryManagedHaTypeEnum
+func GetDatabaseSummaryManagedHaTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingDatabaseSummaryManagedHaTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryManagedHaTypeEnum(val string) (DatabaseSummaryManagedHaTypeEnum, bool) {
+	enum, ok := mappingDatabaseSummaryManagedHaTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryManagedHaStatusEnum Enum with underlying type: string
+type DatabaseSummaryManagedHaStatusEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryManagedHaStatusEnum
+const (
+	DatabaseSummaryManagedHaStatusAvailable      DatabaseSummaryManagedHaStatusEnum = "AVAILABLE"
+	DatabaseSummaryManagedHaStatusNeedsAttention DatabaseSummaryManagedHaStatusEnum = "NEEDS_ATTENTION"
+)
+
+var mappingDatabaseSummaryManagedHaStatusEnum = map[string]DatabaseSummaryManagedHaStatusEnum{
+	"AVAILABLE":       DatabaseSummaryManagedHaStatusAvailable,
+	"NEEDS_ATTENTION": DatabaseSummaryManagedHaStatusNeedsAttention,
+}
+
+var mappingDatabaseSummaryManagedHaStatusEnumLowerCase = map[string]DatabaseSummaryManagedHaStatusEnum{
+	"available":       DatabaseSummaryManagedHaStatusAvailable,
+	"needs_attention": DatabaseSummaryManagedHaStatusNeedsAttention,
+}
+
+// GetDatabaseSummaryManagedHaStatusEnumValues Enumerates the set of values for DatabaseSummaryManagedHaStatusEnum
+func GetDatabaseSummaryManagedHaStatusEnumValues() []DatabaseSummaryManagedHaStatusEnum {
+	values := make([]DatabaseSummaryManagedHaStatusEnum, 0)
+	for _, v := range mappingDatabaseSummaryManagedHaStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryManagedHaStatusEnumStringValues Enumerates the set of values in String for DatabaseSummaryManagedHaStatusEnum
+func GetDatabaseSummaryManagedHaStatusEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"NEEDS_ATTENTION",
+	}
+}
+
+// GetMappingDatabaseSummaryManagedHaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryManagedHaStatusEnum(val string) (DatabaseSummaryManagedHaStatusEnum, bool) {
+	enum, ok := mappingDatabaseSummaryManagedHaStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

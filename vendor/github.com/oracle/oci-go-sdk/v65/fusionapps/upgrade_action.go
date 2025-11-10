@@ -22,16 +22,16 @@ type UpgradeAction struct {
 	// A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Unique identifier of the object that represents the action
+	// Unique identifier of the object that represents the action.
 	ReferenceKey *string `mandatory:"false" json:"referenceKey"`
 
-	// name of the repo
+	// Name of the repo.
 	Version *string `mandatory:"false" json:"version"`
 
-	// month qualifier
+	// Month qualifier.
 	Qualifier *string `mandatory:"false" json:"qualifier"`
 
-	// A string that describes whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold.
 	State ActionStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 

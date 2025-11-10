@@ -6040,7 +6040,7 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 
 // DbNodeAction Performs one of the following power actions on the specified DB node:
 // - start - power on
-// - stop - power off
+// - stop - power off gracefully
 // - softreset - ACPI shutdown and power on
 // - reset - power off and power on
 // **Note:** Stopping a node affects billing differently, depending on the type of DB system:

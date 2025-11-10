@@ -12,7 +12,6 @@
 package objectstorage
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -20,6 +19,9 @@ import (
 
 // SgwNetworkSource Matches a specific Service Gateway, or a set of Service Gateways.
 type SgwNetworkSource struct {
+
+	// The network type to match.
+	NetworkSourceType SgwNetworkSourceNetworkSourceTypeEnum `mandatory:"true" json:"networkSourceType"`
 
 	// The ID of the SGW to match, or "ALL" to match all SGWs in the specified compartment.
 	SgwId *string `mandatory:"true" json:"sgwId"`
@@ -37,6 +39,9 @@ func (m SgwNetworkSource) String() string {
 // Not recommended for calling this function directly
 func (m SgwNetworkSource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingSgwNetworkSourceNetworkSourceTypeEnum(string(m.NetworkSourceType)); !ok && m.NetworkSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkSourceType: %s. Supported values are: %s.", m.NetworkSourceType, strings.Join(GetSgwNetworkSourceNetworkSourceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -44,16 +49,56 @@ func (m SgwNetworkSource) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// MarshalJSON marshals to json representation
-func (m SgwNetworkSource) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeSgwNetworkSource SgwNetworkSource
-	s := struct {
-		DiscriminatorParam string `json:"networkSourceType"`
-		MarshalTypeSgwNetworkSource
-	}{
-		"SGW",
-		(MarshalTypeSgwNetworkSource)(m),
-	}
+// SgwNetworkSourceNetworkSourceTypeEnum Enum with underlying type: string
+type SgwNetworkSourceNetworkSourceTypeEnum string
 
-	return json.Marshal(&s)
+// Set of constants representing the allowable values for SgwNetworkSourceNetworkSourceTypeEnum
+const (
+	SgwNetworkSourceNetworkSourceTypeVcn      SgwNetworkSourceNetworkSourceTypeEnum = "VCN"
+	SgwNetworkSourceNetworkSourceTypePe       SgwNetworkSourceNetworkSourceTypeEnum = "PE"
+	SgwNetworkSourceNetworkSourceTypeInternet SgwNetworkSourceNetworkSourceTypeEnum = "INTERNET"
+	SgwNetworkSourceNetworkSourceTypeSgw      SgwNetworkSourceNetworkSourceTypeEnum = "SGW"
+	SgwNetworkSourceNetworkSourceTypeAny      SgwNetworkSourceNetworkSourceTypeEnum = "ANY"
+)
+
+var mappingSgwNetworkSourceNetworkSourceTypeEnum = map[string]SgwNetworkSourceNetworkSourceTypeEnum{
+	"VCN":      SgwNetworkSourceNetworkSourceTypeVcn,
+	"PE":       SgwNetworkSourceNetworkSourceTypePe,
+	"INTERNET": SgwNetworkSourceNetworkSourceTypeInternet,
+	"SGW":      SgwNetworkSourceNetworkSourceTypeSgw,
+	"ANY":      SgwNetworkSourceNetworkSourceTypeAny,
+}
+
+var mappingSgwNetworkSourceNetworkSourceTypeEnumLowerCase = map[string]SgwNetworkSourceNetworkSourceTypeEnum{
+	"vcn":      SgwNetworkSourceNetworkSourceTypeVcn,
+	"pe":       SgwNetworkSourceNetworkSourceTypePe,
+	"internet": SgwNetworkSourceNetworkSourceTypeInternet,
+	"sgw":      SgwNetworkSourceNetworkSourceTypeSgw,
+	"any":      SgwNetworkSourceNetworkSourceTypeAny,
+}
+
+// GetSgwNetworkSourceNetworkSourceTypeEnumValues Enumerates the set of values for SgwNetworkSourceNetworkSourceTypeEnum
+func GetSgwNetworkSourceNetworkSourceTypeEnumValues() []SgwNetworkSourceNetworkSourceTypeEnum {
+	values := make([]SgwNetworkSourceNetworkSourceTypeEnum, 0)
+	for _, v := range mappingSgwNetworkSourceNetworkSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSgwNetworkSourceNetworkSourceTypeEnumStringValues Enumerates the set of values in String for SgwNetworkSourceNetworkSourceTypeEnum
+func GetSgwNetworkSourceNetworkSourceTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"PE",
+		"INTERNET",
+		"SGW",
+		"ANY",
+	}
+}
+
+// GetMappingSgwNetworkSourceNetworkSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSgwNetworkSourceNetworkSourceTypeEnum(val string) (SgwNetworkSourceNetworkSourceTypeEnum, bool) {
+	enum, ok := mappingSgwNetworkSourceNetworkSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

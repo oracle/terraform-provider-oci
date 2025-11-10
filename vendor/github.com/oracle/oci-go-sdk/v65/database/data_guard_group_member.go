@@ -76,6 +76,9 @@ type DataGuardGroupMember struct {
 
 	// The date and time when the last successful Data Guard refresh occurred.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Represents managed HA type of Exadata VM cluster and database.
+	ManagedHaType DataGuardGroupMemberManagedHaTypeEnum `mandatory:"false" json:"managedHaType,omitempty"`
 }
 
 func (m DataGuardGroupMember) String() string {
@@ -99,6 +102,9 @@ func (m DataGuardGroupMember) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDataGuardGroupMemberFailoverReadinessEnum(string(m.FailoverReadiness)); !ok && m.FailoverReadiness != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailoverReadiness: %s. Supported values are: %s.", m.FailoverReadiness, strings.Join(GetDataGuardGroupMemberFailoverReadinessEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDataGuardGroupMemberManagedHaTypeEnum(string(m.ManagedHaType)); !ok && m.ManagedHaType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaType: %s. Supported values are: %s.", m.ManagedHaType, strings.Join(GetDataGuardGroupMemberManagedHaTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -291,5 +297,47 @@ func GetDataGuardGroupMemberFailoverReadinessEnumStringValues() []string {
 // GetMappingDataGuardGroupMemberFailoverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDataGuardGroupMemberFailoverReadinessEnum(val string) (DataGuardGroupMemberFailoverReadinessEnum, bool) {
 	enum, ok := mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DataGuardGroupMemberManagedHaTypeEnum Enum with underlying type: string
+type DataGuardGroupMemberManagedHaTypeEnum string
+
+// Set of constants representing the allowable values for DataGuardGroupMemberManagedHaTypeEnum
+const (
+	DataGuardGroupMemberManagedHaTypeOracleManaged   DataGuardGroupMemberManagedHaTypeEnum = "ORACLE_MANAGED"
+	DataGuardGroupMemberManagedHaTypeCustomerManaged DataGuardGroupMemberManagedHaTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingDataGuardGroupMemberManagedHaTypeEnum = map[string]DataGuardGroupMemberManagedHaTypeEnum{
+	"ORACLE_MANAGED":   DataGuardGroupMemberManagedHaTypeOracleManaged,
+	"CUSTOMER_MANAGED": DataGuardGroupMemberManagedHaTypeCustomerManaged,
+}
+
+var mappingDataGuardGroupMemberManagedHaTypeEnumLowerCase = map[string]DataGuardGroupMemberManagedHaTypeEnum{
+	"oracle_managed":   DataGuardGroupMemberManagedHaTypeOracleManaged,
+	"customer_managed": DataGuardGroupMemberManagedHaTypeCustomerManaged,
+}
+
+// GetDataGuardGroupMemberManagedHaTypeEnumValues Enumerates the set of values for DataGuardGroupMemberManagedHaTypeEnum
+func GetDataGuardGroupMemberManagedHaTypeEnumValues() []DataGuardGroupMemberManagedHaTypeEnum {
+	values := make([]DataGuardGroupMemberManagedHaTypeEnum, 0)
+	for _, v := range mappingDataGuardGroupMemberManagedHaTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataGuardGroupMemberManagedHaTypeEnumStringValues Enumerates the set of values in String for DataGuardGroupMemberManagedHaTypeEnum
+func GetDataGuardGroupMemberManagedHaTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingDataGuardGroupMemberManagedHaTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataGuardGroupMemberManagedHaTypeEnum(val string) (DataGuardGroupMemberManagedHaTypeEnum, bool) {
+	enum, ok := mappingDataGuardGroupMemberManagedHaTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

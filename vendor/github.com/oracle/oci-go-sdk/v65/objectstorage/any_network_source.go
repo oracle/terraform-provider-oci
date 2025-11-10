@@ -12,7 +12,6 @@
 package objectstorage
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -20,6 +19,9 @@ import (
 
 // AnyNetworkSource Matches all network source types, including those added to this API in the future.
 type AnyNetworkSource struct {
+
+	// The network type to match.
+	NetworkSourceType AnyNetworkSourceNetworkSourceTypeEnum `mandatory:"true" json:"networkSourceType"`
 
 	// The network traffic must originate from the specified IP range, expressed in CIDR notation, to match.
 	// Currently, only IPv4 addresses are supported.
@@ -35,6 +37,9 @@ func (m AnyNetworkSource) String() string {
 // Not recommended for calling this function directly
 func (m AnyNetworkSource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAnyNetworkSourceNetworkSourceTypeEnum(string(m.NetworkSourceType)); !ok && m.NetworkSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkSourceType: %s. Supported values are: %s.", m.NetworkSourceType, strings.Join(GetAnyNetworkSourceNetworkSourceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -42,16 +47,56 @@ func (m AnyNetworkSource) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// MarshalJSON marshals to json representation
-func (m AnyNetworkSource) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeAnyNetworkSource AnyNetworkSource
-	s := struct {
-		DiscriminatorParam string `json:"networkSourceType"`
-		MarshalTypeAnyNetworkSource
-	}{
-		"ANY",
-		(MarshalTypeAnyNetworkSource)(m),
-	}
+// AnyNetworkSourceNetworkSourceTypeEnum Enum with underlying type: string
+type AnyNetworkSourceNetworkSourceTypeEnum string
 
-	return json.Marshal(&s)
+// Set of constants representing the allowable values for AnyNetworkSourceNetworkSourceTypeEnum
+const (
+	AnyNetworkSourceNetworkSourceTypeVcn      AnyNetworkSourceNetworkSourceTypeEnum = "VCN"
+	AnyNetworkSourceNetworkSourceTypePe       AnyNetworkSourceNetworkSourceTypeEnum = "PE"
+	AnyNetworkSourceNetworkSourceTypeInternet AnyNetworkSourceNetworkSourceTypeEnum = "INTERNET"
+	AnyNetworkSourceNetworkSourceTypeSgw      AnyNetworkSourceNetworkSourceTypeEnum = "SGW"
+	AnyNetworkSourceNetworkSourceTypeAny      AnyNetworkSourceNetworkSourceTypeEnum = "ANY"
+)
+
+var mappingAnyNetworkSourceNetworkSourceTypeEnum = map[string]AnyNetworkSourceNetworkSourceTypeEnum{
+	"VCN":      AnyNetworkSourceNetworkSourceTypeVcn,
+	"PE":       AnyNetworkSourceNetworkSourceTypePe,
+	"INTERNET": AnyNetworkSourceNetworkSourceTypeInternet,
+	"SGW":      AnyNetworkSourceNetworkSourceTypeSgw,
+	"ANY":      AnyNetworkSourceNetworkSourceTypeAny,
+}
+
+var mappingAnyNetworkSourceNetworkSourceTypeEnumLowerCase = map[string]AnyNetworkSourceNetworkSourceTypeEnum{
+	"vcn":      AnyNetworkSourceNetworkSourceTypeVcn,
+	"pe":       AnyNetworkSourceNetworkSourceTypePe,
+	"internet": AnyNetworkSourceNetworkSourceTypeInternet,
+	"sgw":      AnyNetworkSourceNetworkSourceTypeSgw,
+	"any":      AnyNetworkSourceNetworkSourceTypeAny,
+}
+
+// GetAnyNetworkSourceNetworkSourceTypeEnumValues Enumerates the set of values for AnyNetworkSourceNetworkSourceTypeEnum
+func GetAnyNetworkSourceNetworkSourceTypeEnumValues() []AnyNetworkSourceNetworkSourceTypeEnum {
+	values := make([]AnyNetworkSourceNetworkSourceTypeEnum, 0)
+	for _, v := range mappingAnyNetworkSourceNetworkSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAnyNetworkSourceNetworkSourceTypeEnumStringValues Enumerates the set of values in String for AnyNetworkSourceNetworkSourceTypeEnum
+func GetAnyNetworkSourceNetworkSourceTypeEnumStringValues() []string {
+	return []string{
+		"VCN",
+		"PE",
+		"INTERNET",
+		"SGW",
+		"ANY",
+	}
+}
+
+// GetMappingAnyNetworkSourceNetworkSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAnyNetworkSourceNetworkSourceTypeEnum(val string) (AnyNetworkSourceNetworkSourceTypeEnum, bool) {
+	enum, ok := mappingAnyNetworkSourceNetworkSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

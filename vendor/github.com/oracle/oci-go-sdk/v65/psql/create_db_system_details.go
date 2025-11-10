@@ -67,8 +67,6 @@ type CreateDbSystemDetails struct {
 
 	ReplicationConfig *CreateReplicationConfigDetails `mandatory:"false" json:"replicationConfig"`
 
-	KerberosAuthDetails KerberosAuthDetails `mandatory:"false" json:"kerberosAuthDetails"`
-
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -111,7 +109,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		ManagementPolicy        *ManagementPolicyDetails          `json:"managementPolicy"`
 		Source                  sourcedetails                     `json:"source"`
 		ReplicationConfig       *CreateReplicationConfigDetails   `json:"replicationConfig"`
-		KerberosAuthDetails     kerberosauthdetails               `json:"kerberosAuthDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName             *string                           `json:"displayName"`
@@ -156,16 +153,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ReplicationConfig = model.ReplicationConfig
-
-	nn, e = model.KerberosAuthDetails.UnmarshalPolymorphicJSON(model.KerberosAuthDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.KerberosAuthDetails = nn.(KerberosAuthDetails)
-	} else {
-		m.KerberosAuthDetails = nil
-	}
 
 	m.FreeformTags = model.FreeformTags
 

@@ -77,6 +77,14 @@ type CreateDedicatedAiClusterDetails struct {
 	// - A100_80G_X1, A100_80G_X2, A100_80G_X4, A100_80G_X8
 	// - H100_X1, H100_X2, H100_X4, H100_X8
 	// - H200_X1, H200_X2, H200_X4, H200_X8
+	// - OAI_A10_X2
+	// - OAI_H100_X1
+	// - OAI_H100_X2
+	// - OAI_H200_X1
+	// - OAI_A100_80G_X1
+	// - OAI_A100_80G_X2
+	// - OAI_A100_40G_X1
+	// - OAI_A100_40G_X4
 	UnitShape DedicatedAiClusterUnitShapeEnum `mandatory:"true" json:"unitShape"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
