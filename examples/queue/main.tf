@@ -32,6 +32,10 @@ resource "oci_queue_queue" "test_queue1" {
   timeout_in_seconds               = var.queue_timeout_in_seconds
   visibility_in_seconds            = var.queue_visibility_in_seconds
   channel_consumption_limit        = var.queue_channel_consumption_limit
+  capabilities {
+    type                              = var.queue_capabilities_type
+    is_primary_consumer_group_enabled = var.queue_capabilities_is_primary_consumer_group_enabled
+  }
 }
 
 # Purging the queue immediately after create if required. Queue is purged if purge trigger is set to any integer value. We are using the purge trigger and purge type optional parameter.

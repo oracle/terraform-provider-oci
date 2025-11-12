@@ -57,3 +57,11 @@ variable "purge_type" {
 variable "purge_trigger" {
   default = 1
 }
+
+variable "queue_capabilities_type" {
+  default = "CONSUMER_GROUPS"
+}
+
+variable "queue_capabilities_is_primary_consumer_group_enabled" {
+  default = false
+}

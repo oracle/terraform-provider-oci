@@ -49,4 +49,7 @@ The following attributes are exported:
 * `time_updated` - The time that the queue was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 * `timeout_in_seconds` - The default polling timeout of the messages in the queue, in seconds.
 * `visibility_in_seconds` - The default visibility timeout of the messages consumed from the queue, in seconds.
+* `capabilities` - The capabilities configuration for the queue.
+	* `type` - The type of capability. Example: `CONSUMER_GROUPS`
+	* `is_primary_consumer_group_enabled` - Whether the primary consumer group is enabled for this capability.
 
