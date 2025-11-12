@@ -32,6 +32,9 @@ const (
 	OperationTypeDeleteEndpoint           OperationTypeEnum = "DELETE_ENDPOINT"
 	OperationTypeUpdateEndpoint           OperationTypeEnum = "UPDATE_ENDPOINT"
 	OperationTypeMoveEndpoint             OperationTypeEnum = "MOVE_ENDPOINT"
+	OperationTypeCreateImportedModel      OperationTypeEnum = "CREATE_IMPORTED_MODEL"
+	OperationTypeUpdateImportedModel      OperationTypeEnum = "UPDATE_IMPORTED_MODEL"
+	OperationTypeDeleteImportedModel      OperationTypeEnum = "DELETE_IMPORTED_MODEL"
 	OperationTypeCreatePrivateEndpoint    OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
 	OperationTypeDeletePrivateEndpoint    OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	OperationTypeUpdatePrivateEndpoint    OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
@@ -50,6 +53,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_ENDPOINT":             OperationTypeDeleteEndpoint,
 	"UPDATE_ENDPOINT":             OperationTypeUpdateEndpoint,
 	"MOVE_ENDPOINT":               OperationTypeMoveEndpoint,
+	"CREATE_IMPORTED_MODEL":       OperationTypeCreateImportedModel,
+	"UPDATE_IMPORTED_MODEL":       OperationTypeUpdateImportedModel,
+	"DELETE_IMPORTED_MODEL":       OperationTypeDeleteImportedModel,
 	"CREATE_PRIVATE_ENDPOINT":     OperationTypeCreatePrivateEndpoint,
 	"DELETE_PRIVATE_ENDPOINT":     OperationTypeDeletePrivateEndpoint,
 	"UPDATE_PRIVATE_ENDPOINT":     OperationTypeUpdatePrivateEndpoint,
@@ -68,6 +74,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_endpoint":             OperationTypeDeleteEndpoint,
 	"update_endpoint":             OperationTypeUpdateEndpoint,
 	"move_endpoint":               OperationTypeMoveEndpoint,
+	"create_imported_model":       OperationTypeCreateImportedModel,
+	"update_imported_model":       OperationTypeUpdateImportedModel,
+	"delete_imported_model":       OperationTypeDeleteImportedModel,
 	"create_private_endpoint":     OperationTypeCreatePrivateEndpoint,
 	"delete_private_endpoint":     OperationTypeDeletePrivateEndpoint,
 	"update_private_endpoint":     OperationTypeUpdatePrivateEndpoint,
@@ -97,6 +106,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_ENDPOINT",
 		"UPDATE_ENDPOINT",
 		"MOVE_ENDPOINT",
+		"CREATE_IMPORTED_MODEL",
+		"UPDATE_IMPORTED_MODEL",
+		"DELETE_IMPORTED_MODEL",
 		"CREATE_PRIVATE_ENDPOINT",
 		"DELETE_PRIVATE_ENDPOINT",
 		"UPDATE_PRIVATE_ENDPOINT",

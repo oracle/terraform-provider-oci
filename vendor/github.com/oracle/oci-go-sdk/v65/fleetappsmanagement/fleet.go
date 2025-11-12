@@ -55,6 +55,7 @@ type Fleet struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Products associated with the Fleet.
+	// PlatformConfiguration Ids corresponding to the Products.
 	Products []string `mandatory:"false" json:"products"`
 
 	Details FleetDetails `mandatory:"false" json:"details"`

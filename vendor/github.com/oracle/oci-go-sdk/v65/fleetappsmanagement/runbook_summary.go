@@ -67,6 +67,9 @@ type RunbookSummary struct {
 	// Does this runbook has draft versions?
 	HasDraftVersion *bool `mandatory:"false" json:"hasDraftVersion"`
 
+	// Original runbook version. This version belongs to original runbook using which new runbook was exported.
+	OriginalVersion *string `mandatory:"false" json:"originalVersion"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

@@ -24,7 +24,7 @@ type ServiceSummary struct {
 	// The friendly service name.
 	Description *string `mandatory:"false" json:"description"`
 
-	// An array of subscription types supported by the service. e,g The type of subscription, such as 'SAAS', 'ERP', 'CRM'.
+	// An array of subscription types supported by the service. For example, the type of subscription, such as SAAS, ERP, or CRM.
 	SupportedSubscriptions []string `mandatory:"false" json:"supportedSubscriptions"`
 }
 

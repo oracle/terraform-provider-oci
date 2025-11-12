@@ -39,6 +39,9 @@ type ListTargetsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// If set to true, confirmed targets will be returned.
+	IsConfirmedTargets *bool `mandatory:"false" contributesTo:"query" name:"isConfirmedTargets"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
