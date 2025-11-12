@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Task The details of the task
+// Task The details of the task.
 type Task struct {
 
 	// The name of the task step.

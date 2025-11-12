@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceModelGroupVersionHistoriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceModelGroupVersionHistories,
+		ReadContext: readDatascienceModelGroupVersionHistoriesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -51,12 +52,12 @@ func DatascienceModelGroupVersionHistoriesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceModelGroupVersionHistories(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelGroupVersionHistoriesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelGroupVersionHistoriesDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *DatascienceModelGroupVersionHistoriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupVersionHistoriesDataSourceCrud) Get() error {
+func (s *DatascienceModelGroupVersionHistoriesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListModelGroupVersionHistoriesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DatascienceModelGroupVersionHistoriesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListModelGroupVersionHistories(context.Background(), request)
+	response, err := s.Client.ListModelGroupVersionHistories(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DatascienceModelGroupVersionHistoriesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModelGroupVersionHistories(context.Background(), request)
+		listResponse, err := s.Client.ListModelGroupVersionHistories(ctx, request)
 		if err != nil {
 			return err
 		}

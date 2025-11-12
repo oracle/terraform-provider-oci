@@ -53,6 +53,13 @@ func LimitsLimitDefinitionsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"external_location_supported_subscriptions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"is_deprecated": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -184,6 +191,8 @@ func (s *LimitsLimitDefinitionsDataSourceCrud) SetData() error {
 		if r.Description != nil {
 			limitDefinition["description"] = *r.Description
 		}
+
+		limitDefinition["external_location_supported_subscriptions"] = r.ExternalLocationSupportedSubscriptions
 
 		if r.IsDeprecated != nil {
 			limitDefinition["is_deprecated"] = *r.IsDeprecated

@@ -28,6 +28,10 @@ func LimitsResourceAvailabilityDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"external_location": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"limit_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,6 +98,11 @@ func (s *LimitsResourceAvailabilityDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if externalLocation, ok := s.D.GetOkExists("external_location"); ok {
+		tmp := externalLocation.(string)
+		request.ExternalLocation = &tmp
 	}
 
 	if limitName, ok := s.D.GetOkExists("limit_name"); ok {

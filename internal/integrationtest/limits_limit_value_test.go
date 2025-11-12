@@ -32,6 +32,15 @@ var (
 		"name":            acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedLimit},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_ocid}`},
 	}
+
+	LimitsLimitsLimitValueDataSourceRepresentationForExternalLocation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"service_name":      acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedService},
+		"name":              acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedLimit},
+		"subscription_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_ocid}`},
+		"external_location": acctest.Representation{RepType: acctest.Required, Create: externalLocation},
+		"scope_type":        acctest.Representation{RepType: acctest.Required, Create: `AD`},
+	}
 )
 
 // issue-routing-tag: limits/default
@@ -93,6 +102,41 @@ func TestLimitsLimitValueResource_subscription(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "name", subscriptionSupportedLimit),
 				resource.TestCheckResourceAttr(datasourceName, "service_name", subscriptionSupportedService),
 				resource.TestCheckResourceAttr(datasourceName, "subscription_id", subscriptionOcid),
+				resource.TestCheckResourceAttrSet(datasourceName, "limit_values.#"),
+			),
+		},
+	})
+}
+
+func TestLimitsLimitValueResource_external_location(t *testing.T) {
+	httpreplay.SetScenario("TestLimitsLimitValueResource_external_location")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+
+	subscriptionOcid := utils.GetEnvSettingWithBlankDefault("subscription_ocid")
+	subscriptionOcidVariableStr := fmt.Sprintf("variable \"subscription_ocid\" { default = \"%s\" }\n", subscriptionOcid)
+
+	datasourceName := "data.oci_limits_limit_values.test_limit_values"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_limit_values", "test_limit_values", acctest.Required, acctest.Create, LimitsLimitsLimitValueDataSourceRepresentationForExternalLocation) +
+				compartmentIdVariableStr + subscriptionOcidVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "name", subscriptionSupportedLimit),
+				resource.TestCheckResourceAttr(datasourceName, "service_name", subscriptionSupportedService),
+				resource.TestCheckResourceAttr(datasourceName, "subscription_id", subscriptionOcid),
+				resource.TestCheckResourceAttr(datasourceName, "external_location", externalLocation),
 				resource.TestCheckResourceAttrSet(datasourceName, "limit_values.#"),
 			),
 		},

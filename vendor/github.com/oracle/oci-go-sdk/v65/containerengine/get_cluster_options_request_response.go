@@ -24,6 +24,9 @@ type GetClusterOptionsRequest struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
+	// Option to show all kubernetes patch versions
+	ShouldListAllPatchVersions *bool `mandatory:"false" contributesTo:"query" name:"shouldListAllPatchVersions"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

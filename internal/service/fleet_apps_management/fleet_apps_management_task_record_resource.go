@@ -174,6 +174,14 @@ func FleetAppsManagementTaskRecordResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"system_variables": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"target_compartment_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -329,11 +337,19 @@ func FleetAppsManagementTaskRecordResource() *schema.Resource {
 
 			// Optional
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -512,7 +528,7 @@ func (s *FleetAppsManagementTaskRecordResourceCrud) getTaskRecordFromWorkRequest
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	taskRecordId, err := taskRecordWaitForWorkRequest(workId, "taskrecord",
+	taskRecordId, err := taskRecordWaitForWorkRequest(workId, "task",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -1002,6 +1018,18 @@ func (s *FleetAppsManagementTaskRecordResourceCrud) mapToExecutionDetails(fieldK
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
+		if systemVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_variables")); ok {
+			interfaces := systemVariables.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "system_variables")) {
+				details.SystemVariables = tmp
+			}
+		}
 		baseObject = details
 	case strings.ToLower("SCRIPT"):
 		details := oci_fleet_apps_management.ScriptBasedExecutionDetails{}
@@ -1043,6 +1071,18 @@ func (s *FleetAppsManagementTaskRecordResourceCrud) mapToExecutionDetails(fieldK
 			tmp := isLocked.(bool)
 			details.IsLocked = &tmp
 		}
+		if systemVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_variables")); ok {
+			interfaces := systemVariables.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "system_variables")) {
+				details.SystemVariables = tmp
+			}
+		}
 		if variables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "variables")); ok {
 			if tmpList := variables.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "variables"), 0)
@@ -1068,6 +1108,18 @@ func (s *FleetAppsManagementTaskRecordResourceCrud) mapToExecutionDetails(fieldK
 			tmp := isReadOutputVariableEnabled.(bool)
 			details.IsReadOutputVariableEnabled = &tmp
 		}
+		if systemVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_variables")); ok {
+			interfaces := systemVariables.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "system_variables")) {
+				details.SystemVariables = tmp
+			}
+		}
 		if targetCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_compartment_id")); ok {
 			tmp := targetCompartmentId.(string)
 			details.TargetCompartmentId = &tmp
@@ -1088,6 +1140,8 @@ func ExecutionDetailsToMap(obj *oci_fleet_apps_management.ExecutionDetails) map[
 		if v.Endpoint != nil {
 			result["endpoint"] = string(*v.Endpoint)
 		}
+
+		result["system_variables"] = v.SystemVariables
 	case oci_fleet_apps_management.ScriptBasedExecutionDetails:
 		result["execution_type"] = "SCRIPT"
 
@@ -1117,6 +1171,8 @@ func ExecutionDetailsToMap(obj *oci_fleet_apps_management.ExecutionDetails) map[
 			result["is_locked"] = bool(*v.IsLocked)
 		}
 
+		result["system_variables"] = v.SystemVariables
+
 		if v.Variables != nil {
 			result["variables"] = []interface{}{TaskVariableToMap(v.Variables)}
 		}
@@ -1134,6 +1190,8 @@ func ExecutionDetailsToMap(obj *oci_fleet_apps_management.ExecutionDetails) map[
 		if v.IsReadOutputVariableEnabled != nil {
 			result["is_read_output_variable_enabled"] = bool(*v.IsReadOutputVariableEnabled)
 		}
+
+		result["system_variables"] = v.SystemVariables
 
 		if v.TargetCompartmentId != nil {
 			result["target_compartment_id"] = string(*v.TargetCompartmentId)
