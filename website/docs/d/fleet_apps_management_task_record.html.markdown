@@ -55,6 +55,7 @@ The following attributes are exported:
 		* `is_executable_content` - Is the Content an executable file?
 		* `is_locked` - Is the script locked to prevent changes directly in Object Storage?
 		* `is_read_output_variable_enabled` - Is read output variable enabled
+		* `system_variables` - The list of system variables.
 		* `target_compartment_id` - OCID of the compartment to which the resource belongs to.
 		* `variables` - The variable of the task. At least one of the dynamicArguments or output needs to be provided. 
 			* `input_variables` - The input variables for the task.

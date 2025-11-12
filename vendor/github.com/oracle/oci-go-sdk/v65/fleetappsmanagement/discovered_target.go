@@ -32,6 +32,11 @@ type DiscoveredTarget struct {
 
 	// Current version of the target.
 	Version *string `mandatory:"false" json:"version"`
+
+	// Type of operation to be done against given target.
+	// ADD - Add target.
+	// REMOVE - Delete target.
+	Operation DiscoveredTargetOperationEnum `mandatory:"false" json:"operation,omitempty"`
 }
 
 func (m DiscoveredTarget) String() string {
@@ -44,8 +49,53 @@ func (m DiscoveredTarget) String() string {
 func (m DiscoveredTarget) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDiscoveredTargetOperationEnum(string(m.Operation)); !ok && m.Operation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operation: %s. Supported values are: %s.", m.Operation, strings.Join(GetDiscoveredTargetOperationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DiscoveredTargetOperationEnum Enum with underlying type: string
+type DiscoveredTargetOperationEnum string
+
+// Set of constants representing the allowable values for DiscoveredTargetOperationEnum
+const (
+	DiscoveredTargetOperationAdd    DiscoveredTargetOperationEnum = "ADD"
+	DiscoveredTargetOperationRemove DiscoveredTargetOperationEnum = "REMOVE"
+)
+
+var mappingDiscoveredTargetOperationEnum = map[string]DiscoveredTargetOperationEnum{
+	"ADD":    DiscoveredTargetOperationAdd,
+	"REMOVE": DiscoveredTargetOperationRemove,
+}
+
+var mappingDiscoveredTargetOperationEnumLowerCase = map[string]DiscoveredTargetOperationEnum{
+	"add":    DiscoveredTargetOperationAdd,
+	"remove": DiscoveredTargetOperationRemove,
+}
+
+// GetDiscoveredTargetOperationEnumValues Enumerates the set of values for DiscoveredTargetOperationEnum
+func GetDiscoveredTargetOperationEnumValues() []DiscoveredTargetOperationEnum {
+	values := make([]DiscoveredTargetOperationEnum, 0)
+	for _, v := range mappingDiscoveredTargetOperationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDiscoveredTargetOperationEnumStringValues Enumerates the set of values in String for DiscoveredTargetOperationEnum
+func GetDiscoveredTargetOperationEnumStringValues() []string {
+	return []string{
+		"ADD",
+		"REMOVE",
+	}
+}
+
+// GetMappingDiscoveredTargetOperationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDiscoveredTargetOperationEnum(val string) (DiscoveredTargetOperationEnum, bool) {
+	enum, ok := mappingDiscoveredTargetOperationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

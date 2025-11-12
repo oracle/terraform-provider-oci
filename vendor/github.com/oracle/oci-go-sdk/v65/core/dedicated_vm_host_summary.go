@@ -62,6 +62,9 @@ type DedicatedVmHostSummary struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// Specifies if the Dedicated Virtual Machine Host is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
 	// The current total memory of the dedicated VM host, in GBs.
 	TotalMemoryInGBs *float32 `mandatory:"false" json:"totalMemoryInGBs"`
 

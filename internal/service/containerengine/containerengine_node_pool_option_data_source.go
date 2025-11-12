@@ -21,9 +21,25 @@ func ContainerengineNodePoolOptionDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"node_pool_k8s_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"node_pool_option_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"node_pool_os_arch": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"node_pool_os_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"should_list_all_patch_versions": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			// Computed
 			"images": {
@@ -102,9 +118,27 @@ func (s *ContainerengineNodePoolOptionDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if nodePoolK8sVersion, ok := s.D.GetOkExists("node_pool_k8s_version"); ok {
+		tmp := nodePoolK8sVersion.(string)
+		request.NodePoolK8sVersion = &tmp
+	}
+
 	if nodePoolOptionId, ok := s.D.GetOkExists("node_pool_option_id"); ok {
 		tmp := nodePoolOptionId.(string)
 		request.NodePoolOptionId = &tmp
+	}
+
+	if nodePoolOsArch, ok := s.D.GetOkExists("node_pool_os_arch"); ok {
+		request.NodePoolOsArch = oci_containerengine.GetNodePoolOptionsNodePoolOsArchEnum(nodePoolOsArch.(string))
+	}
+
+	if nodePoolOsType, ok := s.D.GetOkExists("node_pool_os_type"); ok {
+		request.NodePoolOsType = oci_containerengine.GetNodePoolOptionsNodePoolOsTypeEnum(nodePoolOsType.(string))
+	}
+
+	if shouldListAllPatchVersions, ok := s.D.GetOkExists("should_list_all_patch_versions"); ok {
+		tmp := shouldListAllPatchVersions.(bool)
+		request.ShouldListAllPatchVersions = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")

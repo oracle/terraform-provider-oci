@@ -31,7 +31,7 @@ data "oci_limits_services" "test_services" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
-* `subscription_id` - (Optional) The OCID of the subscription assigned to tenant 
+* `subscription_id` - (Optional) The subscription OCID assigned to the tenant. 
 
 
 ## Attributes Reference
@@ -46,5 +46,5 @@ The following attributes are exported:
 
 * `description` - The friendly service name.
 * `name` - The service name. Use this when calling other APIs.
-* `supported_subscriptions` - An array of subscription types supported by the service. e,g The type of subscription, such as 'SAAS', 'ERP', 'CRM'. 
+* `supported_subscriptions` - An array of subscription types supported by the service. For example, the type of subscription, such as SAAS, ERP, or CRM. 
 

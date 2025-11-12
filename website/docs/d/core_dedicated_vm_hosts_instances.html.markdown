@@ -23,6 +23,7 @@ data "oci_core_dedicated_vm_hosts_instances" "test_dedicated_vm_hosts_instances"
 
 	#Optional
 	availability_domain = var.dedicated_vm_hosts_instance_availability_domain
+	is_memory_encryption_enabled = var.dedicated_vm_hosts_instance_is_memory_encryption_enabled
 }
 ```
 
@@ -33,6 +34,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `dedicated_vm_host_id` - (Required) The OCID of the dedicated VM host.
+* `is_memory_encryption_enabled` - (Optional) A filter to return only confidential Dedicated VM hosts (DVMH) or confidential VM instances on DVMH. 
 
 
 ## Attributes Reference
@@ -48,6 +50,7 @@ The following attributes are exported:
 * `availability_domain` - The availability domain the virtual machine instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment that contains the virtual machine instance. 
 * `instance_id` - The OCID of the virtual machine instance. 
+* `is_memory_encryption_enabled` - Specifies whether the VM instance is confidential. 
 * `shape` - The shape of the VM instance. 
 * `time_created` - The date and time the virtual machine instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

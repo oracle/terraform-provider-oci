@@ -17,10 +17,18 @@ import (
 
 var (
 	FleetAppsManagementFleetTargetDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.test_active_fleet}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `/u01/app/oracle/product/jdk`},
-		"product":               acctest.Representation{RepType: acctest.Optional, Create: `Oracle Java`},
-		"resource_display_name": acctest.Representation{RepType: acctest.Optional, Create: `weblogic-1`},
+		"fleet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_fleet.test_fleet.id}`},
+		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"product":               acctest.Representation{RepType: acctest.Optional, Create: `product`},
+		"resource_display_name": acctest.Representation{RepType: acctest.Optional, Create: `resourceDisplayName`},
+		"resource_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_resource.test_resource.id}`},
+		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		///// EARLIER CHANGES BEGIN /////
+		// "fleet_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.test_active_fleet}`},
+		// "display_name":          acctest.Representation{RepType: acctest.Optional, Create: `/u01/app/oracle/product/jdk`},
+		// "product":               acctest.Representation{RepType: acctest.Optional, Create: `Oracle Java`},
+		// "resource_display_name": acctest.Representation{RepType: acctest.Optional, Create: `weblogic-1`},
+		///// EARLIER CHANGES END /////
 	}
 
 	FleetAppsManagementFleetTargetResourceConfig = ""
@@ -53,8 +61,14 @@ func TestFleetAppsManagementFleetTargetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "/u01/app/oracle/product/jdk"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
-				resource.TestCheckResourceAttr(datasourceName, "product", "Oracle Java"),
-				resource.TestCheckResourceAttr(datasourceName, "resource_display_name", "weblogic-1"),
+				resource.TestCheckResourceAttr(datasourceName, "product", "product"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_display_name", "resourceDisplayName"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				///// EARLIER CHANGES BEGIN /////
+				// resource.TestCheckResourceAttr(datasourceName, "product", "Oracle Java"),
+				// resource.TestCheckResourceAttr(datasourceName, "resource_display_name", "weblogic-1"),
+				///// EARLIER CHANGES END /////
 
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_target_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "fleet_target_collection.0.items.#", "1"),

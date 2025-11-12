@@ -30,6 +30,10 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_details_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"resource_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -126,6 +130,10 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"patch_level": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"patch_name": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -135,6 +143,10 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 													Computed: true,
 												},
 												"time_applied": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_released": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -252,6 +264,11 @@ func (s *FleetAppsManagementInventoryRecordsDataSourceCrud) Get() error {
 		request.FleetId = &tmp
 	}
 
+	if isDetailsRequired, ok := s.D.GetOkExists("is_details_required"); ok {
+		tmp := isDetailsRequired.(bool)
+		request.IsDetailsRequired = &tmp
+	}
+
 	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
 		tmp := resourceId.(string)
 		request.ResourceId = &tmp
@@ -343,6 +360,10 @@ func InventoryRecordPatchDetailsToMap(obj oci_fleet_apps_management.InventoryRec
 		result["patch_id"] = string(*obj.PatchId)
 	}
 
+	if obj.PatchLevel != nil {
+		result["patch_level"] = string(*obj.PatchLevel)
+	}
+
 	if obj.PatchName != nil {
 		result["patch_name"] = string(*obj.PatchName)
 	}
@@ -353,6 +374,10 @@ func InventoryRecordPatchDetailsToMap(obj oci_fleet_apps_management.InventoryRec
 
 	if obj.TimeApplied != nil {
 		result["time_applied"] = obj.TimeApplied.String()
+	}
+
+	if obj.TimeReleased != nil {
+		result["time_released"] = obj.TimeReleased.String()
 	}
 
 	return result

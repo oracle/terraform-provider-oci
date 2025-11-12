@@ -87,6 +87,9 @@ type CatalogItem struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeLastChecked *common.SDKTime `mandatory:"false" json:"timeLastChecked"`
 
+	// Indicates if the CatalogItem is immutable or not.
+	IsItemLocked *bool `mandatory:"false" json:"isItemLocked"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -136,6 +139,7 @@ func (m *CatalogItem) UnmarshalJSON(data []byte) (e error) {
 		TimeReleased            *common.SDKTime                   `json:"timeReleased"`
 		TimeBackfillLastChecked *common.SDKTime                   `json:"timeBackfillLastChecked"`
 		TimeLastChecked         *common.SDKTime                   `json:"timeLastChecked"`
+		IsItemLocked            *bool                             `json:"isItemLocked"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
@@ -189,6 +193,8 @@ func (m *CatalogItem) UnmarshalJSON(data []byte) (e error) {
 	m.TimeBackfillLastChecked = model.TimeBackfillLastChecked
 
 	m.TimeLastChecked = model.TimeLastChecked
+
+	m.IsItemLocked = model.IsItemLocked
 
 	m.FreeformTags = model.FreeformTags
 

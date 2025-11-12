@@ -32,6 +32,12 @@ type InventoryRecordPatchDetails struct {
 
 	// OCID of the installed patch
 	PatchId *string `mandatory:"false" json:"patchId"`
+
+	// The date on which patch was released.
+	TimeReleased *common.SDKTime `mandatory:"false" json:"timeReleased"`
+
+	// Patch Level.
+	PatchLevel *string `mandatory:"false" json:"patchLevel"`
 }
 
 func (m InventoryRecordPatchDetails) String() string {

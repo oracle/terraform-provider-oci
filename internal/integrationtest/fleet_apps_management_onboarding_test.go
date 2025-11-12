@@ -8,12 +8,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
@@ -31,12 +30,14 @@ var (
 	}
 
 	FleetAppsManagementOnboardingRepresentation = map[string]interface{}{
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_cost_tracking_tag_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_fams_tag_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-
 	FleetAppsManagementOnboardingResourceDependencies = ""
+	// FleetAppsManagementOnboardingResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: fleet_apps_management/default
@@ -78,6 +79,7 @@ func TestFleetAppsManagementOnboardingResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_onboarding", "test_onboarding", acctest.Optional, acctest.Create, FleetAppsManagementOnboardingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_cost_tracking_tag_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_fams_tag_enabled", "false"),
 

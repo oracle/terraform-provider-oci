@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceModelDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceModelDeployments,
+		ReadContext: readDatascienceModelDeploymentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -51,12 +52,12 @@ func DatascienceModelDeploymentsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceModelDeployments(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelDeploymentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelDeploymentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelDeploymentsDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *DatascienceModelDeploymentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelDeploymentsDataSourceCrud) Get() error {
+func (s *DatascienceModelDeploymentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListModelDeploymentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DatascienceModelDeploymentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListModelDeployments(context.Background(), request)
+	response, err := s.Client.ListModelDeployments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DatascienceModelDeploymentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModelDeployments(context.Background(), request)
+		listResponse, err := s.Client.ListModelDeployments(ctx, request)
 		if err != nil {
 			return err
 		}

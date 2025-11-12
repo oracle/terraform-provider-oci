@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceMlApplicationInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceMlApplicationInstances,
+		ReadContext: readDatascienceMlApplicationInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func DatascienceMlApplicationInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceMlApplicationInstances(d *schema.ResourceData, m interface{}) error {
+func readDatascienceMlApplicationInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceMlApplicationInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceMlApplicationInstancesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *DatascienceMlApplicationInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceMlApplicationInstancesDataSourceCrud) Get() error {
+func (s *DatascienceMlApplicationInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListMlApplicationInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *DatascienceMlApplicationInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListMlApplicationInstances(context.Background(), request)
+	response, err := s.Client.ListMlApplicationInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatascienceMlApplicationInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMlApplicationInstances(context.Background(), request)
+		listResponse, err := s.Client.ListMlApplicationInstances(ctx, request)
 		if err != nil {
 			return err
 		}

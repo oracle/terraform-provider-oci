@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +20,15 @@ func DatascienceProjectDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceProjectResource(), fieldMap, readSingularDatascienceProject)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceProjectResource(), fieldMap, readSingularDatascienceProjectWithContext)
 }
 
-func readSingularDatascienceProject(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceProjectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceProjectDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceProjectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceProjectDataSourceCrud) Get() error {
+func (s *DatascienceProjectDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetProjectRequest{}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceProjectDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}

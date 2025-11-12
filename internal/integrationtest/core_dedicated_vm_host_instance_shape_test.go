@@ -18,7 +18,7 @@ var (
 	CoreCoreDedicatedVmHostInstanceShapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"dedicated_vm_host_shape": acctest.Representation{RepType: acctest.Optional, Create: `DVH.Standard2.52`},
+		"dedicated_vm_host_shape": acctest.Representation{RepType: acctest.Optional, Create: `DVH.Standard.E4.128`},
 	}
 
 	CoreDedicatedVmHostInstanceShapeResourceConfig = AvailabilityDomainConfig
@@ -26,8 +26,16 @@ var (
 
 // issue-routing-tag: core/default
 func TestCoreDedicatedVmHostInstanceShapeResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestCoreDedicatedVmHostInstanceShapeResource_basic")
-	defer httpreplay.SaveScenario()
+	if err := httpreplay.SetScenario("TestCoreDedicatedVmHostInstanceShapeResource_basic"); err != nil {
+		fmt.Printf("error occurred in httpreplay.SetScenario, %s", err)
+		return
+	}
+	defer func() {
+		if err := httpreplay.SaveScenario(); err != nil {
+			fmt.Printf("error occurred in httpreplay.SaveScenario, %s", err)
+			return
+		}
+	}()
 
 	config := acctest.ProviderTestConfig()
 
@@ -50,6 +58,11 @@ func TestCoreDedicatedVmHostInstanceShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_host_instance_shapes.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_host_instance_shapes.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_host_instance_shapes.0.instance_shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_host_instance_shapes.0.instance_shape_name", `VM.Standard.E4.Flex`),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_host_instance_shapes.0.supported_capabilities.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_host_instance_shapes.0.supported_capabilities.0.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_host_instance_shapes.0.supported_capabilities.0.is_memory_encryption_supported"),
+				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_host_instance_shapes.0.supported_capabilities.0.is_memory_encryption_supported", isMemoryEncryptionSupported),
 			),
 		},
 	})

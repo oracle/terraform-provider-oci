@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_limits_limit_values
 This data source provides the list of Limit Values in Oracle Cloud Infrastructure Limits service.
 
-Includes a full list of resource limits belonging to a given service. If subscription Id is provided, limit value for subscription will be returned.
+Includes a full list of resource limits belonging to a given service.
+If the subscription ID is provided, the limit value for the subscription will be returned.
 
 
 ## Example Usage
@@ -23,6 +24,7 @@ data "oci_limits_limit_values" "test_limit_values" {
 
 	#Optional
 	availability_domain = var.limit_value_availability_domain
+	external_location = var.limit_value_external_location
 	name = var.limit_value_name
 	scope_type = var.limit_value_scope_type
     subscription_id = var.subscription_ocid
@@ -35,10 +37,11 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) Filter entries by availability domain. This implies that only AD-specific values are returned. 
 * `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
+* `external_location` - (Optional) External cloud provider location 
 * `name` - (Optional) Optional field, can be used to see a specific resource limit value.
 * `scope_type` - (Optional) Filter entries by scope type.
 * `service_name` - (Required) The target service name.
-* `subscription_id` - (Optional) The OCID of the subscription assigned to tenant 
+* `subscription_id` - (Optional) The subscription OCID assigned to the tenant. 
 
 
 ## Attributes Reference

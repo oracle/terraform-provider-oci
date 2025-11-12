@@ -18,7 +18,7 @@ import (
 // InventoryRecordSummary Summary information about an inventory target.
 type InventoryRecordSummary struct {
 
-	// The OCID of the Inventory target.
+	// The id of the Inventory target.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Name of the target

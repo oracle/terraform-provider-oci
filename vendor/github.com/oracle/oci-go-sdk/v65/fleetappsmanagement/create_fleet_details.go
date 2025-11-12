@@ -36,6 +36,7 @@ type CreateFleetDetails struct {
 	Details FleetDetails `mandatory:"false" json:"details"`
 
 	// Products associated with the Fleet.
+	// Provide PlatformConfiguration Ids corresponding to all the Products that need to be managed.
 	Products []string `mandatory:"false" json:"products"`
 
 	// Environment Type associated with the Fleet.
