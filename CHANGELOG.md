@@ -8,33 +8,6 @@
 - Support for [Multi Cloud Limits] - Add support for allocating limits by partner cloud
 - Support for OKE: Kubernetes Versions Format API update
 - lookup image by URI
-- Support for new service Data Intelligence Foundation
-- Support for VM Instance - Snapshot/Restore Read only
-- ZPR and PSA support
-- Support for IPA-Graceful Termination of Instance in Instance Pool
-- Support for HeatWave MySQL Service: Configurable Version Upgrade Policies
-- Support for ADBS: Autonomous Name Change
-- Support for Oracle Cloud AI Services Language - Enhancement-Rel4.2
-- Support for LBaaS Support for online conversion of IPv4 LB to dual stack IPv4 and IPv6
-- Support for ADB-S: Vanity URL support using API Gateway
-- Support for Lustre File Service: LFS Object Storage Bi-Directional Sync
-- support for Database Tools Identity
-- Support for Support for Apple as a Social IDP
-- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for File Storage Service
-- FSDR support for database events integration
-- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for Streaming Service
-- Support for Configure RTRT via console + Unit-tests: ExaDB@CC
-- Support for JMS common variables
-- Support for Host API - Add computeHostInSubtree query param to existing ListComputeHosts api.
-- Support for (ORM-174501 GA-2) IPv4-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC
-- support for Dual Stack Endpoint
-- entry in ChangeLog
-- Support for OCI Data Science - ML Pipelines - Parameterized pipelines
-- Push TF provider HTML docs for Technical Content publishing
-
-### Bug Fix
-- make test compile failure
-- secret id fix and other test case fixes
 
 ## 7.25.0 (November 4, 2025)
 
