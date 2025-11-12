@@ -1,3 +1,14 @@
+## 7.26.0 (November 12, 2025)
+
+### Added
+- Deprecation message
+- Support for Passing TF CLI context to Go SDK
+- support for Fleet Application Management Service 2.0.3
+- Support for Multi-Shape Family Virtual Machine Instances on Dedicated Virtual Machine Hosts
+- Support for [Multi Cloud Limits] - Add support for allocating limits by partner cloud
+- Support for OKE: Kubernetes Versions Format API update
+- lookup image by URI
+
 ## 7.25.0 (November 4, 2025)
 
 ### Added

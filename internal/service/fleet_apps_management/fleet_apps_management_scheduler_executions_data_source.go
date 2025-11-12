@@ -24,7 +24,15 @@ func FleetAppsManagementSchedulerExecutionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"lifecycle_operation": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -85,6 +93,10 @@ func FleetAppsManagementSchedulerExecutionsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"compartment_name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -228,9 +240,19 @@ func (s *FleetAppsManagementSchedulerExecutionsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if lifecycleOperation, ok := s.D.GetOkExists("lifecycle_operation"); ok {
+		tmp := lifecycleOperation.(string)
+		request.LifecycleOperation = &tmp
 	}
 
 	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
@@ -357,6 +379,10 @@ func SchedulerExecutionSummaryToMap(obj oci_fleet_apps_management.SchedulerExecu
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.CompartmentName != nil {
+		result["compartment_name"] = string(*obj.CompartmentName)
 	}
 
 	if obj.DefinedTags != nil {

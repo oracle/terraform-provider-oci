@@ -51,6 +51,10 @@ type ListContainerImagesRequest struct {
 	// A filter to return only resources that match the given lifecycle state name exactly.
 	LifecycleState *string `mandatory:"false" contributesTo:"query" name:"lifecycleState"`
 
+	// The digest of the container image.
+	// Example: `sha256:e7d38b3517548a1c71e41bffe9c8ae6d6d29546ce46bf62159837aad072c90aa`
+	ImageDigest *string `mandatory:"false" contributesTo:"query" name:"imageDigest"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
 	// "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

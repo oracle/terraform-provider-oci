@@ -107,6 +107,10 @@ func (s *FleetAppsManagementCatalogItemDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsItemLocked != nil {
+		s.D.Set("is_item_locked", *s.Res.IsItemLocked)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

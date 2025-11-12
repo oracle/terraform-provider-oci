@@ -62,6 +62,10 @@ func (m *runondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := PreviousTaskInstanceRunOnDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SCHEDULE_INSTANCE_TARGETS":
+		mm := ScheduleInstanceTargetRunOnDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for RunOnDetails: %s.", m.Kind)
 		return *m, nil
@@ -89,21 +93,24 @@ type RunOnDetailsKindEnum string
 
 // Set of constants representing the allowable values for RunOnDetailsKindEnum
 const (
-	RunOnDetailsKindScheduledInstances    RunOnDetailsKindEnum = "SCHEDULED_INSTANCES"
-	RunOnDetailsKindSelfHostedInstances   RunOnDetailsKindEnum = "SELF_HOSTED_INSTANCES"
-	RunOnDetailsKindPreviousTaskInstances RunOnDetailsKindEnum = "PREVIOUS_TASK_INSTANCES"
+	RunOnDetailsKindScheduledInstances      RunOnDetailsKindEnum = "SCHEDULED_INSTANCES"
+	RunOnDetailsKindSelfHostedInstances     RunOnDetailsKindEnum = "SELF_HOSTED_INSTANCES"
+	RunOnDetailsKindPreviousTaskInstances   RunOnDetailsKindEnum = "PREVIOUS_TASK_INSTANCES"
+	RunOnDetailsKindScheduleInstanceTargets RunOnDetailsKindEnum = "SCHEDULE_INSTANCE_TARGETS"
 )
 
 var mappingRunOnDetailsKindEnum = map[string]RunOnDetailsKindEnum{
-	"SCHEDULED_INSTANCES":     RunOnDetailsKindScheduledInstances,
-	"SELF_HOSTED_INSTANCES":   RunOnDetailsKindSelfHostedInstances,
-	"PREVIOUS_TASK_INSTANCES": RunOnDetailsKindPreviousTaskInstances,
+	"SCHEDULED_INSTANCES":       RunOnDetailsKindScheduledInstances,
+	"SELF_HOSTED_INSTANCES":     RunOnDetailsKindSelfHostedInstances,
+	"PREVIOUS_TASK_INSTANCES":   RunOnDetailsKindPreviousTaskInstances,
+	"SCHEDULE_INSTANCE_TARGETS": RunOnDetailsKindScheduleInstanceTargets,
 }
 
 var mappingRunOnDetailsKindEnumLowerCase = map[string]RunOnDetailsKindEnum{
-	"scheduled_instances":     RunOnDetailsKindScheduledInstances,
-	"self_hosted_instances":   RunOnDetailsKindSelfHostedInstances,
-	"previous_task_instances": RunOnDetailsKindPreviousTaskInstances,
+	"scheduled_instances":       RunOnDetailsKindScheduledInstances,
+	"self_hosted_instances":     RunOnDetailsKindSelfHostedInstances,
+	"previous_task_instances":   RunOnDetailsKindPreviousTaskInstances,
+	"schedule_instance_targets": RunOnDetailsKindScheduleInstanceTargets,
 }
 
 // GetRunOnDetailsKindEnumValues Enumerates the set of values for RunOnDetailsKindEnum
@@ -121,6 +128,7 @@ func GetRunOnDetailsKindEnumStringValues() []string {
 		"SCHEDULED_INSTANCES",
 		"SELF_HOSTED_INSTANCES",
 		"PREVIOUS_TASK_INSTANCES",
+		"SCHEDULE_INSTANCE_TARGETS",
 	}
 }
 

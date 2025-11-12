@@ -29,10 +29,12 @@ resource "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
 	dedicated_vm_host_shape = var.dedicated_vm_host_dedicated_vm_host_shape
 
 	#Optional
+	capacity_config = var.dedicated_vm_host_capacity_config
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.dedicated_vm_host_display_name
 	fault_domain = var.dedicated_vm_host_fault_domain
 	freeform_tags = {"Department"= "Finance"}
+	is_memory_encryption_enabled = var.dedicated_vm_host_is_memory_encryption_enabled
 	placement_constraint_details {
 		#Required
 		type = var.dedicated_vm_host_placement_constraint_details_type
@@ -48,6 +50,7 @@ resource "oci_core_dedicated_vm_host" "test_dedicated_vm_host" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The availability domain of the dedicated virtual machine host.  Example: `Uocm:PHX-AD-1` 
+* `capacity_config` - (Optional) The capacity configuration selected to be configured for the Dedicated Virtual Machine host.  Run [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DedicatedVmHostShapeSummary/ListDedicatedVmHostShapes) API first to see the capacity configuration options. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `dedicated_vm_host_shape` - (Required) The dedicated virtual machine host shape. The shape determines the number of CPUs and other resources available for VM instances launched on the dedicated virtual machine host. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -58,9 +61,11 @@ The following arguments are supported:
 
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `placement_constraint_details` - (Optional) Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
-	* `compute_bare_metal_host_id` - (Required when type=COMPUTE_BARE_METAL_HOST) The OCID of the compute bare metal host.
-	* `type` - (Required) Determines the type of targeted launch.
+* `is_memory_encryption_enabled` - (Optional) Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched. 
+* `placement_constraint_details` - (Optional) The details for providing placement constraints. 
+	* `compute_bare_metal_host_id` - (Required when type=COMPUTE_BARE_METAL_HOST) The OCID of the compute bare metal host. This is only available for dedicated capacity customers.
+	* `compute_host_group_id` - (Required when type=HOST_GROUP) The OCID of the compute host group. This is only available for dedicated capacity customers.
+	* `type` - (Required) The type for the placement constraints. Use `COMPUTE_BARE_METAL_HOST` when specifying the compute bare metal host OCID. Use `HOST_GROUP` when specifying the compute host group OCID. 
 
 
 ** IMPORTANT **
@@ -71,13 +76,14 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domain` - The availability domain the dedicated virtual machine host is running in.  Example: `Uocm:PHX-AD-1` 
-* `capacity_bins` - A list of total and remaining CPU & memory per capacity bucket. 
+* `capacity_bins` - A list of total and remaining CPU and memory per capacity bucket. 
 	* `capacity_index` - Zero-based index for the corresponding capacity bucket. 
 	* `remaining_memory_in_gbs` - The remaining memory of the capacity bucket, in GBs. 
 	* `remaining_ocpus` - The available OCPUs of the capacity bucket. 
 	* `supported_shapes` - List of VMI shapes supported on each capacity bucket. 
 	* `total_memory_in_gbs` - The total memory of the capacity bucket, in GBs. 
 	* `total_ocpus` - The total OCPUs of the capacity bucket. 
+* `capacity_config` - The capacity configuration selected to be configured for the Dedicated Virtual Machine host.  Run [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DedicatedVmHostShapeSummary/ListDedicatedVmHostShapes) API to see details of this capacity configuration. 
 * `compartment_id` - The OCID of the compartment that contains the dedicated virtual machine host.
 * `compute_bare_metal_host_id` - The compute bare metal host OCID of the dedicated virtual machine host. 
 * `dedicated_vm_host_shape` - The dedicated virtual machine host shape. The shape determines the number of CPUs and other resources available for VMs. 
@@ -92,10 +98,11 @@ The following attributes are exported:
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated VM host. 
-* `placement_constraint_details` - Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch. 
-	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host.
-	* `compute_host_group_id` - The OCID of the compute host group.
-	* `type` - Determines the type of targeted launch.
+* `is_memory_encryption_enabled` - Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched. 
+* `placement_constraint_details` - The details for providing placement constraints. 
+	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host. This is only available for dedicated capacity customers.
+	* `compute_host_group_id` - The OCID of the compute host group. This is only available for dedicated capacity customers.
+	* `type` - The type for the placement constraints. Use `COMPUTE_BARE_METAL_HOST` when specifying the compute bare metal host OCID. Use `HOST_GROUP` when specifying the compute host group OCID. 
 * `remaining_memory_in_gbs` - The current available memory of the dedicated VM host, in GBs. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 

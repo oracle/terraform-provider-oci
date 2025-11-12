@@ -48,6 +48,12 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_config": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -71,6 +77,12 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_memory_encryption_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"placement_constraint_details": {
 				Type:     schema.TypeList,
@@ -257,6 +269,11 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 		request.AvailabilityDomain = &tmp
 	}
 
+	if capacityConfig, ok := s.D.GetOkExists("capacity_config"); ok {
+		tmp := capacityConfig.(string)
+		request.CapacityConfig = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -287,6 +304,11 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isMemoryEncryptionEnabled, ok := s.D.GetOkExists("is_memory_encryption_enabled"); ok {
+		tmp := isMemoryEncryptionEnabled.(bool)
+		request.IsMemoryEncryptionEnabled = &tmp
 	}
 
 	if placementConstraintDetails, ok := s.D.GetOkExists("placement_constraint_details"); ok {
@@ -424,6 +446,10 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 	}
 	s.D.Set("capacity_bins", capacityBins)
 
+	if s.Res.CapacityConfig != nil {
+		s.D.Set("capacity_config", *s.Res.CapacityConfig)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -449,6 +475,10 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsMemoryEncryptionEnabled != nil {
+		s.D.Set("is_memory_encryption_enabled", *s.Res.IsMemoryEncryptionEnabled)
+	}
 
 	if s.Res.PlacementConstraintDetails != nil {
 		placementConstraintDetailsArray := []interface{}{}

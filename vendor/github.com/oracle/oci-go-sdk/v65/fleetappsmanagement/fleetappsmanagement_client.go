@@ -829,6 +829,64 @@ func (client FleetAppsManagementClient) generateComplianceReport(ctx context.Con
 	return response, err
 }
 
+// GetCompliance Retrieve compliance for a fleet.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCompliance.go.html to see an example of how to use GetCompliance API.
+// A default retry strategy applies to this operation GetCompliance()
+func (client FleetAppsManagementClient) GetCompliance(ctx context.Context, request GetComplianceRequest) (response GetComplianceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCompliance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComplianceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComplianceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComplianceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComplianceResponse")
+	}
+	return
+}
+
+// getCompliance implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) getCompliance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/compliance", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComplianceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Compliance/GetCompliance"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetCompliance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetComplianceReport Retrieve compliance report for a fleet.
 //
 // # See also

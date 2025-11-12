@@ -68,6 +68,9 @@ type ListDedicatedVmHostsRequest struct {
 	// The available OCPUs of the dedicated VM host.
 	RemainingOcpusGreaterThanOrEqualTo *float32 `mandatory:"false" contributesTo:"query" name:"remainingOcpusGreaterThanOrEqualTo"`
 
+	// A filter to return only confidential Dedicated VM hosts (DVMH) or confidential VM instances on DVMH.
+	IsMemoryEncryptionEnabled *bool `mandatory:"false" contributesTo:"query" name:"isMemoryEncryptionEnabled"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

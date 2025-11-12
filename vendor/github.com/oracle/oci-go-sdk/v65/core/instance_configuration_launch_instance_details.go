@@ -31,11 +31,11 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// Whether to enable AI enterprise on the instance.
-	IsAIEnterpriseEnabled *bool `mandatory:"false" json:"isAIEnterpriseEnabled"`
-
 	// The OCID of the compute capacity reservation this instance is launched under.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// Whether to enable AI enterprise on the instance.
+	IsAIEnterpriseEnabled *bool `mandatory:"false" json:"isAIEnterpriseEnabled"`
 
 	PlacementConstraintDetails InstanceConfigurationPlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
 
@@ -223,8 +223,8 @@ func (m InstanceConfigurationLaunchInstanceDetails) ValidateEnumValue() (bool, e
 func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		AvailabilityDomain             *string                                                                  `json:"availabilityDomain"`
-		IsAIEnterpriseEnabled          *bool                                                                    `json:"isAIEnterpriseEnabled"`
 		CapacityReservationId          *string                                                                  `json:"capacityReservationId"`
+		IsAIEnterpriseEnabled          *bool                                                                    `json:"isAIEnterpriseEnabled"`
 		PlacementConstraintDetails     instanceconfigurationplacementconstraintdetails                          `json:"placementConstraintDetails"`
 		ComputeClusterId               *string                                                                  `json:"computeClusterId"`
 		CompartmentId                  *string                                                                  `json:"compartmentId"`
@@ -261,9 +261,9 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	var nn interface{}
 	m.AvailabilityDomain = model.AvailabilityDomain
 
-	m.IsAIEnterpriseEnabled = model.IsAIEnterpriseEnabled
-
 	m.CapacityReservationId = model.CapacityReservationId
+
+	m.IsAIEnterpriseEnabled = model.IsAIEnterpriseEnabled
 
 	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
 	if e != nil {

@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// CreateRunbookVersionDetails The information about new Runbook.
+// CreateRunbookVersionDetails The information about new runbook version.
+// Versioning runbooks in Fleet Application Management involve assigning unique identifiers or version numbers to different iterations of the runbook to track changes, improvements, and updates over time.
 type CreateRunbookVersionDetails struct {
 
 	// The OCID of the resource.
@@ -24,7 +25,7 @@ type CreateRunbookVersionDetails struct {
 	// A set of tasks to execute in the runbook.
 	Tasks []Task `mandatory:"true" json:"tasks"`
 
-	// The groups of the runbook.
+	// The groups of the runbook version.
 	Groups []Group `mandatory:"true" json:"groups"`
 
 	ExecutionWorkflowDetails *ExecutionWorkflowDetails `mandatory:"true" json:"executionWorkflowDetails"`

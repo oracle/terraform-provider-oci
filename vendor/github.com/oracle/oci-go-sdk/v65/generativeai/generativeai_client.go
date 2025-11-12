@@ -283,6 +283,69 @@ func (client GenerativeAiClient) changeGenerativeAiPrivateEndpointCompartment(ct
 	return response, err
 }
 
+// ChangeImportedModelCompartment Moves an imported model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeImportedModelCompartment.go.html to see an example of how to use ChangeImportedModelCompartment API.
+// A default retry strategy applies to this operation ChangeImportedModelCompartment()
+func (client GenerativeAiClient) ChangeImportedModelCompartment(ctx context.Context, request ChangeImportedModelCompartmentRequest) (response ChangeImportedModelCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeImportedModelCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeImportedModelCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeImportedModelCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeImportedModelCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeImportedModelCompartmentResponse")
+	}
+	return
+}
+
+// changeImportedModelCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeImportedModelCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/importedModels/{importedModelId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeImportedModelCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModel/ChangeImportedModelCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeImportedModelCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
@@ -536,6 +599,70 @@ func (client GenerativeAiClient) createGenerativeAiPrivateEndpoint(ctx context.C
 	return response, err
 }
 
+// CreateImportedModel Import a model from ModelDataSource.
+// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the importedModel creation progress.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateImportedModel.go.html to see an example of how to use CreateImportedModel API.
+// A default retry strategy applies to this operation CreateImportedModel()
+func (client GenerativeAiClient) CreateImportedModel(ctx context.Context, request CreateImportedModelRequest) (response CreateImportedModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createImportedModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateImportedModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateImportedModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateImportedModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateImportedModelResponse")
+	}
+	return
+}
+
+// createImportedModel implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createImportedModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/importedModels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateImportedModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModel/CreateImportedModel"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateImportedModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateModel Creates a custom model by fine-tuning a base model with your own dataset. You can create a new custom models or create a new version of existing custom model..
 // The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the model creation progress.
 //
@@ -775,6 +902,64 @@ func (client GenerativeAiClient) deleteGenerativeAiPrivateEndpoint(ctx context.C
 	return response, err
 }
 
+// DeleteImportedModel Deletes an imported model. An imported model shouldn't be deleted if there's one or more active endpoints associated with that imported model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteImportedModel.go.html to see an example of how to use DeleteImportedModel API.
+// A default retry strategy applies to this operation DeleteImportedModel()
+func (client GenerativeAiClient) DeleteImportedModel(ctx context.Context, request DeleteImportedModelRequest) (response DeleteImportedModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteImportedModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteImportedModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteImportedModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteImportedModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteImportedModelResponse")
+	}
+	return
+}
+
+// deleteImportedModel implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteImportedModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/importedModels/{importedModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteImportedModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModel/DeleteImportedModel"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteImportedModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteModel Deletes a custom model. A model shouldn't be deleted if there's one or more active endpoints associated with that model.
 //
 // # See also
@@ -1000,6 +1185,64 @@ func (client GenerativeAiClient) getGenerativeAiPrivateEndpoint(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/GetGenerativeAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetGenerativeAiPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetImportedModel Gets information about an imported model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetImportedModel.go.html to see an example of how to use GetImportedModel API.
+// A default retry strategy applies to this operation GetImportedModel()
+func (client GenerativeAiClient) GetImportedModel(ctx context.Context, request GetImportedModelRequest) (response GetImportedModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getImportedModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetImportedModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetImportedModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetImportedModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetImportedModelResponse")
+	}
+	return
+}
+
+// getImportedModel implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getImportedModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/importedModels/{importedModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetImportedModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModel/GetImportedModel"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetImportedModel", apiReferenceLink)
 		return response, err
 	}
 
@@ -1290,6 +1533,64 @@ func (client GenerativeAiClient) listGenerativeAiPrivateEndpoints(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpointCollection/ListGenerativeAiPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListGenerativeAiPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListImportedModels Lists imported models in a specific compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListImportedModels.go.html to see an example of how to use ListImportedModels API.
+// A default retry strategy applies to this operation ListImportedModels()
+func (client GenerativeAiClient) ListImportedModels(ctx context.Context, request ListImportedModelsRequest) (response ListImportedModelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listImportedModels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListImportedModelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListImportedModelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListImportedModelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListImportedModelsResponse")
+	}
+	return
+}
+
+// listImportedModels implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listImportedModels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/importedModels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListImportedModelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModelCollection/ListImportedModels"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListImportedModels", apiReferenceLink)
 		return response, err
 	}
 
@@ -1696,6 +1997,64 @@ func (client GenerativeAiClient) updateGenerativeAiPrivateEndpoint(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiPrivateEndpoint/UpdateGenerativeAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateGenerativeAiPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateImportedModel Updates the properties of an imported model such as name, description, freeform tags, and defined tags.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateImportedModel.go.html to see an example of how to use UpdateImportedModel API.
+// A default retry strategy applies to this operation UpdateImportedModel()
+func (client GenerativeAiClient) UpdateImportedModel(ctx context.Context, request UpdateImportedModelRequest) (response UpdateImportedModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateImportedModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateImportedModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateImportedModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateImportedModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateImportedModelResponse")
+	}
+	return
+}
+
+// updateImportedModel implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateImportedModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/importedModels/{importedModelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateImportedModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ImportedModel/UpdateImportedModel"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateImportedModel", apiReferenceLink)
 		return response, err
 	}
 

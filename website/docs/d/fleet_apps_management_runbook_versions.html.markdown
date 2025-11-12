@@ -73,7 +73,7 @@ The following attributes are exported:
 			* `kind` - Pause based On. 
 		* `pre_condition` - Build control flow conditions that determine the relevance of the task execution. 
 		* `run_on` - The runon conditions
-			* `condition` - Build control flow conditions that determine the relevance of the task execution. 
+			* `condition` - Build control flow conditions that determine the relevance of the task execution against targets. 
 			* `host` - OCID of the self hosted instance.
 			* `kind` - Run on based On. 
 			* `previous_task_instance_details` - Previous Task Instance Details 
@@ -97,7 +97,7 @@ The following attributes are exported:
 			* `type` - Content Source Details. 
 		* `type` - Workflow Group  Details. 
 * `runbook_id` - The OCID of the resource.
-* `state` - The current state of the FleetResource.
+* `state` - The current state of the runbook version.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tasks` - A set of tasks to execute in the runbook.
 	* `output_variable_mappings` - Mapping output variables of previous tasks to the input variables of the current task.
@@ -117,7 +117,7 @@ The following attributes are exported:
 			* `kind` - Pause based On. 
 		* `pre_condition` - Build control flow conditions that determine the relevance of the task execution. 
 		* `run_on` - The runon conditions
-			* `condition` - Build control flow conditions that determine the relevance of the task execution. 
+			* `condition` - Build control flow conditions that determine the relevance of the task execution against targets. 
 			* `host` - OCID of the self hosted instance.
 			* `kind` - Run on based On. 
 			* `previous_task_instance_details` - Previous Task Instance Details 
@@ -147,6 +147,7 @@ The following attributes are exported:
 			* `is_executable_content` - Is the Content an executable file?
 			* `is_locked` - Is the script locked to prevent changes directly in Object Storage?
 			* `is_read_output_variable_enabled` - Is read output variable enabled
+			* `system_variables` - The list of system variables.
 			* `target_compartment_id` - OCID of the compartment to which the resource belongs to.
 			* `variables` - The variable of the task. At least one of the dynamicArguments or output needs to be provided. 
 				* `input_variables` - The input variables for the task.

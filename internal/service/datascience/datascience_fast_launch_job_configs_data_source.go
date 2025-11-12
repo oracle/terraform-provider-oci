@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceFastLaunchJobConfigsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceFastLaunchJobConfigs,
+		ReadContext: readDatascienceFastLaunchJobConfigsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -63,12 +64,12 @@ func DatascienceFastLaunchJobConfigsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceFastLaunchJobConfigs(d *schema.ResourceData, m interface{}) error {
+func readDatascienceFastLaunchJobConfigsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceFastLaunchJobConfigsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceFastLaunchJobConfigsDataSourceCrud struct {
@@ -81,7 +82,7 @@ func (s *DatascienceFastLaunchJobConfigsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceFastLaunchJobConfigsDataSourceCrud) Get() error {
+func (s *DatascienceFastLaunchJobConfigsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListFastLaunchJobConfigsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -91,7 +92,7 @@ func (s *DatascienceFastLaunchJobConfigsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListFastLaunchJobConfigs(context.Background(), request)
+	response, err := s.Client.ListFastLaunchJobConfigs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -100,7 +101,7 @@ func (s *DatascienceFastLaunchJobConfigsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFastLaunchJobConfigs(context.Background(), request)
+		listResponse, err := s.Client.ListFastLaunchJobConfigs(ctx, request)
 		if err != nil {
 			return err
 		}

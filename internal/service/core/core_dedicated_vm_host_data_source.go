@@ -76,6 +76,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 	}
 	s.D.Set("capacity_bins", capacityBins)
 
+	if s.Res.CapacityConfig != nil {
+		s.D.Set("capacity_config", *s.Res.CapacityConfig)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -101,6 +105,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsMemoryEncryptionEnabled != nil {
+		s.D.Set("is_memory_encryption_enabled", *s.Res.IsMemoryEncryptionEnabled)
+	}
 
 	if s.Res.PlacementConstraintDetails != nil {
 		placementConstraintDetailsArray := []interface{}{}

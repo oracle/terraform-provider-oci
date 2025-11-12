@@ -52,6 +52,9 @@ type CreateCatalogItemDetails struct {
 	// The catalog package version.
 	ListingVersion *string `mandatory:"false" json:"listingVersion"`
 
+	// Indicates if the CatalogItem is immutable or not.
+	IsItemLocked *bool `mandatory:"false" json:"isItemLocked"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -92,6 +95,7 @@ func (m *CreateCatalogItemDetails) UnmarshalJSON(data []byte) (e error) {
 		CatalogSourcePayload catalogsourcepayload              `json:"catalogSourcePayload"`
 		ListingId            *string                           `json:"listingId"`
 		ListingVersion       *string                           `json:"listingVersion"`
+		IsItemLocked         *bool                             `json:"isItemLocked"`
 		FreeformTags         map[string]string                 `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
 		CompartmentId        *string                           `json:"compartmentId"`
@@ -125,6 +129,8 @@ func (m *CreateCatalogItemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ListingId = model.ListingId
 
 	m.ListingVersion = model.ListingVersion
+
+	m.IsItemLocked = model.IsItemLocked
 
 	m.FreeformTags = model.FreeformTags
 

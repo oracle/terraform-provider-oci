@@ -24,6 +24,9 @@ type GetJobActivityRequest struct {
 	// unique jobActivity identifier
 	JobActivityId *string `mandatory:"true" contributesTo:"path" name:"jobActivityId"`
 
+	// If set to true, inventory details will be returned.
+	IsDetailsRequired *bool `mandatory:"false" contributesTo:"query" name:"isDetailsRequired"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

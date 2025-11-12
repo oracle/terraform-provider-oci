@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -25,11 +25,11 @@ func DatascienceModelGroupVersionHistoryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceModelGroupVersionHistory,
-		Read:     readDatascienceModelGroupVersionHistory,
-		Update:   updateDatascienceModelGroupVersionHistory,
-		Delete:   deleteDatascienceModelGroupVersionHistory,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceModelGroupVersionHistoryWithContext,
+		ReadContext:   readDatascienceModelGroupVersionHistoryWithContext,
+		UpdateContext: updateDatascienceModelGroupVersionHistoryWithContext,
+		DeleteContext: deleteDatascienceModelGroupVersionHistoryWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -102,37 +102,37 @@ func DatascienceModelGroupVersionHistoryResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
+func createDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupVersionHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatascienceModelGroupVersionHistoryResourceCrud struct {
@@ -168,7 +168,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) DeletedTarget() []stri
 	}
 }
 
-func (s *DatascienceModelGroupVersionHistoryResourceCrud) Create() error {
+func (s *DatascienceModelGroupVersionHistoryResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateModelGroupVersionHistoryRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -210,7 +210,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateModelGroupVersionHistory(context.Background(), request)
+	response, err := s.Client.CreateModelGroupVersionHistory(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -219,11 +219,11 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceModelGroupVersionHistoryResourceCrud) getModelGroupVersionHistoryFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceModelGroupVersionHistoryResourceCrud) getModelGroupVersionHistoryFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	modelGroupVersionHistoryId, err := modelGroupVersionHistoryWaitForWorkRequest(workId, "modelgroupversionhistory",
+	modelGroupVersionHistoryId, err := modelGroupVersionHistoryWaitForWorkRequest(ctx, workId, "modelgroupversionhistory",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -243,7 +243,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) getModelGroupVersionHi
 	}
 	s.D.SetId(*modelGroupVersionHistoryId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func modelGroupVersionHistoryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -269,7 +269,7 @@ func modelGroupVersionHistoryWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func modelGroupVersionHistoryWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func modelGroupVersionHistoryWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = modelGroupVersionHistoryWorkRequestShouldRetryFunc(timeout)
@@ -346,7 +346,7 @@ func getErrorFromDatascienceModelGroupVersionHistoryWorkRequest(client *oci_data
 	return workRequestErr
 }
 
-func (s *DatascienceModelGroupVersionHistoryResourceCrud) Get() error {
+func (s *DatascienceModelGroupVersionHistoryResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelGroupVersionHistoryRequest{}
 
 	tmp := s.D.Id()
@@ -354,7 +354,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetModelGroupVersionHistory(context.Background(), request)
+	response, err := s.Client.GetModelGroupVersionHistory(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -363,7 +363,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceModelGroupVersionHistoryResourceCrud) Update() error {
+func (s *DatascienceModelGroupVersionHistoryResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -407,7 +407,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateModelGroupVersionHistory(context.Background(), request)
+	response, err := s.Client.UpdateModelGroupVersionHistory(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -416,7 +416,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatascienceModelGroupVersionHistoryResourceCrud) Delete() error {
+func (s *DatascienceModelGroupVersionHistoryResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteModelGroupVersionHistoryRequest{}
 
 	tmp := s.D.Id()
@@ -424,14 +424,14 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteModelGroupVersionHistory(context.Background(), request)
+	response, err := s.Client.DeleteModelGroupVersionHistory(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := modelGroupVersionHistoryWaitForWorkRequest(workId, "modelgroupversionhistory",
+	_, delWorkRequestErr := modelGroupVersionHistoryWaitForWorkRequest(ctx, workId, "modelgroupversionhistory",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -504,7 +504,7 @@ func (s *DatascienceModelGroupVersionHistoryResourceCrud) updateCompartment(comp
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

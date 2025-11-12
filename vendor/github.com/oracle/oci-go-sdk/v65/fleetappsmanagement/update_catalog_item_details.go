@@ -30,6 +30,9 @@ type UpdateCatalogItemDetails struct {
 	// The CatalogItem name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Indicates if the CatalogItem is immutable or not.
+	IsItemLocked *bool `mandatory:"false" json:"isItemLocked"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

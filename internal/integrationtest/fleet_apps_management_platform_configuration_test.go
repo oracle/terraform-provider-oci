@@ -30,13 +30,11 @@ var (
 	credential               = utils.GetEnvSettingWithBlankDefault("credential")
 	credentialUpdated        = utils.GetEnvSettingWithBlankDefault("credential_updated")
 	patchType                = utils.GetEnvSettingWithBlankDefault("patch_type")
-	patchTypeUpdated         = utils.GetEnvSettingWithBlankDefault("patch_type_updated")
+	// patchTypeUpdated         = utils.GetEnvSettingWithBlankDefault("patch_type_updated")
 
-	FleetAppsManagementPlatformConfigurationRequiredOnlyResource = FleetAppsManagementPlatformConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Required, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation)
+	FleetAppsManagementPlatformConfigurationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Required, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation)
 
-	FleetAppsManagementPlatformConfigurationResourceConfig = FleetAppsManagementPlatformConfigurationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation)
+	FleetAppsManagementPlatformConfigurationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation)
 
 	FleetAppsManagementPlatformConfigurationSingularDataSourceRepresentation = map[string]interface{}{
 		"platform_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fleet_apps_management_platform_configuration.test_platform_configuration.id}`},
@@ -60,19 +58,17 @@ var (
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"config_category_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsRepresentation},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("Oracle-Tags.CreatedBy", "value")}`, Update: `${map("Oracle-Tags.CreatedBy", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 	}
 	FleetAppsManagementPlatformConfigurationConfigCategoryDetailsRepresentation = map[string]interface{}{
 		"config_category":     acctest.Representation{RepType: acctest.Required, Create: `PRODUCT`},
 		"compatible_products": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCompatibleProductsRepresentation},
 		"components":          acctest.Representation{RepType: acctest.Optional, Create: []string{`components`}, Update: []string{`components2`}},
 		"credentials":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCredentialsRepresentation},
-		// "instance_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.self_hosted_instance_id}`},
-		// "instance_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.self_hosted_instance_name}`},
-		"patch_types": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsPatchTypesRepresentation},
-		// "products":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsProductsRepresentation},
-		// "sub_category_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsSubCategoryDetailsRepresentation},
-		"versions": acctest.Representation{RepType: acctest.Required, Create: []string{`1`}, Update: []string{`2`}},
+		"patch_types":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsPatchTypesRepresentation},
+		"versions":            acctest.Representation{RepType: acctest.Required, Create: []string{`1`}, Update: []string{`2`}},
 	}
 	FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCompatibleProductsRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Optional, Create: compatibleProduct, Update: compatibleProductUpdated},
@@ -102,7 +98,11 @@ var (
 		"id":           acctest.Representation{RepType: acctest.Optional, Create: `id`, Update: `id2`},
 	}
 
-	FleetAppsManagementPlatformConfigurationResourceDependencies = ""
+	FleetAppsManagementPlatformConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host_group", "test_compute_host_group", acctest.Required, acctest.Create, CoreComputeHostGroupRepresentation) +
+		utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: fleet_apps_management/default
@@ -130,13 +130,13 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+selfHostedInstanceIdVariableStr+selfHostedInstanceNameVariableStr+FleetAppsManagementPlatformConfigurationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+selfHostedInstanceIdVariableStr+selfHostedInstanceNameVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation), "fleetappsmanagement", "platformConfiguration", t)
 
 	acctest.ResourceTest(t, testAccCheckFleetAppsManagementPlatformConfigurationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Required, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -155,11 +155,11 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -173,6 +173,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.versions.#"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -192,7 +193,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(FleetAppsManagementPlatformConfigurationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -201,7 +202,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.compatible_products.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.compatible_products.0.display_name", "tersi-testing-compatible-product"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.compatible_products.0.display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.compatible_products.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.components.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.config_category", "PRODUCT"),
@@ -212,6 +213,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.versions.#"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -229,7 +231,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -248,6 +250,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.versions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_region"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -266,7 +269,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_platform_configurations", "test_platform_configurations", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceDependencies +
+				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -303,6 +306,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.versions.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_region"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

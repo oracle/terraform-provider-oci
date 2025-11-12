@@ -20,6 +20,8 @@ var (
 		"limit_name":          acctest.Representation{RepType: acctest.Required, Create: `adb-free-count`},
 		"service_name":        acctest.Representation{RepType: acctest.Required, Create: `database`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"external_location":   acctest.Representation{RepType: acctest.Optional, Create: `externalLocation`},
+		"subscription_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_onesubscription_subscription.test_subscription.id}`},
 	}
 
 	LimitsResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
@@ -29,6 +31,13 @@ var (
 		"service_name":    acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedService},
 		"limit_name":      acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedLimit},
 		"subscription_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_ocid}`},
+	}
+	LimitsLimitsResourceAvailabilitySingularDataSourceRepresentationForExternalLocationTest = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"service_name":      acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedService},
+		"limit_name":        acctest.Representation{RepType: acctest.Required, Create: subscriptionSupportedLimit},
+		"subscription_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_ocid}`},
+		"external_location": acctest.Representation{RepType: acctest.Required, Create: externalLocation},
 	}
 )
 
@@ -93,6 +102,43 @@ func TestLimitsResourceAvailabilityResource_subscription(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "limit_name", subscriptionSupportedLimit),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_name", subscriptionSupportedService),
 				resource.TestCheckResourceAttr(singularDatasourceName, "subscription_id", subscriptionOcid),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_usage"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "used"),
+			),
+		},
+	})
+}
+
+func TestLimitsResourceAvailabilityResource_external_location(t *testing.T) {
+	httpreplay.SetScenario("TestLimitsResourceAvailabilityResource_external_location")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	subscriptionOcid := utils.GetEnvSettingWithBlankDefault("subscription_ocid")
+	subscriptionOcidVariableStr := fmt.Sprintf("variable \"subscription_ocid\" { default = \"%s\" }\n", subscriptionOcid)
+
+	singularDatasourceName := "data.oci_limits_resource_availability.test_resource_availability"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", acctest.Required, acctest.Create, LimitsLimitsResourceAvailabilitySingularDataSourceRepresentationForExternalLocationTest) +
+				compartmentIdVariableStr + LimitsResourceAvailabilityResourceConfig + subscriptionOcidVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "limit_name", subscriptionSupportedLimit),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_name", subscriptionSupportedService),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subscription_id", subscriptionOcid),
+				resource.TestCheckResourceAttr(singularDatasourceName, "external_location", externalLocation),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_availability"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_usage"),
