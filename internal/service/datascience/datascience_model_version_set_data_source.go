@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -19,15 +20,15 @@ func DatascienceModelVersionSetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelVersionSetResource(), fieldMap, readSingularDatascienceModelVersionSet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelVersionSetResource(), fieldMap, readSingularDatascienceModelVersionSetWithContext)
 }
 
-func readSingularDatascienceModelVersionSet(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceModelVersionSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelVersionSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelVersionSetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceModelVersionSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelVersionSetDataSourceCrud) Get() error {
+func (s *DatascienceModelVersionSetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelVersionSetRequest{}
 
 	if modelVersionSetId, ok := s.D.GetOkExists("model_version_set_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceModelVersionSetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelVersionSet(context.Background(), request)
+	response, err := s.Client.GetModelVersionSet(ctx, request)
 	if err != nil {
 		return err
 	}

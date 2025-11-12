@@ -17,8 +17,15 @@ import (
 
 var (
 	ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation = map[string]interface{}{
-		"cluster_option_id": acctest.Representation{RepType: acctest.Required, Create: `all`},
-		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"cluster_option_id":              acctest.Representation{RepType: acctest.Required, Create: `all`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"should_list_all_patch_versions": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
+	ContainerengineContainerengineClusterOptionSingularDataSourceRepresentationShouldListAllPatchVersions = map[string]interface{}{
+		"cluster_option_id":              acctest.Representation{RepType: acctest.Required, Create: `all`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"should_list_all_patch_versions": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	ContainerengineClusterOptionResourceConfig = ""
@@ -60,6 +67,23 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_pod_network_options.#", "2"),
 				resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
+				resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.0", regexp.MustCompile(`^v[0-9]+\.[0-9]+\.[0-9]+$`)),
+				resource.TestCheckResourceAttr(singularDatasourceName, "should_list_all_patch_versions", "true"),
+			),
+		},
+
+		// verify singular datasource with should_list_all_patch_versions false
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Optional, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentationShouldListAllPatchVersions) +
+				compartmentIdVariableStr + ContainerengineClusterOptionResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_pod_network_options.#", "2"),
+				resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
+				resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.0", regexp.MustCompile(`^v[0-9]+\.[0-9]+$`)),
+				resource.TestCheckResourceAttr(singularDatasourceName, "should_list_all_patch_versions", "false"),
 			),
 		},
 	})

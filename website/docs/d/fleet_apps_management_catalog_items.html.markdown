@@ -25,6 +25,7 @@ data "oci_fleet_apps_management_catalog_items" "test_catalog_items" {
 	catalog_listing_version_criteria = var.catalog_item_catalog_listing_version_criteria
 	config_source_type = var.catalog_item_config_source_type
 	display_name = var.catalog_item_display_name
+	package_type = var.catalog_item_package_type
 	should_list_public_items = var.catalog_item_should_list_public_items
 	state = var.catalog_item_state
 }
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The ID of the compartment in which to list resources.
 * `config_source_type` - (Optional) The [ConfigSourceType](/definitions/CatalogItem/configSourceType) Eg: STACK_TEMPLATE_CATALOG_SOURCE, PAR_CATALOG_SOURCE, URL_CATALOG_SOURCE, MARKETPLACE_CATALOG_SOURCE. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
+* `package_type` - (Optional) A filter to return only resources that match the given package type. The state value is case-insensitive.       
 * `should_list_public_items` - (Optional) The indicator to append Public Items from the root compartment to any query, when set to TRUE.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive. 
 
@@ -86,6 +88,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the catalog.
+* `is_item_locked` - Indicates if the CatalogItem is immutable or not.
 * `lifecycle_details` - The details of lifecycle state CatalogItem.
 * `listing_id` - The catalog listing Id. 
 * `listing_version` - The catalog package version. 

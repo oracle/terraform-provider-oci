@@ -63,13 +63,13 @@ The following attributes are exported:
 * `id` - The OCID of the resource.
 * `is_default` - Is the runbook default? Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation. 
 * `is_sudo_access_needed` - Does this runbook need SUDO access to execute?
-* `latest_version` - Latest runbook version
+* `latest_version` - Latest runbook version.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `operation` - The lifecycle operation performed by the runbook.
 * `os_type` - The OS type for the runbook.
 * `platform` - The platform of the runbook.
 * `resource_region` - Associated region
-* `runbook_version` - Version for the runbook.
+* `runbook_version` - Version for the runbook. Versioning runbooks in Fleet Application Management involve assigning unique identifiers or version numbers to different iterations of the runbook to track changes, improvements, and updates over time. 
 	* `execution_workflow_details` - Execution Workflow details.
 		* `workflow` - Execution Workflow for the runbook.
 			* `group_name` - Name of the group.
@@ -92,7 +92,7 @@ The following attributes are exported:
 				* `kind` - Pause based On. 
 			* `pre_condition` - Build control flow conditions that determine the relevance of the task execution. 
 			* `run_on` - The runon conditions
-				* `condition` - Build control flow conditions that determine the relevance of the task execution. 
+				* `condition` - Build control flow conditions that determine the relevance of the task execution against targets. 
 				* `host` - OCID of the self hosted instance.
 				* `kind` - Run on based On. 
 				* `previous_task_instance_details` - Previous Task Instance Details 
@@ -131,7 +131,7 @@ The following attributes are exported:
 				* `kind` - Pause based On. 
 			* `pre_condition` - Build control flow conditions that determine the relevance of the task execution. 
 			* `run_on` - The runon conditions
-				* `condition` - Build control flow conditions that determine the relevance of the task execution. 
+				* `condition` - Build control flow conditions that determine the relevance of the task execution against targets. 
 				* `host` - OCID of the self hosted instance.
 				* `kind` - Run on based On. 
 				* `previous_task_instance_details` - Previous Task Instance Details 
@@ -161,6 +161,7 @@ The following attributes are exported:
 				* `is_executable_content` - Is the Content an executable file?
 				* `is_locked` - Is the script locked to prevent changes directly in Object Storage?
 				* `is_read_output_variable_enabled` - Is read output variable enabled
+				* `system_variables` - The list of system variables.
 				* `target_compartment_id` - OCID of the compartment to which the resource belongs to.
 				* `variables` - The variable of the task. At least one of the dynamicArguments or output needs to be provided. 
 					* `input_variables` - The input variables for the task.

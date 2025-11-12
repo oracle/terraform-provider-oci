@@ -21,7 +21,7 @@ type ListLimitDefinitionsRequest struct {
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the subscription assigned to tenant
+	// The subscription OCID assigned to the tenant.
 	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
 
 	// The target service name.

@@ -72,7 +72,11 @@ The following attributes are exported:
 * `notification_preferences` - Notification Preferences associated with the Fleet.
 	* `compartment_id` - Compartment ID the topic belongs to.
 	* `preferences` - Preferences to send notifications on the fleet activities.
+		* `on_job_canceled` - Enables or disables notification on job canceled.
 		* `on_job_failure` - Enables or disables notification on Job Failures.
+		* `on_job_schedule_change` - Enables or disables notification on job schedule change.
+		* `on_job_start` - Enables or disables notification on job start.
+		* `on_job_success` - Enables or disables notification on job success.
 		* `on_resource_non_compliance` - Enables or disables notification when fleet resource becomes non compliant.
 		* `on_runbook_newer_version` - Enables or disables notification when a newer version of runbook associated with a fleet is available
 		* `on_task_failure` - Enables or disables notification on task failure.
@@ -84,7 +88,7 @@ The following attributes are exported:
 			* `on_upcoming_schedule` - Enables notification on upcoming schedule.
 	* `topic_id` - Topic Id where the notifications will be directed. A topic is a communication channel for sending messages on chosen events to subscriptions. 
 * `parent_fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet that would be the parent for this fleet. 
-* `products` - Products associated with the Fleet.
+* `products` - Products associated with the Fleet. PlatformConfiguration Ids corresponding to the Products. 
 * `properties` - Properties associated with the Fleet.
 	* `compartment_id` - compartment OCID
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -99,10 +103,12 @@ The following attributes are exported:
 		* `rules` - Rules.
 			* `basis` - Based on what the rule is created. It can be based on a resourceProperty or a tag.   If based on a tag, basis will be 'definedTagEquals' If based on a resource property, basis will be 'inventoryProperties' 
 			* `compartment_id` - Compartment Id for which the rule is created. 
+			* `compartment_id_in_subtree` - If set to true, resources will be returned for not only the provided compartment, but all compartments which descend from it. Which resources are returned and their field contents depends on the value of accessLevel. Default value for `compartmentIdInSubtree` is false 
 			* `conditions` - Rule Conditions
 				* `attr_group` - Attribute Group. Provide a Tag namespace if the rule is based on a tag. Provide resource type if the rule is based on a resource property. 
 				* `attr_key` - Attribute Key.Provide Tag key if the rule is based on a tag. Provide resource property name if the rule is based on a resource property. 
 				* `attr_value` - Attribute Value.Provide Tag value if the rule is based on a tag. Provide resource property value if the rule is based on a resource property. 
+			* `match_condition` - Match condition for the rule selection. Include resources that match all rules or any of the rules. Default value for `matchCondition` is ANY 
 			* `resource_compartment_id` - The Compartment ID to dynamically search resources. Provide the compartment ID to which the rule is applicable. 
 * `resources` - Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	* `compartment_id` - Compartment Identifier[OCID].

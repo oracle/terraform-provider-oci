@@ -39,9 +39,8 @@ type SchedulerExecutionSummary struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	// Name of the compartment in which resource exist.
+	CompartmentName *string `mandatory:"false" json:"compartmentName"`
 
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -52,13 +51,13 @@ type SchedulerExecutionSummary struct {
 	// Action Group associated with the Schedule.
 	ActivityId *string `mandatory:"false" json:"activityId"`
 
-	// ResourceId associated with the Schedule.
+	// FleetId associated with the Schedule.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// jobId associated with the Schedule.
+	// SchedulerJobId associated with the Schedule.
 	SchedulerJobId *string `mandatory:"false" json:"schedulerJobId"`
 
-	// Resource DsiplayName associated with the Schedule.
+	// Display Name of the Fleet associated with the Schedule.
 	ResourceDisplayName *string `mandatory:"false" json:"resourceDisplayName"`
 
 	// RunbookId associated with the Schedule.
@@ -67,7 +66,7 @@ type SchedulerExecutionSummary struct {
 	// Name of the Runbook version associated with the Schedule.
 	RunbookVersionName *string `mandatory:"false" json:"runbookVersionName"`
 
-	// DsiplayName of Runbook associated with the Schedule.
+	// Display name of Runbook associated with the Schedule.
 	RunbookDisplayName *string `mandatory:"false" json:"runbookDisplayName"`
 
 	// Latest Runbook version available.
@@ -83,6 +82,10 @@ type SchedulerExecutionSummary struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`

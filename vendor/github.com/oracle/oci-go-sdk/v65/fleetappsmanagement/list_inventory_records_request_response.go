@@ -43,6 +43,9 @@ type ListInventoryRecordsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// If set to true, inventory details will be returned.
+	IsDetailsRequired *bool `mandatory:"false" contributesTo:"query" name:"isDetailsRequired"`
+
 	// The field to sort by. Only one sort order may be provided.
 	SortBy ListInventoryRecordsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

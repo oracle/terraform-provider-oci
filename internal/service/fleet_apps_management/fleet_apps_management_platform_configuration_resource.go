@@ -283,23 +283,35 @@ func FleetAppsManagementPlatformConfigurationResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// k looks like "defined_tags.%", "defined_tags.<key>"
+					if strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedBy") ||
+						strings.HasPrefix(k, "defined_tags.Oracle-Tags.CreatedOn") {
+						return true
+					}
+					return false
+				},
+				Elem: schema.TypeString,
+			},
+
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-
-			// Computed
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
+				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+
+			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -426,6 +438,14 @@ func (s *FleetAppsManagementPlatformConfigurationResourceCrud) Create() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -434,6 +454,10 @@ func (s *FleetAppsManagementPlatformConfigurationResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
@@ -607,6 +631,14 @@ func (s *FleetAppsManagementPlatformConfigurationResourceCrud) Update() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -615,6 +647,10 @@ func (s *FleetAppsManagementPlatformConfigurationResourceCrud) Update() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()

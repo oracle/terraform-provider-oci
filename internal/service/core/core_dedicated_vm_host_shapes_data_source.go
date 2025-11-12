@@ -44,6 +44,76 @@ func CoreDedicatedVmHostShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"capacity_configs": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"capacity_bins": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"capacity_index": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"supported_shapes": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"total_memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Computed: true,
+												},
+												"total_ocpus": {
+													Type:     schema.TypeFloat,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"capacity_config_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_default": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"supported_capabilities": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"is_memory_encryption_supported": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 						"dedicated_vm_host_shape": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -129,6 +199,12 @@ func (s *CoreDedicatedVmHostShapesDataSourceCrud) SetData() error {
 			dedicatedVmHostShape["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		capacityConfigs := []interface{}{}
+		for _, item := range r.CapacityConfigs {
+			capacityConfigs = append(capacityConfigs, CapacityConfigToMap(item))
+		}
+		dedicatedVmHostShape["capacity_configs"] = capacityConfigs
+
 		if r.DedicatedVmHostShape != nil {
 			dedicatedVmHostShape["dedicated_vm_host_shape"] = *r.DedicatedVmHostShape
 		}
@@ -145,4 +221,48 @@ func (s *CoreDedicatedVmHostShapesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func CapacityBinPreviewToMap(obj oci_core.CapacityBinPreview) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CapacityIndex != nil {
+		result["capacity_index"] = int(*obj.CapacityIndex)
+	}
+
+	result["supported_shapes"] = obj.SupportedShapes
+
+	if obj.TotalMemoryInGBs != nil {
+		result["total_memory_in_gbs"] = float32(*obj.TotalMemoryInGBs)
+	}
+
+	if obj.TotalOcpus != nil {
+		result["total_ocpus"] = float32(*obj.TotalOcpus)
+	}
+
+	return result
+}
+
+func CapacityConfigToMap(obj oci_core.CapacityConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	capacityBins := []interface{}{}
+	for _, item := range obj.CapacityBins {
+		capacityBins = append(capacityBins, CapacityBinPreviewToMap(item))
+	}
+	result["capacity_bins"] = capacityBins
+
+	if obj.CapacityConfigName != nil {
+		result["capacity_config_name"] = string(*obj.CapacityConfigName)
+	}
+
+	if obj.IsDefault != nil {
+		result["is_default"] = bool(*obj.IsDefault)
+	}
+
+	if obj.SupportedCapabilities != nil {
+		result["supported_capabilities"] = []interface{}{SupportedCapabilitiesToMap(obj.SupportedCapabilities)}
+	}
+
+	return result
 }

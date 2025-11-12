@@ -79,7 +79,9 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
 	display_name = var.platform_configuration_display_name
 
 	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.platform_configuration_description
+	freeform_tags = {"bar-key"= "value"}
 }
 ```
 
@@ -116,8 +118,10 @@ The following arguments are supported:
 		* `sub_category` - (Required) (Updatable) SubCategory of Product Stack.
 		* `versions` - (Required when sub_category=PRODUCT_STACK_AS_PRODUCT) (Updatable) Versions associated with the PRODUCT .  
 	* `versions` - (Required when config_category=PRODUCT) (Updatable) Versions associated with the PRODUCT .  
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 
 
 ** IMPORTANT **

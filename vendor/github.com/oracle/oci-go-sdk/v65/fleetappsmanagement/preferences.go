@@ -39,6 +39,18 @@ type Preferences struct {
 
 	// Enables or disables notification when a newer version of runbook associated with a fleet is available
 	OnRunbookNewerVersion *bool `mandatory:"false" json:"onRunbookNewerVersion"`
+
+	// Enables or disables notification on job success.
+	OnJobSuccess *bool `mandatory:"false" json:"onJobSuccess"`
+
+	// Enables or disables notification on job start.
+	OnJobStart *bool `mandatory:"false" json:"onJobStart"`
+
+	// Enables or disables notification on job canceled.
+	OnJobCanceled *bool `mandatory:"false" json:"onJobCanceled"`
+
+	// Enables or disables notification on job schedule change.
+	OnJobScheduleChange *bool `mandatory:"false" json:"onJobScheduleChange"`
 }
 
 func (m Preferences) String() string {

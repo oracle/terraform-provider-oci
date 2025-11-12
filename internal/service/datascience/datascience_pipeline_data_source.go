@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -18,15 +19,15 @@ func DatasciencePipelineDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatasciencePipelineResource(), fieldMap, readSingularDatasciencePipeline)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatasciencePipelineResource(), fieldMap, readSingularDatasciencePipelineWithContext)
 }
 
-func readSingularDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
+func readSingularDatasciencePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatasciencePipelineDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatasciencePipelineDataSourceCrud struct {
@@ -39,7 +40,7 @@ func (s *DatasciencePipelineDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatasciencePipelineDataSourceCrud) Get() error {
+func (s *DatasciencePipelineDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetPipelineRequest{}
 
 	if pipelineId, ok := s.D.GetOkExists("pipeline_id"); ok {
@@ -49,7 +50,7 @@ func (s *DatasciencePipelineDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetPipeline(context.Background(), request)
+	response, err := s.Client.GetPipeline(ctx, request)
 	if err != nil {
 		return err
 	}

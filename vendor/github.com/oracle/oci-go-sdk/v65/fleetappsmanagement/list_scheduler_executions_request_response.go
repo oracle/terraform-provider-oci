@@ -49,6 +49,13 @@ type ListSchedulerExecutionsRequest struct {
 	// A filter to return only resources their subState matches the given subState.
 	Substate *string `mandatory:"false" contributesTo:"query" name:"substate"`
 
+	// A filter to return only resources their lifecycleOperation matches the given lifecycleOperation.
+	LifecycleOperation *string `mandatory:"false" contributesTo:"query" name:"lifecycleOperation"`
+
+	// If set to true, resources will be returned for not only the provided compartment, but all compartments which
+	// descend from it. Which resources are returned and their field contents depends on the value of accessLevel.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

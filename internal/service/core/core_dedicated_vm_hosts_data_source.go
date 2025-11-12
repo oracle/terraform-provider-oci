@@ -34,6 +34,10 @@ func CoreDedicatedVmHostsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_memory_encryption_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"remaining_memory_in_gbs_greater_than_or_equal_to": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -94,6 +98,11 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
 	if instanceShapeName, ok := s.D.GetOkExists("instance_shape_name"); ok {
 		tmp := instanceShapeName.(string)
 		request.InstanceShapeName = &tmp
+	}
+
+	if isMemoryEncryptionEnabled, ok := s.D.GetOkExists("is_memory_encryption_enabled"); ok {
+		tmp := isMemoryEncryptionEnabled.(bool)
+		request.IsMemoryEncryptionEnabled = &tmp
 	}
 
 	if remainingMemoryInGBsGreaterThanOrEqualTo, ok := s.D.GetOkExists("remaining_memory_in_gbs_greater_than_or_equal_to"); ok {
@@ -164,6 +173,10 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			dedicatedVmHost["id"] = *r.Id
+		}
+
+		if r.IsMemoryEncryptionEnabled != nil {
+			dedicatedVmHost["is_memory_encryption_enabled"] = *r.IsMemoryEncryptionEnabled
 		}
 
 		if r.RemainingMemoryInGBs != nil {

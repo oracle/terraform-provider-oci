@@ -48,4 +48,6 @@ The following attributes are exported:
 
 * `availability_domain` - The shape's availability domain. 
 * `instance_shape_name` - The name of the virtual machine instance shapes that can be launched on a dedicated VM host. 
+* `supported_capabilities` - Specifies the capabilities that the Dedicated Virtual Machine Host (DVMH) Shape or Virtual Machine Instance Shape could support. 
+	* `is_memory_encryption_supported` - Whether the DVMH shape could support confidential VMs or the VM instance shape could be confidential. 
 

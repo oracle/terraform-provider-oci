@@ -66,7 +66,7 @@ type Runbook struct {
 	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
 
-	// Latest runbook version
+	// Latest runbook version.
 	LatestVersion *string `mandatory:"false" json:"latestVersion"`
 
 	// Does this runbook has draft versions?

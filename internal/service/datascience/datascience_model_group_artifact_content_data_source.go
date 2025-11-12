@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceModelGroupArtifactContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDatascienceModelGroupArtifactContent,
+		ReadContext: readSingularDatascienceModelGroupArtifactContentWithContext,
 		Schema: map[string]*schema.Schema{
 			"model_group_id": {
 				Type:     schema.TypeString,
@@ -30,12 +31,12 @@ func DatascienceModelGroupArtifactContentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDatascienceModelGroupArtifactContent(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceModelGroupArtifactContentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelGroupArtifactContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceModelGroupArtifactContentDataSourceCrud struct {
@@ -48,7 +49,7 @@ func (s *DatascienceModelGroupArtifactContentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupArtifactContentDataSourceCrud) Get() error {
+func (s *DatascienceModelGroupArtifactContentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetModelGroupArtifactContentRequest{}
 
 	if modelGroupId, ok := s.D.GetOkExists("model_group_id"); ok {
@@ -63,7 +64,7 @@ func (s *DatascienceModelGroupArtifactContentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelGroupArtifactContent(context.Background(), request)
+	response, err := s.Client.GetModelGroupArtifactContent(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -95,6 +95,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"compartment_id_in_subtree": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
 												"conditions": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -124,6 +129,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 														},
 													},
 												},
+												"match_condition": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"resource_compartment_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -147,10 +157,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 
 			// Optional
 			"credentials": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool { return true },
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -364,10 +375,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 				},
 			},
 			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				// DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool { return true },
 				Elem:             schema.TypeString,
 			},
 			"description": {
@@ -443,7 +455,27 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"on_job_canceled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
 									"on_job_failure": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"on_job_schedule_change": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"on_job_start": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"on_job_success": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
@@ -530,10 +562,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 				},
 			},
 			"properties": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool { return true },
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -573,10 +606,11 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 				},
 			},
 			"resources": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool { return true },
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1035,6 +1069,11 @@ func (s *FleetAppsManagementFleetResourceCrud) Update() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+		tmp := environmentType.(string)
+		request.EnvironmentType = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -1716,9 +1755,29 @@ func NotificationPreferenceToMap(obj oci_fleet_apps_management.NotificationPrefe
 func (s *FleetAppsManagementFleetResourceCrud) mapToPreferences(fieldKeyFormat string) (oci_fleet_apps_management.Preferences, error) {
 	result := oci_fleet_apps_management.Preferences{}
 
+	if onJobCanceled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_job_canceled")); ok {
+		tmp := onJobCanceled.(bool)
+		result.OnJobCanceled = &tmp
+	}
+
 	if onJobFailure, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_job_failure")); ok {
 		tmp := onJobFailure.(bool)
 		result.OnJobFailure = &tmp
+	}
+
+	if onJobScheduleChange, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_job_schedule_change")); ok {
+		tmp := onJobScheduleChange.(bool)
+		result.OnJobScheduleChange = &tmp
+	}
+
+	if onJobStart, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_job_start")); ok {
+		tmp := onJobStart.(bool)
+		result.OnJobStart = &tmp
+	}
+
+	if onJobSuccess, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_job_success")); ok {
+		tmp := onJobSuccess.(bool)
+		result.OnJobSuccess = &tmp
 	}
 
 	if onResourceNonCompliance, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "on_resource_non_compliance")); ok {
@@ -1768,8 +1827,24 @@ func (s *FleetAppsManagementFleetResourceCrud) mapToPreferences(fieldKeyFormat s
 func PreferencesToMap(obj *oci_fleet_apps_management.Preferences) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.OnJobCanceled != nil {
+		result["on_job_canceled"] = bool(*obj.OnJobCanceled)
+	}
+
 	if obj.OnJobFailure != nil {
 		result["on_job_failure"] = bool(*obj.OnJobFailure)
+	}
+
+	if obj.OnJobScheduleChange != nil {
+		result["on_job_schedule_change"] = bool(*obj.OnJobScheduleChange)
+	}
+
+	if obj.OnJobStart != nil {
+		result["on_job_start"] = bool(*obj.OnJobStart)
+	}
+
+	if obj.OnJobSuccess != nil {
+		result["on_job_success"] = bool(*obj.OnJobSuccess)
 	}
 
 	if obj.OnResourceNonCompliance != nil {
@@ -1868,6 +1943,11 @@ func (s *FleetAppsManagementFleetResourceCrud) mapToRule(fieldKeyFormat string) 
 		result.CompartmentId = &tmp
 	}
 
+	if compartmentIdInSubtree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id_in_subtree")); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		result.CompartmentIdInSubtree = &tmp
+	}
+
 	if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
 		interfaces := conditions.([]interface{})
 		tmp := make([]oci_fleet_apps_management.Condition, len(interfaces))
@@ -1883,6 +1963,10 @@ func (s *FleetAppsManagementFleetResourceCrud) mapToRule(fieldKeyFormat string) 
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "conditions")) {
 			result.Conditions = tmp
 		}
+	}
+
+	if matchCondition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_condition")); ok {
+		result.MatchCondition = oci_fleet_apps_management.RuleMatchConditionEnum(matchCondition.(string))
 	}
 
 	if resourceCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_compartment_id")); ok {
@@ -1904,11 +1988,17 @@ func RuleToMap(obj oci_fleet_apps_management.Rule) map[string]interface{} {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.CompartmentIdInSubtree != nil {
+		result["compartment_id_in_subtree"] = bool(*obj.CompartmentIdInSubtree)
+	}
+
 	conditions := []interface{}{}
 	for _, item := range obj.Conditions {
 		conditions = append(conditions, ConditionToMap(item))
 	}
 	result["conditions"] = conditions
+
+	result["match_condition"] = string(obj.MatchCondition)
 
 	if obj.ResourceCompartmentId != nil {
 		result["resource_compartment_id"] = string(*obj.ResourceCompartmentId)
@@ -2022,4 +2112,22 @@ func (s *FleetAppsManagementFleetResourceCrud) updateCompartment(compartment int
 
 	workId := response.OpcWorkRequestId
 	return s.getFleetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+// func suppressIfMissingInState(k, old, new string, d *schema.ResourceData) bool {
+// 	return new == "" && old != ""
+// }
+
+func suppressIfMissingInState(k, old, new string, d *schema.ResourceData) bool {
+	// Normalize whitespace
+	old = strings.TrimSpace(old)
+	new = strings.TrimSpace(new)
+
+	// Suppress when new is effectively empty or null but old had a value
+	if new == "" || new == "[]" || new == "<nil>" || new == "null" || new == "{}" {
+		if old != "" && old != "[]" && old != "{}" && old != "null" && old != "<nil>" {
+			return true
+		}
+	}
+	return false
 }

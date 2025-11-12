@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatasciencePrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceDataSciencePrivateEndpoints,
+		ReadContext: readDatascienceDataSciencePrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,12 +48,12 @@ func DatasciencePrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceDataSciencePrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readDatascienceDataSciencePrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceDataSciencePrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceDataSciencePrivateEndpointsDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) Get() error {
+func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListDataSciencePrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +94,7 @@ func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListDataSciencePrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListDataSciencePrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -102,7 +103,7 @@ func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataSciencePrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListDataSciencePrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}
