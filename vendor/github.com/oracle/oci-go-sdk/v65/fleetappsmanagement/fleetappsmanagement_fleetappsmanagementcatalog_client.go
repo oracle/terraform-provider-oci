@@ -219,6 +219,69 @@ func (client FleetAppsManagementCatalogClient) cloneCatalogItem(ctx context.Cont
 	return response, err
 }
 
+// ConfigureCatalogItem Configures a CatalogItem. Creating new Catalog Item.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ConfigureCatalogItem.go.html to see an example of how to use ConfigureCatalogItem API.
+// A default retry strategy applies to this operation ConfigureCatalogItem()
+func (client FleetAppsManagementCatalogClient) ConfigureCatalogItem(ctx context.Context, request ConfigureCatalogItemRequest) (response ConfigureCatalogItemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.configureCatalogItem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureCatalogItemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureCatalogItemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureCatalogItemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureCatalogItemResponse")
+	}
+	return
+}
+
+// configureCatalogItem implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementCatalogClient) configureCatalogItem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogItems/{catalogItemId}/actions/configure", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureCatalogItemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/ConfigureCatalogItem"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "ConfigureCatalogItem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCatalogItem Creates a CatalogItem.
 //
 // # See also
@@ -391,6 +454,64 @@ func (client FleetAppsManagementCatalogClient) getCatalogItem(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/GetCatalogItem"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "GetCatalogItem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCatalogItemVariablesDefinition Gets information about a CatalogItem Variables.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetCatalogItemVariablesDefinition.go.html to see an example of how to use GetCatalogItemVariablesDefinition API.
+// A default retry strategy applies to this operation GetCatalogItemVariablesDefinition()
+func (client FleetAppsManagementCatalogClient) GetCatalogItemVariablesDefinition(ctx context.Context, request GetCatalogItemVariablesDefinitionRequest) (response GetCatalogItemVariablesDefinitionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCatalogItemVariablesDefinition, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCatalogItemVariablesDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCatalogItemVariablesDefinitionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCatalogItemVariablesDefinitionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCatalogItemVariablesDefinitionResponse")
+	}
+	return
+}
+
+// getCatalogItemVariablesDefinition implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementCatalogClient) getCatalogItemVariablesDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogItems/{catalogItemId}/variablesDefinitions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCatalogItemVariablesDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItemVariablesDefinition/GetCatalogItemVariablesDefinition"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "GetCatalogItemVariablesDefinition", apiReferenceLink)
 		return response, err
 	}
 

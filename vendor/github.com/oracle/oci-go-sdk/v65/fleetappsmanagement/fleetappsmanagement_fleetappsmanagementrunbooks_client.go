@@ -282,7 +282,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 	return response, err
 }
 
-// CreateRunbookVersion Add RunbookVersion in Fleet Application Management.
+// CreateRunbookVersion Add RunbookVersion in Fleet Application Management.
 //
 // # See also
 //
@@ -582,6 +582,248 @@ func (client FleetAppsManagementRunbooksClient) deleteTaskRecord(ctx context.Con
 	return response, err
 }
 
+// ExportRunbook Export the specified version of the runbook.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ExportRunbook.go.html to see an example of how to use ExportRunbook API.
+// A default retry strategy applies to this operation ExportRunbook()
+func (client FleetAppsManagementRunbooksClient) ExportRunbook(ctx context.Context, request ExportRunbookRequest) (response ExportRunbookResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.exportRunbook, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportRunbookResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportRunbookResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExportRunbookResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExportRunbookResponse")
+	}
+	return
+}
+
+// exportRunbook implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) exportRunbook(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/{runbookId}/actions/export", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExportRunbookResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ExportRunbook"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ExportRunbook", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ExportRunbookVersion Export the specified version of the runbook.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ExportRunbookVersion.go.html to see an example of how to use ExportRunbookVersion API.
+// A default retry strategy applies to this operation ExportRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) ExportRunbookVersion(ctx context.Context, request ExportRunbookVersionRequest) (response ExportRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.exportRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExportRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExportRunbookVersionResponse")
+	}
+	return
+}
+
+// exportRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) exportRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbookVersions/{runbookVersionId}/actions/export", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExportRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ExportRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ExportRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FindRunbookExportDependency Find runbook export Dependencies
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/FindRunbookExportDependency.go.html to see an example of how to use FindRunbookExportDependency API.
+// A default retry strategy applies to this operation FindRunbookExportDependency()
+func (client FleetAppsManagementRunbooksClient) FindRunbookExportDependency(ctx context.Context, request FindRunbookExportDependencyRequest) (response FindRunbookExportDependencyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.findRunbookExportDependency, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FindRunbookExportDependencyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FindRunbookExportDependencyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FindRunbookExportDependencyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FindRunbookExportDependencyResponse")
+	}
+	return
+}
+
+// findRunbookExportDependency implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) findRunbookExportDependency(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/actions/findExportDependencies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FindRunbookExportDependencyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExportDependencyCollection/FindRunbookExportDependency"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "FindRunbookExportDependency", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FindRunbookImportDependency Find runbook import Dependencies
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/FindRunbookImportDependency.go.html to see an example of how to use FindRunbookImportDependency API.
+// A default retry strategy applies to this operation FindRunbookImportDependency()
+func (client FleetAppsManagementRunbooksClient) FindRunbookImportDependency(ctx context.Context, request FindRunbookImportDependencyRequest) (response FindRunbookImportDependencyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.findRunbookImportDependency, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FindRunbookImportDependencyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FindRunbookImportDependencyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FindRunbookImportDependencyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FindRunbookImportDependencyResponse")
+	}
+	return
+}
+
+// findRunbookImportDependency implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) findRunbookImportDependency(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/actions/findImportDependencies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FindRunbookImportDependencyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImportDependencyCollection/FindRunbookImportDependency"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "FindRunbookImportDependency", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRunbook Get the details of a runbook in Fleet Application Management.
 //
 // # See also
@@ -633,6 +875,122 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/GetRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbook", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRunbookExport Get the runbook export status for provided runbook and exportId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbookExport.go.html to see an example of how to use GetRunbookExport API.
+// A default retry strategy applies to this operation GetRunbookExport()
+func (client FleetAppsManagementRunbooksClient) GetRunbookExport(ctx context.Context, request GetRunbookExportRequest) (response GetRunbookExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRunbookExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRunbookExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRunbookExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRunbookExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRunbookExportResponse")
+	}
+	return
+}
+
+// getRunbookExport implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) getRunbookExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbooks/{runbookId}/exports/{exportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRunbookExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExport/GetRunbookExport"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookExport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRunbookImport Get the runbook import status for provided runbook and importId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetRunbookImport.go.html to see an example of how to use GetRunbookImport API.
+// A default retry strategy applies to this operation GetRunbookImport()
+func (client FleetAppsManagementRunbooksClient) GetRunbookImport(ctx context.Context, request GetRunbookImportRequest) (response GetRunbookImportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRunbookImport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRunbookImportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRunbookImportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRunbookImportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRunbookImportResponse")
+	}
+	return
+}
+
+// getRunbookImport implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) getRunbookImport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbooks/{runbookId}/imports/{importId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRunbookImportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImport/GetRunbookImport"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookImport", apiReferenceLink)
 		return response, err
 	}
 
@@ -749,6 +1107,313 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/GetTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetTaskRecord", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportRunbook Import the specified version of the runbook.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ImportRunbook.go.html to see an example of how to use ImportRunbook API.
+// A default retry strategy applies to this operation ImportRunbook()
+func (client FleetAppsManagementRunbooksClient) ImportRunbook(ctx context.Context, request ImportRunbookRequest) (response ImportRunbookResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importRunbook, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportRunbookResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportRunbookResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportRunbookResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportRunbookResponse")
+	}
+	return
+}
+
+// importRunbook implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) importRunbook(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/actions/import", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportRunbookResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookDetails/ImportRunbook"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbook", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportRunbookPrecheck Precheck for import runbook.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ImportRunbookPrecheck.go.html to see an example of how to use ImportRunbookPrecheck API.
+// A default retry strategy applies to this operation ImportRunbookPrecheck()
+func (client FleetAppsManagementRunbooksClient) ImportRunbookPrecheck(ctx context.Context, request ImportRunbookPrecheckRequest) (response ImportRunbookPrecheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importRunbookPrecheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportRunbookPrecheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportRunbookPrecheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportRunbookPrecheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportRunbookPrecheckResponse")
+	}
+	return
+}
+
+// importRunbookPrecheck implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) importRunbookPrecheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbooks/actions/importPrecheck", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportRunbookPrecheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookPrecheckDetails/ImportRunbookPrecheck"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbookPrecheck", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportRunbookVersion Export the specified version of the runbook.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ImportRunbookVersion.go.html to see an example of how to use ImportRunbookVersion API.
+// A default retry strategy applies to this operation ImportRunbookVersion()
+func (client FleetAppsManagementRunbooksClient) ImportRunbookVersion(ctx context.Context, request ImportRunbookVersionRequest) (response ImportRunbookVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importRunbookVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportRunbookVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportRunbookVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportRunbookVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportRunbookVersionResponse")
+	}
+	return
+}
+
+// importRunbookVersion implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) importRunbookVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runbookVersions/actions/import", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportRunbookVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookVersionDetails/ImportRunbookVersion"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbookVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRunbookExportStatuses Returns a list of all the Runbook export status in the specified compartment.
+// The query parameter `compartmentId` is required.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListRunbookExportStatuses.go.html to see an example of how to use ListRunbookExportStatuses API.
+// A default retry strategy applies to this operation ListRunbookExportStatuses()
+func (client FleetAppsManagementRunbooksClient) ListRunbookExportStatuses(ctx context.Context, request ListRunbookExportStatusesRequest) (response ListRunbookExportStatusesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRunbookExportStatuses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRunbookExportStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRunbookExportStatusesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRunbookExportStatusesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRunbookExportStatusesResponse")
+	}
+	return
+}
+
+// listRunbookExportStatuses implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) listRunbookExportStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbooks/exportStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRunbookExportStatusesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExportStatusCollection/ListRunbookExportStatuses"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookExportStatuses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRunbookImportStatuses Returns a list of all the Runbook import status in the specified compartment.
+// The query parameter `compartmentId` is required.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListRunbookImportStatuses.go.html to see an example of how to use ListRunbookImportStatuses API.
+// A default retry strategy applies to this operation ListRunbookImportStatuses()
+func (client FleetAppsManagementRunbooksClient) ListRunbookImportStatuses(ctx context.Context, request ListRunbookImportStatusesRequest) (response ListRunbookImportStatusesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRunbookImportStatuses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRunbookImportStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRunbookImportStatusesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRunbookImportStatusesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRunbookImportStatusesResponse")
+	}
+	return
+}
+
+// listRunbookImportStatuses implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementRunbooksClient) listRunbookImportStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runbooks/importStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRunbookImportStatusesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImportStatusCollection/ListRunbookImportStatuses"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookImportStatuses", apiReferenceLink)
 		return response, err
 	}
 

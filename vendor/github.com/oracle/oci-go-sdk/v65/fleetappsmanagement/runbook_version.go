@@ -16,6 +16,7 @@ import (
 )
 
 // RunbookVersion Version for the runbook.
+// Versioning runbooks in Fleet Application Management involve assigning unique identifiers or version numbers to different iterations of the runbook to track changes, improvements, and updates over time.
 type RunbookVersion struct {
 
 	// The OCID of the resource.
@@ -40,7 +41,7 @@ type RunbookVersion struct {
 	// The version of the runbook.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The current state of the FleetResource.
+	// The current state of the runbook version.
 	LifecycleState RunbookVersionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

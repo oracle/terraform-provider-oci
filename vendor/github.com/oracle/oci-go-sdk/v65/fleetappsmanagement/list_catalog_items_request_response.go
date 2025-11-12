@@ -53,6 +53,10 @@ type ListCatalogItemsRequest struct {
 	// Parameter to list all catalog items only with latest version or list all catalog items with all versions.
 	CatalogListingVersionCriteria ListCatalogItemsCatalogListingVersionCriteriaEnum `mandatory:"false" contributesTo:"query" name:"catalogListingVersionCriteria" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given package type. The
+	// state value is case-insensitive.
+	PackageType CatalogItemPackageTypeEnum `mandatory:"false" contributesTo:"query" name:"packageType" omitEmpty:"true"`
+
 	// The indicator to append Public Items from the root compartment to any query, when set to TRUE.
 	ShouldListPublicItems *bool `mandatory:"false" contributesTo:"query" name:"shouldListPublicItems"`
 
@@ -103,6 +107,9 @@ func (request ListCatalogItemsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListCatalogItemsCatalogListingVersionCriteriaEnum(string(request.CatalogListingVersionCriteria)); !ok && request.CatalogListingVersionCriteria != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CatalogListingVersionCriteria: %s. Supported values are: %s.", request.CatalogListingVersionCriteria, strings.Join(GetListCatalogItemsCatalogListingVersionCriteriaEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCatalogItemPackageTypeEnum(string(request.PackageType)); !ok && request.PackageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", request.PackageType, strings.Join(GetCatalogItemPackageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

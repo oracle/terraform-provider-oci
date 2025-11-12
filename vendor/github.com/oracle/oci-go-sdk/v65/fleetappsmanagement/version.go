@@ -16,6 +16,7 @@ import (
 )
 
 // Version Version for the runbook.
+// Versioning runbooks in Fleet Application Management involve assigning unique identifiers or version numbers to different iterations of the runbook to track changes, improvements, and updates over time.
 type Version struct {
 
 	// A set of tasks to execute in the runbook.

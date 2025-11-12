@@ -4,8 +4,11 @@
 
 // Artifacts and Container Images API
 //
-// API covering the Artifacts and Registry (https://docs.oracle.com/iaas/Content/Registry/Concepts/registryoverview.htm) services.
-// Use this API to manage resources such as generic artifacts and container images.
+// Use the Artifacts and Container Images API to manage container images and non-container generic artifacts.
+// - For container images such as Docker images, use the ContainerImage resource. Save the images in a ContainerRepository.
+// - For non-container generic artifacts or blobs, use the GenericArtifact resource. Save the artifacts in an Repository.
+// - To upload and download non-container generic artifacts, instead of the Artifacts and Container Images API, use the Generic Artifacts Content API.
+// For more information, see the user guides for Container Registry (https://docs.oracle.com/iaas/Content/Registry/home.htm) and Artifact Registry (https://docs.oracle.com/iaas/Content/artifacts/home.htm).
 //
 
 package artifacts
@@ -1447,6 +1450,64 @@ func (client ArtifactsClient) listRepositories(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/Repository/ListRepositories"
 		err = common.PostProcessServiceError(err, "Artifacts", "ListRepositories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LookupContainerImageByUri Get container image metadata by URI.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/LookupContainerImageByUri.go.html to see an example of how to use LookupContainerImageByUri API.
+// A default retry strategy applies to this operation LookupContainerImageByUri()
+func (client ArtifactsClient) LookupContainerImageByUri(ctx context.Context, request LookupContainerImageByUriRequest) (response LookupContainerImageByUriResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.lookupContainerImageByUri, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LookupContainerImageByUriResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LookupContainerImageByUriResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LookupContainerImageByUriResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LookupContainerImageByUriResponse")
+	}
+	return
+}
+
+// lookupContainerImageByUri implements the OCIOperation interface (enables retrying operations)
+func (client ArtifactsClient) lookupContainerImageByUri(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/images/actions/lookupImageByUri", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LookupContainerImageByUriResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/registry/20160918/ContainerImage/LookupContainerImageByUri"
+		err = common.PostProcessServiceError(err, "Artifacts", "LookupContainerImageByUri", apiReferenceLink)
 		return response, err
 	}
 

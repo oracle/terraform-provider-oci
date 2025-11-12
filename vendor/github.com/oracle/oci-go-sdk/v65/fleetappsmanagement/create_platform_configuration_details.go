@@ -32,6 +32,14 @@ type CreatePlatformConfigurationDetails struct {
 	// A user-friendly description. To provide some insight about the resource.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreatePlatformConfigurationDetails) String() string {
@@ -53,10 +61,12 @@ func (m CreatePlatformConfigurationDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description           *string               `json:"description"`
-		CompartmentId         *string               `json:"compartmentId"`
-		DisplayName           *string               `json:"displayName"`
-		ConfigCategoryDetails configcategorydetails `json:"configCategoryDetails"`
+		Description           *string                           `json:"description"`
+		FreeformTags          map[string]string                 `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId         *string                           `json:"compartmentId"`
+		DisplayName           *string                           `json:"displayName"`
+		ConfigCategoryDetails configcategorydetails             `json:"configCategoryDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -65,6 +75,10 @@ func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.CompartmentId = model.CompartmentId
 
