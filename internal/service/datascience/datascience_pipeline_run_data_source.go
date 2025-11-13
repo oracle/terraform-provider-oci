@@ -6,10 +6,8 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
@@ -20,15 +18,15 @@ func DatasciencePipelineRunDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatasciencePipelineRunResource(), fieldMap, readSingularDatasciencePipelineRunWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatasciencePipelineRunResource(), fieldMap, readSingularDatasciencePipelineRun)
 }
 
-func readSingularDatasciencePipelineRunWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatasciencePipelineRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelineRunDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatasciencePipelineRunDataSourceCrud struct {
@@ -41,7 +39,7 @@ func (s *DatasciencePipelineRunDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatasciencePipelineRunDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatasciencePipelineRunDataSourceCrud) Get() error {
 	request := oci_datascience.GetPipelineRunRequest{}
 
 	if pipelineRunId, ok := s.D.GetOkExists("pipeline_run_id"); ok {
@@ -51,7 +49,7 @@ func (s *DatasciencePipelineRunDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetPipelineRun(ctx, request)
+	response, err := s.Client.GetPipelineRun(context.Background(), request)
 	if err != nil {
 		return err
 	}

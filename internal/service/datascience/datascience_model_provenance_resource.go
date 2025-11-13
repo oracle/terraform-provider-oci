@@ -11,11 +11,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
 
@@ -24,11 +24,11 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatascienceModelProvenanceWithContext,
-		ReadContext:   readDatascienceModelProvenanceWithContext,
-		UpdateContext: updateDatascienceModelProvenanceWithContext,
-		DeleteContext: deleteDatascienceModelProvenanceWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatascienceModelProvenance,
+		Read:     readDatascienceModelProvenance,
+		Update:   updateDatascienceModelProvenance,
+		Delete:   deleteDatascienceModelProvenance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"model_id": {
@@ -74,31 +74,31 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelProvenanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatascienceModelProvenanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceModelProvenanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatascienceModelProvenanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
@@ -113,7 +113,7 @@ func (s *DatascienceModelProvenanceResourceCrud) ID() string {
 	return GetModelProvenanceCompositeId(s.D.Get("model_id").(string))
 }
 
-func (s *DatascienceModelProvenanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceModelProvenanceResourceCrud) Create() error {
 	request := oci_datascience.CreateModelProvenanceRequest{}
 
 	if gitBranch, ok := s.D.GetOkExists("git_branch"); ok {
@@ -153,7 +153,7 @@ func (s *DatascienceModelProvenanceResourceCrud) CreateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateModelProvenance(ctx, request)
+	response, err := s.Client.CreateModelProvenance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (s *DatascienceModelProvenanceResourceCrud) CreateWithContext(ctx context.C
 	return nil
 }
 
-func (s *DatascienceModelProvenanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelProvenanceResourceCrud) Get() error {
 	request := oci_datascience.GetModelProvenanceRequest{}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -179,7 +179,7 @@ func (s *DatascienceModelProvenanceResourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetModelProvenance(ctx, request)
+	response, err := s.Client.GetModelProvenance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -188,7 +188,7 @@ func (s *DatascienceModelProvenanceResourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *DatascienceModelProvenanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceModelProvenanceResourceCrud) Update() error {
 	request := oci_datascience.UpdateModelProvenanceRequest{}
 
 	if gitBranch, ok := s.D.GetOkExists("git_branch"); ok {
@@ -228,7 +228,7 @@ func (s *DatascienceModelProvenanceResourceCrud) UpdateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateModelProvenance(ctx, request)
+	response, err := s.Client.UpdateModelProvenance(context.Background(), request)
 	if err != nil {
 		return err
 	}

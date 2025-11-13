@@ -1,3 +1,6 @@
+## 7.26.1 (November 13, 2025)
+- Reverted Support for Passing TF CLI context to Go SDK
+
 ## 7.26.0 (November 12, 2025)
 
 ### Added

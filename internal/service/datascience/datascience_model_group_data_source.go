@@ -7,7 +7,6 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -21,15 +20,15 @@ func DatascienceModelGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelGroupResource(), fieldMap, readSingularDatascienceModelGroupWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelGroupResource(), fieldMap, readSingularDatascienceModelGroup)
 }
 
-func readSingularDatascienceModelGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceModelGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceModelGroupDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *DatascienceModelGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelGroupDataSourceCrud) Get() error {
 	request := oci_datascience.GetModelGroupRequest{}
 
 	if modelGroupId, ok := s.D.GetOkExists("model_group_id"); ok {
@@ -52,7 +51,7 @@ func (s *DatascienceModelGroupDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelGroup(ctx, request)
+	response, err := s.Client.GetModelGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}

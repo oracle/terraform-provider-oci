@@ -10,8 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -35,10 +33,10 @@ func DatascienceJobRunResource() *schema.Resource {
 			Update: &TwentyMinutes,
 			Delete: &OneHour,
 		},
-		CreateContext: createDatascienceJobRunWithContext,
-		ReadContext:   readDatascienceJobRunWithContext,
-		UpdateContext: updateDatascienceJobRunWithContext,
-		DeleteContext: deleteDatascienceJobRunWithContext,
+		Create: createDatascienceJobRun,
+		Read:   readDatascienceJobRun,
+		Update: updateDatascienceJobRun,
+		Delete: deleteDatascienceJobRun,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -880,37 +878,37 @@ func DatascienceJobRunResource() *schema.Resource {
 	}
 }
 
-func createDatascienceJobRunWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceJobRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobRunResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatascienceJobRunWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceJobRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobRunResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceJobRunWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceJobRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobRunResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatascienceJobRunWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceJobRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobRunResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceJobRunResourceCrud struct {
@@ -970,7 +968,7 @@ func (s *DatascienceJobRunResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceJobRunResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceJobRunResourceCrud) Create() error {
 	request := oci_datascience.CreateJobRunRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1067,7 +1065,7 @@ func (s *DatascienceJobRunResourceCrud) CreateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateJobRun(ctx, request)
+	response, err := s.Client.CreateJobRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1076,7 +1074,7 @@ func (s *DatascienceJobRunResourceCrud) CreateWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *DatascienceJobRunResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceJobRunResourceCrud) Get() error {
 	request := oci_datascience.GetJobRunRequest{}
 
 	tmp := s.D.Id()
@@ -1084,7 +1082,7 @@ func (s *DatascienceJobRunResourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetJobRun(ctx, request)
+	response, err := s.Client.GetJobRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1093,11 +1091,11 @@ func (s *DatascienceJobRunResourceCrud) GetWithContext(ctx context.Context) erro
 	return nil
 }
 
-func (s *DatascienceJobRunResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceJobRunResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -1127,7 +1125,7 @@ func (s *DatascienceJobRunResourceCrud) UpdateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateJobRun(ctx, request)
+	response, err := s.Client.UpdateJobRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1136,7 +1134,7 @@ func (s *DatascienceJobRunResourceCrud) UpdateWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *DatascienceJobRunResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceJobRunResourceCrud) Delete() error {
 	request := oci_datascience.DeleteJobRunRequest{}
 
 	tmp := s.D.Id()
@@ -1144,7 +1142,7 @@ func (s *DatascienceJobRunResourceCrud) DeleteWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteJobRun(ctx, request)
+	_, err := s.Client.DeleteJobRun(context.Background(), request)
 	return err
 }
 
@@ -1719,7 +1717,7 @@ func NodeGroupDetailsToMap(obj oci_datascience.NodeGroupDetails) map[string]inte
 	return result
 }
 
-func (s *DatascienceJobRunResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DatascienceJobRunResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeJobRunCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1730,7 +1728,7 @@ func (s *DatascienceJobRunResourceCrud) updateCompartment(ctx context.Context, c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ChangeJobRunCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeJobRunCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
