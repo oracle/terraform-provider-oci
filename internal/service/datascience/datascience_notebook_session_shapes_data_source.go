@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceNotebookSessionShapesWithContext,
+		Read: readDatascienceNotebookSessionShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +55,12 @@ func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceNotebookSessionShapesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceNotebookSessionShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceNotebookSessionShapesDataSourceCrud struct {
@@ -74,7 +73,7 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceNotebookSessionShapesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionShapesDataSourceCrud) Get() error {
 	request := oci_datascience.ListNotebookSessionShapesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -84,7 +83,7 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListNotebookSessionShapes(ctx, request)
+	response, err := s.Client.ListNotebookSessionShapes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -93,7 +92,7 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) GetWithContext(ctx cont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNotebookSessionShapes(ctx, request)
+		listResponse, err := s.Client.ListNotebookSessionShapes(context.Background(), request)
 		if err != nil {
 			return err
 		}
