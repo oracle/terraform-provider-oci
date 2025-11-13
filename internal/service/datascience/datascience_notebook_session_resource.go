@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
 
@@ -22,11 +22,11 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatascienceNotebookSessionWithContext,
-		ReadContext:   readDatascienceNotebookSessionWithContext,
-		UpdateContext: updateDatascienceNotebookSessionWithContext,
-		DeleteContext: deleteDatascienceNotebookSessionWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatascienceNotebookSession,
+		Read:     readDatascienceNotebookSession,
+		Update:   updateDatascienceNotebookSession,
+		Delete:   deleteDatascienceNotebookSession,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -343,7 +343,7 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 	}
 }
 
-func createDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -356,27 +356,27 @@ func createDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 	if deactivateNotebookSession {
-		if e := sync.DeactivateNotebookSession(ctx); e != nil {
-			return tfresource.HandleDiagError(m, e)
+		if e := sync.DeactivateNotebookSession(); e != nil {
+			return e
 		}
 		sync.D.Set("state", oci_datascience.NotebookSessionLifecycleStateInactive)
 	}
 	return nil
 }
 
-func readDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -400,31 +400,31 @@ func updateDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.
 	}
 
 	if deactivate {
-		if err := sync.DeactivateNotebookSession(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.DeactivateNotebookSession(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_datascience.NotebookSessionLifecycleStateInactive)
 	}
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if activate {
-		if err := sync.ActivateNotebookSession(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.ActivateNotebookSession(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_datascience.NotebookSessionLifecycleStateActive)
 	}
 	return nil
 }
 
-func deleteDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceNotebookSessionResourceCrud struct {
@@ -462,7 +462,7 @@ func (s *DatascienceNotebookSessionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) Create() error {
 	request := oci_datascience.CreateNotebookSessionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -544,7 +544,7 @@ func (s *DatascienceNotebookSessionResourceCrud) CreateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateNotebookSession(ctx, request)
+	response, err := s.Client.CreateNotebookSession(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -553,7 +553,7 @@ func (s *DatascienceNotebookSessionResourceCrud) CreateWithContext(ctx context.C
 	return nil
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) Get() error {
 	request := oci_datascience.GetNotebookSessionRequest{}
 
 	tmp := s.D.Id()
@@ -561,7 +561,7 @@ func (s *DatascienceNotebookSessionResourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetNotebookSession(ctx, request)
+	response, err := s.Client.GetNotebookSession(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -570,7 +570,7 @@ func (s *DatascienceNotebookSessionResourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -643,7 +643,7 @@ func (s *DatascienceNotebookSessionResourceCrud) UpdateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateNotebookSession(ctx, request)
+	response, err := s.Client.UpdateNotebookSession(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -652,7 +652,7 @@ func (s *DatascienceNotebookSessionResourceCrud) UpdateWithContext(ctx context.C
 	return nil
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) Delete() error {
 	request := oci_datascience.DeleteNotebookSessionRequest{}
 
 	tmp := s.D.Id()
@@ -660,7 +660,7 @@ func (s *DatascienceNotebookSessionResourceCrud) DeleteWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteNotebookSession(ctx, request)
+	_, err := s.Client.DeleteNotebookSession(context.Background(), request)
 	return err
 }
 
@@ -1054,14 +1054,14 @@ func (s *DatascienceNotebookSessionResourceCrud) updateCompartment(compartment i
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) ActivateNotebookSession(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) ActivateNotebookSession() error {
 	request := oci_datascience.ActivateNotebookSessionRequest{}
 
 	tmp := s.D.Id()
@@ -1075,10 +1075,10 @@ func (s *DatascienceNotebookSessionResourceCrud) ActivateNotebookSession(ctx con
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.NotebookSessionLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceNotebookSessionResourceCrud) DeactivateNotebookSession(ctx context.Context) error {
+func (s *DatascienceNotebookSessionResourceCrud) DeactivateNotebookSession() error {
 	request := oci_datascience.DeactivateNotebookSessionRequest{}
 
 	tmp := s.D.Id()
@@ -1092,5 +1092,5 @@ func (s *DatascienceNotebookSessionResourceCrud) DeactivateNotebookSession(ctx c
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.NotebookSessionLifecycleStateInactive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }

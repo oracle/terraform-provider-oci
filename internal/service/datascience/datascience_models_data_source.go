@@ -6,17 +6,17 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func DatascienceModelsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceModelsWithContext,
+		Read: readDatascienceModels,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"category": {
@@ -68,12 +68,12 @@ func DatascienceModelsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceModelsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceModels(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceModelsDataSourceCrud struct {
@@ -86,7 +86,7 @@ func (s *DatascienceModelsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelsDataSourceCrud) Get() error {
 	request := oci_datascience.ListModelsRequest{}
 
 	if category, ok := s.D.GetOkExists("category"); ok {
@@ -134,7 +134,7 @@ func (s *DatascienceModelsDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListModels(ctx, request)
+	response, err := s.Client.ListModels(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -143,7 +143,7 @@ func (s *DatascienceModelsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModels(ctx, request)
+		listResponse, err := s.Client.ListModels(context.Background(), request)
 		if err != nil {
 			return err
 		}

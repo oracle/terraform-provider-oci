@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -25,11 +25,11 @@ func DatasciencePrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatascienceDataSciencePrivateEndpointWithContext,
-		ReadContext:   readDatascienceDataSciencePrivateEndpointWithContext,
-		UpdateContext: updateDatascienceDataSciencePrivateEndpointWithContext,
-		DeleteContext: deleteDatascienceDataSciencePrivateEndpointWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatascienceDataSciencePrivateEndpoint,
+		Read:     readDatascienceDataSciencePrivateEndpoint,
+		Update:   updateDatascienceDataSciencePrivateEndpoint,
+		Delete:   deleteDatascienceDataSciencePrivateEndpoint,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -121,37 +121,37 @@ func DatasciencePrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createDatascienceDataSciencePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceDataSciencePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceDataSciencePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatascienceDataSciencePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceDataSciencePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceDataSciencePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceDataSciencePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceDataSciencePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceDataSciencePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatascienceDataSciencePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceDataSciencePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceDataSciencePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceDataSciencePrivateEndpointResourceCrud struct {
@@ -190,7 +190,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) DeletedTarget() []st
 	}
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) Create() error {
 	request := oci_datascience.CreateDataSciencePrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -250,7 +250,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) CreateWithContext(ct
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateDataSciencePrivateEndpoint(ctx, request)
+	response, err := s.Client.CreateDataSciencePrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -259,7 +259,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) CreateWithContext(ct
 	return nil
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) getDataSciencePrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) getDataSciencePrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -283,7 +283,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) getDataSciencePrivat
 	}
 	s.D.SetId(*dataSciencePrivateEndpointId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func dataSciencePrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -386,7 +386,7 @@ func getErrorFromDatascienceDataSciencePrivateEndpointWorkRequest(client *oci_da
 	return workRequestErr
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) Get() error {
 	request := oci_datascience.GetDataSciencePrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -394,7 +394,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) GetWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetDataSciencePrivateEndpoint(ctx, request)
+	response, err := s.Client.GetDataSciencePrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -403,7 +403,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) GetWithContext(ctx c
 	return nil
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -456,7 +456,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) UpdateWithContext(ct
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateDataSciencePrivateEndpoint(ctx, request)
+	response, err := s.Client.UpdateDataSciencePrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -465,7 +465,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) UpdateWithContext(ct
 	return nil
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) Delete() error {
 	request := oci_datascience.DeleteDataSciencePrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -473,7 +473,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) DeleteWithContext(ct
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteDataSciencePrivateEndpoint(ctx, request)
+	_, err := s.Client.DeleteDataSciencePrivateEndpoint(context.Background(), request)
 	return err
 }
 

@@ -15,9 +15,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -31,10 +31,10 @@ func DatascienceMlApplicationImplementationResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatascienceMlApplicationImplementationWithContext,
-		ReadContext:   readDatascienceMlApplicationImplementationWithContext,
-		UpdateContext: updateDatascienceMlApplicationImplementationWithContext,
-		DeleteContext: deleteDatascienceMlApplicationImplementationWithContext,
+		Create:        createDatascienceMlApplicationImplementation,
+		Read:          readDatascienceMlApplicationImplementation,
+		Update:        updateDatascienceMlApplicationImplementation,
+		Delete:        deleteDatascienceMlApplicationImplementation,
 		CustomizeDiff: tfresource.SetPackagePath,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -376,7 +376,7 @@ func DatascienceMlApplicationImplementationResource() *schema.Resource {
 	}
 }
 
-func createDatascienceMlApplicationImplementationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceMlApplicationImplementation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationImplementationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -391,42 +391,42 @@ func createDatascienceMlApplicationImplementationWithContext(ctx context.Context
 	if ok {
 		packageDetails, okMapConversion := raw.(map[string]interface{})
 		if !okMapConversion {
-			return tfresource.HandleDiagError(m, fmt.Errorf("ml_application_package must be a map"))
+			return fmt.Errorf("ml_application_package must be a map")
 		}
 		sourceType, sourceTypeExists = packageDetails["source_type"].(string)
 		if sourceType == "object_storage_download" {
 			uri, _ := packageDetails["uri"].(string)
 			if !strings.HasPrefix(uri, "https://") {
-				return tfresource.HandleDiagError(m, fmt.Errorf("invalid URI for object storage download source: must start with 'https://'"))
+				return fmt.Errorf("invalid URI for object storage download source: must start with 'https://'")
 			}
 
 			configProvider := sync.Client.ConfigurationProvider()
 			packageContent, contentLen, err = tfresource.GetPackage(configProvider, uri)
 			if err != nil {
-				return tfresource.HandleDiagError(m, fmt.Errorf("the specified MLApplication package is not available: %q", err))
+				return fmt.Errorf("the specified MLApplication package is not available: %q", err)
 			}
 		}
 	}
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 	if sourceTypeExists && sourceType != "" {
-		if e := sync.putMlApplicationPackage(ctx, packageContent, contentLen); e != nil {
-			return tfresource.HandleDiagError(m, e)
+		if e := sync.putMlApplicationPackage(packageContent, contentLen); e != nil {
+			return e
 		}
 	}
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func readDatascienceMlApplicationImplementationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceMlApplicationImplementation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationImplementationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceMlApplicationImplementationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceMlApplicationImplementation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationImplementationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -442,42 +442,42 @@ func updateDatascienceMlApplicationImplementationWithContext(ctx context.Context
 		d.Partial(true)
 		packageDetails, okMapConversion := raw.(map[string]interface{})
 		if !okMapConversion {
-			return tfresource.HandleDiagError(m, fmt.Errorf("ml_application_package must be a map"))
+			return fmt.Errorf("ml_application_package must be a map")
 		}
 		sourceType, sourceTypeExists = packageDetails["source_type"].(string)
 		if sourceType == "object_storage_download" {
 			uri, _ := packageDetails["uri"].(string)
 			if !strings.HasPrefix(uri, "https://") {
-				return tfresource.HandleDiagError(m, fmt.Errorf("invalid URI for object storage download source: must start with 'https://'"))
+				return fmt.Errorf("invalid URI for object storage download source: must start with 'https://'")
 			}
 
 			configProvider := sync.Client.ConfigurationProvider()
 			packageContent, contentLen, err = tfresource.GetPackage(configProvider, uri)
 			if err != nil {
-				return tfresource.HandleDiagError(m, fmt.Errorf("the specified MLApplication package is not available: %q", err))
+				return fmt.Errorf("the specified MLApplication package is not available: %q", err)
 			}
 		}
 		d.Partial(false)
 	}
-	if e := tfresource.UpdateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.UpdateResource(d, sync); e != nil {
+		return e
 	}
 	if sourceTypeExists && sourceType != "" {
-		if e := sync.putMlApplicationPackage(ctx, packageContent, contentLen); e != nil {
-			return tfresource.HandleDiagError(m, e)
+		if e := sync.putMlApplicationPackage(packageContent, contentLen); e != nil {
+			return e
 		}
 	}
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteDatascienceMlApplicationImplementationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceMlApplicationImplementation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationImplementationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceMlApplicationImplementationResourceCrud struct {
@@ -515,7 +515,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) DeletedTarget() []s
 	return []string{}
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) Create() error {
 	request := oci_datascience.CreateMlApplicationImplementationRequest{}
 
 	if allowedMigrationDestinations, ok := s.D.GetOkExists("allowed_migration_destinations"); ok {
@@ -571,7 +571,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) CreateWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateMlApplicationImplementation(ctx, request)
+	response, err := s.Client.CreateMlApplicationImplementation(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -580,11 +580,11 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) CreateWithContext(c
 	return nil
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImplementationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImplementationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	mlApplicationImplementationId, err := mlApplicationImplementationWaitForWorkRequest(ctx, workId, "mlapplicationimplementation",
+	mlApplicationImplementationId, err := mlApplicationImplementationWaitForWorkRequest(workId, "mlapplicationimplementation",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -604,7 +604,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImp
 	}
 	s.D.SetId(*mlApplicationImplementationId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func mlApplicationImplementationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -630,7 +630,7 @@ func mlApplicationImplementationWorkRequestShouldRetryFunc(timeout time.Duration
 	}
 }
 
-func mlApplicationImplementationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func mlApplicationImplementationWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = mlApplicationImplementationWorkRequestShouldRetryFunc(timeout)
@@ -708,7 +708,7 @@ func getErrorFromDatascienceMlApplicationImplementationWorkRequest(client *oci_d
 	return workRequestErr
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) Get() error {
 	request := oci_datascience.GetMlApplicationImplementationRequest{}
 
 	tmp := s.D.Id()
@@ -716,7 +716,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetMlApplicationImplementation(ctx, request)
+	response, err := s.Client.GetMlApplicationImplementation(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -725,11 +725,11 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) GetWithContext(ctx 
 	return nil
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -778,16 +778,16 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) UpdateWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateMlApplicationImplementation(ctx, request)
+	response, err := s.Client.UpdateMlApplicationImplementation(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMlApplicationImplementationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMlApplicationImplementationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) Delete() error {
 	request := oci_datascience.DeleteMlApplicationImplementationRequest{}
 
 	tmp := s.D.Id()
@@ -795,14 +795,14 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) DeleteWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteMlApplicationImplementation(ctx, request)
+	response, err := s.Client.DeleteMlApplicationImplementation(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := mlApplicationImplementationWaitForWorkRequest(ctx, workId, "mlapplicationimplementation",
+	_, delWorkRequestErr := mlApplicationImplementationWaitForWorkRequest(workId, "mlapplicationimplementation",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1233,7 +1233,7 @@ func MlApplicationPackageArgumentsToMap(obj *oci_datascience.MlApplicationPackag
 	return result
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeMlApplicationImplementationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1250,10 +1250,10 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) updateCompartment(c
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMlApplicationImplementationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMlApplicationImplementationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) putMlApplicationPackage(ctx context.Context, packageContent io.ReadCloser, contentLen int64) error {
+func (s *DatascienceMlApplicationImplementationResourceCrud) putMlApplicationPackage(packageContent io.ReadCloser, contentLen int64) error {
 	request := oci_datascience.PutMlApplicationPackageRequest{}
 
 	request.MlApplicationImplementationId = s.Res.Id
@@ -1342,10 +1342,10 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) putMlApplicationPac
 			}
 		}
 	}
-	return s.getMlApplicationImplementationMlApplicationPackageFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMlApplicationImplementationMlApplicationPackageFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImplementationMlApplicationPackageFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImplementationMlApplicationPackageFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -1369,7 +1369,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImp
 	}
 	s.D.SetId(*mlApplicationImplementationMlApplicationPackageId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func mlApplicationImplementationMlApplicationPackageWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
