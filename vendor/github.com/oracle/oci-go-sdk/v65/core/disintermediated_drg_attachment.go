@@ -81,6 +81,11 @@ type DisintermediatedDrgAttachment struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment's DRG NAT policy.
 	DrgNatPolicyId *string `mandatory:"false" json:"drgNatPolicyId"`
 
+	// By default, only translated DrgNatRule CIDRs are imported into the DrgRouteTable to prevent
+	// routing complications. Enable this option to also preserve original CIDRs. The original source CIDRs is not advertised if this value is set to false, else it is advertised.
+	// default: `false`
+	DoesPreserveOriginalRoutesWithNat *bool `mandatory:"false" json:"doesPreserveOriginalRoutesWithNat"`
+
 	// STANDARD applies to all regional resources which are customer visible, GDRG_SERVICE_RESOURCE applies to
 	// internal resources created to back GlobalDRGAttachments, and GDRG_MESH_RPC applies to internal RPC Attachments
 	// used to facilitate GlobalDRG functionality.
@@ -245,6 +250,7 @@ func (m *DisintermediatedDrgAttachment) UnmarshalJSON(data []byte) (e error) {
 		RouteTableId                             *string                                         `json:"routeTableId"`
 		VcnId                                    *string                                         `json:"vcnId"`
 		DrgNatPolicyId                           *string                                         `json:"drgNatPolicyId"`
+		DoesPreserveOriginalRoutesWithNat        *bool                                           `json:"doesPreserveOriginalRoutesWithNat"`
 		InternalType                             DrgAttachmentInternalTypeEnum                   `json:"internalType"`
 		TransitiveTrafficEnabled                 DrgAttachmentTransitiveTrafficStateEnum         `json:"transitiveTrafficEnabled"`
 		ExportDrgRouteDistributionId             *string                                         `json:"exportDrgRouteDistributionId"`
@@ -313,6 +319,8 @@ func (m *DisintermediatedDrgAttachment) UnmarshalJSON(data []byte) (e error) {
 	m.VcnId = model.VcnId
 
 	m.DrgNatPolicyId = model.DrgNatPolicyId
+
+	m.DoesPreserveOriginalRoutesWithNat = model.DoesPreserveOriginalRoutesWithNat
 
 	m.InternalType = model.InternalType
 

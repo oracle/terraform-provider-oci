@@ -27,6 +27,9 @@ type UpdateSenderDetails struct {
 	// The Email Delivery Config OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
 	EmailDeliveryConfigId *string `mandatory:"false" json:"emailDeliveryConfigId"`
 
+	// The email domain OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	EmailDomainId *string `mandatory:"false" json:"emailDomainId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

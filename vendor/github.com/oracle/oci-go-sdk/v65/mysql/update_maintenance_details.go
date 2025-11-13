@@ -42,6 +42,11 @@ type UpdateMaintenanceDetails struct {
 	// EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated.
 	// REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable.
 	MaintenanceScheduleType MaintenanceScheduleTypeEnum `mandatory:"false" json:"maintenanceScheduleType,omitempty"`
+
+	// Time window during which downtime-inducing maintenance shall not be performed.
+	// Downtime-free maintenance may be performed to apply required security patches.
+	// At most one configured window is supported.
+	MaintenanceDisabledWindows []MaintenanceDisabledWindow `mandatory:"false" json:"maintenanceDisabledWindows"`
 }
 
 func (m UpdateMaintenanceDetails) String() string {

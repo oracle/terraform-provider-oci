@@ -11,11 +11,14 @@ import (
 	"strings"
 )
 
-// GetDrgNatPolicyRequest wrapper for the GetDrgNatPolicy operation
-type GetDrgNatPolicyRequest struct {
+// GetInternalTenantThrottlingGroupAssociationRequest wrapper for the GetInternalTenantThrottlingGroupAssociation operation
+type GetInternalTenantThrottlingGroupAssociationRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG NAT policy.
-	DrgNatPolicyId *string `mandatory:"true" contributesTo:"path" name:"drgNatPolicyId"`
+	// Name of the tenant group
+	TenantThrottlingGroupName *string `mandatory:"true" contributesTo:"path" name:"tenantThrottlingGroupName"`
+
+	// Ocid of the tenant
+	TenantId *string `mandatory:"true" contributesTo:"path" name:"tenantId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -26,12 +29,12 @@ type GetDrgNatPolicyRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetDrgNatPolicyRequest) String() string {
+func (request GetInternalTenantThrottlingGroupAssociationRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetDrgNatPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetInternalTenantThrottlingGroupAssociationRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -41,7 +44,7 @@ func (request GetDrgNatPolicyRequest) HTTPRequest(method, path string, binaryReq
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetInternalTenantThrottlingGroupAssociationRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -49,11 +52,21 @@ func (request GetDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request GetDrgNatPolicyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["drgNatPolicyId"] != nil {
-		templateParam := mandatoryParamMap["drgNatPolicyId"]
+func (request GetInternalTenantThrottlingGroupAssociationRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["tenantThrottlingGroupName"] != nil {
+		templateParam := mandatoryParamMap["tenantThrottlingGroupName"]
 		for _, template := range templateParam {
-			replacementParam := *request.DrgNatPolicyId
+			replacementParam := *request.TenantThrottlingGroupName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["tenantId"] != nil {
+		templateParam := mandatoryParamMap["tenantId"]
+		for _, template := range templateParam {
+			replacementParam := *request.TenantId
 			if template.EndsWithDot {
 				replacementParam = replacementParam + "."
 			}
@@ -63,14 +76,14 @@ func (request GetDrgNatPolicyRequest) ReplaceMandatoryParamInPath(client *common
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDrgNatPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInternalTenantThrottlingGroupAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
+func (request GetInternalTenantThrottlingGroupAssociationRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -78,28 +91,28 @@ func (request GetDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetDrgNatPolicyResponse wrapper for the GetDrgNatPolicy operation
-type GetDrgNatPolicyResponse struct {
+// GetInternalTenantThrottlingGroupAssociationResponse wrapper for the GetInternalTenantThrottlingGroupAssociation operation
+type GetInternalTenantThrottlingGroupAssociationResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgNatPolicy instance
-	DrgNatPolicy `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
+	// The InternalTenantThrottlingGroupAssociation instance
+	InternalTenantThrottlingGroupAssociation `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response GetDrgNatPolicyResponse) String() string {
+func (response GetInternalTenantThrottlingGroupAssociationResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetDrgNatPolicyResponse) HTTPResponse() *http.Response {
+func (response GetInternalTenantThrottlingGroupAssociationResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

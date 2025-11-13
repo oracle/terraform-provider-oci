@@ -79,6 +79,11 @@ type CreateDrgAttachmentDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment's DRG NAT policy.
 	DrgNatPolicyId *string `mandatory:"false" json:"drgNatPolicyId"`
 
+	// By default, only translated DrgNatRule CIDRs are imported into the DrgRouteTable to prevent
+	// routing complications. Enable this option to also preserve original CIDRs. The original source CIDRs is not advertised if this value is set to false, else it is advertised.
+	// default: `false`
+	DoesPreserveOriginalRoutesWithNat *bool `mandatory:"false" json:"doesPreserveOriginalRoutesWithNat"`
+
 	// Indicates if transitive traffic is enabled for this DRG attachment. This field is
 	// only supported for VirtualCircuit and IPSec DRG attachments.
 	TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `mandatory:"false" json:"transitiveTrafficEnabled,omitempty"`
@@ -109,19 +114,20 @@ func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName              *string                                                `json:"displayName"`
-		Id                       *string                                                `json:"id"`
-		InternalType             DrgAttachmentInternalTypeEnum                          `json:"internalType"`
-		DrgRouteTableId          *string                                                `json:"drgRouteTableId"`
-		NetworkDetails           drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
-		DefinedTags              map[string]map[string]interface{}                      `json:"definedTags"`
-		FreeformTags             map[string]string                                      `json:"freeformTags"`
-		SecurityAttributes       map[string]map[string]interface{}                      `json:"securityAttributes"`
-		RouteTableId             *string                                                `json:"routeTableId"`
-		VcnId                    *string                                                `json:"vcnId"`
-		DrgNatPolicyId           *string                                                `json:"drgNatPolicyId"`
-		TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
-		DrgId                    *string                                                `json:"drgId"`
+		DisplayName                       *string                                                `json:"displayName"`
+		Id                                *string                                                `json:"id"`
+		InternalType                      DrgAttachmentInternalTypeEnum                          `json:"internalType"`
+		DrgRouteTableId                   *string                                                `json:"drgRouteTableId"`
+		NetworkDetails                    drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
+		DefinedTags                       map[string]map[string]interface{}                      `json:"definedTags"`
+		FreeformTags                      map[string]string                                      `json:"freeformTags"`
+		SecurityAttributes                map[string]map[string]interface{}                      `json:"securityAttributes"`
+		RouteTableId                      *string                                                `json:"routeTableId"`
+		VcnId                             *string                                                `json:"vcnId"`
+		DrgNatPolicyId                    *string                                                `json:"drgNatPolicyId"`
+		DoesPreserveOriginalRoutesWithNat *bool                                                  `json:"doesPreserveOriginalRoutesWithNat"`
+		TransitiveTrafficEnabled          CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
+		DrgId                             *string                                                `json:"drgId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -158,6 +164,8 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.VcnId = model.VcnId
 
 	m.DrgNatPolicyId = model.DrgNatPolicyId
+
+	m.DoesPreserveOriginalRoutesWithNat = model.DoesPreserveOriginalRoutesWithNat
 
 	m.TransitiveTrafficEnabled = model.TransitiveTrafficEnabled
 

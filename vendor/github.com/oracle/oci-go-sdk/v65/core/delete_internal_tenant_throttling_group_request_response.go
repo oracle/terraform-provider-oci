@@ -11,18 +11,16 @@ import (
 	"strings"
 )
 
-// CreateDrgNatPolicyRequest wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyRequest struct {
+// DeleteInternalTenantThrottlingGroupRequest wrapper for the DeleteInternalTenantThrottlingGroup operation
+type DeleteInternalTenantThrottlingGroupRequest struct {
 
-	// Details for creating a DRG NAT policy.
-	CreateDrgNatPolicyDetails `contributesTo:"body"`
+	// Name of the tenant group
+	TenantThrottlingGroupName *string `mandatory:"true" contributesTo:"path" name:"tenantThrottlingGroupName"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// may be rejected).
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -33,12 +31,12 @@ type CreateDrgNatPolicyRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDrgNatPolicyRequest) String() string {
+func (request DeleteInternalTenantThrottlingGroupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request DeleteInternalTenantThrottlingGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -48,7 +46,7 @@ func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binary
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request DeleteInternalTenantThrottlingGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -56,18 +54,28 @@ func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSee
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request CreateDrgNatPolicyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+func (request DeleteInternalTenantThrottlingGroupRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["tenantThrottlingGroupName"] != nil {
+		templateParam := mandatoryParamMap["tenantThrottlingGroupName"]
+		for _, template := range templateParam {
+			replacementParam := *request.TenantThrottlingGroupName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDrgNatPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteInternalTenantThrottlingGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
+func (request DeleteInternalTenantThrottlingGroupRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -75,34 +83,22 @@ func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// CreateDrgNatPolicyResponse wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyResponse struct {
+// DeleteInternalTenantThrottlingGroupResponse wrapper for the DeleteInternalTenantThrottlingGroup operation
+type DeleteInternalTenantThrottlingGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgNatPolicy instance
-	DrgNatPolicy `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// Location of the resource.
-	Location *string `presentIn:"header" name:"location"`
-
-	// Location of the resource.
-	ContentLocation *string `presentIn:"header" name:"content-location"`
 }
 
-func (response CreateDrgNatPolicyResponse) String() string {
+func (response DeleteInternalTenantThrottlingGroupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDrgNatPolicyResponse) HTTPResponse() *http.Response {
+func (response DeleteInternalTenantThrottlingGroupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

@@ -14,8 +14,8 @@ import (
 // ListDrgNatPoliciesRequest wrapper for the ListDrgNatPolicies operation
 type ListDrgNatPoliciesRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
-	DrgId *string `mandatory:"true" contributesTo:"query" name:"drgId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
 	// "List" call. For important details about how pagination works, see
@@ -41,12 +41,12 @@ type ListDrgNatPoliciesRequest struct {
 	// is case sensitive.
 	SortOrder ListDrgNatPoliciesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to return only resources that match the given display name exactly.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
-
-	// Unique Oracle-assigned identifier for the request.
+	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A filter to return only resources that match the given display name exactly.
+	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -77,10 +77,10 @@ func (request ListDrgNatPoliciesRequest) BinaryRequestBody() (*common.OCIReadSee
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
 func (request ListDrgNatPoliciesRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["drgId"] != nil {
-		templateParam := mandatoryParamMap["drgId"]
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
 		for _, template := range templateParam {
-			replacementParam := *request.DrgId
+			replacementParam := *request.CompartmentId
 			if template.EndsWithDot {
 				replacementParam = replacementParam + "."
 			}

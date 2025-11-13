@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// CreateDrgNatPolicyRequest wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyRequest struct {
+// CreateInternalTenantThrottlingGroupRequest wrapper for the CreateInternalTenantThrottlingGroup operation
+type CreateInternalTenantThrottlingGroupRequest struct {
 
-	// Details for creating a DRG NAT policy.
-	CreateDrgNatPolicyDetails `contributesTo:"body"`
+	// Details required to create a new tenant group.
+	CreateInternalTenantThrottlingGroupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -33,12 +33,12 @@ type CreateDrgNatPolicyRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDrgNatPolicyRequest) String() string {
+func (request CreateInternalTenantThrottlingGroupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request CreateInternalTenantThrottlingGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -48,7 +48,7 @@ func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binary
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request CreateInternalTenantThrottlingGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -56,18 +56,18 @@ func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSee
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request CreateDrgNatPolicyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+func (request CreateInternalTenantThrottlingGroupRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDrgNatPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateInternalTenantThrottlingGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
+func (request CreateInternalTenantThrottlingGroupRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -75,34 +75,28 @@ func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// CreateDrgNatPolicyResponse wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyResponse struct {
+// CreateInternalTenantThrottlingGroupResponse wrapper for the CreateInternalTenantThrottlingGroup operation
+type CreateInternalTenantThrottlingGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgNatPolicy instance
-	DrgNatPolicy `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
+	// The InternalTenantThrottlingGroup instance
+	InternalTenantThrottlingGroup `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// Location of the resource.
-	Location *string `presentIn:"header" name:"location"`
-
-	// Location of the resource.
-	ContentLocation *string `presentIn:"header" name:"content-location"`
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response CreateDrgNatPolicyResponse) String() string {
+func (response CreateInternalTenantThrottlingGroupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDrgNatPolicyResponse) HTTPResponse() *http.Response {
+func (response CreateInternalTenantThrottlingGroupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

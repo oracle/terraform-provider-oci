@@ -83,6 +83,9 @@ type DrgAttachmentUpdate struct {
 
 	// indicates the VIP type of the associated Drg
 	DrgVipType DrgAttachmentUpdateDrgVipTypeEnum `mandatory:"false" json:"drgVipType,omitempty"`
+
+	// The substrateAccess DRG's type (TEST, PRODUCTION and NOT_APPLICABLE).
+	SubstrateAccessDrgType DrgAttachmentUpdateSubstrateAccessDrgTypeEnum `mandatory:"false" json:"substrateAccessDrgType,omitempty"`
 }
 
 // GetId returns Id
@@ -114,6 +117,9 @@ func (m DrgAttachmentUpdate) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDrgAttachmentUpdateDrgVipTypeEnum(string(m.DrgVipType)); !ok && m.DrgVipType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrgVipType: %s. Supported values are: %s.", m.DrgVipType, strings.Join(GetDrgAttachmentUpdateDrgVipTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnum(string(m.SubstrateAccessDrgType)); !ok && m.SubstrateAccessDrgType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubstrateAccessDrgType: %s. Supported values are: %s.", m.SubstrateAccessDrgType, strings.Join(GetDrgAttachmentUpdateSubstrateAccessDrgTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -277,5 +283,51 @@ func GetDrgAttachmentUpdateDrgVipTypeEnumStringValues() []string {
 // GetMappingDrgAttachmentUpdateDrgVipTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDrgAttachmentUpdateDrgVipTypeEnum(val string) (DrgAttachmentUpdateDrgVipTypeEnum, bool) {
 	enum, ok := mappingDrgAttachmentUpdateDrgVipTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DrgAttachmentUpdateSubstrateAccessDrgTypeEnum Enum with underlying type: string
+type DrgAttachmentUpdateSubstrateAccessDrgTypeEnum string
+
+// Set of constants representing the allowable values for DrgAttachmentUpdateSubstrateAccessDrgTypeEnum
+const (
+	DrgAttachmentUpdateSubstrateAccessDrgTypeNotApplicable DrgAttachmentUpdateSubstrateAccessDrgTypeEnum = "NOT_APPLICABLE"
+	DrgAttachmentUpdateSubstrateAccessDrgTypeProduction    DrgAttachmentUpdateSubstrateAccessDrgTypeEnum = "PRODUCTION"
+	DrgAttachmentUpdateSubstrateAccessDrgTypeTest          DrgAttachmentUpdateSubstrateAccessDrgTypeEnum = "TEST"
+)
+
+var mappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnum = map[string]DrgAttachmentUpdateSubstrateAccessDrgTypeEnum{
+	"NOT_APPLICABLE": DrgAttachmentUpdateSubstrateAccessDrgTypeNotApplicable,
+	"PRODUCTION":     DrgAttachmentUpdateSubstrateAccessDrgTypeProduction,
+	"TEST":           DrgAttachmentUpdateSubstrateAccessDrgTypeTest,
+}
+
+var mappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnumLowerCase = map[string]DrgAttachmentUpdateSubstrateAccessDrgTypeEnum{
+	"not_applicable": DrgAttachmentUpdateSubstrateAccessDrgTypeNotApplicable,
+	"production":     DrgAttachmentUpdateSubstrateAccessDrgTypeProduction,
+	"test":           DrgAttachmentUpdateSubstrateAccessDrgTypeTest,
+}
+
+// GetDrgAttachmentUpdateSubstrateAccessDrgTypeEnumValues Enumerates the set of values for DrgAttachmentUpdateSubstrateAccessDrgTypeEnum
+func GetDrgAttachmentUpdateSubstrateAccessDrgTypeEnumValues() []DrgAttachmentUpdateSubstrateAccessDrgTypeEnum {
+	values := make([]DrgAttachmentUpdateSubstrateAccessDrgTypeEnum, 0)
+	for _, v := range mappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDrgAttachmentUpdateSubstrateAccessDrgTypeEnumStringValues Enumerates the set of values in String for DrgAttachmentUpdateSubstrateAccessDrgTypeEnum
+func GetDrgAttachmentUpdateSubstrateAccessDrgTypeEnumStringValues() []string {
+	return []string{
+		"NOT_APPLICABLE",
+		"PRODUCTION",
+		"TEST",
+	}
+}
+
+// GetMappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnum(val string) (DrgAttachmentUpdateSubstrateAccessDrgTypeEnum, bool) {
+	enum, ok := mappingDrgAttachmentUpdateSubstrateAccessDrgTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

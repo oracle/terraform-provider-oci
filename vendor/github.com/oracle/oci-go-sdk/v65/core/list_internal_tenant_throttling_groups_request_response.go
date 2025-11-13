@@ -11,18 +11,19 @@ import (
 	"strings"
 )
 
-// CreateDrgNatPolicyRequest wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyRequest struct {
+// ListInternalTenantThrottlingGroupsRequest wrapper for the ListInternalTenantThrottlingGroups operation
+type ListInternalTenantThrottlingGroupsRequest struct {
 
-	// Details for creating a DRG NAT policy.
-	CreateDrgNatPolicyDetails `contributesTo:"body"`
+	// For list pagination. The maximum number of results per page, or items to return in a paginated
+	// "List" call. For important details about how pagination works, see
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Example: `50`
+	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// may be rejected).
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+	// For list pagination. The value of the `opc-next-page` response header from the previous "List"
+	// call. For important details about how pagination works, see
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -33,12 +34,12 @@ type CreateDrgNatPolicyRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDrgNatPolicyRequest) String() string {
+func (request ListInternalTenantThrottlingGroupsRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ListInternalTenantThrottlingGroupsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -48,7 +49,7 @@ func (request CreateDrgNatPolicyRequest) HTTPRequest(method, path string, binary
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ListInternalTenantThrottlingGroupsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -56,18 +57,18 @@ func (request CreateDrgNatPolicyRequest) BinaryRequestBody() (*common.OCIReadSee
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request CreateDrgNatPolicyRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+func (request ListInternalTenantThrottlingGroupsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDrgNatPolicyRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListInternalTenantThrottlingGroupsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
+func (request ListInternalTenantThrottlingGroupsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -75,34 +76,30 @@ func (request CreateDrgNatPolicyRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// CreateDrgNatPolicyResponse wrapper for the CreateDrgNatPolicy operation
-type CreateDrgNatPolicyResponse struct {
+// ListInternalTenantThrottlingGroupsResponse wrapper for the ListInternalTenantThrottlingGroups operation
+type ListInternalTenantThrottlingGroupsResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgNatPolicy instance
-	DrgNatPolicy `presentIn:"body"`
+	// A list of []InternalTenantThrottlingGroup instances
+	Items []InternalTenantThrottlingGroup `presentIn:"body"`
 
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
+	// For list pagination. When this header appears in the response, additional pages
+	// of results remain. For important details about how pagination works, see
+	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// Location of the resource.
-	Location *string `presentIn:"header" name:"location"`
-
-	// Location of the resource.
-	ContentLocation *string `presentIn:"header" name:"content-location"`
 }
 
-func (response CreateDrgNatPolicyResponse) String() string {
+func (response ListInternalTenantThrottlingGroupsResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDrgNatPolicyResponse) HTTPResponse() *http.Response {
+func (response ListInternalTenantThrottlingGroupsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

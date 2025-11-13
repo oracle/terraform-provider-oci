@@ -27,9 +27,14 @@ type AddDrgNatRulesRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique Oracle-assigned identifier for the request.
+	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -96,6 +101,11 @@ type AddDrgNatRulesResponse struct {
 
 	// The []DrgNatRule instance
 	Items []DrgNatRule `presentIn:"body"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	// Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
+	// with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

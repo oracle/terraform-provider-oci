@@ -22,7 +22,7 @@ type BackupCopyDetails struct {
 	// target compartment to place a new backup
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of region names of the remote region
+	// List of region names of the remote regions
 	Regions []string `mandatory:"true" json:"regions"`
 
 	// Retention period in days of the backup copy.

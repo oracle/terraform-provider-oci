@@ -34,6 +34,9 @@ type ListDrgAttachmentsRequest struct {
 	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DrgNatPolicy.
+	DrgNatPolicyId *string `mandatory:"false" contributesTo:"query" name:"drgNatPolicyId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource (virtual circuit, VCN, IPSec tunnel, or remote peering connection) attached to the DRG.
 	NetworkId *string `mandatory:"false" contributesTo:"query" name:"networkId"`
 

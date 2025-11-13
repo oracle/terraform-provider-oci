@@ -387,7 +387,7 @@ func (client VirtualNetworkClient) AddDrgNatRules(ctx context.Context, request A
 // addDrgNatRules implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) addDrgNatRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/addDrgNatRules", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/actions/addDrgNatRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3100,6 +3100,73 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ChangeDrgCompartment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeDrgCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDrgNatPolicyCompartment Moves a DrgNatPolicy into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeDrgNatPolicyCompartment(ctx context.Context, request ChangeDrgNatPolicyCompartmentRequest) (response ChangeDrgNatPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDrgNatPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDrgNatPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDrgNatPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDrgNatPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDrgNatPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeDrgNatPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeDrgNatPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ChangeDrgNatPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgNatPolicy/ChangeDrgNatPolicyCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeDrgNatPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -6230,7 +6297,7 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 	return response, err
 }
 
-// CreateDrgNatPolicy Creates a new DRG NAT policy for the specified gateway. Assign the DRG NAT policy to a DRG attachment
+// CreateDrgNatPolicy Creates a new DRG NAT policy. Assign the DRG NAT policy to a DRG attachment
 // using the `UpdateDrgAttachment` or `CreateDrgAttachment` operations.
 // A default retry strategy applies to this operation CreateDrgNatPolicy()
 func (client VirtualNetworkClient) CreateDrgNatPolicy(ctx context.Context, request CreateDrgNatPolicyRequest) (response CreateDrgNatPolicyResponse, err error) {
@@ -7672,6 +7739,138 @@ func (client VirtualNetworkClient) createInternalServiceVnicShard(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/CreateInternalServiceVnicShard"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalServiceVnicShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateInternalTenantThrottlingGroup Creates new tenant group
+// A default retry strategy applies to this operation CreateInternalTenantThrottlingGroup()
+func (client VirtualNetworkClient) CreateInternalTenantThrottlingGroup(ctx context.Context, request CreateInternalTenantThrottlingGroupRequest) (response CreateInternalTenantThrottlingGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalTenantThrottlingGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalTenantThrottlingGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalTenantThrottlingGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalTenantThrottlingGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalTenantThrottlingGroupResponse")
+	}
+	return
+}
+
+// createInternalTenantThrottlingGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalTenantThrottlingGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/tenantThrottlingGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateInternalTenantThrottlingGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroup/CreateInternalTenantThrottlingGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalTenantThrottlingGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateInternalTenantThrottlingGroupAssociation Creates new tenant throttling group association
+// A default retry strategy applies to this operation CreateInternalTenantThrottlingGroupAssociation()
+func (client VirtualNetworkClient) CreateInternalTenantThrottlingGroupAssociation(ctx context.Context, request CreateInternalTenantThrottlingGroupAssociationRequest) (response CreateInternalTenantThrottlingGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalTenantThrottlingGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalTenantThrottlingGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalTenantThrottlingGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalTenantThrottlingGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalTenantThrottlingGroupAssociationResponse")
+	}
+	return
+}
+
+// createInternalTenantThrottlingGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalTenantThrottlingGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/tenantThrottlingGroupAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateInternalTenantThrottlingGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroupAssociation/CreateInternalTenantThrottlingGroupAssociation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalTenantThrottlingGroupAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -12173,6 +12372,128 @@ func (client VirtualNetworkClient) deleteInternalServiceVnicShard(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/DeleteInternalServiceVnicShard"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalServiceVnicShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalTenantThrottlingGroup Deletes specified tenant group
+// A default retry strategy applies to this operation DeleteInternalTenantThrottlingGroup()
+func (client VirtualNetworkClient) DeleteInternalTenantThrottlingGroup(ctx context.Context, request DeleteInternalTenantThrottlingGroupRequest) (response DeleteInternalTenantThrottlingGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalTenantThrottlingGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalTenantThrottlingGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalTenantThrottlingGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalTenantThrottlingGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalTenantThrottlingGroupResponse")
+	}
+	return
+}
+
+// deleteInternalTenantThrottlingGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalTenantThrottlingGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/tenantThrottlingGroups/{tenantThrottlingGroupName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteInternalTenantThrottlingGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroup/DeleteInternalTenantThrottlingGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalTenantThrottlingGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalTenantThrottlingGroupAssociation Deletes tenant throttling group association
+// A default retry strategy applies to this operation DeleteInternalTenantThrottlingGroupAssociation()
+func (client VirtualNetworkClient) DeleteInternalTenantThrottlingGroupAssociation(ctx context.Context, request DeleteInternalTenantThrottlingGroupAssociationRequest) (response DeleteInternalTenantThrottlingGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalTenantThrottlingGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalTenantThrottlingGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalTenantThrottlingGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalTenantThrottlingGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalTenantThrottlingGroupAssociationResponse")
+	}
+	return
+}
+
+// deleteInternalTenantThrottlingGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalTenantThrottlingGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/tenantThrottlingGroupAssociations/{tenantId}/{tenantThrottlingGroupName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteInternalTenantThrottlingGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroupAssociation/DeleteInternalTenantThrottlingGroupAssociation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalTenantThrottlingGroupAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -20402,6 +20723,128 @@ func (client VirtualNetworkClient) getInternalSubnet(ctx context.Context, reques
 	return response, err
 }
 
+// GetInternalTenantThrottlingGroup Fetches details of tenant group by group name
+// A default retry strategy applies to this operation GetInternalTenantThrottlingGroup()
+func (client VirtualNetworkClient) GetInternalTenantThrottlingGroup(ctx context.Context, request GetInternalTenantThrottlingGroupRequest) (response GetInternalTenantThrottlingGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalTenantThrottlingGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalTenantThrottlingGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalTenantThrottlingGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalTenantThrottlingGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalTenantThrottlingGroupResponse")
+	}
+	return
+}
+
+// getInternalTenantThrottlingGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalTenantThrottlingGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/tenantThrottlingGroups/{tenantThrottlingGroupName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInternalTenantThrottlingGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroup/GetInternalTenantThrottlingGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalTenantThrottlingGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalTenantThrottlingGroupAssociation Fetches details of tenant group association
+// A default retry strategy applies to this operation GetInternalTenantThrottlingGroupAssociation()
+func (client VirtualNetworkClient) GetInternalTenantThrottlingGroupAssociation(ctx context.Context, request GetInternalTenantThrottlingGroupAssociationRequest) (response GetInternalTenantThrottlingGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalTenantThrottlingGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalTenantThrottlingGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalTenantThrottlingGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalTenantThrottlingGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalTenantThrottlingGroupAssociationResponse")
+	}
+	return
+}
+
+// getInternalTenantThrottlingGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalTenantThrottlingGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/tenantThrottlingGroupAssociations/{tenantId}/{tenantThrottlingGroupName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInternalTenantThrottlingGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroupAssociation/GetInternalTenantThrottlingGroupAssociation"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalTenantThrottlingGroupAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInternalVcn Gets the specified VCN's information.
 // A default retry strategy applies to this operation GetInternalVcn()
 func (client VirtualNetworkClient) GetInternalVcn(ctx context.Context, request GetInternalVcnRequest) (response GetInternalVcnResponse, err error) {
@@ -25746,7 +26189,7 @@ func (client VirtualNetworkClient) listDrgAttachments(ctx context.Context, reque
 	return response, err
 }
 
-// ListDrgNatPolicies The list of DRG NAT policies in the DRG.
+// ListDrgNatPolicies The list of DRG NAT policies in the compartment.
 // A default retry strategy applies to this operation ListDrgNatPolicies()
 func (client VirtualNetworkClient) ListDrgNatPolicies(ctx context.Context, request ListDrgNatPoliciesRequest) (response ListDrgNatPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -27720,6 +28163,128 @@ func (client VirtualNetworkClient) listInternalServiceVnicShards(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/ListInternalServiceVnicShards"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalServiceVnicShards", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalTenantThrottlingGroupAssociations Lists all the groups to which tenant is associated with
+// A default retry strategy applies to this operation ListInternalTenantThrottlingGroupAssociations()
+func (client VirtualNetworkClient) ListInternalTenantThrottlingGroupAssociations(ctx context.Context, request ListInternalTenantThrottlingGroupAssociationsRequest) (response ListInternalTenantThrottlingGroupAssociationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalTenantThrottlingGroupAssociations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalTenantThrottlingGroupAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalTenantThrottlingGroupAssociationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalTenantThrottlingGroupAssociationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalTenantThrottlingGroupAssociationsResponse")
+	}
+	return
+}
+
+// listInternalTenantThrottlingGroupAssociations implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalTenantThrottlingGroupAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/tenantThrottlingGroupAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInternalTenantThrottlingGroupAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroupAssociation/ListInternalTenantThrottlingGroupAssociations"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalTenantThrottlingGroupAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalTenantThrottlingGroups Lists all the tenant throttling groups
+// A default retry strategy applies to this operation ListInternalTenantThrottlingGroups()
+func (client VirtualNetworkClient) ListInternalTenantThrottlingGroups(ctx context.Context, request ListInternalTenantThrottlingGroupsRequest) (response ListInternalTenantThrottlingGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalTenantThrottlingGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalTenantThrottlingGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalTenantThrottlingGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalTenantThrottlingGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalTenantThrottlingGroupsResponse")
+	}
+	return
+}
+
+// listInternalTenantThrottlingGroups implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalTenantThrottlingGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/tenantThrottlingGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInternalTenantThrottlingGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroup/ListInternalTenantThrottlingGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalTenantThrottlingGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -31468,7 +32033,7 @@ func (client VirtualNetworkClient) removeC3ImportDrgRouteDistribution(ctx contex
 	return response, err
 }
 
-// RemoveDrgNatPolicy Removes the DRG NAT policy from the DRG attachment so no DRG NAT rules are advertised to it.
+// RemoveDrgNatPolicy Dissociates the DRG NAT policy from the DRG attachment so no DRG NAT rules are advertised to it.
 // A default retry strategy applies to this operation RemoveDrgNatPolicy()
 func (client VirtualNetworkClient) RemoveDrgNatPolicy(ctx context.Context, request RemoveDrgNatPolicyRequest) (response RemoveDrgNatPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -31540,6 +32105,11 @@ func (client VirtualNetworkClient) RemoveDrgNatRules(ctx context.Context, reques
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.removeDrgNatRules, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -31563,7 +32133,7 @@ func (client VirtualNetworkClient) RemoveDrgNatRules(ctx context.Context, reques
 // removeDrgNatRules implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) removeDrgNatRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/removeDrgNatRules", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/actions/removeDrgNatRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -35000,6 +35570,11 @@ func (client VirtualNetworkClient) UpdateDrgNatRules(ctx context.Context, reques
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateDrgNatRules, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -35023,7 +35598,7 @@ func (client VirtualNetworkClient) UpdateDrgNatRules(ctx context.Context, reques
 // updateDrgNatRules implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) updateDrgNatRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/updateDrgNatRules", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drgNatPolicies/{drgNatPolicyId}/actions/updateDrgNatRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -35041,7 +35616,7 @@ func (client VirtualNetworkClient) updateDrgNatRules(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgNatRule/UpdateDrgNatRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgNatRules", apiReferenceLink)
 		return response, err
 	}
@@ -36674,6 +37249,67 @@ func (client VirtualNetworkClient) updateInternalServiceVnicShard(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/UpdateInternalServiceVnicShard"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalServiceVnicShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalTenantThrottlingGroup Updates specified tenant group
+// A default retry strategy applies to this operation UpdateInternalTenantThrottlingGroup()
+func (client VirtualNetworkClient) UpdateInternalTenantThrottlingGroup(ctx context.Context, request UpdateInternalTenantThrottlingGroupRequest) (response UpdateInternalTenantThrottlingGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalTenantThrottlingGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalTenantThrottlingGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalTenantThrottlingGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalTenantThrottlingGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalTenantThrottlingGroupResponse")
+	}
+	return
+}
+
+// updateInternalTenantThrottlingGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalTenantThrottlingGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/tenantThrottlingGroups/{tenantThrottlingGroupName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateInternalTenantThrottlingGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalTenantThrottlingGroup/UpdateInternalTenantThrottlingGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalTenantThrottlingGroup", apiReferenceLink)
 		return response, err
 	}
 

@@ -24,7 +24,7 @@ type BatchDeleteObjectsDetails struct {
 	Objects []BatchDeleteObjectIdentifier `mandatory:"true" json:"objects"`
 
 	// Specifies whether to skip the details of successfully deleted objects in the response. If specified true
-	// then only the details of failed deletes will be available in the response.
+	// then only the details of failed deletes will be available in the response. Defaults to false.
 	IsSkipDeletedResult *bool `mandatory:"false" json:"isSkipDeletedResult"`
 }
 

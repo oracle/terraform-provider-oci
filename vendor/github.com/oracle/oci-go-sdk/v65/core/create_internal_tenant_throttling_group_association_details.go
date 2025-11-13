@@ -21,35 +21,24 @@ import (
 	"strings"
 )
 
-// CreateDrgNatPolicyDetails Details used to create a DRG NAT policy.
-type CreateDrgNatPolicyDetails struct {
+// CreateInternalTenantThrottlingGroupAssociationDetails Represents the details required to create association b/w a tenant and tenant throttling group.
+type CreateInternalTenantThrottlingGroupAssociationDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the DRG NAT policy.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `tenant`
+	TenantId *string `mandatory:"true" json:"tenantId"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	// The name of the tenancy group.
+	ThrottlingTenantGroupName *string `mandatory:"true" json:"throttlingTenantGroupName"`
 }
 
-func (m CreateDrgNatPolicyDetails) String() string {
+func (m CreateInternalTenantThrottlingGroupAssociationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateDrgNatPolicyDetails) ValidateEnumValue() (bool, error) {
+func (m CreateInternalTenantThrottlingGroupAssociationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

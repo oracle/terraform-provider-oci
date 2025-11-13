@@ -33,6 +33,9 @@ type SenderSummary struct {
 	// The IpPool OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
 	EmailIpPoolId *string `mandatory:"false" json:"emailIpPoolId"`
 
+	// The email domain OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	EmailDomainId *string `mandatory:"false" json:"emailDomainId"`
+
 	// The current status of the approved sender.
 	LifecycleState SenderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

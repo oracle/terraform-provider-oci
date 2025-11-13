@@ -28,9 +28,6 @@ type DrgNatPolicy struct {
 	// The DRG NAT policy's Oracle ID (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG that contains this NAT policy.
-	DrgId *string `mandatory:"true" json:"drgId"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the DRG NAT policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -86,7 +83,6 @@ type DrgNatPolicyLifecycleStateEnum string
 const (
 	DrgNatPolicyLifecycleStateCreating DrgNatPolicyLifecycleStateEnum = "CREATING"
 	DrgNatPolicyLifecycleStateActive   DrgNatPolicyLifecycleStateEnum = "ACTIVE"
-	DrgNatPolicyLifecycleStateInactive DrgNatPolicyLifecycleStateEnum = "INACTIVE"
 	DrgNatPolicyLifecycleStateUpdating DrgNatPolicyLifecycleStateEnum = "UPDATING"
 	DrgNatPolicyLifecycleStateDeleting DrgNatPolicyLifecycleStateEnum = "DELETING"
 	DrgNatPolicyLifecycleStateDeleted  DrgNatPolicyLifecycleStateEnum = "DELETED"
@@ -96,7 +92,6 @@ const (
 var mappingDrgNatPolicyLifecycleStateEnum = map[string]DrgNatPolicyLifecycleStateEnum{
 	"CREATING": DrgNatPolicyLifecycleStateCreating,
 	"ACTIVE":   DrgNatPolicyLifecycleStateActive,
-	"INACTIVE": DrgNatPolicyLifecycleStateInactive,
 	"UPDATING": DrgNatPolicyLifecycleStateUpdating,
 	"DELETING": DrgNatPolicyLifecycleStateDeleting,
 	"DELETED":  DrgNatPolicyLifecycleStateDeleted,
@@ -106,7 +101,6 @@ var mappingDrgNatPolicyLifecycleStateEnum = map[string]DrgNatPolicyLifecycleStat
 var mappingDrgNatPolicyLifecycleStateEnumLowerCase = map[string]DrgNatPolicyLifecycleStateEnum{
 	"creating": DrgNatPolicyLifecycleStateCreating,
 	"active":   DrgNatPolicyLifecycleStateActive,
-	"inactive": DrgNatPolicyLifecycleStateInactive,
 	"updating": DrgNatPolicyLifecycleStateUpdating,
 	"deleting": DrgNatPolicyLifecycleStateDeleting,
 	"deleted":  DrgNatPolicyLifecycleStateDeleted,
@@ -127,7 +121,6 @@ func GetDrgNatPolicyLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"INACTIVE",
 		"UPDATING",
 		"DELETING",
 		"DELETED",

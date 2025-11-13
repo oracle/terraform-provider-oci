@@ -21,7 +21,10 @@ type InvoiceLineSummary struct {
 	// Product of the item
 	Product *string `mandatory:"true" json:"product"`
 
-	// Product of the item
+	// Contract Order Reference
+	ContractOrderRef *string `mandatory:"false" json:"contractOrderRef"`
+
+	// Order number
 	OrderNo *string `mandatory:"false" json:"orderNo"`
 
 	// Part number

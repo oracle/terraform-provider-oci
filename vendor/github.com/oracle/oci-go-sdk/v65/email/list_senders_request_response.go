@@ -20,6 +20,9 @@ type ListSendersRequest struct {
 	// The request ID for tracing from the system
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to only return resources that match the given email domain resource exactly.
+	EmailDomainId *string `mandatory:"false" contributesTo:"query" name:"emailDomainId"`
+
 	// The current state of a sender.
 	LifecycleState SenderLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

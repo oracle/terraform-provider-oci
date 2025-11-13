@@ -30,9 +30,6 @@ type UpdateDrgNatRuleDetails struct {
 	// The priority associated with each DRG NAT rule.
 	DrgNatRulePriority *int64 `mandatory:"false" json:"drgNatRulePriority"`
 
-	// Indicates whether the DRG NAT rule is either stateful or stateless.
-	DrgNatRuleType UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum `mandatory:"false" json:"drgNatRuleType,omitempty"`
-
 	// Represents the range of IP addresses to match against when routing traffic.
 	// Original CIDR range for Source NAT.
 	// Potential values:
@@ -68,53 +65,8 @@ func (m UpdateDrgNatRuleDetails) String() string {
 func (m UpdateDrgNatRuleDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnum(string(m.DrgNatRuleType)); !ok && m.DrgNatRuleType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrgNatRuleType: %s. Supported values are: %s.", m.DrgNatRuleType, strings.Join(GetUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum Enum with underlying type: string
-type UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum string
-
-// Set of constants representing the allowable values for UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum
-const (
-	UpdateDrgNatRuleDetailsDrgNatRuleTypeStateful  UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum = "STATEFUL"
-	UpdateDrgNatRuleDetailsDrgNatRuleTypeStateless UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum = "STATELESS"
-)
-
-var mappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnum = map[string]UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum{
-	"STATEFUL":  UpdateDrgNatRuleDetailsDrgNatRuleTypeStateful,
-	"STATELESS": UpdateDrgNatRuleDetailsDrgNatRuleTypeStateless,
-}
-
-var mappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumLowerCase = map[string]UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum{
-	"stateful":  UpdateDrgNatRuleDetailsDrgNatRuleTypeStateful,
-	"stateless": UpdateDrgNatRuleDetailsDrgNatRuleTypeStateless,
-}
-
-// GetUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumValues Enumerates the set of values for UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum
-func GetUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumValues() []UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum {
-	values := make([]UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum, 0)
-	for _, v := range mappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumStringValues Enumerates the set of values in String for UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum
-func GetUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumStringValues() []string {
-	return []string{
-		"STATEFUL",
-		"STATELESS",
-	}
-}
-
-// GetMappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnum(val string) (UpdateDrgNatRuleDetailsDrgNatRuleTypeEnum, bool) {
-	enum, ok := mappingUpdateDrgNatRuleDetailsDrgNatRuleTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

@@ -22,6 +22,9 @@ type Invoice struct {
 	// Invoice identifier which is generated on the on-premise sie. Pls note this is not an OCID
 	InvoiceId *string `mandatory:"true" json:"invoiceId"`
 
+	// Contract identifier
+	ContractId *string `mandatory:"false" json:"contractId"`
+
 	// Invoice external reference
 	InvoiceNumber *string `mandatory:"false" json:"invoiceNumber"`
 
@@ -117,6 +120,7 @@ func (m Invoice) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Invoice) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ContractId            *string                  `json:"contractId"`
 		InvoiceNumber         *string                  `json:"invoiceNumber"`
 		InternalInvoiceId     *string                  `json:"internalInvoiceId"`
 		IsCreditCardPayable   *bool                    `json:"isCreditCardPayable"`
@@ -149,6 +153,8 @@ func (m *Invoice) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ContractId = model.ContractId
+
 	m.InvoiceNumber = model.InvoiceNumber
 
 	m.InternalInvoiceId = model.InternalInvoiceId
