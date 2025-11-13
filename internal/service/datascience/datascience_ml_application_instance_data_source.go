@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -20,15 +19,15 @@ func DatascienceMlApplicationInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceMlApplicationInstanceResource(), fieldMap, readSingularDatascienceMlApplicationInstanceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatascienceMlApplicationInstanceResource(), fieldMap, readSingularDatascienceMlApplicationInstance)
 }
 
-func readSingularDatascienceMlApplicationInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceMlApplicationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceMlApplicationInstanceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DatascienceMlApplicationInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceMlApplicationInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationInstanceDataSourceCrud) Get() error {
 	request := oci_datascience.GetMlApplicationInstanceRequest{}
 
 	if mlApplicationInstanceId, ok := s.D.GetOkExists("ml_application_instance_id"); ok {
@@ -51,7 +50,7 @@ func (s *DatascienceMlApplicationInstanceDataSourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetMlApplicationInstance(ctx, request)
+	response, err := s.Client.GetMlApplicationInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

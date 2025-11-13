@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceModelGroupArtifactContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularDatascienceModelGroupArtifactContentWithContext,
+		Read: readSingularDatascienceModelGroupArtifactContent,
 		Schema: map[string]*schema.Schema{
 			"model_group_id": {
 				Type:     schema.TypeString,
@@ -31,12 +30,12 @@ func DatascienceModelGroupArtifactContentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDatascienceModelGroupArtifactContentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceModelGroupArtifactContent(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelGroupArtifactContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceModelGroupArtifactContentDataSourceCrud struct {
@@ -49,7 +48,7 @@ func (s *DatascienceModelGroupArtifactContentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupArtifactContentDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelGroupArtifactContentDataSourceCrud) Get() error {
 	request := oci_datascience.GetModelGroupArtifactContentRequest{}
 
 	if modelGroupId, ok := s.D.GetOkExists("model_group_id"); ok {
@@ -64,7 +63,7 @@ func (s *DatascienceModelGroupArtifactContentDataSourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelGroupArtifactContent(ctx, request)
+	response, err := s.Client.GetModelGroupArtifactContent(context.Background(), request)
 	if err != nil {
 		return err
 	}
