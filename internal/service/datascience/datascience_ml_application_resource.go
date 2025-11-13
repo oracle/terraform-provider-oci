@@ -6,8 +6,8 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,11 +19,11 @@ func DatascienceMlApplicationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatascienceMlApplicationWithContext,
-		ReadContext:   readDatascienceMlApplicationWithContext,
-		UpdateContext: updateDatascienceMlApplicationWithContext,
-		DeleteContext: deleteDatascienceMlApplicationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatascienceMlApplication,
+		Read:     readDatascienceMlApplication,
+		Update:   updateDatascienceMlApplication,
+		Delete:   deleteDatascienceMlApplication,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -82,37 +82,37 @@ func DatascienceMlApplicationResource() *schema.Resource {
 	}
 }
 
-func createDatascienceMlApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceMlApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatascienceMlApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceMlApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceMlApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceMlApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatascienceMlApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceMlApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceMlApplicationResourceCrud struct {
@@ -144,7 +144,7 @@ func (s *DatascienceMlApplicationResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DatascienceMlApplicationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationResourceCrud) Create() error {
 	request := oci_datascience.CreateMlApplicationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -176,7 +176,7 @@ func (s *DatascienceMlApplicationResourceCrud) CreateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateMlApplication(ctx, request)
+	response, err := s.Client.CreateMlApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -185,7 +185,7 @@ func (s *DatascienceMlApplicationResourceCrud) CreateWithContext(ctx context.Con
 	return nil
 }
 
-func (s *DatascienceMlApplicationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationResourceCrud) Get() error {
 	request := oci_datascience.GetMlApplicationRequest{}
 
 	tmp := s.D.Id()
@@ -193,7 +193,7 @@ func (s *DatascienceMlApplicationResourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetMlApplication(ctx, request)
+	response, err := s.Client.GetMlApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -202,7 +202,7 @@ func (s *DatascienceMlApplicationResourceCrud) GetWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *DatascienceMlApplicationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -236,7 +236,7 @@ func (s *DatascienceMlApplicationResourceCrud) UpdateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateMlApplication(ctx, request)
+	response, err := s.Client.UpdateMlApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -245,7 +245,7 @@ func (s *DatascienceMlApplicationResourceCrud) UpdateWithContext(ctx context.Con
 	return nil
 }
 
-func (s *DatascienceMlApplicationResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationResourceCrud) Delete() error {
 	request := oci_datascience.DeleteMlApplicationRequest{}
 
 	tmp := s.D.Id()
@@ -253,7 +253,7 @@ func (s *DatascienceMlApplicationResourceCrud) DeleteWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeleteMlApplication(ctx, request)
+	_, err := s.Client.DeleteMlApplication(context.Background(), request)
 	return err
 }
 
@@ -351,7 +351,7 @@ func (s *DatascienceMlApplicationResourceCrud) updateCompartment(compartment int
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

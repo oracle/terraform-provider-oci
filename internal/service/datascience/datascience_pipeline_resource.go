@@ -14,7 +14,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -31,11 +30,11 @@ func DatasciencePipelineResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatasciencePipelineWithContext,
-		ReadContext:   readDatasciencePipelineWithContext,
-		UpdateContext: updateDatasciencePipelineWithContext,
-		DeleteContext: deleteDatasciencePipelineWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatasciencePipeline,
+		Read:     readDatasciencePipeline,
+		Update:   updateDatasciencePipeline,
+		Delete:   deleteDatasciencePipeline,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -833,15 +832,15 @@ func DatasciencePipelineResource() *schema.Resource {
 	}
 }
 
-func createDatasciencePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
 	// create pipeline before step artifact because the pipeline id is required in the case of custom
 	// script
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if StepArtifact, ok := d.GetOkExists("step_artifact"); ok {
@@ -850,13 +849,13 @@ func createDatasciencePipelineWithContext(ctx context.Context, d *schema.Resourc
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "step_artifact", i)
 				err := sync.CreateArtifact(fieldKeyFormat)
 				if err != nil {
-					return tfresource.HandleDiagError(m, err)
+					return err
 				}
 			}
 		}
 	}
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 func (s *DatasciencePipelineResourceCrud) CreateArtifact(fieldKeyFormat string) error {
@@ -902,29 +901,29 @@ func (s *DatasciencePipelineResourceCrud) CreateArtifact(fieldKeyFormat string) 
 	return nil
 }
 
-func readDatasciencePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatasciencePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatasciencePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatasciencePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type HeadPipelineArtifact struct {
@@ -977,7 +976,7 @@ func (s *DatasciencePipelineResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatasciencePipelineResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatasciencePipelineResourceCrud) Create() error {
 	request := oci_datascience.CreatePipelineRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1087,7 +1086,7 @@ func (s *DatasciencePipelineResourceCrud) CreateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreatePipeline(ctx, request)
+	response, err := s.Client.CreatePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1096,11 +1095,11 @@ func (s *DatasciencePipelineResourceCrud) CreateWithContext(ctx context.Context)
 	return nil
 }
 
-func (s *DatasciencePipelineResourceCrud) getPipelineFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatasciencePipelineResourceCrud) getPipelineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	pipelineId, err := pipelineWaitForWorkRequest(ctx, workId, "datascience",
+	pipelineId, err := pipelineWaitForWorkRequest(workId, "datascience",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1120,7 +1119,7 @@ func (s *DatasciencePipelineResourceCrud) getPipelineFromWorkRequest(ctx context
 	}
 	s.D.SetId(*pipelineId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func pipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1146,7 +1145,7 @@ func pipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func pipelineWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = pipelineWorkRequestShouldRetryFunc(timeout)
@@ -1222,7 +1221,7 @@ func getErrorFromDatasciencePipelineWorkRequest(client *oci_datascience.DataScie
 	return workRequestErr
 }
 
-func (s *DatasciencePipelineResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatasciencePipelineResourceCrud) Get() error {
 	request := oci_datascience.GetPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -1230,7 +1229,7 @@ func (s *DatasciencePipelineResourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetPipeline(ctx, request)
+	response, err := s.Client.GetPipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1247,7 +1246,7 @@ func (s *DatasciencePipelineResourceCrud) GetWithContext(ctx context.Context) er
 	return nil
 }
 
-func (s *DatasciencePipelineResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatasciencePipelineResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -1357,7 +1356,7 @@ func (s *DatasciencePipelineResourceCrud) UpdateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdatePipeline(ctx, request)
+	response, err := s.Client.UpdatePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1366,7 +1365,7 @@ func (s *DatasciencePipelineResourceCrud) UpdateWithContext(ctx context.Context)
 	return nil
 }
 
-func (s *DatasciencePipelineResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatasciencePipelineResourceCrud) Delete() error {
 	request := oci_datascience.DeletePipelineRequest{}
 
 	if deleteRelatedJobRuns, ok := s.D.GetOkExists("delete_related_job_runs"); ok {
@@ -1384,15 +1383,14 @@ func (s *DatasciencePipelineResourceCrud) DeleteWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeletePipeline(ctx, request)
+	response, err := s.Client.DeletePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-
-	_, delWorkRequestErr := pipelineWaitForWorkRequest(ctx, workId, "pipeline",
+	_, delWorkRequestErr := pipelineWaitForWorkRequest(workId, "datascience",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2826,7 +2824,7 @@ func (s *DatasciencePipelineResourceCrud) updateCompartment(compartment interfac
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

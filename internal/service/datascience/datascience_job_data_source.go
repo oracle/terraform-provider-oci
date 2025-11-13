@@ -6,12 +6,11 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
 
 func DatascienceJobDataSource() *schema.Resource {
@@ -20,15 +19,15 @@ func DatascienceJobDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceJobResource(), fieldMap, readSingularDatascienceJobWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatascienceJobResource(), fieldMap, readSingularDatascienceJob)
 }
 
-func readSingularDatascienceJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceJob(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceJobDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DatascienceJobDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceJobDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceJobDataSourceCrud) Get() error {
 	request := oci_datascience.GetJobRequest{}
 
 	if jobId, ok := s.D.GetOkExists("job_id"); ok {
@@ -51,7 +50,7 @@ func (s *DatascienceJobDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetJob(ctx, request)
+	response, err := s.Client.GetJob(context.Background(), request)
 	if err != nil {
 		return err
 	}

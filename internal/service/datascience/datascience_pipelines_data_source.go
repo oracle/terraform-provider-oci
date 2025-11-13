@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -15,7 +14,7 @@ import (
 
 func DatasciencePipelinesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatasciencePipelinesWithContext,
+		Read: readDatasciencePipelines,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -51,12 +50,12 @@ func DatasciencePipelinesDataSource() *schema.Resource {
 	}
 }
 
-func readDatasciencePipelinesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatasciencePipelines(d *schema.ResourceData, m interface{}) error {
 	sync := &DatasciencePipelinesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatasciencePipelinesDataSourceCrud struct {
@@ -69,7 +68,7 @@ func (s *DatasciencePipelinesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatasciencePipelinesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatasciencePipelinesDataSourceCrud) Get() error {
 	request := oci_datascience.ListPipelinesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +102,7 @@ func (s *DatasciencePipelinesDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListPipelines(ctx, request)
+	response, err := s.Client.ListPipelines(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +111,7 @@ func (s *DatasciencePipelinesDataSourceCrud) GetWithContext(ctx context.Context)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPipelines(ctx, request)
+		listResponse, err := s.Client.ListPipelines(context.Background(), request)
 		if err != nil {
 			return err
 		}
