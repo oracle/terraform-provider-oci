@@ -62,3 +62,17 @@ resource "oci_core_instance" "test_instance_with_ipv6" {
     create = "60m"
   }
 }
+
+# Add a minimal block volume and attachment to exercise core_volume_attachments_data_source
+resource "oci_core_volume" "test_block_volume_ipv6" {
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "TestBlockIpv6"
+  size_in_gbs         = var.db_size
+}
+
+resource "oci_core_volume_attachment" "test_block_attach_ipv6" {
+  attachment_type = "paravirtualized"
+  instance_id     = oci_core_instance.test_instance_with_ipv6.id
+  volume_id       = oci_core_volume.test_block_volume_ipv6.id
+}

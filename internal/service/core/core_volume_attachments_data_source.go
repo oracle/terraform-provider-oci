@@ -194,6 +194,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["ipv4"] = string(*v.Ipv4)
 			}
 
+			if v.Ipv6 != nil {
+				result["ipv6"] = string(*v.Ipv6)
+			}
+
 			if v.Iqn != nil {
 				result["iqn"] = string(*v.Iqn)
 			}

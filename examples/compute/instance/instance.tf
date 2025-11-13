@@ -359,3 +359,39 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 2
 }
 
+# Backward-compatibility data source queries for core_volume_attachments
+# These reuse resources defined in this file and avoid any new attributes,
+# so they are safe to use when pinning to a released provider for BC evidence.
+
+# Query volume attachments by instance (first instance)
+data "oci_core_volume_attachments" "bc_by_instance0" {
+  compartment_id      = var.compartment_ocid
+  availability_domain = oci_core_instance.test_instance[0].availability_domain
+  instance_id         = oci_core_instance.test_instance[0].id
+}
+
+output "bc_volume_attachments_instance0_count" {
+  value = length(data.oci_core_volume_attachments.bc_by_instance0.volume_attachments)
+}
+
+# Query volume attachments by volume (first iSCSI attachment volume)
+data "oci_core_volume_attachments" "bc_by_volume_iscsi0" {
+  compartment_id      = var.compartment_ocid
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  volume_id           = oci_core_volume.test_block_volume[0].id
+}
+
+output "bc_volume_attachments_by_volume_iscsi0_count" {
+  value = length(data.oci_core_volume_attachments.bc_by_volume_iscsi0.volume_attachments)
+}
+
+# Query volume attachments by volume (first Paravirtualized attachment volume)
+data "oci_core_volume_attachments" "bc_by_volume_pv0" {
+  compartment_id      = var.compartment_ocid
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  volume_id           = oci_core_volume.test_block_volume_paravirtualized[0].id
+}
+
+output "bc_volume_attachments_by_volume_pv0_count" {
+  value = length(data.oci_core_volume_attachments.bc_by_volume_pv0.volume_attachments)
+}

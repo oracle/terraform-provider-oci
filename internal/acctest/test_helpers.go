@@ -707,6 +707,14 @@ func ProviderTestConfig() string {
 	return CommonTestVariables()
 }
 
+func GetTenancyOcid() string {
+	return getEnvSettingWithBlankDefaultVar("tenancy_ocid")
+}
+
+func GetRegion() string {
+	return getEnvSettingWithBlankDefaultVar("region")
+}
+
 func CommonTestVariables() string {
 	return `
 	variable "tenancy_ocid" {
