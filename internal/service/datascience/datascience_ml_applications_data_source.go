@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceMlApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceMlApplicationsWithContext,
+		Read: readDatascienceMlApplications,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func DatascienceMlApplicationsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceMlApplicationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceMlApplications(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceMlApplicationsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *DatascienceMlApplicationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceMlApplicationsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationsDataSourceCrud) Get() error {
 	request := oci_datascience.ListMlApplicationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *DatascienceMlApplicationsDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListMlApplications(ctx, request)
+	response, err := s.Client.ListMlApplications(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *DatascienceMlApplicationsDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMlApplications(ctx, request)
+		listResponse, err := s.Client.ListMlApplications(context.Background(), request)
 		if err != nil {
 			return err
 		}
