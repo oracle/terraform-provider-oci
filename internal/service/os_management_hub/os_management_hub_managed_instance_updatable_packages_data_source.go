@@ -305,8 +305,7 @@ func UpdatablePackageSummaryToMap(obj oci_os_management_hub.UpdatablePackageSumm
 		result["name"] = string(*obj.Name)
 	}
 
-	// FIXME
-	//result["package_classification"] = string(obj.PackageClassification)
+	result["package_classification"] = string(oci_os_management_hub.PackageSummaryPackageClassificationUpdatable)
 
 	result["related_cves"] = obj.RelatedCves
 
