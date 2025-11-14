@@ -50,6 +50,11 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_queue_queue.test_queue.id}`}},
 	}
 
+	QueueQueueCapabilitiesRepresentation = map[string]interface{}{
+		"type":                              acctest.Representation{RepType: acctest.Required, Create: `CONSUMER_GROUPS`, Update: `CONSUMER_GROUPS`},
+		"is_primary_consumer_group_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
 	QueueQueueRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -61,6 +66,7 @@ var (
 		"retention_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"timeout_in_seconds":               acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"visibility_in_seconds":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"capabilities":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: QueueQueueCapabilitiesRepresentation},
 		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTagsRepresentation},
 	}
 
@@ -131,6 +137,9 @@ func TestQueueQueueResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "visibility_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -233,6 +242,9 @@ func TestQueueQueueResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(resourceName, "visibility_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -281,6 +293,9 @@ func TestQueueQueueResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "visibility_in_seconds", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.is_primary_consumer_group_enabled", "true"),
 			),
 		},
 		// verify resource import
