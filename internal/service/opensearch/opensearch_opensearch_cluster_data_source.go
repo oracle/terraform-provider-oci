@@ -125,6 +125,12 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LoadBalancerConfig != nil {
+		s.D.Set("load_balancer_config", []interface{}{LoadBalancerConfigToMap(s.Res.LoadBalancerConfig)})
+	} else {
+		s.D.Set("load_balancer_config", nil)
+	}
+
 	if s.Res.MaintenanceDetails != nil {
 		s.D.Set("maintenance_details", []interface{}{MaintenanceDetailsToMap(s.Res.MaintenanceDetails)})
 	} else {
