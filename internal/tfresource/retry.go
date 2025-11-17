@@ -39,7 +39,7 @@ const (
 	getResource                     = "get"
 	waasDeleteConflictRetryDuration = 60 * time.Minute
 	certificateService              = "certificate"
-	maxAttemptsForRetryPolicy       = 12
+	maxAttemptsForRetryPolicy       = 10
 )
 
 type ServiceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration
@@ -86,14 +86,22 @@ func SetRetriesConfig(configFile string) error {
 	if err != nil {
 		return fmt.Errorf("error in parsing the %s file for retries config. Please have config in json format with supported parameters retry_max_duration and/or first_retry_sleep_duration only", configFile)
 	}
-	for _, value := range RetryConfigMap {
+	for key, value := range RetryConfigMap {
 		if value.RetryMaxDuration != nil && *value.RetryMaxDuration < 0 {
 			return fmt.Errorf("retry_max_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
 		}
 		if value.FirstRetrySleepDuration != nil && *value.FirstRetrySleepDuration < 0 {
 			return fmt.Errorf("first_retry_sleep_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
 		}
+		utils.Debugf("User configured retry configuration for error %v", key)
+		if value.RetryMaxDuration != nil {
+			utils.Debugf("retry_max_duration = %v", *value.RetryMaxDuration)
+		}
+		if value.FirstRetrySleepDuration != nil {
+			utils.Debugf("first_retry_sleep_duration = %v\n", *value.FirstRetrySleepDuration)
+		}
 	}
+	utils.Logf("retries_config_file parameter is configured in provider")
 
 	return nil
 }
