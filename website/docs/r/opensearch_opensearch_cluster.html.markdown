@@ -68,6 +68,14 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	inbound_cluster_ids = var.opensearch_cluster_inbound_cluster_ids
+	load_balancer_config {
+		#Required
+		load_balancer_service_type = var.opensearch_cluster_load_balancer_config_load_balancer_service_type
+
+		#Optional
+		load_balancer_max_bandwidth_in_mbps = var.opensearch_cluster_load_balancer_config_load_balancer_max_bandwidth_in_mbps
+		load_balancer_min_bandwidth_in_mbps = var.opensearch_cluster_load_balancer_config_load_balancer_min_bandwidth_in_mbps
+	}
 	maintenance_details {
 
 		#Optional
@@ -127,6 +135,10 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `inbound_cluster_ids` - (Optional) List of inbound clusters that will be queried using cross cluster search
+* `load_balancer_config` - (Optional) (Updatable) This config is used to choose the load balancer service and bandwidth for OpenSearch and OpenDashboard load balancers. 
+	* `load_balancer_max_bandwidth_in_mbps` - (Optional) (Updatable) Maximum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_min_bandwidth_in_mbps` - (Optional) (Updatable) Minimum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_service_type` - (Required) (Updatable) Load balancer service for OpenSearch and OpenDashboard load balancer. Default value is LOAD_BALANCER.
 * `maintenance_details` - (Optional) (Updatable) Details for creation of maintenance details
 	* `notification_email_ids` - (Optional) (Updatable) The Email IDs given by the customer to get notified about maintenance activities
 * `master_node_count` - (Required) (Updatable) The number of master nodes to configure for the cluster.
@@ -197,6 +209,10 @@ The following attributes are exported:
 * `id` - The OCID of the cluster.
 * `inbound_cluster_ids` - List of inbound clusters for which this cluster is an outbound cluster
 * `lifecycle_details` - Additional information about the current lifecycle state of the cluster.
+* `load_balancer_config` - This config is used to choose the load balancer service and bandwidth for OpenSearch and OpenDashboard load balancers. 
+	* `load_balancer_max_bandwidth_in_mbps` - Maximum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_min_bandwidth_in_mbps` - Minimum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_service_type` - Load balancer service for OpenSearch and OpenDashboard load balancer. Default value is LOAD_BALANCER.
 * `maintenance_details` - Details for the maintenance activity.
     * `end_time` - End time of the maintenance activity
     * `notification_email_ids` - The Email Ids given the by customer to get notified about maintenance activities
