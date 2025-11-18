@@ -29,4 +29,3 @@ internal/record
 .terraform.lock.hcl
 dist/
 internal/integrationtest/output
-/vendor/
