@@ -40,6 +40,7 @@ const (
 	waasDeleteConflictRetryDuration = 60 * time.Minute
 	certificateService              = "certificate"
 	maxAttemptsForRetryPolicy       = 10
+	maxTimeDurationLimit            = 600 // Value is in seconds
 )
 
 type ServiceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration
@@ -47,11 +48,17 @@ type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disa
 type getRetryPolicyFunc func(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy
 
 type RetryConfig struct {
+	MaxAttempts              *int                             `json:"max_attempts"`
+	RetryConfigErrorLevelMap map[string]RetryConfigErrorLevel `json:"-"`
+}
+
+type RetryConfigErrorLevel struct {
 	RetryMaxDuration        *int `json:"retry_max_duration"`
 	FirstRetrySleepDuration *int `json:"first_retry_sleep_duration"`
 }
 
-var RetryConfigMap map[string]RetryConfig
+var RetryConfigData RetryConfig
+var RetryConfigErrorMap map[string]RetryConfigErrorLevel
 
 var serviceExpectedRetryDurationMap = map[string]ServiceExpectedRetryDurationFunc{
 	coreService:          getCoreExpectedRetryDuration,
@@ -75,30 +82,96 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+func (config *RetryConfig) UnmarshalJSON(data []byte) error {
+	var configData map[string]interface{}
+
+	if err := json.Unmarshal(data, &configData); err != nil {
+		utils.Debugf("error in parsing the JSON file set for retries_config_file in provider configuration. " +
+			"Please have config in json format with supported parameters. " +
+			"For more details on the configuration, please refer https://docs.oracle.com/en-us/iaas/Content/dev/terraform/troubleshooting.htm#automaticretries\n")
+		return err
+	}
+	config.RetryConfigErrorLevelMap = make(map[string]RetryConfigErrorLevel)
+
+	if value, ok := configData["max_attempts"]; ok {
+		if floatValue, ok := value.(float64); ok {
+			intValue := int(floatValue)
+			config.MaxAttempts = &intValue
+			delete(configData, "max_attempts")
+		} else {
+			utils.Debugf("error in unmarshalling retry config, max_attempts value has to be an integer")
+			return fmt.Errorf("error in unmarshalling retry config, max_attempts value has to be an integer")
+		}
+		utils.Debugf("max_attempts configured as %v\n", *config.MaxAttempts)
+	} else {
+		utils.Debugf("max_attempts not configured\n")
+	}
+
+	jsonData, err := json.Marshal(configData)
+	if err != nil {
+		return fmt.Errorf("error in marshalling retry config without max_attempts")
+	}
+
+	decoder := json.NewDecoder(bytes.NewReader(jsonData))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&RetryConfigErrorMap)
+	if err != nil {
+		utils.Debugf("error in Unmarshalling RetryConfigErrorMap. Please have config in json format with only supported parameters. " +
+			"For more details on the configuration, please refer https://docs.oracle.com/en-us/iaas/Content/dev/terraform/troubleshooting.htm#automaticretries\n")
+		return err
+	}
+	config.RetryConfigErrorLevelMap = RetryConfigErrorMap
+
+	return nil
+}
+
 func SetRetriesConfig(configFile string) error {
 	fileData, err := os.ReadFile(configFile)
 	if err != nil {
 		return fmt.Errorf("error in reading the %s file for retries config. Error: %s", configFile, err)
 	}
-	decoder := json.NewDecoder(bytes.NewReader(fileData))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&RetryConfigMap)
+
+	err = json.Unmarshal(fileData, &RetryConfigData)
 	if err != nil {
-		return fmt.Errorf("error in parsing the %s file for retries config. Please have config in json format with supported parameters retry_max_duration and/or first_retry_sleep_duration only", configFile)
+		return fmt.Errorf("error in parsing the %s file for retries config. Please have config in json format with supported parameters."+
+			"For more details, please refer https://docs.oracle.com/en-us/iaas/Content/dev/terraform/troubleshooting.htm#automaticretries \n", configFile)
 	}
-	for key, value := range RetryConfigMap {
-		if value.RetryMaxDuration != nil && *value.RetryMaxDuration < 0 {
-			return fmt.Errorf("retry_max_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+
+	if RetryConfigData.MaxAttempts != nil {
+		if *RetryConfigData.MaxAttempts < 0 {
+			return fmt.Errorf("max_attempts value of retries_config_file configuration cannot be negative")
 		}
-		if value.FirstRetrySleepDuration != nil && *value.FirstRetrySleepDuration < 0 {
-			return fmt.Errorf("first_retry_sleep_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+		if *RetryConfigData.MaxAttempts > maxAttemptsForRetryPolicy {
+			utils.Debugf("configured max_attempts value: %v exceeded the max limit: %v. Using the max limit only\n", *RetryConfigData.MaxAttempts, maxAttemptsForRetryPolicy)
+			*RetryConfigData.MaxAttempts = maxAttemptsForRetryPolicy
 		}
-		utils.Debugf("User configured retry configuration for error %v", key)
+		utils.Debugf("Using max_attempts as %v\n", *RetryConfigData.MaxAttempts)
+	}
+	for key, value := range RetryConfigData.RetryConfigErrorLevelMap {
 		if value.RetryMaxDuration != nil {
-			utils.Debugf("retry_max_duration = %v", *value.RetryMaxDuration)
+			if *value.RetryMaxDuration < 0 {
+				return fmt.Errorf("retry_max_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+			}
+			if *value.RetryMaxDuration > maxTimeDurationLimit {
+				utils.Debugf("configured retry_max_duration value: %v exceeded the max limit: %v. Using the max limit only\n", *value.RetryMaxDuration, maxTimeDurationLimit)
+				*RetryConfigData.RetryConfigErrorLevelMap[key].RetryMaxDuration = maxTimeDurationLimit
+			}
 		}
 		if value.FirstRetrySleepDuration != nil {
-			utils.Debugf("first_retry_sleep_duration = %v\n", *value.FirstRetrySleepDuration)
+			if *value.FirstRetrySleepDuration < 0 {
+				return fmt.Errorf("first_retry_sleep_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+			}
+			if *value.FirstRetrySleepDuration > maxTimeDurationLimit {
+				utils.Debugf("configured first_retry_sleep_duration value: %v exceeded the max limit: %v. Using the max limit only\n", *value.FirstRetrySleepDuration, maxTimeDurationLimit)
+				*RetryConfigData.RetryConfigErrorLevelMap[key].FirstRetrySleepDuration = maxTimeDurationLimit
+			}
+		}
+		utils.Debugf("User configured retry configuration for error %v", key)
+		if RetryConfigData.RetryConfigErrorLevelMap[key].RetryMaxDuration != nil {
+			utils.Debugf("retry_max_duration = %v", *RetryConfigData.RetryConfigErrorLevelMap[key].RetryMaxDuration)
+		}
+		if RetryConfigData.RetryConfigErrorLevelMap[key].FirstRetrySleepDuration != nil {
+			utils.Debugf("first_retry_sleep_duration = %v\n", *RetryConfigData.RetryConfigErrorLevelMap[key].FirstRetrySleepDuration)
 		}
 	}
 	utils.Logf("retries_config_file parameter is configured in provider")
@@ -153,7 +226,7 @@ func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIO
 	var initialDelay time.Duration
 	if attempt == 1 && response.Response != nil && response.Response.HTTPResponse() != nil {
 		statusCode := response.Response.HTTPResponse().StatusCode
-		value, ok := RetryConfigMap[strconv.Itoa(statusCode)]
+		value, ok := RetryConfigData.RetryConfigErrorLevelMap[strconv.Itoa(statusCode)]
 		if ok {
 			if value.FirstRetrySleepDuration != nil {
 				initialDelay = time.Duration(*value.FirstRetrySleepDuration) * time.Second
@@ -201,7 +274,7 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 }
 
 func GetRetryMaxDurationConfigured(statusCode int) (time.Duration, bool) {
-	value, ok := RetryConfigMap[strconv.Itoa(statusCode)]
+	value, ok := RetryConfigData.RetryConfigErrorLevelMap[strconv.Itoa(statusCode)]
 	if ok {
 		if value.RetryMaxDuration != nil {
 			return time.Duration(*value.RetryMaxDuration) * time.Second, true
@@ -456,8 +529,23 @@ func GetRetryPolicy(disableNotFoundRetries bool, service string, optionals ...in
 
 func getDefaultRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	startTime := time.Now()
+	maxAttempts := uint(maxAttemptsForRetryPolicy)
+
+	if RetryConfigData.MaxAttempts != nil {
+		maxAttempts = uint(*RetryConfigData.MaxAttempts)
+	}
+	if len(optionals) > 0 {
+		if _, ok := optionals[0].(expectedRetryDurationFn); ok {
+			utils.Debugf("Policy has expectedRetryDurationFn defined. So, maxAttempts will be set to 0 as service code takes precedence\n")
+			maxAttempts = 0
+		}
+	}
+	if _, ok := serviceExpectedRetryDurationMap[service]; ok {
+		utils.Debugf("The service for this policy has serviceExpectedRetryDurationMap defined. So, maxAttempts will be set to 0 as service code takes precedence\n")
+		maxAttempts = 0
+	}
 	retryPolicy := &oci_common.RetryPolicy{
-		MaximumNumberAttempts: maxAttemptsForRetryPolicy,
+		MaximumNumberAttempts: maxAttempts,
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
 			return ShouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
 		},
