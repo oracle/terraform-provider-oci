@@ -139,6 +139,8 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) SetData() error {
 		}
 		catalogPrivateEndpoint["locks"] = locks
 
+		catalogPrivateEndpoint["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		catalogPrivateEndpoint["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {

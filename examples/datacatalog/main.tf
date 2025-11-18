@@ -21,6 +21,13 @@ resource "oci_datacatalog_catalog_private_endpoint" "test_catalog_private_endpoi
   compartment_id = var.compartment_id
   dns_zones      = ["custpvtsubnet.oraclevcn.com"]
   subnet_id      = oci_core_subnet.test_subnet.id
+
+#  #optional
+  security_attributes = {
+    "oracle-zpr.maxegresscount.mode" = "enforce"
+    "oracle-zpr.maxegresscount.value" = "47"
+  }
+
   lifecycle {
     ignore_changes = [
       system_tags,
