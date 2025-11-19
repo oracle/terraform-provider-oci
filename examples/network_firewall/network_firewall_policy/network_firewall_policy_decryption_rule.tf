@@ -52,10 +52,9 @@ resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_ne
     destination_address = [oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list_ip.name]
     source_address      = [oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list_fqdn.name]
   }
-
   #Optional
+  description           = "A decryption rule with no decryption"
   position {
-
     # Optional - Either 'after_rule' or 'before_rule' parameter should be set. This should be set only if there is an existing rule before this.
     # after_rule  = var.network_firewall_policy_decryption_rule_position_after_rule
     # before_rule = var.network_firewall_policy_decryption_rule_position_before_rule

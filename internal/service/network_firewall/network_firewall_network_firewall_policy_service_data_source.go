@@ -85,6 +85,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceDataSourceCrud) SetData() er
 		}
 		s.D.Set("port_ranges", portRanges)
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -100,6 +104,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceDataSourceCrud) SetData() er
 			portRanges = append(portRanges, PortRangeToMap(item))
 		}
 		s.D.Set("port_ranges", portRanges)
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)

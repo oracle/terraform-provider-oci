@@ -44,6 +44,11 @@ func NetworkFirewallNetworkFirewallPolicyApplicationResource() *schema.Resource 
 				Required: true,
 				ForceNew: true,
 			},
+			// Optional
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"type": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -239,6 +244,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) SetData() 
 			s.D.Set("icmp_type", *v.IcmpType)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -255,6 +264,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) SetData() 
 
 		if v.IcmpType != nil {
 			s.D.Set("icmp_type", *v.IcmpType)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
 		}
 
 		if v.Name != nil {
@@ -322,6 +335,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) populateTo
 			tmp := icmpType.(int)
 			details.IcmpType = &tmp
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
 			details.Name = &tmp
@@ -336,6 +353,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) populateTo
 		if icmpType, ok := s.D.GetOkExists("icmp_type"); ok {
 			tmp := icmpType.(int)
 			details.IcmpType = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
@@ -368,6 +389,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) populateTo
 			tmp := icmpType.(int)
 			details.IcmpType = &tmp
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		request.UpdateApplicationDetails = details
 	case strings.ToLower("ICMP_V6"):
 		details := oci_network_firewall.UpdateIcmp6ApplicationDetails{}
@@ -378,6 +403,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationResourceCrud) populateTo
 		if icmpType, ok := s.D.GetOkExists("icmp_type"); ok {
 			tmp := icmpType.(int)
 			details.IcmpType = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		request.UpdateApplicationDetails = details
 	default:

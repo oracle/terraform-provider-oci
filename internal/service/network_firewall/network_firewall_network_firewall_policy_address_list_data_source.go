@@ -77,6 +77,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListDataSourceCrud) SetData(
 
 	s.D.Set("addresses", s.Res.Addresses)
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

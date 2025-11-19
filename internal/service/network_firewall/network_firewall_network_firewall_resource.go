@@ -124,6 +124,11 @@ func NetworkFirewallNetworkFirewallResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -288,6 +293,11 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) CreateWithContext(ctx conte
 		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
 			request.NetworkSecurityGroupIds = tmp
 		}
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -515,6 +525,11 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) UpdateWithContext(ctx conte
 		}
 	}
 
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
 	response, err := s.Client.UpdateNetworkFirewall(ctx, request)
@@ -592,6 +607,10 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) SetData() error {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
+	if s.Res.Shape != nil {
+		s.D.Set("shape", *s.Res.Shape)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -680,6 +699,10 @@ func NetworkFirewallSummaryToMap(obj oci_network_firewall.NetworkFirewallSummary
 
 	if obj.NetworkFirewallPolicyId != nil {
 		result["network_firewall_policy_id"] = string(*obj.NetworkFirewallPolicyId)
+	}
+
+	if obj.Shape != nil {
+		result["shape"] = string(*obj.Shape)
 	}
 
 	result["state"] = string(obj.LifecycleState)

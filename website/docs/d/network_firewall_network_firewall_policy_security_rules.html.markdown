@@ -56,6 +56,7 @@ The following attributes are exported:
 	* `service` - An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
 	* `source_address` - An array of IP address list names to be evaluated against the traffic source address.
 	* `url` - An array of URL pattern list names to be evaluated against the HTTP(S) request target.
+* `description` - The description of the security rule. This field can be used to add additional info.
 * `inspection` - Type of inspection to affect the Traffic flow. This is only applicable if action is INSPECT.
 	* INTRUSION_DETECTION - Intrusion Detection.
 	* INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in `type`. 

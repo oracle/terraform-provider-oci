@@ -49,6 +49,7 @@ resource "oci_network_firewall_network_firewall_policy_tunnel_inspection_rule" "
     # after_rule  = var.network_firewall_policy_tunnel_inspection_rule_name_1
     # before_rule = var.network_firewall_policy_tunnel_inspection_rule_name_2
   }
+  description           = "A VXLAN based tunnel inspection rule"
 }
 
 resource "oci_network_firewall_network_firewall_policy_tunnel_inspection_rule" "test_network_firewall_policy_tunnel_inspection_rule_2" {

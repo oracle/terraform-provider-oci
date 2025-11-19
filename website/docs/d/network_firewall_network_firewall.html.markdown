@@ -41,11 +41,12 @@ The following attributes are exported:
 * `ipv4address` - IPv4 address for the Network Firewall.
 * `ipv6address` - IPv6 address for the Network Firewall.
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'FAILED' state.
-* `nat_configuration` - Nat Configuration response.
-	* `must_enable_private_nat` - To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall.
-	* `nat_ip_address_list` - An array of NAT IP addresses that are associated with the Network Firewall. These IPs are reserved for NAT and shouldn't be used for any other purpose in the subnet.
+* `nat_configuration` - Response to a request to configure Network Address Translation (NAT) on a firewall. To perform NAT on traffic passing the private NAT IPs to the firewall, the attached network firewall policy must also have NAT rules and NAT configuration must be enabled. If NAT configuration is enabled and the attached firewall policy does not contain NAT rule then NAT IPs will get allocated but NAT will not be performed on any traffic. 
+	* `must_enable_private_nat` - True indicates that NAT configuration is enabled. False indicates NAT configuration is disabled. 
+	* `nat_ip_address_list` - An array of Private NAT IP addresses that are associated with the Network Firewall. These IP addresses are reserved for NAT and shouldn't be used for any other purpose in the subnet. This list contains IP  addresses when NAT configuration is enabled. This list is empty or null IP when NAT configuration is disabled. 
 * `network_firewall_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall Policy.
 * `network_security_group_ids` - An array of network security groups [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
+* `shape` - The shape of a firewall to determine the bandwidth that the firewall allows.
 * `state` - The current state of the Network Firewall.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Network Firewall.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

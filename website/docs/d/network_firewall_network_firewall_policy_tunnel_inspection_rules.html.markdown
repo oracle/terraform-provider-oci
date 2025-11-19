@@ -51,6 +51,7 @@ The following attributes are exported:
 * `condition` - Criteria to evaluate against incoming network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. 
 	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `source_address` - An array of address list names to be evaluated against the traffic source address.
+* `description` - The description of the tunnel inspect rule. This field can be used to add additional info.
 * `name` - Name for the Tunnel Inspection Rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Tunnel Inspection Rule belongs to.
 * `position` - An object which defines the position of the rule.

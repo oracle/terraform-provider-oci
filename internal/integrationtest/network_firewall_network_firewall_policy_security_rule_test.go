@@ -54,6 +54,7 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"inspection":                 acctest.Representation{RepType: acctest.Required, Create: `INTRUSION_DETECTION`},
 		"position":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: rulePositionRepresentation},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	securityRuleRepresentation = map[string]interface{}{
@@ -62,6 +63,7 @@ var (
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `security_rule_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"position":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: rulePositionRepresentation},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	conditionRepresentation = map[string]interface{}{
@@ -134,6 +136,7 @@ func TestNetworkFirewallNetworkFirewallPolicySecurityRuleResource_basic(t *testi
 				resource.TestCheckResourceAttr(resourceName, "condition.0.service.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "condition.0.source_address.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "condition.0.url.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "position.#", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -148,6 +151,7 @@ func TestNetworkFirewallNetworkFirewallPolicySecurityRuleResource_basic(t *testi
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "action", "DROP"),
 				resource.TestCheckResourceAttr(resourceName, "name", "security_rule_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 
@@ -198,6 +202,7 @@ func TestNetworkFirewallNetworkFirewallPolicySecurityRuleResource_basic(t *testi
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.source_address.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.url.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "security_rule_1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "position.#", "1"),
 			),

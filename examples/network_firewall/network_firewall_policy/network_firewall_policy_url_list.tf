@@ -30,6 +30,8 @@ resource "oci_network_firewall_network_firewall_policy_url_list" "test_network_f
       type    = var.network_firewall_policy_url_list_urls_type
     }
   }
+  #Optional
+  description = "A simple URL list"
 }
 
 data "oci_network_firewall_network_firewall_policy_url_lists" "test_network_firewall_policy_url_lists" {

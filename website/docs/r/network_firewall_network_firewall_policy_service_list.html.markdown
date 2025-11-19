@@ -24,6 +24,9 @@ resource "oci_network_firewall_network_firewall_policy_service_list" "test_netwo
 	name = var.network_firewall_policy_service_list_name
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
 	services = var.network_firewall_policy_service_list_services
+
+	#Optional
+	description = var.network_firewall_policy_service_list_description
 }
 ```
 
@@ -31,6 +34,7 @@ resource "oci_network_firewall_network_firewall_policy_service_list" "test_netwo
 
 The following arguments are supported:
 
+* `description` - (Optional) (Updatable) The description of the service list. This field can be used to add additional info.
 * `name` - (Required) Name of the service Group.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `services` - (Required) (Updatable) Collection of service names. The services referenced in the service list must already be present in the policy before being used in the service list. 
@@ -43,6 +47,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `description` - The description of the service list. This field can be used to add additional info.
 * `name` - Name of the service Group.
 * `parent_resource_id` - OCID of the Network Firewall Policy this serviceList belongs to.
 * `services` - List of services in the group.

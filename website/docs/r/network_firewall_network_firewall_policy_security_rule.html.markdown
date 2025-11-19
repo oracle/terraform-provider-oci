@@ -36,6 +36,7 @@ resource "oci_network_firewall_network_firewall_policy_security_rule" "test_netw
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
 
 	#Optional
+	description = var.network_firewall_policy_security_rule_description
 	inspection = var.network_firewall_policy_security_rule_inspection
 	position {
 
@@ -61,9 +62,10 @@ The following arguments are supported:
 	* `service` - (Optional) (Updatable) An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
 	* `source_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic source address.
 	* `url` - (Optional) (Updatable) An array of URL list names to be evaluated against the HTTP(S) request target.
-* `inspection` - (Optional) (Updatable) Type of inspection to affect the traffic flow. This is only applicable if action is INSPECT.
-	* INTRUSION_DETECTION - Intrusion Detection.
-	* INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in `type`. 
+* `description` - (Optional) (Updatable) The description of the security rule. This field can be used to add additional info.
+* `inspection` - (Required only when action is `INSPECT`) (Updatable) Type of inspection to affect the traffic flow.
+	* INTRUSION_DETECTION - Intrusion detection.
+	* INTRUSION_PREVENTION - Intrusion detection and prevention. Traffic classified as potentially malicious will be rejected as described in `type`. 
 * `name` - (Required) Name for the Security rule, must be unique within the policy.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `position` - (Optional) (Updatable) An object which defines the position of the rule. Only one of the following position references should be provided.
@@ -89,10 +91,11 @@ The following attributes are exported:
 	* `service` - An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
 	* `source_address` - An array of address list names to be evaluated against the traffic source address.
 	* `url` - An array of URL list names to be evaluated against the HTTP(S) request target.
-* `inspection` - Type of inspection to affect the Traffic flow. This is only applicable if action is INSPECT.
+* `description` - The description of the security rule. This field can be used to add additional info.
+* `inspection` - Type of inspection to affect the traffic flow. This is only applicable if action is INSPECT.
 	* INTRUSION_DETECTION - Intrusion Detection.
 	* INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in `type`. 
-* `name` - Name for the Security rule, must be unique within the policy.
+* `name` - Name for the security rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this security rule belongs to.
 * `position` - An object which defines the position of the rule.
 	* `after_rule` - Identifier for rule after which this rule lies.

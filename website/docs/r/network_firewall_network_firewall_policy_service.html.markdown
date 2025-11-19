@@ -22,6 +22,7 @@ Creates a new Service for the Network Firewall Policy.
 resource "oci_network_firewall_network_firewall_policy_service" "test_network_firewall_policy_service" {
 	#Required
 	name = var.network_firewall_policy_service_name
+	type = var.network_firewall_policy_service_type
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
 	port_ranges {
 		#Required
@@ -30,7 +31,8 @@ resource "oci_network_firewall_network_firewall_policy_service" "test_network_fi
 		#Optional
 		maximum_port = var.network_firewall_policy_service_port_ranges_maximum_port
 	}
-	type = var.network_firewall_policy_service_type
+	#Optional
+	description = var.network_firewall_policy_service_description
 }
 ```
 
@@ -38,6 +40,7 @@ resource "oci_network_firewall_network_firewall_policy_service" "test_network_fi
 
 The following arguments are supported:
 
+* `description` - (Optional) (Updatable) The description of the service. This field can be used to add additional info.
 * `name` - (Required) Name of the service
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `port_ranges` - (Required) (Updatable) List of port-ranges to be used.
@@ -53,6 +56,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `description` - The description of the service. This field can be used to add additional info.
 * `name` - Name of the service.
 * `parent_resource_id` - OCID of the Network Firewall Policy this service belongs to.
 * `port_ranges` - List of port-ranges used.

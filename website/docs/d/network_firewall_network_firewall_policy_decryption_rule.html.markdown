@@ -41,6 +41,7 @@ The following attributes are exported:
 	* `destination_address` - An array of IP address list names to be evaluated against the traffic destination address.
 	* `source_address` - An array of IP address list names to be evaluated against the traffic source address.
 * `decryption_profile` - The name of the decryption profile to use.
+* `description` - The description of the decryption rule. This field can be used to add additional info.
 * `name` - Name for the decryption rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this decryption rule belongs to.
 * `position` - An object which defines the position of the rule.

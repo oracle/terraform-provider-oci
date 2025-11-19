@@ -39,6 +39,7 @@ resource "oci_network_firewall_network_firewall_policy_application" "test_networ
 
   #Optional
   icmp_code = var.network_firewall_policy_application_icmp_code
+  description                = "An ICMP application with icmp code 10"
 }
 
 resource "oci_network_firewall_network_firewall_policy_application" "test_network_firewall_policy_application_icmp_v6" {

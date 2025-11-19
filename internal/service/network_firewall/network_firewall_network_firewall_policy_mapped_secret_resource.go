@@ -66,7 +66,10 @@ func NetworkFirewallNetworkFirewallPolicyMappedSecretResource() *schema.Resource
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"parent_resource_id": {
 				Type:     schema.TypeString,
@@ -244,6 +247,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyMappedSecretResourceCrud) SetData()
 			s.D.Set("version_number", *v.VersionNumber)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -262,6 +269,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyMappedSecretResourceCrud) SetData()
 
 func MappedSecretSummaryToMap(obj oci_network_firewall.MappedSecretSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
@@ -300,6 +311,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyMappedSecretResourceCrud) populateT
 			tmp := versionNumber.(int)
 			details.VersionNumber = &tmp
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
 			details.Name = &tmp
@@ -333,6 +348,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyMappedSecretResourceCrud) populateT
 		if versionNumber, ok := s.D.GetOkExists("version_number"); ok {
 			tmp := versionNumber.(int)
 			details.VersionNumber = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		if type_, ok := s.D.GetOkExists("type"); ok {
 			details.Type = oci_network_firewall.InspectionTypeEnum(type_.(string))

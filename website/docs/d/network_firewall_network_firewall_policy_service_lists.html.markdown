@@ -43,6 +43,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `description` - The description of the service list. This field can be used to add additional info.
 * `name` - Name of the service Group.
 * `parent_resource_id` - OCID of the Network Firewall Policy this serviceList belongs to.
 * `services` - List of services in the group.

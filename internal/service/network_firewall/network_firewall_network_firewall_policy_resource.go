@@ -45,6 +45,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -192,6 +196,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CreateWithContext(ctx
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -383,6 +392,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) UpdateWithContext(ctx
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -437,6 +451,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
 	}
 
 	if s.Res.DisplayName != nil {
@@ -519,6 +537,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallP
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -581,6 +604,10 @@ func NetworkFirewallPolicySummaryToMap(obj oci_network_firewall.NetworkFirewallP
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
 	}
 
 	if obj.DisplayName != nil {

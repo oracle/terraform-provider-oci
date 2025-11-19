@@ -43,6 +43,7 @@ resource "oci_network_firewall_network_firewall_policy_mapped_secret" "test_netw
   type                       = var.network_firewall_policy_mapped_secret_type_fp
   vault_secret_id            = var.vault_secret_id
   version_number             = var.network_firewall_policy_mapped_secret_version_number
+  description                = "A forward proxy mapped secret"
 }
 
 resource "oci_network_firewall_network_firewall_policy_mapped_secret" "test_network_firewall_policy_mapped_secret_in" {

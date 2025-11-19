@@ -24,9 +24,10 @@ resource "oci_network_firewall_network_firewall_policy_address_list" "test_netwo
 	name = var.network_firewall_policy_address_list_name
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
 	type = var.network_firewall_policy_address_list_type
+	addresses = var.network_firewall_policy_address_list_addresses
 
 	#Optional
-	addresses = var.network_firewall_policy_address_list_addresses
+	description = var.network_firewall_policy_address_list_description
 }
 ```
 
@@ -34,7 +35,8 @@ resource "oci_network_firewall_network_firewall_policy_address_list" "test_netwo
 
 The following arguments are supported:
 
-* `addresses` - (Required) (Updatable) List of addresses.
+* `addresses` - (Required when type=FQDN | IP) (Updatable) List of addresses.
+* `description` - (Optional) (Updatable) The description of the address list. This field can be used to add additional info.
 * `name` - (Required) Unique name to identify the group of addresses to be used in the policy rules.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `type` - (Required) Type of address List. The accepted values are - * FQDN * IP
@@ -48,6 +50,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `addresses` - List of addresses.
+* `description` - The description of the address list. This field can be used to add additional info.
 * `name` - Unique name to identify the group of addresses to be used in the policy rules.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Address List belongs to.
 * `total_addresses` - Count of total addresses in the AddressList

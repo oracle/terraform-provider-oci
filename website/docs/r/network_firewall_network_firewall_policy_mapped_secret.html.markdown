@@ -27,6 +27,9 @@ resource "oci_network_firewall_network_firewall_policy_mapped_secret" "test_netw
 	type = var.network_firewall_policy_mapped_secret_type
 	vault_secret_id = oci_vault_secret.test_secret.id
 	version_number = var.network_firewall_policy_mapped_secret_version_number
+
+	#Optional
+	description = var.network_firewall_policy_mapped_secret_description
 }
 ```
 
@@ -34,6 +37,7 @@ resource "oci_network_firewall_network_firewall_policy_mapped_secret" "test_netw
 
 The following arguments are supported:
 
+* `description` - (Optional) (Updatable) The description of the mapped secret. This field can be used to add additional info.
 * `name` - (Required) Unique name to identify the group of urls to be used in the policy rules.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `source` - (Required) Source of the secrets, where the secrets are stored. The only accepted value is `OCI_VAULT`
@@ -51,6 +55,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `description` - The description of the mapped secret. This field can be used to add additional info.
 * `name` - Name of the secret.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Mapped Secret belongs to.
 * `source` - Source of the secrets, where the secrets are stored.

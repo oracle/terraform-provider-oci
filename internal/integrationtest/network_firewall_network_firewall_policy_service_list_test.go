@@ -53,6 +53,7 @@ var (
 	serviceListRepresentation = map[string]interface{}{
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `service_list_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"services":                   acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_service.test_network_firewall_policy_service.name}`}, Update: []string{}},
 	}
 
@@ -114,6 +115,7 @@ func TestNetworkFirewallNetworkFirewallPolicyServiceListResource_basic(t *testin
 			Config: config + compartmentIdVariableStr + serviceListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "service_list_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "services.#", "0"),
@@ -157,7 +159,7 @@ func TestNetworkFirewallNetworkFirewallPolicyServiceListResource_basic(t *testin
 				compartmentIdVariableStr + serviceListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "service_list_1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "services.#", "0"),
