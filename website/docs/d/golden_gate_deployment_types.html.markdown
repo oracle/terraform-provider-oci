@@ -48,7 +48,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - Array of DeploymentTypeSummary 
-	* `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
+	* `category` - The deployment category defines the broad separation of the deployment type into four categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'. 
 	* `connection_types` - An array of connectionTypes. 
 	* `default_username` - The default admin username used by deployment. 
 	* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
