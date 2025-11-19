@@ -57,6 +57,10 @@ func NetworkFirewallNetworkFirewallPolicyDecryptionProfileResource() *schema.Res
 				Optional: true,
 				Computed: true,
 			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"is_auto_include_alt_name": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -303,6 +307,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) SetD
 			s.D.Set("is_untrusted_issuer_blocked", *v.IsUntrustedIssuerBlocked)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -325,6 +333,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) SetD
 			s.D.Set("is_unsupported_version_blocked", *v.IsUnsupportedVersionBlocked)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -341,6 +353,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) SetD
 
 func DecryptionProfileSummaryToMap(obj oci_network_firewall.DecryptionProfileSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
@@ -403,6 +419,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) popu
 			tmp := isUntrustedIssuerBlocked.(bool)
 			details.IsUntrustedIssuerBlocked = &tmp
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
 			details.Name = &tmp
@@ -421,6 +441,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) popu
 		if isUnsupportedVersionBlocked, ok := s.D.GetOkExists("is_unsupported_version_blocked"); ok {
 			tmp := isUnsupportedVersionBlocked.(bool)
 			details.IsUnsupportedVersionBlocked = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
@@ -481,6 +505,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) popu
 			tmp := isUntrustedIssuerBlocked.(bool)
 			details.IsUntrustedIssuerBlocked = &tmp
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		request.UpdateDecryptionProfileDetails = details
 	case strings.ToLower("SSL_INBOUND_INSPECTION"):
 		details := oci_network_firewall.UpdateSslInboundInspectionProfileDetails{}
@@ -495,6 +523,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileResourceCrud) popu
 		if isUnsupportedVersionBlocked, ok := s.D.GetOkExists("is_unsupported_version_blocked"); ok {
 			tmp := isUnsupportedVersionBlocked.(bool)
 			details.IsUnsupportedVersionBlocked = &tmp
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		request.UpdateDecryptionProfileDetails = details
 	default:

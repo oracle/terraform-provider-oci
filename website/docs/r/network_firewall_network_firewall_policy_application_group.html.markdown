@@ -24,6 +24,9 @@ resource "oci_network_firewall_network_firewall_policy_application_group" "test_
 	apps = var.network_firewall_policy_application_group_apps
 	name = var.network_firewall_policy_application_group_name
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+
+	#Optional
+	description = var.network_firewall_policy_application_group_description
 }
 ```
 
@@ -31,7 +34,8 @@ resource "oci_network_firewall_network_firewall_policy_application_group" "test_
 
 The following arguments are supported:
 
-* `apps` - (Required) (Updatable) Collection of application names. The apps referenced in the application group must already be present in the policy before being used in the application group.
+* `apps` - (Required) (Updatable) Collection of application names.
+* `description` - (Optional) (Updatable) The description of the application group. This field can be used to add additional info.
 * `name` - (Required) Name of the application group.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 
@@ -44,6 +48,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `apps` - List of apps in the group.
+* `description` - The description of the application group. This field can be used to add additional info.
 * `name` - Name of the application group.
 * `parent_resource_id` - OCID of the Network Firewall Policy this application group belongs to.
 * `total_apps` - Count of total applications in the given application group.

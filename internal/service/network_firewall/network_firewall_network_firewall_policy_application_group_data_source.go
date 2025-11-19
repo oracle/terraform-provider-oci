@@ -77,6 +77,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationGroupDataSourceCrud) Set
 
 	s.D.Set("apps", s.Res.Apps)
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

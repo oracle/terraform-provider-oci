@@ -58,6 +58,8 @@ resource "oci_network_firewall_network_firewall_policy_security_rule" "test_netw
     source_address      = [oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list_ip.name]
     url                 = [oci_network_firewall_network_firewall_policy_url_list.test_network_firewall_policy_url_list.name]
   }
+  #Optional
+  description           = "A security rule to allow traffic"
 
   position {
     # Optional - #Optional - Either 'after_rule' or 'before_rule' parameter should be set. These should be set only if there is an existing rule before this.

@@ -27,6 +27,7 @@ resource "oci_network_firewall_network_firewall_policy_application" "test_networ
 	type = var.network_firewall_policy_application_type
 
 	#Optional
+	description = var.network_firewall_policy_application_description
 	icmp_code = var.network_firewall_policy_application_icmp_code
 }
 ```
@@ -35,8 +36,9 @@ resource "oci_network_firewall_network_firewall_policy_application" "test_networ
 
 The following arguments are supported:
 
-* `icmp_code` - (Optional) (Updatable) The value of the ICMP/ICMP_V6 message Code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
-* `icmp_type` - (Required) (Updatable) The value of the ICMP/IMCP_V6 message Type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `description` - (Optional) (Updatable) The description of the application. This field can be used to add additional info.
+* `icmp_code` - (Optional) (Updatable) The value of the ICMP/ICMP_V6 message code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `icmp_type` - (Required) (Updatable) The value of the ICMP/ICMP_V6 message type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 * `name` - (Required) Name of the application
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `type` - (Required) Describes the type of application. The accepted values are - * ICMP * ICMP_V6
@@ -49,8 +51,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `icmp_code` - The value of the ICMP/ICMP_V6 message Code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
-* `icmp_type` - The value of the ICMP/ICMP_V6 message Type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `description` - The description of the application. This field can be used to add additional info.
+* `icmp_code` - The value of the ICMP/ICMP_V6 message code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `icmp_type` - The value of the ICMP/ICMP_V6 message type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 * `name` - Name of the application.
 * `parent_resource_id` - OCID of the Network Firewall Policy this application belongs to.
 * `type` - Describes the type of application.

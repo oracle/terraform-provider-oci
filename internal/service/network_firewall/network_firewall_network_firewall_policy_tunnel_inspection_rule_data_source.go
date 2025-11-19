@@ -94,6 +94,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleDataSourceCrud)
 
 		s.D.Set("action", v.Action)
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 			s.D.Set("tunnel_inspection_rule_name", *v.Name)

@@ -56,6 +56,7 @@ var (
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `SSL_INBOUND_INSPECTION`, Update: `SSL_INBOUND_INSPECTION`},
 		"vault_secret_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 		"version_number":             acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 
 	mappedSecretDependencies = vaultSecretResource + acctest.GenerateResourceFromRepresentationMap(
@@ -113,6 +114,7 @@ func TestNetworkFirewallNetworkFirewallPolicyMappedSecretResource_basic(t *testi
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
@@ -127,6 +129,7 @@ func TestNetworkFirewallNetworkFirewallPolicyMappedSecretResource_basic(t *testi
 		{
 			Config: configWithVariables + mappedSecretResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "mapped_secret_1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
@@ -170,7 +173,7 @@ func TestNetworkFirewallNetworkFirewallPolicyMappedSecretResource_basic(t *testi
 				) + mappedSecretResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "mapped_secret_1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_secret_id"),
