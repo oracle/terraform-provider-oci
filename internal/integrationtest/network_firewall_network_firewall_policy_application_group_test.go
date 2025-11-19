@@ -56,6 +56,7 @@ var (
 		"apps":                       acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_application.test_network_firewall_policy_application.name}`}, Update: emptyApps},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `application_group_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	applicationGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap(
@@ -119,6 +120,7 @@ func TestNetworkFirewallNetworkFirewallPolicyApplicationGroupResource_basic(t *t
 			Config: config + compartmentIdVariableStr + applicationGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "apps.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "application_group_1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
@@ -164,8 +166,8 @@ func TestNetworkFirewallNetworkFirewallPolicyApplicationGroupResource_basic(t *t
 				applicationGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "apps.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "application_group_1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "total_apps", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),

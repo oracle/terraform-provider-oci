@@ -35,6 +35,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `are_certificate_extensions_restricted` - Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
+* `description` - The description of the decryption profile. This field can be used to add additional info.
 * `is_auto_include_alt_name` - Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
 * `is_expired_certificate_blocked` - Whether to block sessions if server's certificate is expired.
 * `is_out_of_capacity_blocked` - Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.

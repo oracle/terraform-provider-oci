@@ -87,6 +87,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyMappedSecretDataSourceCrud) SetData
 			s.D.Set("version_number", *v.VersionNumber)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}

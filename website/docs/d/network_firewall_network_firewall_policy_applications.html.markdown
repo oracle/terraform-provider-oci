@@ -43,8 +43,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `icmp_code` - The value of the ICMP6 message Code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
-* `icmp_type` - The value of the ICMP6 message Type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `description` - The description of the application. This field can be used to add additional info.
+* `icmp_code` - The value of the ICMP/ICMP_V6 message Code (subtype) field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
+* `icmp_type` - The value of the ICMP/ICMP_V6 message Type field as defined by [RFC 4443](https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 * `name` - Name of the application.
 * `parent_resource_id` - OCID of the Network Firewall Policy this application belongs to.
 * `type` - Describes the type of Application.

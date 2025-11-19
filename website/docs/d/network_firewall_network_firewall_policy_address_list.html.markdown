@@ -35,6 +35,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `addresses` - List of addresses.
+* `description` - The description of the address list. This field can be used to add additional info.
 * `name` - Unique name to identify the group of addresses to be used in the policy rules.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Address List belongs to.
 * `total_addresses` - Count of total Addresses in the AddressList

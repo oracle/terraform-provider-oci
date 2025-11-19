@@ -108,6 +108,10 @@ func (s *NetworkFirewallNetworkFirewallDataSourceCrud) SetData() error {
 
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
 
+	if s.Res.Shape != nil {
+		s.D.Set("shape", *s.Res.Shape)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

@@ -28,6 +28,9 @@ resource "oci_network_firewall_network_firewall_policy_url_list" "test_network_f
 		pattern = var.network_firewall_policy_url_list_urls_pattern
 		type = var.network_firewall_policy_url_list_urls_type
 	}
+
+	#Optional
+	description = var.network_firewall_policy_url_list_description
 }
 ```
 
@@ -35,6 +38,7 @@ resource "oci_network_firewall_network_firewall_policy_url_list" "test_network_f
 
 The following arguments are supported:
 
+* `description` - (Optional) (Updatable) The description of the Url list. This field can be used to add additional info.
 * `name` - (Required) Unique name to identify the group of urls to be used in the policy rules.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `urls` - (Required) (Updatable) List of urls.
@@ -50,6 +54,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `description` - The description of the Url list. This field can be used to add additional info.
 * `name` - Unique name identifier for the URL list.
 * `parent_resource_id` - OCID of the Network Firewall Policy this URL List belongs to.
 * `total_urls` - Total count of URLs in the URL List

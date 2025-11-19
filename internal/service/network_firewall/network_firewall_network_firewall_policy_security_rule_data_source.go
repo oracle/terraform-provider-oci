@@ -83,6 +83,10 @@ func (s *NetworkFirewallNetworkFirewallPolicySecurityRuleDataSourceCrud) SetData
 		s.D.Set("condition", nil)
 	}
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	s.D.Set("inspection", s.Res.Inspection)
 
 	if s.Res.Name != nil {

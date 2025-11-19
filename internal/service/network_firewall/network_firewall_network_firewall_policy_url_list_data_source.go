@@ -75,6 +75,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyUrlListDataSourceCrud) SetData() er
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("NetworkFirewallNetworkFirewallPolicyUrlListDataSource-", NetworkFirewallNetworkFirewallPolicyUrlListDataSource(), s.D))
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

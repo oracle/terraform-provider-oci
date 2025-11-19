@@ -76,6 +76,10 @@ func NetworkFirewallNetworkFirewallPolicyDecryptionRuleResource() *schema.Resour
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"position": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -185,6 +189,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Create(
 		request.DecryptionProfile = &tmp
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -282,6 +291,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Update(
 		request.DecryptionRuleName = &tmp
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if networkFirewallPolicyId, ok := s.D.GetOkExists("network_firewall_policy_id"); ok {
 		tmp := networkFirewallPolicyId.(string)
 		request.NetworkFirewallPolicyId = &tmp
@@ -352,6 +366,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) SetData
 
 	if s.Res.DecryptionProfile != nil {
 		s.D.Set("decryption_profile", *s.Res.DecryptionProfile)
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
 	}
 
 	if s.Res.Name != nil {
@@ -426,6 +444,10 @@ func DecryptionRuleSummaryToMap(obj oci_network_firewall.DecryptionRuleSummary) 
 
 	if obj.DecryptionProfile != nil {
 		result["decryption_profile"] = string(*obj.DecryptionProfile)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
 	}
 
 	if obj.Name != nil {
