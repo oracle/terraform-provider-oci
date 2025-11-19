@@ -13,8 +13,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"maps"
 	"math"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"sync"
@@ -798,4 +800,232 @@ func (t *principalToken) GetClaim(key string) (interface{}, error) {
 		return value, nil
 	}
 	return nil, ErrNoSuchClaim
+}
+
+// nullSigner is required to avoid common.BaseClient panic.
+type nilSigner struct{}
+
+// Sign fulfills the HTTPRequestSigner interface.
+func (e nilSigner) Sign(r *http.Request) error {
+	return nil
+}
+
+// newIDAuthClient returns a BaseClient that does not sign requests and has the auth
+// client circuit breaker
+func newIDAuthClient(host string, authBasePath string) *common.BaseClient {
+	client := common.DefaultBaseClientWithSigner(nilSigner{})
+	client.Host = host
+	client.BasePath = authBasePath
+
+	if common.GlobalAuthClientCircuitBreakerSetting != nil {
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.GlobalAuthClientCircuitBreakerSetting)
+	} else if !common.IsEnvVarFalse("OCI_SDK_AUTH_CLIENT_CIRCUIT_BREAKER_ENABLED") {
+		common.Logf("Configuring DefaultAuthClientCircuitBreakerSetting for federation client")
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultAuthClientCircuitBreakerSetting())
+	}
+	return &client
+}
+
+// tokenExchangeResponse provides a struct for unmarshaling tokens.
+type tokenExchangeResponse struct {
+	Token `presentIn:"body"`
+}
+
+// tokenExchangeFederationClient implements federationClient.
+type tokenExchangeFederationClient struct {
+	client        *common.BaseClient
+	securityToken securityToken
+	privateKey    *rsa.PrivateKey
+	tokenIssuer   TokenIssuer
+	domainUrl     string
+	authCode      string
+	requestData   map[string][]string
+	mux           sync.Mutex
+}
+
+// newTokenExchangeFederationClient creates a federation client.
+func newTokenExchangeFederationClient(issuer TokenIssuer, host string,
+	authCode string, requestData map[string][]string) *tokenExchangeFederationClient {
+	client := newIDAuthClient(host, "/oauth2/v1/token")
+	fc := tokenExchangeFederationClient{
+		tokenIssuer: issuer,
+		client:      client,
+		authCode:    authCode,
+		requestData: requestData,
+	}
+
+	return &fc
+}
+
+// PrivateKey receiver implements federationClient interface. Safe for concurrent use.
+func (fc *tokenExchangeFederationClient) PrivateKey() (*rsa.PrivateKey, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return nil, err
+	}
+
+	return fc.privateKey, nil
+}
+
+// SecurityToken receiver implements federationClient interface. Safe for concurrent
+// use.
+func (fc *tokenExchangeFederationClient) SecurityToken() (string, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("ST$%s", fc.securityToken.String()), nil
+}
+
+// GetClaim returns claims embedded in the UPST.
+func (fc *tokenExchangeFederationClient) GetClaim(key string) (interface{}, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return nil, fmt.Errorf("unable to retrieve claim: %w", err)
+	}
+
+	return fc.securityToken.GetClaim(key)
+}
+
+// renewSecurityTokenIfNotValid checks if token is valid and initiates refresh if needed.
+// Mutex is locked here if an operation is needed to prevent concurrency errors.
+func (fc *tokenExchangeFederationClient) renewSecurityTokenIfNotValid() error {
+	if fc.securityToken == nil || !fc.securityToken.Valid() {
+		// Lock here to prevent renewSecurityToken from making surplus calls to the
+		// authorization server and identity domain
+		fc.mux.Lock()
+		defer fc.mux.Unlock()
+
+		// Ensure token is not renewed by previously blocked operation
+		if fc.securityToken != nil && fc.securityToken.Valid() {
+			return nil
+		}
+
+		return fc.renewSecurityToken()
+	}
+
+	return nil
+}
+
+// renewSecurityToken initiates renewal of the UPST returned by the
+// tokenExchangeFederationClient. Should only be called by renewSecurityTokenIfNotValid.
+// Rotates RSA key and updates federation client with fresh UPST and private key.
+func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
+	var token string
+
+	// Since we are running arbitrary code, we catch panics and return the cause
+	// as an error
+	func() {
+		// Scope recover around caller-provided code
+		common.Logf("attempting to retrieve token from issuer")
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic occurred during token renewal: %v", r)
+			}
+		}()
+
+		// Get a fresh token from the issuer
+		token, err = fc.tokenIssuer.GetToken()
+
+	}()
+
+	if err != nil {
+		return fmt.Errorf("unable to refresh JWT: %w", err)
+	}
+
+	privateKey, err := rsa.GenerateKey(rand.Reader, 3072)
+	if err != nil {
+		return fmt.Errorf("unable to generate RSA key: %w", err)
+	}
+
+	publicKey, err := privateToPublicDERBase64(privateKey)
+	if err != nil {
+		return fmt.Errorf("unable to derive public key: %w", err)
+	}
+
+	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
+	if err != nil {
+		return fmt.Errorf("unable to exchange for UPST: %w", err)
+	}
+
+	// privateKey and securityToken ONLY updated here while under lock from renewSecurityTokenIfNotValid
+	fc.privateKey = privateKey
+	fc.securityToken = securityToken
+
+	return nil
+}
+
+// newTokenExchangeToken assembles and returns a tokenExchangeToken issued by OCI.
+func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
+	publicKey string) (tokenExchangeToken, error) {
+	var t tokenExchangeToken
+	var err error
+
+	// Retry and backoff
+	maxRetries := 3
+	var httpResponse *http.Response
+	defer common.CloseBodyIfValid(httpResponse)
+
+	for retry := 1; retry <= maxRetries; retry++ {
+		common.Logf("attempt %d to retrieve UPST", retry)
+
+		form := make(url.Values, 0)
+		maps.Copy(form, fc.requestData)
+		form.Set("public_key", publicKey)
+		form.Set("subject_token", token)
+		formBody := strings.NewReader(form.Encode())
+
+		httpRequest, err := http.NewRequest(http.MethodPost, fc.client.Host, formBody)
+		if err != nil {
+			return t, fmt.Errorf("failed to make request to token endpoint: %w", err)
+		}
+
+		httpRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
+		httpRequest.Header.Set("Accept", "application/json")
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		response, err := fc.client.Call(ctx, httpRequest)
+		if (err == nil && response.StatusCode == http.StatusOK) ||
+			// Do not retry 4XX response codes
+			(response != nil && response.StatusCode >= 400 && response.StatusCode <= 499) ||
+			// Skip last sleep on max attempts
+			(retry == maxRetries) {
+			httpResponse = response
+			cancel()
+			break
+		}
+
+		if response != nil {
+			common.Logf("invalid response from domain: %s", response.Status)
+		} else {
+			common.Logf("invalid response from domain: %v", err)
+		}
+
+		response.Body.Close()
+		cancel()
+
+		sleep := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
+		time.Sleep(sleep)
+	}
+
+	if httpResponse == nil {
+		return t, fmt.Errorf("no response from domain: %w", err)
+	}
+
+	if httpResponse.StatusCode != http.StatusOK {
+		return t, fmt.Errorf("invalid token endpoint response %s", httpResponse.Status)
+	}
+
+	responseBody := tokenExchangeResponse{}
+	if err = common.UnmarshalResponse(httpResponse, &responseBody); err != nil {
+		return t, fmt.Errorf("failed to unmarshal response: %w", err)
+	}
+
+	parsedToken, err := parseJwt(responseBody.Token.Token)
+	if err != nil {
+		return t, fmt.Errorf("unable to parse token: %w", err)
+	}
+
+	t.token = *parsedToken
+
+	return t, nil
 }
