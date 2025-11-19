@@ -53,6 +53,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
+						"ad_scheduled_for_update": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"additional_attributes": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -1246,7 +1250,15 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_earliest_available_ad_update": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_earliest_available_db_version_upgrade": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_latest_available_ad_update": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1299,6 +1311,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_reclamation_of_free_autonomous_database": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_scheduled_ad_update": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1496,6 +1512,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.ActualUsedDataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["actual_used_data_storage_size_in_tbs"] = *r.ActualUsedDataStorageSizeInTBs
+		}
+
+		if r.AdScheduledForUpdate != nil {
+			autonomousDatabasesClone["ad_scheduled_for_update"] = *r.AdScheduledForUpdate
 		}
 
 		autonomousDatabasesClone["additional_attributes"] = r.AdditionalAttributes
@@ -1933,8 +1953,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["time_disaster_recovery_role_changed"] = r.TimeDisasterRecoveryRoleChanged.String()
 		}
 
+		if r.TimeEarliestAvailableAdUpdate != nil {
+			autonomousDatabasesClone["time_earliest_available_ad_update"] = r.TimeEarliestAvailableAdUpdate.String()
+		}
+
 		if r.TimeEarliestAvailableDbVersionUpgrade != nil {
 			autonomousDatabasesClone["time_earliest_available_db_version_upgrade"] = r.TimeEarliestAvailableDbVersionUpgrade.String()
+		}
+
+		if r.TimeLatestAvailableAdUpdate != nil {
+			autonomousDatabasesClone["time_latest_available_ad_update"] = r.TimeLatestAvailableAdUpdate.String()
 		}
 
 		if r.TimeLatestAvailableDbVersionUpgrade != nil {
@@ -1987,6 +2015,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeScheduledAdUpdate != nil {
+			autonomousDatabasesClone["time_scheduled_ad_update"] = r.TimeScheduledAdUpdate.String()
 		}
 
 		if r.TimeScheduledDbVersionUpgrade != nil {
