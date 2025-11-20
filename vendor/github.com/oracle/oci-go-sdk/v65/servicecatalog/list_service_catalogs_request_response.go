@@ -24,6 +24,9 @@ type ListServiceCatalogsRequest struct {
 	// The unique identifier for the service catalog.
 	ServiceCatalogId *string `mandatory:"false" contributesTo:"query" name:"serviceCatalogId"`
 
+	// Status of the service catalog, use as a filter to filter out all active catalogs.
+	Status ListServiceCatalogsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -79,6 +82,9 @@ func (request ListServiceCatalogsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListServiceCatalogsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListServiceCatalogsStatusEnum(string(request.Status)); !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListServiceCatalogsStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListServiceCatalogsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListServiceCatalogsSortByEnumStringValues(), ",")))
 	}
@@ -117,6 +123,48 @@ func (response ListServiceCatalogsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListServiceCatalogsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListServiceCatalogsStatusEnum Enum with underlying type: string
+type ListServiceCatalogsStatusEnum string
+
+// Set of constants representing the allowable values for ListServiceCatalogsStatusEnum
+const (
+	ListServiceCatalogsStatusActive   ListServiceCatalogsStatusEnum = "ACTIVE"
+	ListServiceCatalogsStatusInactive ListServiceCatalogsStatusEnum = "INACTIVE"
+)
+
+var mappingListServiceCatalogsStatusEnum = map[string]ListServiceCatalogsStatusEnum{
+	"ACTIVE":   ListServiceCatalogsStatusActive,
+	"INACTIVE": ListServiceCatalogsStatusInactive,
+}
+
+var mappingListServiceCatalogsStatusEnumLowerCase = map[string]ListServiceCatalogsStatusEnum{
+	"active":   ListServiceCatalogsStatusActive,
+	"inactive": ListServiceCatalogsStatusInactive,
+}
+
+// GetListServiceCatalogsStatusEnumValues Enumerates the set of values for ListServiceCatalogsStatusEnum
+func GetListServiceCatalogsStatusEnumValues() []ListServiceCatalogsStatusEnum {
+	values := make([]ListServiceCatalogsStatusEnum, 0)
+	for _, v := range mappingListServiceCatalogsStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListServiceCatalogsStatusEnumStringValues Enumerates the set of values in String for ListServiceCatalogsStatusEnum
+func GetListServiceCatalogsStatusEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"INACTIVE",
+	}
+}
+
+// GetMappingListServiceCatalogsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListServiceCatalogsStatusEnum(val string) (ListServiceCatalogsStatusEnum, bool) {
+	enum, ok := mappingListServiceCatalogsStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListServiceCatalogsSortByEnum Enum with underlying type: string

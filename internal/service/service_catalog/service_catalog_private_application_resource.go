@@ -64,14 +64,13 @@ func ServiceCatalogPrivateApplicationResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-
-						// Optional
 						"zip_file_base64encoded": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 							ForceNew: true,
 						},
+
+						// Optional
 
 						// Computed
 					},
@@ -140,6 +139,11 @@ func ServiceCatalogPrivateApplicationResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -540,6 +544,10 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -603,9 +611,15 @@ func PrivateApplicationSummaryToMap(obj oci_service_catalog.PrivateApplicationSu
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -622,6 +636,10 @@ func PrivateApplicationSummaryToMap(obj oci_service_catalog.PrivateApplicationSu
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

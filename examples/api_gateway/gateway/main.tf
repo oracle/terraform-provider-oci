@@ -20,7 +20,7 @@ variable "compartment_ocid" {
 }
 
 variable "gateway_endpoint_type" {
-  default = "PRIVATE"
+  default = "PUBLIC"
 }
 
 variable "gateway_state" {
@@ -51,6 +51,10 @@ variable "deployment_state" {
   default = "ACTIVE"
 }
 
+variable "gateway_ip_mode" {
+  default = "IPV4"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -70,6 +74,12 @@ resource "oci_core_subnet" "regional_subnet" {
   dhcp_options_id   = oci_core_vcn.vcn1.default_dhcp_options_id
 }
 
+resource "oci_core_public_ip" "reserved_public_ip" {
+  compartment_id = var.compartment_ocid
+  display_name   = "reservedPublicIp"
+  lifetime       = "RESERVED"
+}
+
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
@@ -87,6 +97,11 @@ resource "oci_apigateway_gateway" "test_gateway" {
   compartment_id = var.compartment_ocid
   endpoint_type  = var.gateway_endpoint_type
   subnet_id      = oci_core_subnet.regional_subnet.id
+  ip_mode        = var.gateway_ip_mode
+  #Optional
+  ipv4address_configuration {
+    reserved_ip_ids = [oci_core_public_ip.reserved_public_ip.id]
+  }
 }
 
 resource "oci_apigateway_deployment" "test_deployment" {

@@ -12,8 +12,11 @@ resource "oci_core_instance" "test_instance" {
   availability_domain = data.oci_identity_availability_domain.bastion_ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "TestInstance"
-  shape               = "VM.Standard2.1"
-
+  shape = "VM.Standard.E4.Flex"
+  shape_config {
+    ocpus         = 1
+    memory_in_gbs = 16
+  }
   agent_config {
     are_all_plugins_disabled  = false
     is_management_disabled    = false

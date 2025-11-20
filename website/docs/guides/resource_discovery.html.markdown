@@ -218,6 +218,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `optimizer` - Discovers optimizer resources within the specified compartment
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `psa` - Discovers psa resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
@@ -359,7 +360,6 @@ ai_language
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
-* oci\_ai\_language\_job
 
 ai_vision
     
@@ -758,6 +758,8 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault
 * oci\_dbmulticloud\_oracle\_db\_gcp\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
+* oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
+* oci\_dbmulticloud\_oracle\_db\_aws\_key
 
 delegate_access_control
     
@@ -800,7 +802,6 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
-* oci\_disaster\_recovery\_automatic\_dr\_configuration
 
 dns
     
@@ -1263,6 +1264,10 @@ osp_gateway
     
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
+
+psa
+    
+* oci\_psa\_private\_service\_acces
 
 psql
     

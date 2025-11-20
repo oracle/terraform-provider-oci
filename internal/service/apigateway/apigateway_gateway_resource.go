@@ -142,6 +142,73 @@ func ApigatewayGatewayResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ip_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"ipv4address_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"reserved_ip_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"ipv6address_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"addresses": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"subnet_cidrs": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -406,6 +473,32 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if ipMode, ok := s.D.GetOkExists("ip_mode"); ok {
+		request.IpMode = oci_apigateway.GatewayIpModeEnum(ipMode.(string))
+	}
+
+	if ipv4AddressConfiguration, ok := s.D.GetOkExists("ipv4address_configuration"); ok {
+		if tmpList := ipv4AddressConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ipv4address_configuration", 0)
+			tmp, err := s.mapToIpv4AddressConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Ipv4AddressConfiguration = &tmp
+		}
+	}
+
+	if ipv6AddressConfiguration, ok := s.D.GetOkExists("ipv6address_configuration"); ok {
+		if tmpList := ipv6AddressConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ipv6address_configuration", 0)
+			tmp, err := s.mapToIpv6AddressConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Ipv6AddressConfiguration = &tmp
+		}
 	}
 
 	if locks, ok := s.D.GetOkExists("locks"); ok {
@@ -772,6 +865,20 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 	}
 	s.D.Set("ip_addresses", ipAddresses)
 
+	s.D.Set("ip_mode", s.Res.IpMode)
+
+	if s.Res.Ipv4AddressConfiguration != nil {
+		s.D.Set("ipv4address_configuration", []interface{}{Ipv4AddressConfigurationToMap(s.Res.Ipv4AddressConfiguration)})
+	} else {
+		s.D.Set("ipv4address_configuration", nil)
+	}
+
+	if s.Res.Ipv6AddressConfiguration != nil {
+		s.D.Set("ipv6address_configuration", []interface{}{Ipv6AddressConfigurationToMap(s.Res.Ipv6AddressConfiguration)})
+	} else {
+		s.D.Set("ipv6address_configuration", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -933,6 +1040,8 @@ func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary, datasource bool) map
 		result["id"] = string(*obj.Id)
 	}
 
+	result["ip_mode"] = string(obj.IpMode)
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -988,6 +1097,75 @@ func GatewayIpAddressToMap(obj oci_apigateway.IpAddress) map[string]interface{} 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
+
+	return result
+}
+
+func (s *ApigatewayGatewayResourceCrud) mapToIpv4AddressConfiguration(fieldKeyFormat string) (oci_apigateway.Ipv4AddressConfiguration, error) {
+	result := oci_apigateway.Ipv4AddressConfiguration{}
+
+	if reservedIpIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reserved_ip_ids")); ok {
+		interfaces := reservedIpIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "reserved_ip_ids")) {
+			result.ReservedIpIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func Ipv4AddressConfigurationToMap(obj *oci_apigateway.Ipv4AddressConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["reserved_ip_ids"] = obj.ReservedIpIds
+
+	return result
+}
+
+func (s *ApigatewayGatewayResourceCrud) mapToIpv6AddressConfiguration(fieldKeyFormat string) (oci_apigateway.Ipv6AddressConfiguration, error) {
+	result := oci_apigateway.Ipv6AddressConfiguration{}
+
+	if addresses, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "addresses")); ok {
+		interfaces := addresses.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "addresses")) {
+			result.Addresses = tmp
+		}
+	}
+
+	if subnetCidrs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_cidrs")); ok {
+		interfaces := subnetCidrs.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "subnet_cidrs")) {
+			result.SubnetCidrs = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func Ipv6AddressConfigurationToMap(obj *oci_apigateway.Ipv6AddressConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["addresses"] = obj.Addresses
+
+	result["subnet_cidrs"] = obj.SubnetCidrs
 
 	return result
 }

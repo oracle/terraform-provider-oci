@@ -29,10 +29,6 @@ type UpdateVolumeKmsKeyRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The endpoint that will be used to get the resource principal token
-	// of the parent resource.
-	OpcParentResourcePrincipalTokenUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-resource-principal-token-url"`
-
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

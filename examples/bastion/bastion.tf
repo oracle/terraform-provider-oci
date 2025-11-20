@@ -24,6 +24,10 @@ variable "bastion_name" {
   default = "bastionExample"
 }
 
+variable "bastionWithSA_name" {
+  default = "bastionExampleWithSA"
+}
+
 variable "bastion_freeform_tags" {
   default = {
     "bar-key" = "bastion_test"
@@ -42,13 +46,13 @@ variable "tag_namespace_name" {
   default = "testexamples-tag-namespace"
 }
 
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+  #version          = "7.22.0"
 }
 
 resource "oci_bastion_bastion" "test_bastion" {
@@ -56,7 +60,6 @@ resource "oci_bastion_bastion" "test_bastion" {
   bastion_type                   = "STANDARD"
   compartment_id                 = var.compartment_ocid
   target_subnet_id               = oci_core_subnet.test_subnet.id
-
   #Optional
   client_cidr_block_allow_list = var.bastion_client_cidr_block_allow_list
   defined_tags                 = {
@@ -67,6 +70,26 @@ resource "oci_bastion_bastion" "test_bastion" {
   max_session_ttl_in_seconds   = var.bastion_max_session_ttl_in_seconds
 }
 
+resource "oci_bastion_bastion" "test_bastion_with_security_attribute" {
+  #Required
+  bastion_type                   = "STANDARD"
+  compartment_id                 = var.compartment_ocid
+  target_subnet_id               = oci_core_subnet.test_subnet.id
+  #Optional
+  client_cidr_block_allow_list = var.bastion_client_cidr_block_allow_list
+  defined_tags                 = {
+    "${oci_identity_tag_namespace.bastion_tag_namespace1.name}.${oci_identity_tag.bastion_tag1.name}" = var.bastion_defined_tags_value
+  }
+  name                         = var.bastionWithSA_name
+  freeform_tags                = var.bastion_freeform_tags
+  max_session_ttl_in_seconds   = var.bastion_max_session_ttl_in_seconds
+  #Similarly you can add SA to session
+  security_attributes = {
+    "oracle-zpr.sensitivity.value" = "42"
+    "oracle-zpr.sensitivity.mode" = "enforce"
+  }
+}
+
 data "oci_bastion_bastions" "test_bastions" {
   #Required
   compartment_id = var.compartment_ocid
@@ -75,9 +98,6 @@ data "oci_bastion_bastions" "test_bastions" {
   bastion_id              = oci_bastion_bastion.test_bastion.id
   bastion_lifecycle_state = var.bastion_bastion_lifecycle_state
   name                    = var.bastion_name
-}
-
-data "oci_core_services" "test_bastion_services" {
 }
 
 data "oci_identity_availability_domain" "bastion_ad" {

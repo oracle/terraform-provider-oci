@@ -23,6 +23,10 @@
 // <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
 // <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
 // <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
+// <br>
+// <b>AWS</b>:<br>
+// <b>Oracle AWS Connector Resource:</b>&nbsp;&nbsp;The Oracle AWS Connector Resource is used to install the AWS Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Google AWS Key Resource:</b>&nbsp;&nbsp;The Oracle AWS Key Resource is used to register and manage a AWS Key within Oracle Cloud Infrastructure (OCI).
 //
 
 package dbmulticloud
@@ -64,6 +68,7 @@ const (
 	OperationTypeMoveAzureVaultAssociation      OperationTypeEnum = "MOVE_AZURE_VAULT_ASSOCIATION"
 	OperationTypePatchDbResource                OperationTypeEnum = "PATCH_DB_RESOURCE"
 	OperationTypeCreateGcpIdentityConfiguration OperationTypeEnum = "CREATE_GCP_IDENTITY_CONFIGURATION"
+	OperationTypeDeleteGcpIdentityConfiguration OperationTypeEnum = "DELETE_GCP_IDENTITY_CONFIGURATION"
 	OperationTypeCreateGcpConnector             OperationTypeEnum = "CREATE_GCP_CONNECTOR"
 	OperationTypeDeleteGcpConnector             OperationTypeEnum = "DELETE_GCP_CONNECTOR"
 	OperationTypeUpdateGcpConnector             OperationTypeEnum = "UPDATE_GCP_CONNECTOR"
@@ -75,6 +80,16 @@ const (
 	OperationTypeUpdateGcpKeyRing               OperationTypeEnum = "UPDATE_GCP_KEY_RING"
 	OperationTypeMoveGcpKeyRing                 OperationTypeEnum = "MOVE_GCP_KEY_RING"
 	OperationTypeRefreshGcpKeyRing              OperationTypeEnum = "REFRESH_GCP_KEY_RING"
+	OperationTypeCreateAwsConnector             OperationTypeEnum = "CREATE_AWS_CONNECTOR"
+	OperationTypeDeleteAwsConnector             OperationTypeEnum = "DELETE_AWS_CONNECTOR"
+	OperationTypeUpdateAwsConnector             OperationTypeEnum = "UPDATE_AWS_CONNECTOR"
+	OperationTypeMoveAwsConnector               OperationTypeEnum = "MOVE_AWS_CONNECTOR"
+	OperationTypeRefreshAwsConnector            OperationTypeEnum = "REFRESH_AWS_CONNECTOR"
+	OperationTypeCreateAwsKey                   OperationTypeEnum = "CREATE_AWS_KEY"
+	OperationTypeDeleteAwsKey                   OperationTypeEnum = "DELETE_AWS_KEY"
+	OperationTypeUpdateAwsKey                   OperationTypeEnum = "UPDATE_AWS_KEY"
+	OperationTypeMoveAwsKey                     OperationTypeEnum = "MOVE_AWS_KEY"
+	OperationTypeRefreshAwsKey                  OperationTypeEnum = "REFRESH_AWS_KEY"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -106,6 +121,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_AZURE_VAULT_ASSOCIATION":      OperationTypeMoveAzureVaultAssociation,
 	"PATCH_DB_RESOURCE":                 OperationTypePatchDbResource,
 	"CREATE_GCP_IDENTITY_CONFIGURATION": OperationTypeCreateGcpIdentityConfiguration,
+	"DELETE_GCP_IDENTITY_CONFIGURATION": OperationTypeDeleteGcpIdentityConfiguration,
 	"CREATE_GCP_CONNECTOR":              OperationTypeCreateGcpConnector,
 	"DELETE_GCP_CONNECTOR":              OperationTypeDeleteGcpConnector,
 	"UPDATE_GCP_CONNECTOR":              OperationTypeUpdateGcpConnector,
@@ -117,6 +133,16 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_GCP_KEY_RING":               OperationTypeUpdateGcpKeyRing,
 	"MOVE_GCP_KEY_RING":                 OperationTypeMoveGcpKeyRing,
 	"REFRESH_GCP_KEY_RING":              OperationTypeRefreshGcpKeyRing,
+	"CREATE_AWS_CONNECTOR":              OperationTypeCreateAwsConnector,
+	"DELETE_AWS_CONNECTOR":              OperationTypeDeleteAwsConnector,
+	"UPDATE_AWS_CONNECTOR":              OperationTypeUpdateAwsConnector,
+	"MOVE_AWS_CONNECTOR":                OperationTypeMoveAwsConnector,
+	"REFRESH_AWS_CONNECTOR":             OperationTypeRefreshAwsConnector,
+	"CREATE_AWS_KEY":                    OperationTypeCreateAwsKey,
+	"DELETE_AWS_KEY":                    OperationTypeDeleteAwsKey,
+	"UPDATE_AWS_KEY":                    OperationTypeUpdateAwsKey,
+	"MOVE_AWS_KEY":                      OperationTypeMoveAwsKey,
+	"REFRESH_AWS_KEY":                   OperationTypeRefreshAwsKey,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -148,6 +174,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_azure_vault_association":      OperationTypeMoveAzureVaultAssociation,
 	"patch_db_resource":                 OperationTypePatchDbResource,
 	"create_gcp_identity_configuration": OperationTypeCreateGcpIdentityConfiguration,
+	"delete_gcp_identity_configuration": OperationTypeDeleteGcpIdentityConfiguration,
 	"create_gcp_connector":              OperationTypeCreateGcpConnector,
 	"delete_gcp_connector":              OperationTypeDeleteGcpConnector,
 	"update_gcp_connector":              OperationTypeUpdateGcpConnector,
@@ -159,6 +186,16 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_gcp_key_ring":               OperationTypeUpdateGcpKeyRing,
 	"move_gcp_key_ring":                 OperationTypeMoveGcpKeyRing,
 	"refresh_gcp_key_ring":              OperationTypeRefreshGcpKeyRing,
+	"create_aws_connector":              OperationTypeCreateAwsConnector,
+	"delete_aws_connector":              OperationTypeDeleteAwsConnector,
+	"update_aws_connector":              OperationTypeUpdateAwsConnector,
+	"move_aws_connector":                OperationTypeMoveAwsConnector,
+	"refresh_aws_connector":             OperationTypeRefreshAwsConnector,
+	"create_aws_key":                    OperationTypeCreateAwsKey,
+	"delete_aws_key":                    OperationTypeDeleteAwsKey,
+	"update_aws_key":                    OperationTypeUpdateAwsKey,
+	"move_aws_key":                      OperationTypeMoveAwsKey,
+	"refresh_aws_key":                   OperationTypeRefreshAwsKey,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -201,6 +238,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_AZURE_VAULT_ASSOCIATION",
 		"PATCH_DB_RESOURCE",
 		"CREATE_GCP_IDENTITY_CONFIGURATION",
+		"DELETE_GCP_IDENTITY_CONFIGURATION",
 		"CREATE_GCP_CONNECTOR",
 		"DELETE_GCP_CONNECTOR",
 		"UPDATE_GCP_CONNECTOR",
@@ -212,6 +250,16 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_GCP_KEY_RING",
 		"MOVE_GCP_KEY_RING",
 		"REFRESH_GCP_KEY_RING",
+		"CREATE_AWS_CONNECTOR",
+		"DELETE_AWS_CONNECTOR",
+		"UPDATE_AWS_CONNECTOR",
+		"MOVE_AWS_CONNECTOR",
+		"REFRESH_AWS_CONNECTOR",
+		"CREATE_AWS_KEY",
+		"DELETE_AWS_KEY",
+		"UPDATE_AWS_KEY",
+		"MOVE_AWS_KEY",
+		"REFRESH_AWS_KEY",
 	}
 }
 

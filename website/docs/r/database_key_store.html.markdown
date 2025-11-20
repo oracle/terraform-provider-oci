@@ -67,7 +67,7 @@ The following attributes are exported:
 	* `id` - The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `associated_long_term_backup_count` - Indicates the number of long term backups of Autonomous Databases associated with this backup destination.
 * `associated_long_term_backups` - List of long term backups of Autonomous Databases associated with this backup destination.The maximum associated number of long term backup listed here would be 1024.
-	* `display_name` - The display name for the long term backup for the autonomous database.
+	* `display_name` - The display name for the long term backup for the Autonomous Database.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

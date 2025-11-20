@@ -253,13 +253,25 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AWS",
 											"AZURE",
+											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"aws_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"google_cloud_provider_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -338,22 +350,24 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"hsm_password": {
-										Type:      schema.TypeString,
-										Required:  true,
-										Sensitive: true,
-									},
 									"provider_type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"AWS",
 											"AZURE",
+											"GCP",
 											"EXTERNAL",
 										}, true),
 									},
 
 									// Optional
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Sensitive: true,
+									},
 
 									// Computed
 								},
@@ -532,6 +546,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"data_loss_exposure": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"database_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -540,11 +558,31 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"failover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"failover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"is_active_data_guard_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -1687,6 +1725,10 @@ func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string
 		result["apply_rate"] = string(*obj.ApplyRate)
 	}
 
+	if obj.DataLossExposure != nil {
+		result["data_loss_exposure"] = string(*obj.DataLossExposure)
+	}
+
 	if obj.DatabaseId != nil {
 		result["database_id"] = string(*obj.DatabaseId)
 	}
@@ -1695,11 +1737,27 @@ func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string
 		result["db_system_id"] = string(*obj.DbSystemId)
 	}
 
+	result["failover_readiness"] = string(obj.FailoverReadiness)
+
+	if obj.FailoverReadinessMessage != nil {
+		result["failover_readiness_message"] = string(*obj.FailoverReadinessMessage)
+	}
+
 	if obj.IsActiveDataGuardEnabled != nil {
 		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
 	}
 
 	result["role"] = string(obj.Role)
+
+	result["switchover_readiness"] = string(obj.SwitchoverReadiness)
+
+	if obj.SwitchoverReadinessMessage != nil {
+		result["switchover_readiness_message"] = string(*obj.SwitchoverReadinessMessage)
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
 
 	if obj.TransportLag != nil {
 		result["transport_lag"] = string(*obj.TransportLag)
@@ -1795,11 +1853,25 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 		providerType = "" // default value
 	}
 	switch strings.ToLower(providerType) {
+	case strings.ToLower("AWS"):
+		details := oci_database.AwsEncryptionKeyDetails{}
+		if awsEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_id")); ok {
+			tmp := awsEncryptionKeyId.(string)
+			details.AwsEncryptionKeyId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("AZURE"):
 		details := oci_database.AzureEncryptionKeyDetails{}
 		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
 			tmp := azureEncryptionKeyId.(string)
 			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GCP"):
+		details := oci_database.GoogleCloudProviderEncryptionKeyDetails{}
+		if googleCloudProviderEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "google_cloud_provider_encryption_key_id")); ok {
+			tmp := googleCloudProviderEncryptionKeyId.(string)
+			details.GoogleCloudProviderEncryptionKeyId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("EXTERNAL"):
@@ -1818,6 +1890,12 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails, hsmPassword string) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_database.AwsEncryptionKeyDetails:
+		result["provider_type"] = "AWS"
+
+		if v.AwsEncryptionKeyId != nil {
+			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
 	case oci_database.AzureEncryptionKeyDetails:
 		result["provider_type"] = "AZURE"
 
@@ -1828,6 +1906,12 @@ func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDe
 		result["provider_type"] = "EXTERNAL"
 		result["hsm_password"] = hsmPassword
 
+	case oci_database.GoogleCloudProviderEncryptionKeyDetails:
+		result["provider_type"] = "GCP"
+
+		if v.GoogleCloudProviderEncryptionKeyId != nil {
+			result["google_cloud_provider_encryption_key_id"] = string(*v.GoogleCloudProviderEncryptionKeyId)
+		}
 	default:
 		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
 		return nil
@@ -1981,6 +2065,12 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 				}
 				if strings.EqualFold(action, "dgConfig") {
 					err := s.dataGuardConfigUpdate(tmp)
+					if err != nil {
+						return err
+					}
+				}
+				if strings.EqualFold(action, "refresh") {
+					err := s.refreshDataguardHealth(tmp)
 					if err != nil {
 						return err
 					}
@@ -2435,6 +2525,29 @@ func (s *DatabaseDatabaseResourceCrud) dataGuardConfigUpdate(databaseId string) 
 			return err
 		}
 	}
+	val := s.D.Get("action_trigger")
+	s.D.Set("action_trigger", val)
+	val2 := s.D.Get("data_guard_action")
+	s.D.Set("data_guard_action", val2)
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) refreshDataguardHealth(databaseId string) error {
+	refreshDataguardHealthRequest := oci_database.RefreshDataGuardHealthStatusRequest{}
+	refreshDataguardHealthRequest.DatabaseId = &databaseId
+
+	response, err := s.Client.RefreshDataGuardHealthStatus(context.Background(), refreshDataguardHealthRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	val := s.D.Get("action_trigger")
 	s.D.Set("action_trigger", val)
 	val2 := s.D.Get("data_guard_action")

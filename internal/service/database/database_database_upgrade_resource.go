@@ -150,6 +150,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"data_loss_exposure": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"database_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -158,11 +162,31 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"failover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"failover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"is_active_data_guard_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"switchover_readiness_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

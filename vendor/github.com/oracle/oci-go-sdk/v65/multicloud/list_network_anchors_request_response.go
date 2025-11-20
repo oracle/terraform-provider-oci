@@ -18,27 +18,31 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/ListNetworkAnchors.go.html to see an example of how to use ListNetworkAnchorsRequest.
 type ListNetworkAnchorsRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
-	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
-
-	// The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
-	SubscriptionServiceName ListNetworkAnchorsSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
-
-	// OMHub Control Plane must know underlying CSP CP Region External Location Name.
-	ExternalLocation *string `mandatory:"true" contributesTo:"query" name:"externalLocation"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
+
+	// The subscription service name of the Cloud Service Provider.
+	SubscriptionServiceName ListNetworkAnchorsSubscriptionServiceNameEnum `mandatory:"false" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given lifecycle state. The
 	// state value is case-insensitive.
-	LifecycleState NetworkAnchorLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	NetworkAnchorLifecycleState NetworkAnchorNetworkAnchorLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"networkAnchorLifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// The Cloud Service Provider region.
+	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
+
 	// A filter to return only NetworkAnchor resources that match the given OCI subnet Id.
 	NetworkAnchorOciSubnetId *string `mandatory:"false" contributesTo:"query" name:"networkAnchorOciSubnetId"`
+
+	// If set to true, a list operation will return NetworkAnchors from all child compartments in the provided compartmentId parameter.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// A filter to return only NetworkAnchor resources that match the given OCI Vcn Id.
 	NetworkAnchorOciVcnId *string `mandatory:"false" contributesTo:"query" name:"networkAnchorOciVcnId"`
@@ -55,6 +59,9 @@ type ListNetworkAnchorsRequest struct {
 	// "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Whether to fetch and include the vcn display name, which may introduce additional latency.
+	ShouldFetchVcnName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchVcnName"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListNetworkAnchorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -108,8 +115,8 @@ func (request ListNetworkAnchorsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListNetworkAnchorsSubscriptionServiceNameEnum(string(request.SubscriptionServiceName)); !ok && request.SubscriptionServiceName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubscriptionServiceName: %s. Supported values are: %s.", request.SubscriptionServiceName, strings.Join(GetListNetworkAnchorsSubscriptionServiceNameEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingNetworkAnchorLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetNetworkAnchorLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingNetworkAnchorNetworkAnchorLifecycleStateEnum(string(request.NetworkAnchorLifecycleState)); !ok && request.NetworkAnchorLifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkAnchorLifecycleState: %s. Supported values are: %s.", request.NetworkAnchorLifecycleState, strings.Join(GetNetworkAnchorNetworkAnchorLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListNetworkAnchorsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListNetworkAnchorsSortOrderEnumStringValues(), ",")))

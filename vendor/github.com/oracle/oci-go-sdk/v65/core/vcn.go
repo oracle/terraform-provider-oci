@@ -106,7 +106,7 @@ type Vcn struct {
 	// Example: `vcn1.oraclevcn.com`
 	VcnDomainName *string `mandatory:"false" json:"vcnDomainName"`
 
-	// Indicates whether Zpr Only Mode is enforced.
+	// Indicates whether ZPR Only mode is enforced.
 	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
