@@ -30,12 +30,15 @@ type NetworkAnchorSummary struct {
 	// OCI resource anchor Id (OCID).
 	ResourceAnchorId *string `mandatory:"true" json:"resourceAnchorId"`
 
+	// Defines status of the Network Anchor.
+	NetworkAnchorConnectionStatus NetworkAnchorConnectionStatusEnum `mandatory:"true" json:"networkAnchorConnectionStatus"`
+
 	// The date and time the NetworkAnchor was created, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the NetworkAnchor.
-	LifecycleState NetworkAnchorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	NetworkAnchorLifecycleState NetworkAnchorNetworkAnchorLifecycleStateEnum `mandatory:"true" json:"networkAnchorLifecycleState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -50,12 +53,24 @@ type NetworkAnchorSummary struct {
 	// OCI resource Id of VCN.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
+	// Name of the VCN associated to the Network Anchor.
+	VcnName *string `mandatory:"false" json:"vcnName"`
+
 	// The CPG ID in which Network Anchor will be created.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
 	// The date and time the NetworkAnchor was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
+
+	// Network Anchor Id in the Cloud Service Provider.
+	CspNetworkAnchorId *string `mandatory:"false" json:"cspNetworkAnchorId"`
+
+	// CSP network anchor Uri
+	NetworkAnchorUri *string `mandatory:"false" json:"networkAnchorUri"`
 
 	// A message that describes the current state of the NetworkAnchor in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
@@ -64,6 +79,9 @@ type NetworkAnchorSummary struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Oracle Cloud Infrastructure Subscription Type.
+	SubscriptionType SubscriptionTypeEnum `mandatory:"false" json:"subscriptionType,omitempty"`
 }
 
 func (m NetworkAnchorSummary) String() string {
@@ -75,10 +93,16 @@ func (m NetworkAnchorSummary) String() string {
 // Not recommended for calling this function directly
 func (m NetworkAnchorSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNetworkAnchorLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkAnchorLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingNetworkAnchorConnectionStatusEnum(string(m.NetworkAnchorConnectionStatus)); !ok && m.NetworkAnchorConnectionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkAnchorConnectionStatus: %s. Supported values are: %s.", m.NetworkAnchorConnectionStatus, strings.Join(GetNetworkAnchorConnectionStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingNetworkAnchorNetworkAnchorLifecycleStateEnum(string(m.NetworkAnchorLifecycleState)); !ok && m.NetworkAnchorLifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkAnchorLifecycleState: %s. Supported values are: %s.", m.NetworkAnchorLifecycleState, strings.Join(GetNetworkAnchorNetworkAnchorLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSubscriptionTypeEnum(string(m.SubscriptionType)); !ok && m.SubscriptionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubscriptionType: %s. Supported values are: %s.", m.SubscriptionType, strings.Join(GetSubscriptionTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

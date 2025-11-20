@@ -28,6 +28,7 @@ resource "oci_datacatalog_catalog_private_endpoint" "test_catalog_private_endpoi
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.catalog_private_endpoint_display_name
 	freeform_tags = {"bar-key"= "value"}
+	security_attributes = var.catalog_private_endpoint_security_attributes
 }
 ```
 
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) Display name of the private endpoint resource being created.
 * `dns_zones` - (Required) (Updatable) List of DNS zones to be used by the data assets to be harvested. Example: custpvtsubnet.oraclevcn.com for data asset: db.custpvtsubnet.oraclevcn.com 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `subnet_id` - (Required) The OCID of subnet to which the reverse connection is to be created 
 
 
@@ -63,6 +65,7 @@ The following attributes are exported:
 	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `state` - The current state of the private endpoint resource.
 * `subnet_id` - Subnet Identifier
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

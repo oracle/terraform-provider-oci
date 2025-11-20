@@ -73,6 +73,14 @@ type ZeroEtlPipeline struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
+	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
+	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
+
 	// Mapping for source/target schema/tables for the pipeline data replication.
 	MappingRules []MappingRule `mandatory:"false" json:"mappingRules"`
 
@@ -185,6 +193,16 @@ func (m ZeroEtlPipeline) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m ZeroEtlPipeline) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetSubnetId returns SubnetId
+func (m ZeroEtlPipeline) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetIngressIps returns IngressIps
+func (m ZeroEtlPipeline) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
 }
 
 func (m ZeroEtlPipeline) String() string {

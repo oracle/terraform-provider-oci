@@ -35,7 +35,7 @@ type InvokeRawJsonCommandDetails struct {
 	// Mime content type of json data, default is application/json
 	RequestDataContentType *string `mandatory:"false" json:"requestDataContentType"`
 
-	// request data
+	// request data, maximum 256k
 	RequestData map[string]interface{} `mandatory:"false" json:"requestData"`
 }
 

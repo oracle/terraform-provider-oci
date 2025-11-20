@@ -102,6 +102,20 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 	}
 	s.D.Set("ip_addresses", ipAddresses)
 
+	s.D.Set("ip_mode", s.Res.IpMode)
+
+	if s.Res.Ipv4AddressConfiguration != nil {
+		s.D.Set("ipv4address_configuration", []interface{}{Ipv4AddressConfigurationToMap(s.Res.Ipv4AddressConfiguration)})
+	} else {
+		s.D.Set("ipv4address_configuration", nil)
+	}
+
+	if s.Res.Ipv6AddressConfiguration != nil {
+		s.D.Set("ipv6address_configuration", []interface{}{Ipv6AddressConfigurationToMap(s.Res.Ipv6AddressConfiguration)})
+	} else {
+		s.D.Set("ipv6address_configuration", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

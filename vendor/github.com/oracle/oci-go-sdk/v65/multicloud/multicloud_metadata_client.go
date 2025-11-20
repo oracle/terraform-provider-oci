@@ -92,113 +92,6 @@ func (client *MetadataClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // ListExternalLocationDetailsMetadata List externalLocationDetail metadata from OCI to Cloud  Service Provider for regions, Availability Zones, and Cluster Placement Group ID.
-// examples:
-//
-//	application-json: |
-//	  [
-//	    {
-//	        "externalLocation": {
-//	          "cspRegion": "East US",
-//	          "cspPhysicalAz": "az1-xyz",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az1",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-1 or aws-account-id-1, gcp-project-id-1"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad1-xyb",
-//	        "ociLogicalAd": "ad2",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-1"
-//	    },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US",
-//	          "cspPhysicalAz": "az2-abc",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az2",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-2 or aws-account-id-2, gcp-project-id-2"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad2-xby",
-//	        "ociLogicalAd": "ad1",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-2"
-//	      },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US",
-//	          "cspPhysicalAz": "az3-abz",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az3",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-3 or aws-account-id-3, gcp-project-id-3"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad3-cde",
-//	        "ociLogicalAd": "ad3",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-3"
-//	      },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US 2",
-//	          "cspPhysicalAz": "az1-def",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az1",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-4 or aws-account-id-4, gcp-project-id-4"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad1-bce",
-//	        "ociLogicalAd": "ad2",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-4"
-//	      },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US 2",
-//	          "cspPhysicalAz": "az2-uvw",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az2",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-3 or aws-account-id-3, gcp-project-id-3"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad2-ftc",
-//	        "ociLogicalAd": "ad1",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-5"
-//	      },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US 2",
-//	          "cspPhysicalAz": "az3-uvw",
-//	          "cspPhysicalAzDisplayName": "(US) East US 2",
-//	          "cspLogicalAz": "az3",
-//	          "serviceName": "ORACLEDBATAZURE",
-//	          "cspZoneKeyReferenceId": {
-//	            "keyName": "AzureSubscriptionId or AwsAccountId, GcpProjectName",
-//	            "keyValue": "azure-subscriptionId-3 or aws-account-id-3, gcp-project-id-3"
-//	          }
-//	        },
-//	        "ociPhysicalAd": "ad3-stc",
-//	        "ociLogicalAd": "ad3",
-//	        "ociRegion": "us-ashburn-1",
-//	        "cpgId": "cpg-6"
-//	      }
-//	    ]
 //
 // # See also
 //
@@ -257,55 +150,6 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 }
 
 // ListExternalLocationMappingMetadata List externalLocation metadata from OCI to the Cloud Service Provider for regions, Physical Availability Zones.
-// examples:
-//
-//	application-json: |
-//	  [
-//	    {
-//	      "externalLocation": {
-//	        "cspRegion": "eastus",
-//	        "cspPhysicalAz": "eastus-az1",
-//	        "cspPhysicalAzDisplayName": "(US) East US 1",
-//	        "serviceName": "ORACLEDBATAZURE"
-//	      },
-//	      "ociPhysicalAd": "iad-ad-1",
-//	      "ociLogicalAd": "ad1",
-//	      "ociRegion": "us-ashburn-1"
-//	  },
-//	    {
-//	      "externalLocation": {
-//	        "cspRegion": "eastus",
-//	        "cspPhysicalAz": "eastus-az1",
-//	        "cspPhysicalAzDisplayName": "(US) East US 1",
-//	        "serviceName": "ORACLEDBATAZURE"
-//	      },
-//	      "ociPhysicalAd": "iad-ad-1",
-//	      "ociLogicalAd": "ad1",
-//	      "ociRegion": "us-ashburn-1"
-//	    },
-//	    {
-//	      "externalLocation": {
-//	        "cspRegion": "eastus2",
-//	        "cspPhysicalAz": "eastus2-az3",
-//	        "cspPhysicalAzDisplayName": "(US) East US 1",
-//	        "serviceName": "ORACLEDBATAZURE"
-//	      },
-//	      "ociPhysicalAd": "iad-ad-2",
-//	      "ociLogicalAd": "ad1",
-//	      "ociRegion": "us-ashburn-1"
-//	    },
-//	    {
-//	      "externalLocation": {
-//	        "cspRegion": "eastus",
-//	        "cspPhysicalAz": "eastus-az3"
-//	        "cspPhysicalAzDisplayName": "(US) East US 1",
-//	        "serviceName": "ORACLEDBATAZURE"
-//	      },
-//	      "ociPhysicalAd": "iad-ad-333",
-//	      "ociLogicalAd": "ad1",
-//	      "ociRegion": "us-ashburn-1"
-//	    }
-//	  ]
 //
 // # See also
 //
@@ -364,29 +208,6 @@ func (client MetadataClient) listExternalLocationMappingMetadata(ctx context.Con
 }
 
 // ListExternalLocationSummariesMetadata List externalLocationSummary metadata from OCI Region to the Cloud Service Provider region across all regions.
-// examples:
-//
-//	application-json: |
-//	  [
-//	    {
-//	        "externalLocation": {
-//	          "cspRegion": "East US"
-//	        },
-//	        "ociRegion": "us-ashburn-1"
-//	    },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "East US 2"
-//	        },
-//	        "ociRegion": "us-ashburn-1"
-//	      },
-//	      {
-//	        "externalLocation": {
-//	          "cspRegion": "Germany West Central"
-//	        },
-//	        "ociRegion": "eu-frankfurt-1",
-//	      }
-//	    ]
 //
 // # See also
 //

@@ -47,6 +47,21 @@ type ResourceAnchorSummary struct {
 	// Oracle Cloud Infrastructure Subscription Id
 	SubscriptionId *string `mandatory:"true" json:"subscriptionId"`
 
+	// The name assigned to the compartment during creation.
+	CompartmentName *string `mandatory:"false" json:"compartmentName"`
+
+	// Partner Cloud Account Identifier of the Cloud Service Provider.
+	PartnerCloudAccountIdentifier *string `mandatory:"false" json:"partnerCloudAccountIdentifier"`
+
+	// Resource Anchor Id in the Cloud Service Provider.
+	CspResourceAnchorId *string `mandatory:"false" json:"cspResourceAnchorId"`
+
+	// Resource Anchor Name in the Cloud Service Provider.
+	CspResourceAnchorName *string `mandatory:"false" json:"cspResourceAnchorName"`
+
+	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
+
 	// The date and time the ResourceAnchor was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -58,6 +73,13 @@ type ResourceAnchorSummary struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Optional - Oracle Cloud Infrastructure compartment Id (OCID) which was created or linked by customer with resource anchor.
+	// This compartmentId is different from where resource Anchor live.
+	LinkedCompartmentId *string `mandatory:"false" json:"linkedCompartmentId"`
+
+	// The name assigned to the compartment which was created or linked by customer with resource anchor. This compartment is different from where resource Anchor live.
+	LinkedCompartmentName *string `mandatory:"false" json:"linkedCompartmentName"`
 }
 
 func (m ResourceAnchorSummary) String() string {

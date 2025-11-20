@@ -59,13 +59,11 @@ func IotDigitalTwinInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"digital_twin_model_spec_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -281,6 +279,16 @@ func (s *IotDigitalTwinInstanceResourceCrud) UpdateWithContext(ctx context.Conte
 
 	tmp := s.D.Id()
 	request.DigitalTwinInstanceId = &tmp
+
+	if digitalTwinModelId, ok := s.D.GetOkExists("digital_twin_model_id"); ok {
+		tmp := digitalTwinModelId.(string)
+		request.DigitalTwinModelId = &tmp
+	}
+
+	if digitalTwinModelSpecUri, ok := s.D.GetOkExists("digital_twin_model_spec_uri"); ok {
+		tmp := digitalTwinModelSpecUri.(string)
+		request.DigitalTwinModelSpecUri = &tmp
+	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)

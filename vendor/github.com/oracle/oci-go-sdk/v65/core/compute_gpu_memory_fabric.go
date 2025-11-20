@@ -63,6 +63,26 @@ type ComputeGpuMemoryFabric struct {
 	// The total number of available bare metal hosts located in this compute GPU memory fabric.
 	AvailableHostCount *int64 `mandatory:"false" json:"availableHostCount"`
 
+	// The host platform identifier used for bundle queries
+	HostPlatformName *string `mandatory:"false" json:"hostPlatformName"`
+
+	// The switch platform identifier used for bundle queries
+	SwitchPlatformName *string `mandatory:"false" json:"switchPlatformName"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for current firmware bundle
+	CurrentFirmwareBundleId *string `mandatory:"false" json:"currentFirmwareBundleId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for targeted firmware bundle
+	TargetFirmwareBundleId *string `mandatory:"false" json:"targetFirmwareBundleId"`
+
+	// The state of Memory Fabric Firmware update
+	FirmwareUpdateState ComputeGpuMemoryFabricFirmwareUpdateStateEnum `mandatory:"false" json:"firmwareUpdateState,omitempty"`
+
+	// The reason for updating firmware bundle version of the GPU memory fabric.
+	FirmwareUpdateReason *string `mandatory:"false" json:"firmwareUpdateReason"`
+
+	MemoryFabricPreferences *MemoryFabricPreferencesDescriptor `mandatory:"false" json:"memoryFabricPreferences"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -98,6 +118,9 @@ func (m ComputeGpuMemoryFabric) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FabricHealth: %s. Supported values are: %s.", m.FabricHealth, strings.Join(GetComputeGpuMemoryFabricFabricHealthEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingComputeGpuMemoryFabricFirmwareUpdateStateEnum(string(m.FirmwareUpdateState)); !ok && m.FirmwareUpdateState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FirmwareUpdateState: %s. Supported values are: %s.", m.FirmwareUpdateState, strings.Join(GetComputeGpuMemoryFabricFirmwareUpdateStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -197,5 +220,51 @@ func GetComputeGpuMemoryFabricFabricHealthEnumStringValues() []string {
 // GetMappingComputeGpuMemoryFabricFabricHealthEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingComputeGpuMemoryFabricFabricHealthEnum(val string) (ComputeGpuMemoryFabricFabricHealthEnum, bool) {
 	enum, ok := mappingComputeGpuMemoryFabricFabricHealthEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ComputeGpuMemoryFabricFirmwareUpdateStateEnum Enum with underlying type: string
+type ComputeGpuMemoryFabricFirmwareUpdateStateEnum string
+
+// Set of constants representing the allowable values for ComputeGpuMemoryFabricFirmwareUpdateStateEnum
+const (
+	ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate         ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "WILL_UPDATE"
+	ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate           ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "NO_UPDATE"
+	ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled ComputeGpuMemoryFabricFirmwareUpdateStateEnum = "SKIP_RECYCLE_ENABLED"
+)
+
+var mappingComputeGpuMemoryFabricFirmwareUpdateStateEnum = map[string]ComputeGpuMemoryFabricFirmwareUpdateStateEnum{
+	"WILL_UPDATE":          ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
+	"NO_UPDATE":            ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
+	"SKIP_RECYCLE_ENABLED": ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled,
+}
+
+var mappingComputeGpuMemoryFabricFirmwareUpdateStateEnumLowerCase = map[string]ComputeGpuMemoryFabricFirmwareUpdateStateEnum{
+	"will_update":          ComputeGpuMemoryFabricFirmwareUpdateStateWillUpdate,
+	"no_update":            ComputeGpuMemoryFabricFirmwareUpdateStateNoUpdate,
+	"skip_recycle_enabled": ComputeGpuMemoryFabricFirmwareUpdateStateSkipRecycleEnabled,
+}
+
+// GetComputeGpuMemoryFabricFirmwareUpdateStateEnumValues Enumerates the set of values for ComputeGpuMemoryFabricFirmwareUpdateStateEnum
+func GetComputeGpuMemoryFabricFirmwareUpdateStateEnumValues() []ComputeGpuMemoryFabricFirmwareUpdateStateEnum {
+	values := make([]ComputeGpuMemoryFabricFirmwareUpdateStateEnum, 0)
+	for _, v := range mappingComputeGpuMemoryFabricFirmwareUpdateStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetComputeGpuMemoryFabricFirmwareUpdateStateEnumStringValues Enumerates the set of values in String for ComputeGpuMemoryFabricFirmwareUpdateStateEnum
+func GetComputeGpuMemoryFabricFirmwareUpdateStateEnumStringValues() []string {
+	return []string{
+		"WILL_UPDATE",
+		"NO_UPDATE",
+		"SKIP_RECYCLE_ENABLED",
+	}
+}
+
+// GetMappingComputeGpuMemoryFabricFirmwareUpdateStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingComputeGpuMemoryFabricFirmwareUpdateStateEnum(val string) (ComputeGpuMemoryFabricFirmwareUpdateStateEnum, bool) {
+	enum, ok := mappingComputeGpuMemoryFabricFirmwareUpdateStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -82,6 +82,13 @@ type GatewaySummary struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both.
+	// `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will
+	// only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6
+	// address assigned to it.
+	// Example: `IPV4` or `IPV6` or `DUAL_STACK`
+	IpMode GatewayIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 }
 
 func (m GatewaySummary) String() string {
@@ -99,6 +106,9 @@ func (m GatewaySummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingGatewayLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGatewayLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingGatewayIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetGatewayIpModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

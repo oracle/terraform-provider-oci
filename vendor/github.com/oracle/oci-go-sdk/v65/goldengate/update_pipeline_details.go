@@ -36,6 +36,10 @@ type UpdatePipelineDetails interface {
 	// Tags defined for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	GetSubnetId() *string
 }
 
 type updatepipelinedetails struct {
@@ -45,6 +49,7 @@ type updatepipelinedetails struct {
 	LicenseModel LicenseModelEnum                  `mandatory:"false" json:"licenseModel,omitempty"`
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SubnetId     *string                           `mandatory:"false" json:"subnetId"`
 	RecipeType   string                            `json:"recipeType"`
 }
 
@@ -64,6 +69,7 @@ func (m *updatepipelinedetails) UnmarshalJSON(data []byte) error {
 	m.LicenseModel = s.Model.LicenseModel
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SubnetId = s.Model.SubnetId
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -111,6 +117,11 @@ func (m updatepipelinedetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m updatepipelinedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSubnetId returns SubnetId
+func (m updatepipelinedetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m updatepipelinedetails) String() string {

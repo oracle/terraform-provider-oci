@@ -108,6 +108,7 @@ func init() {
 		globalvar.DefinedTagsToIgnore:                         "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
 		globalvar.RealmSpecificServiceEndpointTemplateEnabled: "(Optional) flags to enable realm specific service endpoint.",
 		globalvar.DualStackEndpointEnabled:                    "(Optional) flags to enable Dual Stack endpoint.",
+		globalvar.RetriesConfigFile:                           "(Optional) Config file which has the configuration for 4xx and 5xx retries in JSON format",
 	}
 }
 
@@ -216,6 +217,11 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[globalvar.DualStackEndpointEnabled],
 		},
+		globalvar.RetriesConfigFile: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.RetriesConfigFile],
+		},
 	}
 }
 
@@ -269,6 +275,13 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 			val = time.Duration(globalvar.MaxInt64)
 		}
 		tf_resource.ConfiguredRetryDuration = &val
+	}
+
+	if retriesConfigFile, exists := d.GetOkExists(globalvar.RetriesConfigFile); exists {
+		err := tf_resource.SetRetriesConfig(retriesConfigFile.(string))
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	sdkConfigProvider, err := GetSdkConfigProvider(d, clients)
