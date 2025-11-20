@@ -60,6 +60,7 @@ The following attributes are exported:
 * `name` - The name of the bastion, which can't be changed after creation.
 * `phone_book_entry` - The phonebook entry of the customer's team, which can't be changed after creation. Not applicable to `standard` bastions. 
 * `private_endpoint_ip_address` - The private IP address of the created private endpoint.
+* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls. Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
 * `state` - The current state of the bastion.
 * `static_jump_host_ip_addresses` - A list of IP addresses of the hosts that the bastion has access to. Not applicable to `standard` bastions. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

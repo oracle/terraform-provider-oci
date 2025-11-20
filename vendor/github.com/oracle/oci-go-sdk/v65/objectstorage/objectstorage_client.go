@@ -212,6 +212,71 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 	return response, err
 }
 
+// BatchDeleteObjects Deletes a batch of objects.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/BatchDeleteObjects.go.html to see an example of how to use BatchDeleteObjects API.
+// A default retry strategy applies to this operation BatchDeleteObjects()
+func (client ObjectStorageClient) BatchDeleteObjects(ctx context.Context, request BatchDeleteObjectsRequest) (response BatchDeleteObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.batchDeleteObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BatchDeleteObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BatchDeleteObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BatchDeleteObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BatchDeleteObjectsResponse")
+	}
+	return
+}
+
+// batchDeleteObjects implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) batchDeleteObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/batchDeleteObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(BatchDeleteObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response BatchDeleteObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/BatchDeleteObjects"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "BatchDeleteObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Cancels a work request.
 //
 // # See also

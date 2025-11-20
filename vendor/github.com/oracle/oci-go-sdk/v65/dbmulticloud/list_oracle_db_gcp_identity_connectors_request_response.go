@@ -24,7 +24,7 @@ type ListOracleDbGcpIdentityConnectorsRequest struct {
 	// A filter to return Oracle DB GCP Identity Connector resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return Oracle DB GCP Identity Connector resource that match the given resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// A filter to return Oracle DB Identity Connector resource that match the given resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// A filter to return only resources that match the specified lifecycle state. The state value is case-insensitive.

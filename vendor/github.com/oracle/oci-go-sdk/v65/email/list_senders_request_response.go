@@ -33,6 +33,9 @@ type ListSendersRequest struct {
 	// The email address of the approved sender.
 	EmailAddress *string `mandatory:"false" contributesTo:"query" name:"emailAddress"`
 
+	// A filter to only return resources that match the given IpPool resource exactly.
+	EmailIpPoolId *string `mandatory:"false" contributesTo:"query" name:"emailIpPoolId"`
+
 	// For list pagination. The value of the opc-next-page response header from the previous "List" call.
 	// For important details about how pagination works,
 	// see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

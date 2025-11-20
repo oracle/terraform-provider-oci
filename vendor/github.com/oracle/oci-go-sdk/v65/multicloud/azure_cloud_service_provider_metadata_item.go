@@ -19,7 +19,7 @@ import (
 // AzureCloudServiceProviderMetadataItem Azure Cloud Service Provider metadata item.
 type AzureCloudServiceProviderMetadataItem struct {
 
-	// CSP resource anchor ID or name.
+	// OCI resource anchor name.
 	ResourceAnchorName *string `mandatory:"true" json:"resourceAnchorName"`
 
 	// Azure resource group that was used for creating this resource.
@@ -31,8 +31,17 @@ type AzureCloudServiceProviderMetadataItem struct {
 	// The Azure, AWS or GCP region.
 	Region *string `mandatory:"false" json:"region"`
 
+	// CSP resource anchor ID.
+	CspResourceAnchorId *string `mandatory:"false" json:"cspResourceAnchorId"`
+
+	// CSP resource anchor name.
+	CspResourceAnchorName *string `mandatory:"false" json:"cspResourceAnchorName"`
+
 	// CSP resource anchor Uri.
 	ResourceAnchorUri *string `mandatory:"false" json:"resourceAnchorUri"`
+
+	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
 }
 
 // GetRegion returns Region
@@ -45,9 +54,24 @@ func (m AzureCloudServiceProviderMetadataItem) GetResourceAnchorName() *string {
 	return m.ResourceAnchorName
 }
 
+// GetCspResourceAnchorId returns CspResourceAnchorId
+func (m AzureCloudServiceProviderMetadataItem) GetCspResourceAnchorId() *string {
+	return m.CspResourceAnchorId
+}
+
+// GetCspResourceAnchorName returns CspResourceAnchorName
+func (m AzureCloudServiceProviderMetadataItem) GetCspResourceAnchorName() *string {
+	return m.CspResourceAnchorName
+}
+
 // GetResourceAnchorUri returns ResourceAnchorUri
 func (m AzureCloudServiceProviderMetadataItem) GetResourceAnchorUri() *string {
 	return m.ResourceAnchorUri
+}
+
+// GetCspAdditionalProperties returns CspAdditionalProperties
+func (m AzureCloudServiceProviderMetadataItem) GetCspAdditionalProperties() map[string]string {
+	return m.CspAdditionalProperties
 }
 
 func (m AzureCloudServiceProviderMetadataItem) String() string {

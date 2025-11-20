@@ -67,6 +67,12 @@ func DatacatalogCatalogPrivateEndpointResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"attached_catalogs": {
@@ -234,6 +240,11 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -451,6 +462,11 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
 		request.IsLockOverride = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateCatalogPrivateEndpoint(context.Background(), request)
@@ -537,6 +553,10 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) SetData() error {
 		locks = append(locks, ResourceLockToMapPe(item))
 	}
 	s.D.Set("locks", locks)
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

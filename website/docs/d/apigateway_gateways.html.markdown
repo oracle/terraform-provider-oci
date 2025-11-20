@@ -61,6 +61,12 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
+* `ip_mode` - Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both. `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6 address assigned to it. Example: `IPV4` or `IPV6` or `DUAL_STACK` 
+* `ipv4address_configuration` - IPv4 address configuration details that should be used when creating the gateway.
+	* `reserved_ip_ids` - List of Reserved IP OCIDs created in VCN service.
+* `ipv6address_configuration` - IPv6 address configuration details that should be used when creating the gateway.
+	* `addresses` - List of IPv6 addresses that will be assigned to the gateway during creation.
+	* `subnet_cidrs` - List of IPv6 prefixes from which to provision IPv6 addresses from. This is required if more than one prefix exists on the subnet.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 

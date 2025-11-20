@@ -55,7 +55,7 @@ var (
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"intermediate_certificates": acctest.Representation{RepType: acctest.Optional, Create: "${var.api_intermediate_certificate_value}"},
 		"locks":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayCertificateLocksRepresentation},
-		"is_lock_override":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_lock_override":          acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesCertificateRepresentation},
 	}
 	ApigatewayCertificateLocksRepresentation = map[string]interface{}{

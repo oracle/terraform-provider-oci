@@ -23,6 +23,10 @@
 // <b>Discover Google Key Rings and Keys Resource:</b>&nbsp;&nbsp;The Discover Google Key Rings and Keys Resource is used to discover Google Cloud Key Rings and the associated encryption keys available in your Google Cloud project.
 // <b>Google Key Rings Resource:</b>&nbsp;&nbsp;The Google Key Rings Resource is used to register and manage Google Cloud Key Rings within Oracle Cloud Infrastructure (OCI) for use with services such as Oracle Exadata Database Service on Dedicated Infrastructure.
 // <b>Google Key Resource:</b>&nbsp;&nbsp;The Google Key Resource is used to register and manage a Google Cloud Key within Oracle Cloud Infrastructure (OCI) under an associated Google Key Ring.
+// <br>
+// <b>AWS</b>:<br>
+// <b>Oracle AWS Connector Resource:</b>&nbsp;&nbsp;The Oracle AWS Connector Resource is used to install the AWS Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
+// <b>Google AWS Key Resource:</b>&nbsp;&nbsp;The Oracle AWS Key Resource is used to register and manage a AWS Key within Oracle Cloud Infrastructure (OCI).
 //
 
 package dbmulticloud
@@ -125,18 +129,21 @@ const (
 	MultiCloudResourceDiscoveryResourceTypeVaults      MultiCloudResourceDiscoveryResourceTypeEnum = "VAULTS"
 	MultiCloudResourceDiscoveryResourceTypeStorage     MultiCloudResourceDiscoveryResourceTypeEnum = "STORAGE"
 	MultiCloudResourceDiscoveryResourceTypeGcpKeyRings MultiCloudResourceDiscoveryResourceTypeEnum = "GCP_KEY_RINGS"
+	MultiCloudResourceDiscoveryResourceTypeAwsKeys     MultiCloudResourceDiscoveryResourceTypeEnum = "AWS_KEYS"
 )
 
 var mappingMultiCloudResourceDiscoveryResourceTypeEnum = map[string]MultiCloudResourceDiscoveryResourceTypeEnum{
 	"VAULTS":        MultiCloudResourceDiscoveryResourceTypeVaults,
 	"STORAGE":       MultiCloudResourceDiscoveryResourceTypeStorage,
 	"GCP_KEY_RINGS": MultiCloudResourceDiscoveryResourceTypeGcpKeyRings,
+	"AWS_KEYS":      MultiCloudResourceDiscoveryResourceTypeAwsKeys,
 }
 
 var mappingMultiCloudResourceDiscoveryResourceTypeEnumLowerCase = map[string]MultiCloudResourceDiscoveryResourceTypeEnum{
 	"vaults":        MultiCloudResourceDiscoveryResourceTypeVaults,
 	"storage":       MultiCloudResourceDiscoveryResourceTypeStorage,
 	"gcp_key_rings": MultiCloudResourceDiscoveryResourceTypeGcpKeyRings,
+	"aws_keys":      MultiCloudResourceDiscoveryResourceTypeAwsKeys,
 }
 
 // GetMultiCloudResourceDiscoveryResourceTypeEnumValues Enumerates the set of values for MultiCloudResourceDiscoveryResourceTypeEnum
@@ -154,6 +161,7 @@ func GetMultiCloudResourceDiscoveryResourceTypeEnumStringValues() []string {
 		"VAULTS",
 		"STORAGE",
 		"GCP_KEY_RINGS",
+		"AWS_KEYS",
 	}
 }
 

@@ -36,6 +36,12 @@ type UpdateDigitalTwinInstanceDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin adapter.
 	DigitalTwinAdapterId *string `mandatory:"false" json:"digitalTwinAdapterId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin model.
+	DigitalTwinModelId *string `mandatory:"false" json:"digitalTwinModelId"`
+
+	// The URI of the digital twin model specification.
+	DigitalTwinModelSpecUri *string `mandatory:"false" json:"digitalTwinModelSpecUri"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

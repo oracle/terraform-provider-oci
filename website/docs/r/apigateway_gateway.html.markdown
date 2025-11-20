@@ -38,6 +38,18 @@ resource "oci_apigateway_gateway" "test_gateway" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
+	ip_mode = var.gateway_ip_mode
+	ipv4address_configuration {
+
+		#Optional
+		reserved_ip_ids = var.gateway_ipv4address_configuration_reserved_ip_ids
+	}
+	ipv6address_configuration {
+
+		#Optional
+		addresses = var.gateway_ipv6address_configuration_addresses
+		subnet_cidrs = var.gateway_ipv6address_configuration_subnet_cidrs
+	}
 	locks {
 		#Required
 		type = var.gateway_locks_type
@@ -81,9 +93,15 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `endpoint_type` - (Required) Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be accessible on a private IP address on the subnet.  Example: `PUBLIC` or `PRIVATE` 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `ip_mode` - (Optional) Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both. `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6 address assigned to it. Example: `IPV4` or `IPV6` or `DUAL_STACK` 
+* `ipv4address_configuration` - (Optional) IPv4 address configuration details that should be used when creating the gateway.
+	* `reserved_ip_ids` - (Optional) List of Reserved IP OCIDs created in VCN service.
+* `ipv6address_configuration` - (Optional) IPv6 address configuration details that should be used when creating the gateway.
+	* `addresses` - (Optional) List of IPv6 addresses that will be assigned to the gateway during creation.
+	* `subnet_cidrs` - (Optional) List of IPv6 prefixes from which to provision IPv6 addresses from. This is required if more than one prefix exists on the subnet.
 * `locks` - (Optional) Locks associated with this resource.
-	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	* `type` - (Required) Type of the lock.
 * `network_security_group_ids` - (Optional) (Updatable) An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - (Optional) (Updatable) Base Gateway response cache. 
@@ -122,6 +140,12 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
+* `ip_mode` - Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both. `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6 address assigned to it. Example: `IPV4` or `IPV6` or `DUAL_STACK` 
+* `ipv4address_configuration` - IPv4 address configuration details that should be used when creating the gateway.
+	* `reserved_ip_ids` - List of Reserved IP OCIDs created in VCN service.
+* `ipv6address_configuration` - IPv6 address configuration details that should be used when creating the gateway.
+	* `addresses` - List of IPv6 addresses that will be assigned to the gateway during creation.
+	* `subnet_cidrs` - List of IPv6 prefixes from which to provision IPv6 addresses from. This is required if more than one prefix exists on the subnet.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 

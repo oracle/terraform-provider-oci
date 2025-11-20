@@ -18,20 +18,30 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/ListExternalLocationDetailsMetadata.go.html to see an example of how to use ListExternalLocationDetailsMetadataRequest.
 type ListExternalLocationDetailsMetadataRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
-	// The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
+	// The subscription service name of the Cloud Service Provider.
 	SubscriptionServiceName ListExternalLocationDetailsMetadataSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// The resource type query (i.e. dbsystem, instance etc.)
 	EntityType ListExternalLocationDetailsMetadataEntityTypeEnum `mandatory:"false" contributesTo:"query" name:"entityType" omitEmpty:"true"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which linked to Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
 	LinkedCompartmentId *string `mandatory:"false" contributesTo:"query" name:"linkedCompartmentId"`
+
+	// The Cloud Service Provider region.
+	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
+
+	// OCI Logical AD to filter the response.
+	LogicalZone *string `mandatory:"false" contributesTo:"query" name:"logicalZone"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster Placement Group.
+	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see

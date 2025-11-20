@@ -38,7 +38,7 @@ type NetworkAnchor struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the NetworkAnchor.
-	LifecycleState NetworkAnchorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	NetworkAnchorLifecycleState NetworkAnchorNetworkAnchorLifecycleStateEnum `mandatory:"true" json:"networkAnchorLifecycleState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -73,6 +73,9 @@ type NetworkAnchor struct {
 	OciMetadataItem *OciNetworkMetadata `mandatory:"false" json:"ociMetadataItem"`
 
 	CloudServiceProviderMetadataItem *CloudServiceProviderNetworkMetadataItem `mandatory:"false" json:"cloudServiceProviderMetadataItem"`
+
+	// Oracle Cloud Infrastructure Subscription Type.
+	SubscriptionType SubscriptionTypeEnum `mandatory:"false" json:"subscriptionType,omitempty"`
 }
 
 func (m NetworkAnchor) String() string {
@@ -84,12 +87,15 @@ func (m NetworkAnchor) String() string {
 // Not recommended for calling this function directly
 func (m NetworkAnchor) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingNetworkAnchorLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkAnchorLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingNetworkAnchorNetworkAnchorLifecycleStateEnum(string(m.NetworkAnchorLifecycleState)); !ok && m.NetworkAnchorLifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkAnchorLifecycleState: %s. Supported values are: %s.", m.NetworkAnchorLifecycleState, strings.Join(GetNetworkAnchorNetworkAnchorLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingNetworkAnchorSetupModeEnum(string(m.SetupMode)); !ok && m.SetupMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SetupMode: %s. Supported values are: %s.", m.SetupMode, strings.Join(GetNetworkAnchorSetupModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSubscriptionTypeEnum(string(m.SubscriptionType)); !ok && m.SubscriptionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubscriptionType: %s. Supported values are: %s.", m.SubscriptionType, strings.Join(GetSubscriptionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -97,48 +103,48 @@ func (m NetworkAnchor) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// NetworkAnchorLifecycleStateEnum Enum with underlying type: string
-type NetworkAnchorLifecycleStateEnum string
+// NetworkAnchorNetworkAnchorLifecycleStateEnum Enum with underlying type: string
+type NetworkAnchorNetworkAnchorLifecycleStateEnum string
 
-// Set of constants representing the allowable values for NetworkAnchorLifecycleStateEnum
+// Set of constants representing the allowable values for NetworkAnchorNetworkAnchorLifecycleStateEnum
 const (
-	NetworkAnchorLifecycleStateCreating NetworkAnchorLifecycleStateEnum = "CREATING"
-	NetworkAnchorLifecycleStateUpdating NetworkAnchorLifecycleStateEnum = "UPDATING"
-	NetworkAnchorLifecycleStateActive   NetworkAnchorLifecycleStateEnum = "ACTIVE"
-	NetworkAnchorLifecycleStateDeleting NetworkAnchorLifecycleStateEnum = "DELETING"
-	NetworkAnchorLifecycleStateDeleted  NetworkAnchorLifecycleStateEnum = "DELETED"
-	NetworkAnchorLifecycleStateFailed   NetworkAnchorLifecycleStateEnum = "FAILED"
+	NetworkAnchorNetworkAnchorLifecycleStateCreating NetworkAnchorNetworkAnchorLifecycleStateEnum = "CREATING"
+	NetworkAnchorNetworkAnchorLifecycleStateUpdating NetworkAnchorNetworkAnchorLifecycleStateEnum = "UPDATING"
+	NetworkAnchorNetworkAnchorLifecycleStateActive   NetworkAnchorNetworkAnchorLifecycleStateEnum = "ACTIVE"
+	NetworkAnchorNetworkAnchorLifecycleStateDeleting NetworkAnchorNetworkAnchorLifecycleStateEnum = "DELETING"
+	NetworkAnchorNetworkAnchorLifecycleStateDeleted  NetworkAnchorNetworkAnchorLifecycleStateEnum = "DELETED"
+	NetworkAnchorNetworkAnchorLifecycleStateFailed   NetworkAnchorNetworkAnchorLifecycleStateEnum = "FAILED"
 )
 
-var mappingNetworkAnchorLifecycleStateEnum = map[string]NetworkAnchorLifecycleStateEnum{
-	"CREATING": NetworkAnchorLifecycleStateCreating,
-	"UPDATING": NetworkAnchorLifecycleStateUpdating,
-	"ACTIVE":   NetworkAnchorLifecycleStateActive,
-	"DELETING": NetworkAnchorLifecycleStateDeleting,
-	"DELETED":  NetworkAnchorLifecycleStateDeleted,
-	"FAILED":   NetworkAnchorLifecycleStateFailed,
+var mappingNetworkAnchorNetworkAnchorLifecycleStateEnum = map[string]NetworkAnchorNetworkAnchorLifecycleStateEnum{
+	"CREATING": NetworkAnchorNetworkAnchorLifecycleStateCreating,
+	"UPDATING": NetworkAnchorNetworkAnchorLifecycleStateUpdating,
+	"ACTIVE":   NetworkAnchorNetworkAnchorLifecycleStateActive,
+	"DELETING": NetworkAnchorNetworkAnchorLifecycleStateDeleting,
+	"DELETED":  NetworkAnchorNetworkAnchorLifecycleStateDeleted,
+	"FAILED":   NetworkAnchorNetworkAnchorLifecycleStateFailed,
 }
 
-var mappingNetworkAnchorLifecycleStateEnumLowerCase = map[string]NetworkAnchorLifecycleStateEnum{
-	"creating": NetworkAnchorLifecycleStateCreating,
-	"updating": NetworkAnchorLifecycleStateUpdating,
-	"active":   NetworkAnchorLifecycleStateActive,
-	"deleting": NetworkAnchorLifecycleStateDeleting,
-	"deleted":  NetworkAnchorLifecycleStateDeleted,
-	"failed":   NetworkAnchorLifecycleStateFailed,
+var mappingNetworkAnchorNetworkAnchorLifecycleStateEnumLowerCase = map[string]NetworkAnchorNetworkAnchorLifecycleStateEnum{
+	"creating": NetworkAnchorNetworkAnchorLifecycleStateCreating,
+	"updating": NetworkAnchorNetworkAnchorLifecycleStateUpdating,
+	"active":   NetworkAnchorNetworkAnchorLifecycleStateActive,
+	"deleting": NetworkAnchorNetworkAnchorLifecycleStateDeleting,
+	"deleted":  NetworkAnchorNetworkAnchorLifecycleStateDeleted,
+	"failed":   NetworkAnchorNetworkAnchorLifecycleStateFailed,
 }
 
-// GetNetworkAnchorLifecycleStateEnumValues Enumerates the set of values for NetworkAnchorLifecycleStateEnum
-func GetNetworkAnchorLifecycleStateEnumValues() []NetworkAnchorLifecycleStateEnum {
-	values := make([]NetworkAnchorLifecycleStateEnum, 0)
-	for _, v := range mappingNetworkAnchorLifecycleStateEnum {
+// GetNetworkAnchorNetworkAnchorLifecycleStateEnumValues Enumerates the set of values for NetworkAnchorNetworkAnchorLifecycleStateEnum
+func GetNetworkAnchorNetworkAnchorLifecycleStateEnumValues() []NetworkAnchorNetworkAnchorLifecycleStateEnum {
+	values := make([]NetworkAnchorNetworkAnchorLifecycleStateEnum, 0)
+	for _, v := range mappingNetworkAnchorNetworkAnchorLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetNetworkAnchorLifecycleStateEnumStringValues Enumerates the set of values in String for NetworkAnchorLifecycleStateEnum
-func GetNetworkAnchorLifecycleStateEnumStringValues() []string {
+// GetNetworkAnchorNetworkAnchorLifecycleStateEnumStringValues Enumerates the set of values in String for NetworkAnchorNetworkAnchorLifecycleStateEnum
+func GetNetworkAnchorNetworkAnchorLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"UPDATING",
@@ -149,9 +155,9 @@ func GetNetworkAnchorLifecycleStateEnumStringValues() []string {
 	}
 }
 
-// GetMappingNetworkAnchorLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingNetworkAnchorLifecycleStateEnum(val string) (NetworkAnchorLifecycleStateEnum, bool) {
-	enum, ok := mappingNetworkAnchorLifecycleStateEnumLowerCase[strings.ToLower(val)]
+// GetMappingNetworkAnchorNetworkAnchorLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingNetworkAnchorNetworkAnchorLifecycleStateEnum(val string) (NetworkAnchorNetworkAnchorLifecycleStateEnum, bool) {
+	enum, ok := mappingNetworkAnchorNetworkAnchorLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

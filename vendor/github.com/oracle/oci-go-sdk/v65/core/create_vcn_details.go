@@ -93,7 +93,7 @@ type CreateVcnDetails struct {
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 
-	// Indicates whether Zpr Only Mode is enforced.
+	// Indicates whether ZPR Only mode is enforced.
 	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 
