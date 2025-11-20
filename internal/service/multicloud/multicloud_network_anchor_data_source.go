@@ -35,6 +35,10 @@ func MulticloudNetworkAnchorDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"should_fetch_vcn_name": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Computed
 			"id": {
 				Type:     schema.TypeString,
@@ -116,6 +120,10 @@ func MulticloudNetworkAnchorDataSource() *schema.Resource {
 
 									// Computed
 									"vcn_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vcn_name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -227,6 +235,11 @@ func MulticloudNetworkAnchorDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"csp_additional_properties": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"dns_forwarding_config": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -234,6 +247,10 @@ func MulticloudNetworkAnchorDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"subscription_type": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -283,6 +300,11 @@ func (s *MulticloudNetworkAnchorDataSourceCrud) Get() error {
 		request.ExternalLocation = &tmp
 	}
 
+	if shouldFetchVcnName, ok := s.D.GetOkExists("should_fetch_vcn_name"); ok {
+		tmp := shouldFetchVcnName.(bool)
+		request.ShouldFetchVcnName = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "multicloud")
 
 	response, err := s.Client.GetNetworkAnchor(context.Background(), request)
@@ -299,7 +321,9 @@ func (s *MulticloudNetworkAnchorDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(*s.Res.Id)
+	if s.Res.Id != nil {
+		s.D.SetId(*s.Res.Id)
+	}
 
 	if s.Res.Id != nil {
 		s.D.Set("id", *s.Res.Id)
@@ -325,8 +349,7 @@ func (s *MulticloudNetworkAnchorDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	// NOTE: Latest SDK (v65.105.0) has breaking changes where the LifecycleState property has been renamed to NetworkAnchorLifecycleState
-	// s.D.Set("network_anchor_lifecycle_state", string(s.Res.LifecycleState))
+	s.D.Set("network_anchor_lifecycle_state", s.Res.NetworkAnchorLifecycleState)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -360,6 +383,8 @@ func (s *MulticloudNetworkAnchorDataSourceCrud) SetData() error {
 		s.D.Set("cloud_service_provider_metadata_item", nil)
 	}
 
+	s.D.Set("subscription_type", s.Res.SubscriptionType)
+
 	return nil
 }
 
@@ -379,6 +404,8 @@ func CloudServiceProviderNetworkMetadataItemToMap(obj *oci_multicloud.CloudServi
 	if obj.NetworkAnchorUri != nil {
 		result["network_anchor_uri"] = string(*obj.NetworkAnchorUri)
 	}
+
+	result["csp_additional_properties"] = obj.CspAdditionalProperties
 
 	dnsForwardingConfig := []interface{}{}
 	for _, item := range obj.DnsForwardingConfig {
@@ -456,6 +483,10 @@ func OciVcnToMap(obj *oci_multicloud.OciVcn) map[string]interface{} {
 
 	if obj.VcnId != nil {
 		result["vcn_id"] = string(*obj.VcnId)
+	}
+
+	if obj.VcnName != nil {
+		result["vcn_name"] = string(*obj.VcnName)
 	}
 
 	result["cidr_blocks"] = obj.CidrBlocks
