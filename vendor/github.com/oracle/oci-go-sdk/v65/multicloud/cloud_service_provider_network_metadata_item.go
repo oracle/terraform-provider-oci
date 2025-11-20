@@ -32,6 +32,9 @@ type CloudServiceProviderNetworkMetadataItem struct {
 	// CSP network anchor Uri
 	NetworkAnchorUri *string `mandatory:"false" json:"networkAnchorUri"`
 
+	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
+
 	// DNS domain ip mapping forwarding configuration
 	DnsForwardingConfig []map[string]string `mandatory:"false" json:"dnsForwardingConfig"`
 }

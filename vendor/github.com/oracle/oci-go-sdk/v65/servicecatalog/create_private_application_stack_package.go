@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -23,7 +24,7 @@ type CreatePrivateApplicationStackPackage struct {
 	Version *string `mandatory:"true" json:"version"`
 
 	// Base-64 payload of the Terraform zip package.
-	ZipFileBase64Encoded *string `mandatory:"false" json:"zipFileBase64Encoded"`
+	ZipFileBase64Encoded *string `mandatory:"true" json:"zipFileBase64Encoded"`
 }
 
 // GetVersion returns Version

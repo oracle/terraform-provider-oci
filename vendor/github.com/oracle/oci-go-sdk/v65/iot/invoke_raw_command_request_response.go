@@ -88,7 +88,7 @@ type InvokeRawCommandResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// URL where the status of command invocation could be retrieved
-	ContentLocation *string `presentIn:"header" name:"content-location"`
+	Location *string `presentIn:"header" name:"location"`
 }
 
 func (response InvokeRawCommandResponse) String() string {

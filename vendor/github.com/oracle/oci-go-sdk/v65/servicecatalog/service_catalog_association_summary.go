@@ -4,7 +4,8 @@
 
 // Service Catalog API
 //
-// Manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// Use the Service Catalog API to manage solutions in Oracle Cloud Infrastructure Service Catalog.
+// For more information, see Overview of Service Catalog (https://docs.oracle.com/iaas/Content/service-catalog/overview_of_service_catalog.htm).
 //
 
 package servicecatalog
@@ -32,6 +33,10 @@ type ServiceCatalogAssociationSummary struct {
 
 	// The type of the entity that is associated with the service catalog.
 	EntityType *string `mandatory:"false" json:"entityType"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ServiceCatalogAssociationSummary) String() string {

@@ -18,16 +18,11 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/ListResourceAnchors.go.html to see an example of how to use ListResourceAnchorsRequest.
 type ListResourceAnchorsRequest struct {
 
-	// The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
-	SubscriptionServiceName ListResourceAnchorsSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
-	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which linked to Resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
 	LinkedCompartmentId *string `mandatory:"false" contributesTo:"query" name:"linkedCompartmentId"`
 
 	// A filter to return only resources that match the given lifecycle state. The
@@ -59,6 +54,15 @@ type ListResourceAnchorsRequest struct {
 
 	// Check the sub-compartments of a given compartmentId
 	IsCompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"isCompartmentIdInSubtree"`
+
+	// Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+	ShouldFetchCompartmentName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchCompartmentName"`
+
+	// The subscription service name of the Cloud Service Provider.
+	SubscriptionServiceName ListResourceAnchorsSubscriptionServiceNameEnum `mandatory:"false" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
@@ -102,9 +106,6 @@ func (request ListResourceAnchorsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListResourceAnchorsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListResourceAnchorsSubscriptionServiceNameEnum(string(request.SubscriptionServiceName)); !ok && request.SubscriptionServiceName != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubscriptionServiceName: %s. Supported values are: %s.", request.SubscriptionServiceName, strings.Join(GetListResourceAnchorsSubscriptionServiceNameEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingResourceAnchorLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetResourceAnchorLifecycleStateEnumStringValues(), ",")))
 	}
@@ -113,6 +114,9 @@ func (request ListResourceAnchorsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListResourceAnchorsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListResourceAnchorsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListResourceAnchorsSubscriptionServiceNameEnum(string(request.SubscriptionServiceName)); !ok && request.SubscriptionServiceName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubscriptionServiceName: %s. Supported values are: %s.", request.SubscriptionServiceName, strings.Join(GetListResourceAnchorsSubscriptionServiceNameEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -145,52 +149,6 @@ func (response ListResourceAnchorsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListResourceAnchorsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListResourceAnchorsSubscriptionServiceNameEnum Enum with underlying type: string
-type ListResourceAnchorsSubscriptionServiceNameEnum string
-
-// Set of constants representing the allowable values for ListResourceAnchorsSubscriptionServiceNameEnum
-const (
-	ListResourceAnchorsSubscriptionServiceNameOracledbatazure  ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATAZURE"
-	ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATGOOGLE"
-	ListResourceAnchorsSubscriptionServiceNameOracledbataws    ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATAWS"
-)
-
-var mappingListResourceAnchorsSubscriptionServiceNameEnum = map[string]ListResourceAnchorsSubscriptionServiceNameEnum{
-	"ORACLEDBATAZURE":  ListResourceAnchorsSubscriptionServiceNameOracledbatazure,
-	"ORACLEDBATGOOGLE": ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle,
-	"ORACLEDBATAWS":    ListResourceAnchorsSubscriptionServiceNameOracledbataws,
-}
-
-var mappingListResourceAnchorsSubscriptionServiceNameEnumLowerCase = map[string]ListResourceAnchorsSubscriptionServiceNameEnum{
-	"oracledbatazure":  ListResourceAnchorsSubscriptionServiceNameOracledbatazure,
-	"oracledbatgoogle": ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle,
-	"oracledbataws":    ListResourceAnchorsSubscriptionServiceNameOracledbataws,
-}
-
-// GetListResourceAnchorsSubscriptionServiceNameEnumValues Enumerates the set of values for ListResourceAnchorsSubscriptionServiceNameEnum
-func GetListResourceAnchorsSubscriptionServiceNameEnumValues() []ListResourceAnchorsSubscriptionServiceNameEnum {
-	values := make([]ListResourceAnchorsSubscriptionServiceNameEnum, 0)
-	for _, v := range mappingListResourceAnchorsSubscriptionServiceNameEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListResourceAnchorsSubscriptionServiceNameEnumStringValues Enumerates the set of values in String for ListResourceAnchorsSubscriptionServiceNameEnum
-func GetListResourceAnchorsSubscriptionServiceNameEnumStringValues() []string {
-	return []string{
-		"ORACLEDBATAZURE",
-		"ORACLEDBATGOOGLE",
-		"ORACLEDBATAWS",
-	}
-}
-
-// GetMappingListResourceAnchorsSubscriptionServiceNameEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListResourceAnchorsSubscriptionServiceNameEnum(val string) (ListResourceAnchorsSubscriptionServiceNameEnum, bool) {
-	enum, ok := mappingListResourceAnchorsSubscriptionServiceNameEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListResourceAnchorsSortOrderEnum Enum with underlying type: string
@@ -274,5 +232,51 @@ func GetListResourceAnchorsSortByEnumStringValues() []string {
 // GetMappingListResourceAnchorsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListResourceAnchorsSortByEnum(val string) (ListResourceAnchorsSortByEnum, bool) {
 	enum, ok := mappingListResourceAnchorsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListResourceAnchorsSubscriptionServiceNameEnum Enum with underlying type: string
+type ListResourceAnchorsSubscriptionServiceNameEnum string
+
+// Set of constants representing the allowable values for ListResourceAnchorsSubscriptionServiceNameEnum
+const (
+	ListResourceAnchorsSubscriptionServiceNameOracledbatazure  ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATAZURE"
+	ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATGOOGLE"
+	ListResourceAnchorsSubscriptionServiceNameOracledbataws    ListResourceAnchorsSubscriptionServiceNameEnum = "ORACLEDBATAWS"
+)
+
+var mappingListResourceAnchorsSubscriptionServiceNameEnum = map[string]ListResourceAnchorsSubscriptionServiceNameEnum{
+	"ORACLEDBATAZURE":  ListResourceAnchorsSubscriptionServiceNameOracledbatazure,
+	"ORACLEDBATGOOGLE": ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle,
+	"ORACLEDBATAWS":    ListResourceAnchorsSubscriptionServiceNameOracledbataws,
+}
+
+var mappingListResourceAnchorsSubscriptionServiceNameEnumLowerCase = map[string]ListResourceAnchorsSubscriptionServiceNameEnum{
+	"oracledbatazure":  ListResourceAnchorsSubscriptionServiceNameOracledbatazure,
+	"oracledbatgoogle": ListResourceAnchorsSubscriptionServiceNameOracledbatgoogle,
+	"oracledbataws":    ListResourceAnchorsSubscriptionServiceNameOracledbataws,
+}
+
+// GetListResourceAnchorsSubscriptionServiceNameEnumValues Enumerates the set of values for ListResourceAnchorsSubscriptionServiceNameEnum
+func GetListResourceAnchorsSubscriptionServiceNameEnumValues() []ListResourceAnchorsSubscriptionServiceNameEnum {
+	values := make([]ListResourceAnchorsSubscriptionServiceNameEnum, 0)
+	for _, v := range mappingListResourceAnchorsSubscriptionServiceNameEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListResourceAnchorsSubscriptionServiceNameEnumStringValues Enumerates the set of values in String for ListResourceAnchorsSubscriptionServiceNameEnum
+func GetListResourceAnchorsSubscriptionServiceNameEnumStringValues() []string {
+	return []string{
+		"ORACLEDBATAZURE",
+		"ORACLEDBATGOOGLE",
+		"ORACLEDBATAWS",
+	}
+}
+
+// GetMappingListResourceAnchorsSubscriptionServiceNameEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListResourceAnchorsSubscriptionServiceNameEnum(val string) (ListResourceAnchorsSubscriptionServiceNameEnum, bool) {
+	enum, ok := mappingListResourceAnchorsSubscriptionServiceNameEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

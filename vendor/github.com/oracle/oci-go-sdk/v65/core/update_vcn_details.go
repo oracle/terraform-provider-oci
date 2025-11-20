@@ -44,7 +44,7 @@ type UpdateVcnDetails struct {
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// Indicates whether Zpr Only Mode is enforced.
+	// Indicates whether ZPR Only mode is enforced.
 	IsZprOnly *bool `mandatory:"false" json:"isZprOnly"`
 }
 

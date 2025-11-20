@@ -30,6 +30,9 @@ type ExternalLocationDetail struct {
 	// User friendly display name for cspPhysicalAZ
 	CspPhysicalAzDisplayName *string `mandatory:"true" json:"cspPhysicalAzDisplayName"`
 
+	// User friendly display name for cspLogicalAZ
+	CspLogicalAzDisplayName *string `mandatory:"false" json:"cspLogicalAzDisplayName"`
+
 	CspZoneKeyReferenceId *CspZoneKeyReferenceId `mandatory:"false" json:"cspZoneKeyReferenceId"`
 
 	// A mapping of CSP physical availability zone to CSP logical availability zone.

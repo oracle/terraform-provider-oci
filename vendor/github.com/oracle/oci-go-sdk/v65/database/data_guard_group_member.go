@@ -55,6 +55,27 @@ type DataGuardGroupMember struct {
 
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
+
+	// The switchover readiness status of the Data Guard member.
+	SwitchoverReadiness DataGuardGroupMemberSwitchoverReadinessEnum `mandatory:"false" json:"switchoverReadiness,omitempty"`
+
+	// The message explaining switchover readiness status.
+	// Example: `Address failed checks to avoid extended downtime.`
+	SwitchoverReadinessMessage *string `mandatory:"false" json:"switchoverReadinessMessage"`
+
+	// The failover readiness status of the Data Guard member.
+	FailoverReadiness DataGuardGroupMemberFailoverReadinessEnum `mandatory:"false" json:"failoverReadiness,omitempty"`
+
+	// The message explaining failover readiness status.
+	// Example: `This standby database is not failover ready.`
+	FailoverReadinessMessage *string `mandatory:"false" json:"failoverReadinessMessage"`
+
+	// The Data loss exposure is the redo transport lag between the primary and standby databases.
+	// Example: `2 seconds`
+	DataLossExposure *string `mandatory:"false" json:"dataLossExposure"`
+
+	// The date and time when the last successful Data Guard refresh occurred.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m DataGuardGroupMember) String() string {
@@ -72,6 +93,12 @@ func (m DataGuardGroupMember) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDataGuardGroupMemberTransportTypeEnum(string(m.TransportType)); !ok && m.TransportType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransportType: %s. Supported values are: %s.", m.TransportType, strings.Join(GetDataGuardGroupMemberTransportTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDataGuardGroupMemberSwitchoverReadinessEnum(string(m.SwitchoverReadiness)); !ok && m.SwitchoverReadiness != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SwitchoverReadiness: %s. Supported values are: %s.", m.SwitchoverReadiness, strings.Join(GetDataGuardGroupMemberSwitchoverReadinessEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDataGuardGroupMemberFailoverReadinessEnum(string(m.FailoverReadiness)); !ok && m.FailoverReadiness != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailoverReadiness: %s. Supported values are: %s.", m.FailoverReadiness, strings.Join(GetDataGuardGroupMemberFailoverReadinessEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -172,5 +199,97 @@ func GetDataGuardGroupMemberTransportTypeEnumStringValues() []string {
 // GetMappingDataGuardGroupMemberTransportTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDataGuardGroupMemberTransportTypeEnum(val string) (DataGuardGroupMemberTransportTypeEnum, bool) {
 	enum, ok := mappingDataGuardGroupMemberTransportTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DataGuardGroupMemberSwitchoverReadinessEnum Enum with underlying type: string
+type DataGuardGroupMemberSwitchoverReadinessEnum string
+
+// Set of constants representing the allowable values for DataGuardGroupMemberSwitchoverReadinessEnum
+const (
+	DataGuardGroupMemberSwitchoverReadinessHealthy  DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberSwitchoverReadinessWarning  DataGuardGroupMemberSwitchoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberSwitchoverReadinessCritical DataGuardGroupMemberSwitchoverReadinessEnum = "CRITICAL"
+)
+
+var mappingDataGuardGroupMemberSwitchoverReadinessEnum = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
+	"HEALTHY":  DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"WARNING":  DataGuardGroupMemberSwitchoverReadinessWarning,
+	"CRITICAL": DataGuardGroupMemberSwitchoverReadinessCritical,
+}
+
+var mappingDataGuardGroupMemberSwitchoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
+	"healthy":  DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"warning":  DataGuardGroupMemberSwitchoverReadinessWarning,
+	"critical": DataGuardGroupMemberSwitchoverReadinessCritical,
+}
+
+// GetDataGuardGroupMemberSwitchoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberSwitchoverReadinessEnum
+func GetDataGuardGroupMemberSwitchoverReadinessEnumValues() []DataGuardGroupMemberSwitchoverReadinessEnum {
+	values := make([]DataGuardGroupMemberSwitchoverReadinessEnum, 0)
+	for _, v := range mappingDataGuardGroupMemberSwitchoverReadinessEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataGuardGroupMemberSwitchoverReadinessEnumStringValues Enumerates the set of values in String for DataGuardGroupMemberSwitchoverReadinessEnum
+func GetDataGuardGroupMemberSwitchoverReadinessEnumStringValues() []string {
+	return []string{
+		"HEALTHY",
+		"WARNING",
+		"CRITICAL",
+	}
+}
+
+// GetMappingDataGuardGroupMemberSwitchoverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataGuardGroupMemberSwitchoverReadinessEnum(val string) (DataGuardGroupMemberSwitchoverReadinessEnum, bool) {
+	enum, ok := mappingDataGuardGroupMemberSwitchoverReadinessEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DataGuardGroupMemberFailoverReadinessEnum Enum with underlying type: string
+type DataGuardGroupMemberFailoverReadinessEnum string
+
+// Set of constants representing the allowable values for DataGuardGroupMemberFailoverReadinessEnum
+const (
+	DataGuardGroupMemberFailoverReadinessHealthy  DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberFailoverReadinessWarning  DataGuardGroupMemberFailoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberFailoverReadinessCritical DataGuardGroupMemberFailoverReadinessEnum = "CRITICAL"
+)
+
+var mappingDataGuardGroupMemberFailoverReadinessEnum = map[string]DataGuardGroupMemberFailoverReadinessEnum{
+	"HEALTHY":  DataGuardGroupMemberFailoverReadinessHealthy,
+	"WARNING":  DataGuardGroupMemberFailoverReadinessWarning,
+	"CRITICAL": DataGuardGroupMemberFailoverReadinessCritical,
+}
+
+var mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberFailoverReadinessEnum{
+	"healthy":  DataGuardGroupMemberFailoverReadinessHealthy,
+	"warning":  DataGuardGroupMemberFailoverReadinessWarning,
+	"critical": DataGuardGroupMemberFailoverReadinessCritical,
+}
+
+// GetDataGuardGroupMemberFailoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberFailoverReadinessEnum
+func GetDataGuardGroupMemberFailoverReadinessEnumValues() []DataGuardGroupMemberFailoverReadinessEnum {
+	values := make([]DataGuardGroupMemberFailoverReadinessEnum, 0)
+	for _, v := range mappingDataGuardGroupMemberFailoverReadinessEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataGuardGroupMemberFailoverReadinessEnumStringValues Enumerates the set of values in String for DataGuardGroupMemberFailoverReadinessEnum
+func GetDataGuardGroupMemberFailoverReadinessEnumStringValues() []string {
+	return []string{
+		"HEALTHY",
+		"WARNING",
+		"CRITICAL",
+	}
+}
+
+// GetMappingDataGuardGroupMemberFailoverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataGuardGroupMemberFailoverReadinessEnum(val string) (DataGuardGroupMemberFailoverReadinessEnum, bool) {
+	enum, ok := mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

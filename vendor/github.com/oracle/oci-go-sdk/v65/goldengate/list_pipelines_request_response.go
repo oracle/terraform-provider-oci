@@ -137,27 +137,42 @@ type ListPipelinesLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for ListPipelinesLifecycleSubStateEnum
 const (
-	ListPipelinesLifecycleSubStateStarting ListPipelinesLifecycleSubStateEnum = "STARTING"
-	ListPipelinesLifecycleSubStateStopping ListPipelinesLifecycleSubStateEnum = "STOPPING"
-	ListPipelinesLifecycleSubStateStopped  ListPipelinesLifecycleSubStateEnum = "STOPPED"
-	ListPipelinesLifecycleSubStateMoving   ListPipelinesLifecycleSubStateEnum = "MOVING"
-	ListPipelinesLifecycleSubStateRunning  ListPipelinesLifecycleSubStateEnum = "RUNNING"
+	ListPipelinesLifecycleSubStateStarting    ListPipelinesLifecycleSubStateEnum = "STARTING"
+	ListPipelinesLifecycleSubStateStopping    ListPipelinesLifecycleSubStateEnum = "STOPPING"
+	ListPipelinesLifecycleSubStateStopped     ListPipelinesLifecycleSubStateEnum = "STOPPED"
+	ListPipelinesLifecycleSubStateMoving      ListPipelinesLifecycleSubStateEnum = "MOVING"
+	ListPipelinesLifecycleSubStateRunning     ListPipelinesLifecycleSubStateEnum = "RUNNING"
+	ListPipelinesLifecycleSubStatePausing     ListPipelinesLifecycleSubStateEnum = "PAUSING"
+	ListPipelinesLifecycleSubStatePaused      ListPipelinesLifecycleSubStateEnum = "PAUSED"
+	ListPipelinesLifecycleSubStateStartFailed ListPipelinesLifecycleSubStateEnum = "START_FAILED"
+	ListPipelinesLifecycleSubStateStopFailed  ListPipelinesLifecycleSubStateEnum = "STOP_FAILED"
+	ListPipelinesLifecycleSubStatePauseFailed ListPipelinesLifecycleSubStateEnum = "PAUSE_FAILED"
 )
 
 var mappingListPipelinesLifecycleSubStateEnum = map[string]ListPipelinesLifecycleSubStateEnum{
-	"STARTING": ListPipelinesLifecycleSubStateStarting,
-	"STOPPING": ListPipelinesLifecycleSubStateStopping,
-	"STOPPED":  ListPipelinesLifecycleSubStateStopped,
-	"MOVING":   ListPipelinesLifecycleSubStateMoving,
-	"RUNNING":  ListPipelinesLifecycleSubStateRunning,
+	"STARTING":     ListPipelinesLifecycleSubStateStarting,
+	"STOPPING":     ListPipelinesLifecycleSubStateStopping,
+	"STOPPED":      ListPipelinesLifecycleSubStateStopped,
+	"MOVING":       ListPipelinesLifecycleSubStateMoving,
+	"RUNNING":      ListPipelinesLifecycleSubStateRunning,
+	"PAUSING":      ListPipelinesLifecycleSubStatePausing,
+	"PAUSED":       ListPipelinesLifecycleSubStatePaused,
+	"START_FAILED": ListPipelinesLifecycleSubStateStartFailed,
+	"STOP_FAILED":  ListPipelinesLifecycleSubStateStopFailed,
+	"PAUSE_FAILED": ListPipelinesLifecycleSubStatePauseFailed,
 }
 
 var mappingListPipelinesLifecycleSubStateEnumLowerCase = map[string]ListPipelinesLifecycleSubStateEnum{
-	"starting": ListPipelinesLifecycleSubStateStarting,
-	"stopping": ListPipelinesLifecycleSubStateStopping,
-	"stopped":  ListPipelinesLifecycleSubStateStopped,
-	"moving":   ListPipelinesLifecycleSubStateMoving,
-	"running":  ListPipelinesLifecycleSubStateRunning,
+	"starting":     ListPipelinesLifecycleSubStateStarting,
+	"stopping":     ListPipelinesLifecycleSubStateStopping,
+	"stopped":      ListPipelinesLifecycleSubStateStopped,
+	"moving":       ListPipelinesLifecycleSubStateMoving,
+	"running":      ListPipelinesLifecycleSubStateRunning,
+	"pausing":      ListPipelinesLifecycleSubStatePausing,
+	"paused":       ListPipelinesLifecycleSubStatePaused,
+	"start_failed": ListPipelinesLifecycleSubStateStartFailed,
+	"stop_failed":  ListPipelinesLifecycleSubStateStopFailed,
+	"pause_failed": ListPipelinesLifecycleSubStatePauseFailed,
 }
 
 // GetListPipelinesLifecycleSubStateEnumValues Enumerates the set of values for ListPipelinesLifecycleSubStateEnum
@@ -177,6 +192,11 @@ func GetListPipelinesLifecycleSubStateEnumStringValues() []string {
 		"STOPPED",
 		"MOVING",
 		"RUNNING",
+		"PAUSING",
+		"PAUSED",
+		"START_FAILED",
+		"STOP_FAILED",
+		"PAUSE_FAILED",
 	}
 }
 
