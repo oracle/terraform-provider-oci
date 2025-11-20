@@ -1,3 +1,23 @@
+## 7.27.0 (November 20, 2025)
+
+### Added
+- Support for Marketplace Service Catalog Access Control feature
+- Support for Compute: GPU Memory Fabric API - Firmware Pinning
+- Support for Refresh Exa Dataguard Health
+- Support for AWS integration for DB@AWS - DBMCI
+- Support for Private Service Access
+- Support for GGS Zero ETL Usability Improvements
+- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for bastion service
+- Support for IPv6 and Reserved IPs in API Gateway
+- Support for IoT actions APIs and spec bug fixes
+- Support for [Terraform] Support AWS KMS integration for DB@AWS
+- Support for Data Catalog - ZPR Intercom
+- Revert SIGINT changes for ODSC
+- config for retries
+
+### Bug Fix
+- added support for real resource for Autonomous CC
+
 ## 7.26.1 (November 13, 2025)
 - Reverted Support for Passing TF CLI context to Go SDK
 
