@@ -18,15 +18,15 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 		Read: readMulticloudResourceAnchors,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
-			"subscription_service_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"subscription_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"linked_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"lifecycle_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -38,20 +38,24 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"limit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"is_compartment_id_in_subtree": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-			"linked_compartment_id": {
+			"should_fetch_compartment_name": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"subscription_service_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"lifecycle_state": {
+			"subscription_id": {
 				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"limit": {
-				Type:     schema.TypeInt,
 				Optional: true,
 			},
 			"resource_anchor_collection": {
@@ -64,10 +68,6 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
 									// Computed
 									"compartment_id": {
 										Type:     schema.TypeString,
@@ -95,6 +95,27 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"compartment_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"partner_cloud_account_identifier": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"csp_resource_anchor_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"csp_resource_anchor_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"csp_additional_properties": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"lifecycle_state": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -107,6 +128,14 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeMap,
 										Computed: true,
 										Elem:     schema.TypeString,
+									},
+									"linked_compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"linked_compartment_name": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"time_created": {
 										Type:     schema.TypeString,
@@ -147,18 +176,18 @@ func (s *MulticloudResourceAnchorsDataSourceCrud) VoidState() {
 func (s *MulticloudResourceAnchorsDataSourceCrud) Get() error {
 	request := oci_multicloud.ListResourceAnchorsRequest{}
 
-	if subscriptionServiceName, ok := s.D.GetOkExists("subscription_service_name"); ok {
-		request.SubscriptionServiceName = oci_multicloud.ListResourceAnchorsSubscriptionServiceNameEnum(subscriptionServiceName.(string))
-	}
-
-	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
-		tmp := subscriptionId.(string)
-		request.SubscriptionId = &tmp
-	}
-
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if linkedCompartmentId, ok := s.D.GetOkExists("linked_compartment_id"); ok {
+		tmp := linkedCompartmentId.(string)
+		request.LinkedCompartmentId = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("lifecycle_state"); ok {
+		request.LifecycleState = oci_multicloud.ResourceAnchorLifecycleStateEnum(state.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -171,23 +200,28 @@ func (s *MulticloudResourceAnchorsDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
+	if limit, ok := s.D.GetOkExists("limit"); ok {
+		tmp := limit.(int)
+		request.Limit = &tmp
+	}
+
 	if isCompartmentIdInSubtree, ok := s.D.GetOkExists("is_compartment_id_in_subtree"); ok {
 		tmp := isCompartmentIdInSubtree.(bool)
 		request.IsCompartmentIdInSubtree = &tmp
 	}
 
-	if linkedCompartmentId, ok := s.D.GetOkExists("linked_compartment_id"); ok {
-		tmp := linkedCompartmentId.(string)
-		request.LinkedCompartmentId = &tmp
+	if shouldFetchCompartmentName, ok := s.D.GetOkExists("should_fetch_compartment_name"); ok {
+		tmp := shouldFetchCompartmentName.(bool)
+		request.ShouldFetchCompartmentName = &tmp
 	}
 
-	if state, ok := s.D.GetOkExists("lifecycle_state"); ok {
-		request.LifecycleState = oci_multicloud.ResourceAnchorLifecycleStateEnum(state.(string))
+	if subscriptionServiceName, ok := s.D.GetOkExists("subscription_service_name"); ok {
+		request.SubscriptionServiceName = oci_multicloud.ListResourceAnchorsSubscriptionServiceNameEnum(subscriptionServiceName.(string))
 	}
 
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "multicloud")
@@ -244,29 +278,55 @@ func (s *MulticloudResourceAnchorsDataSourceCrud) SetData() error {
 func ResourceAnchorSummaryToMap(obj oci_multicloud.ResourceAnchorSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
 	}
+
+	if obj.CompartmentName != nil {
+		result["compartment_name"] = string(*obj.CompartmentName)
+	}
+
+	if obj.PartnerCloudAccountIdentifier != nil {
+		result["partner_cloud_account_identifier"] = string(*obj.PartnerCloudAccountIdentifier)
+	}
+
+	if obj.CspResourceAnchorId != nil {
+		result["csp_resource_anchor_id"] = string(*obj.CspResourceAnchorId)
+	}
+
+	if obj.CspResourceAnchorName != nil {
+		result["csp_resource_anchor_name"] = string(*obj.CspResourceAnchorName)
+	}
+
+	result["csp_additional_properties"] = obj.CspAdditionalProperties
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	result["lifecycle_state"] = string(obj.LifecycleState)
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
-	result["lifecycle_state"] = string(obj.LifecycleState)
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
 
 	if obj.SubscriptionId != nil {
 		result["subscription_id"] = string(*obj.SubscriptionId)
@@ -276,12 +336,12 @@ func ResourceAnchorSummaryToMap(obj oci_multicloud.ResourceAnchorSummary) map[st
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
+	if obj.LinkedCompartmentId != nil {
+		result["linked_compartment_id"] = string(*obj.LinkedCompartmentId)
 	}
 
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
+	if obj.LinkedCompartmentName != nil {
+		result["linked_compartment_name"] = string(*obj.LinkedCompartmentName)
 	}
 
 	return result

@@ -12,6 +12,8 @@ import (
 func init() {
 	RegisterOracleClient("oci_multicloud.MetadataClient", &OracleClient{InitClientFn: initMulticloudMetadataClient})
 	RegisterOracleClient("oci_multicloud.MultiCloudsMetadataClient", &OracleClient{InitClientFn: initMulticloudMultiCloudsMetadataClient})
+	RegisterOracleClient("oci_multicloud.MulticloudResourcesClient", &OracleClient{InitClientFn: initMulticloudMulticloudResourcesClient})
+	RegisterOracleClient("oci_multicloud.MulticloudsubscriptionsClient", &OracleClient{InitClientFn: initMulticloudMulticloudsubscriptionsClient})
 	RegisterOracleClient("oci_multicloud.OmhubNetworkAnchorClient", &OracleClient{InitClientFn: initMulticloudOmhubNetworkAnchorClient})
 	RegisterOracleClient("oci_multicloud.OmhubResourceAnchorClient", &OracleClient{InitClientFn: initMulticloudOmhubResourceAnchorClient})
 }
@@ -54,6 +56,46 @@ func initMulticloudMultiCloudsMetadataClient(configProvider oci_common.Configura
 
 func (m *OracleClients) MultiCloudsMetadataClient() *oci_multicloud.MultiCloudsMetadataClient {
 	return m.GetClient("oci_multicloud.MultiCloudsMetadataClient").(*oci_multicloud.MultiCloudsMetadataClient)
+}
+
+func initMulticloudMulticloudResourcesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_multicloud.NewMulticloudResourcesClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) MulticloudResourcesClient() *oci_multicloud.MulticloudResourcesClient {
+	return m.GetClient("oci_multicloud.MulticloudResourcesClient").(*oci_multicloud.MulticloudResourcesClient)
+}
+
+func initMulticloudMulticloudsubscriptionsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_multicloud.NewMulticloudsubscriptionsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) MulticloudsubscriptionsClient() *oci_multicloud.MulticloudsubscriptionsClient {
+	return m.GetClient("oci_multicloud.MulticloudsubscriptionsClient").(*oci_multicloud.MulticloudsubscriptionsClient)
 }
 
 func initMulticloudOmhubNetworkAnchorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
