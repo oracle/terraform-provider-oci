@@ -46,13 +46,14 @@ var (
 	}
 
 	catalogPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"dns_zones":      acctest.Representation{RepType: acctest.Required, Create: []string{`custpvtsubnet.oraclevcn.com`}, Update: []string{`db.custpvtsubnet.oraclevcn.com`}},
-		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreCatalogPrivateEndpointDefinedTagsnSystemtagsChangesRepresentation},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"dns_zones":           acctest.Representation{RepType: acctest.Required, Create: []string{`custpvtsubnet.oraclevcn.com`}, Update: []string{`db.custpvtsubnet.oraclevcn.com`}},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreCatalogPrivateEndpointDefinedTagsnSystemtagsChangesRepresentation},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.MaxEgressCount.value": "49", "oracle-zpr.MaxEgressCount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.MaxEgressCount.value": "updatedValue", "oracle-zpr.MaxEgressCount.mode": "enforce"}},
 	}
 
 	// need to ignore the defined tags created by the OCI service tenancy
@@ -118,6 +119,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -145,6 +147,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -167,6 +170,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -195,6 +199,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.locks.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.subnet_id"),
@@ -215,6 +220,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

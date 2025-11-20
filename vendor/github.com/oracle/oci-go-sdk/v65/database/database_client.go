@@ -20269,6 +20269,68 @@ func (client DatabaseClient) moveExecutionActionMember(ctx context.Context, requ
 	return response, err
 }
 
+// RefreshDataGuardHealthStatus Refreshes the Data Guard health status for the specified database. This operation is supported on both primary and standby databases.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RefreshDataGuardHealthStatus.go.html to see an example of how to use RefreshDataGuardHealthStatus API.
+func (client DatabaseClient) RefreshDataGuardHealthStatus(ctx context.Context, request RefreshDataGuardHealthStatusRequest) (response RefreshDataGuardHealthStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshDataGuardHealthStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshDataGuardHealthStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshDataGuardHealthStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshDataGuardHealthStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshDataGuardHealthStatusResponse")
+	}
+	return
+}
+
+// refreshDataGuardHealthStatus implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) refreshDataGuardHealthStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshDataGuardHealthStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/RefreshDataGuardHealthStatus"
+		err = common.PostProcessServiceError(err, "Database", "RefreshDataGuardHealthStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshPluggableDatabase Refreshes a pluggable database (PDB) Refreshable clone.
 //
 // # See also

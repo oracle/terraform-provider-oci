@@ -51,7 +51,7 @@ var (
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayApiLocksRepresentation},
-		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_lock_override": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"content": acctest.Representation{RepType: acctest.Optional,
 			Create: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\",\"license\":{\"name\":\"MIT\"}},\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"OK\"}}}}}}`,
 			Update: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\"}}`},

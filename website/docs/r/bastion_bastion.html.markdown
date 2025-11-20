@@ -33,6 +33,7 @@ resource "oci_bastion_bastion" "test_bastion" {
 	max_session_ttl_in_seconds = var.bastion_max_session_ttl_in_seconds
 	name = var.bastion_name
 	phone_book_entry = var.bastion_phone_book_entry
+	security_attributes = var.bastion_security_attributes
 	static_jump_host_ip_addresses = var.bastion_static_jump_host_ip_addresses
 }
 ```
@@ -50,6 +51,7 @@ The following arguments are supported:
 * `max_session_ttl_in_seconds` - (Optional) (Updatable) The maximum amount of time that any session on the bastion can remain active.
 * `name` - (Optional) The name of the bastion, which can't be changed after creation.
 * `phone_book_entry` - (Optional) The phonebook entry of the customer's team, which can't be changed after creation. Not applicable to `standard` bastions. 
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls. Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
 * `static_jump_host_ip_addresses` - (Optional) (Updatable) A list of IP addresses of the hosts that the bastion has access to. Not applicable to `standard` bastions. 
 * `target_subnet_id` - (Required) The unique identifier (OCID) of the subnet that the bastion connects to.
 
@@ -74,6 +76,7 @@ The following attributes are exported:
 * `name` - The name of the bastion, which can't be changed after creation.
 * `phone_book_entry` - The phonebook entry of the customer's team, which can't be changed after creation. Not applicable to `standard` bastions. 
 * `private_endpoint_ip_address` - The private IP address of the created private endpoint.
+* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls. Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
 * `state` - The current state of the bastion.
 * `static_jump_host_ip_addresses` - A list of IP addresses of the hosts that the bastion has access to. Not applicable to `standard` bastions. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

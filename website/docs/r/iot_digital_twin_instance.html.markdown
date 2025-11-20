@@ -44,8 +44,8 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A short description of the resource. 
 * `digital_twin_adapter_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin adapter.
-* `digital_twin_model_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin model.
-* `digital_twin_model_spec_uri` - (Optional) The URI of the digital twin model specification.
+* `digital_twin_model_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin model.
+* `digital_twin_model_spec_uri` - (Optional) (Updatable) The URI of the digital twin model specification.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `external_key` - (Optional) (Updatable) A unique identifier for the physical entity (typically an IoT device) represented by the digital twin instance. This could be a Bluetooth address, Ethernet MAC address, or serial number, depending on the use case. If not provided, the system will automatically generate one. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

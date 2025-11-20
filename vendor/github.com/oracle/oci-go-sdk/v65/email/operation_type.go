@@ -32,6 +32,10 @@ const (
 	OperationTypeCreateReturnPath  OperationTypeEnum = "CREATE_RETURN_PATH"
 	OperationTypeDeleteReturnPath  OperationTypeEnum = "DELETE_RETURN_PATH"
 	OperationTypeUpdateReturnPath  OperationTypeEnum = "UPDATE_RETURN_PATH"
+	OperationTypeCreateIpPool      OperationTypeEnum = "CREATE_IP_POOL"
+	OperationTypeUpdateIpPool      OperationTypeEnum = "UPDATE_IP_POOL"
+	OperationTypeDeleteIpPool      OperationTypeEnum = "DELETE_IP_POOL"
+	OperationTypeMoveIpPool        OperationTypeEnum = "MOVE_IP_POOL"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -46,6 +50,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_RETURN_PATH":  OperationTypeCreateReturnPath,
 	"DELETE_RETURN_PATH":  OperationTypeDeleteReturnPath,
 	"UPDATE_RETURN_PATH":  OperationTypeUpdateReturnPath,
+	"CREATE_IP_POOL":      OperationTypeCreateIpPool,
+	"UPDATE_IP_POOL":      OperationTypeUpdateIpPool,
+	"DELETE_IP_POOL":      OperationTypeDeleteIpPool,
+	"MOVE_IP_POOL":        OperationTypeMoveIpPool,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -60,6 +68,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_return_path":  OperationTypeCreateReturnPath,
 	"delete_return_path":  OperationTypeDeleteReturnPath,
 	"update_return_path":  OperationTypeUpdateReturnPath,
+	"create_ip_pool":      OperationTypeCreateIpPool,
+	"update_ip_pool":      OperationTypeUpdateIpPool,
+	"delete_ip_pool":      OperationTypeDeleteIpPool,
+	"move_ip_pool":        OperationTypeMoveIpPool,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -85,6 +97,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_RETURN_PATH",
 		"DELETE_RETURN_PATH",
 		"UPDATE_RETURN_PATH",
+		"CREATE_IP_POOL",
+		"UPDATE_IP_POOL",
+		"DELETE_IP_POOL",
+		"MOVE_IP_POOL",
 	}
 }
 

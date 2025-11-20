@@ -4,10 +4,13 @@
 package tfresource
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -36,11 +39,19 @@ const (
 	getResource                     = "get"
 	waasDeleteConflictRetryDuration = 60 * time.Minute
 	certificateService              = "certificate"
+	maxAttemptsForRetryPolicy       = 10
 )
 
 type ServiceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration
 type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration
 type getRetryPolicyFunc func(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy
+
+type RetryConfig struct {
+	RetryMaxDuration        *int `json:"retry_max_duration"`
+	FirstRetrySleepDuration *int `json:"first_retry_sleep_duration"`
+}
+
+var RetryConfigMap map[string]RetryConfig
 
 var serviceExpectedRetryDurationMap = map[string]ServiceExpectedRetryDurationFunc{
 	coreService:          getCoreExpectedRetryDuration,
@@ -62,6 +73,37 @@ var isErrorAffectedByEventualConsistency = oci_common.IsErrorAffectedByEventualC
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
+}
+
+func SetRetriesConfig(configFile string) error {
+	fileData, err := os.ReadFile(configFile)
+	if err != nil {
+		return fmt.Errorf("error in reading the %s file for retries config. Error: %s", configFile, err)
+	}
+	decoder := json.NewDecoder(bytes.NewReader(fileData))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&RetryConfigMap)
+	if err != nil {
+		return fmt.Errorf("error in parsing the %s file for retries config. Please have config in json format with supported parameters retry_max_duration and/or first_retry_sleep_duration only", configFile)
+	}
+	for key, value := range RetryConfigMap {
+		if value.RetryMaxDuration != nil && *value.RetryMaxDuration < 0 {
+			return fmt.Errorf("retry_max_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+		}
+		if value.FirstRetrySleepDuration != nil && *value.FirstRetrySleepDuration < 0 {
+			return fmt.Errorf("first_retry_sleep_duration value of retries_config_file configuration cannot be negative as the value is duration in seconds")
+		}
+		utils.Debugf("User configured retry configuration for error %v", key)
+		if value.RetryMaxDuration != nil {
+			utils.Debugf("retry_max_duration = %v", *value.RetryMaxDuration)
+		}
+		if value.FirstRetrySleepDuration != nil {
+			utils.Debugf("first_retry_sleep_duration = %v\n", *value.FirstRetrySleepDuration)
+		}
+	}
+	utils.Logf("retries_config_file parameter is configured in provider")
+
+	return nil
 }
 
 func GetRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) time.Duration {
@@ -108,8 +150,18 @@ func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIO
 	}
 	retryBackoffRange := time.Duration(2*attempt*attempt)*time.Second - minRetryBackoff
 
+	var initialDelay time.Duration
+	if attempt == 1 && response.Response != nil && response.Response.HTTPResponse() != nil {
+		statusCode := response.Response.HTTPResponse().StatusCode
+		value, ok := RetryConfigMap[strconv.Itoa(statusCode)]
+		if ok {
+			if value.FirstRetrySleepDuration != nil {
+				initialDelay = time.Duration(*value.FirstRetrySleepDuration) * time.Second
+			}
+		}
+	}
 	// Jitter the backoff time. The actual backoff time might be anywhere within the minimum and quadratic backoff time to avoid clustering.
-	backoffDuration := time.Duration(rand.Int63n(int64(retryBackoffRange+1))) + minRetryBackoff
+	backoffDuration := initialDelay + time.Duration(rand.Int63n(int64(retryBackoffRange+1))) + minRetryBackoff
 
 	// If we are about to exceed the retry duration; then reduce the backoff so that next attempt happens roughly when
 	// the entire retry duration is supposed to expire. Jitter is necessary again to avoid clustering.
@@ -146,6 +198,17 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 
 	// Use the default retry duration computation
 	return GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+}
+
+func GetRetryMaxDurationConfigured(statusCode int) (time.Duration, bool) {
+	value, ok := RetryConfigMap[strconv.Itoa(statusCode)]
+	if ok {
+		if value.RetryMaxDuration != nil {
+			return time.Duration(*value.RetryMaxDuration) * time.Second, true
+		}
+	}
+
+	return time.Duration(0), false
 }
 
 func GetDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool) time.Duration {
@@ -189,6 +252,10 @@ func GetDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	case 412:
 		return 0
 	case 429:
+		value, ok := GetRetryMaxDurationConfigured(statusCode)
+		if ok {
+			return value
+		}
 		if ConfiguredRetryDuration != nil {
 			return *ConfiguredRetryDuration
 		}
@@ -197,9 +264,18 @@ func GetDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 		if e != nil && (strings.Contains(e.Error(), "Out of host capacity")) {
 			return 0
 		}
+		value, ok := GetRetryMaxDurationConfigured(statusCode)
+		if ok {
+			return value
+		}
 		if ConfiguredRetryDuration != nil {
 			return *ConfiguredRetryDuration
 		}
+	}
+
+	value, ok := GetRetryMaxDurationConfigured(statusCode)
+	if ok {
+		return value
 	}
 
 	return defaultRetryTime
@@ -381,7 +457,7 @@ func GetRetryPolicy(disableNotFoundRetries bool, service string, optionals ...in
 func getDefaultRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	startTime := time.Now()
 	retryPolicy := &oci_common.RetryPolicy{
-		MaximumNumberAttempts: 10,
+		MaximumNumberAttempts: maxAttemptsForRetryPolicy,
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
 			return ShouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
 		},

@@ -8,8 +8,12 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_iot_digital_twin_adapter", IotDigitalTwinAdapterResource())
 	tfresource.RegisterResource("oci_iot_digital_twin_instance", IotDigitalTwinInstanceResource())
+	tfresource.RegisterResource("oci_iot_digital_twin_instance_invoke_raw_command", IotDigitalTwinInstanceInvokeRawCommandResource())
 	tfresource.RegisterResource("oci_iot_digital_twin_model", IotDigitalTwinModelResource())
 	tfresource.RegisterResource("oci_iot_digital_twin_relationship", IotDigitalTwinRelationshipResource())
 	tfresource.RegisterResource("oci_iot_iot_domain", IotIotDomainResource())
+	tfresource.RegisterResource("oci_iot_iot_domain_change_data_retention_period", IotIotDomainChangeDataRetentionPeriodResource())
+	tfresource.RegisterResource("oci_iot_iot_domain_configure_data_access", IotIotDomainConfigureDataAccessResource())
 	tfresource.RegisterResource("oci_iot_iot_domain_group", IotIotDomainGroupResource())
+	tfresource.RegisterResource("oci_iot_iot_domain_group_configure_data_access", IotIotDomainGroupConfigureDataAccessResource())
 }

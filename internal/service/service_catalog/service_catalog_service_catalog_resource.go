@@ -49,11 +49,21 @@ func ServiceCatalogServiceCatalogResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"status": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -156,6 +166,10 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_service_catalog.ServiceCatalogStatusEnumEnum(status.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.CreateServiceCatalog(context.Background(), request)
@@ -216,6 +230,10 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ServiceCatalogId = &tmp
 
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_service_catalog.ServiceCatalogStatusEnumEnum(status.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.UpdateServiceCatalog(context.Background(), request)
@@ -256,6 +274,12 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("status", s.Res.Status)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -274,15 +298,27 @@ func ServiceCatalogSummaryToMap(obj oci_service_catalog.ServiceCatalogSummary) m
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	result["status"] = string(obj.Status)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

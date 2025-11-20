@@ -81,6 +81,14 @@ type Pipeline interface {
 	// Describes the object's current state in detail. For example, it can be used to provide
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	GetSubnetId() *string
+
+	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
+	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
+	GetIngressIps() []IngressIpDetails
 }
 
 type pipeline struct {
@@ -93,6 +101,8 @@ type pipeline struct {
 	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
 	LifecycleSubState       PipelineLifecycleSubStateEnum     `mandatory:"false" json:"lifecycleSubState,omitempty"`
 	LifecycleDetails        *string                           `mandatory:"false" json:"lifecycleDetails"`
+	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
+	IngressIps              []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	Id                      *string                           `mandatory:"true" json:"id"`
 	DisplayName             *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
@@ -137,6 +147,8 @@ func (m *pipeline) UnmarshalJSON(data []byte) error {
 	m.Locks = s.Model.Locks
 	m.LifecycleSubState = s.Model.LifecycleSubState
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.SubnetId = s.Model.SubnetId
+	m.IngressIps = s.Model.IngressIps
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -199,6 +211,16 @@ func (m pipeline) GetLifecycleSubState() PipelineLifecycleSubStateEnum {
 // GetLifecycleDetails returns LifecycleDetails
 func (m pipeline) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetSubnetId returns SubnetId
+func (m pipeline) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetIngressIps returns IngressIps
+func (m pipeline) GetIngressIps() []IngressIpDetails {
+	return m.IngressIps
 }
 
 // GetId returns Id
@@ -293,6 +315,7 @@ const (
 	PipelineLifecycleStateDeleting       PipelineLifecycleStateEnum = "DELETING"
 	PipelineLifecycleStateDeleted        PipelineLifecycleStateEnum = "DELETED"
 	PipelineLifecycleStateFailed         PipelineLifecycleStateEnum = "FAILED"
+	PipelineLifecycleStateInactive       PipelineLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingPipelineLifecycleStateEnum = map[string]PipelineLifecycleStateEnum{
@@ -303,6 +326,7 @@ var mappingPipelineLifecycleStateEnum = map[string]PipelineLifecycleStateEnum{
 	"DELETING":        PipelineLifecycleStateDeleting,
 	"DELETED":         PipelineLifecycleStateDeleted,
 	"FAILED":          PipelineLifecycleStateFailed,
+	"INACTIVE":        PipelineLifecycleStateInactive,
 }
 
 var mappingPipelineLifecycleStateEnumLowerCase = map[string]PipelineLifecycleStateEnum{
@@ -313,6 +337,7 @@ var mappingPipelineLifecycleStateEnumLowerCase = map[string]PipelineLifecycleSta
 	"deleting":        PipelineLifecycleStateDeleting,
 	"deleted":         PipelineLifecycleStateDeleted,
 	"failed":          PipelineLifecycleStateFailed,
+	"inactive":        PipelineLifecycleStateInactive,
 }
 
 // GetPipelineLifecycleStateEnumValues Enumerates the set of values for PipelineLifecycleStateEnum
@@ -334,6 +359,7 @@ func GetPipelineLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 

@@ -3776,6 +3776,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+			tmp := isAccessControlEnabled.(bool)
+			details.IsAccessControlEnabled = &tmp
+		}
 		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
 			tmp := float32(byolComputeCountLimit.(float64))
 			details.ByolComputeCountLimit = &tmp
@@ -6362,13 +6366,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-	if err != nil {
-		return err
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
-
 	return nil
 }
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
 	changeSubscriptionRequest := oci_database.ChangeAutonomousDatabaseSubscriptionRequest{}
 

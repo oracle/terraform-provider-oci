@@ -44,6 +44,9 @@ type Sender struct {
 	// The email domain used to assert responsibility for emails sent from this sender.
 	EmailDomainId *string `mandatory:"false" json:"emailDomainId"`
 
+	// The IpPool OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
+	EmailIpPoolId *string `mandatory:"false" json:"emailIpPoolId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -93,6 +96,7 @@ const (
 	SenderLifecycleStateFailed         SenderLifecycleStateEnum = "FAILED"
 	SenderLifecycleStateDeleting       SenderLifecycleStateEnum = "DELETING"
 	SenderLifecycleStateDeleted        SenderLifecycleStateEnum = "DELETED"
+	SenderLifecycleStateUpdating       SenderLifecycleStateEnum = "UPDATING"
 )
 
 var mappingSenderLifecycleStateEnum = map[string]SenderLifecycleStateEnum{
@@ -103,6 +107,7 @@ var mappingSenderLifecycleStateEnum = map[string]SenderLifecycleStateEnum{
 	"FAILED":          SenderLifecycleStateFailed,
 	"DELETING":        SenderLifecycleStateDeleting,
 	"DELETED":         SenderLifecycleStateDeleted,
+	"UPDATING":        SenderLifecycleStateUpdating,
 }
 
 var mappingSenderLifecycleStateEnumLowerCase = map[string]SenderLifecycleStateEnum{
@@ -113,6 +118,7 @@ var mappingSenderLifecycleStateEnumLowerCase = map[string]SenderLifecycleStateEn
 	"failed":          SenderLifecycleStateFailed,
 	"deleting":        SenderLifecycleStateDeleting,
 	"deleted":         SenderLifecycleStateDeleted,
+	"updating":        SenderLifecycleStateUpdating,
 }
 
 // GetSenderLifecycleStateEnumValues Enumerates the set of values for SenderLifecycleStateEnum
@@ -134,6 +140,7 @@ func GetSenderLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"DELETING",
 		"DELETED",
+		"UPDATING",
 	}
 }
 

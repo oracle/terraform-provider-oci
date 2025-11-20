@@ -4177,6 +4177,69 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
+// PausePipeline Pauses the pipeline.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/PausePipeline.go.html to see an example of how to use PausePipeline API.
+// A default retry strategy applies to this operation PausePipeline()
+func (client GoldenGateClient) PausePipeline(ctx context.Context, request PausePipelineRequest) (response PausePipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.pausePipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PausePipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PausePipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PausePipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PausePipelineResponse")
+	}
+	return
+}
+
+// pausePipeline implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) pausePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pipelines/{pipelineId}/actions/pause", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PausePipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/PausePipeline"
+		err = common.PostProcessServiceError(err, "GoldenGate", "PausePipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshConnection Refresh the external Connection attributes.
 //
 // # See also

@@ -25,7 +25,7 @@ var (
 	acbDBName2 = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	ExaccACDResourceConfig = ACDECPUatabaseResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ACDatabaseRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, ACDatabaseRepresentation)
 
 	// This is to be able to delete the LTB after the test run
 	ExaccACDResourceConfigWithoutRetentionLock = ACDECPUatabaseResourceDependencies +
