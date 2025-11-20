@@ -30,14 +30,18 @@ type CreateTunnelInspectionRuleDetails interface {
 	GetAction() InspectActionTypeEnum
 
 	GetPosition() *RulePosition
+
+	// The description of the tunnel inspect rule. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type createtunnelinspectionruledetails struct {
-	JsonData []byte
-	Action   InspectActionTypeEnum `mandatory:"false" json:"action,omitempty"`
-	Position *RulePosition         `mandatory:"false" json:"position"`
-	Name     *string               `mandatory:"true" json:"name"`
-	Protocol string                `json:"protocol"`
+	JsonData    []byte
+	Action      InspectActionTypeEnum `mandatory:"false" json:"action,omitempty"`
+	Position    *RulePosition         `mandatory:"false" json:"position"`
+	Description *string               `mandatory:"false" json:"description"`
+	Name        *string               `mandatory:"true" json:"name"`
+	Protocol    string                `json:"protocol"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -54,6 +58,7 @@ func (m *createtunnelinspectionruledetails) UnmarshalJSON(data []byte) error {
 	m.Name = s.Model.Name
 	m.Action = s.Model.Action
 	m.Position = s.Model.Position
+	m.Description = s.Model.Description
 	m.Protocol = s.Model.Protocol
 
 	return err
@@ -86,6 +91,11 @@ func (m createtunnelinspectionruledetails) GetAction() InspectActionTypeEnum {
 // GetPosition returns Position
 func (m createtunnelinspectionruledetails) GetPosition() *RulePosition {
 	return m.Position
+}
+
+// GetDescription returns Description
+func (m createtunnelinspectionruledetails) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

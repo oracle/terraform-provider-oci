@@ -23,6 +23,9 @@ type CreateServiceListDetails struct {
 
 	// Collection of service names.
 	Services []string `mandatory:"true" json:"services"`
+
+	// The description of the service list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m CreateServiceListDetails) String() string {

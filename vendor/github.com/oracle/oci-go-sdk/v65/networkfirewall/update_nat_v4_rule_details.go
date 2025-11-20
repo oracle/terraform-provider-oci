@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateNatV4RuleDetails Request for updating NATV4 type Nat Rule used in the firewall policy.
+// UpdateNatV4RuleDetails Request for updating NATv4 type NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) used in the firewall policy.
 type UpdateNatV4RuleDetails struct {
 	Condition *NatRuleMatchCriteria `mandatory:"true" json:"condition"`
 

@@ -61,6 +61,9 @@ type OcirModelDeploymentEnvironmentConfigurationDetails struct {
 	// Key can't be reserved Model Deployment environment variables.
 	EnvironmentVariables map[string]string `mandatory:"false" json:"environmentVariables"`
 
+	// Service injected Environment variables set for the web server container and can not be set or modified by user.
+	DefaultEnvironmentVariables map[string]string `mandatory:"false" json:"defaultEnvironmentVariables"`
+
 	// The chosen specification from predefined set of endpoints a user can access.
 	// For example, if the value is 'openai', the user can access OpenAI-compliant endpoints
 	// like /v1/completions, /v1/chat/completions, /v1/models, etc., for inference.

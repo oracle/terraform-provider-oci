@@ -24,14 +24,18 @@ type CreatePoolDetails struct {
 	// Name of the pool
 	PoolName *string `mandatory:"true" json:"poolName"`
 
-	// The name of the site group this pool is associated with
-	SiteGroup *string `mandatory:"true" json:"siteGroup"`
+	// The availability domain the pool is in.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// List of customer tenancies it is dedicated for
+	// List of resources the pool is tied to
 	Resources []interface{} `mandatory:"true" json:"resources"`
 
 	// List of customer tenancies it is dedicated for
 	DedicatedCustomerTenancies []string `mandatory:"false" json:"dedicatedCustomerTenancies"`
+
+	// The name of the site group this pool is associated with
+	SiteGroup *string `mandatory:"false" json:"siteGroup"`
 
 	// List of customer tenancies it is dedicated for
 	Tags []string `mandatory:"false" json:"tags"`

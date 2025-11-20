@@ -24,10 +24,14 @@ type DecryptionProfile interface {
 
 	// OCID of the Network Firewall Policy this decryption profile belongs to.
 	GetParentResourceId() *string
+
+	// The description of the decryption profile. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type decryptionprofile struct {
 	JsonData         []byte
+	Description      *string `mandatory:"false" json:"description"`
 	Name             *string `mandatory:"true" json:"name"`
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 	Type             string  `json:"type"`
@@ -46,6 +50,7 @@ func (m *decryptionprofile) UnmarshalJSON(data []byte) error {
 	}
 	m.Name = s.Model.Name
 	m.ParentResourceId = s.Model.ParentResourceId
+	m.Description = s.Model.Description
 	m.Type = s.Model.Type
 
 	return err
@@ -72,6 +77,11 @@ func (m *decryptionprofile) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		common.Logf("Received unsupported enum value for DecryptionProfile: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m decryptionprofile) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

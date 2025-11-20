@@ -127,6 +127,8 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	GetKeyStoreId() *string
 
+	GetEncryptionKeyLocationDetails() EncryptionKeyLocationDetails
+
 	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database. The default
 	// value is `TRUE` for regions in Oracle Cloud's Government, ONSR realms (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm),
 	// and `FALSE` for regions in Oracle Cloud's commercial realm.
@@ -180,6 +182,7 @@ type createautonomouscontainerdatabasebase struct {
 	KmsKeyVersionId                              *string                                                            `mandatory:"false" json:"kmsKeyVersionId"`
 	VaultId                                      *string                                                            `mandatory:"false" json:"vaultId"`
 	KeyStoreId                                   *string                                                            `mandatory:"false" json:"keyStoreId"`
+	EncryptionKeyLocationDetails                 encryptionkeylocationdetails                                       `mandatory:"false" json:"encryptionKeyLocationDetails"`
 	IsFipsEnabled                                *bool                                                              `mandatory:"false" json:"isFipsEnabled"`
 	DbSplitThreshold                             *int                                                               `mandatory:"false" json:"dbSplitThreshold"`
 	VmFailoverReservation                        *int                                                               `mandatory:"false" json:"vmFailoverReservation"`
@@ -236,6 +239,7 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalJSON(data []byte) error
 	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
 	m.VaultId = s.Model.VaultId
 	m.KeyStoreId = s.Model.KeyStoreId
+	m.EncryptionKeyLocationDetails = s.Model.EncryptionKeyLocationDetails
 	m.IsFipsEnabled = s.Model.IsFipsEnabled
 	m.DbSplitThreshold = s.Model.DbSplitThreshold
 	m.VmFailoverReservation = s.Model.VmFailoverReservation
@@ -432,6 +436,11 @@ func (m createautonomouscontainerdatabasebase) GetVaultId() *string {
 // GetKeyStoreId returns KeyStoreId
 func (m createautonomouscontainerdatabasebase) GetKeyStoreId() *string {
 	return m.KeyStoreId
+}
+
+// GetEncryptionKeyLocationDetails returns EncryptionKeyLocationDetails
+func (m createautonomouscontainerdatabasebase) GetEncryptionKeyLocationDetails() encryptionkeylocationdetails {
+	return m.EncryptionKeyLocationDetails
 }
 
 // GetIsFipsEnabled returns IsFipsEnabled

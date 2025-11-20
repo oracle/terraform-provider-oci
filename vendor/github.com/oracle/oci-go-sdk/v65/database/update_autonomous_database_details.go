@@ -85,9 +85,6 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The Autonomous Database Serverless instance's availability domain.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database Serverless cluster placement group.
-	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
-
 	// The date and time when the Autonomous Database availability domain is to be updated.
 	TimeScheduledAdUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledAdUpdate"`
 
@@ -96,15 +93,6 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// True, if you want to schedule Autonomous Database availability domain update to the earliest available time.
 	IsScheduleAdUpdateToEarliest *bool `mandatory:"false" json:"isScheduleAdUpdateToEarliest"`
-
-	// The date and time when the Autonomous Database CPG ID is to be updated.
-	TimeScheduledCpgUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledCpgUpdate"`
-
-	// True, if you want to disable the Autonomous Database CPG ID scheduled update.
-	IsDisableCpgUpdateSchedule *bool `mandatory:"false" json:"isDisableCpgUpdateSchedule"`
-
-	// True, if you want to schedule the Autonomous Database CPG ID update to the earliest available time.
-	IsScheduleCpgUpdateToEarliest *bool `mandatory:"false" json:"isScheduleCpgUpdateToEarliest"`
 
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
@@ -410,13 +398,9 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                          *string                                                              `json:"displayName"`
 		IsFreeTier                           *bool                                                                `json:"isFreeTier"`
 		AvailabilityDomain                   *string                                                              `json:"availabilityDomain"`
-		ClusterPlacementGroupId              *string                                                              `json:"clusterPlacementGroupId"`
 		TimeScheduledAdUpdate                *common.SDKTime                                                      `json:"timeScheduledAdUpdate"`
 		IsDisableAdUpdateSchedule            *bool                                                                `json:"isDisableAdUpdateSchedule"`
 		IsScheduleAdUpdateToEarliest         *bool                                                                `json:"isScheduleAdUpdateToEarliest"`
-		TimeScheduledCpgUpdate               *common.SDKTime                                                      `json:"timeScheduledCpgUpdate"`
-		IsDisableCpgUpdateSchedule           *bool                                                                `json:"isDisableCpgUpdateSchedule"`
-		IsScheduleCpgUpdateToEarliest        *bool                                                                `json:"isScheduleCpgUpdateToEarliest"`
 		AdminPassword                        *string                                                              `json:"adminPassword"`
 		DbName                               *string                                                              `json:"dbName"`
 		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
@@ -507,19 +491,11 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 
-	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
-
 	m.TimeScheduledAdUpdate = model.TimeScheduledAdUpdate
 
 	m.IsDisableAdUpdateSchedule = model.IsDisableAdUpdateSchedule
 
 	m.IsScheduleAdUpdateToEarliest = model.IsScheduleAdUpdateToEarliest
-
-	m.TimeScheduledCpgUpdate = model.TimeScheduledCpgUpdate
-
-	m.IsDisableCpgUpdateSchedule = model.IsDisableCpgUpdateSchedule
-
-	m.IsScheduleCpgUpdateToEarliest = model.IsScheduleCpgUpdateToEarliest
 
 	m.AdminPassword = model.AdminPassword
 

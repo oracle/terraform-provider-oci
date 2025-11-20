@@ -24,6 +24,9 @@ type CloneNetworkFirewallPolicyDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the NetworkFirewall Policy.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The description of the network firewall policy. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

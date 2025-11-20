@@ -26,6 +26,9 @@ type CreateAddressListDetails struct {
 
 	// List of addresses.
 	Addresses []string `mandatory:"true" json:"addresses"`
+
+	// The description of the address list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m CreateAddressListDetails) String() string {

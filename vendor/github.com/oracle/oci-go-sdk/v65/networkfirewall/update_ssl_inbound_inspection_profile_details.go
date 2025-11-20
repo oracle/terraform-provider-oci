@@ -19,6 +19,9 @@ import (
 // UpdateSslInboundInspectionProfileDetails Update Request for SSLInboundInspection used on the firewall policy rules.
 type UpdateSslInboundInspectionProfileDetails struct {
 
+	// The description of the decryption profile. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Whether to block sessions if SSL version is not supported.
 	IsUnsupportedVersionBlocked *bool `mandatory:"false" json:"isUnsupportedVersionBlocked"`
 
@@ -27,6 +30,11 @@ type UpdateSslInboundInspectionProfileDetails struct {
 
 	// Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
 	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
+}
+
+// GetDescription returns Description
+func (m UpdateSslInboundInspectionProfileDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateSslInboundInspectionProfileDetails) String() string {

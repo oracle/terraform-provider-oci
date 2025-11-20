@@ -39,6 +39,9 @@ type DecryptionRule struct {
 	Secret *string `mandatory:"false" json:"secret"`
 
 	Position *RulePosition `mandatory:"false" json:"position"`
+
+	// The description of the decryption rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m DecryptionRule) String() string {

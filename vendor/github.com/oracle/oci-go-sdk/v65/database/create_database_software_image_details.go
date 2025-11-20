@@ -54,6 +54,9 @@ type CreateDatabaseSoftwareImageDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	SourceDbHomeId *string `mandatory:"false" json:"sourceDbHomeId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Grid Infrastructure Home.
+	SourceGiHomeId *string `mandatory:"false" json:"sourceGiHomeId"`
 }
 
 func (m CreateDatabaseSoftwareImageDetails) String() string {

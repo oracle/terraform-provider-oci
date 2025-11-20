@@ -21,6 +21,11 @@ type UpdateDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
 	UpdateId *string `mandatory:"false" json:"updateId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Grid Infrastructure Home.
+	// Specify this field for out of place Grid Infrastructure Home patching and upgrade of the Cloud VM Cluster.
+	// This is mutually exclusive option to `updateId` and `giSoftwareImageId` which are used for in place patching and upgrade using Oracle supplied and custom images respectively.
+	GiHomeId *string `mandatory:"false" json:"giHomeId"`
+
 	// The update action.
 	UpdateAction UpdateDetailsUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 

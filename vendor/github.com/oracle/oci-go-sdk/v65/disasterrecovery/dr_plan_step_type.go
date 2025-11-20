@@ -143,6 +143,10 @@ const (
 	DrPlanStepTypeMysqlDbSystemStartDrill                                               DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_START_DRILL"
 	DrPlanStepTypeMysqlDbSystemStopDrillPrecheck                                        DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK"
 	DrPlanStepTypeMysqlDbSystemStopDrill                                                DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL"
+	DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck                                 DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK"
+	DrPlanStepTypeIntegrationInstanceSwitchover                                         DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_SWITCHOVER"
+	DrPlanStepTypeIntegrationInstanceFailoverPrecheck                                   DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_FAILOVER_PRECHECK"
+	DrPlanStepTypeIntegrationInstanceFailover                                           DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_FAILOVER"
 )
 
 var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
@@ -268,6 +272,10 @@ var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
 	"MYSQL_DB_SYSTEM_START_DRILL":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
 	"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
 	"MYSQL_DB_SYSTEM_STOP_DRILL":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
+	"INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK":                                       DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck,
+	"INTEGRATION_INSTANCE_SWITCHOVER":                                                DrPlanStepTypeIntegrationInstanceSwitchover,
+	"INTEGRATION_INSTANCE_FAILOVER_PRECHECK":                                         DrPlanStepTypeIntegrationInstanceFailoverPrecheck,
+	"INTEGRATION_INSTANCE_FAILOVER":                                                  DrPlanStepTypeIntegrationInstanceFailover,
 }
 
 var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
@@ -393,6 +401,10 @@ var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
 	"mysql_db_system_start_drill":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
 	"mysql_db_system_stop_drill_precheck":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
 	"mysql_db_system_stop_drill":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
+	"integration_instance_switchover_precheck":                                       DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck,
+	"integration_instance_switchover":                                                DrPlanStepTypeIntegrationInstanceSwitchover,
+	"integration_instance_failover_precheck":                                         DrPlanStepTypeIntegrationInstanceFailoverPrecheck,
+	"integration_instance_failover":                                                  DrPlanStepTypeIntegrationInstanceFailover,
 }
 
 // GetDrPlanStepTypeEnumValues Enumerates the set of values for DrPlanStepTypeEnum
@@ -529,6 +541,10 @@ func GetDrPlanStepTypeEnumStringValues() []string {
 		"MYSQL_DB_SYSTEM_START_DRILL",
 		"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK",
 		"MYSQL_DB_SYSTEM_STOP_DRILL",
+		"INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK",
+		"INTEGRATION_INSTANCE_SWITCHOVER",
+		"INTEGRATION_INSTANCE_FAILOVER_PRECHECK",
+		"INTEGRATION_INSTANCE_FAILOVER",
 	}
 }
 

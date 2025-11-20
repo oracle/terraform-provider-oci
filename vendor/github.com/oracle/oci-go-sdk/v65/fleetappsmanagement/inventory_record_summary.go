@@ -65,6 +65,9 @@ type InventoryRecordSummary struct {
 
 	// The current state of the Inventory target.
 	LifecycleState InventoryRecordLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Name of the parent target.
+	ParentTargetName *string `mandatory:"false" json:"parentTargetName"`
 }
 
 func (m InventoryRecordSummary) String() string {

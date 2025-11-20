@@ -55,6 +55,8 @@ type CapacityReservationInfoSummary struct {
 	// by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2024-04-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	ComputeAccounting *ComputeAccounting `mandatory:"false" json:"computeAccounting"`
 }
 
 func (m CapacityReservationInfoSummary) String() string {

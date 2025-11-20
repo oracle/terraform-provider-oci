@@ -46,6 +46,9 @@ type CreateNetworkFirewallDetails struct {
 
 	NatConfiguration *NatConfigurationRequest `mandatory:"false" json:"natConfiguration"`
 
+	// The shape of a firewall to determine the bandwidth that the firewall allows.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

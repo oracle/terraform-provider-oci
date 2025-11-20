@@ -21,12 +21,16 @@ type CreateServiceDetails interface {
 
 	// Name of the service
 	GetName() *string
+
+	// The description of the service. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type createservicedetails struct {
-	JsonData []byte
-	Name     *string `mandatory:"true" json:"name"`
-	Type     string  `json:"type"`
+	JsonData    []byte
+	Description *string `mandatory:"false" json:"description"`
+	Name        *string `mandatory:"true" json:"name"`
+	Type        string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -41,6 +45,7 @@ func (m *createservicedetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.Name = s.Model.Name
+	m.Description = s.Model.Description
 	m.Type = s.Model.Type
 
 	return err
@@ -67,6 +72,11 @@ func (m *createservicedetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 		common.Logf("Received unsupported enum value for CreateServiceDetails: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m createservicedetails) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

@@ -30,6 +30,14 @@ type UpdateRunObjectStoreScriptUserDefinedCustomPrecheckStepDetails struct {
 	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
 	ObjectStorageScriptLocation *UpdateObjectStorageScriptLocationDetails `mandatory:"true" json:"objectStorageScriptLocation"`
+
+	// The entire path and arguments for the script that is stored in object store, or inside a compressed archive in object store.
+	// Example: `/usr/bin/python3.7 scripts/start_server.py --port 8080 --env "production" --max-connections 200 --log-level "INFO"`
+	ScriptCommand *string `mandatory:"false" json:"scriptCommand"`
+
+	// The user ID on the instance that will be used to execute the script specified in 'scriptCommand'.
+	// Example: `opc`
+	RunAsUser *string `mandatory:"false" json:"runAsUser"`
 }
 
 func (m UpdateRunObjectStoreScriptUserDefinedCustomPrecheckStepDetails) String() string {

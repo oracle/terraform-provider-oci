@@ -34,6 +34,7 @@ const (
 	DrProtectionGroupMemberTypeOkeCluster                  DrProtectionGroupMemberTypeEnum = "OKE_CLUSTER"
 	DrProtectionGroupMemberTypeObjectStorageBucket         DrProtectionGroupMemberTypeEnum = "OBJECT_STORAGE_BUCKET"
 	DrProtectionGroupMemberTypeMysqlDbSystem               DrProtectionGroupMemberTypeEnum = "MYSQL_DB_SYSTEM"
+	DrProtectionGroupMemberTypeIntegrationInstance         DrProtectionGroupMemberTypeEnum = "INTEGRATION_INSTANCE"
 )
 
 var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberTypeEnum{
@@ -50,6 +51,7 @@ var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberT
 	"OKE_CLUSTER":                   DrProtectionGroupMemberTypeOkeCluster,
 	"OBJECT_STORAGE_BUCKET":         DrProtectionGroupMemberTypeObjectStorageBucket,
 	"MYSQL_DB_SYSTEM":               DrProtectionGroupMemberTypeMysqlDbSystem,
+	"INTEGRATION_INSTANCE":          DrProtectionGroupMemberTypeIntegrationInstance,
 }
 
 var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGroupMemberTypeEnum{
@@ -66,6 +68,7 @@ var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGro
 	"oke_cluster":                   DrProtectionGroupMemberTypeOkeCluster,
 	"object_storage_bucket":         DrProtectionGroupMemberTypeObjectStorageBucket,
 	"mysql_db_system":               DrProtectionGroupMemberTypeMysqlDbSystem,
+	"integration_instance":          DrProtectionGroupMemberTypeIntegrationInstance,
 }
 
 // GetDrProtectionGroupMemberTypeEnumValues Enumerates the set of values for DrProtectionGroupMemberTypeEnum
@@ -93,6 +96,7 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"OKE_CLUSTER",
 		"OBJECT_STORAGE_BUCKET",
 		"MYSQL_DB_SYSTEM",
+		"INTEGRATION_INSTANCE",
 	}
 }
 

@@ -69,6 +69,10 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := PatchAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MFA_ENFORCEMENT":
+		mm := MfaEnforcementAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "QUARTERLY_UPGRADE":
 		mm := UpgradeAction{}
 		err = json.Unmarshal(data, &mm)
@@ -179,18 +183,21 @@ const (
 	ActionActionTypeQuarterlyUpgrade ActionActionTypeEnum = "QUARTERLY_UPGRADE"
 	ActionActionTypePatch            ActionActionTypeEnum = "PATCH"
 	ActionActionTypeVertex           ActionActionTypeEnum = "VERTEX"
+	ActionActionTypeMfaEnforcement   ActionActionTypeEnum = "MFA_ENFORCEMENT"
 )
 
 var mappingActionActionTypeEnum = map[string]ActionActionTypeEnum{
 	"QUARTERLY_UPGRADE": ActionActionTypeQuarterlyUpgrade,
 	"PATCH":             ActionActionTypePatch,
 	"VERTEX":            ActionActionTypeVertex,
+	"MFA_ENFORCEMENT":   ActionActionTypeMfaEnforcement,
 }
 
 var mappingActionActionTypeEnumLowerCase = map[string]ActionActionTypeEnum{
 	"quarterly_upgrade": ActionActionTypeQuarterlyUpgrade,
 	"patch":             ActionActionTypePatch,
 	"vertex":            ActionActionTypeVertex,
+	"mfa_enforcement":   ActionActionTypeMfaEnforcement,
 }
 
 // GetActionActionTypeEnumValues Enumerates the set of values for ActionActionTypeEnum
@@ -208,6 +215,7 @@ func GetActionActionTypeEnumStringValues() []string {
 		"QUARTERLY_UPGRADE",
 		"PATCH",
 		"VERTEX",
+		"MFA_ENFORCEMENT",
 	}
 }
 

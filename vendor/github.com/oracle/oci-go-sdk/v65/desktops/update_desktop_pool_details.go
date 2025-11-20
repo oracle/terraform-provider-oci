@@ -57,6 +57,9 @@ type UpdateDesktopPoolDetails struct {
 	SessionLifecycleActions *UpdateDesktopPoolDesktopSessionLifecycleActions `mandatory:"false" json:"sessionLifecycleActions"`
 
 	Image *UpdateDesktopImage `mandatory:"false" json:"image"`
+
+	// The size in GBs of the boot volume for the desktop pool.
+	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
 }
 
 func (m UpdateDesktopPoolDetails) String() string {

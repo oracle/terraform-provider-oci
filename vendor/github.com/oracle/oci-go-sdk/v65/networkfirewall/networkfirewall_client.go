@@ -504,7 +504,7 @@ func (client NetworkFirewallClient) bulkUploadMappedSecrets(ctx context.Context,
 	return response, err
 }
 
-// BulkUploadNatRules Creates a new NAT Rule at bulk for the Network Firewall Policy.
+// BulkUploadNatRules Creates a new NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) at bulk for the Network Firewall policy.
 // A default retry strategy applies to this operation BulkUploadNatRules()
 func (client NetworkFirewallClient) BulkUploadNatRules(ctx context.Context, request BulkUploadNatRulesRequest) (response BulkUploadNatRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -554,7 +554,7 @@ func (client NetworkFirewallClient) bulkUploadNatRules(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/natRule/BulkUploadNatRules"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NatRule/BulkUploadNatRules"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadNatRules", apiReferenceLink)
 		return response, err
 	}
@@ -1443,7 +1443,7 @@ func (client NetworkFirewallClient) createMappedSecret(ctx context.Context, requ
 	return response, err
 }
 
-// CreateNatRule Creates a new NAT Rule for the Network Firewall Policy.
+// CreateNatRule Creates a new NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) for the Network Firewall policy.
 // A default retry strategy applies to this operation CreateNatRule()
 func (client NetworkFirewallClient) CreateNatRule(ctx context.Context, request CreateNatRuleRequest) (response CreateNatRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2239,7 +2239,7 @@ func (client NetworkFirewallClient) deleteMappedSecret(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteNatRule Deletes a NAT Rule resource with the given identifier.
+// DeleteNatRule Deletes a NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) resource with the given identifier.
 // A default retry strategy applies to this operation DeleteNatRule()
 func (client NetworkFirewallClient) DeleteNatRule(ctx context.Context, request DeleteNatRuleRequest) (response DeleteNatRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2995,7 +2995,7 @@ func (client NetworkFirewallClient) getMappedSecret(ctx context.Context, request
 	return response, err
 }
 
-// GetNatRule Get NAT Rule by the given name in the context of network firewall policy.
+// GetNatRule Get a NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) by the given name in the context of Network Firewall policy.
 // A default retry strategy applies to this operation GetNatRule()
 func (client NetworkFirewallClient) GetNatRule(ctx context.Context, request GetNatRuleRequest) (response GetNatRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3805,7 +3805,7 @@ func (client NetworkFirewallClient) listMappedSecrets(ctx context.Context, reque
 	return response, err
 }
 
-// ListNatRules Returns a list of NAT Rules for the Network Firewall Policy.
+// ListNatRules Returns a list of NAT rules (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) for the Network Firewall policy.
 // A default retry strategy applies to this operation ListNatRules()
 func (client NetworkFirewallClient) ListNatRules(ctx context.Context, request ListNatRulesRequest) (response ListNatRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4782,7 +4782,7 @@ func (client NetworkFirewallClient) updateMappedSecret(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateNatRule Updates the NAT Rule with the given name in the network firewall policy.
+// UpdateNatRule Updates the NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) with the given name in the Network Firewall policy.
 // A default retry strategy applies to this operation UpdateNatRule()
 func (client NetworkFirewallClient) UpdateNatRule(ctx context.Context, request UpdateNatRuleRequest) (response UpdateNatRuleResponse, err error) {
 	var ociResponse common.OCIResponse

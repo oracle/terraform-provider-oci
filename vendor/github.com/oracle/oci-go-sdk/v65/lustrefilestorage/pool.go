@@ -27,6 +27,10 @@ type Pool struct {
 	// Name of the pool
 	PoolName *string `mandatory:"true" json:"poolName"`
 
+	// The availability domain the pool is in.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
+
 	// List of customer tenancies it is dedicated for
 	DedicatedCustomerTenancies []string `mandatory:"false" json:"dedicatedCustomerTenancies"`
 
@@ -38,9 +42,6 @@ type Pool struct {
 
 	// List of customer tenancies it is dedicated for
 	Resources []interface{} `mandatory:"false" json:"resources"`
-
-	// List of customer tenancies it is dedicated for
-	Accounting *interface{} `mandatory:"false" json:"accounting"`
 
 	// The pools that have affinity with this pool.
 	PoolAffinities *interface{} `mandatory:"false" json:"poolAffinities"`

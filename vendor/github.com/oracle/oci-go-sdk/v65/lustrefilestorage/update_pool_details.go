@@ -30,10 +30,14 @@ type UpdatePoolDetails struct {
 	// The name of the site group this pool is associated with
 	SiteGroup *string `mandatory:"false" json:"siteGroup"`
 
+	// The availability domain the pool is in.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
 	// List of customer tenancies it is dedicated for
 	Tags []string `mandatory:"false" json:"tags"`
 
-	// List of customer tenancies it is dedicated for
+	// List of resources the pool is tied to
 	Resources []interface{} `mandatory:"false" json:"resources"`
 
 	// The pools that have affinity with this pool.

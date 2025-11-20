@@ -54,6 +54,9 @@ type NetworkFirewallPolicy struct {
 	// Count of number of Network Firewall attached to the Policy.
 	AttachedNetworkFirewallCount *int `mandatory:"false" json:"attachedNetworkFirewallCount"`
 
+	// The description of the network firewall policy. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

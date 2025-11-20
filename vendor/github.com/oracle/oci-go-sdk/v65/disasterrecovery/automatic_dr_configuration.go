@@ -59,6 +59,9 @@ type AutomaticDrConfiguration struct {
 	// Example: `ocid1.drplan.oc1..uniqueID`
 	DefaultFailoverDrPlanId *string `mandatory:"false" json:"defaultFailoverDrPlanId"`
 
+	// The current sub-state of the Automatic DR configuration.
+	LifecycleSubState AutomaticDrConfigurationLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// A message describing the Automatic DR configuration's current state in more detail.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -98,6 +101,9 @@ func (m AutomaticDrConfiguration) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutomaticDrConfigurationLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutomaticDrConfigurationLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetAutomaticDrConfigurationLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutomaticDrPlanExecutionSubmissionStatusEnum(string(m.LastAutomaticDrExecutionSubmitStatus)); !ok && m.LastAutomaticDrExecutionSubmitStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAutomaticDrExecutionSubmitStatus: %s. Supported values are: %s.", m.LastAutomaticDrExecutionSubmitStatus, strings.Join(GetAutomaticDrPlanExecutionSubmissionStatusEnumStringValues(), ",")))
 	}
@@ -110,23 +116,24 @@ func (m AutomaticDrConfiguration) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AutomaticDrConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefaultSwitchoverDrPlanId                 *string                                      `json:"defaultSwitchoverDrPlanId"`
-		DefaultFailoverDrPlanId                   *string                                      `json:"defaultFailoverDrPlanId"`
-		LifecycleDetails                          *string                                      `json:"lifecycleDetails"`
-		LastAutomaticDrExecutionSubmitStatus      AutomaticDrPlanExecutionSubmissionStatusEnum `json:"lastAutomaticDrExecutionSubmitStatus"`
-		LastAutomaticDrExecutionSubmitDetails     *string                                      `json:"lastAutomaticDrExecutionSubmitDetails"`
-		TimeLastAutomaticDrExecutionSubmitAttempt *common.SDKTime                              `json:"timeLastAutomaticDrExecutionSubmitAttempt"`
-		FreeformTags                              map[string]string                            `json:"freeformTags"`
-		DefinedTags                               map[string]map[string]interface{}            `json:"definedTags"`
-		SystemTags                                map[string]map[string]interface{}            `json:"systemTags"`
-		Id                                        *string                                      `json:"id"`
-		DisplayName                               *string                                      `json:"displayName"`
-		CompartmentId                             *string                                      `json:"compartmentId"`
-		TimeCreated                               *common.SDKTime                              `json:"timeCreated"`
-		TimeUpdated                               *common.SDKTime                              `json:"timeUpdated"`
-		DrProtectionGroupId                       *string                                      `json:"drProtectionGroupId"`
-		Members                                   []automaticdrconfigurationmember             `json:"members"`
-		LifecycleState                            AutomaticDrConfigurationLifecycleStateEnum   `json:"lifecycleState"`
+		DefaultSwitchoverDrPlanId                 *string                                       `json:"defaultSwitchoverDrPlanId"`
+		DefaultFailoverDrPlanId                   *string                                       `json:"defaultFailoverDrPlanId"`
+		LifecycleSubState                         AutomaticDrConfigurationLifecycleSubStateEnum `json:"lifecycleSubState"`
+		LifecycleDetails                          *string                                       `json:"lifecycleDetails"`
+		LastAutomaticDrExecutionSubmitStatus      AutomaticDrPlanExecutionSubmissionStatusEnum  `json:"lastAutomaticDrExecutionSubmitStatus"`
+		LastAutomaticDrExecutionSubmitDetails     *string                                       `json:"lastAutomaticDrExecutionSubmitDetails"`
+		TimeLastAutomaticDrExecutionSubmitAttempt *common.SDKTime                               `json:"timeLastAutomaticDrExecutionSubmitAttempt"`
+		FreeformTags                              map[string]string                             `json:"freeformTags"`
+		DefinedTags                               map[string]map[string]interface{}             `json:"definedTags"`
+		SystemTags                                map[string]map[string]interface{}             `json:"systemTags"`
+		Id                                        *string                                       `json:"id"`
+		DisplayName                               *string                                       `json:"displayName"`
+		CompartmentId                             *string                                       `json:"compartmentId"`
+		TimeCreated                               *common.SDKTime                               `json:"timeCreated"`
+		TimeUpdated                               *common.SDKTime                               `json:"timeUpdated"`
+		DrProtectionGroupId                       *string                                       `json:"drProtectionGroupId"`
+		Members                                   []automaticdrconfigurationmember              `json:"members"`
+		LifecycleState                            AutomaticDrConfigurationLifecycleStateEnum    `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -137,6 +144,8 @@ func (m *AutomaticDrConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.DefaultSwitchoverDrPlanId = model.DefaultSwitchoverDrPlanId
 
 	m.DefaultFailoverDrPlanId = model.DefaultFailoverDrPlanId
+
+	m.LifecycleSubState = model.LifecycleSubState
 
 	m.LifecycleDetails = model.LifecycleDetails
 

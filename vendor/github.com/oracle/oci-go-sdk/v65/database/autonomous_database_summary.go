@@ -53,6 +53,8 @@ type AutonomousDatabaseSummary struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
+
 	// Indicates if this Autonomous AI Database exists in a container owned by the customer.
 	IsRegisteredAsCustomerOwnedContainer *bool `mandatory:"false" json:"isRegisteredAsCustomerOwnedContainer"`
 
@@ -509,6 +511,9 @@ type AutonomousDatabaseSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// The Availability Domain which is planned for Scheduled Update
+	AdScheduledForUpdate *string `mandatory:"false" json:"adScheduledForUpdate"`
+
 	// The earliest date and time to which you can schedule an Autonomous Database availability domain update.
 	TimeEarliestAvailableAdUpdate *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableAdUpdate"`
 
@@ -517,15 +522,6 @@ type AutonomousDatabaseSummary struct {
 
 	// The date and time to which the Autonomous Database availability domain update is scheduled.
 	TimeScheduledAdUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledAdUpdate"`
-
-	// The earliest date and time to which the Autonomous Database CPG ID update is scheduled.
-	TimeEarliestAvailableCpgUpdate *common.SDKTime `mandatory:"false" json:"timeEarliestAvailableCpgUpdate"`
-
-	// The latest date and time to which you can schedule an Autonomous Database CPG ID update.
-	TimeLatestAvailableCpgUpdate *common.SDKTime `mandatory:"false" json:"timeLatestAvailableCpgUpdate"`
-
-	// The date and time to which the Autonomous Database CPG ID update is scheduled.
-	TimeScheduledCpgUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledCpgUpdate"`
 
 	// A list of the source Autonomous AI Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
@@ -642,6 +638,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		KmsKeyLifecycleDetails                  *string                                                        `json:"kmsKeyLifecycleDetails"`
 		EncryptionKey                           autonomousdatabaseencryptionkeydetails                         `json:"encryptionKey"`
 		KmsKeyVersionId                         *string                                                        `json:"kmsKeyVersionId"`
+		EncryptionKeyLocationDetails            encryptionkeylocationdetails                                   `json:"encryptionKeyLocationDetails"`
 		IsRegisteredAsCustomerOwnedContainer    *bool                                                          `json:"isRegisteredAsCustomerOwnedContainer"`
 		CharacterSet                            *string                                                        `json:"characterSet"`
 		NcharacterSet                           *string                                                        `json:"ncharacterSet"`
@@ -766,12 +763,10 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
+		AdScheduledForUpdate                    *string                                                        `json:"adScheduledForUpdate"`
 		TimeEarliestAvailableAdUpdate           *common.SDKTime                                                `json:"timeEarliestAvailableAdUpdate"`
 		TimeLatestAvailableAdUpdate             *common.SDKTime                                                `json:"timeLatestAvailableAdUpdate"`
 		TimeScheduledAdUpdate                   *common.SDKTime                                                `json:"timeScheduledAdUpdate"`
-		TimeEarliestAvailableCpgUpdate          *common.SDKTime                                                `json:"timeEarliestAvailableCpgUpdate"`
-		TimeLatestAvailableCpgUpdate            *common.SDKTime                                                `json:"timeLatestAvailableCpgUpdate"`
-		TimeScheduledCpgUpdate                  *common.SDKTime                                                `json:"timeScheduledCpgUpdate"`
 		CloneTableSpaceList                     []int                                                          `json:"cloneTableSpaceList"`
 		ExternalAuthentication                  []externalauthenticationbase                                   `json:"externalAuthentication"`
 		CloneType                               AutonomousDatabaseSummaryCloneTypeEnum                         `json:"cloneType"`
@@ -813,6 +808,16 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
 
 	m.IsRegisteredAsCustomerOwnedContainer = model.IsRegisteredAsCustomerOwnedContainer
 
@@ -1062,17 +1067,13 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
+	m.AdScheduledForUpdate = model.AdScheduledForUpdate
+
 	m.TimeEarliestAvailableAdUpdate = model.TimeEarliestAvailableAdUpdate
 
 	m.TimeLatestAvailableAdUpdate = model.TimeLatestAvailableAdUpdate
 
 	m.TimeScheduledAdUpdate = model.TimeScheduledAdUpdate
-
-	m.TimeEarliestAvailableCpgUpdate = model.TimeEarliestAvailableCpgUpdate
-
-	m.TimeLatestAvailableCpgUpdate = model.TimeLatestAvailableCpgUpdate
-
-	m.TimeScheduledCpgUpdate = model.TimeScheduledCpgUpdate
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)

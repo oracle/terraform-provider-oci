@@ -23020,6 +23020,67 @@ func (client VirtualNetworkClient) getServiceGateway(ctx context.Context, reques
 	return response, err
 }
 
+// GetSnmpCredentialsInternal Get Snmp credentials for edgePOP devices
+// A default retry strategy applies to this operation GetSnmpCredentialsInternal()
+func (client VirtualNetworkClient) GetSnmpCredentialsInternal(ctx context.Context, request GetSnmpCredentialsInternalRequest) (response GetSnmpCredentialsInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSnmpCredentialsInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSnmpCredentialsInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSnmpCredentialsInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSnmpCredentialsInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSnmpCredentialsInternalResponse")
+	}
+	return
+}
+
+// getSnmpCredentialsInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getSnmpCredentialsInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/snmpCredentialsInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetSnmpCredentialsInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/SnmpCredentialsInternal/GetSnmpCredentialsInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSnmpCredentialsInternal", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSubnet Gets the specified subnet's information.
 func (client VirtualNetworkClient) GetSubnet(ctx context.Context, request GetSubnetRequest) (response GetSubnetResponse, err error) {
 	var ociResponse common.OCIResponse

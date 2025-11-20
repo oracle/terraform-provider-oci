@@ -99,6 +99,9 @@ type DesktopPool struct {
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	PrivateAccessDetails *DesktopPoolPrivateAccessDetails `mandatory:"false" json:"privateAccessDetails"`
+
+	// The size in GBs of the boot volume for the desktop pool.
+	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
 }
 
 func (m DesktopPool) String() string {

@@ -29,6 +29,10 @@ import (
 // takes precedence over default routes (including routes for colocation in case of SGW and PAGW)
 type TargetOverridePairDetails struct {
 
+	// Indicates whether this entry corresponds to the default route
+	// or represents an explicit override of an existing destination route.
+	IsDefaultRouteOverride *bool `mandatory:"false" json:"isDefaultRouteOverride"`
+
 	// The destination CIDRs that needs to be overridden. The rule's `destination` is an IP address range in CIDR notation.
 	OverrideDestination *string `mandatory:"false" json:"overrideDestination"`
 

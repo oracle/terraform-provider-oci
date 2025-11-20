@@ -5336,6 +5336,64 @@ func (client DatabaseClient) createExternalPluggableDatabase(ctx context.Context
 	return response, err
 }
 
+// CreateGiHome Creates a new Grid Infrastructure Home in the specified database system based on the request parameters you provide.
+func (client DatabaseClient) CreateGiHome(ctx context.Context, request CreateGiHomeRequest) (response CreateGiHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGiHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGiHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGiHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGiHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGiHomeResponse")
+	}
+	return
+}
+
+// createGiHome implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createGiHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/giHomes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGiHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "CreateGiHome", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateKeyStore Creates a Key Store.
 func (client DatabaseClient) CreateKeyStore(ctx context.Context, request CreateKeyStoreRequest) (response CreateKeyStoreResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7538,6 +7596,59 @@ func (client DatabaseClient) deleteExternalPluggableDatabase(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/DeleteExternalPluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "DeleteExternalPluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteGiHome Deletes a Grid Infrastructure Home.
+func (client DatabaseClient) DeleteGiHome(ctx context.Context, request DeleteGiHomeRequest) (response DeleteGiHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteGiHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGiHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGiHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGiHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGiHomeResponse")
+	}
+	return
+}
+
+// deleteGiHome implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteGiHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/giHomes/{giHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGiHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiHome/DeleteGiHome"
+		err = common.PostProcessServiceError(err, "Database", "DeleteGiHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -13663,6 +13774,59 @@ func (client DatabaseClient) getExternalPluggableDatabase(ctx context.Context, r
 	return response, err
 }
 
+// GetGiHome Gets information about the specified Grid Infrastructure Home.
+func (client DatabaseClient) GetGiHome(ctx context.Context, request GetGiHomeRequest) (response GetGiHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGiHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGiHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGiHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGiHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGiHomeResponse")
+	}
+	return
+}
+
+// getGiHome implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getGiHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/giHomes/{giHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGiHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiHome/GetGiHome"
+		err = common.PostProcessServiceError(err, "Database", "GetGiHome", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInfrastructureTargetVersions Gets details of the Exadata Infrastructure target system software versions that can be applied to the specified infrastructure resource for maintenance updates.
 // Applies to Exadata Cloud@Customer and Exadata Cloud instances only.
 func (client DatabaseClient) GetInfrastructureTargetVersions(ctx context.Context, request GetInfrastructureTargetVersionsRequest) (response GetInfrastructureTargetVersionsResponse, err error) {
@@ -18642,6 +18806,59 @@ func (client DatabaseClient) listFlexComponents(ctx context.Context, request com
 	return response, err
 }
 
+// ListGiHomes Lists the Grid Infrastructure Homes.
+func (client DatabaseClient) ListGiHomes(ctx context.Context, request ListGiHomesRequest) (response ListGiHomesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGiHomes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGiHomesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGiHomesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGiHomesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGiHomesResponse")
+	}
+	return
+}
+
+// listGiHomes implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listGiHomes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/giHomes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGiHomesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiHome/ListGiHomes"
+		err = common.PostProcessServiceError(err, "Database", "ListGiHomes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListGiVersionMinorVersions Gets a list of supported Oracle Grid Infrastructure minor versions for the given major version and shape family.
 func (client DatabaseClient) ListGiVersionMinorVersions(ctx context.Context, request ListGiVersionMinorVersionsRequest) (response ListGiVersionMinorVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20872,6 +21089,64 @@ func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RegisterAutonomousDatabaseDataSafe"
 		err = common.PostProcessServiceError(err, "Database", "RegisterAutonomousDatabaseDataSafe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RegisterCloudAutonomousVmClusterPkcs Install the PKCS11 driver for given keystore type
+func (client DatabaseClient) RegisterCloudAutonomousVmClusterPkcs(ctx context.Context, request RegisterCloudAutonomousVmClusterPkcsRequest) (response RegisterCloudAutonomousVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerCloudAutonomousVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterCloudAutonomousVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterCloudAutonomousVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterCloudAutonomousVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterCloudAutonomousVmClusterPkcsResponse")
+	}
+	return
+}
+
+// registerCloudAutonomousVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) registerCloudAutonomousVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/registerPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterCloudAutonomousVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/RegisterCloudAutonomousVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "RegisterCloudAutonomousVmClusterPkcs", apiReferenceLink)
 		return response, err
 	}
 
@@ -23598,6 +23873,64 @@ func (client DatabaseClient) unmountDbnodeSnapshot(ctx context.Context, request 
 	return response, err
 }
 
+// UnregisterCloudAutonomousVmClusterPkcs Uninstall the PKCS11 driver for given keystore type
+func (client DatabaseClient) UnregisterCloudAutonomousVmClusterPkcs(ctx context.Context, request UnregisterCloudAutonomousVmClusterPkcsRequest) (response UnregisterCloudAutonomousVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unregisterCloudAutonomousVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnregisterCloudAutonomousVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnregisterCloudAutonomousVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnregisterCloudAutonomousVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnregisterCloudAutonomousVmClusterPkcsResponse")
+	}
+	return
+}
+
+// unregisterCloudAutonomousVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unregisterCloudAutonomousVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/unregisterPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnregisterCloudAutonomousVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/UnregisterCloudAutonomousVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "UnregisterCloudAutonomousVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnregisterCloudVmClusterPkcs Uninstall the PKCS11 driver for given keystore type
 func (client DatabaseClient) UnregisterCloudVmClusterPkcs(ctx context.Context, request UnregisterCloudVmClusterPkcsRequest) (response UnregisterCloudVmClusterPkcsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25576,6 +25909,59 @@ func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalPluggableDatabase/UpdateExternalPluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "UpdateExternalPluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGiHome Updates the tags and display name of a specified Grid Infrastructure Home.
+func (client DatabaseClient) UpdateGiHome(ctx context.Context, request UpdateGiHomeRequest) (response UpdateGiHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateGiHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGiHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGiHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGiHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGiHomeResponse")
+	}
+	return
+}
+
+// updateGiHome implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateGiHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/giHomes/{giHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGiHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiHome/UpdateGiHome"
+		err = common.PostProcessServiceError(err, "Database", "UpdateGiHome", apiReferenceLink)
 		return response, err
 	}
 

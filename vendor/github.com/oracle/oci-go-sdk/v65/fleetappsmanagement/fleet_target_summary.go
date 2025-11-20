@@ -52,6 +52,9 @@ type FleetTargetSummary struct {
 	// The current state of the FleetTarget.
 	LifecycleState FleetTargetLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Name of the parent target.
+	ParentTargetName *string `mandatory:"false" json:"parentTargetName"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

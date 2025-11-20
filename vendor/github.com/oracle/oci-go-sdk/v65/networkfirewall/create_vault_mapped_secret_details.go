@@ -28,6 +28,9 @@ type CreateVaultMappedSecretDetails struct {
 	// Version number of the secret to be used.
 	VersionNumber *int `mandatory:"true" json:"versionNumber"`
 
+	// The description of the mapped secret. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Type of the secrets mapped based on the policy.
 	// * `SSL_INBOUND_INSPECTION`: For Inbound inspection of SSL traffic.
 	// * `SSL_FORWARD_PROXY`: For forward proxy certificates for SSL inspection.
@@ -42,6 +45,11 @@ func (m CreateVaultMappedSecretDetails) GetName() *string {
 // GetType returns Type
 func (m CreateVaultMappedSecretDetails) GetType() InspectionTypeEnum {
 	return m.Type
+}
+
+// GetDescription returns Description
+func (m CreateVaultMappedSecretDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m CreateVaultMappedSecretDetails) String() string {

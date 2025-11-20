@@ -21,6 +21,14 @@ type UpdateFqdnAddressListDetails struct {
 
 	// List of FQDN addresses.
 	Addresses []string `mandatory:"true" json:"addresses"`
+
+	// The description of the address list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+}
+
+// GetDescription returns Description
+func (m UpdateFqdnAddressListDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateFqdnAddressListDetails) String() string {

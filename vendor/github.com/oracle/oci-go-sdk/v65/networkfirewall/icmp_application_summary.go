@@ -28,6 +28,9 @@ type IcmpApplicationSummary struct {
 	// The value of the ICMP message Type field as defined by RFC 792 (https://www.rfc-editor.org/rfc/rfc792.html).
 	IcmpType *int `mandatory:"true" json:"icmpType"`
 
+	// The description of the application. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// The value of the ICMP message Code (subtype) field as defined by RFC 792 (https://www.rfc-editor.org/rfc/rfc792.html).
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
 }
@@ -40,6 +43,11 @@ func (m IcmpApplicationSummary) GetName() *string {
 // GetParentResourceId returns ParentResourceId
 func (m IcmpApplicationSummary) GetParentResourceId() *string {
 	return m.ParentResourceId
+}
+
+// GetDescription returns Description
+func (m IcmpApplicationSummary) GetDescription() *string {
+	return m.Description
 }
 
 func (m IcmpApplicationSummary) String() string {

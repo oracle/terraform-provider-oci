@@ -119,6 +119,8 @@ type LustreFileSystem struct {
 	// File systems deleted earlier than this time will still incur charges until the billing cycle ends.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeBillingCycleEnd *common.SDKTime `mandatory:"false" json:"timeBillingCycleEnd"`
+
+	MaintenanceWindowMetadata *MaintenanceWindowMetadataDetails `mandatory:"false" json:"maintenanceWindowMetadata"`
 }
 
 func (m LustreFileSystem) String() string {

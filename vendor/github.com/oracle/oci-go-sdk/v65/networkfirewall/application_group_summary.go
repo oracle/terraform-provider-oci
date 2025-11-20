@@ -26,6 +26,9 @@ type ApplicationGroupSummary struct {
 
 	// OCID of the Network Firewall Policy this application group belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
+	// The description of the application list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m ApplicationGroupSummary) String() string {
