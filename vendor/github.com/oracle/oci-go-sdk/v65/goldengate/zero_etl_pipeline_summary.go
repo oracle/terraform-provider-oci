@@ -73,6 +73,10 @@ type ZeroEtlPipelineSummary struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
+	// The subnet must be a private subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// When the resource was last updated. This option applies when retrieving a pipeline. The format is defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2024-07-25T21:10:29.600Z`.
 	TimeLastRecorded *common.SDKTime `mandatory:"false" json:"timeLastRecorded"`
@@ -175,6 +179,11 @@ func (m ZeroEtlPipelineSummary) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m ZeroEtlPipelineSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetSubnetId returns SubnetId
+func (m ZeroEtlPipelineSummary) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m ZeroEtlPipelineSummary) String() string {

@@ -21,10 +21,10 @@ type GetNetworkAnchorRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAnchor.
 	NetworkAnchorId *string `mandatory:"true" contributesTo:"path" name:"networkAnchorId"`
 
-	// The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
+	// The subscription service name of the Cloud Service Provider.
 	SubscriptionServiceName GetNetworkAnchorSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
@@ -33,8 +33,11 @@ type GetNetworkAnchorRequest struct {
 	// underscore, and dash.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// OMHub Control Plane must know underlying CSP CP Region External Location Name.
+	// The Cloud Service Provider region.
 	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
+
+	// Whether to fetch and include the vcn display name, which may introduce additional latency.
+	ShouldFetchVcnName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchVcnName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

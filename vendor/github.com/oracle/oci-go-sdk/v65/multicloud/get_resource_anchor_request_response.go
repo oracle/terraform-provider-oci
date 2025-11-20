@@ -21,10 +21,10 @@ type GetResourceAnchorRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
 	ResourceAnchorId *string `mandatory:"true" contributesTo:"path" name:"resourceAnchorId"`
 
-	// The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
+	// The subscription service name of the Cloud Service Provider.
 	SubscriptionServiceName GetResourceAnchorSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
@@ -32,6 +32,9 @@ type GetResourceAnchorRequest struct {
 	// The only valid characters for request IDs are letters, numbers,
 	// underscore, and dash.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+	ShouldFetchCompartmentName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchCompartmentName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

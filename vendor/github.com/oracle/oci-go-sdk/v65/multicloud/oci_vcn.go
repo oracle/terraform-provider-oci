@@ -21,6 +21,9 @@ type OciVcn struct {
 	// Oracle Cloud Infrastructure VCN OCID. CSP can not set this property.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
+	// Name of the VCN associated to the Network Anchor.
+	VcnName *string `mandatory:"false" json:"vcnName"`
+
 	// Oracle Cloud Infrastructure primary cidr block. CSP can set this property
 	// It's optional only if disconnect anchor is allowed
 	// IPv4 CIDR blocks for the VCN that meet the following criteria

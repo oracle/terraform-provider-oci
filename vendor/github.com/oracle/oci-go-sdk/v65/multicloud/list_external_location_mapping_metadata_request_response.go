@@ -18,13 +18,14 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/ListExternalLocationMappingMetadata.go.html to see an example of how to use ListExternalLocationMappingMetadataRequest.
 type ListExternalLocationMappingMetadataRequest struct {
 
-	// The subscription type values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
+	// The subscription type of the Cloud Service Provider.
 	SubscriptionServiceName []SubscriptionTypeEnum `contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a

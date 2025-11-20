@@ -65,6 +65,17 @@ type CreateGatewayDetails struct {
 
 	// An array of CA bundles that should be used on the Gateway for TLS validation.
 	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
+
+	// Determines whether the gateway has an IPv4 or IPv6 address assigned to it, or both.
+	// `IPV4` means the gateway will only have an IPv4 address assigned to it, and `IPV6` means the gateway will
+	// only have an `IPv6` address assigned to it. `DUAL_STACK` means the gateway will have both an IPv4 and IPv6
+	// address assigned to it.
+	// Example: `IPV4` or `IPV6` or `DUAL_STACK`
+	IpMode GatewayIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
+
+	Ipv6AddressConfiguration *Ipv6AddressConfiguration `mandatory:"false" json:"ipv6AddressConfiguration"`
+
+	Ipv4AddressConfiguration *Ipv4AddressConfiguration `mandatory:"false" json:"ipv4AddressConfiguration"`
 }
 
 func (m CreateGatewayDetails) String() string {
@@ -80,6 +91,9 @@ func (m CreateGatewayDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EndpointType: %s. Supported values are: %s.", m.EndpointType, strings.Join(GetGatewayEndpointTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingGatewayIpModeEnum(string(m.IpMode)); !ok && m.IpMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMode: %s. Supported values are: %s.", m.IpMode, strings.Join(GetGatewayIpModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -89,17 +103,20 @@ func (m CreateGatewayDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName             *string                           `json:"displayName"`
-		NetworkSecurityGroupIds []string                          `json:"networkSecurityGroupIds"`
-		CertificateId           *string                           `json:"certificateId"`
-		ResponseCacheDetails    responsecachedetails              `json:"responseCacheDetails"`
-		Locks                   []AddResourceLockDetails          `json:"locks"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		CaBundles               []cabundle                        `json:"caBundles"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		EndpointType            GatewayEndpointTypeEnum           `json:"endpointType"`
-		SubnetId                *string                           `json:"subnetId"`
+		DisplayName              *string                           `json:"displayName"`
+		NetworkSecurityGroupIds  []string                          `json:"networkSecurityGroupIds"`
+		CertificateId            *string                           `json:"certificateId"`
+		ResponseCacheDetails     responsecachedetails              `json:"responseCacheDetails"`
+		Locks                    []AddResourceLockDetails          `json:"locks"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		CaBundles                []cabundle                        `json:"caBundles"`
+		IpMode                   GatewayIpModeEnum                 `json:"ipMode"`
+		Ipv6AddressConfiguration *Ipv6AddressConfiguration         `json:"ipv6AddressConfiguration"`
+		Ipv4AddressConfiguration *Ipv4AddressConfiguration         `json:"ipv4AddressConfiguration"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		EndpointType             GatewayEndpointTypeEnum           `json:"endpointType"`
+		SubnetId                 *string                           `json:"subnetId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -141,6 +158,12 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 			m.CaBundles[i] = nil
 		}
 	}
+	m.IpMode = model.IpMode
+
+	m.Ipv6AddressConfiguration = model.Ipv6AddressConfiguration
+
+	m.Ipv4AddressConfiguration = model.Ipv4AddressConfiguration
+
 	m.CompartmentId = model.CompartmentId
 
 	m.EndpointType = model.EndpointType

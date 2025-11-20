@@ -7048,7 +7048,8 @@ func (client ComputeClient) updateComputeGpuMemoryCluster(ctx context.Context, r
 	return response, err
 }
 
-// UpdateComputeGpuMemoryFabric Customer can update displayName, tags and for compute GPU memory fabric record
+// UpdateComputeGpuMemoryFabric Customer can update displayName, tags and  desired firmware bundle, recycle level for
+// compute GPU memory fabric record
 //
 // # See also
 //
