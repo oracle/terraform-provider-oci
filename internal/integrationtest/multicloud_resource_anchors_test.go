@@ -17,8 +17,8 @@ import (
 
 var (
 	MulticloudResourceAnchorsDataSourceRepresentation = map[string]interface{}{
-		"subscription_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
-		"subscription_service_name": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_service_name}`},
+		"subscription_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
+		"subscription_service_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_service_name}`},
 	}
 
 	MulticloudResourceAnchorsResourceConfig = ""
@@ -45,7 +45,7 @@ func TestMulticloudResourceAnchorsResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + subscriptionIdVariableStr + subscriptionServiceNameVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_multicloud_resource_anchors", "test_resource_anchors", acctest.Required, acctest.Create, MulticloudResourceAnchorsDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_multicloud_resource_anchors", "test_resource_anchors", acctest.Optional, acctest.Create, MulticloudResourceAnchorsDataSourceRepresentation) +
 				MulticloudResourceAnchorsResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "subscription_id", subscriptionId),
@@ -55,6 +55,8 @@ func TestMulticloudResourceAnchorsResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.partner_cloud_account_identifier"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.csp_resource_anchor_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.lifecycle_details"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.lifecycle_state"),
@@ -62,6 +64,7 @@ func TestMulticloudResourceAnchorsResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.system_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.time_updated"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.linked_compartment_id"),
 			),
 		},
 	})

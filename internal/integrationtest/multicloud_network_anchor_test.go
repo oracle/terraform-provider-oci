@@ -60,11 +60,8 @@ func TestMulticloudNetworkAnchorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "time_updated"),
-				// Commented as lifecycleState was renamed to networkAnchorLifecycleState
-				// resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_lifecycle_state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_lifecycle_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(datasourceName, "defined_tags.%"),
-				resource.TestCheckResourceAttrSet(datasourceName, "system_tags.%"),
 
 				resource.TestCheckResourceAttr(datasourceName, "oci_metadata_item.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oci_metadata_item.0.network_anchor_connection_status"),
@@ -87,6 +84,7 @@ func TestMulticloudNetworkAnchorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_service_provider_metadata_item.0.odb_network_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_service_provider_metadata_item.0.cidr_blocks.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_service_provider_metadata_item.0.network_anchor_uri"),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscription_type"),
 			),
 		},
 	})

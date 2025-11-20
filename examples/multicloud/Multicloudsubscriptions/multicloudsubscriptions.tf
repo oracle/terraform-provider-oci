@@ -4,8 +4,7 @@
 variable "auth" {}
 variable "config_file_profile" {}
 variable "region" {}
-variable "subscription_id" {}
-variable "subscription_service_name" {}
+variable "root_compartment_id" {}
 
 
 provider "oci" {
@@ -14,8 +13,7 @@ provider "oci" {
   region                = var.region
 }
 
-data "oci_multicloud_resource_anchors" "test_resource_anchors" {
-  #Optional
-  subscription_id           = var.subscription_id
-  subscription_service_name = var.subscription_service_name
+data "oci_multicloud_multicloudsubscriptions" "test_multicloudsubscriptions" {
+  #Required
+  compartment_id           = var.root_compartment_id
 }
