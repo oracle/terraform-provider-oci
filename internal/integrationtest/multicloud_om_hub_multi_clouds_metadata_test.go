@@ -16,7 +16,7 @@ import (
 
 var (
 	MulticloudOmHubMultiCloudsMetadataDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.om_hub_compartment_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.root_compartment_id}`},
 	}
 
 	MulticloudOmHubMultiCloudsMetadataResourceConfig = ""
@@ -29,9 +29,9 @@ func TestMulticloudOmHubMultiCloudsMetadataResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("TF_VAR_om_hub_compartment_id")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("TF_VAR_root_compartment_id")
 
-	compartmentIdVariableStr := fmt.Sprintf("variable \"om_hub_compartment_id\" {}\n")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"root_compartment_id\" {}\n")
 
 	datasourceName := "data.oci_multicloud_om_hub_multi_clouds_metadata.test_om_hub_multi_clouds_metadata"
 
