@@ -30,6 +30,10 @@ func MulticloudResourceAnchorDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"should_fetch_compartment_name": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			// Computed
 			"cloud_service_provider_metadata_item": {
 				Type:     schema.TypeList,
@@ -42,6 +46,20 @@ func MulticloudResourceAnchorDataSource() *schema.Resource {
 
 						// Computed
 						"account_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"csp_additional_properties": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+
+						"csp_resource_anchor_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"csp_resource_anchor_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -80,6 +98,10 @@ func MulticloudResourceAnchorDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compartment_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -103,6 +125,10 @@ func MulticloudResourceAnchorDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"linked_compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"linked_compartment_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -178,6 +204,11 @@ func (s *MulticloudResourceAnchorDataSourceCrud) Get() error {
 		request.SubscriptionServiceName = oci_multicloud.GetResourceAnchorSubscriptionServiceNameEnum(subscriptionServiceName.(string))
 	}
 
+	if shouldFetchCompartmentName, ok := s.D.GetOkExists("should_fetch_compartment_name"); ok {
+		tmp := shouldFetchCompartmentName.(bool)
+		request.ShouldFetchCompartmentName = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "multicloud")
 
 	response, err := s.Client.GetResourceAnchor(context.Background(), request)
@@ -194,7 +225,9 @@ func (s *MulticloudResourceAnchorDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(*s.Res.Id)
+	if s.Res.Id != nil {
+		s.D.SetId(*s.Res.Id)
+	}
 
 	if s.Res.CloudServiceProviderMetadataItem != nil {
 		cloudServiceProviderMetadataItemArray := []interface{}{}
@@ -208,6 +241,10 @@ func (s *MulticloudResourceAnchorDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CompartmentName != nil {
+		s.D.Set("compartment_name", *s.Res.CompartmentName)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -230,6 +267,10 @@ func (s *MulticloudResourceAnchorDataSourceCrud) SetData() error {
 
 	if s.Res.LinkedCompartmentId != nil {
 		s.D.Set("linked_compartment_id", *s.Res.LinkedCompartmentId)
+	}
+
+	if s.Res.LinkedCompartmentName != nil {
+		s.D.Set("linked_compartment_name", *s.Res.LinkedCompartmentName)
 	}
 
 	if s.Res.Region != nil {
@@ -263,6 +304,31 @@ func (s *MulticloudResourceAnchorDataSourceCrud) SetData() error {
 
 func CloudServiceProviderMetadataItemToMap(obj *oci_multicloud.CloudServiceProviderMetadataItem) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if (*obj).GetRegion() != nil {
+		result["region"] = string(*(*obj).GetRegion())
+	}
+
+	if (*obj).GetResourceAnchorName() != nil {
+		result["resource_anchor_name"] = (*obj).GetResourceAnchorName()
+	}
+
+	if (*obj).GetCspResourceAnchorId() != nil {
+		result["csp_resource_anchor_id"] = string(*(*obj).GetCspResourceAnchorId())
+	}
+
+	if (*obj).GetCspResourceAnchorName() != nil {
+		result["csp_resource_anchor_name"] = string(*(*obj).GetCspResourceAnchorName())
+	}
+
+	if (*obj).GetResourceAnchorUri() != nil {
+		result["resource_anchor_uri"] = string(*(*obj).GetResourceAnchorUri())
+	}
+
+	if (*obj).GetCspAdditionalProperties() != nil {
+		result["csp_additional_properties"] = (*obj).GetCspAdditionalProperties()
+	}
+
 	switch v := (*obj).(type) {
 	case oci_multicloud.AwsCloudServiceProviderMetadataItem:
 		result["subscription_type"] = "ORACLEDBATAWS"
@@ -271,17 +337,6 @@ func CloudServiceProviderMetadataItemToMap(obj *oci_multicloud.CloudServiceProvi
 			result["account_id"] = string(*v.AccountId)
 		}
 
-		if v.Region != nil {
-			result["region"] = string(*v.Region)
-		}
-
-		if v.ResourceAnchorName != nil {
-			result["resource_anchor_name"] = string(*v.ResourceAnchorName)
-		}
-
-		if v.ResourceAnchorUri != nil {
-			result["resource_anchor_uri"] = string(*v.ResourceAnchorUri)
-		}
 	case oci_multicloud.AzureCloudServiceProviderMetadataItem:
 		result["subscription_type"] = "ORACLEDBATAZURE"
 
@@ -292,35 +347,11 @@ func CloudServiceProviderMetadataItemToMap(obj *oci_multicloud.CloudServiceProvi
 		if v.Subscription != nil {
 			result["subscription"] = string(*v.Subscription)
 		}
-
-		if v.Region != nil {
-			result["region"] = string(*v.Region)
-		}
-
-		if v.ResourceAnchorName != nil {
-			result["resource_anchor_name"] = string(*v.ResourceAnchorName)
-		}
-
-		if v.ResourceAnchorUri != nil {
-			result["resource_anchor_uri"] = string(*v.ResourceAnchorUri)
-		}
 	case oci_multicloud.GcpCloudServiceProviderMetadataItem:
 		result["subscription_type"] = "ORACLEDBATGOOGLE"
 
 		if v.ProjectNumber != nil {
 			result["project_number"] = string(*v.ProjectNumber)
-		}
-
-		if v.Region != nil {
-			result["region"] = string(*v.Region)
-		}
-
-		if v.ResourceAnchorName != nil {
-			result["resource_anchor_name"] = string(*v.ResourceAnchorName)
-		}
-
-		if v.ResourceAnchorUri != nil {
-			result["resource_anchor_uri"] = string(*v.ResourceAnchorUri)
 		}
 	default:
 		log.Printf("[WARN] Received 'subscription_type' of unknown type %v", *obj)

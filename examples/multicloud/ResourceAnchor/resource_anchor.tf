@@ -1,10 +1,8 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
+variable "auth" {}
+variable "config_file_profile" {}
 variable "region" {}
 variable "resource_anchor_id" {}
 variable "subscription_id" {}
@@ -12,11 +10,9 @@ variable "subscription_service_name" {}
 
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                  = var.auth
+  config_file_profile   = var.config_file_profile
+  region                = var.region
 }
 
 data "oci_multicloud_resource_anchor" "test_resource_anchor" {

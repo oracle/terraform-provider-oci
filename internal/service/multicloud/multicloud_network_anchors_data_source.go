@@ -18,19 +18,20 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 		Read: readMulticloudNetworkAnchors,
 		Schema: map[string]*schema.Schema{
 			// Required
+
+			// Optional
 			"subscription_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"subscription_service_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"external_location": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
-			// Optional
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -47,6 +48,10 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"network_anchor_oci_vcn_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -57,6 +62,10 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 			},
 			"limit": {
 				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"should_fetch_vcn_name": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			// Computed
@@ -95,6 +104,14 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"vcn_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"network_anchor_connection_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"cluster_placement_group_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -104,6 +121,19 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"csp_additional_properties": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"csp_network_anchor_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"network_anchor_uri": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -129,6 +159,10 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeMap,
 										Computed: true,
 										Elem:     schema.TypeString,
+									},
+									"subscription_type": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
@@ -163,6 +197,13 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 
 	// Required
 
+	// Optional
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
 		tmp := subscriptionId.(string)
 		request.SubscriptionId = &tmp
@@ -172,31 +213,28 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 		request.SubscriptionServiceName = oci_multicloud.ListNetworkAnchorsSubscriptionServiceNameEnum(subscriptionServiceName.(string))
 	}
 
-	if externalLocation, ok := s.D.GetOkExists("external_location"); ok {
-		tmp := externalLocation.(string)
-		request.ExternalLocation = &tmp
+	if networkAnchorLifecycleState, ok := s.D.GetOkExists("network_anchor_lifecycle_state"); ok {
+		request.NetworkAnchorLifecycleState = oci_multicloud.NetworkAnchorNetworkAnchorLifecycleStateEnum(networkAnchorLifecycleState.(string))
 	}
-
-	// Optional
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
-
-	// NOTE: Latest SDK (v65.105.0) has breaking changes where the LifecycleState property has been renamed to NetworkAnchorLifecycleState
-	// if lifecycleState, ok := s.D.GetOkExists("network_anchor_lifecycle_state"); ok {
-	// 	request.LifecycleState = oci_multicloud.NetworkAnchorLifecycleStateEnum(lifecycleState.(string))
-	// }
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
+	if externalLocation, ok := s.D.GetOkExists("external_location"); ok {
+		tmp := externalLocation.(string)
+		request.ExternalLocation = &tmp
+	}
+
 	if networkAnchorOciSubnetId, ok := s.D.GetOkExists("network_anchor_oci_subnet_id"); ok {
 		tmp := networkAnchorOciSubnetId.(string)
 		request.NetworkAnchorOciSubnetId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if networkAnchorOciVcnId, ok := s.D.GetOkExists("network_anchor_oci_vcn_id"); ok {
@@ -212,6 +250,11 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 	if limit, ok := s.D.GetOkExists("limit"); ok {
 		tmp := limit.(int)
 		request.Limit = &tmp
+	}
+
+	if shouldFetchVcnName, ok := s.D.GetOkExists("should_fetch_vcn_name"); ok {
+		tmp := shouldFetchVcnName.(bool)
+		request.ShouldFetchVcnName = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "multicloud")
@@ -283,6 +326,12 @@ func NetworkAnchorSummaryToMap(obj oci_multicloud.NetworkAnchorSummary) map[stri
 		result["vcn_id"] = string(*obj.VcnId)
 	}
 
+	if obj.VcnName != nil {
+		result["vcn_name"] = string(*obj.VcnName)
+	}
+
+	result["network_anchor_connection_status"] = string(obj.NetworkAnchorConnectionStatus)
+
 	if obj.ClusterPlacementGroupId != nil {
 		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
 	}
@@ -295,8 +344,17 @@ func NetworkAnchorSummaryToMap(obj oci_multicloud.NetworkAnchorSummary) map[stri
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
-	// NOTE: Latest SDK (v65.105.0) has breaking changes where the LifecycleState property has been renamed to NetworkAnchorLifecycleState
-	// result["network_anchor_lifecycle_state"] = string(obj.LifecycleState)
+	result["csp_additional_properties"] = obj.CspAdditionalProperties
+
+	if obj.CspNetworkAnchorId != nil {
+		result["csp_network_anchor_id"] = string(*obj.CspNetworkAnchorId)
+	}
+
+	if obj.NetworkAnchorUri != nil {
+		result["network_anchor_uri"] = string(*obj.NetworkAnchorUri)
+	}
+
+	result["network_anchor_lifecycle_state"] = string(obj.NetworkAnchorLifecycleState)
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
@@ -311,6 +369,8 @@ func NetworkAnchorSummaryToMap(obj oci_multicloud.NetworkAnchorSummary) map[stri
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
+
+	result["subscription_type"] = string(obj.SubscriptionType)
 
 	return result
 }

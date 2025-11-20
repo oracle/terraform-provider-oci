@@ -17,9 +17,9 @@ import (
 
 var (
 	MulticloudNetworkAnchorsDataSourceRepresentation = map[string]interface{}{
-		"subscription_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
-		"subscription_service_name": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_service_name}`},
-		"external_location":         acctest.Representation{RepType: acctest.Required, Create: `${var.network_anchor_external_location}`},
+		"subscription_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
+		"subscription_service_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_service_name}`},
+		"external_location":         acctest.Representation{RepType: acctest.Optional, Create: `${var.network_anchor_external_location}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.network_anchor_compartment_id}`},
 	}
 
@@ -68,11 +68,13 @@ func TestMulticloudNetworkAnchorsResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.vcn_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.time_updated"),
-				// Commented as lifecycleState was renamed to networkAnchorLifecycleState
-				// resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.network_anchor_lifecycle_state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.csp_network_anchor_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.network_anchor_uri"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.network_anchor_lifecycle_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.defined_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.system_tags.%"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.subscription_type"),
 			),
 		},
 	})

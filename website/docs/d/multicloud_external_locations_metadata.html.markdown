@@ -17,13 +17,16 @@ List externalLocationDetail metadata from Oracle Cloud Infrastructure to Cloud  
 ```hcl
 data "oci_multicloud_external_locations_metadata" "test_external_locations_metadata" {
 	#Required
-	compartment_id            = var.compartment_id
 	subscription_id           = var.subscription_id
 	subscription_service_name = var.subscription_service_name
 
 	#Optional
-	entity_type               = var.external_locations_metadata_entity_type
-	linked_compartment_id     = var.linked_compartment_id
+	cluster_placement_group_id 	= var.cluster_placement_group_id
+	compartment_id            	= var.compartment_id
+	entity_type               	= var.external_locations_metadata_entity_type
+	external_location			= var.external_location
+	linked_compartment_id     	= var.linked_compartment_id
+	logical_zone 				= var.logical_zone
 }
 ```
 
@@ -31,11 +34,14 @@ data "oci_multicloud_external_locations_metadata" "test_external_locations_metad
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
-* `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
-* `subscription_service_name` - (Required) The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
+* `cluster_placement_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster Placement Group.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.  A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).  
 * `entity_type` - (Optional) The resource type query (i.e. dbsystem, instance etc.)
-* `linked_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which linked to Resource.
+* `external_location` - (Optional) The Cloud Service Provider region.
+* `linked_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
+* `logical_zone` - (Optional) Oracle Cloud Infrastructure Logical AD to filter the response.
+* `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+* `subscription_service_name` - (Required) The subscription service name of the Cloud Service Provider.
 
 
 ## Attributes Reference
@@ -49,10 +55,12 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of ExternalLocationsMetadatumSummary
-	* `cpg_id` - Cluster Placement Group OCID
+	* `cluster_placement_group_id` - Cluster Placement Group OCID
+	* `cpg_id` - Cluster Placement Group OCID (deprecated representation)
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 	* `external_location` - External location for CSP Region, CSP-Physical-AZ, CSP-Logical-AZ
 		* `csp_logical_az` - A mapping of CSP physical availability zone to CSP logical availability zone.
+		* `csp_logical_az_display_name` - User friendly display name for cspLogicalAZ
 		* `csp_physical_az` - A mapping of Oracle Cloud Infrastructure site group name to CSP physical availability zone name
 		* `csp_physical_az_display_name` - User friendly display name for cspPhysicalAZ
 		* `csp_region` - CSP region corresponding to the given Oracle Cloud Infrastructure region
@@ -65,4 +73,7 @@ The following attributes are exported:
 	* `oci_logical_ad` - Oracle Cloud Infrastructure logical ad name
 	* `oci_physical_ad` - Oracle Cloud Infrastructure physical ad name
 	* `oci_region` - Oracle Cloud Infrastructure region identifier https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+	* `partner_cloud_account_name` - User friendly name of account name for customer's subscription
+	* `partner_cloud_account_url` - Direct URL to partner cloud for customer's account
+	* `partner_cloud_name` - Partner Cloud Name based on service name
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}`

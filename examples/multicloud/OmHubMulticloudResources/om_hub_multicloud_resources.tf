@@ -6,6 +6,8 @@ variable "config_file_profile" {}
 variable "region" {}
 variable "subscription_id" {}
 variable "subscription_service_name" {}
+variable "subscription_compartment_id" {}
+variable "multicloud_resources_limit" {}
 
 
 provider "oci" {
@@ -14,8 +16,12 @@ provider "oci" {
   region                = var.region
 }
 
-data "oci_multicloud_resource_anchors" "test_resource_anchors" {
-  #Optional
+data "oci_multicloud_om_hub_multicloud_resources" "test_om_hub_multicloud_resources" {
+  #Required
   subscription_id           = var.subscription_id
   subscription_service_name = var.subscription_service_name
+
+  #Optiional
+  compartment_id            = var.subscription_compartment_id
+  limit                     = var.multicloud_resources_limit
 }
