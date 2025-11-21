@@ -8,7 +8,6 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -16,7 +15,7 @@ import (
 
 func CloudGuardDataSourceEventsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardDataSourceEventsWithContext,
+		Read: readCloudGuardDataSourceEvents,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"data_source_id": {
@@ -109,12 +108,12 @@ func CloudGuardDataSourceEventsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardDataSourceEventsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardDataSourceEvents(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDataSourceEventsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardDataSourceEventsDataSourceCrud struct {
@@ -127,7 +126,7 @@ func (s *CloudGuardDataSourceEventsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardDataSourceEventsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardDataSourceEventsDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListDataSourceEventsRequest{}
 
 	if dataSourceId, ok := s.D.GetOkExists("data_source_id"); ok {
@@ -142,7 +141,7 @@ func (s *CloudGuardDataSourceEventsDataSourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListDataSourceEvents(ctx, request)
+	response, err := s.Client.ListDataSourceEvents(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -151,7 +150,7 @@ func (s *CloudGuardDataSourceEventsDataSourceCrud) GetWithContext(ctx context.Co
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataSourceEvents(ctx, request)
+		listResponse, err := s.Client.ListDataSourceEvents(context.Background(), request)
 		if err != nil {
 			return err
 		}

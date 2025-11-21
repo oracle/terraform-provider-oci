@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -20,15 +19,15 @@ func CloudGuardManagedListDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudGuardManagedListResource(), fieldMap, readSingularCloudGuardManagedListWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(CloudGuardManagedListResource(), fieldMap, readSingularCloudGuardManagedList)
 }
 
-func readSingularCloudGuardManagedListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudGuardManagedList(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardManagedListDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *CloudGuardManagedListDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardManagedListDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListDataSourceCrud) Get() error {
 	request := oci_cloud_guard.GetManagedListRequest{}
 
 	if managedListId, ok := s.D.GetOkExists("managed_list_id"); ok {
@@ -51,7 +50,7 @@ func (s *CloudGuardManagedListDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetManagedList(ctx, request)
+	response, err := s.Client.GetManagedList(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudGuardManagedListsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardManagedListsWithContext,
+		Read: readCloudGuardManagedLists,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -65,12 +64,12 @@ func CloudGuardManagedListsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardManagedListsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardManagedLists(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardManagedListsDataSourceCrud struct {
@@ -83,7 +82,7 @@ func (s *CloudGuardManagedListsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardManagedListsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListsDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListManagedListsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -120,7 +119,7 @@ func (s *CloudGuardManagedListsDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListManagedLists(ctx, request)
+	response, err := s.Client.ListManagedLists(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +128,7 @@ func (s *CloudGuardManagedListsDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListManagedLists(ctx, request)
+		listResponse, err := s.Client.ListManagedLists(context.Background(), request)
 		if err != nil {
 			return err
 		}

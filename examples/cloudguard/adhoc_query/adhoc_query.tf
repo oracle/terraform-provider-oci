@@ -2,6 +2,9 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -55,7 +58,12 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
   region              = var.region
-#  version             = "7.19.0"
+  //version             = "5.39.0"
+  /*tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region*/
 }
 
 resource "oci_cloud_guard_adhoc_query" "test_adhoc_query" {

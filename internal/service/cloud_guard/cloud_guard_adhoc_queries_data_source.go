@@ -7,7 +7,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -18,7 +17,7 @@ import (
 
 func CloudGuardAdhocQueriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardAdhocQueriesWithContext,
+		Read: readCloudGuardAdhocQueries,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -63,12 +62,12 @@ func CloudGuardAdhocQueriesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardAdhocQueriesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardAdhocQueries(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardAdhocQueriesDataSourceCrud struct {
@@ -81,7 +80,7 @@ func (s *CloudGuardAdhocQueriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardAdhocQueriesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueriesDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListAdhocQueriesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -120,7 +119,7 @@ func (s *CloudGuardAdhocQueriesDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListAdhocQueries(ctx, request)
+	response, err := s.Client.ListAdhocQueries(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +128,7 @@ func (s *CloudGuardAdhocQueriesDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAdhocQueries(ctx, request)
+		listResponse, err := s.Client.ListAdhocQueries(context.Background(), request)
 		if err != nil {
 			return err
 		}

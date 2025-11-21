@@ -6,8 +6,8 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,11 +19,11 @@ func CloudGuardWlpAgentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardWlpAgentWithContext,
-		ReadContext:   readCloudGuardWlpAgentWithContext,
-		UpdateContext: updateCloudGuardWlpAgentWithContext,
-		DeleteContext: deleteCloudGuardWlpAgentWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardWlpAgent,
+		Read:     readCloudGuardWlpAgent,
+		Update:   updateCloudGuardWlpAgent,
+		Delete:   deleteCloudGuardWlpAgent,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"agent_version": {
@@ -91,37 +91,37 @@ func CloudGuardWlpAgentResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardWlpAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardWlpAgent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardWlpAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardWlpAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardWlpAgent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardWlpAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardWlpAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardWlpAgent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardWlpAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardWlpAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardWlpAgent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardWlpAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardWlpAgentResourceCrud struct {
@@ -135,7 +135,7 @@ func (s *CloudGuardWlpAgentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CloudGuardWlpAgentResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardWlpAgentResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateWlpAgentRequest{}
 
 	if agentVersion, ok := s.D.GetOkExists("agent_version"); ok {
@@ -172,7 +172,7 @@ func (s *CloudGuardWlpAgentResourceCrud) CreateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateWlpAgent(ctx, request)
+	response, err := s.Client.CreateWlpAgent(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -181,7 +181,7 @@ func (s *CloudGuardWlpAgentResourceCrud) CreateWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *CloudGuardWlpAgentResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardWlpAgentResourceCrud) Get() error {
 	request := oci_cloud_guard.GetWlpAgentRequest{}
 
 	tmp := s.D.Id()
@@ -189,7 +189,7 @@ func (s *CloudGuardWlpAgentResourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetWlpAgent(ctx, request)
+	response, err := s.Client.GetWlpAgent(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -198,7 +198,7 @@ func (s *CloudGuardWlpAgentResourceCrud) GetWithContext(ctx context.Context) err
 	return nil
 }
 
-func (s *CloudGuardWlpAgentResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardWlpAgentResourceCrud) Update() error {
 	request := oci_cloud_guard.UpdateWlpAgentRequest{}
 
 	if certificateSignedRequest, ok := s.D.GetOkExists("certificate_signed_request"); ok {
@@ -223,7 +223,7 @@ func (s *CloudGuardWlpAgentResourceCrud) UpdateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateWlpAgent(ctx, request)
+	response, err := s.Client.UpdateWlpAgent(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -232,7 +232,7 @@ func (s *CloudGuardWlpAgentResourceCrud) UpdateWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *CloudGuardWlpAgentResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardWlpAgentResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteWlpAgentRequest{}
 
 	tmp := s.D.Id()
@@ -240,7 +240,7 @@ func (s *CloudGuardWlpAgentResourceCrud) DeleteWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteWlpAgent(ctx, request)
+	_, err := s.Client.DeleteWlpAgent(context.Background(), request)
 	return err
 }
 

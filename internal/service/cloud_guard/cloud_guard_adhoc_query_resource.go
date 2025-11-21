@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -20,10 +20,10 @@ func CloudGuardAdhocQueryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardAdhocQueryWithContext,
-		ReadContext:   readCloudGuardAdhocQueryWithContext,
-		DeleteContext: deleteCloudGuardAdhocQueryWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardAdhocQuery,
+		Read:     readCloudGuardAdhocQuery,
+		Delete:   deleteCloudGuardAdhocQuery,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"adhoc_query_details": {
@@ -176,29 +176,29 @@ func CloudGuardAdhocQueryResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardAdhocQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardAdhocQuery(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardAdhocQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardAdhocQuery(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteCloudGuardAdhocQueryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardAdhocQuery(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardAdhocQueryResourceCrud struct {
@@ -236,7 +236,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardAdhocQueryResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueryResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateAdhocQueryRequest{}
 
 	if adhocQueryDetails, ok := s.D.GetOkExists("adhoc_query_details"); ok {
@@ -269,7 +269,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateAdhocQuery(ctx, request)
+	response, err := s.Client.CreateAdhocQuery(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -278,7 +278,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) CreateWithContext(ctx context.Context
 	return nil
 }
 
-func (s *CloudGuardAdhocQueryResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueryResourceCrud) Get() error {
 	request := oci_cloud_guard.GetAdhocQueryRequest{}
 
 	tmp := s.D.Id()
@@ -286,7 +286,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetAdhocQuery(ctx, request)
+	response, err := s.Client.GetAdhocQuery(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -295,7 +295,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) GetWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *CloudGuardAdhocQueryResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueryResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteAdhocQueryRequest{}
 
 	tmp := s.D.Id()
@@ -303,7 +303,7 @@ func (s *CloudGuardAdhocQueryResourceCrud) DeleteWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteAdhocQuery(ctx, request)
+	_, err := s.Client.DeleteAdhocQuery(context.Background(), request)
 	return err
 }
 

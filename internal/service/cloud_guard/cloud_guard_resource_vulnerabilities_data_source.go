@@ -17,7 +17,6 @@ import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -27,7 +26,7 @@ import (
 
 func CloudGuardResourceVulnerabilitiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardResourceVulnerabilitiesWithContext,
+		Read: readCloudGuardResourceVulnerabilities,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cve_id": {
@@ -155,12 +154,12 @@ func CloudGuardResourceVulnerabilitiesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardResourceVulnerabilitiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardResourceVulnerabilities(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardResourceVulnerabilitiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardResourceVulnerabilitiesDataSourceCrud struct {
@@ -173,7 +172,7 @@ func (s *CloudGuardResourceVulnerabilitiesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardResourceVulnerabilitiesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardResourceVulnerabilitiesDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListResourceVulnerabilitiesRequest{}
 
 	if cveId, ok := s.D.GetOkExists("cve_id"); ok {
@@ -193,7 +192,7 @@ func (s *CloudGuardResourceVulnerabilitiesDataSourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListResourceVulnerabilities(ctx, request)
+	response, err := s.Client.ListResourceVulnerabilities(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -202,7 +201,7 @@ func (s *CloudGuardResourceVulnerabilitiesDataSourceCrud) GetWithContext(ctx con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListResourceVulnerabilities(ctx, request)
+		listResponse, err := s.Client.ListResourceVulnerabilities(context.Background(), request)
 		if err != nil {
 			return err
 		}

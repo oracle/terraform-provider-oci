@@ -10,7 +10,6 @@ package cloud_guard
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -20,7 +19,7 @@ package cloud_guard
 
 func CloudGuardAdhocQueryResultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardAdhocQueryResultsWithContext,
+		Read: readCloudGuardAdhocQueryResults,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"adhoc_query_id": {
@@ -105,12 +104,12 @@ func CloudGuardAdhocQueryResultsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardAdhocQueryResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardAdhocQueryResults(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueryResultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardAdhocQueryResultsDataSourceCrud struct {
@@ -123,7 +122,7 @@ func (s *CloudGuardAdhocQueryResultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardAdhocQueryResultsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueryResultsDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListAdhocQueryResultsRequest{}
 
 	if adhocQueryId, ok := s.D.GetOkExists("adhoc_query_id"); ok {
@@ -138,7 +137,7 @@ func (s *CloudGuardAdhocQueryResultsDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListAdhocQueryResults(ctx, request)
+	response, err := s.Client.ListAdhocQueryResults(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -147,7 +146,7 @@ func (s *CloudGuardAdhocQueryResultsDataSourceCrud) GetWithContext(ctx context.C
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAdhocQueryResults(ctx, request)
+		listResponse, err := s.Client.ListAdhocQueryResults(context.Background(), request)
 		if err != nil {
 			return err
 		}

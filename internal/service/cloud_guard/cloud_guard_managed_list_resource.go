@@ -6,8 +6,8 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,11 +19,11 @@ func CloudGuardManagedListResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardManagedListWithContext,
-		ReadContext:   readCloudGuardManagedListWithContext,
-		UpdateContext: updateCloudGuardManagedListWithContext,
-		DeleteContext: deleteCloudGuardManagedListWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardManagedList,
+		Read:     readCloudGuardManagedList,
+		Update:   updateCloudGuardManagedList,
+		Delete:   deleteCloudGuardManagedList,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -114,37 +114,37 @@ func CloudGuardManagedListResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardManagedListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardManagedList(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardManagedListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardManagedList(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardManagedListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardManagedList(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardManagedListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardManagedList(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardManagedListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardManagedListResourceCrud struct {
@@ -182,7 +182,7 @@ func (s *CloudGuardManagedListResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardManagedListResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateManagedListRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -241,7 +241,7 @@ func (s *CloudGuardManagedListResourceCrud) CreateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateManagedList(ctx, request)
+	response, err := s.Client.CreateManagedList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -250,7 +250,7 @@ func (s *CloudGuardManagedListResourceCrud) CreateWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *CloudGuardManagedListResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListResourceCrud) Get() error {
 	request := oci_cloud_guard.GetManagedListRequest{}
 
 	tmp := s.D.Id()
@@ -258,7 +258,7 @@ func (s *CloudGuardManagedListResourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetManagedList(ctx, request)
+	response, err := s.Client.GetManagedList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -267,7 +267,7 @@ func (s *CloudGuardManagedListResourceCrud) GetWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *CloudGuardManagedListResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -324,7 +324,7 @@ func (s *CloudGuardManagedListResourceCrud) UpdateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateManagedList(ctx, request)
+	response, err := s.Client.UpdateManagedList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -333,7 +333,7 @@ func (s *CloudGuardManagedListResourceCrud) UpdateWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *CloudGuardManagedListResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardManagedListResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteManagedListRequest{}
 
 	tmp := s.D.Id()
@@ -341,7 +341,7 @@ func (s *CloudGuardManagedListResourceCrud) DeleteWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteManagedList(ctx, request)
+	_, err := s.Client.DeleteManagedList(context.Background(), request)
 	return err
 }
 
@@ -483,7 +483,7 @@ func (s *CloudGuardManagedListResourceCrud) updateCompartment(compartment interf
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

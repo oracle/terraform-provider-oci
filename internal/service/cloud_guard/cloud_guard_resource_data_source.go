@@ -9,7 +9,6 @@ package cloud_guard
 /*import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -19,7 +18,7 @@ package cloud_guard
 
 func CloudGuardResourceDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularCloudGuardResourceWithContext,
+		Read: readSingularCloudGuardResource,
 		Schema: map[string]*schema.Schema{
 			"resource_id": {
 				Type:     schema.TypeString,
@@ -110,12 +109,12 @@ func CloudGuardResourceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCloudGuardResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudGuardResource(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardResourceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardResourceDataSourceCrud struct {
@@ -128,7 +127,7 @@ func (s *CloudGuardResourceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardResourceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardResourceDataSourceCrud) Get() error {
 	request := oci_cloud_guard.GetResourceRequest{}
 
 	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
@@ -138,7 +137,7 @@ func (s *CloudGuardResourceDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetResource(ctx, request)
+	response, err := s.Client.GetResource(context.Background(), request)
 	if err != nil {
 		return err
 	}

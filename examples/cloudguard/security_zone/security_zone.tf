@@ -2,6 +2,9 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -24,25 +27,26 @@ variable "lifecycle_state_active" {
 }
 
 provider "oci" {
-  auth                = "SecurityToken"
-  config_file_profile = "terraform-federation-test"
-  region              = var.region
-#  version             = "7.19.0"
+  tenancy_ocid     = "${var.tenancy_ocid}"
+  user_ocid        = "${var.user_ocid}"
+  fingerprint      = "${var.fingerprint}"
+  private_key_path = "${var.private_key_path}"
+  region           = "${var.region}"
 }
 
 
 data "oci_cloud_guard_security_recipes" "test_security_recipes" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = "${var.tenancy_ocid}"
   #Optional
-  state          = var.lifecycle_state_active
+  state          = "${var.lifecycle_state_active}"
 }
 
 data "oci_cloud_guard_security_zones" "test_security_zones" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = "${var.compartment_id}"
   #Optional
-  state          = var.lifecycle_state_active
+  state          = "${var.lifecycle_state_active}"
 }
 
 /*
@@ -50,9 +54,9 @@ This data sources is used to get the security_policy_id to attach to security zo
 */
 data "oci_cloud_guard_security_policies" "test_security_policies" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = "${var.tenancy_ocid}"
   #Optional
-  state          = var.lifecycle_state_active
+  state          = "${var.lifecycle_state_active}"
 }
 
 /*
@@ -65,12 +69,12 @@ the collection for creating a security zone.
 */
 resource "oci_cloud_guard_security_zone" "test_security_zone" {
   #Required
-  compartment_id          = var.compartment_id
-  display_name            = var.security_zone_display_name
-  security_zone_recipe_id = data.oci_cloud_guard_security_recipes.test_security_recipes.security_recipe_collection.0.items.0.id
+  compartment_id          = "${var.compartment_id}"
+  display_name            = "${var.security_zone_display_name}"
+  security_zone_recipe_id = "${data.oci_cloud_guard_security_recipes.test_security_recipes.security_recipe_collection.0.items.0.id}"
 
 
   #Optional
-  description   = var.security_zone_description
+  description   = "${var.security_zone_description}"
 
 }

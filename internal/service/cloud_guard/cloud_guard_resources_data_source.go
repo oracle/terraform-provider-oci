@@ -10,7 +10,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -20,7 +19,7 @@ import (
 
 func CloudGuardResourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardResourcesWithContext,
+		Read: readCloudGuardResources,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -191,12 +190,12 @@ func CloudGuardResourcesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardResourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardResources(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardResourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardResourcesDataSourceCrud struct {
@@ -209,7 +208,7 @@ func (s *CloudGuardResourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardResourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardResourcesDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListResourcesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -290,7 +289,7 @@ func (s *CloudGuardResourcesDataSourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListResources(ctx, request)
+	response, err := s.Client.ListResources(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -299,7 +298,7 @@ func (s *CloudGuardResourcesDataSourceCrud) GetWithContext(ctx context.Context) 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListResources(ctx, request)
+		listResponse, err := s.Client.ListResources(context.Background(), request)
 		if err != nil {
 			return err
 		}

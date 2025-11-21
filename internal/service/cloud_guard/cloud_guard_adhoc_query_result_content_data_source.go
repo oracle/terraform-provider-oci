@@ -9,7 +9,6 @@ package cloud_guard
 /*import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -19,7 +18,7 @@ package cloud_guard
 
 func CloudGuardAdhocQueryResultContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularCloudGuardAdhocQueryResultContentWithContext,
+		Read: readSingularCloudGuardAdhocQueryResultContent,
 		Schema: map[string]*schema.Schema{
 			"adhoc_query_id": {
 				Type:     schema.TypeString,
@@ -30,12 +29,12 @@ func CloudGuardAdhocQueryResultContentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCloudGuardAdhocQueryResultContentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudGuardAdhocQueryResultContent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardAdhocQueryResultContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardAdhocQueryResultContentDataSourceCrud struct {
@@ -48,7 +47,7 @@ func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) Get() error {
 	request := oci_cloud_guard.GetAdhocQueryResultContentRequest{}
 
 	if adhocQueryId, ok := s.D.GetOkExists("adhoc_query_id"); ok {
@@ -58,7 +57,7 @@ func (s *CloudGuardAdhocQueryResultContentDataSourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetAdhocQueryResultContent(ctx, request)
+	response, err := s.Client.GetAdhocQueryResultContent(context.Background(), request)
 	if err != nil {
 		return err
 	}

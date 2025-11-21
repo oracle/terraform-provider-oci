@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudGuardTargetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardTargetsWithContext,
+		Read: readCloudGuardTargets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -61,12 +60,12 @@ func CloudGuardTargetsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardTargetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardTargets(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardTargetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardTargetsDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *CloudGuardTargetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardTargetsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardTargetsDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListTargetsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -112,7 +111,7 @@ func (s *CloudGuardTargetsDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListTargets(ctx, request)
+	response, err := s.Client.ListTargets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +120,7 @@ func (s *CloudGuardTargetsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTargets(ctx, request)
+		listResponse, err := s.Client.ListTargets(context.Background(), request)
 		if err != nil {
 			return err
 		}

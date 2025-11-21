@@ -9,9 +9,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -23,11 +23,11 @@ func CloudGuardDataMaskRuleResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardDataMaskRuleWithContext,
-		ReadContext:   readCloudGuardDataMaskRuleWithContext,
-		UpdateContext: updateCloudGuardDataMaskRuleWithContext,
-		DeleteContext: deleteCloudGuardDataMaskRuleWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardDataMaskRule,
+		Read:     readCloudGuardDataMaskRule,
+		Update:   updateCloudGuardDataMaskRule,
+		Delete:   deleteCloudGuardDataMaskRule,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -137,37 +137,37 @@ func CloudGuardDataMaskRuleResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardDataMaskRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardDataMaskRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDataMaskRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardDataMaskRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardDataMaskRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDataMaskRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardDataMaskRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardDataMaskRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDataMaskRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardDataMaskRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardDataMaskRule(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDataMaskRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardDataMaskRuleResourceCrud struct {
@@ -205,7 +205,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardDataMaskRuleResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardDataMaskRuleResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateDataMaskRuleRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -274,7 +274,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) CreateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateDataMaskRule(ctx, request)
+	response, err := s.Client.CreateDataMaskRule(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -283,7 +283,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) CreateWithContext(ctx context.Conte
 	return nil
 }
 
-func (s *CloudGuardDataMaskRuleResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardDataMaskRuleResourceCrud) Get() error {
 	request := oci_cloud_guard.GetDataMaskRuleRequest{}
 
 	tmp := s.D.Id()
@@ -291,7 +291,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetDataMaskRule(ctx, request)
+	response, err := s.Client.GetDataMaskRule(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -300,7 +300,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) GetWithContext(ctx context.Context)
 	return nil
 }
 
-func (s *CloudGuardDataMaskRuleResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardDataMaskRuleResourceCrud) Update() error {
 	request := oci_cloud_guard.UpdateDataMaskRuleRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -363,7 +363,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) UpdateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateDataMaskRule(ctx, request)
+	response, err := s.Client.UpdateDataMaskRule(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -372,7 +372,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) UpdateWithContext(ctx context.Conte
 	return nil
 }
 
-func (s *CloudGuardDataMaskRuleResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardDataMaskRuleResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteDataMaskRuleRequest{}
 
 	tmp := s.D.Id()
@@ -380,7 +380,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) DeleteWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteDataMaskRule(ctx, request)
+	_, err := s.Client.DeleteDataMaskRule(context.Background(), request)
 	return err
 }
 

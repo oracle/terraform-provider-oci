@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -23,11 +23,11 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardDetectorRecipeWithContext,
-		ReadContext:   readCloudGuardDetectorRecipeWithContext,
-		UpdateContext: updateCloudGuardDetectorRecipeWithContext,
-		DeleteContext: deleteCloudGuardDetectorRecipeWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardDetectorRecipe,
+		Read:     readCloudGuardDetectorRecipe,
+		Update:   updateCloudGuardDetectorRecipe,
+		Delete:   deleteCloudGuardDetectorRecipe,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -778,37 +778,37 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardDetectorRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardDetectorRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDetectorRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardDetectorRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardDetectorRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDetectorRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardDetectorRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardDetectorRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDetectorRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardDetectorRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardDetectorRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDetectorRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardDetectorRecipeResourceCrud struct {
@@ -846,7 +846,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardDetectorRecipeResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardDetectorRecipeResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateDetectorRecipeRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -904,7 +904,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) CreateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateDetectorRecipe(ctx, request)
+	response, err := s.Client.CreateDetectorRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -913,7 +913,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) CreateWithContext(ctx context.Con
 	return nil
 }
 
-func (s *CloudGuardDetectorRecipeResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardDetectorRecipeResourceCrud) Get() error {
 	request := oci_cloud_guard.GetDetectorRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -921,7 +921,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetDetectorRecipe(ctx, request)
+	response, err := s.Client.GetDetectorRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -930,7 +930,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) GetWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *CloudGuardDetectorRecipeResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardDetectorRecipeResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -986,7 +986,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) UpdateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateDetectorRecipe(ctx, request)
+	response, err := s.Client.UpdateDetectorRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -995,7 +995,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) UpdateWithContext(ctx context.Con
 	return nil
 }
 
-func (s *CloudGuardDetectorRecipeResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardDetectorRecipeResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteDetectorRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -1003,7 +1003,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) DeleteWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteDetectorRecipe(ctx, request)
+	_, err := s.Client.DeleteDetectorRecipe(context.Background(), request)
 	return err
 }
 
@@ -1544,7 +1544,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) updateCompartment(compartment int
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

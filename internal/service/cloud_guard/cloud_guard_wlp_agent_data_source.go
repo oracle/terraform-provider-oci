@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -20,15 +19,15 @@ func CloudGuardWlpAgentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudGuardWlpAgentResource(), fieldMap, readSingularCloudGuardWlpAgentWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(CloudGuardWlpAgentResource(), fieldMap, readSingularCloudGuardWlpAgent)
 }
 
-func readSingularCloudGuardWlpAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudGuardWlpAgent(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardWlpAgentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardWlpAgentDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *CloudGuardWlpAgentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardWlpAgentDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardWlpAgentDataSourceCrud) Get() error {
 	request := oci_cloud_guard.GetWlpAgentRequest{}
 
 	if wlpAgentId, ok := s.D.GetOkExists("wlp_agent_id"); ok {
@@ -51,7 +50,7 @@ func (s *CloudGuardWlpAgentDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetWlpAgent(ctx, request)
+	response, err := s.Client.GetWlpAgent(context.Background(), request)
 	if err != nil {
 		return err
 	}

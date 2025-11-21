@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudGuardDetectorRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudGuardDetectorRecipesWithContext,
+		Read: readCloudGuardDetectorRecipes,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -61,12 +60,12 @@ func CloudGuardDetectorRecipesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudGuardDetectorRecipesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardDetectorRecipes(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardDetectorRecipesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardDetectorRecipesDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *CloudGuardDetectorRecipesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardDetectorRecipesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardDetectorRecipesDataSourceCrud) Get() error {
 	request := oci_cloud_guard.ListDetectorRecipesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -112,7 +111,7 @@ func (s *CloudGuardDetectorRecipesDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.ListDetectorRecipes(ctx, request)
+	response, err := s.Client.ListDetectorRecipes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +120,7 @@ func (s *CloudGuardDetectorRecipesDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDetectorRecipes(ctx, request)
+		listResponse, err := s.Client.ListDetectorRecipes(context.Background(), request)
 		if err != nil {
 			return err
 		}

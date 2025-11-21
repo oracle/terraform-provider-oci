@@ -6,7 +6,6 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -20,15 +19,15 @@ func CloudGuardSecurityRecipeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudGuardSecurityRecipeResource(), fieldMap, readSingularCloudGuardSecurityRecipeWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(CloudGuardSecurityRecipeResource(), fieldMap, readSingularCloudGuardSecurityRecipe)
 }
 
-func readSingularCloudGuardSecurityRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudGuardSecurityRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardSecurityRecipeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudGuardSecurityRecipeDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *CloudGuardSecurityRecipeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudGuardSecurityRecipeDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardSecurityRecipeDataSourceCrud) Get() error {
 	request := oci_cloud_guard.GetSecurityRecipeRequest{}
 
 	if securityRecipeId, ok := s.D.GetOkExists("security_recipe_id"); ok {
@@ -51,7 +50,7 @@ func (s *CloudGuardSecurityRecipeDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_guard")
 
-	response, err := s.Client.GetSecurityRecipe(ctx, request)
+	response, err := s.Client.GetSecurityRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}

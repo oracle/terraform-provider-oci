@@ -10,10 +10,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
@@ -22,11 +21,11 @@ import (
 
 func CloudGuardCloudGuardConfigurationResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardCloudGuardConfigurationWithContext,
-		ReadContext:   readCloudGuardCloudGuardConfigurationWithContext,
-		UpdateContext: updateCloudGuardCloudGuardConfigurationWithContext,
-		DeleteContext: deleteCloudGuardCloudGuardConfigurationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardCloudGuardConfiguration,
+		Read:     readCloudGuardCloudGuardConfiguration,
+		Update:   updateCloudGuardCloudGuardConfiguration,
+		Delete:   deleteCloudGuardCloudGuardConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -54,31 +53,31 @@ func CloudGuardCloudGuardConfigurationResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardCloudGuardConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardCloudGuardConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardCloudGuardConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardCloudGuardConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardCloudGuardConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardCloudGuardConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardCloudGuardConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardCloudGuardConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardCloudGuardConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardCloudGuardConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardCloudGuardConfiguration(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
@@ -93,7 +92,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) ID() string {
 	return getCloudGuardConfigurationCompositeId()
 }
 
-func (s *CloudGuardCloudGuardConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardCloudGuardConfigurationResourceCrud) Create() error {
 	request := oci_cloud_guard.UpdateConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -117,7 +116,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) CreateWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateConfiguration(ctx, request)
+	response, err := s.Client.UpdateConfiguration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +125,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) CreateWithContext(ctx co
 	return nil
 }
 
-func (s *CloudGuardCloudGuardConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardCloudGuardConfigurationResourceCrud) Get() error {
 	request := oci_cloud_guard.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -142,7 +141,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetConfiguration(ctx, request)
+	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -151,7 +150,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) GetWithContext(ctx conte
 	return nil
 }
 
-func (s *CloudGuardCloudGuardConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardCloudGuardConfigurationResourceCrud) Update() error {
 	request := oci_cloud_guard.UpdateConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -175,7 +174,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) UpdateWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateConfiguration(ctx, request)
+	response, err := s.Client.UpdateConfiguration(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,8 +6,8 @@ package cloud_guard
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v65/cloudguard"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,11 +19,11 @@ func CloudGuardSecurityZoneResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudGuardSecurityZoneWithContext,
-		ReadContext:   readCloudGuardSecurityZoneWithContext,
-		UpdateContext: updateCloudGuardSecurityZoneWithContext,
-		DeleteContext: deleteCloudGuardSecurityZoneWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudGuardSecurityZone,
+		Read:     readCloudGuardSecurityZone,
+		Update:   updateCloudGuardSecurityZone,
+		Delete:   deleteCloudGuardSecurityZone,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -91,37 +91,37 @@ func CloudGuardSecurityZoneResource() *schema.Resource {
 	}
 }
 
-func createCloudGuardSecurityZoneWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudGuardSecurityZone(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardSecurityZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudGuardSecurityZoneWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudGuardSecurityZone(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardSecurityZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudGuardSecurityZoneWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudGuardSecurityZone(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardSecurityZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudGuardSecurityZoneWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudGuardSecurityZone(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudGuardSecurityZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).CloudGuardClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudGuardSecurityZoneResourceCrud struct {
@@ -159,7 +159,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudGuardSecurityZoneResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudGuardSecurityZoneResourceCrud) Create() error {
 	request := oci_cloud_guard.CreateSecurityZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -196,7 +196,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) CreateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.CreateSecurityZone(ctx, request)
+	response, err := s.Client.CreateSecurityZone(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -205,7 +205,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) CreateWithContext(ctx context.Conte
 	return nil
 }
 
-func (s *CloudGuardSecurityZoneResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudGuardSecurityZoneResourceCrud) Get() error {
 	request := oci_cloud_guard.GetSecurityZoneRequest{}
 
 	tmp := s.D.Id()
@@ -213,7 +213,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.GetSecurityZone(ctx, request)
+	response, err := s.Client.GetSecurityZone(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -222,7 +222,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) GetWithContext(ctx context.Context)
 	return nil
 }
 
-func (s *CloudGuardSecurityZoneResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudGuardSecurityZoneResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -266,7 +266,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) UpdateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.UpdateSecurityZone(ctx, request)
+	response, err := s.Client.UpdateSecurityZone(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -275,7 +275,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) UpdateWithContext(ctx context.Conte
 	return nil
 }
 
-func (s *CloudGuardSecurityZoneResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudGuardSecurityZoneResourceCrud) Delete() error {
 	request := oci_cloud_guard.DeleteSecurityZoneRequest{}
 
 	tmp := s.D.Id()
@@ -283,7 +283,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) DeleteWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	_, err := s.Client.DeleteSecurityZone(ctx, request)
+	_, err := s.Client.DeleteSecurityZone(context.Background(), request)
 	return err
 }
 
@@ -395,7 +395,7 @@ func (s *CloudGuardSecurityZoneResourceCrud) updateCompartment(compartment inter
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
