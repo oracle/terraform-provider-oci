@@ -6,7 +6,6 @@ package analytics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -24,15 +23,15 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelDataSource() *schema.Resource
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(AnalyticsAnalyticsInstancePrivateAccessChannelResource(), fieldMap, readSingularAnalyticsAnalyticsInstancePrivateAccessChannelWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstancePrivateAccessChannelResource(), fieldMap, readSingularAnalyticsAnalyticsInstancePrivateAccessChannel)
 }
 
-func readSingularAnalyticsAnalyticsInstancePrivateAccessChannelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) VoidState
 	s.D.SetId("")
 }
 
-func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) Get() error {
 	request := oci_analytics.GetPrivateAccessChannelRequest{}
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -60,7 +59,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) GetWithCo
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "analytics")
 
-	response, err := s.Client.GetPrivateAccessChannel(ctx, request)
+	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {
 		return err
 	}

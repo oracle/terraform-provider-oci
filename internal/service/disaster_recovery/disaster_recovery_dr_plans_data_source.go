@@ -6,7 +6,6 @@ package disaster_recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -16,7 +15,7 @@ import (
 
 func DisasterRecoveryDrPlansDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDisasterRecoveryDrPlansWithContext,
+		Read: readDisasterRecoveryDrPlans,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -61,12 +60,12 @@ func DisasterRecoveryDrPlansDataSource() *schema.Resource {
 	}
 }
 
-func readDisasterRecoveryDrPlansWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDisasterRecoveryDrPlans(d *schema.ResourceData, m interface{}) error {
 	sync := &DisasterRecoveryDrPlansDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DisasterRecoveryDrPlansDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *DisasterRecoveryDrPlansDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrPlansDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DisasterRecoveryDrPlansDataSourceCrud) Get() error {
 	request := oci_disaster_recovery.ListDrPlansRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -111,7 +110,7 @@ func (s *DisasterRecoveryDrPlansDataSourceCrud) GetWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.ListDrPlans(ctx, request)
+	response, err := s.Client.ListDrPlans(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -120,7 +119,7 @@ func (s *DisasterRecoveryDrPlansDataSourceCrud) GetWithContext(ctx context.Conte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDrPlans(ctx, request)
+		listResponse, err := s.Client.ListDrPlans(context.Background(), request)
 		if err != nil {
 			return err
 		}

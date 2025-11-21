@@ -6,7 +6,6 @@ package email
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
@@ -16,7 +15,7 @@ import (
 
 func EmailEmailReturnPathsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readEmailEmailReturnPathsWithContext,
+		Read: readEmailEmailReturnPaths,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func EmailEmailReturnPathsDataSource() *schema.Resource {
 	}
 }
 
-func readEmailEmailReturnPathsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEmailEmailReturnPaths(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type EmailEmailReturnPathsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *EmailEmailReturnPathsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailEmailReturnPathsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathsDataSourceCrud) Get() error {
 	request := oci_email.ListEmailReturnPathsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *EmailEmailReturnPathsDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.ListEmailReturnPaths(ctx, request)
+	response, err := s.Client.ListEmailReturnPaths(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *EmailEmailReturnPathsDataSourceCrud) GetWithContext(ctx context.Context
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEmailReturnPaths(ctx, request)
+		listResponse, err := s.Client.ListEmailReturnPaths(context.Background(), request)
 		if err != nil {
 			return err
 		}

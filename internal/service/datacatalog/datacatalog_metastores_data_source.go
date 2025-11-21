@@ -6,17 +6,16 @@ package datacatalog
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
 )
 
 func DatacatalogMetastoresDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatacatalogMetastoresWithContext,
+		Read: readDatacatalogMetastores,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -40,12 +39,12 @@ func DatacatalogMetastoresDataSource() *schema.Resource {
 	}
 }
 
-func readDatacatalogMetastoresWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatacatalogMetastores(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogMetastoresDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatacatalogMetastoresDataSourceCrud struct {
@@ -58,7 +57,7 @@ func (s *DatacatalogMetastoresDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatacatalogMetastoresDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatacatalogMetastoresDataSourceCrud) Get() error {
 	request := oci_datacatalog.ListMetastoresRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +76,7 @@ func (s *DatacatalogMetastoresDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datacatalog")
 
-	response, err := s.Client.ListMetastores(ctx, request)
+	response, err := s.Client.ListMetastores(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *DatacatalogMetastoresDataSourceCrud) GetWithContext(ctx context.Context
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMetastores(ctx, request)
+		listResponse, err := s.Client.ListMetastores(context.Background(), request)
 		if err != nil {
 			return err
 		}

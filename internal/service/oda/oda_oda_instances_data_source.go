@@ -6,7 +6,6 @@ package oda
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -16,7 +15,7 @@ import (
 
 func OdaOdaInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOdaOdaInstancesWithContext,
+		Read: readOdaOdaInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -40,12 +39,12 @@ func OdaOdaInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readOdaOdaInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOdaOdaInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OdaOdaInstancesDataSourceCrud struct {
@@ -58,7 +57,7 @@ func (s *OdaOdaInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaInstancesDataSourceCrud) Get() error {
 	request := oci_oda.ListOdaInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +76,7 @@ func (s *OdaOdaInstancesDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.ListOdaInstances(ctx, request)
+	response, err := s.Client.ListOdaInstances(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *OdaOdaInstancesDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOdaInstances(ctx, request)
+		listResponse, err := s.Client.ListOdaInstances(context.Background(), request)
 		if err != nil {
 			return err
 		}

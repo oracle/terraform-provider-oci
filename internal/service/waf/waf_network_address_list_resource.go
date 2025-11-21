@@ -10,15 +10,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WafNetworkAddressListResource() *schema.Resource {
@@ -26,11 +26,11 @@ func WafNetworkAddressListResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createWafNetworkAddressListWithContext,
-		ReadContext:   readWafNetworkAddressListWithContext,
-		UpdateContext: updateWafNetworkAddressListWithContext,
-		DeleteContext: deleteWafNetworkAddressListWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createWafNetworkAddressList,
+		Read:     readWafNetworkAddressList,
+		Update:   updateWafNetworkAddressList,
+		Delete:   deleteWafNetworkAddressList,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -126,37 +126,37 @@ func WafNetworkAddressListResource() *schema.Resource {
 	}
 }
 
-func createWafNetworkAddressListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createWafNetworkAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readWafNetworkAddressListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWafNetworkAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateWafNetworkAddressListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateWafNetworkAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteWafNetworkAddressListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWafNetworkAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type WafNetworkAddressListResourceCrud struct {
@@ -195,7 +195,7 @@ func (s *WafNetworkAddressListResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *WafNetworkAddressListResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListResourceCrud) Create() error {
 	request := oci_waf.CreateNetworkAddressListRequest{}
 	err := s.populateTopLevelPolymorphicCreateNetworkAddressListRequest(&request)
 	if err != nil {
@@ -204,7 +204,7 @@ func (s *WafNetworkAddressListResourceCrud) CreateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.CreateNetworkAddressList(ctx, request)
+	response, err := s.Client.CreateNetworkAddressList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -215,14 +215,14 @@ func (s *WafNetworkAddressListResourceCrud) CreateWithContext(ctx context.Contex
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getNetworkAddressListFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNetworkAddressListFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *WafNetworkAddressListResourceCrud) getNetworkAddressListFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WafNetworkAddressListResourceCrud) getNetworkAddressListFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waf.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	networkAddressListId, err := networkAddressListWaitForWorkRequest(ctx, workId, "networkAddressList",
+	networkAddressListId, err := networkAddressListWaitForWorkRequest(workId, "networkAddressList",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *WafNetworkAddressListResourceCrud) getNetworkAddressListFromWorkRequest
 	}
 	s.D.SetId(*networkAddressListId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func networkAddressListWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -256,7 +256,7 @@ func networkAddressListWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func networkAddressListWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum,
+func networkAddressListWaitForWorkRequest(wId *string, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waf.WafClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waf")
 	retryPolicy.ShouldRetryOperation = networkAddressListWorkRequestShouldRetryFunc(timeout)
@@ -275,7 +275,7 @@ func networkAddressListWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_waf.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -304,14 +304,14 @@ func networkAddressListWaitForWorkRequest(ctx context.Context, wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_waf.WorkRequestStatusFailed || response.Status == oci_waf.WorkRequestStatusCanceled {
-		return nil, getErrorFromWafNetworkAddressListWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromWafNetworkAddressListWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromWafNetworkAddressListWorkRequest(ctx context.Context, client *oci_waf.WafClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromWafNetworkAddressListWorkRequest(client *oci_waf.WafClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_waf.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -333,7 +333,7 @@ func getErrorFromWafNetworkAddressListWorkRequest(ctx context.Context, client *o
 	return workRequestErr
 }
 
-func (s *WafNetworkAddressListResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListResourceCrud) Get() error {
 	request := oci_waf.GetNetworkAddressListRequest{}
 
 	tmp := s.D.Id()
@@ -341,7 +341,7 @@ func (s *WafNetworkAddressListResourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.GetNetworkAddressList(ctx, request)
+	response, err := s.Client.GetNetworkAddressList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -350,11 +350,11 @@ func (s *WafNetworkAddressListResourceCrud) GetWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *WafNetworkAddressListResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -368,16 +368,16 @@ func (s *WafNetworkAddressListResourceCrud) UpdateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.UpdateNetworkAddressList(ctx, request)
+	response, err := s.Client.UpdateNetworkAddressList(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNetworkAddressListFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNetworkAddressListFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *WafNetworkAddressListResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListResourceCrud) Delete() error {
 	request := oci_waf.DeleteNetworkAddressListRequest{}
 
 	tmp := s.D.Id()
@@ -385,14 +385,14 @@ func (s *WafNetworkAddressListResourceCrud) DeleteWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.DeleteNetworkAddressList(ctx, request)
+	response, err := s.Client.DeleteNetworkAddressList(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := networkAddressListWaitForWorkRequest(ctx, workId, "networkAddressList",
+	_, delWorkRequestErr := networkAddressListWaitForWorkRequest(workId, "networkAddressList",
 		oci_waf.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -500,11 +500,12 @@ func NetworkAddressListSummaryToMap(obj oci_waf.NetworkAddressListSummary) map[s
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil
-
 	}
+
 	if obj.GetCompartmentId() != nil {
 		result["compartment_id"] = string(*obj.GetCompartmentId())
 	}
+
 	if obj.GetDefinedTags() != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.GetDefinedTags())
 	}
@@ -536,6 +537,7 @@ func NetworkAddressListSummaryToMap(obj oci_waf.NetworkAddressListSummary) map[s
 	if obj.GetTimeUpdated() != nil {
 		result["time_updated"] = obj.GetTimeUpdated().String()
 	}
+
 	return result
 }
 
@@ -765,7 +767,7 @@ func (s *WafNetworkAddressListResourceCrud) populateTopLevelPolymorphicUpdateNet
 	return nil
 }
 
-func (s *WafNetworkAddressListResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *WafNetworkAddressListResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_waf.ChangeNetworkAddressListCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -776,11 +778,11 @@ func (s *WafNetworkAddressListResourceCrud) updateCompartment(ctx context.Contex
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.ChangeNetworkAddressListCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeNetworkAddressListCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNetworkAddressListFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNetworkAddressListFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

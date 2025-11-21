@@ -6,7 +6,6 @@ package disaster_recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -20,15 +19,15 @@ func DisasterRecoveryDrPlanDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DisasterRecoveryDrPlanResource(), fieldMap, readSingularDisasterRecoveryDrPlanWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DisasterRecoveryDrPlanResource(), fieldMap, readSingularDisasterRecoveryDrPlan)
 }
 
-func readSingularDisasterRecoveryDrPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
 	sync := &DisasterRecoveryDrPlanDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DisasterRecoveryDrPlanDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DisasterRecoveryDrPlanDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrPlanDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DisasterRecoveryDrPlanDataSourceCrud) Get() error {
 	request := oci_disaster_recovery.GetDrPlanRequest{}
 
 	if drPlanId, ok := s.D.GetOkExists("dr_plan_id"); ok {
@@ -51,7 +50,7 @@ func (s *DisasterRecoveryDrPlanDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.GetDrPlan(ctx, request)
+	response, err := s.Client.GetDrPlan(context.Background(), request)
 	if err != nil {
 		return err
 	}

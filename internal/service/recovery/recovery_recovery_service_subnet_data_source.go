@@ -6,7 +6,6 @@ package recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -20,15 +19,15 @@ func RecoveryRecoveryServiceSubnetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(RecoveryRecoveryServiceSubnetResource(), fieldMap, readSingularRecoveryRecoveryServiceSubnetWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(RecoveryRecoveryServiceSubnetResource(), fieldMap, readSingularRecoveryRecoveryServiceSubnet)
 }
 
-func readSingularRecoveryRecoveryServiceSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularRecoveryRecoveryServiceSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryRecoveryServiceSubnetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type RecoveryRecoveryServiceSubnetDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) Get() error {
 	request := oci_recovery.GetRecoveryServiceSubnetRequest{}
 
 	if recoveryServiceSubnetId, ok := s.D.GetOkExists("recovery_service_subnet_id"); ok {
@@ -51,7 +50,7 @@ func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) GetWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.GetRecoveryServiceSubnet(ctx, request)
+	response, err := s.Client.GetRecoveryServiceSubnet(context.Background(), request)
 	if err != nil {
 		return err
 	}

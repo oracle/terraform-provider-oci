@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -31,10 +31,10 @@ func OdaOdaInstanceResource() *schema.Resource {
 			Update: schema.DefaultTimeout(40 * time.Minute),
 			Delete: schema.DefaultTimeout(20 * time.Minute),
 		},
-		CreateContext: createOdaOdaInstanceWithContext,
-		ReadContext:   readOdaOdaInstanceWithContext,
-		UpdateContext: updateOdaOdaInstanceWithContext,
-		DeleteContext: deleteOdaOdaInstanceWithContext,
+		Create: createOdaOdaInstance,
+		Read:   readOdaOdaInstance,
+		Update: updateOdaOdaInstance,
+		Delete: deleteOdaOdaInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -179,7 +179,7 @@ func OdaOdaInstanceResource() *schema.Resource {
 	}
 }
 
-func createOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
@@ -192,33 +192,33 @@ func createOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	if error := tfresource.CreateResourceWithContext(ctx, d, sync); error != nil {
-		return tfresource.HandleDiagError(m, error)
+	if error := tfresource.CreateResource(d, sync); error != nil {
+		return error
 	}
 
 	if isInactiveRequest {
-		return tfresource.HandleDiagError(m, inactiveOdaIfNeeded(ctx, d, sync))
+		return inactiveOdaIfNeeded(d, sync)
 	}
 
 	return nil
-
 }
-func inactiveOdaIfNeeded(ctx context.Context, d *schema.ResourceData, sync *OdaOdaInstanceResourceCrud) error {
-	if err := sync.StopOdaInstance(ctx); err != nil {
+
+func inactiveOdaIfNeeded(d *schema.ResourceData, sync *OdaOdaInstanceResourceCrud) error {
+	if err := sync.StopOdaInstance(); err != nil {
 		return err
 	}
-	return tfresource.CreateResourceWithContext(ctx, d, sync)
+	return tfresource.ReadResource(sync)
 }
 
-func readOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
@@ -235,43 +235,43 @@ func updateOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 			stateInactive = true
 			stateActive = false
 		} else {
-			return tfresource.HandleDiagError(m, fmt.Errorf("[ERROR] Invalid state input for Update %v", wantedState))
+			return fmt.Errorf("[ERROR] Invalid state input for Update %v", wantedState)
 		}
 	}
 
 	if stateActive {
-		if err := sync.StartOdaInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartOdaInstance(); err != nil {
+			return err
 		}
 		if err := sync.D.Set("state", oci_oda.OdaInstanceLifecycleStateActive); err != nil {
-			return tfresource.HandleDiagError(m, err)
+			return err
 		}
 	}
 
 	// when state is inactive, it is invalid to Update resource
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if stateInactive {
-		if err := sync.StopOdaInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopOdaInstance(); err != nil {
+			return err
 		}
 		if err := sync.D.Set("state", oci_oda.OdaInstanceLifecycleStateInactive); err != nil {
-			return tfresource.HandleDiagError(m, err)
+			return err
 		}
 	}
 
 	return nil
 }
 
-func deleteOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type OdaOdaInstanceResourceCrud struct {
@@ -321,7 +321,7 @@ func (s *OdaOdaInstanceResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *OdaOdaInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *OdaOdaInstanceResourceCrud) Create() error {
 	request := oci_oda.CreateOdaInstanceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -367,7 +367,7 @@ func (s *OdaOdaInstanceResourceCrud) CreateWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.CreateOdaInstance(ctx, request)
+	response, err := s.Client.CreateOdaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -378,14 +378,14 @@ func (s *OdaOdaInstanceResourceCrud) CreateWithContext(ctx context.Context) erro
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOdaInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOdaInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OdaOdaInstanceResourceCrud) getOdaInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OdaOdaInstanceResourceCrud) getOdaInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_oda.WorkRequestResourceResourceActionEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	odaInstanceId, err := odaInstanceWaitForWorkRequest(ctx, workId, "oda",
+	odaInstanceId, err := odaInstanceWaitForWorkRequest(workId, "oda",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -393,7 +393,7 @@ func (s *OdaOdaInstanceResourceCrud) getOdaInstanceFromWorkRequest(ctx context.C
 	}
 	s.D.SetId(*odaInstanceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func odaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -419,7 +419,7 @@ func odaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func odaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
+func odaInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oda.OdaClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "oda")
 	retryPolicy.ShouldRetryOperation = odaInstanceWorkRequestShouldRetryFunc(timeout)
@@ -438,7 +438,7 @@ func odaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_oda.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -467,14 +467,14 @@ func odaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_oda.WorkRequestStatusFailed || response.Status == oci_oda.WorkRequestStatusCanceled {
-		return nil, getErrorFromOdaOdaInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOdaOdaInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOdaOdaInstanceWorkRequest(ctx context.Context, client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromOdaOdaInstanceWorkRequest(client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_oda.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -496,7 +496,7 @@ func getErrorFromOdaOdaInstanceWorkRequest(ctx context.Context, client *oci_oda.
 	return workRequestErr
 }
 
-func (s *OdaOdaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaInstanceResourceCrud) Get() error {
 	request := oci_oda.GetOdaInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -504,7 +504,7 @@ func (s *OdaOdaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.GetOdaInstance(ctx, request)
+	response, err := s.Client.GetOdaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -513,11 +513,11 @@ func (s *OdaOdaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *OdaOdaInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *OdaOdaInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -552,7 +552,7 @@ func (s *OdaOdaInstanceResourceCrud) UpdateWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.UpdateOdaInstance(ctx, request)
+	response, err := s.Client.UpdateOdaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -561,7 +561,7 @@ func (s *OdaOdaInstanceResourceCrud) UpdateWithContext(ctx context.Context) erro
 	return nil
 }
 
-func (s *OdaOdaInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *OdaOdaInstanceResourceCrud) Delete() error {
 	request := oci_oda.DeleteOdaInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -574,14 +574,14 @@ func (s *OdaOdaInstanceResourceCrud) DeleteWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.DeleteOdaInstance(ctx, request)
+	response, err := s.Client.DeleteOdaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := odaInstanceWaitForWorkRequest(ctx, workId, "oda",
+	_, delWorkRequestErr := odaInstanceWaitForWorkRequest(workId, "oda",
 		oci_oda.WorkRequestResourceResourceActionDelete, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -678,7 +678,7 @@ func RestrictedOperationToMap(obj oci_oda.RestrictedOperation) map[string]interf
 	return result
 }
 
-func (s *OdaOdaInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_oda.ChangeOdaInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -689,17 +689,18 @@ func (s *OdaOdaInstanceResourceCrud) updateCompartment(ctx context.Context, comp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	response, err := s.Client.ChangeOdaInstanceCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeOdaInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOdaInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionChangeCompartment, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOdaInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionChangeCompartment, s.D.Timeout(schema.TimeoutUpdate))
 }
-func (s *OdaOdaInstanceResourceCrud) StartOdaInstance(ctx context.Context) error {
+
+func (s *OdaOdaInstanceResourceCrud) StartOdaInstance() error {
 	state := oci_oda.OdaInstanceLifecycleStateActive
-	if err := s.GetWithContext(ctx); err != nil {
+	if err := s.Get(); err != nil {
 		return err
 	}
 	if s.Res.LifecycleState == state {
@@ -716,11 +717,12 @@ func (s *OdaOdaInstanceResourceCrud) StartOdaInstance(ctx context.Context) error
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
-func (s *OdaOdaInstanceResourceCrud) StopOdaInstance(ctx context.Context) error {
+
+func (s *OdaOdaInstanceResourceCrud) StopOdaInstance() error {
 	state := oci_oda.OdaInstanceLifecycleStateInactive
-	if err := s.GetWithContext(ctx); err != nil {
+	if err := s.Get(); err != nil {
 		return err
 	}
 	if s.Res.LifecycleState == state {
@@ -737,5 +739,5 @@ func (s *OdaOdaInstanceResourceCrud) StopOdaInstance(ctx context.Context) error 
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }

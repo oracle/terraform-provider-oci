@@ -6,7 +6,6 @@ package oda
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -16,7 +15,7 @@ import (
 
 func OdaOdaPrivateEndpointScanProxiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOdaOdaPrivateEndpointScanProxiesWithContext,
+		Read: readOdaOdaPrivateEndpointScanProxies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"oda_private_endpoint_id": {
@@ -45,12 +44,12 @@ func OdaOdaPrivateEndpointScanProxiesDataSource() *schema.Resource {
 	}
 }
 
-func readOdaOdaPrivateEndpointScanProxiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOdaOdaPrivateEndpointScanProxies(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaPrivateEndpointScanProxiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OdaOdaPrivateEndpointScanProxiesDataSourceCrud struct {
@@ -63,7 +62,7 @@ func (s *OdaOdaPrivateEndpointScanProxiesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaPrivateEndpointScanProxiesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaPrivateEndpointScanProxiesDataSourceCrud) Get() error {
 	request := oci_oda.ListOdaPrivateEndpointScanProxiesRequest{}
 
 	if odaPrivateEndpointId, ok := s.D.GetOkExists("oda_private_endpoint_id"); ok {
@@ -77,7 +76,7 @@ func (s *OdaOdaPrivateEndpointScanProxiesDataSourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.ListOdaPrivateEndpointScanProxies(ctx, request)
+	response, err := s.Client.ListOdaPrivateEndpointScanProxies(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *OdaOdaPrivateEndpointScanProxiesDataSourceCrud) GetWithContext(ctx cont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOdaPrivateEndpointScanProxies(ctx, request)
+		listResponse, err := s.Client.ListOdaPrivateEndpointScanProxies(context.Background(), request)
 		if err != nil {
 			return err
 		}

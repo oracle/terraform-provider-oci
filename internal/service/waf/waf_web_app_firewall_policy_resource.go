@@ -10,15 +10,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WafWebAppFirewallPolicyResource() *schema.Resource {
@@ -26,11 +26,11 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createWafWebAppFirewallPolicyWithContext,
-		ReadContext:   readWafWebAppFirewallPolicyWithContext,
-		UpdateContext: updateWafWebAppFirewallPolicyWithContext,
-		DeleteContext: deleteWafWebAppFirewallPolicyWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createWafWebAppFirewallPolicy,
+		Read:     readWafWebAppFirewallPolicy,
+		Update:   updateWafWebAppFirewallPolicy,
+		Delete:   deleteWafWebAppFirewallPolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -71,25 +71,25 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"text": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-									"template": { // template is for DYNAMIC
-										Type:     schema.TypeString,
-										Optional: true,
-									},
 									"type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
-											"STATIC_TEXT",
 											"DYNAMIC",
+											"STATIC_TEXT",
 										}, true),
 									},
 
 									// Optional
+									"text": { // text is for STATIC_TEXT
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"template": { // template is for DYNAMIC
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 
 									// Computed
 								},
@@ -388,8 +388,8 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 												},
 												"max_total_argument_length": {
 													Type:     schema.TypeInt,
-													Default:  64000,
 													Optional: true,
+													Default:  64000,
 												},
 
 												// Computed
@@ -757,37 +757,37 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 	}
 }
 
-func createWafWebAppFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createWafWebAppFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WafWebAppFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readWafWebAppFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWafWebAppFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WafWebAppFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateWafWebAppFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateWafWebAppFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WafWebAppFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteWafWebAppFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWafWebAppFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WafWebAppFirewallPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type WafWebAppFirewallPolicyResourceCrud struct {
@@ -825,7 +825,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *WafWebAppFirewallPolicyResourceCrud) Create() error {
 	request := oci_waf.CreateWebAppFirewallPolicyRequest{}
 
 	if actions, ok := s.D.GetOkExists("actions"); ok {
@@ -932,7 +932,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) CreateWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.CreateWebAppFirewallPolicy(ctx, request)
+	response, err := s.Client.CreateWebAppFirewallPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -943,14 +943,14 @@ func (s *WafWebAppFirewallPolicyResourceCrud) CreateWithContext(ctx context.Cont
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getWebAppFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWebAppFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) getWebAppFirewallPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WafWebAppFirewallPolicyResourceCrud) getWebAppFirewallPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waf.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	webAppFirewallPolicyId, err := webAppFirewallPolicyWaitForWorkRequest(ctx, workId, "webAppFirewallPolicy",
+	webAppFirewallPolicyId, err := webAppFirewallPolicyWaitForWorkRequest(workId, "webAppFirewallPolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -958,7 +958,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) getWebAppFirewallPolicyFromWorkReq
 	}
 	s.D.SetId(*webAppFirewallPolicyId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func webAppFirewallPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -984,7 +984,7 @@ func webAppFirewallPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func webAppFirewallPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum,
+func webAppFirewallPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waf.WafClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waf")
 	retryPolicy.ShouldRetryOperation = webAppFirewallPolicyWorkRequestShouldRetryFunc(timeout)
@@ -1003,7 +1003,7 @@ func webAppFirewallPolicyWaitForWorkRequest(ctx context.Context, wId *string, en
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_waf.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1032,14 +1032,14 @@ func webAppFirewallPolicyWaitForWorkRequest(ctx context.Context, wId *string, en
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_waf.WorkRequestStatusFailed || response.Status == oci_waf.WorkRequestStatusCanceled {
-		return nil, getErrorFromWafWebAppFirewallPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromWafWebAppFirewallPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromWafWebAppFirewallPolicyWorkRequest(ctx context.Context, client *oci_waf.WafClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromWafWebAppFirewallPolicyWorkRequest(client *oci_waf.WafClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waf.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_waf.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1061,7 +1061,7 @@ func getErrorFromWafWebAppFirewallPolicyWorkRequest(ctx context.Context, client 
 	return workRequestErr
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WafWebAppFirewallPolicyResourceCrud) Get() error {
 	request := oci_waf.GetWebAppFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -1069,7 +1069,7 @@ func (s *WafWebAppFirewallPolicyResourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.GetWebAppFirewallPolicy(ctx, request)
+	response, err := s.Client.GetWebAppFirewallPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1078,11 +1078,11 @@ func (s *WafWebAppFirewallPolicyResourceCrud) GetWithContext(ctx context.Context
 	return nil
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *WafWebAppFirewallPolicyResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -1192,16 +1192,16 @@ func (s *WafWebAppFirewallPolicyResourceCrud) UpdateWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.UpdateWebAppFirewallPolicy(ctx, request)
+	response, err := s.Client.UpdateWebAppFirewallPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWebAppFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWebAppFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *WafWebAppFirewallPolicyResourceCrud) Delete() error {
 	request := oci_waf.DeleteWebAppFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -1209,14 +1209,14 @@ func (s *WafWebAppFirewallPolicyResourceCrud) DeleteWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.DeleteWebAppFirewallPolicy(ctx, request)
+	response, err := s.Client.DeleteWebAppFirewallPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := webAppFirewallPolicyWaitForWorkRequest(ctx, workId, "webAppFirewallPolicy",
+	_, delWorkRequestErr := webAppFirewallPolicyWaitForWorkRequest(workId, "webAppFirewallPolicy",
 		oci_waf.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2216,7 +2216,7 @@ func WebAppFirewallPolicySummaryToMap(obj oci_waf.WebAppFirewallPolicySummary) m
 	return result
 }
 
-func (s *WafWebAppFirewallPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *WafWebAppFirewallPolicyResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_waf.ChangeWebAppFirewallPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2227,11 +2227,11 @@ func (s *WafWebAppFirewallPolicyResourceCrud) updateCompartment(ctx context.Cont
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf")
 
-	response, err := s.Client.ChangeWebAppFirewallPolicyCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeWebAppFirewallPolicyCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWebAppFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWebAppFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

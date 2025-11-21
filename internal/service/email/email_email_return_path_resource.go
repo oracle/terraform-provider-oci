@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
@@ -24,11 +24,11 @@ func EmailEmailReturnPathResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createEmailEmailReturnPathWithContext,
-		ReadContext:   readEmailEmailReturnPathWithContext,
-		UpdateContext: updateEmailEmailReturnPathWithContext,
-		DeleteContext: deleteEmailEmailReturnPathWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createEmailEmailReturnPath,
+		Read:     readEmailEmailReturnPath,
+		Update:   updateEmailEmailReturnPath,
+		Delete:   deleteEmailEmailReturnPath,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"parent_resource_id": {
@@ -134,37 +134,37 @@ func EmailEmailReturnPathResource() *schema.Resource {
 	}
 }
 
-func createEmailEmailReturnPathWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createEmailEmailReturnPath(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readEmailEmailReturnPathWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEmailEmailReturnPath(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateEmailEmailReturnPathWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateEmailEmailReturnPath(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteEmailEmailReturnPathWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteEmailEmailReturnPath(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type EmailEmailReturnPathResourceCrud struct {
@@ -203,7 +203,7 @@ func (s *EmailEmailReturnPathResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *EmailEmailReturnPathResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathResourceCrud) Create() error {
 	request := oci_email.CreateEmailReturnPathRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -235,7 +235,7 @@ func (s *EmailEmailReturnPathResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.CreateEmailReturnPath(ctx, request)
+	response, err := s.Client.CreateEmailReturnPath(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -246,14 +246,14 @@ func (s *EmailEmailReturnPathResourceCrud) CreateWithContext(ctx context.Context
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getEmailReturnPathFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEmailReturnPathFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *EmailEmailReturnPathResourceCrud) getEmailReturnPathFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *EmailEmailReturnPathResourceCrud) getEmailReturnPathFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_email.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	emailReturnPathId, err := emailReturnPathWaitForWorkRequest(ctx, workId, "emailreturnpath",
+	emailReturnPathId, err := emailReturnPathWaitForWorkRequest(workId, "emailreturnpath",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -261,7 +261,7 @@ func (s *EmailEmailReturnPathResourceCrud) getEmailReturnPathFromWorkRequest(ctx
 	}
 	s.D.SetId(*emailReturnPathId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func emailReturnPathWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -287,7 +287,7 @@ func emailReturnPathWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func emailReturnPathWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_email.ActionTypeEnum,
+func emailReturnPathWaitForWorkRequest(wId *string, entityType string, action oci_email.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_email.EmailClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "email")
 	retryPolicy.ShouldRetryOperation = emailReturnPathWorkRequestShouldRetryFunc(timeout)
@@ -306,7 +306,7 @@ func emailReturnPathWaitForWorkRequest(ctx context.Context, wId *string, entityT
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_email.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -335,14 +335,14 @@ func emailReturnPathWaitForWorkRequest(ctx context.Context, wId *string, entityT
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_email.OperationStatusFailed || response.Status == oci_email.OperationStatusCanceled {
-		return nil, getErrorFromEmailEmailReturnPathWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromEmailEmailReturnPathWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromEmailEmailReturnPathWorkRequest(ctx context.Context, client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromEmailEmailReturnPathWorkRequest(client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_email.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -364,7 +364,7 @@ func getErrorFromEmailEmailReturnPathWorkRequest(ctx context.Context, client *oc
 	return workRequestErr
 }
 
-func (s *EmailEmailReturnPathResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathResourceCrud) Get() error {
 	request := oci_email.GetEmailReturnPathRequest{}
 
 	tmp := s.D.Id()
@@ -372,7 +372,7 @@ func (s *EmailEmailReturnPathResourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.GetEmailReturnPath(ctx, request)
+	response, err := s.Client.GetEmailReturnPath(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -381,7 +381,7 @@ func (s *EmailEmailReturnPathResourceCrud) GetWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *EmailEmailReturnPathResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathResourceCrud) Update() error {
 	request := oci_email.UpdateEmailReturnPathRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -411,16 +411,16 @@ func (s *EmailEmailReturnPathResourceCrud) UpdateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.UpdateEmailReturnPath(ctx, request)
+	response, err := s.Client.UpdateEmailReturnPath(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailReturnPathFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEmailReturnPathFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *EmailEmailReturnPathResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathResourceCrud) Delete() error {
 	request := oci_email.DeleteEmailReturnPathRequest{}
 
 	tmp := s.D.Id()
@@ -433,14 +433,14 @@ func (s *EmailEmailReturnPathResourceCrud) DeleteWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.DeleteEmailReturnPath(ctx, request)
+	response, err := s.Client.DeleteEmailReturnPath(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := emailReturnPathWaitForWorkRequest(ctx, workId, "emailreturnpath",
+	_, delWorkRequestErr := emailReturnPathWaitForWorkRequest(workId, "emailreturnpath",
 		oci_email.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

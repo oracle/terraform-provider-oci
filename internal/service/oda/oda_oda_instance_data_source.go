@@ -6,7 +6,6 @@ package oda
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -20,15 +19,15 @@ func OdaOdaInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(OdaOdaInstanceResource(), fieldMap, readSingularOdaOdaInstanceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(OdaOdaInstanceResource(), fieldMap, readSingularOdaOdaInstance)
 }
 
-func readSingularOdaOdaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OdaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OdaOdaInstanceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *OdaOdaInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaInstanceDataSourceCrud) Get() error {
 	request := oci_oda.GetOdaInstanceRequest{}
 
 	if odaInstanceId, ok := s.D.GetOkExists("oda_instance_id"); ok {
@@ -51,7 +50,7 @@ func (s *OdaOdaInstanceDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.GetOdaInstance(ctx, request)
+	response, err := s.Client.GetOdaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

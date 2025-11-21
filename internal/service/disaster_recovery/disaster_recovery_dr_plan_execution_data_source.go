@@ -6,7 +6,6 @@ package disaster_recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -20,15 +19,15 @@ func DisasterRecoveryDrPlanExecutionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DisasterRecoveryDrPlanExecutionResource(), fieldMap, readSingularDisasterRecoveryDrPlanExecutionWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DisasterRecoveryDrPlanExecutionResource(), fieldMap, readSingularDisasterRecoveryDrPlanExecution)
 }
 
-func readSingularDisasterRecoveryDrPlanExecutionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDisasterRecoveryDrPlanExecution(d *schema.ResourceData, m interface{}) error {
 	sync := &DisasterRecoveryDrPlanExecutionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DisasterRecoveryDrPlanExecutionDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) Get() error {
 	request := oci_disaster_recovery.GetDrPlanExecutionRequest{}
 
 	if drPlanExecutionId, ok := s.D.GetOkExists("dr_plan_execution_id"); ok {
@@ -51,7 +50,7 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.GetDrPlanExecution(ctx, request)
+	response, err := s.Client.GetDrPlanExecution(context.Background(), request)
 	if err != nil {
 		return err
 	}

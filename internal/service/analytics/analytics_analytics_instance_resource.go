@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -31,10 +31,10 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		CreateContext: createAnalyticsAnalyticsInstanceWithContext,
-		ReadContext:   readAnalyticsAnalyticsInstanceWithContext,
-		UpdateContext: updateAnalyticsAnalyticsInstanceWithContext,
-		DeleteContext: deleteAnalyticsAnalyticsInstanceWithContext,
+		Create: createAnalyticsAnalyticsInstance,
+		Read:   readAnalyticsAnalyticsInstance,
+		Update: updateAnalyticsAnalyticsInstance,
+		Delete: deleteAnalyticsAnalyticsInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"capacity": {
@@ -259,7 +259,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 	}
 }
 
-func createAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
@@ -271,13 +271,13 @@ func createAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopAnalyticsInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopAnalyticsInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateInactive)
 	}
@@ -285,7 +285,7 @@ func createAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.
 
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(ctx context.Context, kmsKeyId *string) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(kmsKeyId *string) error {
 	request := oci_analytics.SetKmsKeyRequest{}
 
 	tmp := s.D.Id()
@@ -299,20 +299,20 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(ctx context.Context, 
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = analyticsInstanceWaitForWorkRequest(ctx, workId, "analytics",
+	_, err = analyticsInstanceWaitForWorkRequest(workId, "analytics",
 		oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	return err
 }
 
-func readAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
@@ -329,29 +329,29 @@ func updateAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.
 	}
 
 	if powerOn {
-		if err := sync.StartAnalyticsInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartAnalyticsInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateActive)
 	}
 	if sync.D.HasChange("kms_key_id") {
 		wantedKmsKeyId := sync.D.Get("kms_key_id").(string)
-		if err := sync.SetKmsKey(ctx, &wantedKmsKeyId); err != nil {
+		if err := sync.SetKmsKey(&wantedKmsKeyId); err != nil {
 			// Re-read the instance to update the state file with correct values after failure
-			err = tfresource.ReadResourceWithContext(ctx, sync)
-			return tfresource.HandleDiagError(m, err)
+			err = tfresource.ReadResource(sync)
+			return err
 		}
 
 		sync.D.Set("kms_key_id", wantedKmsKeyId)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if powerOff {
-		if err := sync.StopAnalyticsInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopAnalyticsInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateInactive)
 	}
@@ -359,13 +359,13 @@ func updateAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.
 	return nil
 }
 
-func deleteAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type AnalyticsAnalyticsInstanceResourceCrud struct {
@@ -403,7 +403,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	request := oci_analytics.CreateAnalyticsInstanceRequest{}
 
 	if adminUser, ok := s.D.GetOkExists("admin_user"); ok {
@@ -498,7 +498,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) CreateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.CreateAnalyticsInstance(ctx, request)
+	response, err := s.Client.CreateAnalyticsInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -509,14 +509,14 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) CreateWithContext(ctx context.C
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAnalyticsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_analytics.WorkRequestActionResultEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	analyticsInstanceId, err := analyticsInstanceWaitForWorkRequest(ctx, workId, "analytics",
+	analyticsInstanceId, err := analyticsInstanceWaitForWorkRequest(workId, "analytics",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -541,7 +541,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkReq
 
 	s.D.SetId(*analyticsInstanceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func analyticsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -567,7 +567,7 @@ func analyticsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func analyticsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
+func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
@@ -586,7 +586,7 @@ func analyticsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_analytics.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -615,13 +615,13 @@ func analyticsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entit
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_analytics.WorkRequestStatusFailed || response.Status == oci_analytics.WorkRequestStatusCanceled {
-		return nil, getErrorFromAnalyticsAnalyticsInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAnalyticsAnalyticsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAnalyticsAnalyticsInstanceWorkRequest(ctx context.Context, client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
+func getErrorFromAnalyticsAnalyticsInstanceWorkRequest(client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -644,7 +644,7 @@ func getErrorFromAnalyticsAnalyticsInstanceWorkRequest(ctx context.Context, clie
 	return workRequestErr
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) Get() error {
 	request := oci_analytics.GetAnalyticsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -652,7 +652,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(ctx, request)
+	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -661,11 +661,11 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -705,7 +705,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) UpdateWithContext(ctx context.C
 					if err != nil {
 						return err
 					}
-					err = s.updateNetworkEndpoint(ctx, tmp)
+					err = s.updateNetworkEndpoint(tmp)
 					if err != nil {
 						return err
 					}
@@ -733,7 +733,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) UpdateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.UpdateAnalyticsInstance(ctx, request)
+	response, err := s.Client.UpdateAnalyticsInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -763,14 +763,14 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) UpdateWithContext(ctx context.C
 			}
 
 			workId := scaleResponse.OpcWorkRequestId
-			return s.getAnalyticsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
+			return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
 		}
 	}
 
 	return nil
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) Delete() error {
 	request := oci_analytics.DeleteAnalyticsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -778,7 +778,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) DeleteWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.DeleteAnalyticsInstance(ctx, request)
+	response, err := s.Client.DeleteAnalyticsInstance(context.Background(), request)
 	time.Sleep(2 * time.Minute) //We add this to prevent 412-PreconditionFailed, NetworkSecurityGroup cannot be deleted since it still has vnics attached to it
 	if err != nil {
 		return err
@@ -786,7 +786,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) DeleteWithContext(ctx context.C
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := analyticsInstanceWaitForWorkRequest(ctx, workId, "analytics",
+	_, delWorkRequestErr := analyticsInstanceWaitForWorkRequest(workId, "analytics",
 		oci_analytics.WorkRequestActionResultDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -869,7 +869,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance() error {
 	request := oci_analytics.StartAnalyticsInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -883,10 +883,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance(ctx cont
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
 	request := oci_analytics.StopAnalyticsInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -900,7 +900,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance(ctx conte
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateInactive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToCapacity(fieldKeyFormat string) (oci_analytics.Capacity, error) {
@@ -1130,7 +1130,7 @@ func VirtualCloudNetworkToMap(obj oci_analytics.VirtualCloudNetwork) map[string]
 	return result
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_analytics.ChangeAnalyticsInstanceCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1141,16 +1141,16 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(ctx context.C
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.ChangeAnalyticsInstanceCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeAnalyticsInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) updateNetworkEndpoint(ctx context.Context, networkEndpointDetails oci_analytics.NetworkEndpointDetails) error {
+func (s *AnalyticsAnalyticsInstanceResourceCrud) updateNetworkEndpoint(networkEndpointDetails oci_analytics.NetworkEndpointDetails) error {
 
 	idTmp := s.D.Id()
 	changeEndPointRequest := oci_analytics.ChangeAnalyticsInstanceNetworkEndpointRequest{}
@@ -1163,5 +1163,5 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateNetworkEndpoint(ctx conte
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultNetworkEndpointChanged, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultNetworkEndpointChanged, s.D.Timeout(schema.TimeoutUpdate))
 }

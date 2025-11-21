@@ -6,7 +6,6 @@ package analytics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func AnalyticsAnalyticsInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(AnalyticsAnalyticsInstanceResource(), fieldMap, readSingularAnalyticsAnalyticsInstanceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstanceResource(), fieldMap, readSingularAnalyticsAnalyticsInstance)
 }
 
-func readSingularAnalyticsAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstanceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AnalyticsAnalyticsInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstanceDataSourceCrud) Get() error {
 	request := oci_analytics.GetAnalyticsInstanceRequest{}
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -51,7 +50,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(ctx, request)
+	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

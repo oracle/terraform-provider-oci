@@ -6,7 +6,6 @@ package recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -16,7 +15,7 @@ import (
 
 func RecoveryProtectedDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readRecoveryProtectedDatabasesWithContext,
+		Read: readRecoveryProtectedDatabases,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"backup_cloud_location": {
@@ -65,12 +64,12 @@ func RecoveryProtectedDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readRecoveryProtectedDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRecoveryProtectedDatabases(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryProtectedDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type RecoveryProtectedDatabasesDataSourceCrud struct {
@@ -83,7 +82,7 @@ func (s *RecoveryProtectedDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryProtectedDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RecoveryProtectedDatabasesDataSourceCrud) Get() error {
 	request := oci_recovery.ListProtectedDatabasesRequest{}
 
 	if backupCloudLocation, ok := s.D.GetOkExists("backup_cloud_location"); ok {
@@ -121,7 +120,7 @@ func (s *RecoveryProtectedDatabasesDataSourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.ListProtectedDatabases(ctx, request)
+	response, err := s.Client.ListProtectedDatabases(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -130,7 +129,7 @@ func (s *RecoveryProtectedDatabasesDataSourceCrud) GetWithContext(ctx context.Co
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProtectedDatabases(ctx, request)
+		listResponse, err := s.Client.ListProtectedDatabases(context.Background(), request)
 		if err != nil {
 			return err
 		}

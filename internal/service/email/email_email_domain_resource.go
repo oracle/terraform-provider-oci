@@ -6,17 +6,18 @@ package email
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_email "github.com/oracle/oci-go-sdk/v65/email"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 )
 
 func EmailEmailDomainResource() *schema.Resource {
@@ -24,11 +25,11 @@ func EmailEmailDomainResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createEmailEmailDomainWithContext,
-		ReadContext:   readEmailEmailDomainWithContext,
-		UpdateContext: updateEmailEmailDomainWithContext,
-		DeleteContext: deleteEmailEmailDomainWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createEmailEmailDomain,
+		Read:     readEmailEmailDomain,
+		Update:   updateEmailEmailDomain,
+		Delete:   deleteEmailEmailDomain,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -130,37 +131,37 @@ func EmailEmailDomainResource() *schema.Resource {
 	}
 }
 
-func createEmailEmailDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createEmailEmailDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readEmailEmailDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEmailEmailDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateEmailEmailDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateEmailEmailDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteEmailEmailDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteEmailEmailDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type EmailEmailDomainResourceCrud struct {
@@ -198,7 +199,7 @@ func (s *EmailEmailDomainResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *EmailEmailDomainResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *EmailEmailDomainResourceCrud) Create() error {
 	request := oci_email.CreateEmailDomainRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -235,7 +236,7 @@ func (s *EmailEmailDomainResourceCrud) CreateWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.CreateEmailDomain(ctx, request)
+	response, err := s.Client.CreateEmailDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -246,22 +247,24 @@ func (s *EmailEmailDomainResourceCrud) CreateWithContext(ctx context.Context) er
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getEmailDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEmailDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *EmailEmailDomainResourceCrud) getEmailDomainFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *EmailEmailDomainResourceCrud) getEmailDomainFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_email.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	emailDomainId, err := emailDomainWaitForWorkRequest(ctx, workId, "email",
+	emailDomainId, err := emailDomainWaitForWorkRequest(workId, "email",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest")
 		return err
 	}
 	s.D.SetId(*emailDomainId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func emailDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -287,7 +290,7 @@ func emailDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func emailDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_email.ActionTypeEnum,
+func emailDomainWaitForWorkRequest(wId *string, entityType string, action oci_email.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_email.EmailClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "email")
 	retryPolicy.ShouldRetryOperation = emailDomainWorkRequestShouldRetryFunc(timeout)
@@ -306,7 +309,7 @@ func emailDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_email.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -335,14 +338,14 @@ func emailDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_email.OperationStatusFailed || response.Status == oci_email.OperationStatusCanceled {
-		return nil, getErrorFromEmailEmailDomainWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromEmailEmailDomainWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromEmailEmailDomainWorkRequest(ctx context.Context, client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromEmailEmailDomainWorkRequest(client *oci_email.EmailClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_email.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_email.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -364,7 +367,7 @@ func getErrorFromEmailEmailDomainWorkRequest(ctx context.Context, client *oci_em
 	return workRequestErr
 }
 
-func (s *EmailEmailDomainResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailEmailDomainResourceCrud) Get() error {
 	request := oci_email.GetEmailDomainRequest{}
 
 	tmp := s.D.Id()
@@ -372,7 +375,7 @@ func (s *EmailEmailDomainResourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.GetEmailDomain(ctx, request)
+	response, err := s.Client.GetEmailDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -381,11 +384,11 @@ func (s *EmailEmailDomainResourceCrud) GetWithContext(ctx context.Context) error
 	return nil
 }
 
-func (s *EmailEmailDomainResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *EmailEmailDomainResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -425,16 +428,16 @@ func (s *EmailEmailDomainResourceCrud) UpdateWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.UpdateEmailDomain(ctx, request)
+	response, err := s.Client.UpdateEmailDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEmailDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *EmailEmailDomainResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *EmailEmailDomainResourceCrud) Delete() error {
 	request := oci_email.DeleteEmailDomainRequest{}
 
 	tmp := s.D.Id()
@@ -447,14 +450,14 @@ func (s *EmailEmailDomainResourceCrud) DeleteWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.DeleteEmailDomain(ctx, request)
+	response, err := s.Client.DeleteEmailDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := emailDomainWaitForWorkRequest(ctx, workId, "email",
+	_, delWorkRequestErr := emailDomainWaitForWorkRequest(workId, "email",
 		oci_email.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -583,7 +586,7 @@ func ResourceLockToMap(obj oci_email.ResourceLock) map[string]interface{} {
 	return result
 }
 
-func (s *EmailEmailDomainResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *EmailEmailDomainResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_email.ChangeEmailDomainCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -599,11 +602,11 @@ func (s *EmailEmailDomainResourceCrud) updateCompartment(ctx context.Context, co
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
-	response, err := s.Client.ChangeEmailDomainCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeEmailDomainCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEmailDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

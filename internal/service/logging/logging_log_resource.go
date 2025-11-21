@@ -12,15 +12,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func LoggingLogResource() *schema.Resource {
@@ -28,11 +28,11 @@ func LoggingLogResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createLoggingLogWithContext,
-		ReadContext:   readLoggingLogWithContext,
-		UpdateContext: updateLoggingLogWithContext,
-		DeleteContext: deleteLoggingLogWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createLoggingLog,
+		Read:     readLoggingLog,
+		Update:   updateLoggingLog,
+		Delete:   deleteLoggingLog,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {
@@ -168,37 +168,37 @@ func LoggingLogResource() *schema.Resource {
 	}
 }
 
-func createLoggingLogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createLoggingLog(d *schema.ResourceData, m interface{}) error {
 	sync := &LoggingLogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readLoggingLogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readLoggingLog(d *schema.ResourceData, m interface{}) error {
 	sync := &LoggingLogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateLoggingLogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateLoggingLog(d *schema.ResourceData, m interface{}) error {
 	sync := &LoggingLogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteLoggingLogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteLoggingLog(d *schema.ResourceData, m interface{}) error {
 	sync := &LoggingLogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type LoggingLogResourceCrud struct {
@@ -234,13 +234,13 @@ func (s *LoggingLogResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *LoggingLogResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *LoggingLogResourceCrud) Create() error {
 	request := oci_logging.CreateLogRequest{}
 
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
 		if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "configuration", 0)
-			tmp, err := s.mapToConfiguration(fieldKeyFormat)
+			tmp, err := s.mapToLogConfiguration(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -286,14 +286,15 @@ func (s *LoggingLogResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.CreateLog(ctx, request)
+	response, err := s.Client.CreateLog(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.setIdFromWorkRequest(workId)
-	return s.getLogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+
 }
 func (s *LoggingLogResourceCrud) setIdFromWorkRequest(workId *string) {
 	var identifier *string
@@ -320,17 +321,18 @@ func (s *LoggingLogResourceCrud) setIdFromWorkRequest(workId *string) {
 		s.D.SetId(*identifier)
 	}
 }
-func (s *LoggingLogResourceCrud) getLogFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+
+func (s *LoggingLogResourceCrud) getLogFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_logging.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	logId, err := logWaitForWorkRequest(ctx, workId, "log",
+	logId, err := logWaitForWorkRequest(workId, "log",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, logId)
-		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
 			oci_logging.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -344,7 +346,7 @@ func (s *LoggingLogResourceCrud) getLogFromWorkRequest(ctx context.Context, work
 	}
 	s.D.SetId(*logId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func logWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -370,7 +372,7 @@ func logWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_comm
 	}
 }
 
-func logWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_logging.ActionTypesEnum,
+func logWaitForWorkRequest(wId *string, entityType string, action oci_logging.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_logging.LoggingManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "logging")
 	retryPolicy.ShouldRetryOperation = logWorkRequestShouldRetryFunc(timeout)
@@ -418,14 +420,14 @@ func logWaitForWorkRequest(ctx context.Context, wId *string, entityType string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_logging.OperationStatusFailed || response.Status == oci_logging.OperationStatusCanceled {
-		return nil, getErrorFromLoggingLogWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLoggingLogWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromLoggingLogWorkRequest(ctx context.Context, client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromLoggingLogWorkRequest(client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_logging.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -447,7 +449,7 @@ func getErrorFromLoggingLogWorkRequest(ctx context.Context, client *oci_logging.
 	return workRequestErr
 }
 
-func (s *LoggingLogResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LoggingLogResourceCrud) Get() error {
 	request := oci_logging.GetLogRequest{}
 
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
@@ -468,7 +470,7 @@ func (s *LoggingLogResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.GetLog(ctx, request)
+	response, err := s.Client.GetLog(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -477,12 +479,12 @@ func (s *LoggingLogResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *LoggingLogResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *LoggingLogResourceCrud) Update() error {
 
 	if _, ok := s.D.GetOkExists("log_group_id"); ok && s.D.HasChange("log_group_id") {
 		oldRaw, newRaw := s.D.GetChange("log_group_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateLogGroup(ctx, oldRaw, newRaw)
+			err := s.updateLogGroup(oldRaw, newRaw)
 			if err != nil {
 				return err
 			}
@@ -528,16 +530,16 @@ func (s *LoggingLogResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.UpdateLog(ctx, request)
+	response, err := s.Client.UpdateLog(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *LoggingLogResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *LoggingLogResourceCrud) Delete() error {
 	request := oci_logging.DeleteLogRequest{}
 
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
@@ -550,18 +552,16 @@ func (s *LoggingLogResourceCrud) DeleteWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.DeleteLog(ctx, request)
+	response, err := s.Client.DeleteLog(context.Background(), request)
 	if err != nil {
 		return err
 	}
-
 	workId := response.OpcWorkRequestId
 
-	return s.getLogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete))
+	return s.getLogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete))
 }
 
 func (s *LoggingLogResourceCrud) SetData() error {
-
 	logGroupId, logId, err := parseLogsCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("log_group_id", &logGroupId)
@@ -621,14 +621,7 @@ func (s *LoggingLogResourceCrud) SetData() error {
 	return nil
 }
 
-func GetLogCompositeId(logGroupId string, logId string) string {
-	logGroupId = url.PathEscape(logGroupId)
-	logId = url.PathEscape(logId)
-	compositeId := "logGroupId/" + logGroupId + "/logId/" + logId
-	return compositeId
-}
-
-func (s *LoggingLogResourceCrud) mapToConfiguration(fieldKeyFormat string) (oci_logging.Configuration, error) {
+func (s *LoggingLogResourceCrud) mapToLogConfiguration(fieldKeyFormat string) (oci_logging.Configuration, error) {
 	result := oci_logging.Configuration{}
 
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
@@ -713,16 +706,16 @@ func SourceToMap(obj *oci_logging.Source) map[string]interface{} {
 			result["category"] = string(*v.Category)
 		}
 
-		if v.Parameters != nil {
-			result["parameters"] = map[string]string(v.Parameters)
-		}
-
 		if v.Resource != nil {
 			result["resource"] = string(*v.Resource)
 		}
 
 		if v.Service != nil {
 			result["service"] = string(*v.Service)
+		}
+
+		if v.Parameters != nil {
+			result["parameters"] = map[string]string(v.Parameters)
 		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
@@ -732,7 +725,7 @@ func SourceToMap(obj *oci_logging.Source) map[string]interface{} {
 	return result
 }
 
-func (s *LoggingLogResourceCrud) updateLogGroup(ctx context.Context, oldLogGroupId interface{}, newLogGroupId interface{}) error {
+func (s *LoggingLogResourceCrud) updateLogGroup(oldLogGroupId interface{}, newLogGroupId interface{}) error {
 	updateLogGroupRequest := oci_logging.ChangeLogLogGroupRequest{}
 
 	oldLogGroupIdtmp := oldLogGroupId.(string)
@@ -753,11 +746,18 @@ func (s *LoggingLogResourceCrud) updateLogGroup(ctx context.Context, oldLogGroup
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getLogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getLogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
 	return err
+}
+
+func GetLogCompositeId(logGroupId string, logId string) string {
+	logGroupId = url.PathEscape(logGroupId)
+	logId = url.PathEscape(logId)
+	compositeId := "logGroupId/" + logGroupId + "/logId/" + logId
+	return compositeId
 }
 
 func parseLogsCompositeId(compositeId string) (logGroupId string, logId string, err error) {

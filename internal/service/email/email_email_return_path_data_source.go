@@ -6,7 +6,6 @@ package email
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_email "github.com/oracle/oci-go-sdk/v65/email"
 
@@ -20,15 +19,15 @@ func EmailEmailReturnPathDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(EmailEmailReturnPathResource(), fieldMap, readSingularEmailEmailReturnPathWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(EmailEmailReturnPathResource(), fieldMap, readSingularEmailEmailReturnPath)
 }
 
-func readSingularEmailEmailReturnPathWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularEmailEmailReturnPath(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailReturnPathDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type EmailEmailReturnPathDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *EmailEmailReturnPathDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailEmailReturnPathDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailEmailReturnPathDataSourceCrud) Get() error {
 	request := oci_email.GetEmailReturnPathRequest{}
 
 	if emailReturnPathId, ok := s.D.GetOkExists("email_return_path_id"); ok {
@@ -51,7 +50,7 @@ func (s *EmailEmailReturnPathDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.GetEmailReturnPath(ctx, request)
+	response, err := s.Client.GetEmailReturnPath(context.Background(), request)
 	if err != nil {
 		return err
 	}

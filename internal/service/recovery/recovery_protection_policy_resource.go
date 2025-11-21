@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -24,11 +24,11 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createRecoveryProtectionPolicyWithContext,
-		ReadContext:   readRecoveryProtectionPolicyWithContext,
-		UpdateContext: updateRecoveryProtectionPolicyWithContext,
-		DeleteContext: deleteRecoveryProtectionPolicyWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createRecoveryProtectionPolicy,
+		Read:     readRecoveryProtectionPolicy,
+		Update:   updateRecoveryProtectionPolicy,
+		Delete:   deleteRecoveryProtectionPolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"backup_retention_period_in_days": {
@@ -100,37 +100,37 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 	}
 }
 
-func createRecoveryProtectionPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createRecoveryProtectionPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryProtectionPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readRecoveryProtectionPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRecoveryProtectionPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryProtectionPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateRecoveryProtectionPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateRecoveryProtectionPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryProtectionPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteRecoveryProtectionPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteRecoveryProtectionPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryProtectionPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type RecoveryProtectionPolicyResourceCrud struct {
@@ -168,7 +168,7 @@ func (s *RecoveryProtectionPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *RecoveryProtectionPolicyResourceCrud) Create() error {
 	request := oci_recovery.CreateProtectionPolicyRequest{}
 
 	if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
@@ -210,7 +210,7 @@ func (s *RecoveryProtectionPolicyResourceCrud) CreateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.CreateProtectionPolicy(ctx, request)
+	response, err := s.Client.CreateProtectionPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -221,14 +221,14 @@ func (s *RecoveryProtectionPolicyResourceCrud) CreateWithContext(ctx context.Con
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getProtectionPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getProtectionPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) getProtectionPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *RecoveryProtectionPolicyResourceCrud) getProtectionPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	protectionPolicyId, err := protectionPolicyWaitForWorkRequest(ctx, workId, "protectionpolicy",
+	protectionPolicyId, err := protectionPolicyWaitForWorkRequest(workId, "protectionpolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -236,7 +236,7 @@ func (s *RecoveryProtectionPolicyResourceCrud) getProtectionPolicyFromWorkReques
 	}
 	s.D.SetId(*protectionPolicyId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func protectionPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -262,7 +262,7 @@ func protectionPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func protectionPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_recovery.ActionTypeEnum,
+func protectionPolicyWaitForWorkRequest(wId *string, entityType string, action oci_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_recovery.DatabaseRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "recovery")
 	retryPolicy.ShouldRetryOperation = protectionPolicyWorkRequestShouldRetryFunc(timeout)
@@ -281,7 +281,7 @@ func protectionPolicyWaitForWorkRequest(ctx context.Context, wId *string, entity
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -310,14 +310,14 @@ func protectionPolicyWaitForWorkRequest(ctx context.Context, wId *string, entity
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_recovery.OperationStatusFailed || response.Status == oci_recovery.OperationStatusCanceled {
-		return nil, getErrorFromRecoveryProtectionPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromRecoveryProtectionPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromRecoveryProtectionPolicyWorkRequest(ctx context.Context, client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromRecoveryProtectionPolicyWorkRequest(client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -339,7 +339,7 @@ func getErrorFromRecoveryProtectionPolicyWorkRequest(ctx context.Context, client
 	return workRequestErr
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RecoveryProtectionPolicyResourceCrud) Get() error {
 	request := oci_recovery.GetProtectionPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -347,7 +347,7 @@ func (s *RecoveryProtectionPolicyResourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.GetProtectionPolicy(ctx, request)
+	response, err := s.Client.GetProtectionPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -356,11 +356,11 @@ func (s *RecoveryProtectionPolicyResourceCrud) GetWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *RecoveryProtectionPolicyResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -400,16 +400,16 @@ func (s *RecoveryProtectionPolicyResourceCrud) UpdateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.UpdateProtectionPolicy(ctx, request)
+	response, err := s.Client.UpdateProtectionPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectionPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectionPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *RecoveryProtectionPolicyResourceCrud) Delete() error {
 	request := oci_recovery.DeleteProtectionPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -417,14 +417,14 @@ func (s *RecoveryProtectionPolicyResourceCrud) DeleteWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.DeleteProtectionPolicy(ctx, request)
+	response, err := s.Client.DeleteProtectionPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := protectionPolicyWaitForWorkRequest(ctx, workId, "protectionpolicy",
+	_, delWorkRequestErr := protectionPolicyWaitForWorkRequest(workId, "protectionpolicy",
 		oci_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -539,7 +539,7 @@ func ProtectionPolicySummaryToMap(obj oci_recovery.ProtectionPolicySummary) map[
 	return result
 }
 
-func (s *RecoveryProtectionPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *RecoveryProtectionPolicyResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_recovery.ChangeProtectionPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -550,11 +550,11 @@ func (s *RecoveryProtectionPolicyResourceCrud) updateCompartment(ctx context.Con
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.ChangeProtectionPolicyCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeProtectionPolicyCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectionPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectionPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

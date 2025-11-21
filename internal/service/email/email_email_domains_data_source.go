@@ -6,7 +6,6 @@ package email
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func EmailEmailDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readEmailEmailDomainsWithContext,
+		Read: readEmailEmailDomains,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func EmailEmailDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readEmailEmailDomainsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEmailEmailDomains(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailEmailDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type EmailEmailDomainsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *EmailEmailDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailEmailDomainsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailEmailDomainsDataSourceCrud) Get() error {
 	request := oci_email.ListEmailDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *EmailEmailDomainsDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.ListEmailDomains(ctx, request)
+	response, err := s.Client.ListEmailDomains(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *EmailEmailDomainsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEmailDomains(ctx, request)
+		listResponse, err := s.Client.ListEmailDomains(context.Background(), request)
 		if err != nil {
 			return err
 		}

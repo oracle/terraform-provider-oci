@@ -6,7 +6,6 @@ package oda
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -20,15 +19,15 @@ func OdaOdaPrivateEndpointAttachmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(OdaOdaPrivateEndpointAttachmentResource(), fieldMap, readSingularOdaOdaPrivateEndpointAttachmentWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(OdaOdaPrivateEndpointAttachmentResource(), fieldMap, readSingularOdaOdaPrivateEndpointAttachment)
 }
 
-func readSingularOdaOdaPrivateEndpointAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularOdaOdaPrivateEndpointAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaPrivateEndpointAttachmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OdaOdaPrivateEndpointAttachmentDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *OdaOdaPrivateEndpointAttachmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaPrivateEndpointAttachmentDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaPrivateEndpointAttachmentDataSourceCrud) Get() error {
 	request := oci_oda.GetOdaPrivateEndpointAttachmentRequest{}
 
 	if odaPrivateEndpointAttachmentId, ok := s.D.GetOkExists("oda_private_endpoint_attachment_id"); ok {
@@ -51,7 +50,7 @@ func (s *OdaOdaPrivateEndpointAttachmentDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.GetOdaPrivateEndpointAttachment(ctx, request)
+	response, err := s.Client.GetOdaPrivateEndpointAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}

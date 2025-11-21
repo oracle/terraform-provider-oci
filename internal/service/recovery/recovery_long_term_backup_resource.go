@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -31,10 +31,10 @@ func RecoveryLongTermBackupResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("20m"),
 			Delete: tfresource.GetTimeoutDuration("24h"),
 		},
-		CreateContext: createRecoveryLongTermBackupWithContext,
-		ReadContext:   readRecoveryLongTermBackupWithContext,
-		UpdateContext: updateRecoveryLongTermBackupWithContext,
-		DeleteContext: deleteRecoveryLongTermBackupWithContext,
+		Create: createRecoveryLongTermBackup,
+		Read:   readRecoveryLongTermBackup,
+		Update: updateRecoveryLongTermBackup,
+		Delete: deleteRecoveryLongTermBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"protected_database_id": {
@@ -156,37 +156,37 @@ func RecoveryLongTermBackupResource() *schema.Resource {
 	}
 }
 
-func createRecoveryLongTermBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createRecoveryLongTermBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryLongTermBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readRecoveryLongTermBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRecoveryLongTermBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryLongTermBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateRecoveryLongTermBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateRecoveryLongTermBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryLongTermBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteRecoveryLongTermBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteRecoveryLongTermBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryLongTermBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type RecoveryLongTermBackupResourceCrud struct {
@@ -224,7 +224,7 @@ func (s *RecoveryLongTermBackupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *RecoveryLongTermBackupResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *RecoveryLongTermBackupResourceCrud) Create() error {
 	request := oci_recovery.CreateLongTermBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -282,7 +282,7 @@ func (s *RecoveryLongTermBackupResourceCrud) CreateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.CreateLongTermBackup(ctx, request)
+	response, err := s.Client.CreateLongTermBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -293,14 +293,14 @@ func (s *RecoveryLongTermBackupResourceCrud) CreateWithContext(ctx context.Conte
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getLongTermBackupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLongTermBackupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *RecoveryLongTermBackupResourceCrud) getLongTermBackupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *RecoveryLongTermBackupResourceCrud) getLongTermBackupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	longTermBackupId, err := longTermBackupWaitForWorkRequest(ctx, workId, "longtermbackup",
+	longTermBackupId, err := longTermBackupWaitForWorkRequest(workId, "longtermbackup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -308,7 +308,7 @@ func (s *RecoveryLongTermBackupResourceCrud) getLongTermBackupFromWorkRequest(ct
 	}
 	s.D.SetId(*longTermBackupId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func longTermBackupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -334,7 +334,7 @@ func longTermBackupWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func longTermBackupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_recovery.ActionTypeEnum,
+func longTermBackupWaitForWorkRequest(wId *string, entityType string, action oci_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_recovery.DatabaseRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "recovery")
 	retryPolicy.ShouldRetryOperation = longTermBackupWorkRequestShouldRetryFunc(timeout)
@@ -353,7 +353,7 @@ func longTermBackupWaitForWorkRequest(ctx context.Context, wId *string, entityTy
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -382,14 +382,14 @@ func longTermBackupWaitForWorkRequest(ctx context.Context, wId *string, entityTy
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_recovery.OperationStatusFailed || response.Status == oci_recovery.OperationStatusCanceled {
-		return nil, getErrorFromRecoveryLongTermBackupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromRecoveryLongTermBackupWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromRecoveryLongTermBackupWorkRequest(ctx context.Context, client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromRecoveryLongTermBackupWorkRequest(client *oci_recovery.DatabaseRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -411,7 +411,7 @@ func getErrorFromRecoveryLongTermBackupWorkRequest(ctx context.Context, client *
 	return workRequestErr
 }
 
-func (s *RecoveryLongTermBackupResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RecoveryLongTermBackupResourceCrud) Get() error {
 	request := oci_recovery.GetLongTermBackupRequest{}
 
 	tmp := s.D.Id()
@@ -419,7 +419,7 @@ func (s *RecoveryLongTermBackupResourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.GetLongTermBackup(ctx, request)
+	response, err := s.Client.GetLongTermBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -428,7 +428,7 @@ func (s *RecoveryLongTermBackupResourceCrud) GetWithContext(ctx context.Context)
 	return nil
 }
 
-func (s *RecoveryLongTermBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *RecoveryLongTermBackupResourceCrud) Update() error {
 	request := oci_recovery.UpdateLongTermBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -471,16 +471,16 @@ func (s *RecoveryLongTermBackupResourceCrud) UpdateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.UpdateLongTermBackup(ctx, request)
+	response, err := s.Client.UpdateLongTermBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLongTermBackupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLongTermBackupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RecoveryLongTermBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *RecoveryLongTermBackupResourceCrud) Delete() error {
 	request := oci_recovery.DeleteLongTermBackupRequest{}
 
 	tmp := s.D.Id()
@@ -488,14 +488,14 @@ func (s *RecoveryLongTermBackupResourceCrud) DeleteWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.DeleteLongTermBackup(ctx, request)
+	response, err := s.Client.DeleteLongTermBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := longTermBackupWaitForWorkRequest(ctx, workId, "longtermbackup",
+	_, delWorkRequestErr := longTermBackupWaitForWorkRequest(workId, "longtermbackup",
 		oci_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

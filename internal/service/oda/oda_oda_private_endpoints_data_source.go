@@ -6,7 +6,6 @@ package oda
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_oda "github.com/oracle/oci-go-sdk/v65/oda"
 
@@ -16,7 +15,7 @@ import (
 
 func OdaOdaPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOdaOdaPrivateEndpointsWithContext,
+		Read: readOdaOdaPrivateEndpoints,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -49,12 +48,12 @@ func OdaOdaPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readOdaOdaPrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOdaOdaPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
 	sync := &OdaOdaPrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OdaOdaPrivateEndpointsDataSourceCrud struct {
@@ -67,7 +66,7 @@ func (s *OdaOdaPrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OdaOdaPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OdaOdaPrivateEndpointsDataSourceCrud) Get() error {
 	request := oci_oda.ListOdaPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +85,7 @@ func (s *OdaOdaPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oda")
 
-	response, err := s.Client.ListOdaPrivateEndpoints(ctx, request)
+	response, err := s.Client.ListOdaPrivateEndpoints(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *OdaOdaPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOdaPrivateEndpoints(ctx, request)
+		listResponse, err := s.Client.ListOdaPrivateEndpoints(context.Background(), request)
 		if err != nil {
 			return err
 		}

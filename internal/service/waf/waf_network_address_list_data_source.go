@@ -7,12 +7,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 )
 
 func WafNetworkAddressListDataSource() *schema.Resource {
@@ -21,15 +20,15 @@ func WafNetworkAddressListDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(WafNetworkAddressListResource(), fieldMap, readSingularWafNetworkAddressListWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(WafNetworkAddressListResource(), fieldMap, readSingularWafNetworkAddressList)
 }
 
-func readSingularWafNetworkAddressListWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularWafNetworkAddressList(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WafNetworkAddressListDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *WafNetworkAddressListDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WafNetworkAddressListDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListDataSourceCrud) Get() error {
 	request := oci_waf.GetNetworkAddressListRequest{}
 
 	if networkAddressListId, ok := s.D.GetOkExists("network_address_list_id"); ok {
@@ -52,7 +51,7 @@ func (s *WafNetworkAddressListDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waf")
 
-	response, err := s.Client.GetNetworkAddressList(ctx, request)
+	response, err := s.Client.GetNetworkAddressList(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -66,6 +65,7 @@ func (s *WafNetworkAddressListDataSourceCrud) SetData() error {
 		return nil
 	}
 
+	// Set common data between all NAL types
 	s.D.SetId(*s.Res.GetId())
 	switch v := (s.Res.NetworkAddressList).(type) {
 	case oci_waf.NetworkAddressListAddresses:

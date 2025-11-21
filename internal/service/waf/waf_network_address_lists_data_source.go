@@ -6,17 +6,16 @@ package waf
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_waf "github.com/oracle/oci-go-sdk/v65/waf"
 )
 
 func WafNetworkAddressListsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readWafNetworkAddressListsWithContext,
+		Read: readWafNetworkAddressLists,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +55,12 @@ func WafNetworkAddressListsDataSource() *schema.Resource {
 	}
 }
 
-func readWafNetworkAddressListsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWafNetworkAddressLists(d *schema.ResourceData, m interface{}) error {
 	sync := &WafNetworkAddressListsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WafClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WafNetworkAddressListsDataSourceCrud struct {
@@ -74,7 +73,7 @@ func (s *WafNetworkAddressListsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WafNetworkAddressListsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WafNetworkAddressListsDataSourceCrud) Get() error {
 	request := oci_waf.ListNetworkAddressListsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -110,7 +109,7 @@ func (s *WafNetworkAddressListsDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waf")
 
-	response, err := s.Client.ListNetworkAddressLists(ctx, request)
+	response, err := s.Client.ListNetworkAddressLists(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -119,7 +118,7 @@ func (s *WafNetworkAddressListsDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNetworkAddressLists(ctx, request)
+		listResponse, err := s.Client.ListNetworkAddressLists(context.Background(), request)
 		if err != nil {
 			return err
 		}

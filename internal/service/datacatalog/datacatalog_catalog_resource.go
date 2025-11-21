@@ -9,14 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
 )
 
 func DatacatalogCatalogResource() *schema.Resource {
@@ -24,11 +24,11 @@ func DatacatalogCatalogResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDatacatalogCatalogWithContext,
-		ReadContext:   readDatacatalogCatalogWithContext,
-		UpdateContext: updateDatacatalogCatalogWithContext,
-		DeleteContext: deleteDatacatalogCatalogWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDatacatalogCatalog,
+		Read:     readDatacatalogCatalog,
+		Update:   updateDatacatalogCatalog,
+		Delete:   deleteDatacatalogCatalog,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -132,37 +132,37 @@ func DatacatalogCatalogResource() *schema.Resource {
 	}
 }
 
-func createDatacatalogCatalogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatacatalogCatalogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatacatalogCatalogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatacatalogCatalogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatacatalogCatalogResourceCrud struct {
@@ -200,7 +200,7 @@ func (s *DatacatalogCatalogResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatacatalogCatalogResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatacatalogCatalogResourceCrud) Create() error {
 	request := oci_datacatalog.CreateCatalogRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -227,14 +227,14 @@ func (s *DatacatalogCatalogResourceCrud) CreateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.CreateCatalog(ctx, request)
+	response, err := s.Client.CreateCatalog(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_datacatalog.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_datacatalog.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -250,7 +250,8 @@ func (s *DatacatalogCatalogResourceCrud) CreateWithContext(ctx context.Context) 
 			}
 		}
 	}
-	err = s.getCatalogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+
+	err = s.getCatalogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -265,7 +266,7 @@ func (s *DatacatalogCatalogResourceCrud) CreateWithContext(ctx context.Context) 
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("attached_catalog_private_endpoints") {
-			err := s.attachCatalogPrivateEndpoints(ctx, tmp)
+			err := s.attachCatalogPrivateEndpoints(tmp)
 			if err != nil {
 				// store the state when datacatalog is created but attach fail
 				if setDataErr := s.SetData(); setDataErr != nil {
@@ -279,11 +280,11 @@ func (s *DatacatalogCatalogResourceCrud) CreateWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *DatacatalogCatalogResourceCrud) getCatalogFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatacatalogCatalogResourceCrud) getCatalogFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datacatalog.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	catalogId, err := catalogWaitForWorkRequest(ctx, workId, "catalog",
+	catalogId, err := catalogWaitForWorkRequest(workId, "catalog",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -291,7 +292,7 @@ func (s *DatacatalogCatalogResourceCrud) getCatalogFromWorkRequest(ctx context.C
 	}
 	s.D.SetId(*catalogId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func catalogWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -317,7 +318,7 @@ func catalogWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func catalogWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
+func catalogWaitForWorkRequest(wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datacatalog.DataCatalogClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datacatalog")
 	retryPolicy.ShouldRetryOperation = catalogWorkRequestShouldRetryFunc(timeout)
@@ -336,7 +337,7 @@ func catalogWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_datacatalog.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -365,14 +366,14 @@ func catalogWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datacatalog.WorkRequestStatusFailed || response.Status == oci_datacatalog.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatacatalogCatalogWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatacatalogCatalogWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatacatalogCatalogWorkRequest(ctx context.Context, client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDatacatalogCatalogWorkRequest(client *oci_datacatalog.DataCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_datacatalog.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -394,7 +395,7 @@ func getErrorFromDatacatalogCatalogWorkRequest(ctx context.Context, client *oci_
 	return workRequestErr
 }
 
-func (s *DatacatalogCatalogResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatacatalogCatalogResourceCrud) Get() error {
 	request := oci_datacatalog.GetCatalogRequest{}
 
 	tmp := s.D.Id()
@@ -402,7 +403,7 @@ func (s *DatacatalogCatalogResourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.GetCatalog(ctx, request)
+	response, err := s.Client.GetCatalog(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -411,58 +412,58 @@ func (s *DatacatalogCatalogResourceCrud) GetWithContext(ctx context.Context) err
 	return nil
 }
 
-func (s *DatacatalogCatalogResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatacatalogCatalogResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
-
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
-			if _, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok && s.D.HasChange("attached_catalog_private_endpoints") {
-				o, n := s.D.GetChange("attached_catalog_private_endpoints")
-				if o == nil {
-					o = new(schema.Set)
-				}
-				if n == nil {
-					n = new(schema.Set)
-				}
+		}
+	}
+	if _, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok && s.D.HasChange("attached_catalog_private_endpoints") {
+		o, n := s.D.GetChange("attached_catalog_private_endpoints")
+		if o == nil {
+			o = new(schema.Set)
+		}
+		if n == nil {
+			n = new(schema.Set)
+		}
 
-				os := o.(*schema.Set)
-				ns := n.(*schema.Set)
+		os := o.(*schema.Set)
+		ns := n.(*schema.Set)
 
-				newPrivateEndpointsToAttach := ns.Difference(os).List()
-				oldPrivateEndpointsToDetach := os.Difference(ns).List()
+		newPrivateEndpointsToAttach := ns.Difference(os).List()
+		oldPrivateEndpointsToDetach := os.Difference(ns).List()
 
-				if len(newPrivateEndpointsToAttach) > 0 {
-					tmp := make([]string, len(newPrivateEndpointsToAttach))
-					for i := range newPrivateEndpointsToAttach {
-						if newPrivateEndpointsToAttach[i] != nil {
-							tmp[i] = newPrivateEndpointsToAttach[i].(string)
-						}
-					}
-					err := s.attachCatalogPrivateEndpoints(ctx, tmp)
-					if err != nil {
-						return err
-					}
+		if len(newPrivateEndpointsToAttach) > 0 {
+			tmp := make([]string, len(newPrivateEndpointsToAttach))
+			for i := range newPrivateEndpointsToAttach {
+				if newPrivateEndpointsToAttach[i] != nil {
+					tmp[i] = newPrivateEndpointsToAttach[i].(string)
 				}
+			}
+			err := s.attachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				return err
+			}
+		}
 
-				if len(oldPrivateEndpointsToDetach) > 0 {
-					tmp := make([]string, len(oldPrivateEndpointsToDetach))
-					for i := range oldPrivateEndpointsToDetach {
-						if oldPrivateEndpointsToDetach[i] != nil {
-							tmp[i] = oldPrivateEndpointsToDetach[i].(string)
-						}
-					}
-					err := s.detachCatalogPrivateEndpoints(ctx, tmp)
-					if err != nil {
-						return err
-					}
+		if len(oldPrivateEndpointsToDetach) > 0 {
+			tmp := make([]string, len(oldPrivateEndpointsToDetach))
+			for i := range oldPrivateEndpointsToDetach {
+				if oldPrivateEndpointsToDetach[i] != nil {
+					tmp[i] = oldPrivateEndpointsToDetach[i].(string)
 				}
+			}
+			err := s.detachCatalogPrivateEndpoints(tmp)
+			if err != nil {
+				return err
 			}
 		}
 	}
+
 	request := oci_datacatalog.UpdateCatalogRequest{}
 
 	tmp := s.D.Id()
@@ -492,7 +493,7 @@ func (s *DatacatalogCatalogResourceCrud) UpdateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.UpdateCatalog(ctx, request)
+	response, err := s.Client.UpdateCatalog(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -501,7 +502,7 @@ func (s *DatacatalogCatalogResourceCrud) UpdateWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *DatacatalogCatalogResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatacatalogCatalogResourceCrud) Delete() error {
 	request := oci_datacatalog.DeleteCatalogRequest{}
 
 	tmp := s.D.Id()
@@ -514,6 +515,7 @@ func (s *DatacatalogCatalogResourceCrud) DeleteWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
+	// Need to detach all Private Endpoints before delete Catalog
 	if attachedCatalogPrivateEndpoints, ok := s.D.GetOkExists("attached_catalog_private_endpoints"); ok {
 		set := attachedCatalogPrivateEndpoints.(*schema.Set)
 		interfaces := set.List()
@@ -524,21 +526,21 @@ func (s *DatacatalogCatalogResourceCrud) DeleteWithContext(ctx context.Context) 
 			}
 		}
 		if len(tmp) != 0 {
-			err := s.detachCatalogPrivateEndpoints(ctx, tmp)
+			err := s.detachCatalogPrivateEndpoints(tmp)
 			if err != nil {
 				return err
 			}
 		}
 	}
 
-	response, err := s.Client.DeleteCatalog(ctx, request)
+	response, err := s.Client.DeleteCatalog(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := catalogWaitForWorkRequest(ctx, workId, "catalog",
+	_, delWorkRequestErr := catalogWaitForWorkRequest(workId, "catalog",
 		oci_datacatalog.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -623,7 +625,7 @@ func ResourceLockToMapCatalog(obj oci_datacatalog.ResourceLock) map[string]inter
 	return result
 }
 
-func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(ctx context.Context, attachCatalogPrivateEndpoints []string) error {
+func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(attachCatalogPrivateEndpoints []string) error {
 	for _, attachCatalogPrivateEndpoint := range attachCatalogPrivateEndpoints {
 		catalogId := s.D.Id()
 		request := oci_datacatalog.AttachCatalogPrivateEndpointRequest{}
@@ -638,13 +640,13 @@ func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(ctx conte
 		workId := response.OpcWorkRequestId
 
 		// Wait until Update finishes
-		_, err = catalogWaitForWorkRequest(ctx, workId, "catalog",
+		_, err = catalogWaitForWorkRequest(workId, "catalog",
 			oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	}
 	return nil
 }
 
-func (s *DatacatalogCatalogResourceCrud) detachCatalogPrivateEndpoints(ctx context.Context, detachCatalogPrivateEndpoints []string) error {
+func (s *DatacatalogCatalogResourceCrud) detachCatalogPrivateEndpoints(detachCatalogPrivateEndpoints []string) error {
 	for _, detachCatalogPrivateEndpoint := range detachCatalogPrivateEndpoints {
 		catalogId := s.D.Id()
 		request := oci_datacatalog.DetachCatalogPrivateEndpointRequest{}
@@ -659,12 +661,13 @@ func (s *DatacatalogCatalogResourceCrud) detachCatalogPrivateEndpoints(ctx conte
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, err = catalogWaitForWorkRequest(ctx, workId, "catalog",
+		_, err = catalogWaitForWorkRequest(workId, "catalog",
 			oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	}
 	return nil
 }
-func (s *DatacatalogCatalogResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+
+func (s *DatacatalogCatalogResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_datacatalog.ChangeCatalogCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -680,11 +683,11 @@ func (s *DatacatalogCatalogResourceCrud) updateCompartment(ctx context.Context, 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-	response, err := s.Client.ChangeCatalogCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeCatalogCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalog"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "catalog"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,7 +6,6 @@ package email
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func EmailDkimsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readEmailDkimsWithContext,
+		Read: readEmailDkims,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"email_domain_id": {
@@ -53,12 +52,12 @@ func EmailDkimsDataSource() *schema.Resource {
 	}
 }
 
-func readEmailDkimsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEmailDkims(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailDkimsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type EmailDkimsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *EmailDkimsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailDkimsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailDkimsDataSourceCrud) Get() error {
 	request := oci_email.ListDkimsRequest{}
 
 	if emailDomainId, ok := s.D.GetOkExists("email_domain_id"); ok {
@@ -95,7 +94,7 @@ func (s *EmailDkimsDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.ListDkims(ctx, request)
+	response, err := s.Client.ListDkims(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *EmailDkimsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDkims(ctx, request)
+		listResponse, err := s.Client.ListDkims(context.Background(), request)
 		if err != nil {
 			return err
 		}

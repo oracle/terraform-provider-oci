@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -24,15 +24,11 @@ func AiLanguageProjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		CreateContext: createAiLanguageProjectWithContext,
-		ReadContext:   readAiLanguageProjectWithContext,
-		UpdateContext: updateAiLanguageProjectWithContext,
-		DeleteContext: deleteAiLanguageProjectWithContext,
-		Timeouts: &schema.ResourceTimeout{
-			Create: schema.DefaultTimeout(60 * time.Minute),
-			Update: schema.DefaultTimeout(60 * time.Minute),
-			Delete: schema.DefaultTimeout(60 * time.Minute),
-		},
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createAiLanguageProject,
+		Read:     readAiLanguageProject,
+		Update:   updateAiLanguageProject,
+		Delete:   deleteAiLanguageProject,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -91,37 +87,37 @@ func AiLanguageProjectResource() *schema.Resource {
 	}
 }
 
-func createAiLanguageProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createAiLanguageProject(d *schema.ResourceData, m interface{}) error {
 	sync := &AiLanguageProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readAiLanguageProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAiLanguageProject(d *schema.ResourceData, m interface{}) error {
 	sync := &AiLanguageProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateAiLanguageProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateAiLanguageProject(d *schema.ResourceData, m interface{}) error {
 	sync := &AiLanguageProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteAiLanguageProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteAiLanguageProject(d *schema.ResourceData, m interface{}) error {
 	sync := &AiLanguageProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type AiLanguageProjectResourceCrud struct {
@@ -171,7 +167,7 @@ func (s *AiLanguageProjectResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AiLanguageProjectResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *AiLanguageProjectResourceCrud) Create() error {
 	request := oci_ai_language.CreateProjectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -203,20 +199,20 @@ func (s *AiLanguageProjectResourceCrud) CreateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	response, err := s.Client.CreateProject(ctx, request)
+	response, err := s.Client.CreateProject(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language"), "CREATED", s.D.Timeout(schema.TimeoutCreate))
+	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language"), "CREATED", s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AiLanguageProjectResourceCrud) getProjectFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AiLanguageProjectResourceCrud) getProjectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ai_language.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	projectId, err := projectWaitForWorkRequest(ctx, workId, "project",
+	projectId, err := projectWaitForWorkRequest(workId, "project",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -224,7 +220,7 @@ func (s *AiLanguageProjectResourceCrud) getProjectFromWorkRequest(ctx context.Co
 	}
 	s.D.SetId(*projectId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -250,7 +246,7 @@ func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ai_language.ActionTypeEnum,
+func projectWaitForWorkRequest(wId *string, entityType string, action oci_ai_language.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_language.AIServiceLanguageClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ai_language")
 	retryPolicy.ShouldRetryOperation = projectWorkRequestShouldRetryFunc(timeout)
@@ -268,7 +264,7 @@ func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_ai_language.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -303,7 +299,7 @@ func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 	return identifier, nil
 }
 
-func getErrorFromAiLanguageProjectWorkRequest(ctx context.Context, client *oci_ai_language.AIServiceLanguageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_language.ActionTypeEnum) error {
+func getErrorFromAiLanguageProjectWorkRequest(client *oci_ai_language.AIServiceLanguageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_language.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_ai_language.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -326,7 +322,7 @@ func getErrorFromAiLanguageProjectWorkRequest(ctx context.Context, client *oci_a
 	return workRequestErr
 }
 
-func (s *AiLanguageProjectResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AiLanguageProjectResourceCrud) Get() error {
 	request := oci_ai_language.GetProjectRequest{}
 
 	tmp := s.D.Id()
@@ -334,7 +330,7 @@ func (s *AiLanguageProjectResourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	response, err := s.Client.GetProject(ctx, request)
+	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -343,11 +339,11 @@ func (s *AiLanguageProjectResourceCrud) GetWithContext(ctx context.Context) erro
 	return nil
 }
 
-func (s *AiLanguageProjectResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *AiLanguageProjectResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -382,13 +378,13 @@ func (s *AiLanguageProjectResourceCrud) UpdateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	_, err := s.Client.UpdateProject(ctx, request)
+	_, err := s.Client.UpdateProject(context.Background(), request)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		fmt.Printf("waitErr: %v\n", waitErr)
 		return waitErr
 	}
@@ -399,7 +395,7 @@ func (s *AiLanguageProjectResourceCrud) UpdateWithContext(ctx context.Context) e
 	// return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language"), "CREATED", s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AiLanguageProjectResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *AiLanguageProjectResourceCrud) Delete() error {
 	request := oci_ai_language.DeleteProjectRequest{}
 
 	tmp := s.D.Id()
@@ -407,14 +403,14 @@ func (s *AiLanguageProjectResourceCrud) DeleteWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	response, err := s.Client.DeleteProject(ctx, request)
+	response, err := s.Client.DeleteProject(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := projectWaitForWorkRequest(ctx, workId, "project",
+	_, delWorkRequestErr := projectWaitForWorkRequest(workId, "project",
 		oci_ai_language.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -509,7 +505,7 @@ func ProjectSummaryToMap(obj oci_ai_language.ProjectSummary) map[string]interfac
 	return result
 }
 
-func (s *AiLanguageProjectResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *AiLanguageProjectResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_ai_language.ChangeProjectCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -520,12 +516,12 @@ func (s *AiLanguageProjectResourceCrud) updateCompartment(ctx context.Context, c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	_, err := s.Client.ChangeProjectCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

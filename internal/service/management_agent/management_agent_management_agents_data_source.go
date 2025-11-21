@@ -8,7 +8,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
@@ -18,7 +17,7 @@ import (
 
 func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readManagementAgentManagementAgentsWithContext,
+		Read: readManagementAgentManagementAgents,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -109,12 +108,12 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 	}
 }
 
-func readManagementAgentManagementAgentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readManagementAgentManagementAgents(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagementAgentManagementAgentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ManagementAgentManagementAgentsDataSourceCrud struct {
@@ -127,7 +126,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ManagementAgentManagementAgentsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	request := oci_management_agent.ListManagementAgentsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -256,7 +255,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "management_agent")
 
-	response, err := s.Client.ListManagementAgents(ctx, request)
+	response, err := s.Client.ListManagementAgents(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -265,7 +264,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) GetWithContext(ctx conte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListManagementAgents(ctx, request)
+		listResponse, err := s.Client.ListManagementAgents(context.Background(), request)
 		if err != nil {
 			return err
 		}

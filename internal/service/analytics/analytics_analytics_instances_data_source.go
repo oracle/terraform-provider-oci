@@ -6,7 +6,6 @@ package analytics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readAnalyticsAnalyticsInstancesWithContext,
+		Read: readAnalyticsAnalyticsInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"capacity_type": {
@@ -48,12 +47,12 @@ func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readAnalyticsAnalyticsInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAnalyticsAnalyticsInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstancesDataSourceCrud struct {
@@ -66,7 +65,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AnalyticsAnalyticsInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AnalyticsAnalyticsInstancesDataSourceCrud) Get() error {
 	request := oci_analytics.ListAnalyticsInstancesRequest{}
 
 	if capacityType, ok := s.D.GetOkExists("capacity_type"); ok {
@@ -93,7 +92,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "analytics")
 
-	response, err := s.Client.ListAnalyticsInstances(ctx, request)
+	response, err := s.Client.ListAnalyticsInstances(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -102,7 +101,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) GetWithContext(ctx context.C
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAnalyticsInstances(ctx, request)
+		listResponse, err := s.Client.ListAnalyticsInstances(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,7 +6,6 @@ package email
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func EmailDkimDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(EmailDkimResource(), fieldMap, readSingularEmailDkimWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(EmailDkimResource(), fieldMap, readSingularEmailDkim)
 }
 
-func readSingularEmailDkimWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularEmailDkim(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailDkimDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EmailClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type EmailDkimDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *EmailDkimDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *EmailDkimDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *EmailDkimDataSourceCrud) Get() error {
 	request := oci_email.GetDkimRequest{}
 
 	if dkimId, ok := s.D.GetOkExists("dkim_id"); ok {
@@ -51,7 +50,7 @@ func (s *EmailDkimDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "email")
 
-	response, err := s.Client.GetDkim(ctx, request)
+	response, err := s.Client.GetDkim(context.Background(), request)
 	if err != nil {
 		return err
 	}

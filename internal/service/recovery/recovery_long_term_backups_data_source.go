@@ -6,7 +6,6 @@ package recovery
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
 
@@ -16,7 +15,7 @@ import (
 
 func RecoveryLongTermBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readRecoveryLongTermBackupsWithContext,
+		Read: readRecoveryLongTermBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func RecoveryLongTermBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readRecoveryLongTermBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRecoveryLongTermBackups(d *schema.ResourceData, m interface{}) error {
 	sync := &RecoveryLongTermBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseRecoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type RecoveryLongTermBackupsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *RecoveryLongTermBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecoveryLongTermBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RecoveryLongTermBackupsDataSourceCrud) Get() error {
 	request := oci_recovery.ListLongTermBackupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *RecoveryLongTermBackupsDataSourceCrud) GetWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "recovery")
 
-	response, err := s.Client.ListLongTermBackups(ctx, request)
+	response, err := s.Client.ListLongTermBackups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *RecoveryLongTermBackupsDataSourceCrud) GetWithContext(ctx context.Conte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListLongTermBackups(ctx, request)
+		listResponse, err := s.Client.ListLongTermBackups(context.Background(), request)
 		if err != nil {
 			return err
 		}
