@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -27,11 +27,11 @@ func ApigatewayGatewayResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createApigatewayGatewayWithContext,
-		ReadContext:   readApigatewayGatewayWithContext,
-		UpdateContext: updateApigatewayGatewayWithContext,
-		DeleteContext: deleteApigatewayGatewayWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createApigatewayGateway,
+		Read:     readApigatewayGateway,
+		Update:   updateApigatewayGateway,
+		Delete:   deleteApigatewayGateway,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -352,40 +352,40 @@ func ApigatewayGatewayResource() *schema.Resource {
 	}
 }
 
-func createApigatewayGatewayWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GatewayClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readApigatewayGatewayWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GatewayClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateApigatewayGatewayWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GatewayClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteApigatewayGatewayWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GatewayClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ApigatewayGatewayResourceCrud struct {
@@ -424,7 +424,7 @@ func (s *ApigatewayGatewayResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ApigatewayGatewayResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ApigatewayGatewayResourceCrud) Create() error {
 	request := oci_apigateway.CreateGatewayRequest{}
 
 	if caBundles, ok := s.D.GetOkExists("ca_bundles"); ok {
@@ -550,7 +550,7 @@ func (s *ApigatewayGatewayResourceCrud) CreateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.CreateGateway(ctx, request)
+	response, err := s.Client.CreateGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -561,20 +561,20 @@ func (s *ApigatewayGatewayResourceCrud) CreateWithContext(ctx context.Context) e
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getGatewayFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getGatewayFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apigateway.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	gatewayId, err := gatewayWaitForWorkRequest(ctx, workId, "gateway",
+	gatewayId, err := gatewayWaitForWorkRequest(workId, "gateway",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, gatewayId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -588,7 +588,7 @@ func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(ctx context.Co
 	}
 	s.D.SetId(*gatewayId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func gatewayWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -614,7 +614,7 @@ func gatewayWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func gatewayWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
+func gatewayWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = gatewayWorkRequestShouldRetryFunc(timeout)
@@ -633,7 +633,7 @@ func gatewayWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_apigateway.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -662,14 +662,14 @@ func gatewayWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromApigatewayGatewayWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApigatewayGatewayWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApigatewayGatewayWorkRequest(ctx context.Context, client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromApigatewayGatewayWorkRequest(client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_apigateway.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -691,7 +691,7 @@ func getErrorFromApigatewayGatewayWorkRequest(ctx context.Context, client *oci_a
 	return workRequestErr
 }
 
-func (s *ApigatewayGatewayResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayGatewayResourceCrud) Get() error {
 	request := oci_apigateway.GetGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -699,7 +699,7 @@ func (s *ApigatewayGatewayResourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.GetGateway(ctx, request)
+	response, err := s.Client.GetGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -708,11 +708,11 @@ func (s *ApigatewayGatewayResourceCrud) GetWithContext(ctx context.Context) erro
 	return nil
 }
 
-func (s *ApigatewayGatewayResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ApigatewayGatewayResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -794,16 +794,16 @@ func (s *ApigatewayGatewayResourceCrud) UpdateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.UpdateGateway(ctx, request)
+	response, err := s.Client.UpdateGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getGatewayFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getGatewayFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApigatewayGatewayResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ApigatewayGatewayResourceCrud) Delete() error {
 	request := oci_apigateway.DeleteGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -816,14 +816,14 @@ func (s *ApigatewayGatewayResourceCrud) DeleteWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.DeleteGateway(ctx, request)
+	response, err := s.Client.DeleteGateway(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := gatewayWaitForWorkRequest(ctx, workId, "gateway",
+	_, delWorkRequestErr := gatewayWaitForWorkRequest(workId, "gateway",
 		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -1320,7 +1320,7 @@ func ResponseCacheRespServerToMap(obj oci_apigateway.ResponseCacheRespServer) ma
 	return result
 }
 
-func (s *ApigatewayGatewayResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ApigatewayGatewayResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_apigateway.ChangeGatewayCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1336,11 +1336,11 @@ func (s *ApigatewayGatewayResourceCrud) updateCompartment(ctx context.Context, c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.ChangeGatewayCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeGatewayCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getGatewayFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getGatewayFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

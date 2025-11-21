@@ -6,7 +6,6 @@ package apigateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -20,15 +19,15 @@ func ApigatewayApiDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApigatewayApiResource(), fieldMap, readSingularApigatewayApiWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ApigatewayApiResource(), fieldMap, readSingularApigatewayApi)
 }
 
-func readSingularApigatewayApiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularApigatewayApi(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApiDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApigatewayApiDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ApigatewayApiDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayApiDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayApiDataSourceCrud) Get() error {
 	request := oci_apigateway.GetApiRequest{}
 
 	if apiId, ok := s.D.GetOkExists("api_id"); ok {
@@ -51,7 +50,7 @@ func (s *ApigatewayApiDataSourceCrud) GetWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.GetApi(ctx, request)
+	response, err := s.Client.GetApi(context.Background(), request)
 	if err != nil {
 		return err
 	}

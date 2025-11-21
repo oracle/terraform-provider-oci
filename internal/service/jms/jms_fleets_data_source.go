@@ -6,7 +6,6 @@ package jms
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsFleetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readJmsFleetsWithContext,
+		Read: readJmsFleets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func JmsFleetsDataSource() *schema.Resource {
 	}
 }
 
-func readJmsFleetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readJmsFleets(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsFleetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsFleetsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *JmsFleetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsFleetsDataSourceCrud) Get() error {
 	request := oci_jms.ListFleetsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *JmsFleetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.ListFleets(ctx, request)
+	response, err := s.Client.ListFleets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *JmsFleetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFleets(ctx, request)
+		listResponse, err := s.Client.ListFleets(context.Background(), request)
 		if err != nil {
 			return err
 		}

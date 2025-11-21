@@ -6,7 +6,6 @@ package fusion_apps
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -16,7 +15,7 @@ import (
 
 func FusionAppsFusionEnvironmentFamiliesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFusionAppsFusionEnvironmentFamiliesWithContext,
+		Read: readFusionAppsFusionEnvironmentFamilies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func FusionAppsFusionEnvironmentFamiliesDataSource() *schema.Resource {
 	}
 }
 
-func readFusionAppsFusionEnvironmentFamiliesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentFamilies(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentFamiliesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentFamiliesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *FusionAppsFusionEnvironmentFamiliesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentFamiliesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentFamiliesDataSourceCrud) Get() error {
 	request := oci_fusion_apps.ListFusionEnvironmentFamiliesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *FusionAppsFusionEnvironmentFamiliesDataSourceCrud) GetWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.ListFusionEnvironmentFamilies(ctx, request)
+	response, err := s.Client.ListFusionEnvironmentFamilies(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *FusionAppsFusionEnvironmentFamiliesDataSourceCrud) GetWithContext(ctx c
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFusionEnvironmentFamilies(ctx, request)
+		listResponse, err := s.Client.ListFusionEnvironmentFamilies(context.Background(), request)
 		if err != nil {
 			return err
 		}

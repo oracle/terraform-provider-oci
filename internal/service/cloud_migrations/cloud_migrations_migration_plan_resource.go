@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -26,11 +26,11 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudMigrationsMigrationPlanWithContext,
-		ReadContext:   readCloudMigrationsMigrationPlanWithContext,
-		UpdateContext: updateCloudMigrationsMigrationPlanWithContext,
-		DeleteContext: deleteCloudMigrationsMigrationPlanWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudMigrationsMigrationPlan,
+		Read:     readCloudMigrationsMigrationPlan,
+		Update:   updateCloudMigrationsMigrationPlan,
+		Delete:   deleteCloudMigrationsMigrationPlan,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -391,37 +391,37 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 	}
 }
 
-func createCloudMigrationsMigrationPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudMigrationsMigrationPlan(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudMigrationsMigrationPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudMigrationsMigrationPlan(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudMigrationsMigrationPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudMigrationsMigrationPlan(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudMigrationsMigrationPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudMigrationsMigrationPlan(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudMigrationsMigrationPlanResourceCrud struct {
@@ -460,7 +460,7 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationPlanResourceCrud) Create() error {
 	request := oci_cloud_migrations.CreateMigrationPlanRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -531,7 +531,7 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) CreateWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.CreateMigrationPlan(ctx, request)
+	response, err := s.Client.CreateMigrationPlan(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -542,20 +542,20 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) CreateWithContext(ctx context
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMigrationPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMigrationPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) getMigrationPlanFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudMigrationsMigrationPlanResourceCrud) getMigrationPlanFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_migrations.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	migrationPlanId, err := migrationPlanWaitForWorkRequest(ctx, workId, "migrationPlan",
+	migrationPlanId, err := migrationPlanWaitForWorkRequest(workId, "migrationPlan",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, migrationPlanId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_cloud_migrations.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -569,7 +569,7 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) getMigrationPlanFromWorkReque
 	}
 	s.D.SetId(*migrationPlanId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func migrationPlanWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -595,7 +595,7 @@ func migrationPlanWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func migrationPlanWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_migrations.ActionTypeEnum,
+func migrationPlanWaitForWorkRequest(wId *string, entityType string, action oci_cloud_migrations.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_migrations.MigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_migrations")
 	retryPolicy.ShouldRetryOperation = migrationPlanWorkRequestShouldRetryFunc(timeout)
@@ -614,7 +614,7 @@ func migrationPlanWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_cloud_migrations.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -643,14 +643,14 @@ func migrationPlanWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_migrations.OperationStatusFailed || response.Status == oci_cloud_migrations.OperationStatusCanceled {
-		return nil, getErrorFromCloudMigrationsMigrationPlanWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudMigrationsMigrationPlanWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudMigrationsMigrationPlanWorkRequest(ctx context.Context, client *oci_cloud_migrations.MigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_migrations.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromCloudMigrationsMigrationPlanWorkRequest(client *oci_cloud_migrations.MigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_migrations.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_cloud_migrations.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -672,7 +672,7 @@ func getErrorFromCloudMigrationsMigrationPlanWorkRequest(ctx context.Context, cl
 	return workRequestErr
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationPlanResourceCrud) Get() error {
 	request := oci_cloud_migrations.GetMigrationPlanRequest{}
 
 	tmp := s.D.Id()
@@ -680,7 +680,7 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.GetMigrationPlan(ctx, request)
+	response, err := s.Client.GetMigrationPlan(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -689,11 +689,11 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) GetWithContext(ctx context.Co
 	return nil
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationPlanResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -757,16 +757,16 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) UpdateWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.UpdateMigrationPlan(ctx, request)
+	response, err := s.Client.UpdateMigrationPlan(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMigrationPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMigrationPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationPlanResourceCrud) Delete() error {
 	request := oci_cloud_migrations.DeleteMigrationPlanRequest{}
 
 	tmp := s.D.Id()
@@ -774,14 +774,14 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) DeleteWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.DeleteMigrationPlan(ctx, request)
+	response, err := s.Client.DeleteMigrationPlan(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := migrationPlanWaitForWorkRequest(ctx, workId, "migrationPlan",
+	_, delWorkRequestErr := migrationPlanWaitForWorkRequest(workId, "migrationPlan",
 		oci_cloud_migrations.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1329,7 +1329,7 @@ func VolumeCostEstimationToMap(obj oci_cloud_migrations.VolumeCostEstimation) ma
 	return result
 }
 
-func (s *CloudMigrationsMigrationPlanResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *CloudMigrationsMigrationPlanResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_cloud_migrations.ChangeMigrationPlanCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1340,11 +1340,11 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) updateCompartment(ctx context
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.ChangeMigrationPlanCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeMigrationPlanCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMigrationPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMigrationPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

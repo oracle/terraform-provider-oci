@@ -6,7 +6,6 @@ package fusion_apps
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -16,7 +15,7 @@ import (
 
 func FusionAppsFusionEnvironmentAdminUsersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFusionAppsFusionEnvironmentAdminUsersWithContext,
+		Read: readFusionAppsFusionEnvironmentAdminUsers,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"fusion_environment_id": {
@@ -41,12 +40,12 @@ func FusionAppsFusionEnvironmentAdminUsersDataSource() *schema.Resource {
 	}
 }
 
-func readFusionAppsFusionEnvironmentAdminUsersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentAdminUsers(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentAdminUsersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentAdminUsersDataSourceCrud struct {
@@ -59,7 +58,7 @@ func (s *FusionAppsFusionEnvironmentAdminUsersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentAdminUsersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentAdminUsersDataSourceCrud) Get() error {
 	request := oci_fusion_apps.ListAdminUsersRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -69,7 +68,7 @@ func (s *FusionAppsFusionEnvironmentAdminUsersDataSourceCrud) GetWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.ListAdminUsers(ctx, request)
+	response, err := s.Client.ListAdminUsers(context.Background(), request)
 	if err != nil {
 		return err
 	}

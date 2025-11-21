@@ -7,7 +7,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -21,15 +20,15 @@ func CloudBridgeAssetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudBridgeAssetResource(), fieldMap, readSingularCloudBridgeAssetWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(CloudBridgeAssetResource(), fieldMap, readSingularCloudBridgeAsset)
 }
 
-func readSingularCloudBridgeAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudBridgeAsset(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeAssetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudBridgeAssetDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *CloudBridgeAssetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeAssetDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudBridgeAssetDataSourceCrud) Get() error {
 	request := oci_cloud_bridge.GetAssetRequest{}
 
 	if assetId, ok := s.D.GetOkExists("asset_id"); ok {
@@ -52,7 +51,7 @@ func (s *CloudBridgeAssetDataSourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.GetAsset(ctx, request)
+	response, err := s.Client.GetAsset(context.Background(), request)
 	if err != nil {
 		return err
 	}

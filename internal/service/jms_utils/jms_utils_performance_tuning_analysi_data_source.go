@@ -6,7 +6,6 @@ package jms_utils
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_utils "github.com/oracle/oci-go-sdk/v65/jmsutils"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsUtilsPerformanceTuningAnalysiDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularJmsUtilsPerformanceTuningAnalysiWithContext,
+		Read: readSingularJmsUtilsPerformanceTuningAnalysi,
 		Schema: map[string]*schema.Schema{
 			"performance_tuning_analysis_id": {
 				Type:     schema.TypeString,
@@ -88,12 +87,12 @@ func JmsUtilsPerformanceTuningAnalysiDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsUtilsPerformanceTuningAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsUtilsPerformanceTuningAnalysi(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsUtilsPerformanceTuningAnalysiDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsUtilsPerformanceTuningAnalysiDataSourceCrud struct {
@@ -106,7 +105,7 @@ func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) Get() error {
 	request := oci_jms_utils.GetPerformanceTuningAnalysisRequest{}
 
 	if performanceTuningAnalysisId, ok := s.D.GetOkExists("performance_tuning_analysis_id"); ok {
@@ -116,7 +115,7 @@ func (s *JmsUtilsPerformanceTuningAnalysiDataSourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_utils")
 
-	response, err := s.Client.GetPerformanceTuningAnalysis(ctx, request)
+	response, err := s.Client.GetPerformanceTuningAnalysis(context.Background(), request)
 	if err != nil {
 		return err
 	}

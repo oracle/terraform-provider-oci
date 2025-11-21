@@ -6,12 +6,11 @@ package waas
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 )
 
 func WaasHttpRedirectDataSource() *schema.Resource {
@@ -20,15 +19,15 @@ func WaasHttpRedirectDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(WaasHttpRedirectResource(), fieldMap, readSingularWaasHttpRedirectWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(WaasHttpRedirectResource(), fieldMap, readSingularWaasHttpRedirect)
 }
 
-func readSingularWaasHttpRedirectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedirectClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaasHttpRedirectDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *WaasHttpRedirectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaasHttpRedirectDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaasHttpRedirectDataSourceCrud) Get() error {
 	request := oci_waas.GetHttpRedirectRequest{}
 
 	if httpRedirectId, ok := s.D.GetOkExists("http_redirect_id"); ok {
@@ -51,7 +50,7 @@ func (s *WaasHttpRedirectDataSourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waas")
 
-	response, err := s.Client.GetHttpRedirect(ctx, request)
+	response, err := s.Client.GetHttpRedirect(context.Background(), request)
 	if err != nil {
 		return err
 	}

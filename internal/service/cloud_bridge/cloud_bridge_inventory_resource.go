@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func CloudBridgeInventoryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createCloudBridgeInventoryWithContext,
-		ReadContext:   readCloudBridgeInventoryWithContext,
-		UpdateContext: updateCloudBridgeInventoryWithContext,
-		DeleteContext: deleteCloudBridgeInventoryWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createCloudBridgeInventory,
+		Read:     readCloudBridgeInventory,
+		Update:   updateCloudBridgeInventory,
+		Delete:   deleteCloudBridgeInventory,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -83,41 +83,41 @@ func CloudBridgeInventoryResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeInventoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createCloudBridgeInventory(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeInventoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readCloudBridgeInventoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudBridgeInventory(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeInventoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateCloudBridgeInventoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateCloudBridgeInventory(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeInventoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteCloudBridgeInventoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteCloudBridgeInventory(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeInventoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type CloudBridgeInventoryResourceCrud struct {
@@ -156,7 +156,7 @@ func (s *CloudBridgeInventoryResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeInventoryResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *CloudBridgeInventoryResourceCrud) Create() error {
 	request := oci_cloud_bridge.CreateInventoryRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -183,14 +183,14 @@ func (s *CloudBridgeInventoryResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.CreateInventory(ctx, request)
+	response, err := s.Client.CreateInventory(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_cloud_bridge.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
 		oci_cloud_bridge.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -206,20 +206,20 @@ func (s *CloudBridgeInventoryResourceCrud) CreateWithContext(ctx context.Context
 			}
 		}
 	}
-	return s.getInventoryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getInventoryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudBridgeInventoryResourceCrud) getInventoryFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudBridgeInventoryResourceCrud) getInventoryFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_bridge.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	inventoryId, err := inventoryWaitForWorkRequest(ctx, workId, "inventory",
+	inventoryId, err := inventoryWaitForWorkRequest(workId, "inventory",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, inventoryId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_cloud_bridge.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -233,7 +233,7 @@ func (s *CloudBridgeInventoryResourceCrud) getInventoryFromWorkRequest(ctx conte
 	}
 	s.D.SetId(*inventoryId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func inventoryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -259,7 +259,7 @@ func inventoryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func inventoryWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
+func inventoryWaitForWorkRequest(wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_bridge.CommonClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_bridge")
 	retryPolicy.ShouldRetryOperation = inventoryWorkRequestShouldRetryFunc(timeout)
@@ -278,7 +278,7 @@ func inventoryWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_cloud_bridge.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -307,14 +307,14 @@ func inventoryWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_bridge.OperationStatusFailed || response.Status == oci_cloud_bridge.OperationStatusCanceled {
-		return nil, getErrorFromCloudBridgeInventoryWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudBridgeInventoryWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudBridgeInventoryWorkRequest(ctx context.Context, client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromCloudBridgeInventoryWorkRequest(client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_cloud_bridge.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -336,7 +336,7 @@ func getErrorFromCloudBridgeInventoryWorkRequest(ctx context.Context, client *oc
 	return workRequestErr
 }
 
-func (s *CloudBridgeInventoryResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudBridgeInventoryResourceCrud) Get() error {
 	request := oci_cloud_bridge.GetInventoryRequest{}
 
 	tmp := s.D.Id()
@@ -344,7 +344,7 @@ func (s *CloudBridgeInventoryResourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.GetInventory(ctx, request)
+	response, err := s.Client.GetInventory(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -353,7 +353,7 @@ func (s *CloudBridgeInventoryResourceCrud) GetWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *CloudBridgeInventoryResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *CloudBridgeInventoryResourceCrud) Update() error {
 	request := oci_cloud_bridge.UpdateInventoryRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -378,7 +378,7 @@ func (s *CloudBridgeInventoryResourceCrud) UpdateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.UpdateInventory(ctx, request)
+	response, err := s.Client.UpdateInventory(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -387,7 +387,7 @@ func (s *CloudBridgeInventoryResourceCrud) UpdateWithContext(ctx context.Context
 	return nil
 }
 
-func (s *CloudBridgeInventoryResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *CloudBridgeInventoryResourceCrud) Delete() error {
 	request := oci_cloud_bridge.DeleteInventoryRequest{}
 
 	tmp := s.D.Id()
@@ -395,14 +395,14 @@ func (s *CloudBridgeInventoryResourceCrud) DeleteWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.DeleteInventory(ctx, request)
+	response, err := s.Client.DeleteInventory(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := inventoryWaitForWorkRequest(ctx, workId, "inventory",
+	_, delWorkRequestErr := inventoryWaitForWorkRequest(workId, "inventory",
 		oci_cloud_bridge.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

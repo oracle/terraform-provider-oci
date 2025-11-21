@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -26,11 +26,11 @@ func RedisOciCacheUserResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createRedisOciCacheUserWithContext,
-		ReadContext:   readRedisOciCacheUserWithContext,
-		UpdateContext: updateRedisOciCacheUserWithContext,
-		DeleteContext: deleteRedisOciCacheUserWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createRedisOciCacheUser,
+		Read:     readRedisOciCacheUser,
+		Update:   updateRedisOciCacheUser,
+		Delete:   deleteRedisOciCacheUser,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"acl_string": {
@@ -126,37 +126,42 @@ func RedisOciCacheUserResource() *schema.Resource {
 	}
 }
 
-func createRedisOciCacheUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &RedisOciCacheUserResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
-
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
-}
-
-func readRedisOciCacheUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createRedisOciCacheUser(d *schema.ResourceData, m interface{}) error {
 	sync := &RedisOciCacheUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
 	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+
+	return tfresource.CreateResource(d, sync)
 }
 
-func updateRedisOciCacheUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRedisOciCacheUser(d *schema.ResourceData, m interface{}) error {
 	sync := &RedisOciCacheUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
 	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+
+	return tfresource.ReadResource(sync)
 }
 
-func deleteRedisOciCacheUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateRedisOciCacheUser(d *schema.ResourceData, m interface{}) error {
 	sync := &RedisOciCacheUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
+	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
+
+	return tfresource.UpdateResource(d, sync)
+}
+
+func deleteRedisOciCacheUser(d *schema.ResourceData, m interface{}) error {
+	sync := &RedisOciCacheUserResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
+	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
+
 	sync.DisableNotFoundRetries = true
-	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+
+	return tfresource.DeleteResource(d, sync)
 }
 
 type RedisOciCacheUserResourceCrud struct {
@@ -195,7 +200,7 @@ func (s *RedisOciCacheUserResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *RedisOciCacheUserResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *RedisOciCacheUserResourceCrud) Create() error {
 	request := oci_redis.CreateOciCacheUserRequest{}
 
 	if aclString, ok := s.D.GetOkExists("acl_string"); ok {
@@ -247,14 +252,14 @@ func (s *RedisOciCacheUserResourceCrud) CreateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.CreateOciCacheUser(ctx, request)
+	response, err := s.Client.CreateOciCacheUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_redis.GetWorkRequestResponse{}
-	workRequestResponse, err = s.RedisClusterClient.GetWorkRequest(ctx,
+	workRequestResponse, err = s.RedisClusterClient.GetWorkRequest(context.Background(),
 		oci_redis.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -270,20 +275,20 @@ func (s *RedisOciCacheUserResourceCrud) CreateWithContext(ctx context.Context) e
 			}
 		}
 	}
-	return s.getOciCacheUserFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOciCacheUserFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *RedisOciCacheUserResourceCrud) getOciCacheUserFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *RedisOciCacheUserResourceCrud) getOciCacheUserFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_redis.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	ociCacheUserId, err := ociCacheUserWaitForWorkRequest(ctx, workId, "ocicacheuser",
+	ociCacheUserId, err := ociCacheUserWaitForWorkRequest(workId, "ocicacheuser",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.RedisClusterClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, ociCacheUserId)
-		_, cancelErr := s.RedisClusterClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.RedisClusterClient.CancelWorkRequest(context.Background(),
 			oci_redis.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -297,7 +302,7 @@ func (s *RedisOciCacheUserResourceCrud) getOciCacheUserFromWorkRequest(ctx conte
 	}
 	s.D.SetId(*ociCacheUserId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func ociCacheUserWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -323,7 +328,7 @@ func ociCacheUserWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func ociCacheUserWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_redis.ActionTypeEnum,
+func ociCacheUserWaitForWorkRequest(wId *string, entityType string, action oci_redis.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_redis.RedisClusterClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "redis")
 	retryPolicy.ShouldRetryOperation = ociCacheUserWorkRequestShouldRetryFunc(timeout)
@@ -371,13 +376,13 @@ func ociCacheUserWaitForWorkRequest(ctx context.Context, wId *string, entityType
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_redis.OperationStatusFailed || response.Status == oci_redis.OperationStatusCanceled {
-		return nil, getErrorFromRedisOciCacheUserWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromRedisOciCacheUserWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromRedisOciCacheUserWorkRequest(ctx context.Context, client *oci_redis.RedisClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_redis.ActionTypeEnum) error {
+func getErrorFromRedisOciCacheUserWorkRequest(client *oci_redis.RedisClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_redis.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_redis.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -400,7 +405,7 @@ func getErrorFromRedisOciCacheUserWorkRequest(ctx context.Context, client *oci_r
 	return workRequestErr
 }
 
-func (s *RedisOciCacheUserResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RedisOciCacheUserResourceCrud) Get() error {
 	request := oci_redis.GetOciCacheUserRequest{}
 
 	tmp := s.D.Id()
@@ -408,7 +413,7 @@ func (s *RedisOciCacheUserResourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.GetOciCacheUser(ctx, request)
+	response, err := s.Client.GetOciCacheUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -417,11 +422,11 @@ func (s *RedisOciCacheUserResourceCrud) GetWithContext(ctx context.Context) erro
 	return nil
 }
 
-func (s *RedisOciCacheUserResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *RedisOciCacheUserResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -471,16 +476,16 @@ func (s *RedisOciCacheUserResourceCrud) UpdateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.UpdateOciCacheUser(ctx, request)
+	response, err := s.Client.UpdateOciCacheUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOciCacheUserFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOciCacheUserFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *RedisOciCacheUserResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *RedisOciCacheUserResourceCrud) Delete() error {
 	request := oci_redis.DeleteOciCacheUserRequest{}
 
 	tmp := s.D.Id()
@@ -488,14 +493,14 @@ func (s *RedisOciCacheUserResourceCrud) DeleteWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.DeleteOciCacheUser(ctx, request)
+	response, err := s.Client.DeleteOciCacheUser(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := ociCacheUserWaitForWorkRequest(ctx, workId, "ocicacheuser",
+	_, delWorkRequestErr := ociCacheUserWaitForWorkRequest(workId, "ocicacheuser",
 		oci_redis.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.RedisClusterClient)
 	return delWorkRequestErr
 }
@@ -529,6 +534,7 @@ func (s *RedisOciCacheUserResourceCrud) SetData() error {
 				}
 			}
 		}
+
 		authenticationModeArray = append(authenticationModeArray, authenticationModeMap)
 		s.D.Set("authentication_mode", authenticationModeArray)
 	}
@@ -613,6 +619,7 @@ func AuthenticationModeToMap(obj *oci_redis.AuthenticationMode) map[string]inter
 	case oci_redis.PasswordAuthenticationMode:
 		result["authentication_type"] = "PASSWORD"
 
+		// Include hashed_passwords even if empty
 		result["hashed_passwords"] = v.HashedPasswords
 	default:
 		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
@@ -664,7 +671,7 @@ func OciCacheUserSummaryToMap(obj oci_redis.OciCacheUserSummary) map[string]inte
 	return result
 }
 
-func (s *RedisOciCacheUserResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *RedisOciCacheUserResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_redis.ChangeOciCacheUserCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -675,11 +682,11 @@ func (s *RedisOciCacheUserResourceCrud) updateCompartment(ctx context.Context, c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.ChangeOciCacheUserCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeOciCacheUserCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOciCacheUserFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOciCacheUserFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

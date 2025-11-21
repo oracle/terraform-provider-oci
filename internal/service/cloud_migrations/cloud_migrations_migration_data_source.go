@@ -6,7 +6,6 @@ package cloud_migrations
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -20,15 +19,15 @@ func CloudMigrationsMigrationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(CloudMigrationsMigrationResource(), fieldMap, readSingularCloudMigrationsMigrationWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(CloudMigrationsMigrationResource(), fieldMap, readSingularCloudMigrationsMigration)
 }
 
-func readSingularCloudMigrationsMigrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularCloudMigrationsMigration(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudMigrationsMigrationDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *CloudMigrationsMigrationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsMigrationDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationDataSourceCrud) Get() error {
 	request := oci_cloud_migrations.GetMigrationRequest{}
 
 	if migrationId, ok := s.D.GetOkExists("migration_id"); ok {
@@ -51,7 +50,7 @@ func (s *CloudMigrationsMigrationDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.GetMigration(ctx, request)
+	response, err := s.Client.GetMigration(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package apigateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -20,15 +19,15 @@ func ApigatewayDeploymentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApigatewayDeploymentResource(), fieldMap, readSingularApigatewayDeploymentWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ApigatewayDeploymentResource(), fieldMap, readSingularApigatewayDeployment)
 }
 
-func readSingularApigatewayDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DeploymentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApigatewayDeploymentDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ApigatewayDeploymentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayDeploymentDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayDeploymentDataSourceCrud) Get() error {
 	request := oci_apigateway.GetDeploymentRequest{}
 
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
@@ -51,7 +50,7 @@ func (s *ApigatewayDeploymentDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.GetDeployment(ctx, request)
+	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}

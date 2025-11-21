@@ -6,7 +6,6 @@ package redis
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -16,7 +15,7 @@ import (
 
 func RedisRedisClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readRedisRedisClustersWithContext,
+		Read: readRedisRedisClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func RedisRedisClustersDataSource() *schema.Resource {
 	}
 }
 
-func readRedisRedisClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRedisRedisClusters(d *schema.ResourceData, m interface{}) error {
 	sync := &RedisRedisClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedisClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type RedisRedisClustersDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *RedisRedisClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisRedisClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RedisRedisClustersDataSourceCrud) Get() error {
 	request := oci_redis.ListRedisClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *RedisRedisClustersDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.ListRedisClusters(ctx, request)
+	response, err := s.Client.ListRedisClusters(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *RedisRedisClustersDataSourceCrud) GetWithContext(ctx context.Context) e
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRedisClusters(ctx, request)
+		listResponse, err := s.Client.ListRedisClusters(context.Background(), request)
 		if err != nil {
 			return err
 		}

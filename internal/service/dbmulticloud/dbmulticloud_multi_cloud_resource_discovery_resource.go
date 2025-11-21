@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -25,11 +25,11 @@ func DbmulticloudMultiCloudResourceDiscoveryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDbmulticloudMultiCloudResourceDiscoveryWithContext,
-		ReadContext:   readDbmulticloudMultiCloudResourceDiscoveryWithContext,
-		UpdateContext: updateDbmulticloudMultiCloudResourceDiscoveryWithContext,
-		DeleteContext: deleteDbmulticloudMultiCloudResourceDiscoveryWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDbmulticloudMultiCloudResourceDiscovery,
+		Read:     readDbmulticloudMultiCloudResourceDiscovery,
+		Update:   updateDbmulticloudMultiCloudResourceDiscovery,
+		Delete:   deleteDbmulticloudMultiCloudResourceDiscovery,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -48,6 +48,10 @@ func DbmulticloudMultiCloudResourceDiscoveryResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			// "oracle_db_azure_vault_id": {
+			// 	Type:     schema.TypeString,
+			// 	Required: true,
+			// },
 
 			// Optional
 			"defined_tags": {
@@ -139,40 +143,40 @@ func DbmulticloudMultiCloudResourceDiscoveryResource() *schema.Resource {
 	}
 }
 
-func createDbmulticloudMultiCloudResourceDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDbmulticloudMultiCloudResourceDiscovery(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudMultiCloudResourceDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDbmulticloudMultiCloudResourceDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDbmulticloudMultiCloudResourceDiscovery(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudMultiCloudResourceDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDbmulticloudMultiCloudResourceDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDbmulticloudMultiCloudResourceDiscovery(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudMultiCloudResourceDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDbmulticloudMultiCloudResourceDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDbmulticloudMultiCloudResourceDiscovery(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudMultiCloudResourceDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DbmulticloudMultiCloudResourceDiscoveryResourceCrud struct {
@@ -214,7 +218,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) DeletedTarget() []
 	}
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) Create() error {
 	request := oci_dbmulticloud.CreateMultiCloudResourceDiscoveryRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -254,7 +258,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) CreateWithContext(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.CreateMultiCloudResourceDiscovery(ctx, request)
+	response, err := s.Client.CreateMultiCloudResourceDiscovery(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -265,20 +269,20 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) CreateWithContext(
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMultiCloudResourceDiscoveryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMultiCloudResourceDiscoveryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) getMultiCloudResourceDiscoveryFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) getMultiCloudResourceDiscoveryFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dbmulticloud.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	multiCloudResourceDiscoveryId, err := multiCloudResourceDiscoveryWaitForWorkRequest(ctx, workId, "multicloudresourcediscovery",
+	multiCloudResourceDiscoveryId, err := multiCloudResourceDiscoveryWaitForWorkRequest(workId, "multicloudresourcediscovery",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, multiCloudResourceDiscoveryId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_dbmulticloud.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -292,7 +296,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) getMultiCloudResou
 	}
 	s.D.SetId(*multiCloudResourceDiscoveryId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func multiCloudResourceDiscoveryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -318,7 +322,7 @@ func multiCloudResourceDiscoveryWorkRequestShouldRetryFunc(timeout time.Duration
 	}
 }
 
-func multiCloudResourceDiscoveryWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
+func multiCloudResourceDiscoveryWaitForWorkRequest(wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dbmulticloud.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dbmulticloud")
 	retryPolicy.ShouldRetryOperation = multiCloudResourceDiscoveryWorkRequestShouldRetryFunc(timeout)
@@ -337,7 +341,7 @@ func multiCloudResourceDiscoveryWaitForWorkRequest(ctx context.Context, wId *str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_dbmulticloud.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -366,14 +370,14 @@ func multiCloudResourceDiscoveryWaitForWorkRequest(ctx context.Context, wId *str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dbmulticloud.OperationStatusFailed || response.Status == oci_dbmulticloud.OperationStatusCanceled {
-		return nil, getErrorFromDbmulticloudMultiCloudResourceDiscoveryWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDbmulticloudMultiCloudResourceDiscoveryWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDbmulticloudMultiCloudResourceDiscoveryWorkRequest(ctx context.Context, client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDbmulticloudMultiCloudResourceDiscoveryWorkRequest(client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dbmulticloud.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -395,7 +399,7 @@ func getErrorFromDbmulticloudMultiCloudResourceDiscoveryWorkRequest(ctx context.
 	return workRequestErr
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) Get() error {
 	request := oci_dbmulticloud.GetMultiCloudResourceDiscoveryRequest{}
 
 	tmp := s.D.Id()
@@ -403,7 +407,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) GetWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.GetMultiCloudResourceDiscovery(ctx, request)
+	response, err := s.Client.GetMultiCloudResourceDiscovery(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -412,11 +416,11 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) GetWithContext(ctx
 	return nil
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -460,16 +464,16 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) UpdateWithContext(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.UpdateMultiCloudResourceDiscovery(ctx, request)
+	response, err := s.Client.UpdateMultiCloudResourceDiscovery(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMultiCloudResourceDiscoveryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMultiCloudResourceDiscoveryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) Delete() error {
 	request := oci_dbmulticloud.DeleteMultiCloudResourceDiscoveryRequest{}
 
 	tmp := s.D.Id()
@@ -477,14 +481,14 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) DeleteWithContext(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.DeleteMultiCloudResourceDiscovery(ctx, request)
+	response, err := s.Client.DeleteMultiCloudResourceDiscovery(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := multiCloudResourceDiscoveryWaitForWorkRequest(ctx, workId, "multicloudresourcediscovery",
+	_, delWorkRequestErr := multiCloudResourceDiscoveryWaitForWorkRequest(workId, "multicloudresourcediscovery",
 		oci_dbmulticloud.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -629,7 +633,7 @@ func ResourcesToMap(obj oci_dbmulticloud.Resources) map[string]interface{} {
 	return result
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dbmulticloud.ChangeMultiCloudResourceDiscoveryCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -660,11 +664,11 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryResourceCrud) updateCompartment(
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.ChangeMultiCloudResourceDiscoveryCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeMultiCloudResourceDiscoveryCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMultiCloudResourceDiscoveryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMultiCloudResourceDiscoveryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

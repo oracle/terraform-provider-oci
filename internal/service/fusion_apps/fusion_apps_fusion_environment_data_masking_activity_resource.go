@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -27,10 +27,10 @@ func FusionAppsFusionEnvironmentDataMaskingActivityResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createFusionAppsFusionEnvironmentDataMaskingActivityWithContext,
-		ReadContext:   readFusionAppsFusionEnvironmentDataMaskingActivityWithContext,
-		DeleteContext: deleteFusionAppsFusionEnvironmentDataMaskingActivityWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createFusionAppsFusionEnvironmentDataMaskingActivity,
+		Read:     readFusionAppsFusionEnvironmentDataMaskingActivity,
+		Delete:   deleteFusionAppsFusionEnvironmentDataMaskingActivity,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"fusion_environment_id": {
@@ -64,23 +64,23 @@ func FusionAppsFusionEnvironmentDataMaskingActivityResource() *schema.Resource {
 	}
 }
 
-func createFusionAppsFusionEnvironmentDataMaskingActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createFusionAppsFusionEnvironmentDataMaskingActivity(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readFusionAppsFusionEnvironmentDataMaskingActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentDataMaskingActivity(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteFusionAppsFusionEnvironmentDataMaskingActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteFusionAppsFusionEnvironmentDataMaskingActivity(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
@@ -115,7 +115,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) DeletedTarg
 	return []string{}
 }
 
-func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) Create() error {
 	request := oci_fusion_apps.CreateDataMaskingActivityRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -130,20 +130,20 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) CreateWithC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.CreateDataMaskingActivity(ctx, request)
+	response, err := s.Client.CreateDataMaskingActivity(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFusionEnvironmentDataMaskingActivityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFusionEnvironmentDataMaskingActivityFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) getFusionEnvironmentDataMaskingActivityFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) getFusionEnvironmentDataMaskingActivityFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fusion_apps.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fusionEnvironmentDataMaskingActivityId, err := fusionEnvironmentDataMaskingActivityWaitForWorkRequest(ctx, workId, "fusion_apps",
+	fusionEnvironmentDataMaskingActivityId, err := fusionEnvironmentDataMaskingActivityWaitForWorkRequest(workId, "fusion_apps",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -151,7 +151,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) getFusionEn
 	}
 	s.D.SetId(*fusionEnvironmentDataMaskingActivityId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func fusionEnvironmentDataMaskingActivityWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -177,7 +177,7 @@ func fusionEnvironmentDataMaskingActivityWorkRequestShouldRetryFunc(timeout time
 	}
 }
 
-func fusionEnvironmentDataMaskingActivityWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
+func fusionEnvironmentDataMaskingActivityWaitForWorkRequest(wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fusion_apps.FusionApplicationsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fusion_apps")
 	retryPolicy.ShouldRetryOperation = fusionEnvironmentDataMaskingActivityWorkRequestShouldRetryFunc(timeout)
@@ -196,7 +196,7 @@ func fusionEnvironmentDataMaskingActivityWaitForWorkRequest(ctx context.Context,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_fusion_apps.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -225,14 +225,14 @@ func fusionEnvironmentDataMaskingActivityWaitForWorkRequest(ctx context.Context,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fusion_apps.WorkRequestStatusFailed || response.Status == oci_fusion_apps.WorkRequestStatusCanceled {
-		return nil, getErrorFromFusionAppsFusionEnvironmentDataMaskingActivityWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFusionAppsFusionEnvironmentDataMaskingActivityWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFusionAppsFusionEnvironmentDataMaskingActivityWorkRequest(ctx context.Context, client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromFusionAppsFusionEnvironmentDataMaskingActivityWorkRequest(client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_fusion_apps.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -254,7 +254,7 @@ func getErrorFromFusionAppsFusionEnvironmentDataMaskingActivityWorkRequest(ctx c
 	return workRequestErr
 }
 
-func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) Get() error {
 	request := oci_fusion_apps.GetDataMaskingActivityRequest{}
 
 	if dataMaskingActivityId, ok := s.D.GetOkExists("data_masking_activity_id"); ok {
@@ -277,7 +277,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivityResourceCrud) GetWithCont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.GetDataMaskingActivity(ctx, request)
+	response, err := s.Client.GetDataMaskingActivity(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package jms
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsFleetJavaMigrationAnalysisResultDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularJmsFleetJavaMigrationAnalysisResultWithContext,
+		Read: readSingularJmsFleetJavaMigrationAnalysisResult,
 		Schema: map[string]*schema.Schema{
 			"fleet_id": {
 				Type:     schema.TypeString,
@@ -94,12 +93,12 @@ func JmsFleetJavaMigrationAnalysisResultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsFleetJavaMigrationAnalysisResultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsFleetJavaMigrationAnalysisResult(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsFleetJavaMigrationAnalysisResultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsFleetJavaMigrationAnalysisResultDataSourceCrud struct {
@@ -112,7 +111,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) Get() error {
 	request := oci_jms.GetJavaMigrationAnalysisResultRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -127,7 +126,7 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) GetWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetJavaMigrationAnalysisResult(ctx, request)
+	response, err := s.Client.GetJavaMigrationAnalysisResult(context.Background(), request)
 	if err != nil {
 		return err
 	}

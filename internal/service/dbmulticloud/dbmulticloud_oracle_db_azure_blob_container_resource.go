@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -25,11 +25,11 @@ func DbmulticloudOracleDbAzureBlobContainerResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDbmulticloudOracleDbAzureBlobContainerWithContext,
-		ReadContext:   readDbmulticloudOracleDbAzureBlobContainerWithContext,
-		UpdateContext: updateDbmulticloudOracleDbAzureBlobContainerWithContext,
-		DeleteContext: deleteDbmulticloudOracleDbAzureBlobContainerWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDbmulticloudOracleDbAzureBlobContainer,
+		Read:     readDbmulticloudOracleDbAzureBlobContainer,
+		Update:   updateDbmulticloudOracleDbAzureBlobContainer,
+		Delete:   deleteDbmulticloudOracleDbAzureBlobContainer,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"azure_storage_account_name": {
@@ -104,40 +104,40 @@ func DbmulticloudOracleDbAzureBlobContainerResource() *schema.Resource {
 	}
 }
 
-func createDbmulticloudOracleDbAzureBlobContainerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDbmulticloudOracleDbAzureBlobContainer(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbAzureBlobContainerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDbmulticloudOracleDbAzureBlobContainerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDbmulticloudOracleDbAzureBlobContainer(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbAzureBlobContainerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDbmulticloudOracleDbAzureBlobContainerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDbmulticloudOracleDbAzureBlobContainer(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbAzureBlobContainerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDbmulticloudOracleDbAzureBlobContainerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDbmulticloudOracleDbAzureBlobContainer(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbAzureBlobContainerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureBlobContainerClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DbmulticloudOracleDbAzureBlobContainerResourceCrud struct {
@@ -176,7 +176,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) DeletedTarget() []s
 	}
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) Create() error {
 	request := oci_dbmulticloud.CreateOracleDbAzureBlobContainerRequest{}
 
 	if azureStorageAccountName, ok := s.D.GetOkExists("azure_storage_account_name"); ok {
@@ -223,7 +223,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) CreateWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.CreateOracleDbAzureBlobContainer(ctx, request)
+	response, err := s.Client.CreateOracleDbAzureBlobContainer(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -234,20 +234,20 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) CreateWithContext(c
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOracleDbAzureBlobContainerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOracleDbAzureBlobContainerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) getOracleDbAzureBlobContainerFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) getOracleDbAzureBlobContainerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dbmulticloud.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	oracleDbAzureBlobContainerId, err := oracleDbAzureBlobContainerWaitForWorkRequest(ctx, workId, "oracledbazureblobcontainer",
+	oracleDbAzureBlobContainerId, err := oracleDbAzureBlobContainerWaitForWorkRequest(workId, "oracledbazureblobcontainer",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, oracleDbAzureBlobContainerId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_dbmulticloud.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -261,7 +261,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) getOracleDbAzureBlo
 	}
 	s.D.SetId(*oracleDbAzureBlobContainerId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func oracleDbAzureBlobContainerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -287,7 +287,7 @@ func oracleDbAzureBlobContainerWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func oracleDbAzureBlobContainerWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
+func oracleDbAzureBlobContainerWaitForWorkRequest(wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dbmulticloud.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dbmulticloud")
 	retryPolicy.ShouldRetryOperation = oracleDbAzureBlobContainerWorkRequestShouldRetryFunc(timeout)
@@ -306,7 +306,7 @@ func oracleDbAzureBlobContainerWaitForWorkRequest(ctx context.Context, wId *stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_dbmulticloud.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -335,14 +335,14 @@ func oracleDbAzureBlobContainerWaitForWorkRequest(ctx context.Context, wId *stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dbmulticloud.OperationStatusFailed || response.Status == oci_dbmulticloud.OperationStatusCanceled {
-		return nil, getErrorFromDbmulticloudOracleDbAzureBlobContainerWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDbmulticloudOracleDbAzureBlobContainerWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDbmulticloudOracleDbAzureBlobContainerWorkRequest(ctx context.Context, client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDbmulticloudOracleDbAzureBlobContainerWorkRequest(client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dbmulticloud.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -364,7 +364,7 @@ func getErrorFromDbmulticloudOracleDbAzureBlobContainerWorkRequest(ctx context.C
 	return workRequestErr
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) Get() error {
 	request := oci_dbmulticloud.GetOracleDbAzureBlobContainerRequest{}
 
 	tmp := s.D.Id()
@@ -372,7 +372,7 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbAzureBlobContainer(ctx, request)
+	response, err := s.Client.GetOracleDbAzureBlobContainer(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -381,11 +381,11 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) GetWithContext(ctx 
 	return nil
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -440,16 +440,16 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) UpdateWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.UpdateOracleDbAzureBlobContainer(ctx, request)
+	response, err := s.Client.UpdateOracleDbAzureBlobContainer(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbAzureBlobContainerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbAzureBlobContainerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) Delete() error {
 	request := oci_dbmulticloud.DeleteOracleDbAzureBlobContainerRequest{}
 
 	tmp := s.D.Id()
@@ -457,14 +457,14 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) DeleteWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.DeleteOracleDbAzureBlobContainer(ctx, request)
+	response, err := s.Client.DeleteOracleDbAzureBlobContainer(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := oracleDbAzureBlobContainerWaitForWorkRequest(ctx, workId, "oracledbazureblobcontainer",
+	_, delWorkRequestErr := oracleDbAzureBlobContainerWaitForWorkRequest(workId, "oracledbazureblobcontainer",
 		oci_dbmulticloud.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -587,7 +587,7 @@ func OracleDbAzureBlobContainerSummaryToMap(obj oci_dbmulticloud.OracleDbAzureBl
 	return result
 }
 
-func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dbmulticloud.ChangeOracleDbAzureBlobContainerCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -618,11 +618,11 @@ func (s *DbmulticloudOracleDbAzureBlobContainerResourceCrud) updateCompartment(c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.ChangeOracleDbAzureBlobContainerCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeOracleDbAzureBlobContainerCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbAzureBlobContainerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbAzureBlobContainerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

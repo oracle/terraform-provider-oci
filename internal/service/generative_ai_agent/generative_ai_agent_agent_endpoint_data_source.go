@@ -6,7 +6,6 @@ package generative_ai_agent
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -20,15 +19,15 @@ func GenerativeAiAgentAgentEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiAgentAgentEndpointResource(), fieldMap, readSingularGenerativeAiAgentAgentEndpointWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiAgentAgentEndpointResource(), fieldMap, readSingularGenerativeAiAgentAgentEndpoint)
 }
 
-func readSingularGenerativeAiAgentAgentEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGenerativeAiAgentAgentEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentAgentEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GenerativeAiAgentAgentEndpointDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) Get() error {
 	request := oci_generative_ai_agent.GetAgentEndpointRequest{}
 
 	if agentEndpointId, ok := s.D.GetOkExists("agent_endpoint_id"); ok {
@@ -51,7 +50,7 @@ func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.GetAgentEndpoint(ctx, request)
+	response, err := s.Client.GetAgentEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}

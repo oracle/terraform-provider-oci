@@ -6,17 +6,15 @@ package redis
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func RedisOciCacheUsersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readRedisOciCacheUsersWithContext,
+		Read: readRedisOciCacheUsers,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -36,7 +34,6 @@ func RedisOciCacheUsersDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -101,12 +98,12 @@ func OciCacheUserSummaryResource() *schema.Resource {
 	}
 }
 
-func readRedisOciCacheUsersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readRedisOciCacheUsers(d *schema.ResourceData, m interface{}) error {
 	sync := &RedisOciCacheUsersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type RedisOciCacheUsersDataSourceCrud struct {
@@ -119,7 +116,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisOciCacheUsersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *RedisOciCacheUsersDataSourceCrud) Get() error {
 	request := oci_redis.ListOciCacheUsersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -138,7 +135,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.ListOciCacheUsers(ctx, request)
+	response, err := s.Client.ListOciCacheUsers(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -147,7 +144,7 @@ func (s *RedisOciCacheUsersDataSourceCrud) GetWithContext(ctx context.Context) e
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOciCacheUsers(ctx, request)
+		listResponse, err := s.Client.ListOciCacheUsers(context.Background(), request)
 		if err != nil {
 			return err
 		}

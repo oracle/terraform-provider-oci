@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 )
 
 func WaasHttpRedirectResource() *schema.Resource {
@@ -25,11 +25,11 @@ func WaasHttpRedirectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createWaasHttpRedirectWithContext,
-		ReadContext:   readWaasHttpRedirectWithContext,
-		UpdateContext: updateWaasHttpRedirectWithContext,
-		DeleteContext: deleteWaasHttpRedirectWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createWaasHttpRedirect,
+		Read:     readWaasHttpRedirect,
+		Update:   updateWaasHttpRedirect,
+		Delete:   deleteWaasHttpRedirect,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -116,37 +116,40 @@ func WaasHttpRedirectResource() *schema.Resource {
 	}
 }
 
-func createWaasHttpRedirectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedirectClient()
 	sync.WaasClient = m.(*client.OracleClients).WaasClient()
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+
+	return tfresource.CreateResource(d, sync)
 }
 
-func readWaasHttpRedirectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
+	sync := &WaasHttpRedirectResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).RedirectClient()
+
+	return tfresource.ReadResource(sync)
+}
+
+func updateWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedirectClient()
 	sync.WaasClient = m.(*client.OracleClients).WaasClient()
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+
+	return tfresource.UpdateResource(d, sync)
 }
 
-func updateWaasHttpRedirectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedirectClient()
 	sync.WaasClient = m.(*client.OracleClients).WaasClient()
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
-}
-
-func deleteWaasHttpRedirectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &WaasHttpRedirectResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).RedirectClient()
 	sync.DisableNotFoundRetries = true
-	sync.WaasClient = m.(*client.OracleClients).WaasClient()
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+
+	return tfresource.DeleteResource(d, sync)
 }
 
 type WaasHttpRedirectResourceCrud struct {
@@ -185,7 +188,7 @@ func (s *WaasHttpRedirectResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *WaasHttpRedirectResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *WaasHttpRedirectResourceCrud) Create() error {
 	request := oci_waas.CreateHttpRedirectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -256,14 +259,14 @@ func (s *WaasHttpRedirectResourceCrud) CreateWithContext(ctx context.Context) er
 			}
 		}
 	}
-	return s.getHttpRedirectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getHttpRedirectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *WaasHttpRedirectResourceCrud) getHttpRedirectFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WaasHttpRedirectResourceCrud) getHttpRedirectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waas.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	httpRedirectId, err := httpRedirectWaitForWorkRequest(ctx, workId, "redirect",
+	httpRedirectId, err := httpRedirectWaitForWorkRequest(workId, "redirect",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WaasClient)
 
 	if err != nil {
@@ -283,7 +286,7 @@ func (s *WaasHttpRedirectResourceCrud) getHttpRedirectFromWorkRequest(ctx contex
 	}
 	s.D.SetId(*httpRedirectId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func httpRedirectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -309,7 +312,7 @@ func httpRedirectWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func httpRedirectWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
+func httpRedirectWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = httpRedirectWorkRequestShouldRetryFunc(timeout)
@@ -373,7 +376,8 @@ func getErrorFromWaasHttpRedirectWorkRequest(response oci_waas.GetWorkRequestRes
 	errorMessage := strings.Join(allErrs, "\n")
 	return errorMessage
 }
-func (s *WaasHttpRedirectResourceCrud) GetWithContext(ctx context.Context) error {
+
+func (s *WaasHttpRedirectResourceCrud) Get() error {
 	request := oci_waas.GetHttpRedirectRequest{}
 
 	tmp := s.D.Id()
@@ -381,7 +385,7 @@ func (s *WaasHttpRedirectResourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.GetHttpRedirect(ctx, request)
+	response, err := s.Client.GetHttpRedirect(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -390,11 +394,11 @@ func (s *WaasHttpRedirectResourceCrud) GetWithContext(ctx context.Context) error
 	return nil
 }
 
-func (s *WaasHttpRedirectResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *WaasHttpRedirectResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -446,10 +450,10 @@ func (s *WaasHttpRedirectResourceCrud) UpdateWithContext(ctx context.Context) er
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHttpRedirectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getHttpRedirectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *WaasHttpRedirectResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *WaasHttpRedirectResourceCrud) Delete() error {
 	request := oci_waas.DeleteHttpRedirectRequest{}
 
 	tmp := s.D.Id()
@@ -457,14 +461,14 @@ func (s *WaasHttpRedirectResourceCrud) DeleteWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.DeleteHttpRedirect(ctx, request)
+	response, err := s.Client.DeleteHttpRedirect(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := httpRedirectWaitForWorkRequest(ctx, workId, "httpredirect",
+	_, delWorkRequestErr := httpRedirectWaitForWorkRequest(workId, "waas",
 		oci_waas.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WaasClient)
 	return delWorkRequestErr
 }
@@ -562,7 +566,7 @@ func HttpRedirectTargetToMap(obj *oci_waas.HttpRedirectTarget) map[string]interf
 	return result
 }
 
-func (s *WaasHttpRedirectResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *WaasHttpRedirectResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_waas.ChangeHttpRedirectCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -573,12 +577,12 @@ func (s *WaasHttpRedirectResourceCrud) updateCompartment(ctx context.Context, co
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	_, err := s.Client.ChangeHttpRedirectCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeHttpRedirectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

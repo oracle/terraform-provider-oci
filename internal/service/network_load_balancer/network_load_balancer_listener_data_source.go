@@ -6,12 +6,11 @@ package network_load_balancer
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 )
 
 func NetworkLoadBalancerListenerDataSource() *schema.Resource {
@@ -24,15 +23,15 @@ func NetworkLoadBalancerListenerDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(NetworkLoadBalancerListenerResource(), fieldMap, readSingularNetworkLoadBalancerListenerWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(NetworkLoadBalancerListenerResource(), fieldMap, readSingularNetworkLoadBalancerListener)
 }
 
-func readSingularNetworkLoadBalancerListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularNetworkLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkLoadBalancerListenerDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkLoadBalancerListenerDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkLoadBalancerListenerDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkLoadBalancerListenerDataSourceCrud) Get() error {
 	request := oci_network_load_balancer.GetListenerRequest{}
 
 	if listenerName, ok := s.D.GetOkExists("listener_name"); ok {
@@ -60,7 +59,7 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_load_balancer")
 
-	response, err := s.Client.GetListener(ctx, request)
+	response, err := s.Client.GetListener(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -79,7 +78,6 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) SetData() error {
 	if s.Res.DefaultBackendSetName != nil {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
 	}
-
 	s.D.Set("ip_version", s.Res.IpVersion)
 
 	if s.Res.IsPpv2Enabled != nil {

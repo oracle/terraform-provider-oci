@@ -17,7 +17,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -29,11 +28,11 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createLogAnalyticsNamespaceScheduledTaskWithContext,
-		ReadContext:   readLogAnalyticsNamespaceScheduledTaskWithContext,
-		UpdateContext: updateLogAnalyticsNamespaceScheduledTaskWithContext,
-		DeleteContext: deleteLogAnalyticsNamespaceScheduledTaskWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createLogAnalyticsNamespaceScheduledTask,
+		Read:     readLogAnalyticsNamespaceScheduledTask,
+		Update:   updateLogAnalyticsNamespaceScheduledTask,
+		Delete:   deleteLogAnalyticsNamespaceScheduledTask,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -328,37 +327,37 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 	}
 }
 
-func createLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type LogAnalyticsNamespaceScheduledTaskResourceCrud struct {
@@ -405,7 +404,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Create() error {
 	request := oci_log_analytics.CreateScheduledTaskRequest{}
 	err := s.populateTopLevelPolymorphicCreateScheduledTaskRequest(&request)
 	if err != nil {
@@ -414,7 +413,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) CreateWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.CreateScheduledTask(ctx, request)
+	response, err := s.Client.CreateScheduledTask(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -423,7 +422,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) CreateWithContext(ctx c
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Get() error {
 	request := oci_log_analytics.GetScheduledTaskRequest{}
 
 	namespace, scheduledTaskId, err := parseNamespaceScheduledTaskCompositeId(s.D.Id())
@@ -436,7 +435,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.GetScheduledTask(ctx, request)
+	response, err := s.Client.GetScheduledTask(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -445,11 +444,11 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) GetWithContext(ctx cont
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -512,7 +511,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) UpdateWithContext(ctx c
 	request.UpdateScheduledTaskDetails = details
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.UpdateScheduledTask(ctx, request)
+	response, err := s.Client.UpdateScheduledTask(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -521,7 +520,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) UpdateWithContext(ctx c
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Delete() error {
 	request := oci_log_analytics.DeleteScheduledTaskRequest{}
 
 	namespace, scheduledTaskId, err := parseNamespaceScheduledTaskCompositeId(s.D.Id())
@@ -534,7 +533,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) DeleteWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	_, err = s.Client.DeleteScheduledTask(ctx, request)
+	_, err = s.Client.DeleteScheduledTask(context.Background(), request)
 	return err
 }
 
@@ -1092,7 +1091,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) populateTopLevelPolymor
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_log_analytics.ChangeScheduledTaskCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1114,7 +1113,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) updateCompartment(ctx c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	_, err := s.Client.ChangeScheduledTaskCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeScheduledTaskCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -30,10 +30,10 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("30m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
-		CreateContext: createBlockchainBlockchainPlatformWithContext,
-		ReadContext:   readBlockchainBlockchainPlatformWithContext,
-		UpdateContext: updateBlockchainBlockchainPlatformWithContext,
-		DeleteContext: deleteBlockchainBlockchainPlatformWithContext,
+		Create: createBlockchainBlockchainPlatform,
+		Read:   readBlockchainBlockchainPlatform,
+		Update: updateBlockchainBlockchainPlatform,
+		Delete: deleteBlockchainBlockchainPlatform,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -327,37 +327,37 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 	}
 }
 
-func createBlockchainBlockchainPlatformWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createBlockchainBlockchainPlatform(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainBlockchainPlatformResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readBlockchainBlockchainPlatformWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readBlockchainBlockchainPlatform(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainBlockchainPlatformResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateBlockchainBlockchainPlatformWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateBlockchainBlockchainPlatform(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainBlockchainPlatformResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteBlockchainBlockchainPlatformWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteBlockchainBlockchainPlatform(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainBlockchainPlatformResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type BlockchainBlockchainPlatformResourceCrud struct {
@@ -396,7 +396,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 	request := oci_blockchain.CreateBlockchainPlatformRequest{}
 
 	if caCertArchiveText, ok := s.D.GetOkExists("ca_cert_archive_text"); ok {
@@ -461,14 +461,14 @@ func (s *BlockchainBlockchainPlatformResourceCrud) CreateWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.CreateBlockchainPlatform(ctx, request)
+	response, err := s.Client.CreateBlockchainPlatform(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_blockchain.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_blockchain.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -484,7 +484,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) CreateWithContext(ctx context
 			}
 		}
 	}
-	err = s.getBlockchainPlatformFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getBlockchainPlatformFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -495,23 +495,23 @@ func (s *BlockchainBlockchainPlatformResourceCrud) CreateWithContext(ctx context
 	_, loadBalancerShapeExists := s.D.GetOkExists("load_balancer_shape")
 
 	if replicasExists || storageSizeInTbsExists || totalOpcuCapacityExists || loadBalancerShapeExists {
-		return s.UpdateWithContext(ctx)
+		return s.Update()
 	}
 
 	return nil
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) getBlockchainPlatformFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BlockchainBlockchainPlatformResourceCrud) getBlockchainPlatformFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_blockchain.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	blockchainPlatformId, err := blockchainPlatformWaitForWorkRequest(ctx, workId, "instance",
+	blockchainPlatformId, err := blockchainPlatformWaitForWorkRequest(workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, blockchainPlatformId)
-		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
 			oci_blockchain.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -525,7 +525,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) getBlockchainPlatformFromWork
 	}
 	s.D.SetId(*blockchainPlatformId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func blockchainPlatformWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -551,7 +551,7 @@ func blockchainPlatformWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func blockchainPlatformWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
+func blockchainPlatformWaitForWorkRequest(wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_blockchain.BlockchainPlatformClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "blockchain")
 	retryPolicy.ShouldRetryOperation = blockchainPlatformWorkRequestShouldRetryFunc(timeout)
@@ -570,7 +570,7 @@ func blockchainPlatformWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_blockchain.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -600,14 +600,14 @@ func blockchainPlatformWaitForWorkRequest(ctx context.Context, wId *string, enti
 	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
 	var workRequestErr error
 	if response.Status == oci_blockchain.WorkRequestStatusFailed {
-		errorMessage := getErrorFromBlockchainPlatformWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		errorMessage := getErrorFromBlockchainPlatformWorkRequest(client, wId, retryPolicy, entityType, action)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	}
 
 	return identifier, workRequestErr
 }
 
-func getErrorFromBlockchainPlatformWorkRequest(ctx context.Context, client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromBlockchainPlatformWorkRequest(client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_blockchain.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -630,7 +630,7 @@ func getErrorFromBlockchainPlatformWorkRequest(ctx context.Context, client *oci_
 	return workRequestErr
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *BlockchainBlockchainPlatformResourceCrud) Get() error {
 	request := oci_blockchain.GetBlockchainPlatformRequest{}
 
 	tmp := s.D.Id()
@@ -638,7 +638,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.GetBlockchainPlatform(ctx, request)
+	response, err := s.Client.GetBlockchainPlatform(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -647,11 +647,11 @@ func (s *BlockchainBlockchainPlatformResourceCrud) GetWithContext(ctx context.Co
 	return nil
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *BlockchainBlockchainPlatformResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -659,7 +659,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 	}
 	defer func() {
 		// get latest state of the instance
-		err := s.GetWithContext(ctx)
+		err := s.Get()
 		if err != nil {
 			log.Printf("[ERROR] unable to invoke GET() after UPDATE '%v'", err)
 		}
@@ -683,7 +683,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 			}
 			request.Replicas = &tmp
 		}
-		if err := sendUpdateBlockchainPlatformRequest(ctx, s, request); err != nil {
+		if err := sendUpdateBlockchainPlatformRequest(s, request); err != nil {
 			return err
 		}
 		request.Replicas = nil
@@ -692,7 +692,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 	if storageSizeInTBs, ok := s.D.GetOkExists("storage_size_in_tbs"); ok && s.D.HasChange("storage_size_in_tbs") {
 		tmp := storageSizeInTBs.(float64)
 		request.StorageSizeInTBs = &tmp
-		if err := sendUpdateBlockchainPlatformRequest(ctx, s, request); err != nil {
+		if err := sendUpdateBlockchainPlatformRequest(s, request); err != nil {
 			return err
 		}
 		request.StorageSizeInTBs = nil
@@ -701,7 +701,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 	if totalOcpuCapacity, ok := s.D.GetOkExists("total_ocpu_capacity"); ok && s.D.HasChange("total_ocpu_capacity") {
 		tmp := totalOcpuCapacity.(int)
 		request.TotalOcpuCapacity = &tmp
-		if err := sendUpdateBlockchainPlatformRequest(ctx, s, request); err != nil {
+		if err := sendUpdateBlockchainPlatformRequest(s, request); err != nil {
 			return err
 		}
 		request.TotalOcpuCapacity = nil
@@ -709,7 +709,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 
 	if loadBalancerShape, ok := s.D.GetOkExists("load_balancer_shape"); ok && s.D.HasChange("load_balancer_shape") {
 		request.LoadBalancerShape = oci_blockchain.BlockchainPlatformLoadBalancerShapeEnum(loadBalancerShape.(string))
-		if err := sendUpdateBlockchainPlatformRequest(ctx, s, request); err != nil {
+		if err := sendUpdateBlockchainPlatformRequest(s, request); err != nil {
 			return err
 		}
 	}
@@ -733,16 +733,16 @@ func (s *BlockchainBlockchainPlatformResourceCrud) UpdateWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.UpdateBlockchainPlatform(ctx, request)
+	response, err := s.Client.UpdateBlockchainPlatform(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBlockchainPlatformFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBlockchainPlatformFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *BlockchainBlockchainPlatformResourceCrud) Delete() error {
 	request := oci_blockchain.DeleteBlockchainPlatformRequest{}
 
 	tmp := s.D.Id()
@@ -750,14 +750,14 @@ func (s *BlockchainBlockchainPlatformResourceCrud) DeleteWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.DeleteBlockchainPlatform(ctx, request)
+	response, err := s.Client.DeleteBlockchainPlatform(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := blockchainPlatformWaitForWorkRequest(ctx, workId, "instance",
+	_, delWorkRequestErr := blockchainPlatformWaitForWorkRequest(workId, "instance",
 		oci_blockchain.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1037,7 +1037,7 @@ func ReplicaDetailsToMap(obj *oci_blockchain.ReplicaDetails) map[string]interfac
 	return result
 }
 
-func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_blockchain.ChangeBlockchainPlatformCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1048,11 +1048,11 @@ func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(ctx context
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
-	response, err := s.Client.ChangeBlockchainPlatformCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeBlockchainPlatformCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBlockchainPlatformFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBlockchainPlatformFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,7 +6,6 @@ package generative_ai_agent
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -16,7 +15,7 @@ import (
 
 func GenerativeAiAgentToolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGenerativeAiAgentToolsWithContext,
+		Read: readGenerativeAiAgentTools,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"agent_id": {
@@ -53,12 +52,12 @@ func GenerativeAiAgentToolsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiAgentToolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGenerativeAiAgentTools(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentToolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GenerativeAiAgentToolsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *GenerativeAiAgentToolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentToolsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentToolsDataSourceCrud) Get() error {
 	request := oci_generative_ai_agent.ListToolsRequest{}
 
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
@@ -95,7 +94,7 @@ func (s *GenerativeAiAgentToolsDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.ListTools(ctx, request)
+	response, err := s.Client.ListTools(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *GenerativeAiAgentToolsDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTools(ctx, request)
+		listResponse, err := s.Client.ListTools(context.Background(), request)
 		if err != nil {
 			return err
 		}

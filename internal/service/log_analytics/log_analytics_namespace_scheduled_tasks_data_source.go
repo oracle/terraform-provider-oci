@@ -6,17 +6,16 @@ package log_analytics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
 
 func LogAnalyticsNamespaceScheduledTasksDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readLogAnalyticsNamespaceScheduledTasksWithContext,
+		Read: readLogAnalyticsNamespaceScheduledTasks,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -61,12 +60,12 @@ func LogAnalyticsNamespaceScheduledTasksDataSource() *schema.Resource {
 	}
 }
 
-func readLogAnalyticsNamespaceScheduledTasksWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readLogAnalyticsNamespaceScheduledTasks(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTasksDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type LogAnalyticsNamespaceScheduledTasksDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) Get() error {
 	request := oci_log_analytics.ListScheduledTasksRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -113,7 +112,7 @@ func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) GetWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.ListScheduledTasks(ctx, request)
+	response, err := s.Client.ListScheduledTasks(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -122,7 +121,7 @@ func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) GetWithContext(ctx c
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListScheduledTasks(ctx, request)
+		listResponse, err := s.Client.ListScheduledTasks(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -7,7 +7,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_nosql "github.com/oracle/oci-go-sdk/v65/nosql"
 
@@ -21,15 +20,15 @@ func NosqlConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(NosqlConfigurationResource(), fieldMap, readSingularNosqlConfigurationWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(NosqlConfigurationResource(), fieldMap, readSingularNosqlConfiguration)
 }
 
-func readSingularNosqlConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularNosqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NosqlConfigurationDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *NosqlConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NosqlConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NosqlConfigurationDataSourceCrud) Get() error {
 	request := oci_nosql.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -52,7 +51,7 @@ func (s *NosqlConfigurationDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "nosql")
 
-	response, err := s.Client.GetConfiguration(ctx, request)
+	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {
 		return err
 	}

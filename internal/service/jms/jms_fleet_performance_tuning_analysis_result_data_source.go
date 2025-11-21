@@ -6,7 +6,6 @@ package jms
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsFleetPerformanceTuningAnalysisResultDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularJmsFleetPerformanceTuningAnalysisResultWithContext,
+		Read: readSingularJmsFleetPerformanceTuningAnalysisResult,
 		Schema: map[string]*schema.Schema{
 			"fleet_id": {
 				Type:     schema.TypeString,
@@ -91,12 +90,12 @@ func JmsFleetPerformanceTuningAnalysisResultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsFleetPerformanceTuningAnalysisResultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsFleetPerformanceTuningAnalysisResult(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsFleetPerformanceTuningAnalysisResultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsFleetPerformanceTuningAnalysisResultDataSourceCrud struct {
@@ -109,7 +108,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) Get() error {
 	request := oci_jms.GetPerformanceTuningAnalysisResultRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -124,7 +123,7 @@ func (s *JmsFleetPerformanceTuningAnalysisResultDataSourceCrud) GetWithContext(c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetPerformanceTuningAnalysisResult(ctx, request)
+	response, err := s.Client.GetPerformanceTuningAnalysisResult(context.Background(), request)
 	if err != nil {
 		return err
 	}

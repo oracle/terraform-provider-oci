@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
@@ -33,15 +33,14 @@ func LogAnalyticsNamespaceLookupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-
-		CreateContext: createLogAnalyticsNamespaceLookupWithContext,
-		ReadContext:   readLogAnalyticsNamespaceLookupWithContext,
-		UpdateContext: updateLogAnalyticsNamespaceLookupWithContext,
-		DeleteContext: deleteLogAnalyticsNamespaceLookupWithContext,
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("30m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
+		Create: createLogAnalyticsNamespaceLookup,
+		Read:   readLogAnalyticsNamespaceLookup,
+		Update: updateLogAnalyticsNamespaceLookup,
+		Delete: deleteLogAnalyticsNamespaceLookup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"lookup_name": {
@@ -295,37 +294,37 @@ func LogAnalyticsNamespaceLookupResource() *schema.Resource {
 	}
 }
 
-func createLogAnalyticsNamespaceLookupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createLogAnalyticsNamespaceLookup(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceLookupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readLogAnalyticsNamespaceLookupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readLogAnalyticsNamespaceLookup(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceLookupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateLogAnalyticsNamespaceLookupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateLogAnalyticsNamespaceLookup(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceLookupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteLogAnalyticsNamespaceLookupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteLogAnalyticsNamespaceLookup(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceLookupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type LogAnalyticsNamespaceLookupResourceCrud struct {
@@ -339,7 +338,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) ID() string {
 	return GetNamespaceLookupCompositeId(s.D.Get("lookup_name").(string), s.D.Get("namespace").(string))
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceLookupResourceCrud) Create() error {
 	registerRequest := oci_log_analytics.RegisterLookupRequest{}
 	var namespaceName string
 	var lookupName string
@@ -507,7 +506,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.
 
 		updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-		updateResponse, err := s.Client.UpdateLookup(ctx, updateRequest)
+		updateResponse, err := s.Client.UpdateLookup(context.Background(), updateRequest)
 		if err != nil {
 			return err
 		}
@@ -515,7 +514,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.
 		s.Res = &updateResponse.LogAnalyticsLookup
 	} else {
 		s.D.SetId(GetNamespaceLookupCompositeId(lookupName, namespaceName))
-		return s.GetWithContext(ctx)
+		return s.Get()
 	}
 	return nil
 }
@@ -580,11 +579,11 @@ func getErrorFromLogAnalyticsNamespaceGetLookup() error {
 	return getLookupErr
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) getNamespaceLookupFromWorkRequest(ctx context.Context, namespaceName *string, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *LogAnalyticsNamespaceLookupResourceCrud) getNamespaceLookupFromWorkRequest(namespaceName *string, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := namespaceLookupWaitForWorkRequest(ctx, namespaceName, workId, "log_analytics",
+	_, err := namespaceLookupWaitForWorkRequest(namespaceName, workId, "log_analytics",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -623,7 +622,7 @@ func namespaceLookupWorkRequestShouldRetryFunc(timeout time.Duration, isConfigWo
 	}
 }
 
-func namespaceLookupWaitForWorkRequest(ctx context.Context, namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
+func namespaceLookupWaitForWorkRequest(namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = namespaceLookupWorkRequestShouldRetryFunc(timeout, true)
@@ -640,7 +639,7 @@ func namespaceLookupWaitForWorkRequest(ctx context.Context, namespaceName *strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetConfigWorkRequest(ctx,
+			response, err = client.GetConfigWorkRequest(context.Background(),
 				oci_log_analytics.GetConfigWorkRequestRequest{
 					NamespaceName: namespaceName,
 					WorkRequestId: wId,
@@ -670,7 +669,7 @@ func getErrorFromLogAnalyticsNamespaceLookupWorkRequest(client *oci_log_analytic
 	return workRequestErr
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceLookupResourceCrud) Get() error {
 	request := oci_log_analytics.GetLookupRequest{}
 
 	if lookupName, ok := s.D.GetOkExists("lookup_name"); ok {
@@ -693,7 +692,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.GetLookup(ctx, request)
+	response, err := s.Client.GetLookup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -702,11 +701,11 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) GetWithContext(ctx context.Con
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceLookupResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -791,7 +790,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) UpdateWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.UpdateLookup(ctx, request)
+	response, err := s.Client.UpdateLookup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -800,7 +799,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) UpdateWithContext(ctx context.
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceLookupResourceCrud) Delete() error {
 	request := oci_log_analytics.DeleteLookupRequest{}
 
 	var namespaceName string
@@ -817,14 +816,14 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) DeleteWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.DeleteLookup(ctx, request)
+	response, err := s.Client.DeleteLookup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	delWorkRequestErr := s.getNamespaceLookupFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"),
+	delWorkRequestErr := s.getNamespaceLookupFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"),
 		oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup, s.D.Timeout(schema.TimeoutDelete))
 	return delWorkRequestErr
 }
@@ -1204,7 +1203,7 @@ func lookupFieldsHashCodeForSets(v interface{}) int {
 	return utils.GetStringHashcode(buf.String())
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *LogAnalyticsNamespaceLookupResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_log_analytics.ChangeLookupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1222,12 +1221,12 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) updateCompartment(ctx context.
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	_, err := s.Client.ChangeLookupCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeLookupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

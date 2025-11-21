@@ -6,12 +6,11 @@ package network_load_balancer
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 )
 
 func NetworkLoadBalancerBackendSetDataSource() *schema.Resource {
@@ -24,15 +23,15 @@ func NetworkLoadBalancerBackendSetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(NetworkLoadBalancerBackendSetResource(), fieldMap, readSingularNetworkLoadBalancerBackendSetWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(NetworkLoadBalancerBackendSetResource(), fieldMap, readSingularNetworkLoadBalancerBackendSet)
 }
 
-func readSingularNetworkLoadBalancerBackendSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularNetworkLoadBalancerBackendSet(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkLoadBalancerBackendSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkLoadBalancerBackendSetDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkLoadBalancerBackendSetDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkLoadBalancerBackendSetDataSourceCrud) Get() error {
 	request := oci_network_load_balancer.GetBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("backend_set_name"); ok {
@@ -60,7 +59,7 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) GetWithContext(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_load_balancer")
 
-	response, err := s.Client.GetBackendSet(ctx, request)
+	response, err := s.Client.GetBackendSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -91,7 +90,6 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("health_checker", nil)
 	}
-
 	s.D.Set("ip_version", s.Res.IpVersion)
 
 	if s.Res.IsFailOpen != nil {

@@ -6,7 +6,6 @@ package fusion_apps
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -24,15 +23,15 @@ func FusionAppsFusionEnvironmentRefreshActivityDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentRefreshActivityResource(), fieldMap, readSingularFusionAppsFusionEnvironmentRefreshActivityWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentRefreshActivityResource(), fieldMap, readSingularFusionAppsFusionEnvironmentRefreshActivity)
 }
 
-func readSingularFusionAppsFusionEnvironmentRefreshActivityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularFusionAppsFusionEnvironmentRefreshActivity(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) Get() error {
 	request := oci_fusion_apps.GetRefreshActivityRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -63,7 +62,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) GetWithContex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetRefreshActivity(ctx, request)
+	response, err := s.Client.GetRefreshActivity(context.Background(), request)
 	if err != nil {
 		return err
 	}

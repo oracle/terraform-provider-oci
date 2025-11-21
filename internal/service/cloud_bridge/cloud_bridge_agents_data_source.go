@@ -6,7 +6,6 @@ package cloud_bridge
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudBridgeAgentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudBridgeAgentsWithContext,
+		Read: readCloudBridgeAgents,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"agent_id": {
@@ -57,12 +56,12 @@ func CloudBridgeAgentsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudBridgeAgentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudBridgeAgents(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeAgentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudBridgeAgentsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *CloudBridgeAgentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeAgentsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudBridgeAgentsDataSourceCrud) Get() error {
 	request := oci_cloud_bridge.ListAgentsRequest{}
 
 	if agentId, ok := s.D.GetOkExists("id"); ok {
@@ -104,7 +103,7 @@ func (s *CloudBridgeAgentsDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.ListAgents(ctx, request)
+	response, err := s.Client.ListAgents(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *CloudBridgeAgentsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAgents(ctx, request)
+		listResponse, err := s.Client.ListAgents(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,7 +6,6 @@ package ai_vision
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -16,7 +15,7 @@ import (
 
 func AiVisionProjectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readAiVisionProjectsWithContext,
+		Read: readAiVisionProjects,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func AiVisionProjectsDataSource() *schema.Resource {
 	}
 }
 
-func readAiVisionProjectsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAiVisionProjects(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionProjectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AiVisionProjectsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *AiVisionProjectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionProjectsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AiVisionProjectsDataSourceCrud) Get() error {
 	request := oci_ai_vision.ListProjectsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *AiVisionProjectsDataSourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.ListProjects(ctx, request)
+	response, err := s.Client.ListProjects(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *AiVisionProjectsDataSourceCrud) GetWithContext(ctx context.Context) err
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProjects(ctx, request)
+		listResponse, err := s.Client.ListProjects(context.Background(), request)
 		if err != nil {
 			return err
 		}

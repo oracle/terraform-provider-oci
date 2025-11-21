@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -25,11 +25,11 @@ func DbmulticloudOracleDbGcpKeyRingResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDbmulticloudOracleDbGcpKeyRingWithContext,
-		ReadContext:   readDbmulticloudOracleDbGcpKeyRingWithContext,
-		UpdateContext: updateDbmulticloudOracleDbGcpKeyRingWithContext,
-		DeleteContext: deleteDbmulticloudOracleDbGcpKeyRingWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDbmulticloudOracleDbGcpKeyRing,
+		Read:     readDbmulticloudOracleDbGcpKeyRing,
+		Update:   updateDbmulticloudOracleDbGcpKeyRing,
+		Delete:   deleteDbmulticloudOracleDbGcpKeyRing,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -112,40 +112,40 @@ func DbmulticloudOracleDbGcpKeyRingResource() *schema.Resource {
 	}
 }
 
-func createDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpKeyRingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpKeyRingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpKeyRingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpKeyRingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DbmulticloudWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DbmulticloudOracleDbGcpKeyRingResourceCrud struct {
@@ -184,7 +184,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) Create() error {
 	request := oci_dbmulticloud.CreateOracleDbGcpKeyRingRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -235,7 +235,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) CreateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.CreateOracleDbGcpKeyRing(ctx, request)
+	response, err := s.Client.CreateOracleDbGcpKeyRing(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -246,20 +246,20 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) CreateWithContext(ctx conte
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOracleDbGcpKeyRingFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOracleDbGcpKeyRingFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) getOracleDbGcpKeyRingFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) getOracleDbGcpKeyRingFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dbmulticloud.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	oracleDbGcpKeyRingId, err := oracleDbGcpKeyRingWaitForWorkRequest(ctx, workId, "oracledbgcpkeyring",
+	oracleDbGcpKeyRingId, err := oracleDbGcpKeyRingWaitForWorkRequest(workId, "oracledbgcpkeyring",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, oracleDbGcpKeyRingId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_dbmulticloud.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -273,7 +273,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) getOracleDbGcpKeyRingFromWo
 	}
 	s.D.SetId(*oracleDbGcpKeyRingId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func oracleDbGcpKeyRingWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -299,7 +299,7 @@ func oracleDbGcpKeyRingWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func oracleDbGcpKeyRingWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
+func oracleDbGcpKeyRingWaitForWorkRequest(wId *string, entityType string, action oci_dbmulticloud.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dbmulticloud.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dbmulticloud")
 	retryPolicy.ShouldRetryOperation = oracleDbGcpKeyRingWorkRequestShouldRetryFunc(timeout)
@@ -318,7 +318,7 @@ func oracleDbGcpKeyRingWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_dbmulticloud.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -347,14 +347,14 @@ func oracleDbGcpKeyRingWaitForWorkRequest(ctx context.Context, wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dbmulticloud.OperationStatusFailed || response.Status == oci_dbmulticloud.OperationStatusCanceled {
-		return nil, getErrorFromDbmulticloudOracleDbGcpKeyRingWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDbmulticloudOracleDbGcpKeyRingWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDbmulticloudOracleDbGcpKeyRingWorkRequest(ctx context.Context, client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDbmulticloudOracleDbGcpKeyRingWorkRequest(client *oci_dbmulticloud.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dbmulticloud.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dbmulticloud.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -376,7 +376,7 @@ func getErrorFromDbmulticloudOracleDbGcpKeyRingWorkRequest(ctx context.Context, 
 	return workRequestErr
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) Get() error {
 	request := oci_dbmulticloud.GetOracleDbGcpKeyRingRequest{}
 
 	tmp := s.D.Id()
@@ -384,7 +384,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbGcpKeyRing(ctx, request)
+	response, err := s.Client.GetOracleDbGcpKeyRing(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -393,11 +393,11 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) GetWithContext(ctx context.
 	return nil
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -427,16 +427,16 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) UpdateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.UpdateOracleDbGcpKeyRing(ctx, request)
+	response, err := s.Client.UpdateOracleDbGcpKeyRing(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbGcpKeyRingFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbGcpKeyRingFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) Delete() error {
 	request := oci_dbmulticloud.DeleteOracleDbGcpKeyRingRequest{}
 
 	tmp := s.D.Id()
@@ -444,14 +444,14 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) DeleteWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.DeleteOracleDbGcpKeyRing(ctx, request)
+	response, err := s.Client.DeleteOracleDbGcpKeyRing(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := oracleDbGcpKeyRingWaitForWorkRequest(ctx, workId, "oracledbgcpkeyring",
+	_, delWorkRequestErr := oracleDbGcpKeyRingWaitForWorkRequest(workId, "oracledbgcpkeyring",
 		oci_dbmulticloud.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -570,7 +570,7 @@ func OracleDbGcpKeyRingSummaryToMap(obj oci_dbmulticloud.OracleDbGcpKeyRingSumma
 	return result
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dbmulticloud.ChangeOracleDbGcpKeyRingCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -581,11 +581,11 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) updateCompartment(ctx conte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	response, err := s.Client.ChangeOracleDbGcpKeyRingCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeOracleDbGcpKeyRingCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOracleDbGcpKeyRingFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOracleDbGcpKeyRingFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

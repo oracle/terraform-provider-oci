@@ -6,7 +6,6 @@ package jms
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsFleetCryptoAnalysisResultDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularJmsFleetCryptoAnalysisResultWithContext,
+		Read: readSingularJmsFleetCryptoAnalysisResult,
 		Schema: map[string]*schema.Schema{
 			"crypto_analysis_result_id": {
 				Type:     schema.TypeString,
@@ -99,12 +98,12 @@ func JmsFleetCryptoAnalysisResultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsFleetCryptoAnalysisResultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsFleetCryptoAnalysisResult(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsFleetCryptoAnalysisResultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsFleetCryptoAnalysisResultDataSourceCrud struct {
@@ -117,7 +116,7 @@ func (s *JmsFleetCryptoAnalysisResultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetCryptoAnalysisResultDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsFleetCryptoAnalysisResultDataSourceCrud) Get() error {
 	request := oci_jms.GetCryptoAnalysisResultRequest{}
 
 	if cryptoAnalysisResultId, ok := s.D.GetOkExists("crypto_analysis_result_id"); ok {
@@ -132,7 +131,7 @@ func (s *JmsFleetCryptoAnalysisResultDataSourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetCryptoAnalysisResult(ctx, request)
+	response, err := s.Client.GetCryptoAnalysisResult(context.Background(), request)
 	if err != nil {
 		return err
 	}

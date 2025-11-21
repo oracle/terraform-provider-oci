@@ -6,7 +6,6 @@ package apigateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -20,15 +19,15 @@ func ApigatewayCertificateDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApigatewayCertificateResource(), fieldMap, readSingularApigatewayCertificateWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ApigatewayCertificateResource(), fieldMap, readSingularApigatewayCertificate)
 }
 
-func readSingularApigatewayCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApigatewayCertificateDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ApigatewayCertificateDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayCertificateDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayCertificateDataSourceCrud) Get() error {
 	request := oci_apigateway.GetCertificateRequest{}
 
 	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
@@ -51,7 +50,7 @@ func (s *ApigatewayCertificateDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.GetCertificate(ctx, request)
+	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}

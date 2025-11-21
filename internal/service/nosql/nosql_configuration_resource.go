@@ -12,7 +12,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -29,11 +28,11 @@ func NosqlConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createNosqlConfigurationWithContext,
-		ReadContext:   readNosqlConfigurationWithContext,
-		UpdateContext: updateNosqlConfigurationWithContext,
-		DeleteContext: deleteNosqlConfigurationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createNosqlConfiguration,
+		Read:     readNosqlConfiguration,
+		Update:   updateNosqlConfiguration,
+		Delete:   deleteNosqlConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -105,31 +104,31 @@ func NosqlConfigurationResource() *schema.Resource {
 	}
 }
 
-func createNosqlConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createNosqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readNosqlConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readNosqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateNosqlConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateNosqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteNosqlConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteNosqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	log.Printf("[WARNING] Deleting the entire configuration is not supported. " +
 		"To remove specific settings, set the corresponding property to null.")
 	return nil
@@ -151,16 +150,16 @@ func (s *NosqlConfigurationResourceCrud) ID() string {
 	return "global"
 }
 
-func (s *NosqlConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *NosqlConfigurationResourceCrud) Create() error {
 	if keyId, ok := s.D.GetOkExists("kms_key.0.id"); ok {
 		if keyId != nil && keyId != "" {
-			return s.updateConfiguration(ctx)
+			return s.updateConfiguration()
 		}
 	}
-	return s.unassignKmsKey(ctx)
+	return s.unassignKmsKey()
 }
 
-func (s *NosqlConfigurationResourceCrud) getConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *NosqlConfigurationResourceCrud) getConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_nosql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -184,7 +183,7 @@ func (s *NosqlConfigurationResourceCrud) getConfigurationFromWorkRequest(ctx con
 	}
 	s.D.SetId(*configurationId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func configurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -288,7 +287,7 @@ func getErrorFromNosqlConfigurationWorkRequest(client *oci_nosql.NosqlClient, wo
 	return workRequestErr
 }
 
-func (s *NosqlConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NosqlConfigurationResourceCrud) Get() error {
 	request := oci_nosql.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -314,16 +313,16 @@ func (s *NosqlConfigurationResourceCrud) GetWithContext(ctx context.Context) err
 	return nil
 }
 
-func (s *NosqlConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *NosqlConfigurationResourceCrud) Update() error {
 	if keyId, ok := s.D.GetOkExists("kms_key.0.id"); ok && s.D.HasChange("kms_key.0.id") {
 		if keyId == nil || keyId == "" {
-			return s.unassignKmsKey(ctx)
+			return s.unassignKmsKey()
 		}
 	}
-	return s.updateConfiguration(ctx)
+	return s.updateConfiguration()
 }
 
-func (s *NosqlConfigurationResourceCrud) updateConfiguration(ctx context.Context) error {
+func (s *NosqlConfigurationResourceCrud) updateConfiguration() error {
 	request := oci_nosql.UpdateConfigurationRequest{}
 	err := s.populateTopLevelPolymorphicUpdateConfigurationRequest(&request)
 	if err != nil {
@@ -338,11 +337,11 @@ func (s *NosqlConfigurationResourceCrud) updateConfiguration(ctx context.Context
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"),
+	return s.getConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"),
 		oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *NosqlConfigurationResourceCrud) unassignKmsKey(ctx context.Context) error {
+func (s *NosqlConfigurationResourceCrud) unassignKmsKey() error {
 	request := oci_nosql.UnassignKmsKeyRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -358,7 +357,7 @@ func (s *NosqlConfigurationResourceCrud) unassignKmsKey(ctx context.Context) err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"),
+	return s.getConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"),
 		oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 

@@ -6,17 +6,16 @@ package log_analytics
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
 
 func LogAnalyticsNamespaceDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularLogAnalyticsNamespaceWithContext,
+		Read: readSingularLogAnalyticsNamespace,
 		Schema: map[string]*schema.Schema{
 			"namespace": {
 				Type:     schema.TypeString,
@@ -47,12 +46,12 @@ func LogAnalyticsNamespaceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularLogAnalyticsNamespaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularLogAnalyticsNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type LogAnalyticsNamespaceDataSourceCrud struct {
@@ -65,7 +64,7 @@ func (s *LogAnalyticsNamespaceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespaceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceDataSourceCrud) Get() error {
 	request := oci_log_analytics.GetNamespaceRequest{}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -75,7 +74,7 @@ func (s *LogAnalyticsNamespaceDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.GetNamespace(ctx, request)
+	response, err := s.Client.GetNamespace(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -102,6 +101,7 @@ func (s *LogAnalyticsNamespaceDataSourceCrud) SetData() error {
 	if s.Res.IsOnboarded != nil {
 		s.D.Set("is_onboarded", *s.Res.IsOnboarded)
 	}
+
 	if s.Res.IsLogSetEnabled != nil {
 		s.D.Set("is_logset_enabled", *s.Res.IsLogSetEnabled)
 	}

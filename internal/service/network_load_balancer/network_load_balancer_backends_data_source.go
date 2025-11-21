@@ -6,17 +6,16 @@ package network_load_balancer
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 )
 
 func NetworkLoadBalancerBackendsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readNetworkLoadBalancerBackendsWithContext,
+		Read: readNetworkLoadBalancerBackends,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"backend_set_name": {
@@ -36,7 +35,7 @@ func NetworkLoadBalancerBackendsDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     NetworkLoadBalancerBackendResource(),
+							Elem:     tfresource.GetDataSourceItemSchema(NetworkLoadBalancerBackendResource()),
 						},
 					},
 				},
@@ -45,12 +44,12 @@ func NetworkLoadBalancerBackendsDataSource() *schema.Resource {
 	}
 }
 
-func readNetworkLoadBalancerBackendsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readNetworkLoadBalancerBackends(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkLoadBalancerBackendsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkLoadBalancerBackendsDataSourceCrud struct {
@@ -63,7 +62,7 @@ func (s *NetworkLoadBalancerBackendsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkLoadBalancerBackendsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkLoadBalancerBackendsDataSourceCrud) Get() error {
 	request := oci_network_load_balancer.ListBackendsRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("backend_set_name"); ok {
@@ -78,7 +77,7 @@ func (s *NetworkLoadBalancerBackendsDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_load_balancer")
 
-	response, err := s.Client.ListBackends(ctx, request)
+	response, err := s.Client.ListBackends(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -87,7 +86,7 @@ func (s *NetworkLoadBalancerBackendsDataSourceCrud) GetWithContext(ctx context.C
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBackends(ctx, request)
+		listResponse, err := s.Client.ListBackends(context.Background(), request)
 		if err != nil {
 			return err
 		}

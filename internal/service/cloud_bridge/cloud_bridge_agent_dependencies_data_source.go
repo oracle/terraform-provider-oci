@@ -6,7 +6,6 @@ package cloud_bridge
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudBridgeAgentDependenciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudBridgeAgentDependenciesWithContext,
+		Read: readCloudBridgeAgentDependencies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"agent_id": {
@@ -57,12 +56,12 @@ func CloudBridgeAgentDependenciesDataSource() *schema.Resource {
 	}
 }
 
-func readCloudBridgeAgentDependenciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudBridgeAgentDependencies(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeAgentDependenciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OcbAgentSvcClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudBridgeAgentDependenciesDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *CloudBridgeAgentDependenciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeAgentDependenciesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudBridgeAgentDependenciesDataSourceCrud) Get() error {
 	request := oci_cloud_bridge.ListAgentDependenciesRequest{}
 
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
@@ -104,7 +103,7 @@ func (s *CloudBridgeAgentDependenciesDataSourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.ListAgentDependencies(ctx, request)
+	response, err := s.Client.ListAgentDependencies(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *CloudBridgeAgentDependenciesDataSourceCrud) GetWithContext(ctx context.
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAgentDependencies(ctx, request)
+		listResponse, err := s.Client.ListAgentDependencies(context.Background(), request)
 		if err != nil {
 			return err
 		}

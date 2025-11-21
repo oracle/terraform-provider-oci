@@ -7,18 +7,17 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WaasWaasPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readWaasWaasPoliciesWithContext,
+		Read: readWaasWaasPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -63,12 +62,12 @@ func WaasWaasPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readWaasWaasPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWaasWaasPolicies(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaasWaasPoliciesDataSourceCrud struct {
@@ -81,7 +80,7 @@ func (s *WaasWaasPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaasWaasPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaasWaasPoliciesDataSourceCrud) Get() error {
 	request := oci_waas.ListWaasPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {

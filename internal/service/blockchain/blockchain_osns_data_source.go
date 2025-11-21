@@ -6,7 +6,6 @@ package blockchain
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func BlockchainOsnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readBlockchainOsnsWithContext,
+		Read: readBlockchainOsns,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
@@ -45,12 +44,12 @@ func BlockchainOsnsDataSource() *schema.Resource {
 	}
 }
 
-func readBlockchainOsnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readBlockchainOsns(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainOsnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type BlockchainOsnsDataSourceCrud struct {
@@ -63,7 +62,7 @@ func (s *BlockchainOsnsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainOsnsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *BlockchainOsnsDataSourceCrud) Get() error {
 	request := oci_blockchain.ListOsnsRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -78,7 +77,7 @@ func (s *BlockchainOsnsDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.ListOsns(ctx, request)
+	response, err := s.Client.ListOsns(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -87,7 +86,7 @@ func (s *BlockchainOsnsDataSourceCrud) GetWithContext(ctx context.Context) error
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOsns(ctx, request)
+		listResponse, err := s.Client.ListOsns(context.Background(), request)
 		if err != nil {
 			return err
 		}

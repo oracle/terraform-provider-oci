@@ -6,7 +6,6 @@ package generative_ai_agent
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -16,7 +15,7 @@ import (
 
 func GenerativeAiAgentDataIngestionJobsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGenerativeAiAgentDataIngestionJobsWithContext,
+		Read: readGenerativeAiAgentDataIngestionJobs,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func GenerativeAiAgentDataIngestionJobsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiAgentDataIngestionJobsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGenerativeAiAgentDataIngestionJobs(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentDataIngestionJobsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GenerativeAiAgentDataIngestionJobsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *GenerativeAiAgentDataIngestionJobsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentDataIngestionJobsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentDataIngestionJobsDataSourceCrud) Get() error {
 	request := oci_generative_ai_agent.ListDataIngestionJobsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *GenerativeAiAgentDataIngestionJobsDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.ListDataIngestionJobs(ctx, request)
+	response, err := s.Client.ListDataIngestionJobs(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *GenerativeAiAgentDataIngestionJobsDataSourceCrud) GetWithContext(ctx co
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataIngestionJobs(ctx, request)
+		listResponse, err := s.Client.ListDataIngestionJobs(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,7 +6,6 @@ package dbmulticloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -16,7 +15,7 @@ import (
 
 func DbmulticloudOracleDbGcpIdentityConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDbmulticloudOracleDbGcpIdentityConnectorsWithContext,
+		Read: readDbmulticloudOracleDbGcpIdentityConnectors,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func DbmulticloudOracleDbGcpIdentityConnectorsDataSource() *schema.Resource {
 	}
 }
 
-func readDbmulticloudOracleDbGcpIdentityConnectorsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDbmulticloudOracleDbGcpIdentityConnectors(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud) Get() error {
 	request := oci_dbmulticloud.ListOracleDbGcpIdentityConnectorsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud) GetWithContext
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.ListOracleDbGcpIdentityConnectors(ctx, request)
+	response, err := s.Client.ListOracleDbGcpIdentityConnectors(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *DbmulticloudOracleDbGcpIdentityConnectorsDataSourceCrud) GetWithContext
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOracleDbGcpIdentityConnectors(ctx, request)
+		listResponse, err := s.Client.ListOracleDbGcpIdentityConnectors(context.Background(), request)
 		if err != nil {
 			return err
 		}

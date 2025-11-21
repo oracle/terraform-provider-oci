@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -26,11 +25,11 @@ func NosqlTableResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createNosqlTableWithContext,
-		ReadContext:   readNosqlTableWithContext,
-		UpdateContext: updateNosqlTableWithContext,
-		DeleteContext: deleteNosqlTableWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createNosqlTable,
+		Read:     readNosqlTable,
+		Update:   updateNosqlTable,
+		Delete:   deleteNosqlTable,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -275,37 +274,38 @@ func NosqlTableResource() *schema.Resource {
 		},
 	}
 }
-func createNosqlTableWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+func createNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readNosqlTableWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateNosqlTableWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteNosqlTableWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NosqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type NosqlTableResourceCrud struct {
@@ -343,7 +343,7 @@ func (s *NosqlTableResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *NosqlTableResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *NosqlTableResourceCrud) Create() error {
 	request := oci_nosql.CreateTableRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -396,14 +396,14 @@ func (s *NosqlTableResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.CreateTable(ctx, request)
+	response, err := s.Client.CreateTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_nosql.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_nosql.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -419,20 +419,20 @@ func (s *NosqlTableResourceCrud) CreateWithContext(ctx context.Context) error {
 			}
 		}
 	}
-	return s.getTableFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTableFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *NosqlTableResourceCrud) getTableFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *NosqlTableResourceCrud) getTableFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_nosql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	tableId, err := tableWaitForWorkRequest(ctx, workId, "TABLE",
+	tableId, err := tableWaitForWorkRequest(workId, "TABLE",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, tableId)
-		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
+		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
 			oci_nosql.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -451,7 +451,7 @@ func (s *NosqlTableResourceCrud) getTableFromWorkRequest(ctx context.Context, wo
 	}
 	s.D.SetId(*tableId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func tableWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -477,7 +477,7 @@ func tableWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func tableWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
+func tableWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = tableWorkRequestShouldRetryFunc(timeout)
@@ -496,7 +496,7 @@ func tableWaitForWorkRequest(ctx context.Context, wId *string, entityType string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_nosql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -524,14 +524,14 @@ func tableWaitForWorkRequest(ctx context.Context, wId *string, entityType string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.WorkRequest.Status == oci_nosql.WorkRequestStatusFailed || response.WorkRequest.Status == oci_nosql.WorkRequestStatusCanceled {
-		return nil, getErrorFromNosqlTableWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromNosqlTableWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromNosqlTableWorkRequest(ctx context.Context, client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromNosqlTableWorkRequest(client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_nosql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -553,7 +553,7 @@ func getErrorFromNosqlTableWorkRequest(ctx context.Context, client *oci_nosql.No
 	return workRequestErr
 }
 
-func (s *NosqlTableResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NosqlTableResourceCrud) Get() error {
 	request := oci_nosql.GetTableRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -571,7 +571,7 @@ func (s *NosqlTableResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.GetTable(ctx, request)
+	response, err := s.Client.GetTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -580,13 +580,13 @@ func (s *NosqlTableResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *NosqlTableResourceCrud) Update() error {
 	if _, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
 			fromCompartmentId := oldRaw.(string)
 			toCompartmentId := newRaw.(string)
-			err := s.updateCompartment(ctx, fromCompartmentId, toCompartmentId)
+			err := s.updateCompartment(fromCompartmentId, toCompartmentId)
 			if err != nil {
 				return err
 			}
@@ -595,7 +595,7 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	defer func() {
 		// get latest state of the instance
-		err := s.GetWithContext(ctx)
+		err := s.Get()
 		if err != nil {
 			log.Printf("[ERROR] unable to invoke GET() after UPDATE '%v'", err)
 		}
@@ -620,7 +620,7 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if ddlStatement, ok := s.D.GetOkExists("ddl_statement"); ok && s.D.HasChange("ddl_statement") {
 		tmp := ddlStatement.(string)
 		request.DdlStatement = &tmp
-		err := sendUpdateRequest(ctx, s, request)
+		err := sendUpdateRequest(s, request)
 		if err != nil {
 			return err
 		}
@@ -633,7 +633,7 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
-		err = sendUpdateRequest(ctx, s, request)
+		err = sendUpdateRequest(s, request)
 		if err != nil {
 			return err
 		}
@@ -642,7 +642,7 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		err := sendUpdateRequest(ctx, s, request)
+		err := sendUpdateRequest(s, request)
 		if err != nil {
 			return err
 		}
@@ -658,7 +658,7 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 			}
 			request.TableLimits = &tmp
 		}
-		err := sendUpdateRequest(ctx, s, request)
+		err := sendUpdateRequest(s, request)
 		if err != nil {
 			return err
 		}
@@ -668,20 +668,20 @@ func (s *NosqlTableResourceCrud) UpdateWithContext(ctx context.Context) error {
 	return nil
 }
 
-func sendUpdateRequest(ctx context.Context, s *NosqlTableResourceCrud, request oci_nosql.UpdateTableRequest) error {
-	response, err := s.Client.UpdateTable(ctx, request)
+func sendUpdateRequest(s *NosqlTableResourceCrud, request oci_nosql.UpdateTableRequest) error {
+	response, err := s.Client.UpdateTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	err = s.getTableFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getTableFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *NosqlTableResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *NosqlTableResourceCrud) Delete() error {
 	request := oci_nosql.DeleteTableRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -704,14 +704,14 @@ func (s *NosqlTableResourceCrud) DeleteWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.DeleteTable(ctx, request)
+	response, err := s.Client.DeleteTable(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := tableWaitForWorkRequest(ctx, workId, "TABLE",
+	_, delWorkRequestErr := tableWaitForWorkRequest(workId, "TABLE",
 		oci_nosql.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -999,7 +999,7 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 	return result
 }
 
-func (s *NosqlTableResourceCrud) updateCompartment(ctx context.Context, fromCompartmentId, toCompartmentId string) error {
+func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartmentId string) error {
 	changeCompartmentRequest := oci_nosql.ChangeTableCompartmentRequest{}
 
 	changeCompartmentRequest.FromCompartmentId = &fromCompartmentId
@@ -1016,13 +1016,13 @@ func (s *NosqlTableResourceCrud) updateCompartment(ctx context.Context, fromComp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.ChangeTableCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeTableCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTableFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTableFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func tableLimitsSuppressFunction(k string, old string, new string, d *schema.ResourceData) bool {

@@ -6,17 +6,16 @@ package waas
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
 )
 
 func WaasProtectionRulesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readWaasProtectionRulesWithContext,
+		Read: readWaasProtectionRules,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"action": {
@@ -46,12 +45,12 @@ func WaasProtectionRulesDataSource() *schema.Resource {
 	}
 }
 
-func readWaasProtectionRulesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWaasProtectionRules(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasProtectionRulesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaasProtectionRulesDataSourceCrud struct {
@@ -64,7 +63,7 @@ func (s *WaasProtectionRulesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaasProtectionRulesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaasProtectionRulesDataSourceCrud) Get() error {
 	request := oci_waas.ListProtectionRulesRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -100,7 +99,7 @@ func (s *WaasProtectionRulesDataSourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waas")
 
-	response, err := s.Client.ListProtectionRules(ctx, request)
+	response, err := s.Client.ListProtectionRules(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -109,7 +108,7 @@ func (s *WaasProtectionRulesDataSourceCrud) GetWithContext(ctx context.Context) 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProtectionRules(ctx, request)
+		listResponse, err := s.Client.ListProtectionRules(context.Background(), request)
 		if err != nil {
 			return err
 		}

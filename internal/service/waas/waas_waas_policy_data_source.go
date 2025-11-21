@@ -6,18 +6,17 @@ package waas
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_waas "github.com/oracle/oci-go-sdk/v65/waas"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func WaasWaasPolicyDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularWaasWaasPolicyWithContext,
+		Read: readSingularWaasWaasPolicy,
 		Schema: map[string]*schema.Schema{
 			"waas_policy_id": {
 				Type:     schema.TypeString,
@@ -1236,12 +1235,12 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 	}
 }
 
-func readSingularWaasWaasPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaasClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaasWaasPolicyDataSourceCrud struct {
@@ -1254,7 +1253,7 @@ func (s *WaasWaasPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaasWaasPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaasWaasPolicyDataSourceCrud) Get() error {
 	request := oci_waas.GetWaasPolicyRequest{}
 
 	if waasPolicyId, ok := s.D.GetOkExists("waas_policy_id"); ok {
@@ -1264,7 +1263,7 @@ func (s *WaasWaasPolicyDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waas")
 
-	response, err := s.Client.GetWaasPolicy(ctx, request)
+	response, err := s.Client.GetWaasPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}

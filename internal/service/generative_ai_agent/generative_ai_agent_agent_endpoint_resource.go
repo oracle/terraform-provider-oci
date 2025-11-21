@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -26,11 +26,15 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGenerativeAiAgentAgentEndpointWithContext,
-		ReadContext:   readGenerativeAiAgentAgentEndpointWithContext,
-		UpdateContext: updateGenerativeAiAgentAgentEndpointWithContext,
-		DeleteContext: deleteGenerativeAiAgentAgentEndpointWithContext,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("60m"),
+			Update: tfresource.GetTimeoutDuration("40m"),
+			Delete: tfresource.GetTimeoutDuration("50m"),
+		},
+		Create: createGenerativeAiAgentAgentEndpoint,
+		Read:   readGenerativeAiAgentAgentEndpoint,
+		Update: updateGenerativeAiAgentAgentEndpoint,
+		Delete: deleteGenerativeAiAgentAgentEndpoint,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"agent_id": {
@@ -334,37 +338,37 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiAgentAgentEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createGenerativeAiAgentAgentEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentAgentEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readGenerativeAiAgentAgentEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGenerativeAiAgentAgentEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentAgentEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateGenerativeAiAgentAgentEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateGenerativeAiAgentAgentEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentAgentEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteGenerativeAiAgentAgentEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteGenerativeAiAgentAgentEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GenerativeAiAgentAgentEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type GenerativeAiAgentAgentEndpointResourceCrud struct {
@@ -402,7 +406,7 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) Create() error {
 	request := oci_generative_ai_agent.CreateAgentEndpointRequest{}
 
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
@@ -518,7 +522,7 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) CreateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.CreateAgentEndpoint(ctx, request)
+	response, err := s.Client.CreateAgentEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -529,20 +533,20 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) CreateWithContext(ctx conte
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAgentEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAgentEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) getAgentEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) getAgentEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai_agent.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	agentEndpointId, err := agentEndpointWaitForWorkRequest(ctx, workId, "agentendpoint",
+	agentEndpointId, err := agentEndpointWaitForWorkRequest(workId, "agentendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, agentEndpointId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_generative_ai_agent.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -556,7 +560,7 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) getAgentEndpointFromWorkReq
 	}
 	s.D.SetId(*agentEndpointId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func agentEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -582,7 +586,7 @@ func agentEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func agentEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
+func agentEndpointWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai_agent.GenerativeAiAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai_agent")
 	retryPolicy.ShouldRetryOperation = agentEndpointWorkRequestShouldRetryFunc(timeout)
@@ -601,7 +605,7 @@ func agentEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_generative_ai_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -630,14 +634,14 @@ func agentEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai_agent.OperationStatusFailed || response.Status == oci_generative_ai_agent.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiAgentAgentEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiAgentAgentEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiAgentAgentEndpointWorkRequest(ctx context.Context, client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromGenerativeAiAgentAgentEndpointWorkRequest(client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_generative_ai_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -659,7 +663,7 @@ func getErrorFromGenerativeAiAgentAgentEndpointWorkRequest(ctx context.Context, 
 	return workRequestErr
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) Get() error {
 	request := oci_generative_ai_agent.GetAgentEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -667,7 +671,7 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.GetAgentEndpoint(ctx, request)
+	response, err := s.Client.GetAgentEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -676,11 +680,11 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) GetWithContext(ctx context.
 	return nil
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -789,16 +793,16 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) UpdateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.UpdateAgentEndpoint(ctx, request)
+	response, err := s.Client.UpdateAgentEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAgentEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAgentEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) Delete() error {
 	request := oci_generative_ai_agent.DeleteAgentEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -806,14 +810,14 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) DeleteWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.DeleteAgentEndpoint(ctx, request)
+	response, err := s.Client.DeleteAgentEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := agentEndpointWaitForWorkRequest(ctx, workId, "agentendpoint",
+	_, delWorkRequestErr := agentEndpointWaitForWorkRequest(workId, "agentendpoint",
 		oci_generative_ai_agent.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1290,7 +1294,7 @@ func SessionConfigToMap(obj *oci_generative_ai_agent.SessionConfig) map[string]i
 	return result
 }
 
-func (s *GenerativeAiAgentAgentEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_generative_ai_agent.ChangeAgentEndpointCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1301,11 +1305,11 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) updateCompartment(ctx conte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.ChangeAgentEndpointCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeAgentEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAgentEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAgentEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

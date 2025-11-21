@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func AiVisionStreamGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createAiVisionStreamGroupWithContext,
-		ReadContext:   readAiVisionStreamGroupWithContext,
-		UpdateContext: updateAiVisionStreamGroupWithContext,
-		DeleteContext: deleteAiVisionStreamGroupWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createAiVisionStreamGroup,
+		Read:     readAiVisionStreamGroup,
+		Update:   updateAiVisionStreamGroup,
+		Delete:   deleteAiVisionStreamGroup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -114,37 +114,37 @@ func AiVisionStreamGroupResource() *schema.Resource {
 	}
 }
 
-func createAiVisionStreamGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createAiVisionStreamGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionStreamGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readAiVisionStreamGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAiVisionStreamGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionStreamGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateAiVisionStreamGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateAiVisionStreamGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionStreamGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteAiVisionStreamGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteAiVisionStreamGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionStreamGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type AiVisionStreamGroupResourceCrud struct {
@@ -182,7 +182,7 @@ func (s *AiVisionStreamGroupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AiVisionStreamGroupResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *AiVisionStreamGroupResourceCrud) Create() error {
 	request := oci_ai_vision.CreateStreamGroupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -244,7 +244,7 @@ func (s *AiVisionStreamGroupResourceCrud) CreateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.CreateStreamGroup(ctx, request)
+	response, err := s.Client.CreateStreamGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -255,20 +255,20 @@ func (s *AiVisionStreamGroupResourceCrud) CreateWithContext(ctx context.Context)
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getStreamGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getStreamGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AiVisionStreamGroupResourceCrud) getStreamGroupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AiVisionStreamGroupResourceCrud) getStreamGroupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ai_vision.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	streamGroupId, err := streamGroupWaitForWorkRequest(ctx, workId, "streamgroup",
+	streamGroupId, err := streamGroupWaitForWorkRequest(workId, "streamgroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, streamGroupId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_ai_vision.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -282,7 +282,7 @@ func (s *AiVisionStreamGroupResourceCrud) getStreamGroupFromWorkRequest(ctx cont
 	}
 	s.D.SetId(*streamGroupId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func streamGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -308,7 +308,7 @@ func streamGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func streamGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
+func streamGroupWaitForWorkRequest(wId *string, entityType string, action oci_ai_vision.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_vision.AIServiceVisionClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ai_vision")
 	retryPolicy.ShouldRetryOperation = streamGroupWorkRequestShouldRetryFunc(timeout)
@@ -327,7 +327,7 @@ func streamGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_ai_vision.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -356,13 +356,13 @@ func streamGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ai_vision.OperationStatusFailed || response.Status == oci_ai_vision.OperationStatusCanceled {
-		return nil, getErrorFromAiVisionStreamGroupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAiVisionStreamGroupWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAiVisionStreamGroupWorkRequest(ctx context.Context, client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
+func getErrorFromAiVisionStreamGroupWorkRequest(client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_ai_vision.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -385,7 +385,7 @@ func getErrorFromAiVisionStreamGroupWorkRequest(ctx context.Context, client *oci
 	return workRequestErr
 }
 
-func (s *AiVisionStreamGroupResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AiVisionStreamGroupResourceCrud) Get() error {
 	request := oci_ai_vision.GetStreamGroupRequest{}
 
 	tmp := s.D.Id()
@@ -393,7 +393,7 @@ func (s *AiVisionStreamGroupResourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.GetStreamGroup(ctx, request)
+	response, err := s.Client.GetStreamGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -402,11 +402,11 @@ func (s *AiVisionStreamGroupResourceCrud) GetWithContext(ctx context.Context) er
 	return nil
 }
 
-func (s *AiVisionStreamGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *AiVisionStreamGroupResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -471,16 +471,16 @@ func (s *AiVisionStreamGroupResourceCrud) UpdateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.UpdateStreamGroup(ctx, request)
+	response, err := s.Client.UpdateStreamGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getStreamGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getStreamGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AiVisionStreamGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *AiVisionStreamGroupResourceCrud) Delete() error {
 	request := oci_ai_vision.DeleteStreamGroupRequest{}
 
 	tmp := s.D.Id()
@@ -488,14 +488,14 @@ func (s *AiVisionStreamGroupResourceCrud) DeleteWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.DeleteStreamGroup(ctx, request)
+	response, err := s.Client.DeleteStreamGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := streamGroupWaitForWorkRequest(ctx, workId, "streamgroup",
+	_, delWorkRequestErr := streamGroupWaitForWorkRequest(workId, "streamgroup",
 		oci_ai_vision.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -621,7 +621,7 @@ func StreamGroupSummaryToMap(obj oci_ai_vision.StreamGroupSummary) map[string]in
 	return result
 }
 
-func (s *AiVisionStreamGroupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *AiVisionStreamGroupResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_ai_vision.ChangeStreamGroupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -632,11 +632,11 @@ func (s *AiVisionStreamGroupResourceCrud) updateCompartment(ctx context.Context,
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision")
 
-	response, err := s.Client.ChangeStreamGroupCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeStreamGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getStreamGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getStreamGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_vision"), oci_ai_vision.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

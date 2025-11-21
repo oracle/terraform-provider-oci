@@ -6,7 +6,6 @@ package dbmulticloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -16,7 +15,7 @@ import (
 
 func DbmulticloudMultiCloudResourceDiscoveriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDbmulticloudMultiCloudResourceDiscoveriesWithContext,
+		Read: readDbmulticloudMultiCloudResourceDiscoveries,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -68,12 +67,12 @@ func DbmulticloudMultiCloudResourceDiscoveriesDataSource() *schema.Resource {
 	}
 }
 
-func readDbmulticloudMultiCloudResourceDiscoveriesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDbmulticloudMultiCloudResourceDiscoveries(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MultiCloudResourceDiscoveryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud struct {
@@ -86,7 +85,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) Get() error {
 	request := oci_dbmulticloud.ListMultiCloudResourceDiscoveriesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -125,7 +124,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) GetWithContext
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.ListMultiCloudResourceDiscoveries(ctx, request)
+	response, err := s.Client.ListMultiCloudResourceDiscoveries(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -134,7 +133,7 @@ func (s *DbmulticloudMultiCloudResourceDiscoveriesDataSourceCrud) GetWithContext
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMultiCloudResourceDiscoveries(ctx, request)
+		listResponse, err := s.Client.ListMultiCloudResourceDiscoveries(context.Background(), request)
 		if err != nil {
 			return err
 		}

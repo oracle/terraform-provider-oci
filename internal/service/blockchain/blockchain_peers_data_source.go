@@ -6,7 +6,6 @@ package blockchain
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func BlockchainPeersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readBlockchainPeersWithContext,
+		Read: readBlockchainPeers,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
@@ -45,12 +44,12 @@ func BlockchainPeersDataSource() *schema.Resource {
 	}
 }
 
-func readBlockchainPeersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readBlockchainPeers(d *schema.ResourceData, m interface{}) error {
 	sync := &BlockchainPeersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockchainPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type BlockchainPeersDataSourceCrud struct {
@@ -63,7 +62,7 @@ func (s *BlockchainPeersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BlockchainPeersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *BlockchainPeersDataSourceCrud) Get() error {
 	request := oci_blockchain.ListPeersRequest{}
 
 	if blockchainPlatformId, ok := s.D.GetOkExists("blockchain_platform_id"); ok {
@@ -78,7 +77,7 @@ func (s *BlockchainPeersDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "blockchain")
 
-	response, err := s.Client.ListPeers(ctx, request)
+	response, err := s.Client.ListPeers(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -87,7 +86,7 @@ func (s *BlockchainPeersDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPeers(ctx, request)
+		listResponse, err := s.Client.ListPeers(context.Background(), request)
 		if err != nil {
 			return err
 		}

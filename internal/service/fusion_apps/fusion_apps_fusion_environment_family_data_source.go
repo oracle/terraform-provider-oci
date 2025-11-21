@@ -6,7 +6,6 @@ package fusion_apps
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -20,15 +19,15 @@ func FusionAppsFusionEnvironmentFamilyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(FusionAppsFusionEnvironmentFamilyResource(), fieldMap, readSingularFusionAppsFusionEnvironmentFamilyWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentFamilyResource(), fieldMap, readSingularFusionAppsFusionEnvironmentFamily)
 }
 
-func readSingularFusionAppsFusionEnvironmentFamilyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularFusionAppsFusionEnvironmentFamily(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentFamilyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentFamilyDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) Get() error {
 	request := oci_fusion_apps.GetFusionEnvironmentFamilyRequest{}
 
 	if fusionEnvironmentFamilyId, ok := s.D.GetOkExists("fusion_environment_family_id"); ok {
@@ -51,7 +50,7 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.GetFusionEnvironmentFamily(ctx, request)
+	response, err := s.Client.GetFusionEnvironmentFamily(context.Background(), request)
 	if err != nil {
 		return err
 	}

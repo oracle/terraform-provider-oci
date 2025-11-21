@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -27,10 +27,10 @@ func FusionAppsFusionEnvironmentServiceAttachmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createFusionAppsFusionEnvironmentServiceAttachmentWithContext,
-		ReadContext:   readFusionAppsFusionEnvironmentServiceAttachmentWithContext,
-		DeleteContext: deleteFusionAppsFusionEnvironmentServiceAttachmentWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createFusionAppsFusionEnvironmentServiceAttachment,
+		Read:     readFusionAppsFusionEnvironmentServiceAttachment,
+		Delete:   deleteFusionAppsFusionEnvironmentServiceAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"fusion_environment_id": {
@@ -93,29 +93,29 @@ func FusionAppsFusionEnvironmentServiceAttachmentResource() *schema.Resource {
 	}
 }
 
-func createFusionAppsFusionEnvironmentServiceAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createFusionAppsFusionEnvironmentServiceAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentServiceAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readFusionAppsFusionEnvironmentServiceAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentServiceAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentServiceAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteFusionAppsFusionEnvironmentServiceAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteFusionAppsFusionEnvironmentServiceAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentServiceAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type FusionAppsFusionEnvironmentServiceAttachmentResourceCrud struct {
@@ -153,7 +153,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) DeletedTarget
 	}
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) Create() error {
 	request := oci_fusion_apps.CreateServiceAttachmentRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -172,14 +172,14 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) CreateWithCon
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.CreateServiceAttachment(ctx, request)
+	response, err := s.Client.CreateServiceAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.setIdFromWorkRequest(workId)
-	return s.getFusionEnvironmentServiceAttachmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFusionEnvironmentServiceAttachmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) setIdFromWorkRequest(workId *string) {
@@ -209,11 +209,11 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) setIdFromWork
 	}
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) getFusionEnvironmentServiceAttachmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) getFusionEnvironmentServiceAttachmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fusion_apps.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fusionEnvironmentServiceAttachmentId, err := fusionEnvironmentServiceAttachmentWaitForWorkRequest(ctx, workId,
+	fusionEnvironmentServiceAttachmentId, err := fusionEnvironmentServiceAttachmentWaitForWorkRequest(workId,
 		"serviceattachments",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
@@ -230,7 +230,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) getFusionEnvi
 
 	s.D.SetId(compositeId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func fusionEnvironmentServiceAttachmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -256,7 +256,7 @@ func fusionEnvironmentServiceAttachmentWorkRequestShouldRetryFunc(timeout time.D
 	}
 }
 
-func fusionEnvironmentServiceAttachmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
+func fusionEnvironmentServiceAttachmentWaitForWorkRequest(wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fusion_apps.FusionApplicationsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fusion_apps")
 	retryPolicy.ShouldRetryOperation = fusionEnvironmentServiceAttachmentWorkRequestShouldRetryFunc(timeout)
@@ -275,7 +275,7 @@ func fusionEnvironmentServiceAttachmentWaitForWorkRequest(ctx context.Context, w
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_fusion_apps.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -304,14 +304,14 @@ func fusionEnvironmentServiceAttachmentWaitForWorkRequest(ctx context.Context, w
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fusion_apps.WorkRequestStatusFailed || response.Status == oci_fusion_apps.WorkRequestStatusCanceled {
-		return nil, getErrorFromFusionAppsFusionEnvironmentServiceAttachmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFusionAppsFusionEnvironmentServiceAttachmentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFusionAppsFusionEnvironmentServiceAttachmentWorkRequest(ctx context.Context, client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromFusionAppsFusionEnvironmentServiceAttachmentWorkRequest(client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_fusion_apps.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -333,7 +333,7 @@ func getErrorFromFusionAppsFusionEnvironmentServiceAttachmentWorkRequest(ctx con
 	return workRequestErr
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) Get() error {
 	request := oci_fusion_apps.GetServiceAttachmentRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -358,7 +358,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) GetWithContex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.GetServiceAttachment(ctx, request)
+	response, err := s.Client.GetServiceAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -367,7 +367,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) GetWithContex
 	return nil
 }
 
-func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) Delete() error {
 	request := oci_fusion_apps.DeleteServiceAttachmentRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -392,14 +392,14 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) DeleteWithCon
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.DeleteServiceAttachment(ctx, request)
+	response, err := s.Client.DeleteServiceAttachment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := fusionEnvironmentServiceAttachmentWaitForWorkRequest(ctx, workId, "serviceattachments",
+	_, delWorkRequestErr := fusionEnvironmentServiceAttachmentWaitForWorkRequest(workId, "serviceattachments",
 		oci_fusion_apps.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries,
 		s.Client)
 

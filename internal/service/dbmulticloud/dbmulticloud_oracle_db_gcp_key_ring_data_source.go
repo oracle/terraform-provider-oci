@@ -6,7 +6,6 @@ package dbmulticloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -20,15 +19,15 @@ func DbmulticloudOracleDbGcpKeyRingDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbGcpKeyRingResource(), fieldMap, readSingularDbmulticloudOracleDbGcpKeyRingWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbGcpKeyRingResource(), fieldMap, readSingularDbmulticloudOracleDbGcpKeyRing)
 }
 
-func readSingularDbmulticloudOracleDbGcpKeyRingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDbmulticloudOracleDbGcpKeyRing(d *schema.ResourceData, m interface{}) error {
 	sync := &DbmulticloudOracleDbGcpKeyRingDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbMulticloudGCPProviderClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DbmulticloudOracleDbGcpKeyRingDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) Get() error {
 	request := oci_dbmulticloud.GetOracleDbGcpKeyRingRequest{}
 
 	if oracleDbGcpKeyRingId, ok := s.D.GetOkExists("oracle_db_gcp_key_ring_id"); ok {
@@ -51,7 +50,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingDataSourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbGcpKeyRing(ctx, request)
+	response, err := s.Client.GetOracleDbGcpKeyRing(context.Background(), request)
 	if err != nil {
 		return err
 	}

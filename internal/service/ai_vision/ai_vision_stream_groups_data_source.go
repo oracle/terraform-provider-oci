@@ -6,7 +6,6 @@ package ai_vision
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -16,7 +15,7 @@ import (
 
 func AiVisionStreamGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readAiVisionStreamGroupsWithContext,
+		Read: readAiVisionStreamGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -49,12 +48,12 @@ func AiVisionStreamGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readAiVisionStreamGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAiVisionStreamGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &AiVisionStreamGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AiVisionStreamGroupsDataSourceCrud struct {
@@ -67,7 +66,7 @@ func (s *AiVisionStreamGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionStreamGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AiVisionStreamGroupsDataSourceCrud) Get() error {
 	request := oci_ai_vision.ListStreamGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -87,7 +86,7 @@ func (s *AiVisionStreamGroupsDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.ListStreamGroups(ctx, request)
+	response, err := s.Client.ListStreamGroups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -96,7 +95,7 @@ func (s *AiVisionStreamGroupsDataSourceCrud) GetWithContext(ctx context.Context)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListStreamGroups(ctx, request)
+		listResponse, err := s.Client.ListStreamGroups(context.Background(), request)
 		if err != nil {
 			return err
 		}

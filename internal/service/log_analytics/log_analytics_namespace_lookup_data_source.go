@@ -7,7 +7,6 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
@@ -25,15 +24,15 @@ func LogAnalyticsNamespaceLookupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(LogAnalyticsNamespaceLookupResource(), fieldMap, readSingularLogAnalyticsNamespaceLookupWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(LogAnalyticsNamespaceLookupResource(), fieldMap, readSingularLogAnalyticsNamespaceLookup)
 }
 
-func readSingularLogAnalyticsNamespaceLookupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularLogAnalyticsNamespaceLookup(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceLookupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type LogAnalyticsNamespaceLookupDataSourceCrud struct {
@@ -46,7 +45,7 @@ func (s *LogAnalyticsNamespaceLookupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespaceLookupDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceLookupDataSourceCrud) Get() error {
 	request := oci_log_analytics.GetLookupRequest{}
 
 	if lookupName, ok := s.D.GetOkExists("lookup_name"); ok {
@@ -61,7 +60,7 @@ func (s *LogAnalyticsNamespaceLookupDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.GetLookup(ctx, request)
+	response, err := s.Client.GetLookup(context.Background(), request)
 	if err != nil {
 		return err
 	}

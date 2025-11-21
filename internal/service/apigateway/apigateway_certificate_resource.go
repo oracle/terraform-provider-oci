@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func ApigatewayCertificateResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createApigatewayCertificateWithContext,
-		ReadContext:   readApigatewayCertificateWithContext,
-		UpdateContext: updateApigatewayCertificateWithContext,
-		DeleteContext: deleteApigatewayCertificateWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createApigatewayCertificate,
+		Read:     readApigatewayCertificate,
+		Update:   updateApigatewayCertificate,
+		Delete:   deleteApigatewayCertificate,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"certificate": {
@@ -147,40 +147,40 @@ func ApigatewayCertificateResource() *schema.Resource {
 	}
 }
 
-func createApigatewayCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readApigatewayCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateApigatewayCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteApigatewayCertificateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ApigatewayCertificateResourceCrud struct {
@@ -219,7 +219,7 @@ func (s *ApigatewayCertificateResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ApigatewayCertificateResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ApigatewayCertificateResourceCrud) Create() error {
 	request := oci_apigateway.CreateCertificateRequest{}
 
 	if certificate, ok := s.D.GetOkExists("certificate"); ok {
@@ -278,7 +278,7 @@ func (s *ApigatewayCertificateResourceCrud) CreateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.CreateCertificate(ctx, request)
+	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -289,20 +289,20 @@ func (s *ApigatewayCertificateResourceCrud) CreateWithContext(ctx context.Contex
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getCertificateFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCertificateFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apigateway.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	certificateId, err := certificateWaitForWorkRequest(ctx, workId, "certificate",
+	certificateId, err := certificateWaitForWorkRequest(workId, "certificate",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, certificateId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -316,7 +316,8 @@ func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(ctx co
 	}
 	s.D.SetId(*certificateId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
+
 }
 
 func certificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -342,7 +343,7 @@ func certificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func certificateWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
+func certificateWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = certificateWorkRequestShouldRetryFunc(timeout)
@@ -361,7 +362,7 @@ func certificateWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_apigateway.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -390,14 +391,14 @@ func certificateWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromApigatewayCertificateWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApigatewayCertificateWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApigatewayCertificateWorkRequest(ctx context.Context, client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromApigatewayCertificateWorkRequest(client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_apigateway.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -419,7 +420,7 @@ func getErrorFromApigatewayCertificateWorkRequest(ctx context.Context, client *o
 	return workRequestErr
 }
 
-func (s *ApigatewayCertificateResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayCertificateResourceCrud) Get() error {
 	request := oci_apigateway.GetCertificateRequest{}
 
 	tmp := s.D.Id()
@@ -427,7 +428,7 @@ func (s *ApigatewayCertificateResourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.GetCertificate(ctx, request)
+	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -436,11 +437,11 @@ func (s *ApigatewayCertificateResourceCrud) GetWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *ApigatewayCertificateResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ApigatewayCertificateResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -475,16 +476,16 @@ func (s *ApigatewayCertificateResourceCrud) UpdateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.UpdateCertificate(ctx, request)
+	response, err := s.Client.UpdateCertificate(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCertificateFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCertificateFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApigatewayCertificateResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ApigatewayCertificateResourceCrud) Delete() error {
 	request := oci_apigateway.DeleteCertificateRequest{}
 
 	tmp := s.D.Id()
@@ -497,7 +498,7 @@ func (s *ApigatewayCertificateResourceCrud) DeleteWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	_, err := s.Client.DeleteCertificate(ctx, request)
+	_, err := s.Client.DeleteCertificate(context.Background(), request)
 	return err
 }
 
@@ -626,7 +627,7 @@ func CertificateSummaryToMap(obj oci_apigateway.CertificateSummary) map[string]i
 	return result
 }
 
-func (s *ApigatewayCertificateResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ApigatewayCertificateResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_apigateway.ChangeCertificateCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -642,12 +643,12 @@ func (s *ApigatewayCertificateResourceCrud) updateCompartment(ctx context.Contex
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	_, err := s.Client.ChangeCertificateCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeCertificateCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

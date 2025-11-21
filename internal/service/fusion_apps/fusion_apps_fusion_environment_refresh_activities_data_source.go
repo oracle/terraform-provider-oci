@@ -7,7 +7,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
@@ -18,7 +17,7 @@ import (
 
 func FusionAppsFusionEnvironmentRefreshActivitiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFusionAppsFusionEnvironmentRefreshActivitiesWithContext,
+		Read: readFusionAppsFusionEnvironmentRefreshActivities,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -59,12 +58,12 @@ func FusionAppsFusionEnvironmentRefreshActivitiesDataSource() *schema.Resource {
 	}
 }
 
-func readFusionAppsFusionEnvironmentRefreshActivitiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentRefreshActivities(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud struct {
@@ -77,7 +76,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud) VoidState()
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud) Get() error {
 	request := oci_fusion_apps.ListRefreshActivitiesRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -112,7 +111,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud) GetWithCont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.ListRefreshActivities(ctx, request)
+	response, err := s.Client.ListRefreshActivities(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +120,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivitiesDataSourceCrud) GetWithCont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRefreshActivities(ctx, request)
+		listResponse, err := s.Client.ListRefreshActivities(context.Background(), request)
 		if err != nil {
 			return err
 		}

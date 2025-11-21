@@ -6,7 +6,6 @@ package apigateway
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -16,7 +15,7 @@ import (
 
 func ApigatewayApisDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readApigatewayApisWithContext,
+		Read: readApigatewayApis,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -49,12 +48,12 @@ func ApigatewayApisDataSource() *schema.Resource {
 	}
 }
 
-func readApigatewayApisWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApigatewayApis(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApisDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiGatewayClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApigatewayApisDataSourceCrud struct {
@@ -67,7 +66,7 @@ func (s *ApigatewayApisDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayApisDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApigatewayApisDataSourceCrud) Get() error {
 	request := oci_apigateway.ListApisRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +85,7 @@ func (s *ApigatewayApisDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	response, err := s.Client.ListApis(ctx, request)
+	response, err := s.Client.ListApis(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *ApigatewayApisDataSourceCrud) GetWithContext(ctx context.Context) error
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListApis(ctx, request)
+		listResponse, err := s.Client.ListApis(context.Background(), request)
 		if err != nil {
 			return err
 		}

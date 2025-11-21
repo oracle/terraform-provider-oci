@@ -6,7 +6,6 @@ package cloud_migrations
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudMigrationsMigrationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudMigrationsMigrationsWithContext,
+		Read: readCloudMigrationsMigrations,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func CloudMigrationsMigrationsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudMigrationsMigrationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudMigrationsMigrations(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudMigrationsMigrationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudMigrationsMigrationsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *CloudMigrationsMigrationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudMigrationsMigrationsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudMigrationsMigrationsDataSourceCrud) Get() error {
 	request := oci_cloud_migrations.ListMigrationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *CloudMigrationsMigrationsDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_migrations")
 
-	response, err := s.Client.ListMigrations(ctx, request)
+	response, err := s.Client.ListMigrations(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *CloudMigrationsMigrationsDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMigrations(ctx, request)
+		listResponse, err := s.Client.ListMigrations(context.Background(), request)
 		if err != nil {
 			return err
 		}

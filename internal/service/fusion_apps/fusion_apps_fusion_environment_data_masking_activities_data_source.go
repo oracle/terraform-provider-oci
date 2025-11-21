@@ -6,7 +6,6 @@ package fusion_apps
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -16,7 +15,7 @@ import (
 
 func FusionAppsFusionEnvironmentDataMaskingActivitiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFusionAppsFusionEnvironmentDataMaskingActivitiesWithContext,
+		Read: readFusionAppsFusionEnvironmentDataMaskingActivities,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"fusion_environment_id": {
@@ -45,12 +44,12 @@ func FusionAppsFusionEnvironmentDataMaskingActivitiesDataSource() *schema.Resour
 	}
 }
 
-func readFusionAppsFusionEnvironmentDataMaskingActivitiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFusionAppsFusionEnvironmentDataMaskingActivities(d *schema.ResourceData, m interface{}) error {
 	sync := &FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud struct {
@@ -63,7 +62,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud) VoidSta
 	s.D.SetId("")
 }
 
-func (s *FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud) Get() error {
 	request := oci_fusion_apps.ListDataMaskingActivitiesRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -77,7 +76,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud) GetWith
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
 
-	response, err := s.Client.ListDataMaskingActivities(ctx, request)
+	response, err := s.Client.ListDataMaskingActivities(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *FusionAppsFusionEnvironmentDataMaskingActivitiesDataSourceCrud) GetWith
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataMaskingActivities(ctx, request)
+		listResponse, err := s.Client.ListDataMaskingActivities(context.Background(), request)
 		if err != nil {
 			return err
 		}

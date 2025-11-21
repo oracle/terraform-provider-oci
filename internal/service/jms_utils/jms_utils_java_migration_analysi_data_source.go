@@ -6,7 +6,6 @@ package jms_utils
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_utils "github.com/oracle/oci-go-sdk/v65/jmsutils"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsUtilsJavaMigrationAnalysiDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularJmsUtilsJavaMigrationAnalysiWithContext,
+		Read: readSingularJmsUtilsJavaMigrationAnalysi,
 		Schema: map[string]*schema.Schema{
 			"java_migration_analysis_id": {
 				Type:     schema.TypeString,
@@ -106,12 +105,12 @@ func JmsUtilsJavaMigrationAnalysiDataSource() *schema.Resource {
 	}
 }
 
-func readSingularJmsUtilsJavaMigrationAnalysiWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsUtilsJavaMigrationAnalysi(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsUtilsJavaMigrationAnalysiDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JmsUtilsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsUtilsJavaMigrationAnalysiDataSourceCrud struct {
@@ -124,7 +123,7 @@ func (s *JmsUtilsJavaMigrationAnalysiDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsUtilsJavaMigrationAnalysiDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsUtilsJavaMigrationAnalysiDataSourceCrud) Get() error {
 	request := oci_jms_utils.GetJavaMigrationAnalysisRequest{}
 
 	if javaMigrationAnalysisId, ok := s.D.GetOkExists("java_migration_analysis_id"); ok {
@@ -134,7 +133,7 @@ func (s *JmsUtilsJavaMigrationAnalysiDataSourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_utils")
 
-	response, err := s.Client.GetJavaMigrationAnalysis(ctx, request)
+	response, err := s.Client.GetJavaMigrationAnalysis(context.Background(), request)
 	if err != nil {
 		return err
 	}

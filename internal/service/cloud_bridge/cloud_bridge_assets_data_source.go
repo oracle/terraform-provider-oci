@@ -6,7 +6,6 @@ package cloud_bridge
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
 
@@ -16,7 +15,7 @@ import (
 
 func CloudBridgeAssetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readCloudBridgeAssetsWithContext,
+		Read: readCloudBridgeAssets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"asset_id": {
@@ -69,12 +68,12 @@ func CloudBridgeAssetsDataSource() *schema.Resource {
 	}
 }
 
-func readCloudBridgeAssetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readCloudBridgeAssets(d *schema.ResourceData, m interface{}) error {
 	sync := &CloudBridgeAssetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).InventoryClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type CloudBridgeAssetsDataSourceCrud struct {
@@ -87,7 +86,7 @@ func (s *CloudBridgeAssetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CloudBridgeAssetsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *CloudBridgeAssetsDataSourceCrud) Get() error {
 	request := oci_cloud_bridge.ListAssetsRequest{}
 
 	if assetId, ok := s.D.GetOkExists("id"); ok {
@@ -130,7 +129,7 @@ func (s *CloudBridgeAssetsDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cloud_bridge")
 
-	response, err := s.Client.ListAssets(ctx, request)
+	response, err := s.Client.ListAssets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -139,7 +138,7 @@ func (s *CloudBridgeAssetsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAssets(ctx, request)
+		listResponse, err := s.Client.ListAssets(context.Background(), request)
 		if err != nil {
 			return err
 		}
