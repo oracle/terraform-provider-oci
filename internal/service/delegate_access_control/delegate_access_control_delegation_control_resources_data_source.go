@@ -6,7 +6,6 @@ package delegate_access_control
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_delegate_access_control "github.com/oracle/oci-go-sdk/v65/delegateaccesscontrol"
 
@@ -16,7 +15,7 @@ import (
 
 func DelegateAccessControlDelegationControlResourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDelegateAccessControlDelegationControlResourcesWithContext,
+		Read: readDelegateAccessControlDelegationControlResources,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"delegation_control_id": {
@@ -61,12 +60,12 @@ func DelegateAccessControlDelegationControlResourcesDataSource() *schema.Resourc
 	}
 }
 
-func readDelegateAccessControlDelegationControlResourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDelegateAccessControlDelegationControlResources(d *schema.ResourceData, m interface{}) error {
 	sync := &DelegateAccessControlDelegationControlResourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DelegateAccessControlDelegationControlResourcesDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *DelegateAccessControlDelegationControlResourcesDataSourceCrud) VoidStat
 	s.D.SetId("")
 }
 
-func (s *DelegateAccessControlDelegationControlResourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DelegateAccessControlDelegationControlResourcesDataSourceCrud) Get() error {
 	request := oci_delegate_access_control.ListDelegationControlResourcesRequest{}
 
 	if delegationControlId, ok := s.D.GetOkExists("delegation_control_id"); ok {
@@ -89,7 +88,7 @@ func (s *DelegateAccessControlDelegationControlResourcesDataSourceCrud) GetWithC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "delegate_access_control")
 
-	response, err := s.Client.ListDelegationControlResources(ctx, request)
+	response, err := s.Client.ListDelegationControlResources(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -98,7 +97,7 @@ func (s *DelegateAccessControlDelegationControlResourcesDataSourceCrud) GetWithC
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDelegationControlResources(ctx, request)
+		listResponse, err := s.Client.ListDelegationControlResources(context.Background(), request)
 		if err != nil {
 			return err
 		}

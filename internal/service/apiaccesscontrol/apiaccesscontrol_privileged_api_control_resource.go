@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_apiaccesscontrol "github.com/oracle/oci-go-sdk/v65/apiaccesscontrol"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func ApiaccesscontrolPrivilegedApiControlResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createApiaccesscontrolPrivilegedApiControlWithContext,
-		ReadContext:   readApiaccesscontrolPrivilegedApiControlWithContext,
-		UpdateContext: updateApiaccesscontrolPrivilegedApiControlWithContext,
-		DeleteContext: deleteApiaccesscontrolPrivilegedApiControlWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createApiaccesscontrolPrivilegedApiControl,
+		Read:     readApiaccesscontrolPrivilegedApiControl,
+		Update:   updateApiaccesscontrolPrivilegedApiControl,
+		Delete:   deleteApiaccesscontrolPrivilegedApiControl,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"approver_group_id_list": {
@@ -153,40 +153,40 @@ func ApiaccesscontrolPrivilegedApiControlResource() *schema.Resource {
 	}
 }
 
-func createApiaccesscontrolPrivilegedApiControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createApiaccesscontrolPrivilegedApiControl(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiaccesscontrolPrivilegedApiControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApiaccesscontrolPrivilegedApiWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readApiaccesscontrolPrivilegedApiControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApiaccesscontrolPrivilegedApiControl(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiaccesscontrolPrivilegedApiControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiControlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateApiaccesscontrolPrivilegedApiControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateApiaccesscontrolPrivilegedApiControl(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiaccesscontrolPrivilegedApiControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApiaccesscontrolPrivilegedApiWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteApiaccesscontrolPrivilegedApiControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteApiaccesscontrolPrivilegedApiControl(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiaccesscontrolPrivilegedApiControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiControlClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).ApiaccesscontrolPrivilegedApiWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ApiaccesscontrolPrivilegedApiControlResourceCrud struct {
@@ -226,7 +226,7 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) Create() error {
 	request := oci_apiaccesscontrol.CreatePrivilegedApiControlRequest{}
 
 	if approverGroupIdList, ok := s.D.GetOkExists("approver_group_id_list"); ok {
@@ -316,7 +316,7 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) CreateWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol")
 
-	response, err := s.Client.CreatePrivilegedApiControl(ctx, request)
+	response, err := s.Client.CreatePrivilegedApiControl(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -327,20 +327,20 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) CreateWithContext(ctx
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getPrivilegedApiControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPrivilegedApiControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) getPrivilegedApiControlFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) getPrivilegedApiControlFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apiaccesscontrol.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	privilegedApiControlId, err := privilegedApiControlWaitForWorkRequest(ctx, workId, "privilegedapicontrol",
+	privilegedApiControlId, err := privilegedApiControlWaitForWorkRequest(workId, "privilegedapicontrol",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, privilegedApiControlId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apiaccesscontrol.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -354,7 +354,7 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) getPrivilegedApiContr
 	}
 	s.D.SetId(*privilegedApiControlId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func privilegedApiControlWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -380,7 +380,7 @@ func privilegedApiControlWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func privilegedApiControlWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_apiaccesscontrol.ActionTypeEnum,
+func privilegedApiControlWaitForWorkRequest(wId *string, entityType string, action oci_apiaccesscontrol.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apiaccesscontrol.PrivilegedApiWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apiaccesscontrol")
 	retryPolicy.ShouldRetryOperation = privilegedApiControlWorkRequestShouldRetryFunc(timeout)
@@ -399,7 +399,7 @@ func privilegedApiControlWaitForWorkRequest(ctx context.Context, wId *string, en
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_apiaccesscontrol.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -428,14 +428,14 @@ func privilegedApiControlWaitForWorkRequest(ctx context.Context, wId *string, en
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apiaccesscontrol.OperationStatusFailed || response.Status == oci_apiaccesscontrol.OperationStatusCanceled {
-		return nil, getErrorFromApiaccesscontrolPrivilegedApiControlWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApiaccesscontrolPrivilegedApiControlWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApiaccesscontrolPrivilegedApiControlWorkRequest(ctx context.Context, client *oci_apiaccesscontrol.PrivilegedApiWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apiaccesscontrol.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromApiaccesscontrolPrivilegedApiControlWorkRequest(client *oci_apiaccesscontrol.PrivilegedApiWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apiaccesscontrol.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_apiaccesscontrol.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -457,7 +457,7 @@ func getErrorFromApiaccesscontrolPrivilegedApiControlWorkRequest(ctx context.Con
 	return workRequestErr
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) Get() error {
 	request := oci_apiaccesscontrol.GetPrivilegedApiControlRequest{}
 
 	tmp := s.D.Id()
@@ -465,7 +465,7 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol")
 
-	response, err := s.Client.GetPrivilegedApiControl(ctx, request)
+	response, err := s.Client.GetPrivilegedApiControl(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -474,11 +474,11 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) GetWithContext(ctx co
 	return nil
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -571,16 +571,16 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) UpdateWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol")
 
-	response, err := s.Client.UpdatePrivilegedApiControl(ctx, request)
+	response, err := s.Client.UpdatePrivilegedApiControl(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivilegedApiControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivilegedApiControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) Delete() error {
 	request := oci_apiaccesscontrol.DeletePrivilegedApiControlRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -593,14 +593,14 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) DeleteWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol")
 
-	response, err := s.Client.DeletePrivilegedApiControl(ctx, request)
+	response, err := s.Client.DeletePrivilegedApiControl(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := privilegedApiControlWaitForWorkRequest(ctx, workId, "privilegedapicontrol",
+	_, delWorkRequestErr := privilegedApiControlWaitForWorkRequest(workId, "privilegedapicontrol",
 		oci_apiaccesscontrol.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -776,7 +776,7 @@ func PrivilegedApiDetailsToMap(obj oci_apiaccesscontrol.PrivilegedApiDetails) ma
 	return result
 }
 
-func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_apiaccesscontrol.ChangePrivilegedApiControlCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -787,11 +787,11 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) updateCompartment(ctx
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol")
 
-	response, err := s.Client.ChangePrivilegedApiControlCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangePrivilegedApiControlCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivilegedApiControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivilegedApiControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apiaccesscontrol"), oci_apiaccesscontrol.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

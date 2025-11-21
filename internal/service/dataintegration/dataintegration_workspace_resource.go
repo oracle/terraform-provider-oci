@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v65/dataintegration"
 )
@@ -31,10 +31,10 @@ func DataintegrationWorkspaceResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		CreateContext: createDataintegrationWorkspaceWithContext,
-		ReadContext:   readDataintegrationWorkspaceWithContext,
-		UpdateContext: updateDataintegrationWorkspaceWithContext,
-		DeleteContext: deleteDataintegrationWorkspaceWithContext,
+		Create: createDataintegrationWorkspace,
+		Read:   readDataintegrationWorkspace,
+		Update: updateDataintegrationWorkspace,
+		Delete: deleteDataintegrationWorkspace,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -163,37 +163,37 @@ func DataintegrationWorkspaceResource() *schema.Resource {
 	}
 }
 
-func createDataintegrationWorkspaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDataintegrationWorkspace(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDataintegrationWorkspaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataintegrationWorkspace(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDataintegrationWorkspaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDataintegrationWorkspace(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDataintegrationWorkspaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDataintegrationWorkspace(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DataintegrationWorkspaceResourceCrud struct {
@@ -232,7 +232,7 @@ func (s *DataintegrationWorkspaceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 	request := oci_dataintegration.CreateWorkspaceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -319,14 +319,14 @@ func (s *DataintegrationWorkspaceResourceCrud) CreateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	response, err := s.Client.CreateWorkspace(ctx, request)
+	response, err := s.Client.CreateWorkspace(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_dataintegration.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_dataintegration.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -342,14 +342,14 @@ func (s *DataintegrationWorkspaceResourceCrud) CreateWithContext(ctx context.Con
 			}
 		}
 	}
-	return s.getWorkspaceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) getWorkspaceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataintegrationWorkspaceResourceCrud) getWorkspaceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dataintegration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	workspaceId, err := workspaceWaitForWorkRequest(ctx, workId, "disworkspace",
+	workspaceId, err := workspaceWaitForWorkRequest(workId, "disworkspace",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -359,7 +359,7 @@ func (s *DataintegrationWorkspaceResourceCrud) getWorkspaceFromWorkRequest(ctx c
 	}
 	s.D.SetId(*workspaceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func workspaceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -385,7 +385,7 @@ func workspaceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func workspaceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum,
+func workspaceWaitForWorkRequest(wId *string, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataintegration.DataIntegrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dataintegration")
 	retryPolicy.ShouldRetryOperation = workspaceWorkRequestShouldRetryFunc(timeout)
@@ -404,7 +404,7 @@ func workspaceWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_dataintegration.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -433,14 +433,14 @@ func workspaceWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dataintegration.WorkRequestStatusFailed || response.Status == oci_dataintegration.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataintegrationWorkspaceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataintegrationWorkspaceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataintegrationWorkspaceWorkRequest(ctx context.Context, client *oci_dataintegration.DataIntegrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDataintegrationWorkspaceWorkRequest(client *oci_dataintegration.DataIntegrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dataintegration.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -462,7 +462,7 @@ func getErrorFromDataintegrationWorkspaceWorkRequest(ctx context.Context, client
 	return workRequestErr
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspaceResourceCrud) Get() error {
 	request := oci_dataintegration.GetWorkspaceRequest{}
 
 	tmp := s.D.Id()
@@ -470,7 +470,7 @@ func (s *DataintegrationWorkspaceResourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	response, err := s.Client.GetWorkspace(ctx, request)
+	response, err := s.Client.GetWorkspace(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -479,11 +479,11 @@ func (s *DataintegrationWorkspaceResourceCrud) GetWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspaceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -518,16 +518,16 @@ func (s *DataintegrationWorkspaceResourceCrud) UpdateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	response, err := s.Client.UpdateWorkspace(ctx, request)
+	response, err := s.Client.UpdateWorkspace(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspaceResourceCrud) Delete() error {
 	request := oci_dataintegration.DeleteWorkspaceRequest{}
 
 	if isForceOperation, ok := s.D.GetOkExists("is_force_operation"); ok {
@@ -549,14 +549,14 @@ func (s *DataintegrationWorkspaceResourceCrud) DeleteWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	response, err := s.Client.DeleteWorkspace(ctx, request)
+	response, err := s.Client.DeleteWorkspace(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := workspaceWaitForWorkRequest(ctx, workId, "disworkspace",
+	_, delWorkRequestErr := workspaceWaitForWorkRequest(workId, "disworkspace",
 		oci_dataintegration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -629,7 +629,7 @@ func (s *DataintegrationWorkspaceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dataintegration.ChangeCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -640,11 +640,11 @@ func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(ctx context.Con
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
-	response, err := s.Client.ChangeCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disworkspace"), oci_dataintegration.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,7 +6,6 @@ package network_firewall
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_network_firewall "github.com/oracle/oci-go-sdk/v65/networkfirewall"
 
@@ -20,15 +19,15 @@ func NetworkFirewallNetworkFirewallDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(NetworkFirewallNetworkFirewallResource(), fieldMap, readSingularNetworkFirewallNetworkFirewallWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(NetworkFirewallNetworkFirewallResource(), fieldMap, readSingularNetworkFirewallNetworkFirewall)
 }
 
-func readSingularNetworkFirewallNetworkFirewallWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularNetworkFirewallNetworkFirewall(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkFirewallNetworkFirewallDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkFirewallNetworkFirewallDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *NetworkFirewallNetworkFirewallDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkFirewallNetworkFirewallDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkFirewallNetworkFirewallDataSourceCrud) Get() error {
 	request := oci_network_firewall.GetNetworkFirewallRequest{}
 
 	if networkFirewallId, ok := s.D.GetOkExists("network_firewall_id"); ok {
@@ -51,7 +50,7 @@ func (s *NetworkFirewallNetworkFirewallDataSourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_firewall")
 
-	response, err := s.Client.GetNetworkFirewall(ctx, request)
+	response, err := s.Client.GetNetworkFirewall(context.Background(), request)
 	if err != nil {
 		return err
 	}

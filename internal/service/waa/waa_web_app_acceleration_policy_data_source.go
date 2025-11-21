@@ -6,7 +6,6 @@ package waa
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 
@@ -20,15 +19,15 @@ func WaaWebAppAccelerationPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(WaaWebAppAccelerationPolicyResource(), fieldMap, readSingularWaaWebAppAccelerationPolicyWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(WaaWebAppAccelerationPolicyResource(), fieldMap, readSingularWaaWebAppAccelerationPolicy)
 }
 
-func readSingularWaaWebAppAccelerationPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularWaaWebAppAccelerationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaaWebAppAccelerationPolicyDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *WaaWebAppAccelerationPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaaWebAppAccelerationPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationPolicyDataSourceCrud) Get() error {
 	request := oci_waa.GetWebAppAccelerationPolicyRequest{}
 
 	if webAppAccelerationPolicyId, ok := s.D.GetOkExists("web_app_acceleration_policy_id"); ok {
@@ -51,7 +50,7 @@ func (s *WaaWebAppAccelerationPolicyDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waa")
 
-	response, err := s.Client.GetWebAppAccelerationPolicy(ctx, request)
+	response, err := s.Client.GetWebAppAccelerationPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package managed_kafka
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_managed_kafka "github.com/oracle/oci-go-sdk/v65/managedkafka"
 
@@ -16,7 +15,7 @@ import (
 
 func ManagedKafkaKafkaClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readManagedKafkaKafkaClustersWithContext,
+		Read: readManagedKafkaKafkaClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func ManagedKafkaKafkaClustersDataSource() *schema.Resource {
 	}
 }
 
-func readManagedKafkaKafkaClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readManagedKafkaKafkaClusters(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ManagedKafkaKafkaClustersDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *ManagedKafkaKafkaClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ManagedKafkaKafkaClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClustersDataSourceCrud) Get() error {
 	request := oci_managed_kafka.ListKafkaClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *ManagedKafkaKafkaClustersDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "managed_kafka")
 
-	response, err := s.Client.ListKafkaClusters(ctx, request)
+	response, err := s.Client.ListKafkaClusters(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *ManagedKafkaKafkaClustersDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListKafkaClusters(ctx, request)
+		listResponse, err := s.Client.ListKafkaClusters(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,7 +6,6 @@ package security_attribute
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_security_attribute "github.com/oracle/oci-go-sdk/v65/securityattribute"
 
@@ -24,15 +23,15 @@ func SecurityAttributeSecurityAttributeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(SecurityAttributeSecurityAttributeResource(), fieldMap, readSingularSecurityAttributeSecurityAttributeWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(SecurityAttributeSecurityAttributeResource(), fieldMap, readSingularSecurityAttributeSecurityAttribute)
 }
 
-func readSingularSecurityAttributeSecurityAttributeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularSecurityAttributeSecurityAttribute(d *schema.ResourceData, m interface{}) error {
 	sync := &SecurityAttributeSecurityAttributeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SecurityAttributeClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type SecurityAttributeSecurityAttributeDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *SecurityAttributeSecurityAttributeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SecurityAttributeSecurityAttributeDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *SecurityAttributeSecurityAttributeDataSourceCrud) Get() error {
 	request := oci_security_attribute.GetSecurityAttributeRequest{}
 
 	if securityAttributeName, ok := s.D.GetOkExists("security_attribute_name"); ok {
@@ -60,7 +59,7 @@ func (s *SecurityAttributeSecurityAttributeDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "security_attribute")
 
-	response, err := s.Client.GetSecurityAttribute(ctx, request)
+	response, err := s.Client.GetSecurityAttribute(context.Background(), request)
 	if err != nil {
 		return err
 	}

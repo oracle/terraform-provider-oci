@@ -6,7 +6,6 @@ package vbs_inst
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_vbs_inst "github.com/oracle/oci-go-sdk/v65/vbsinst"
 
@@ -20,15 +19,15 @@ func VbsInstVbsInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(VbsInstVbsInstanceResource(), fieldMap, readSingularVbsInstVbsInstanceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(VbsInstVbsInstanceResource(), fieldMap, readSingularVbsInstVbsInstance)
 }
 
-func readSingularVbsInstVbsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularVbsInstVbsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &VbsInstVbsInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbsInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type VbsInstVbsInstanceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *VbsInstVbsInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VbsInstVbsInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *VbsInstVbsInstanceDataSourceCrud) Get() error {
 	request := oci_vbs_inst.GetVbsInstanceRequest{}
 
 	if vbsInstanceId, ok := s.D.GetOkExists("vbs_instance_id"); ok {
@@ -51,7 +50,7 @@ func (s *VbsInstVbsInstanceDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "vbs_inst")
 
-	response, err := s.Client.GetVbsInstance(ctx, request)
+	response, err := s.Client.GetVbsInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

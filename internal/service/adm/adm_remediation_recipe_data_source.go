@@ -6,7 +6,6 @@ package adm
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 
@@ -20,15 +19,15 @@ func AdmRemediationRecipeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(AdmRemediationRecipeResource(), fieldMap, readSingularAdmRemediationRecipeWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(AdmRemediationRecipeResource(), fieldMap, readSingularAdmRemediationRecipe)
 }
 
-func readSingularAdmRemediationRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularAdmRemediationRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AdmRemediationRecipeDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *AdmRemediationRecipeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AdmRemediationRecipeDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipeDataSourceCrud) Get() error {
 	request := oci_adm.GetRemediationRecipeRequest{}
 
 	if remediationRecipeId, ok := s.D.GetOkExists("remediation_recipe_id"); ok {
@@ -51,7 +50,7 @@ func (s *AdmRemediationRecipeDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "adm")
 
-	response, err := s.Client.GetRemediationRecipe(ctx, request)
+	response, err := s.Client.GetRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}

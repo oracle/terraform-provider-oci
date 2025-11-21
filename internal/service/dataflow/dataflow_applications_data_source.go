@@ -6,17 +6,16 @@ package dataflow
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 )
 
 func DataflowApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDataflowApplicationsWithContext,
+		Read: readDataflowApplications,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +47,12 @@ func DataflowApplicationsDataSource() *schema.Resource {
 	}
 }
 
-func readDataflowApplicationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataflowApplications(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataflowApplicationsDataSourceCrud struct {
@@ -66,7 +65,7 @@ func (s *DataflowApplicationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowApplicationsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataflowApplicationsDataSourceCrud) Get() error {
 	request := oci_dataflow.ListApplicationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -96,7 +95,7 @@ func (s *DataflowApplicationsDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.ListApplications(ctx, request)
+	response, err := s.Client.ListApplications(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -105,7 +104,7 @@ func (s *DataflowApplicationsDataSourceCrud) GetWithContext(ctx context.Context)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListApplications(ctx, request)
+		listResponse, err := s.Client.ListApplications(context.Background(), request)
 		if err != nil {
 			return err
 		}

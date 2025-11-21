@@ -6,7 +6,6 @@ package sch
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func SchServiceConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(SchServiceConnectorResource(), fieldMap, readSingularSchServiceConnectorWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(SchServiceConnectorResource(), fieldMap, readSingularSchServiceConnector)
 }
 
-func readSingularSchServiceConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularSchServiceConnector(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type SchServiceConnectorDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *SchServiceConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SchServiceConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorDataSourceCrud) Get() error {
 	request := oci_sch.GetServiceConnectorRequest{}
 
 	if serviceConnectorId, ok := s.D.GetOkExists("service_connector_id"); ok {
@@ -51,7 +50,7 @@ func (s *SchServiceConnectorDataSourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "sch")
 
-	response, err := s.Client.GetServiceConnector(ctx, request)
+	response, err := s.Client.GetServiceConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}

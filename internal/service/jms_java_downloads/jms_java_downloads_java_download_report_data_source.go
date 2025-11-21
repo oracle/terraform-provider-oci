@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -22,15 +21,15 @@ func JmsJavaDownloadsJavaDownloadReportDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(JmsJavaDownloadsJavaDownloadReportResource(), fieldMap, readSingularJmsJavaDownloadsJavaDownloadReportWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(JmsJavaDownloadsJavaDownloadReportResource(), fieldMap, readSingularJmsJavaDownloadsJavaDownloadReport)
 }
 
-func readSingularJmsJavaDownloadsJavaDownloadReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsJavaDownloadsJavaDownloadReport(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadReportDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsJavaDownloadsJavaDownloadReportDataSourceCrud struct {
@@ -43,7 +42,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadReportDataSourceCrud) Get() error {
 	request := oci_jms_java_downloads.GetJavaDownloadReportRequest{}
 
 	if javaDownloadReportId, ok := s.D.GetOkExists("java_download_report_id"); ok {
@@ -53,7 +52,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_java_downloads")
 
-	response, err := s.Client.GetJavaDownloadReport(ctx, request)
+	response, err := s.Client.GetJavaDownloadReport(context.Background(), request)
 	if err != nil {
 		return err
 	}

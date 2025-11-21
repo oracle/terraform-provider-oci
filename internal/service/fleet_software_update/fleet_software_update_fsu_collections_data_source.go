@@ -6,7 +6,6 @@ package fleet_software_update
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -16,7 +15,7 @@ import (
 
 func FleetSoftwareUpdateFsuCollectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFleetSoftwareUpdateFsuCollectionsWithContext,
+		Read: readFleetSoftwareUpdateFsuCollections,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func FleetSoftwareUpdateFsuCollectionsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetSoftwareUpdateFsuCollectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFleetSoftwareUpdateFsuCollections(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCollectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FleetSoftwareUpdateFsuCollectionsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *FleetSoftwareUpdateFsuCollectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetSoftwareUpdateFsuCollectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCollectionsDataSourceCrud) Get() error {
 	request := oci_fleet_software_update.ListFsuCollectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +93,7 @@ func (s *FleetSoftwareUpdateFsuCollectionsDataSourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_software_update")
 
-	response, err := s.Client.ListFsuCollections(ctx, request)
+	response, err := s.Client.ListFsuCollections(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +102,7 @@ func (s *FleetSoftwareUpdateFsuCollectionsDataSourceCrud) GetWithContext(ctx con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFsuCollections(ctx, request)
+		listResponse, err := s.Client.ListFsuCollections(context.Background(), request)
 		if err != nil {
 			return err
 		}

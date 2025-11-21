@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_zpr "github.com/oracle/oci-go-sdk/v65/zpr"
 
@@ -24,11 +24,11 @@ func ZprZprPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createZprZprPolicyWithContext,
-		ReadContext:   readZprZprPolicyWithContext,
-		UpdateContext: updateZprZprPolicyWithContext,
-		DeleteContext: deleteZprZprPolicyWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createZprZprPolicy,
+		Read:     readZprZprPolicy,
+		Update:   updateZprZprPolicy,
+		Delete:   deleteZprZprPolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -94,37 +94,37 @@ func ZprZprPolicyResource() *schema.Resource {
 	}
 }
 
-func createZprZprPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createZprZprPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ZprZprPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readZprZprPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readZprZprPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ZprZprPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateZprZprPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateZprZprPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ZprZprPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteZprZprPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteZprZprPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ZprZprPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ZprZprPolicyResourceCrud struct {
@@ -162,7 +162,7 @@ func (s *ZprZprPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ZprZprPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ZprZprPolicyResourceCrud) Create() error {
 	request := oci_zpr.CreateZprPolicyRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -207,7 +207,7 @@ func (s *ZprZprPolicyResourceCrud) CreateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr")
 
-	response, err := s.Client.CreateZprPolicy(ctx, request)
+	response, err := s.Client.CreateZprPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -218,14 +218,14 @@ func (s *ZprZprPolicyResourceCrud) CreateWithContext(ctx context.Context) error 
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getZprPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr"), oci_zpr.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getZprPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr"), oci_zpr.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ZprZprPolicyResourceCrud) getZprPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ZprZprPolicyResourceCrud) getZprPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_zpr.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	zprPolicyId, err := zprPolicyWaitForWorkRequest(ctx, workId, "zprpolicy",
+	zprPolicyId, err := zprPolicyWaitForWorkRequest(workId, "zprpolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -233,7 +233,7 @@ func (s *ZprZprPolicyResourceCrud) getZprPolicyFromWorkRequest(ctx context.Conte
 	}
 	s.D.SetId(*zprPolicyId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func zprPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -259,7 +259,7 @@ func zprPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func zprPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_zpr.ActionTypeEnum,
+func zprPolicyWaitForWorkRequest(wId *string, entityType string, action oci_zpr.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_zpr.ZprClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "zpr")
 	retryPolicy.ShouldRetryOperation = zprPolicyWorkRequestShouldRetryFunc(timeout)
@@ -307,14 +307,14 @@ func zprPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_zpr.WorkRequestStatusFailed || response.Status == oci_zpr.WorkRequestStatusCanceled {
-		return nil, getErrorFromZprZprPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromZprZprPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromZprZprPolicyWorkRequest(ctx context.Context, client *oci_zpr.ZprClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_zpr.ActionTypeEnum) error {
-	response, err := client.ListZprPolicyWorkRequestErrors(ctx,
+func getErrorFromZprZprPolicyWorkRequest(client *oci_zpr.ZprClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_zpr.ActionTypeEnum) error {
+	response, err := client.ListZprPolicyWorkRequestErrors(context.Background(),
 		oci_zpr.ListZprPolicyWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -336,7 +336,7 @@ func getErrorFromZprZprPolicyWorkRequest(ctx context.Context, client *oci_zpr.Zp
 	return workRequestErr
 }
 
-func (s *ZprZprPolicyResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ZprZprPolicyResourceCrud) Get() error {
 	request := oci_zpr.GetZprPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -344,7 +344,7 @@ func (s *ZprZprPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr")
 
-	response, err := s.Client.GetZprPolicy(ctx, request)
+	response, err := s.Client.GetZprPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -353,7 +353,7 @@ func (s *ZprZprPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *ZprZprPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ZprZprPolicyResourceCrud) Update() error {
 	request := oci_zpr.UpdateZprPolicyRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -391,16 +391,16 @@ func (s *ZprZprPolicyResourceCrud) UpdateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr")
 
-	response, err := s.Client.UpdateZprPolicy(ctx, request)
+	response, err := s.Client.UpdateZprPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getZprPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr"), oci_zpr.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getZprPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr"), oci_zpr.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ZprZprPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ZprZprPolicyResourceCrud) Delete() error {
 	request := oci_zpr.DeleteZprPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -408,14 +408,14 @@ func (s *ZprZprPolicyResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "zpr")
 
-	response, err := s.Client.DeleteZprPolicy(ctx, request)
+	response, err := s.Client.DeleteZprPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := zprPolicyWaitForWorkRequest(ctx, workId, "zprpolicy",
+	_, delWorkRequestErr := zprPolicyWaitForWorkRequest(workId, "zprpolicy",
 		oci_zpr.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

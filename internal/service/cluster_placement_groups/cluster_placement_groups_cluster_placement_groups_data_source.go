@@ -6,7 +6,6 @@ package cluster_placement_groups
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_cluster_placement_groups "github.com/oracle/oci-go-sdk/v65/clusterplacementgroups"
 
@@ -16,7 +15,7 @@ import (
 
 func ClusterPlacementGroupsClusterPlacementGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readClusterPlacementGroupsClusterPlacementGroupsWithContext,
+		Read: readClusterPlacementGroupsClusterPlacementGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"ad": {
@@ -61,12 +60,12 @@ func ClusterPlacementGroupsClusterPlacementGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readClusterPlacementGroupsClusterPlacementGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readClusterPlacementGroupsClusterPlacementGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterPlacementGroupsCPClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud) VoidState()
 	s.D.SetId("")
 }
 
-func (s *ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud) Get() error {
 	request := oci_cluster_placement_groups.ListClusterPlacementGroupsRequest{}
 
 	if ad, ok := s.D.GetOkExists("ad"); ok {
@@ -113,7 +112,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud) GetWithCont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "cluster_placement_groups")
 
-	response, err := s.Client.ListClusterPlacementGroups(ctx, request)
+	response, err := s.Client.ListClusterPlacementGroups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -122,7 +121,7 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupsDataSourceCrud) GetWithCont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListClusterPlacementGroups(ctx, request)
+		listResponse, err := s.Client.ListClusterPlacementGroups(context.Background(), request)
 		if err != nil {
 			return err
 		}

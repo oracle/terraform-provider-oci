@@ -6,7 +6,6 @@ package adm
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 
@@ -16,7 +15,7 @@ import (
 
 func AdmRemediationRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readAdmRemediationRecipesWithContext,
+		Read: readAdmRemediationRecipes,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func AdmRemediationRecipesDataSource() *schema.Resource {
 	}
 }
 
-func readAdmRemediationRecipesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAdmRemediationRecipes(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AdmRemediationRecipesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *AdmRemediationRecipesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AdmRemediationRecipesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipesDataSourceCrud) Get() error {
 	request := oci_adm.ListRemediationRecipesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *AdmRemediationRecipesDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "adm")
 
-	response, err := s.Client.ListRemediationRecipes(ctx, request)
+	response, err := s.Client.ListRemediationRecipes(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *AdmRemediationRecipesDataSourceCrud) GetWithContext(ctx context.Context
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRemediationRecipes(ctx, request)
+		listResponse, err := s.Client.ListRemediationRecipes(context.Background(), request)
 		if err != nil {
 			return err
 		}

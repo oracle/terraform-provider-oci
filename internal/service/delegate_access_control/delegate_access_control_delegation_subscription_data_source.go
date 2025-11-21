@@ -6,7 +6,6 @@ package delegate_access_control
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_delegate_access_control "github.com/oracle/oci-go-sdk/v65/delegateaccesscontrol"
 
@@ -20,15 +19,15 @@ func DelegateAccessControlDelegationSubscriptionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DelegateAccessControlDelegationSubscriptionResource(), fieldMap, readSingularDelegateAccessControlDelegationSubscriptionWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DelegateAccessControlDelegationSubscriptionResource(), fieldMap, readSingularDelegateAccessControlDelegationSubscription)
 }
 
-func readSingularDelegateAccessControlDelegationSubscriptionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDelegateAccessControlDelegationSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &DelegateAccessControlDelegationSubscriptionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DelegateAccessControlDelegationSubscriptionDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DelegateAccessControlDelegationSubscriptionDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *DelegateAccessControlDelegationSubscriptionDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DelegateAccessControlDelegationSubscriptionDataSourceCrud) Get() error {
 	request := oci_delegate_access_control.GetDelegationSubscriptionRequest{}
 
 	if delegationSubscriptionId, ok := s.D.GetOkExists("delegation_subscription_id"); ok {
@@ -51,7 +50,7 @@ func (s *DelegateAccessControlDelegationSubscriptionDataSourceCrud) GetWithConte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "delegate_access_control")
 
-	response, err := s.Client.GetDelegationSubscription(ctx, request)
+	response, err := s.Client.GetDelegationSubscription(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package bastion
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func BastionBastionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readBastionBastionsWithContext,
+		Read: readBastionBastions,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bastion_id": {
@@ -44,12 +43,12 @@ func BastionBastionsDataSource() *schema.Resource {
 	}
 }
 
-func readBastionBastionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readBastionBastions(d *schema.ResourceData, m interface{}) error {
 	sync := &BastionBastionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type BastionBastionsDataSourceCrud struct {
@@ -62,7 +61,7 @@ func (s *BastionBastionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BastionBastionsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *BastionBastionsDataSourceCrud) Get() error {
 	request := oci_bastion.ListBastionsRequest{}
 
 	if bastionId, ok := s.D.GetOkExists("id"); ok {
@@ -86,7 +85,7 @@ func (s *BastionBastionsDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bastion")
 
-	response, err := s.Client.ListBastions(ctx, request)
+	response, err := s.Client.ListBastions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *BastionBastionsDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBastions(ctx, request)
+		listResponse, err := s.Client.ListBastions(context.Background(), request)
 		if err != nil {
 			return err
 		}

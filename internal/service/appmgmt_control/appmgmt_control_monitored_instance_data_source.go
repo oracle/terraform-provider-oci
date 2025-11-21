@@ -6,8 +6,6 @@ package appmgmt_control
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -17,7 +15,7 @@ import (
 
 func AppmgmtControlMonitoredInstanceDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularAppmgmtControlMonitoredInstanceWithContext,
+		Read: readSingularAppmgmtControlMonitoredInstance,
 		Schema: map[string]*schema.Schema{
 			"monitored_instance_id": {
 				Type:     schema.TypeString,
@@ -64,12 +62,12 @@ func AppmgmtControlMonitoredInstanceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAppmgmtControlMonitoredInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularAppmgmtControlMonitoredInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AppmgmtControlMonitoredInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AppmgmtControlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AppmgmtControlMonitoredInstanceDataSourceCrud struct {
@@ -82,7 +80,7 @@ func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) Get() error {
 	request := oci_appmgmt_control.GetMonitoredInstanceRequest{}
 
 	if monitoredInstanceId, ok := s.D.GetOkExists("monitored_instance_id"); ok {
@@ -92,7 +90,7 @@ func (s *AppmgmtControlMonitoredInstanceDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "appmgmt_control")
 
-	response, err := s.Client.GetMonitoredInstance(ctx, request)
+	response, err := s.Client.GetMonitoredInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}

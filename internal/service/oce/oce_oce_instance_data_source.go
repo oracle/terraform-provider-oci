@@ -6,12 +6,11 @@ package oce
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
 )
 
 func OceOceInstanceDataSource() *schema.Resource {
@@ -20,15 +19,15 @@ func OceOceInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(OceOceInstanceResource(), fieldMap, readSingularOceOceInstanceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(OceOceInstanceResource(), fieldMap, readSingularOceOceInstance)
 }
 
-func readSingularOceOceInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularOceOceInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OceOceInstanceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *OceOceInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OceOceInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OceOceInstanceDataSourceCrud) Get() error {
 	request := oci_oce.GetOceInstanceRequest{}
 
 	if oceInstanceId, ok := s.D.GetOkExists("oce_instance_id"); ok {
@@ -51,7 +50,7 @@ func (s *OceOceInstanceDataSourceCrud) GetWithContext(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oce")
 
-	response, err := s.Client.GetOceInstance(ctx, request)
+	response, err := s.Client.GetOceInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -114,6 +113,7 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 	if s.Res.ObjectStorageNamespace != nil {
 		s.D.Set("object_storage_namespace", *s.Res.ObjectStorageNamespace)
 	}
+
 	s.D.Set("service", tfresource.GenericMapToJsonMap(s.Res.Service))
 
 	s.D.Set("state", s.Res.LifecycleState)

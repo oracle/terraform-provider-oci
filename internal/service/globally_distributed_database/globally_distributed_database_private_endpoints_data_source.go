@@ -6,7 +6,6 @@ package globally_distributed_database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -16,7 +15,7 @@ import (
 
 func GloballyDistributedDatabasePrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGloballyDistributedDatabasePrivateEndpointsWithContext,
+		Read: readGloballyDistributedDatabasePrivateEndpoints,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -49,12 +48,12 @@ func GloballyDistributedDatabasePrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readGloballyDistributedDatabasePrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGloballyDistributedDatabasePrivateEndpoints(d *schema.ResourceData, m interface{}) error {
 	sync := &GloballyDistributedDatabasePrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GloballyDistributedDatabasePrivateEndpointsDataSourceCrud struct {
@@ -67,7 +66,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointsDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GloballyDistributedDatabasePrivateEndpointsDataSourceCrud) Get() error {
 	request := oci_globally_distributed_database.ListPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +85,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointsDataSourceCrud) GetWithConte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "globally_distributed_database")
 
-	response, err := s.Client.ListPrivateEndpoints(ctx, request)
+	response, err := s.Client.ListPrivateEndpoints(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointsDataSourceCrud) GetWithConte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPrivateEndpoints(ctx, request)
+		listResponse, err := s.Client.ListPrivateEndpoints(context.Background(), request)
 		if err != nil {
 			return err
 		}

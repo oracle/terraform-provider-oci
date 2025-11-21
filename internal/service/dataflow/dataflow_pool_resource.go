@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
@@ -26,11 +26,11 @@ func DataflowPoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDataflowPoolWithContext,
-		ReadContext:   readDataflowPoolWithContext,
-		UpdateContext: updateDataflowPoolWithContext,
-		DeleteContext: deleteDataflowPoolWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDataflowPool,
+		Read:     readDataflowPool,
+		Update:   updateDataflowPool,
+		Delete:   deleteDataflowPool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -150,9 +150,6 @@ func DataflowPoolResource() *schema.Resource {
 				},
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_dataflow.PoolLifecycleStateAccepted),
 					string(oci_dataflow.PoolLifecycleStateScheduled),
@@ -165,6 +162,9 @@ func DataflowPoolResource() *schema.Resource {
 					string(oci_dataflow.PoolLifecycleStateDeleted),
 					string(oci_dataflow.PoolLifecycleStateFailed),
 				}, true),
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -246,7 +246,7 @@ func DataflowPoolResource() *schema.Resource {
 	}
 }
 
-func createDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDataflowPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
@@ -258,13 +258,13 @@ func createDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopPool(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopPool(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_dataflow.PoolLifecycleStateDeleted)
 	}
@@ -272,15 +272,15 @@ func createDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, 
 
 }
 
-func readDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataflowPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDataflowPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
@@ -297,19 +297,19 @@ func updateDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	if powerOn {
-		if err := sync.StartPool(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartPool(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_dataflow.PoolLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if powerOff {
-		if err := sync.StopPool(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopPool(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_dataflow.PoolLifecycleStateDeleted)
 	}
@@ -317,13 +317,13 @@ func updateDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func deleteDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDataflowPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DataflowPoolResourceCrud struct {
@@ -364,7 +364,7 @@ func (s *DataflowPoolResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataflowPoolResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) Create() error {
 	request := oci_dataflow.CreatePoolRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -435,7 +435,7 @@ func (s *DataflowPoolResourceCrud) CreateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.CreatePool(ctx, request)
+	response, err := s.Client.CreatePool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -443,19 +443,21 @@ func (s *DataflowPoolResourceCrud) CreateWithContext(ctx context.Context) error 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
 		fmt.Println("returning from create fn here is workId: ", workId)
-		return s.getPoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+		return s.getPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	} else {
 		fmt.Println("returning from create fn here is workId is nill")
 		s.Res = &response.Pool
 		return nil
 	}
+
 }
 
-func (s *DataflowPoolResourceCrud) getPoolFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataflowPoolResourceCrud) getPoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_dataflow.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
+	fmt.Println("about to call poolWaitForWorkRequest")
 	// Wait until it finishes
-	poolId, err := poolWaitForWorkRequest(ctx, workId, "pool",
+	poolId, err := poolWaitForWorkRequest(workId, "dataflow",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -463,7 +465,7 @@ func (s *DataflowPoolResourceCrud) getPoolFromWorkRequest(ctx context.Context, w
 	}
 	s.D.SetId(*poolId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func poolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -489,7 +491,7 @@ func poolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 	}
 }
 
-func poolWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum,
+func poolWaitForWorkRequest(wId *string, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataflow.DataFlowClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dataflow")
 	retryPolicy.ShouldRetryOperation = poolWorkRequestShouldRetryFunc(timeout)
@@ -509,7 +511,7 @@ func poolWaitForWorkRequest(ctx context.Context, wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_dataflow.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -542,14 +544,14 @@ func poolWaitForWorkRequest(ctx context.Context, wId *string, entityType string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_dataflow.WorkRequestStatusFailed || response.Status == oci_dataflow.WorkRequestStatusCancelled {
-		return nil, getErrorFromDataflowPoolWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataflowPoolWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataflowPoolWorkRequest(ctx context.Context, client *oci_dataflow.DataFlowClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDataflowPoolWorkRequest(client *oci_dataflow.DataFlowClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_dataflow.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -571,7 +573,7 @@ func getErrorFromDataflowPoolWorkRequest(ctx context.Context, client *oci_datafl
 	return workRequestErr
 }
 
-func (s *DataflowPoolResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) Get() error {
 	request := oci_dataflow.GetPoolRequest{}
 
 	tmp := s.D.Id()
@@ -579,7 +581,7 @@ func (s *DataflowPoolResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.GetPool(ctx, request)
+	response, err := s.Client.GetPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -588,11 +590,11 @@ func (s *DataflowPoolResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *DataflowPoolResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -666,7 +668,7 @@ func (s *DataflowPoolResourceCrud) UpdateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	response, err := s.Client.UpdatePool(ctx, request)
+	response, err := s.Client.UpdatePool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -674,10 +676,10 @@ func (s *DataflowPoolResourceCrud) UpdateWithContext(ctx context.Context) error 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
 		fmt.Println("returning from update fn here is workId: ", workId)
-		return s.getPoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	} else {
 		fmt.Println("returning from create fn here is workId is nill")
-		err := s.GetWithContext(ctx)
+		err := s.Get()
 		if err != nil {
 			return err
 		}
@@ -685,7 +687,7 @@ func (s *DataflowPoolResourceCrud) UpdateWithContext(ctx context.Context) error 
 	}
 }
 
-func (s *DataflowPoolResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) Delete() error {
 	request := oci_dataflow.DeletePoolRequest{}
 
 	tmp := s.D.Id()
@@ -693,11 +695,13 @@ func (s *DataflowPoolResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.DeletePool(ctx, request)
+	_, err := s.Client.DeletePool(context.Background(), request)
 	return err
 }
 
 func (s *DataflowPoolResourceCrud) SetData() error {
+	fmt.Println("in setData, ", s.Res)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -763,7 +767,7 @@ func (s *DataflowPoolResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataflowPoolResourceCrud) StartPool(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) StartPool() error {
 	request := oci_dataflow.StartPoolRequest{}
 
 	idTmp := s.D.Id()
@@ -771,16 +775,16 @@ func (s *DataflowPoolResourceCrud) StartPool(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.StartPool(ctx, request)
+	_, err := s.Client.StartPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_dataflow.PoolLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataflowPoolResourceCrud) StopPool(ctx context.Context) error {
+func (s *DataflowPoolResourceCrud) StopPool() error {
 	fmt.Println("ML: in stop pool")
 	request := oci_dataflow.StopPoolRequest{}
 
@@ -789,13 +793,13 @@ func (s *DataflowPoolResourceCrud) StopPool(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.StopPool(ctx, request)
+	_, err := s.Client.StopPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_dataflow.PoolLifecycleStateStopped }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func NodeCountToMap(obj oci_dataflow.NodeCount) map[string]interface{} {
@@ -991,6 +995,7 @@ func (s *DataflowPoolResourceCrud) mapToShapeConfig(fieldKeyFormat string) (oci_
 
 	return result, nil
 }
+
 func PoolShapeConfigToMap(obj *oci_dataflow.ShapeConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1004,7 +1009,8 @@ func PoolShapeConfigToMap(obj *oci_dataflow.ShapeConfig) map[string]interface{} 
 
 	return result
 }
-func (s *DataflowPoolResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+
+func (s *DataflowPoolResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dataflow.ChangePoolCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1015,12 +1021,12 @@ func (s *DataflowPoolResourceCrud) updateCompartment(ctx context.Context, compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-	_, err := s.Client.ChangePoolCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangePoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

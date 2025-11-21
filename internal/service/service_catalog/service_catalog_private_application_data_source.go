@@ -6,7 +6,6 @@ package service_catalog
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
@@ -20,15 +19,15 @@ func ServiceCatalogPrivateApplicationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ServiceCatalogPrivateApplicationResource(), fieldMap, readSingularServiceCatalogPrivateApplicationWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ServiceCatalogPrivateApplicationResource(), fieldMap, readSingularServiceCatalogPrivateApplication)
 }
 
-func readSingularServiceCatalogPrivateApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularServiceCatalogPrivateApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &ServiceCatalogPrivateApplicationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ServiceCatalogPrivateApplicationDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ServiceCatalogPrivateApplicationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ServiceCatalogPrivateApplicationDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ServiceCatalogPrivateApplicationDataSourceCrud) Get() error {
 	request := oci_service_catalog.GetPrivateApplicationRequest{}
 
 	if privateApplicationId, ok := s.D.GetOkExists("private_application_id"); ok {
@@ -51,7 +50,7 @@ func (s *ServiceCatalogPrivateApplicationDataSourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "service_catalog")
 
-	response, err := s.Client.GetPrivateApplication(ctx, request)
+	response, err := s.Client.GetPrivateApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}

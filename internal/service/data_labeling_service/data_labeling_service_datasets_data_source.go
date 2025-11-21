@@ -6,7 +6,6 @@ package data_labeling_service
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func DataLabelingServiceDatasetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDataLabelingServiceDatasetsWithContext,
+		Read: readDataLabelingServiceDatasets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"annotation_format": {
@@ -57,12 +56,12 @@ func DataLabelingServiceDatasetsDataSource() *schema.Resource {
 	}
 }
 
-func readDataLabelingServiceDatasetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataLabelingServiceDatasets(d *schema.ResourceData, m interface{}) error {
 	sync := &DataLabelingServiceDatasetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataLabelingManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataLabelingServiceDatasetsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataLabelingServiceDatasetsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataLabelingServiceDatasetsDataSourceCrud) Get() error {
 	request := oci_data_labeling_service.ListDatasetsRequest{}
 
 	if annotationFormat, ok := s.D.GetOkExists("annotation_format"); ok {
@@ -104,7 +103,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_labeling_service")
 
-	response, err := s.Client.ListDatasets(ctx, request)
+	response, err := s.Client.ListDatasets(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *DataLabelingServiceDatasetsDataSourceCrud) GetWithContext(ctx context.C
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatasets(ctx, request)
+		listResponse, err := s.Client.ListDatasets(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -26,11 +26,11 @@ func AdmRemediationRecipeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createAdmRemediationRecipeWithContext,
-		ReadContext:   readAdmRemediationRecipeWithContext,
-		UpdateContext: updateAdmRemediationRecipeWithContext,
-		DeleteContext: deleteAdmRemediationRecipeWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createAdmRemediationRecipe,
+		Read:     readAdmRemediationRecipe,
+		Update:   updateAdmRemediationRecipe,
+		Delete:   deleteAdmRemediationRecipe,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -300,7 +300,7 @@ func AdmRemediationRecipeResource() *schema.Resource {
 	}
 }
 
-func createAdmRemediationRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createAdmRemediationRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
@@ -312,13 +312,13 @@ func createAdmRemediationRecipeWithContext(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopRemediationRecipe(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopRemediationRecipe(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_adm.RemediationRecipeLifecycleStateInactive)
 	}
@@ -326,15 +326,15 @@ func createAdmRemediationRecipeWithContext(ctx context.Context, d *schema.Resour
 
 }
 
-func readAdmRemediationRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAdmRemediationRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateAdmRemediationRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateAdmRemediationRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
@@ -351,19 +351,19 @@ func updateAdmRemediationRecipeWithContext(ctx context.Context, d *schema.Resour
 	}
 
 	if powerOn {
-		if err := sync.StartRemediationRecipe(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartRemediationRecipe(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_adm.RemediationRecipeLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if powerOff {
-		if err := sync.StopRemediationRecipe(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopRemediationRecipe(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_adm.RemediationRecipeLifecycleStateInactive)
 	}
@@ -371,13 +371,13 @@ func updateAdmRemediationRecipeWithContext(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func deleteAdmRemediationRecipeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteAdmRemediationRecipe(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmRemediationRecipeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type AdmRemediationRecipeResourceCrud struct {
@@ -416,7 +416,7 @@ func (s *AdmRemediationRecipeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AdmRemediationRecipeResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) Create() error {
 	request := oci_adm.CreateRemediationRecipeRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -497,14 +497,14 @@ func (s *AdmRemediationRecipeResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.CreateRemediationRecipe(ctx, request)
+	response, err := s.Client.CreateRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_adm.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_adm.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -520,20 +520,20 @@ func (s *AdmRemediationRecipeResourceCrud) CreateWithContext(ctx context.Context
 			}
 		}
 	}
-	return s.getRemediationRecipeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getRemediationRecipeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AdmRemediationRecipeResourceCrud) getRemediationRecipeFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AdmRemediationRecipeResourceCrud) getRemediationRecipeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_adm.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	remediationRecipeId, err := remediationRecipeWaitForWorkRequest(ctx, workId, "remediationrecipe",
+	remediationRecipeId, err := remediationRecipeWaitForWorkRequest(workId, "remediationrecipe",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, remediationRecipeId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_adm.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -547,7 +547,7 @@ func (s *AdmRemediationRecipeResourceCrud) getRemediationRecipeFromWorkRequest(c
 	}
 	s.D.SetId(*remediationRecipeId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func remediationRecipeWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -573,7 +573,7 @@ func remediationRecipeWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func remediationRecipeWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_adm.ActionTypeEnum,
+func remediationRecipeWaitForWorkRequest(wId *string, entityType string, action oci_adm.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_adm.ApplicationDependencyManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "adm")
 	retryPolicy.ShouldRetryOperation = remediationRecipeWorkRequestShouldRetryFunc(timeout)
@@ -592,7 +592,7 @@ func remediationRecipeWaitForWorkRequest(ctx context.Context, wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_adm.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -621,14 +621,14 @@ func remediationRecipeWaitForWorkRequest(ctx context.Context, wId *string, entit
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_adm.OperationStatusFailed || response.Status == oci_adm.OperationStatusCanceled {
-		return nil, getErrorFromAdmRemediationRecipeWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAdmRemediationRecipeWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAdmRemediationRecipeWorkRequest(ctx context.Context, client *oci_adm.ApplicationDependencyManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_adm.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromAdmRemediationRecipeWorkRequest(client *oci_adm.ApplicationDependencyManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_adm.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_adm.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -650,7 +650,7 @@ func getErrorFromAdmRemediationRecipeWorkRequest(ctx context.Context, client *oc
 	return workRequestErr
 }
 
-func (s *AdmRemediationRecipeResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) Get() error {
 	request := oci_adm.GetRemediationRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -658,7 +658,7 @@ func (s *AdmRemediationRecipeResourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.GetRemediationRecipe(ctx, request)
+	response, err := s.Client.GetRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -667,11 +667,11 @@ func (s *AdmRemediationRecipeResourceCrud) GetWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *AdmRemediationRecipeResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -755,16 +755,16 @@ func (s *AdmRemediationRecipeResourceCrud) UpdateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.UpdateRemediationRecipe(ctx, request)
+	response, err := s.Client.UpdateRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRemediationRecipeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRemediationRecipeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AdmRemediationRecipeResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) Delete() error {
 	request := oci_adm.DeleteRemediationRecipeRequest{}
 
 	tmp := s.D.Id()
@@ -772,14 +772,14 @@ func (s *AdmRemediationRecipeResourceCrud) DeleteWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.DeleteRemediationRecipe(ctx, request)
+	response, err := s.Client.DeleteRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := remediationRecipeWaitForWorkRequest(ctx, workId, "remediationrecipe",
+	_, delWorkRequestErr := remediationRecipeWaitForWorkRequest(workId, "remediationrecipe",
 		oci_adm.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -856,7 +856,7 @@ func (s *AdmRemediationRecipeResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *AdmRemediationRecipeResourceCrud) StartRemediationRecipe(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) StartRemediationRecipe() error {
 	request := oci_adm.ActivateRemediationRecipeRequest{}
 
 	idTmp := s.D.Id()
@@ -864,16 +864,16 @@ func (s *AdmRemediationRecipeResourceCrud) StartRemediationRecipe(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	_, err := s.Client.ActivateRemediationRecipe(ctx, request)
+	_, err := s.Client.ActivateRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_adm.RemediationRecipeLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AdmRemediationRecipeResourceCrud) StopRemediationRecipe(ctx context.Context) error {
+func (s *AdmRemediationRecipeResourceCrud) StopRemediationRecipe() error {
 	request := oci_adm.DeactivateRemediationRecipeRequest{}
 
 	idTmp := s.D.Id()
@@ -881,13 +881,13 @@ func (s *AdmRemediationRecipeResourceCrud) StopRemediationRecipe(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	_, err := s.Client.DeactivateRemediationRecipe(ctx, request)
+	_, err := s.Client.DeactivateRemediationRecipe(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_adm.RemediationRecipeLifecycleStateInactive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AdmRemediationRecipeResourceCrud) mapToDetectConfiguration(fieldKeyFormat string) (oci_adm.DetectConfiguration, error) {
@@ -1338,7 +1338,7 @@ func VerifyConfigurationToMap(obj *oci_adm.VerifyConfiguration) map[string]inter
 	return result
 }
 
-func (s *AdmRemediationRecipeResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *AdmRemediationRecipeResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_adm.ChangeRemediationRecipeCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1349,11 +1349,11 @@ func (s *AdmRemediationRecipeResourceCrud) updateCompartment(ctx context.Context
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm")
 
-	response, err := s.Client.ChangeRemediationRecipeCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeRemediationRecipeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRemediationRecipeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRemediationRecipeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "adm"), oci_adm.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

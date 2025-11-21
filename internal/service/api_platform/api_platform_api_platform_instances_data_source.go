@@ -6,7 +6,6 @@ package api_platform
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_api_platform "github.com/oracle/oci-go-sdk/v65/apiplatform"
 
@@ -16,7 +15,7 @@ import (
 
 func ApiPlatformApiPlatformInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readApiPlatformApiPlatformInstancesWithContext,
+		Read: readApiPlatformApiPlatformInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func ApiPlatformApiPlatformInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readApiPlatformApiPlatformInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApiPlatformApiPlatformInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiPlatformApiPlatformInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApiPlatformApiPlatformInstancesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *ApiPlatformApiPlatformInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiPlatformApiPlatformInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApiPlatformApiPlatformInstancesDataSourceCrud) Get() error {
 	request := oci_api_platform.ListApiPlatformInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *ApiPlatformApiPlatformInstancesDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "api_platform")
 
-	response, err := s.Client.ListApiPlatformInstances(ctx, request)
+	response, err := s.Client.ListApiPlatformInstances(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *ApiPlatformApiPlatformInstancesDataSourceCrud) GetWithContext(ctx conte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListApiPlatformInstances(ctx, request)
+		listResponse, err := s.Client.ListApiPlatformInstances(context.Background(), request)
 		if err != nil {
 			return err
 		}

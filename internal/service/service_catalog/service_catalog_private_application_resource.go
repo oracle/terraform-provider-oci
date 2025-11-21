@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_service_catalog "github.com/oracle/oci-go-sdk/v65/servicecatalog"
 
@@ -26,11 +26,11 @@ func ServiceCatalogPrivateApplicationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createServiceCatalogPrivateApplicationWithContext,
-		ReadContext:   readServiceCatalogPrivateApplicationWithContext,
-		UpdateContext: updateServiceCatalogPrivateApplicationWithContext,
-		DeleteContext: deleteServiceCatalogPrivateApplicationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createServiceCatalogPrivateApplication,
+		Read:     readServiceCatalogPrivateApplication,
+		Update:   updateServiceCatalogPrivateApplication,
+		Delete:   deleteServiceCatalogPrivateApplication,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -157,37 +157,37 @@ func ServiceCatalogPrivateApplicationResource() *schema.Resource {
 	}
 }
 
-func createServiceCatalogPrivateApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createServiceCatalogPrivateApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &ServiceCatalogPrivateApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readServiceCatalogPrivateApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readServiceCatalogPrivateApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &ServiceCatalogPrivateApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateServiceCatalogPrivateApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateServiceCatalogPrivateApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &ServiceCatalogPrivateApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteServiceCatalogPrivateApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteServiceCatalogPrivateApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &ServiceCatalogPrivateApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceCatalogClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ServiceCatalogPrivateApplicationResourceCrud struct {
@@ -225,7 +225,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ServiceCatalogPrivateApplicationResourceCrud) Create() error {
 	request := oci_service_catalog.CreatePrivateApplicationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -278,7 +278,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) CreateWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
-	response, err := s.Client.CreatePrivateApplication(ctx, request)
+	response, err := s.Client.CreatePrivateApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -289,11 +289,11 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) CreateWithContext(ctx con
 	//return s.getPrivateApplicationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) getPrivateApplicationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ServiceCatalogPrivateApplicationResourceCrud) getPrivateApplicationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_service_catalog.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	privateApplicationId, err := privateApplicationWaitForWorkRequest(ctx, workId, "service_catalog",
+	privateApplicationId, err := privateApplicationWaitForWorkRequest(workId, "service_catalog",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -313,7 +313,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) getPrivateApplicationFrom
 	}
 	s.D.SetId(*privateApplicationId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func privateApplicationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -339,7 +339,7 @@ func privateApplicationWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func privateApplicationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_service_catalog.ActionTypeEnum,
+func privateApplicationWaitForWorkRequest(wId *string, entityType string, action oci_service_catalog.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_service_catalog.ServiceCatalogClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "service_catalog")
 	retryPolicy.ShouldRetryOperation = privateApplicationWorkRequestShouldRetryFunc(timeout)
@@ -353,7 +353,7 @@ func privateApplicationWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_service_catalog.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -382,14 +382,14 @@ func privateApplicationWaitForWorkRequest(ctx context.Context, wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_service_catalog.OperationStatusFailed {
-		return nil, getErrorFromServiceCatalogPrivateApplicationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromServiceCatalogPrivateApplicationWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromServiceCatalogPrivateApplicationWorkRequest(ctx context.Context, client *oci_service_catalog.ServiceCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_service_catalog.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromServiceCatalogPrivateApplicationWorkRequest(client *oci_service_catalog.ServiceCatalogClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_service_catalog.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_service_catalog.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -411,7 +411,7 @@ func getErrorFromServiceCatalogPrivateApplicationWorkRequest(ctx context.Context
 	return workRequestErr
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ServiceCatalogPrivateApplicationResourceCrud) Get() error {
 	request := oci_service_catalog.GetPrivateApplicationRequest{}
 
 	tmp := s.D.Id()
@@ -419,7 +419,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
-	response, err := s.Client.GetPrivateApplication(ctx, request)
+	response, err := s.Client.GetPrivateApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -428,11 +428,11 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) GetWithContext(ctx contex
 	return nil
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ServiceCatalogPrivateApplicationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -477,7 +477,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) UpdateWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
-	response, err := s.Client.UpdatePrivateApplication(ctx, request)
+	response, err := s.Client.UpdatePrivateApplication(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -489,7 +489,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) UpdateWithContext(ctx con
 	//return s.getPrivateApplicationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ServiceCatalogPrivateApplicationResourceCrud) Delete() error {
 	request := oci_service_catalog.DeletePrivateApplicationRequest{}
 
 	tmp := s.D.Id()
@@ -666,7 +666,7 @@ func SCUploadDataToMap(obj *oci_service_catalog.UploadData) map[string]interface
 	return result
 }
 
-func (s *ServiceCatalogPrivateApplicationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ServiceCatalogPrivateApplicationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_service_catalog.ChangePrivateApplicationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -677,7 +677,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) updateCompartment(ctx con
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
-	_, err := s.Client.ChangePrivateApplicationCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangePrivateApplicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package dataintegration
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func DataintegrationWorkspaceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataintegrationWorkspaceResource(), fieldMap, readSingularDataintegrationWorkspaceWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DataintegrationWorkspaceResource(), fieldMap, readSingularDataintegrationWorkspace)
 }
 
-func readSingularDataintegrationWorkspaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDataintegrationWorkspace(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspaceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataintegrationWorkspaceDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DataintegrationWorkspaceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataintegrationWorkspaceDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspaceDataSourceCrud) Get() error {
 	request := oci_dataintegration.GetWorkspaceRequest{}
 
 	if workspaceId, ok := s.D.GetOkExists("workspace_id"); ok {
@@ -51,7 +50,7 @@ func (s *DataintegrationWorkspaceDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataintegration")
 
-	response, err := s.Client.GetWorkspace(ctx, request)
+	response, err := s.Client.GetWorkspace(context.Background(), request)
 	if err != nil {
 		return err
 	}

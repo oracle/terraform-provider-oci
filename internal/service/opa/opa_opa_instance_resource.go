@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opa "github.com/oracle/oci-go-sdk/v65/opa"
 
@@ -26,11 +26,11 @@ func OpaOpaInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createOpaOpaInstanceWithContext,
-		ReadContext:   readOpaOpaInstanceWithContext,
-		UpdateContext: updateOpaOpaInstanceWithContext,
-		DeleteContext: deleteOpaOpaInstanceWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createOpaOpaInstance,
+		Read:     readOpaOpaInstance,
+		Update:   updateOpaOpaInstance,
+		Delete:   deleteOpaOpaInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -172,7 +172,7 @@ func OpaOpaInstanceResource() *schema.Resource {
 	}
 }
 
-func createOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OpaOpaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
@@ -184,13 +184,13 @@ func createOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopOpaInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopOpaInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateInactive)
 	}
@@ -198,15 +198,15 @@ func createOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 
 }
 
-func readOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OpaOpaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OpaOpaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
@@ -223,19 +223,19 @@ func updateOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 	}
 
 	if powerOn {
-		if err := sync.StartOpaInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartOpaInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if powerOff {
-		if err := sync.StopOpaInstance(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopOpaInstance(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateInactive)
 	}
@@ -243,13 +243,13 @@ func updateOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func deleteOpaOpaInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OpaOpaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type OpaOpaInstanceResourceCrud struct {
@@ -287,7 +287,7 @@ func (s *OpaOpaInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpaOpaInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) Create() error {
 	request := oci_opa.CreateOpaInstanceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -341,14 +341,14 @@ func (s *OpaOpaInstanceResourceCrud) CreateWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	response, err := s.Client.CreateOpaInstance(ctx, request)
+	response, err := s.Client.CreateOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_opa.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_opa.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -364,20 +364,20 @@ func (s *OpaOpaInstanceResourceCrud) CreateWithContext(ctx context.Context) erro
 			}
 		}
 	}
-	return s.getOpaInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOpaInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpaOpaInstanceResourceCrud) getOpaInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpaOpaInstanceResourceCrud) getOpaInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opa.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	opaInstanceId, err := opaInstanceWaitForWorkRequest(ctx, workId, "opa",
+	opaInstanceId, err := opaInstanceWaitForWorkRequest(workId, "opa",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, opaInstanceId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_opa.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -391,7 +391,7 @@ func (s *OpaOpaInstanceResourceCrud) getOpaInstanceFromWorkRequest(ctx context.C
 	}
 	s.D.SetId(*opaInstanceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func opaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -417,7 +417,7 @@ func opaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func opaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opa.ActionTypeEnum,
+func opaInstanceWaitForWorkRequest(wId *string, entityType string, action oci_opa.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opa.OpaInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opa")
 	retryPolicy.ShouldRetryOperation = opaInstanceWorkRequestShouldRetryFunc(timeout)
@@ -436,7 +436,7 @@ func opaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_opa.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -465,14 +465,14 @@ func opaInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opa.OperationStatusFailed || response.Status == oci_opa.OperationStatusCanceled {
-		return nil, getErrorFromOpaOpaInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpaOpaInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpaOpaInstanceWorkRequest(ctx context.Context, client *oci_opa.OpaInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opa.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromOpaOpaInstanceWorkRequest(client *oci_opa.OpaInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opa.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_opa.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -494,7 +494,7 @@ func getErrorFromOpaOpaInstanceWorkRequest(ctx context.Context, client *oci_opa.
 	return workRequestErr
 }
 
-func (s *OpaOpaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) Get() error {
 	request := oci_opa.GetOpaInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -502,7 +502,7 @@ func (s *OpaOpaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	response, err := s.Client.GetOpaInstance(ctx, request)
+	response, err := s.Client.GetOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -511,11 +511,11 @@ func (s *OpaOpaInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *OpaOpaInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -550,16 +550,16 @@ func (s *OpaOpaInstanceResourceCrud) UpdateWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	response, err := s.Client.UpdateOpaInstance(ctx, request)
+	response, err := s.Client.UpdateOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpaInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpaInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpaOpaInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) Delete() error {
 	request := oci_opa.DeleteOpaInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -567,14 +567,14 @@ func (s *OpaOpaInstanceResourceCrud) DeleteWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	response, err := s.Client.DeleteOpaInstance(ctx, request)
+	response, err := s.Client.DeleteOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 
-	if _, err := opaInstanceWaitForWorkRequest(ctx, workId, "opainstance",
+	if _, err := opaInstanceWaitForWorkRequest(workId, "opainstance",
 		oci_opa.ActionTypeRelated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client); err != nil {
 		return err
 	}
@@ -655,7 +655,7 @@ func (s *OpaOpaInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OpaOpaInstanceResourceCrud) StartOpaInstance(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) StartOpaInstance() error {
 	request := oci_opa.StartOpaInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -663,16 +663,16 @@ func (s *OpaOpaInstanceResourceCrud) StartOpaInstance(ctx context.Context) error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	_, err := s.Client.StartOpaInstance(ctx, request)
+	_, err := s.Client.StartOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_opa.OpaInstanceLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpaOpaInstanceResourceCrud) StopOpaInstance(ctx context.Context) error {
+func (s *OpaOpaInstanceResourceCrud) StopOpaInstance() error {
 	request := oci_opa.StopOpaInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -680,13 +680,13 @@ func (s *OpaOpaInstanceResourceCrud) StopOpaInstance(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	_, err := s.Client.StopOpaInstance(ctx, request)
+	_, err := s.Client.StopOpaInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_opa.OpaInstanceLifecycleStateInactive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func AttachmentDetailsToMap(obj oci_opa.AttachmentDetails) map[string]interface{} {
@@ -769,7 +769,7 @@ func OpaInstanceSummaryToMap(obj oci_opa.OpaInstanceSummary) map[string]interfac
 	return result
 }
 
-func (s *OpaOpaInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *OpaOpaInstanceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_opa.ChangeOpaInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -780,11 +780,11 @@ func (s *OpaOpaInstanceResourceCrud) updateCompartment(ctx context.Context, comp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
 
-	response, err := s.Client.ChangeOpaInstanceCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeOpaInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpaInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpaInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa"), oci_opa.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

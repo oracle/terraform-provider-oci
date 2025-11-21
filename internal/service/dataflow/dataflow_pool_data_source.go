@@ -6,7 +6,6 @@ package dataflow
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
@@ -20,15 +19,15 @@ func DataflowPoolDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataflowPoolResource(), fieldMap, readSingularDataflowPoolWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DataflowPoolResource(), fieldMap, readSingularDataflowPool)
 }
 
-func readSingularDataflowPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDataflowPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataflowPoolDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DataflowPoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowPoolDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataflowPoolDataSourceCrud) Get() error {
 	request := oci_dataflow.GetPoolRequest{}
 
 	if poolId, ok := s.D.GetOkExists("pool_id"); ok {
@@ -51,7 +50,7 @@ func (s *DataflowPoolDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.GetPool(ctx, request)
+	response, err := s.Client.GetPool(context.Background(), request)
 	if err != nil {
 		return err
 	}

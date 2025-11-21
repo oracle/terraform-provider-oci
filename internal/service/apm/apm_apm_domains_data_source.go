@@ -6,7 +6,6 @@ package apm
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func ApmApmDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readApmApmDomainsWithContext,
+		Read: readApmApmDomains,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -40,12 +39,12 @@ func ApmApmDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readApmApmDomainsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApmApmDomains(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApmApmDomainsDataSourceCrud struct {
@@ -58,7 +57,7 @@ func (s *ApmApmDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApmApmDomainsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApmApmDomainsDataSourceCrud) Get() error {
 	request := oci_apm.ListApmDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +76,7 @@ func (s *ApmApmDomainsDataSourceCrud) GetWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm")
 
-	response, err := s.Client.ListApmDomains(ctx, request)
+	response, err := s.Client.ListApmDomains(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *ApmApmDomainsDataSourceCrud) GetWithContext(ctx context.Context) error 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListApmDomains(ctx, request)
+		listResponse, err := s.Client.ListApmDomains(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,7 +6,6 @@ package jms_java_downloads
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -16,7 +15,7 @@ import (
 
 func JmsJavaDownloadsJavaDownloadTokensDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readJmsJavaDownloadsJavaDownloadTokensWithContext,
+		Read: readJmsJavaDownloadsJavaDownloadTokens,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -65,12 +64,12 @@ func JmsJavaDownloadsJavaDownloadTokensDataSource() *schema.Resource {
 	}
 }
 
-func readJmsJavaDownloadsJavaDownloadTokensWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readJmsJavaDownloadsJavaDownloadTokens(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadTokensDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsJavaDownloadsJavaDownloadTokensDataSourceCrud struct {
@@ -83,7 +82,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokensDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokensDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadTokensDataSourceCrud) Get() error {
 	request := oci_jms_java_downloads.ListJavaDownloadTokensRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +121,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokensDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_java_downloads")
 
-	response, err := s.Client.ListJavaDownloadTokens(ctx, request)
+	response, err := s.Client.ListJavaDownloadTokens(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -131,7 +130,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokensDataSourceCrud) GetWithContext(ctx co
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJavaDownloadTokens(ctx, request)
+		listResponse, err := s.Client.ListJavaDownloadTokens(context.Background(), request)
 		if err != nil {
 			return err
 		}

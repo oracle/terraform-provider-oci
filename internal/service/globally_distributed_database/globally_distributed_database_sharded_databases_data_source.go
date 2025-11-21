@@ -6,7 +6,6 @@ package globally_distributed_database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -152,7 +151,7 @@ func GloballyDistributedDatabaseShardedDatabaseSummaryResource() *schema.Resourc
 
 func GloballyDistributedDatabaseShardedDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGloballyDistributedDatabaseShardedDatabasesWithContext,
+		Read: readGloballyDistributedDatabaseShardedDatabases,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -190,12 +189,12 @@ func GloballyDistributedDatabaseShardedDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readGloballyDistributedDatabaseShardedDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGloballyDistributedDatabaseShardedDatabases(d *schema.ResourceData, m interface{}) error {
 	sync := &GloballyDistributedDatabaseShardedDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GloballyDistributedDatabaseShardedDatabasesDataSourceCrud struct {
@@ -208,7 +207,7 @@ func (s *GloballyDistributedDatabaseShardedDatabasesDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GloballyDistributedDatabaseShardedDatabasesDataSourceCrud) Get() error {
 	request := oci_globally_distributed_database.ListShardedDatabasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -227,7 +226,7 @@ func (s *GloballyDistributedDatabaseShardedDatabasesDataSourceCrud) GetWithConte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "globally_distributed_database")
 
-	response, err := s.Client.ListShardedDatabases(ctx, request)
+	response, err := s.Client.ListShardedDatabases(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -236,7 +235,7 @@ func (s *GloballyDistributedDatabaseShardedDatabasesDataSourceCrud) GetWithConte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListShardedDatabases(ctx, request)
+		listResponse, err := s.Client.ListShardedDatabases(context.Background(), request)
 		if err != nil {
 			return err
 		}

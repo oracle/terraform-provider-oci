@@ -6,17 +6,16 @@ package oce
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_oce "github.com/oracle/oci-go-sdk/v65/oce"
 )
 
 func OceOceInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOceOceInstancesWithContext,
+		Read: readOceOceInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -44,12 +43,12 @@ func OceOceInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readOceOceInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOceOceInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &OceOceInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OceInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OceOceInstancesDataSourceCrud struct {
@@ -62,7 +61,7 @@ func (s *OceOceInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OceOceInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OceOceInstancesDataSourceCrud) Get() error {
 	request := oci_oce.ListOceInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +85,7 @@ func (s *OceOceInstancesDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "oce")
 
-	response, err := s.Client.ListOceInstances(ctx, request)
+	response, err := s.Client.ListOceInstances(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *OceOceInstancesDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOceInstances(ctx, request)
+		listResponse, err := s.Client.ListOceInstances(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -168,7 +167,7 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["object_storage_namespace"] = *r.ObjectStorageNamespace
 		}
 
-		oceInstance["service"] = r.Service
+		oceInstance["service"] = tfresource.GenericMapToJsonMap(r.Service)
 
 		oceInstance["state"] = r.LifecycleState
 

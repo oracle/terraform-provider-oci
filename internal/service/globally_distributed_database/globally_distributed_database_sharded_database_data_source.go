@@ -7,7 +7,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -25,15 +24,15 @@ func GloballyDistributedDatabaseShardedDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GloballyDistributedDatabaseShardedDatabaseResource(), fieldMap, readSingularGloballyDistributedDatabaseShardedDatabaseWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GloballyDistributedDatabaseShardedDatabaseResource(), fieldMap, readSingularGloballyDistributedDatabaseShardedDatabase)
 }
 
-func readSingularGloballyDistributedDatabaseShardedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGloballyDistributedDatabaseShardedDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &GloballyDistributedDatabaseShardedDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GloballyDistributedDatabaseShardedDatabaseDataSourceCrud struct {
@@ -46,7 +45,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GloballyDistributedDatabaseShardedDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GloballyDistributedDatabaseShardedDatabaseDataSourceCrud) Get() error {
 	request := oci_globally_distributed_database.GetShardedDatabaseRequest{}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
@@ -61,7 +60,7 @@ func (s *GloballyDistributedDatabaseShardedDatabaseDataSourceCrud) GetWithContex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "globally_distributed_database")
 
-	response, err := s.Client.GetShardedDatabase(ctx, request)
+	response, err := s.Client.GetShardedDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}

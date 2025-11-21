@@ -6,7 +6,6 @@ package dataintegration
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func DataintegrationWorkspacesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDataintegrationWorkspacesWithContext,
+		Read: readDataintegrationWorkspaces,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -40,12 +39,12 @@ func DataintegrationWorkspacesDataSource() *schema.Resource {
 	}
 }
 
-func readDataintegrationWorkspacesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataintegrationWorkspaces(d *schema.ResourceData, m interface{}) error {
 	sync := &DataintegrationWorkspacesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataIntegrationClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataintegrationWorkspacesDataSourceCrud struct {
@@ -58,7 +57,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataintegrationWorkspacesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataintegrationWorkspacesDataSourceCrud) Get() error {
 	request := oci_dataintegration.ListWorkspacesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +76,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataintegration")
 
-	response, err := s.Client.ListWorkspaces(ctx, request)
+	response, err := s.Client.ListWorkspaces(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +85,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWorkspaces(ctx, request)
+		listResponse, err := s.Client.ListWorkspaces(context.Background(), request)
 		if err != nil {
 			return err
 		}

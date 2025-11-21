@@ -6,7 +6,6 @@ package globally_distributed_database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_globally_distributed_database "github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase"
 
@@ -20,15 +19,15 @@ func GloballyDistributedDatabasePrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GloballyDistributedDatabasePrivateEndpointResource(), fieldMap, readSingularGloballyDistributedDatabasePrivateEndpointWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GloballyDistributedDatabasePrivateEndpointResource(), fieldMap, readSingularGloballyDistributedDatabasePrivateEndpoint)
 }
 
-func readSingularGloballyDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &GloballyDistributedDatabasePrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GloballyDistributedDatabasePrivateEndpointDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GloballyDistributedDatabasePrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GloballyDistributedDatabasePrivateEndpointDataSourceCrud) Get() error {
 	request := oci_globally_distributed_database.GetPrivateEndpointRequest{}
 
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
@@ -51,7 +50,7 @@ func (s *GloballyDistributedDatabasePrivateEndpointDataSourceCrud) GetWithContex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "globally_distributed_database")
 
-	response, err := s.Client.GetPrivateEndpoint(ctx, request)
+	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}

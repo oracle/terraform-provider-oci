@@ -6,7 +6,6 @@ package apm
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func ApmApmDomainDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApmApmDomainResource(), fieldMap, readSingularApmApmDomainWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ApmApmDomainResource(), fieldMap, readSingularApmApmDomain)
 }
 
-func readSingularApmApmDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularApmApmDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApmApmDomainDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ApmApmDomainDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApmApmDomainDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApmApmDomainDataSourceCrud) Get() error {
 	request := oci_apm.GetApmDomainRequest{}
 
 	if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
@@ -51,7 +50,7 @@ func (s *ApmApmDomainDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm")
 
-	response, err := s.Client.GetApmDomain(ctx, request)
+	response, err := s.Client.GetApmDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}

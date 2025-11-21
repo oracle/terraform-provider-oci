@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -28,11 +27,11 @@ func PsqlDbSystemResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createPsqlDbSystemWithContext,
-		ReadContext:   readPsqlDbSystemWithContext,
-		UpdateContext: updatePsqlDbSystemWithContext,
-		DeleteContext: deletePsqlDbSystemWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createPsqlDbSystem,
+		Read:     readPsqlDbSystem,
+		Update:   updatePsqlDbSystem,
+		Delete:   deletePsqlDbSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -558,37 +557,37 @@ func PsqlDbSystemResource() *schema.Resource {
 	}
 }
 
-func createPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updatePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updatePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deletePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deletePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type PsqlDbSystemResourceCrud struct {
@@ -628,7 +627,7 @@ func (s *PsqlDbSystemResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *PsqlDbSystemResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *PsqlDbSystemResourceCrud) Create() error {
 	request := oci_psql.CreateDbSystemRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -777,10 +776,10 @@ func (s *PsqlDbSystemResourceCrud) CreateWithContext(ctx context.Context) error 
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlDbSystemResourceCrud) Patch(ctx context.Context) error {
+func (s *PsqlDbSystemResourceCrud) Patch() error {
 	request := oci_psql.PatchDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -818,10 +817,10 @@ func (s *PsqlDbSystemResourceCrud) Patch(ctx context.Context) error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -833,7 +832,7 @@ func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(ctx context.Contex
 	}
 	s.D.SetId(*dbSystemId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func dbSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -934,7 +933,7 @@ func getErrorFromPsqlDbSystemWorkRequest(client *oci_psql.PostgresqlClient, work
 	return workRequestErr
 }
 
-func (s *PsqlDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *PsqlDbSystemResourceCrud) Get() error {
 	request := oci_psql.GetDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -955,7 +954,7 @@ func (s *PsqlDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.GetDbSystem(ctx, request)
+	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -964,7 +963,7 @@ func (s *PsqlDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *PsqlDbSystemResourceCrud) Update() error {
 
 	if _, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
 		err := s.ResetMasterUserPassword()
@@ -1101,17 +1100,17 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.UpdateDbSystem(ctx, request)
+	response, err := s.Client.UpdateDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
-	err = s.Patch(ctx)
+	err = s.Patch()
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err
@@ -1119,7 +1118,7 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 	return nil
 }
 
-func (s *PsqlDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *PsqlDbSystemResourceCrud) Delete() error {
 	request := oci_psql.DeleteDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -1127,7 +1126,7 @@ func (s *PsqlDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.DeleteDbSystem(ctx, request)
+	response, err := s.Client.DeleteDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1283,7 +1282,7 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

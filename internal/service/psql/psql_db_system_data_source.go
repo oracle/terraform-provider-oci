@@ -6,7 +6,6 @@ package psql
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -24,15 +23,15 @@ func PsqlDbSystemDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Optional: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(PsqlDbSystemResource(), fieldMap, readSingularPsqlDbSystemWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(PsqlDbSystemResource(), fieldMap, readSingularPsqlDbSystem)
 }
 
-func readSingularPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlDbSystemDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type PsqlDbSystemDataSourceCrud struct {
@@ -45,7 +44,7 @@ func (s *PsqlDbSystemDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PsqlDbSystemDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *PsqlDbSystemDataSourceCrud) Get() error {
 	request := oci_psql.GetDbSystemRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -68,7 +67,7 @@ func (s *PsqlDbSystemDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
 
-	response, err := s.Client.GetDbSystem(ctx, request)
+	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -112,6 +111,7 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InstanceCount != nil {

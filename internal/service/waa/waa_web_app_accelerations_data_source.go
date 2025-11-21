@@ -6,7 +6,6 @@ package waa
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 
@@ -16,7 +15,7 @@ import (
 
 func WaaWebAppAccelerationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readWaaWebAppAccelerationsWithContext,
+		Read: readWaaWebAppAccelerations,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +59,12 @@ func WaaWebAppAccelerationsDataSource() *schema.Resource {
 	}
 }
 
-func readWaaWebAppAccelerationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWaaWebAppAccelerations(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type WaaWebAppAccelerationsDataSourceCrud struct {
@@ -78,7 +77,7 @@ func (s *WaaWebAppAccelerationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WaaWebAppAccelerationsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationsDataSourceCrud) Get() error {
 	request := oci_waa.ListWebAppAccelerationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -119,7 +118,7 @@ func (s *WaaWebAppAccelerationsDataSourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waa")
 
-	response, err := s.Client.ListWebAppAccelerations(ctx, request)
+	response, err := s.Client.ListWebAppAccelerations(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +127,7 @@ func (s *WaaWebAppAccelerationsDataSourceCrud) GetWithContext(ctx context.Contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWebAppAccelerations(ctx, request)
+		listResponse, err := s.Client.ListWebAppAccelerations(context.Background(), request)
 		if err != nil {
 			return err
 		}

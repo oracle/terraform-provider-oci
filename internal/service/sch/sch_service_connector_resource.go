@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_sch "github.com/oracle/oci-go-sdk/v65/sch"
 )
@@ -26,11 +26,11 @@ func SchServiceConnectorResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createSchServiceConnectorWithContext,
-		ReadContext:   readSchServiceConnectorWithContext,
-		UpdateContext: updateSchServiceConnectorWithContext,
-		DeleteContext: deleteSchServiceConnectorWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createSchServiceConnector,
+		Read:     readSchServiceConnector,
+		Update:   updateSchServiceConnector,
+		Delete:   deleteSchServiceConnector,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -542,7 +542,7 @@ func SchServiceConnectorResource() *schema.Resource {
 	}
 }
 
-func createSchServiceConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createSchServiceConnector(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
@@ -555,28 +555,28 @@ func createSchServiceConnectorWithContext(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopSchResource(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopSchResource(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_sch.LifecycleStateInactive)
 	}
 	return nil
 }
 
-func readSchServiceConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSchServiceConnector(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateSchServiceConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateSchServiceConnector(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
@@ -594,33 +594,33 @@ func updateSchServiceConnectorWithContext(ctx context.Context, d *schema.Resourc
 	}
 
 	if powerOn {
-		if err := sync.StartSchResource(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartSchResource(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_sch.LifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	// switch to power off
 	if powerOff {
-		if err := sync.StopSchResource(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopSchResource(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_sch.LifecycleStateInactive)
 	}
 	return nil
 }
 
-func deleteSchServiceConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteSchServiceConnector(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type SchServiceConnectorResourceCrud struct {
@@ -658,7 +658,7 @@ func (s *SchServiceConnectorResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *SchServiceConnectorResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) Create() error {
 	request := oci_sch.CreateServiceConnectorRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -729,14 +729,14 @@ func (s *SchServiceConnectorResourceCrud) CreateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.CreateServiceConnector(ctx, request)
+	response, err := s.Client.CreateServiceConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_sch.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_sch.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -752,14 +752,14 @@ func (s *SchServiceConnectorResourceCrud) CreateWithContext(ctx context.Context)
 			}
 		}
 	}
-	return s.getServiceConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getServiceConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *SchServiceConnectorResourceCrud) getServiceConnectorFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *SchServiceConnectorResourceCrud) getServiceConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_sch.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	serviceConnectorId, err := serviceConnectorWaitForWorkRequest(ctx, workId, "serviceConnector",
+	serviceConnectorId, err := serviceConnectorWaitForWorkRequest(workId, "serviceConnector",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -769,7 +769,7 @@ func (s *SchServiceConnectorResourceCrud) getServiceConnectorFromWorkRequest(ctx
 	}
 	s.D.SetId(*serviceConnectorId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func serviceConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -795,7 +795,7 @@ func serviceConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func serviceConnectorWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_sch.ActionTypeEnum,
+func serviceConnectorWaitForWorkRequest(wId *string, entityType string, action oci_sch.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_sch.ServiceConnectorClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "sch")
 	retryPolicy.ShouldRetryOperation = serviceConnectorWorkRequestShouldRetryFunc(timeout)
@@ -814,7 +814,7 @@ func serviceConnectorWaitForWorkRequest(ctx context.Context, wId *string, entity
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_sch.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -843,14 +843,14 @@ func serviceConnectorWaitForWorkRequest(ctx context.Context, wId *string, entity
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_sch.OperationStatusFailed || response.Status == oci_sch.OperationStatusCanceled {
-		return nil, getErrorFromSchServiceConnectorWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromSchServiceConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromSchServiceConnectorWorkRequest(ctx context.Context, client *oci_sch.ServiceConnectorClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_sch.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromSchServiceConnectorWorkRequest(client *oci_sch.ServiceConnectorClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_sch.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_sch.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -872,7 +872,7 @@ func getErrorFromSchServiceConnectorWorkRequest(ctx context.Context, client *oci
 	return workRequestErr
 }
 
-func (s *SchServiceConnectorResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) Get() error {
 	request := oci_sch.GetServiceConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -880,7 +880,7 @@ func (s *SchServiceConnectorResourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.GetServiceConnector(ctx, request)
+	response, err := s.Client.GetServiceConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -889,11 +889,11 @@ func (s *SchServiceConnectorResourceCrud) GetWithContext(ctx context.Context) er
 	return nil
 }
 
-func (s *SchServiceConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -967,16 +967,16 @@ func (s *SchServiceConnectorResourceCrud) UpdateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.UpdateServiceConnector(ctx, request)
+	response, err := s.Client.UpdateServiceConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *SchServiceConnectorResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) Delete() error {
 	request := oci_sch.DeleteServiceConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -984,14 +984,14 @@ func (s *SchServiceConnectorResourceCrud) DeleteWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.DeleteServiceConnector(ctx, request)
+	response, err := s.Client.DeleteServiceConnector(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := serviceConnectorWaitForWorkRequest(ctx, workId, "serviceConnector",
+	_, delWorkRequestErr := serviceConnectorWaitForWorkRequest(workId, "serviceConnector",
 		oci_sch.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1969,7 +1969,7 @@ func TaskDetailsResponseToMap(obj oci_sch.TaskDetailsResponse) map[string]interf
 	return result
 }
 
-func (s *SchServiceConnectorResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *SchServiceConnectorResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_sch.ChangeServiceConnectorCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1980,16 +1980,16 @@ func (s *SchServiceConnectorResourceCrud) updateCompartment(ctx context.Context,
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.ChangeServiceConnectorCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeServiceConnectorCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "serviceConnector"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "serviceConnector"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *SchServiceConnectorResourceCrud) StartSchResource(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) StartSchResource() error {
 	request := oci_sch.ActivateServiceConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -2003,10 +2003,10 @@ func (s *SchServiceConnectorResourceCrud) StartSchResource(ctx context.Context) 
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *SchServiceConnectorResourceCrud) StopSchResource(ctx context.Context) error {
+func (s *SchServiceConnectorResourceCrud) StopSchResource() error {
 	request := oci_sch.DeactivateServiceConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -2020,5 +2020,5 @@ func (s *SchServiceConnectorResourceCrud) StopSchResource(ctx context.Context) e
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

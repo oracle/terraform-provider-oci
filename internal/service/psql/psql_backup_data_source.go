@@ -6,7 +6,6 @@ package psql
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -20,15 +19,15 @@ func PsqlBackupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(PsqlBackupResource(), fieldMap, readSingularPsqlBackupWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(PsqlBackupResource(), fieldMap, readSingularPsqlBackup)
 }
 
-func readSingularPsqlBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularPsqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type PsqlBackupDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *PsqlBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PsqlBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *PsqlBackupDataSourceCrud) Get() error {
 	request := oci_psql.GetBackupRequest{}
 
 	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
@@ -51,7 +50,7 @@ func (s *PsqlBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
 
-	response, err := s.Client.GetBackup(ctx, request)
+	response, err := s.Client.GetBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ package lustre_file_storage
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_lustre_file_storage "github.com/oracle/oci-go-sdk/v65/lustrefilestorage"
 
@@ -16,7 +15,7 @@ import (
 
 func LustreFileStorageLustreFileSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readLustreFileStorageLustreFileSystemsWithContext,
+		Read: readLustreFileStorageLustreFileSystems,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -57,12 +56,12 @@ func LustreFileStorageLustreFileSystemsDataSource() *schema.Resource {
 	}
 }
 
-func readLustreFileStorageLustreFileSystemsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readLustreFileStorageLustreFileSystems(d *schema.ResourceData, m interface{}) error {
 	sync := &LustreFileStorageLustreFileSystemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type LustreFileStorageLustreFileSystemsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *LustreFileStorageLustreFileSystemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LustreFileStorageLustreFileSystemsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LustreFileStorageLustreFileSystemsDataSourceCrud) Get() error {
 	request := oci_lustre_file_storage.ListLustreFileSystemsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -104,7 +103,7 @@ func (s *LustreFileStorageLustreFileSystemsDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "lustre_file_storage")
 
-	response, err := s.Client.ListLustreFileSystems(ctx, request)
+	response, err := s.Client.ListLustreFileSystems(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *LustreFileStorageLustreFileSystemsDataSourceCrud) GetWithContext(ctx co
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListLustreFileSystems(ctx, request)
+		listResponse, err := s.Client.ListLustreFileSystems(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_managed_kafka "github.com/oracle/oci-go-sdk/v65/managedkafka"
 
@@ -25,11 +25,11 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createManagedKafkaKafkaClusterWithContext,
-		ReadContext:   readManagedKafkaKafkaClusterWithContext,
-		UpdateContext: updateManagedKafkaKafkaClusterWithContext,
-		DeleteContext: deleteManagedKafkaKafkaClusterWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createManagedKafkaKafkaCluster,
+		Read:     readManagedKafkaKafkaCluster,
+		Update:   updateManagedKafkaKafkaCluster,
+		Delete:   deleteManagedKafkaKafkaCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"access_subnets": {
@@ -183,37 +183,37 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 	}
 }
 
-func createManagedKafkaKafkaClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createManagedKafkaKafkaCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readManagedKafkaKafkaClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readManagedKafkaKafkaCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateManagedKafkaKafkaClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateManagedKafkaKafkaCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteManagedKafkaKafkaClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteManagedKafkaKafkaCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ManagedKafkaKafkaClusterResourceCrud struct {
@@ -251,7 +251,7 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClusterResourceCrud) Create() error {
 	request := oci_managed_kafka.CreateKafkaClusterRequest{}
 
 	if accessSubnets, ok := s.D.GetOkExists("access_subnets"); ok {
@@ -334,7 +334,7 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) CreateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.CreateKafkaCluster(ctx, request)
+	response, err := s.Client.CreateKafkaCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -345,20 +345,20 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) CreateWithContext(ctx context.Con
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getKafkaClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getKafkaClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) getKafkaClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ManagedKafkaKafkaClusterResourceCrud) getKafkaClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_managed_kafka.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	kafkaClusterId, err := kafkaClusterWaitForWorkRequest(ctx, workId, "kafkacluster",
+	kafkaClusterId, err := kafkaClusterWaitForWorkRequest(workId, "kafkacluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, kafkaClusterId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_managed_kafka.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -372,7 +372,7 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) getKafkaClusterFromWorkRequest(ct
 	}
 	s.D.SetId(*kafkaClusterId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func kafkaClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -398,7 +398,7 @@ func kafkaClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func kafkaClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_managed_kafka.ActionTypeEnum,
+func kafkaClusterWaitForWorkRequest(wId *string, entityType string, action oci_managed_kafka.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_managed_kafka.KafkaClusterClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "managed_kafka")
 	retryPolicy.ShouldRetryOperation = kafkaClusterWorkRequestShouldRetryFunc(timeout)
@@ -417,7 +417,7 @@ func kafkaClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_managed_kafka.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -446,14 +446,14 @@ func kafkaClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_managed_kafka.OperationStatusFailed || response.Status == oci_managed_kafka.OperationStatusCanceled {
-		return nil, getErrorFromManagedKafkaKafkaClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromManagedKafkaKafkaClusterWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromManagedKafkaKafkaClusterWorkRequest(ctx context.Context, client *oci_managed_kafka.KafkaClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_managed_kafka.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromManagedKafkaKafkaClusterWorkRequest(client *oci_managed_kafka.KafkaClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_managed_kafka.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_managed_kafka.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -475,7 +475,7 @@ func getErrorFromManagedKafkaKafkaClusterWorkRequest(ctx context.Context, client
 	return workRequestErr
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClusterResourceCrud) Get() error {
 	request := oci_managed_kafka.GetKafkaClusterRequest{}
 
 	tmp := s.D.Id()
@@ -483,7 +483,7 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) GetWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.GetKafkaCluster(ctx, request)
+	response, err := s.Client.GetKafkaCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -492,11 +492,11 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) GetWithContext(ctx context.Contex
 	return nil
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClusterResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -573,16 +573,16 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) UpdateWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.UpdateKafkaCluster(ctx, request)
+	response, err := s.Client.UpdateKafkaCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKafkaClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKafkaClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClusterResourceCrud) Delete() error {
 	request := oci_managed_kafka.DeleteKafkaClusterRequest{}
 
 	tmp := s.D.Id()
@@ -590,14 +590,14 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) DeleteWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.DeleteKafkaCluster(ctx, request)
+	response, err := s.Client.DeleteKafkaCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := kafkaClusterWaitForWorkRequest(ctx, workId, "kafkacluster",
+	_, delWorkRequestErr := kafkaClusterWaitForWorkRequest(workId, "kafkacluster",
 		oci_managed_kafka.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -828,7 +828,7 @@ func SubnetSetToMap(obj oci_managed_kafka.SubnetSet) map[string]interface{} {
 	return result
 }
 
-func (s *ManagedKafkaKafkaClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ManagedKafkaKafkaClusterResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_managed_kafka.ChangeKafkaClusterCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -839,11 +839,11 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) updateCompartment(ctx context.Con
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.ChangeKafkaClusterCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeKafkaClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getKafkaClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getKafkaClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

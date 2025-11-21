@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
 
@@ -24,11 +24,11 @@ func PsqlBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createPsqlBackupWithContext,
-		ReadContext:   readPsqlBackupWithContext,
-		UpdateContext: updatePsqlBackupWithContext,
-		DeleteContext: deletePsqlBackupWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createPsqlBackup,
+		Read:     readPsqlBackup,
+		Update:   updatePsqlBackup,
+		Delete:   deletePsqlBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -194,37 +194,37 @@ func PsqlBackupResource() *schema.Resource {
 	}
 }
 
-func createPsqlBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createPsqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readPsqlBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readPsqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updatePsqlBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updatePsqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deletePsqlBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deletePsqlBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &PsqlBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type PsqlBackupResourceCrud struct {
@@ -263,11 +263,11 @@ func (s *PsqlBackupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *PsqlBackupResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) Create() error {
 	if s.isCopyCreate() {
-		return s.createBackupCopyPsql(ctx)
+		return s.createBackupCopyPsql()
 	}
-	return s.createBackupPsql(ctx)
+	return s.createBackupPsql()
 }
 
 func (s *PsqlBackupResourceCrud) isCopyCreate() bool {
@@ -278,7 +278,7 @@ func (s *PsqlBackupResourceCrud) isCopyCreate() bool {
 	}
 	return false
 }
-func (s *PsqlBackupResourceCrud) createBackupCopyPsql(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) createBackupCopyPsql() error {
 	copyPsqlBackupRequest := oci_psql.BackupCopyRequest{}
 
 	configProvider := *s.Client.ConfigurationProvider()
@@ -327,7 +327,7 @@ func (s *PsqlBackupResourceCrud) createBackupCopyPsql(ctx context.Context) error
 		}
 	}
 
-	response, err := s.SourceRegionClient.BackupCopy(ctx, copyPsqlBackupRequest)
+	response, err := s.SourceRegionClient.BackupCopy(context.Background(), copyPsqlBackupRequest)
 	if err != nil {
 		return err
 	}
@@ -335,7 +335,7 @@ func (s *PsqlBackupResourceCrud) createBackupCopyPsql(ctx context.Context) error
 	workId := response.OpcWorkRequestId
 	var identifier *string
 
-	res, err := s.SourceRegionClient.GetWorkRequest(ctx,
+	res, err := s.SourceRegionClient.GetWorkRequest(context.Background(),
 		oci_psql.GetWorkRequestRequest{
 			WorkRequestId: workId,
 		})
@@ -346,10 +346,10 @@ func (s *PsqlBackupResourceCrud) createBackupCopyPsql(ctx context.Context) error
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getBackupFromCopyWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBackupFromCopyWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlBackupResourceCrud) createBackupPsql(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) createBackupPsql() error {
 	request := oci_psql.CreateBackupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -391,7 +391,7 @@ func (s *PsqlBackupResourceCrud) createBackupPsql(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.CreateBackup(ctx, request)
+	response, err := s.Client.CreateBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -399,7 +399,7 @@ func (s *PsqlBackupResourceCrud) createBackupPsql(ctx context.Context) error {
 	workId := response.OpcWorkRequestId
 	var identifier *string
 
-	res, err := s.Client.GetWorkRequest(ctx,
+	res, err := s.Client.GetWorkRequest(context.Background(),
 		oci_psql.GetWorkRequestRequest{
 			WorkRequestId: workId,
 		})
@@ -411,10 +411,10 @@ func (s *PsqlBackupResourceCrud) createBackupPsql(ctx context.Context) error {
 		s.D.SetId(*identifier)
 	}
 
-	return s.getBackupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBackupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
 	configProvider := *s.Client.ConfigurationProvider()
@@ -428,14 +428,14 @@ func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(ctx context.Contex
 
 	// Wait until it finishes
 	// changes required here for the backup copy request
-	backupId, err := backupWaitForWorkRequest(ctx, workId, "backup",
+	backupId, err := backupWaitForWorkRequest(workId, "backup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.SourceRegionClient)
 
 	if err != nil {
 		return err
 	}
 	s.D.SetId(*backupId)
-	err = s.GetSource(ctx)
+	err = s.GetSource()
 	if err != nil {
 		return err
 	}
@@ -445,7 +445,7 @@ func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(ctx context.Contex
 			if item.BackupId != nil {
 				if *item.Region == currentRegion {
 					s.D.SetId(*item.BackupId)
-					err = tfresource.WaitForResourceConditionWithContext(ctx, s, func() bool { return s.Res.LifecycleState == oci_psql.BackupLifecycleStateActive }, s.D.Timeout(schema.TimeoutCreate))
+					err = tfresource.WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_psql.BackupLifecycleStateActive }, s.D.Timeout(schema.TimeoutCreate))
 					if err != nil {
 						return err
 					}
@@ -454,18 +454,18 @@ func (s *PsqlBackupResourceCrud) getBackupFromCopyWorkRequest(ctx context.Contex
 		}
 	}
 
-	err = s.UpdateWithContext(ctx)
+	err = s.Update()
 	if err != nil {
 		return err
 	}
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
-func (s *PsqlBackupResourceCrud) getBackupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *PsqlBackupResourceCrud) getBackupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	backupId, err := backupWaitForWorkRequest(ctx, workId, "backup",
+	backupId, err := backupWaitForWorkRequest(workId, "backup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -473,7 +473,7 @@ func (s *PsqlBackupResourceCrud) getBackupFromWorkRequest(ctx context.Context, w
 	}
 	s.D.SetId(*backupId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func backupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -499,7 +499,7 @@ func backupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_c
 	}
 }
 
-func backupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_psql.ActionTypeEnum,
+func backupWaitForWorkRequest(wId *string, entityType string, action oci_psql.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_psql.PostgresqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "psql")
 	retryPolicy.ShouldRetryOperation = backupWorkRequestShouldRetryFunc(timeout)
@@ -518,7 +518,7 @@ func backupWaitForWorkRequest(ctx context.Context, wId *string, entityType strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_psql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -576,7 +576,7 @@ func getErrorFromPsqlBackupWorkRequest(client *oci_psql.PostgresqlClient, workId
 	return workRequestErr
 }
 
-func (s *PsqlBackupResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) Get() error {
 	request := oci_psql.GetBackupRequest{}
 
 	tmp := s.D.Id()
@@ -584,7 +584,7 @@ func (s *PsqlBackupResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.GetBackup(ctx, request)
+	response, err := s.Client.GetBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -593,7 +593,7 @@ func (s *PsqlBackupResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *PsqlBackupResourceCrud) GetSource(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) GetSource() error {
 	request := oci_psql.GetBackupRequest{}
 
 	tmp := s.D.Id()
@@ -601,7 +601,7 @@ func (s *PsqlBackupResourceCrud) GetSource(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.SourceRegionClient.GetBackup(ctx, request)
+	response, err := s.SourceRegionClient.GetBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -610,7 +610,7 @@ func (s *PsqlBackupResourceCrud) GetSource(ctx context.Context) error {
 	return nil
 }
 
-func (s *PsqlBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -654,7 +654,7 @@ func (s *PsqlBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.UpdateBackup(ctx, request)
+	response, err := s.Client.UpdateBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -663,7 +663,7 @@ func (s *PsqlBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *PsqlBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *PsqlBackupResourceCrud) Delete() error {
 	request := oci_psql.DeleteBackupRequest{}
 
 	tmp := s.D.Id()
@@ -671,14 +671,14 @@ func (s *PsqlBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.DeleteBackup(ctx, request)
+	response, err := s.Client.DeleteBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := backupWaitForWorkRequest(ctx, workId, "backup",
+	_, delWorkRequestErr := backupWaitForWorkRequest(workId, "backup",
 		oci_psql.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

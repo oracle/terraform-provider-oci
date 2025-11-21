@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_desktops "github.com/oracle/oci-go-sdk/v65/desktops"
 
@@ -26,11 +26,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDesktopsDesktopPoolWithContext,
-		ReadContext:   readDesktopsDesktopPoolWithContext,
-		UpdateContext: updateDesktopsDesktopPoolWithContext,
-		DeleteContext: deleteDesktopsDesktopPoolWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createDesktopsDesktopPool,
+		Read:     readDesktopsDesktopPool,
+		Update:   updateDesktopsDesktopPool,
+		Delete:   deleteDesktopsDesktopPool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"are_privileged_users": {
@@ -463,37 +463,37 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 	}
 }
 
-func createDesktopsDesktopPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDesktopsDesktopPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DesktopsDesktopPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDesktopsDesktopPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDesktopsDesktopPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DesktopsDesktopPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDesktopsDesktopPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDesktopsDesktopPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DesktopsDesktopPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDesktopsDesktopPoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDesktopsDesktopPool(d *schema.ResourceData, m interface{}) error {
 	sync := &DesktopsDesktopPoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DesktopsDesktopPoolResourceCrud struct {
@@ -531,7 +531,7 @@ func (s *DesktopsDesktopPoolResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 	request := oci_desktops.CreateDesktopPoolRequest{}
 
 	if arePrivilegedUsers, ok := s.D.GetOkExists("are_privileged_users"); ok {
@@ -719,7 +719,7 @@ func (s *DesktopsDesktopPoolResourceCrud) CreateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
 
-	response, err := s.Client.CreateDesktopPool(ctx, request)
+	response, err := s.Client.CreateDesktopPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -730,20 +730,20 @@ func (s *DesktopsDesktopPoolResourceCrud) CreateWithContext(ctx context.Context)
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDesktopPoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDesktopPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) getDesktopPoolFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DesktopsDesktopPoolResourceCrud) getDesktopPoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_desktops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	desktopPoolId, err := desktopPoolWaitForWorkRequest(ctx, workId, "desktoppool",
+	desktopPoolId, err := desktopPoolWaitForWorkRequest(workId, "desktoppool",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, desktopPoolId)
-		_, cancelErr := s.Client.CancelWorkRequest(ctx,
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
 			oci_desktops.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -757,7 +757,7 @@ func (s *DesktopsDesktopPoolResourceCrud) getDesktopPoolFromWorkRequest(ctx cont
 	}
 	s.D.SetId(*desktopPoolId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func desktopPoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -783,7 +783,7 @@ func desktopPoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func desktopPoolWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_desktops.ActionTypeEnum,
+func desktopPoolWaitForWorkRequest(wId *string, entityType string, action oci_desktops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_desktops.DesktopServiceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "desktops")
 	retryPolicy.ShouldRetryOperation = desktopPoolWorkRequestShouldRetryFunc(timeout)
@@ -802,7 +802,7 @@ func desktopPoolWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_desktops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -831,14 +831,14 @@ func desktopPoolWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_desktops.OperationStatusFailed || response.Status == oci_desktops.OperationStatusCanceled {
-		return nil, getErrorFromDesktopsDesktopPoolWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDesktopsDesktopPoolWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDesktopsDesktopPoolWorkRequest(ctx context.Context, client *oci_desktops.DesktopServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_desktops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromDesktopsDesktopPoolWorkRequest(client *oci_desktops.DesktopServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_desktops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_desktops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -860,7 +860,7 @@ func getErrorFromDesktopsDesktopPoolWorkRequest(ctx context.Context, client *oci
 	return workRequestErr
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DesktopsDesktopPoolResourceCrud) Get() error {
 	request := oci_desktops.GetDesktopPoolRequest{}
 
 	tmp := s.D.Id()
@@ -868,7 +868,7 @@ func (s *DesktopsDesktopPoolResourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
 
-	response, err := s.Client.GetDesktopPool(ctx, request)
+	response, err := s.Client.GetDesktopPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -877,11 +877,11 @@ func (s *DesktopsDesktopPoolResourceCrud) GetWithContext(ctx context.Context) er
 	return nil
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -969,16 +969,16 @@ func (s *DesktopsDesktopPoolResourceCrud) UpdateWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
 
-	response, err := s.Client.UpdateDesktopPool(ctx, request)
+	response, err := s.Client.UpdateDesktopPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDesktopPoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDesktopPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DesktopsDesktopPoolResourceCrud) Delete() error {
 	request := oci_desktops.DeleteDesktopPoolRequest{}
 
 	if areVolumesPreserved, ok := s.D.GetOkExists("are_volumes_preserved"); ok {
@@ -991,14 +991,14 @@ func (s *DesktopsDesktopPoolResourceCrud) DeleteWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
 
-	response, err := s.Client.DeleteDesktopPool(ctx, request)
+	response, err := s.Client.DeleteDesktopPool(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := desktopPoolWaitForWorkRequest(ctx, workId, "desktoppool",
+	_, delWorkRequestErr := desktopPoolWaitForWorkRequest(workId, "desktoppool",
 		oci_desktops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1591,7 +1591,7 @@ func InactivityConfigToMap(obj *oci_desktops.InactivityConfig) map[string]interf
 	return result
 }
 
-func (s *DesktopsDesktopPoolResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DesktopsDesktopPoolResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_desktops.ChangeDesktopPoolCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1602,11 +1602,11 @@ func (s *DesktopsDesktopPoolResourceCrud) updateCompartment(ctx context.Context,
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
 
-	response, err := s.Client.ChangeDesktopPoolCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeDesktopPoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDesktopPoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDesktopPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops"), oci_desktops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

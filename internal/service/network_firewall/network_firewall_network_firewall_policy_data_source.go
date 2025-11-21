@@ -6,7 +6,6 @@ package network_firewall
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_network_firewall "github.com/oracle/oci-go-sdk/v65/networkfirewall"
 
@@ -20,15 +19,16 @@ func NetworkFirewallNetworkFirewallPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(NetworkFirewallNetworkFirewallPolicyResource(), fieldMap, readSingularNetworkFirewallNetworkFirewallPolicyWithContext)
+
+	return tfresource.GetSingularDataSourceItemSchema(NetworkFirewallNetworkFirewallPolicyResource(), fieldMap, readSingularNetworkFirewallNetworkFirewallPolicy)
 }
 
-func readSingularNetworkFirewallNetworkFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkFirewallNetworkFirewallPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkFirewallNetworkFirewallPolicyDataSourceCrud struct {
@@ -41,7 +41,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) Get() error {
 	request := oci_network_firewall.GetNetworkFirewallPolicyRequest{}
 
 	if networkFirewallPolicyId, ok := s.D.GetOkExists("network_firewall_policy_id"); ok {
@@ -51,7 +51,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_firewall")
 
-	response, err := s.Client.GetNetworkFirewallPolicy(ctx, request)
+	response, err := s.Client.GetNetworkFirewallPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -74,7 +74,6 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
-
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -102,6 +101,5 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-
 	return nil
 }

@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -26,11 +26,11 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createFleetSoftwareUpdateFsuCycleWithContext,
-		ReadContext:   readFleetSoftwareUpdateFsuCycleWithContext,
-		UpdateContext: updateFleetSoftwareUpdateFsuCycleWithContext,
-		DeleteContext: deleteFleetSoftwareUpdateFsuCycleWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createFleetSoftwareUpdateFsuCycle,
+		Read:     readFleetSoftwareUpdateFsuCycle,
+		Update:   updateFleetSoftwareUpdateFsuCycle,
+		Delete:   deleteFleetSoftwareUpdateFsuCycle,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -457,37 +457,37 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 	}
 }
 
-func createFleetSoftwareUpdateFsuCycleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createFleetSoftwareUpdateFsuCycle(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCycleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readFleetSoftwareUpdateFsuCycleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFleetSoftwareUpdateFsuCycle(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCycleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateFleetSoftwareUpdateFsuCycleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateFleetSoftwareUpdateFsuCycle(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCycleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteFleetSoftwareUpdateFsuCycleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteFleetSoftwareUpdateFsuCycle(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCycleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type FleetSoftwareUpdateFsuCycleResourceCrud struct {
@@ -529,7 +529,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) Create() error {
 	request := oci_fleet_software_update.CreateFsuCycleRequest{}
 	err := s.populateTopLevelPolymorphicCreateFsuCycleRequest(&request)
 	if err != nil {
@@ -538,7 +538,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) CreateWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.CreateFsuCycle(ctx, request)
+	response, err := s.Client.CreateFsuCycle(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -549,14 +549,14 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) CreateWithContext(ctx context.
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getFsuCycleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFsuCycleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) getFsuCycleFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) getFsuCycleFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_software_update.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fsuCycleId, err := fsuCycleWaitForWorkRequest(ctx, workId, "cycle",
+	fsuCycleId, err := fsuCycleWaitForWorkRequest(workId, "cycle",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -564,7 +564,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) getFsuCycleFromWorkRequest(ctx
 	}
 	s.D.SetId(*fsuCycleId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func fsuCycleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -590,7 +590,7 @@ func fsuCycleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func fsuCycleWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_software_update.ActionTypeEnum,
+func fsuCycleWaitForWorkRequest(wId *string, entityType string, action oci_fleet_software_update.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_software_update.FleetSoftwareUpdateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_software_update")
 	retryPolicy.ShouldRetryOperation = fsuCycleWorkRequestShouldRetryFunc(timeout)
@@ -609,7 +609,7 @@ func fsuCycleWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_fleet_software_update.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -638,14 +638,14 @@ func fsuCycleWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_software_update.OperationStatusFailed || response.Status == oci_fleet_software_update.OperationStatusCanceled {
-		return nil, getErrorFromFleetSoftwareUpdateFsuCycleWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetSoftwareUpdateFsuCycleWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetSoftwareUpdateFsuCycleWorkRequest(ctx context.Context, client *oci_fleet_software_update.FleetSoftwareUpdateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_software_update.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromFleetSoftwareUpdateFsuCycleWorkRequest(client *oci_fleet_software_update.FleetSoftwareUpdateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_software_update.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_fleet_software_update.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -667,7 +667,7 @@ func getErrorFromFleetSoftwareUpdateFsuCycleWorkRequest(ctx context.Context, cli
 	return workRequestErr
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) Get() error {
 	request := oci_fleet_software_update.GetFsuCycleRequest{}
 
 	tmp := s.D.Id()
@@ -675,26 +675,26 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.GetFsuCycle(ctx, request)
+	response, err := s.Client.GetFsuCycle(context.Background(), request)
 	if err != nil {
 		return err
 	}
-
 	s.Res = &response.FsuCycle
 	return nil
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
 		}
 	}
 	request := oci_fleet_software_update.UpdateFsuCycleRequest{}
+	log.Printf("[FSULOG] Update request %v", request)
 	err := s.populateTopLevelPolymorphicUpdateFsuCycleRequest(&request)
 	if err != nil {
 		return err
@@ -702,32 +702,31 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) UpdateWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.UpdateFsuCycle(ctx, request)
+	response, err := s.Client.UpdateFsuCycle(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFsuCycleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFsuCycleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) Delete() error {
 	request := oci_fleet_software_update.DeleteFsuCycleRequest{}
 
 	tmp := s.D.Id()
 	request.FsuCycleId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
-
-	response, err := s.Client.DeleteFsuCycle(ctx, request)
+	response, err := s.Client.DeleteFsuCycle(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := fsuCycleWaitForWorkRequest(ctx, workId, "cycle",
-		oci_fleet_software_update.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	_, delWorkRequestErr := fsuCycleWaitForWorkRequest(workId, "cycle",
+		oci_fleet_software_update.ActionTypeRelated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
@@ -759,6 +758,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 		} else {
 			s.D.Set("apply_action_schedule", nil)
 		}
+
 		if v.StageActionSchedule != nil {
 			stageActionScheduleArray := []interface{}{}
 			if stageActionScheduleMap := ScheduleDetailsToMap(&v.StageActionSchedule); stageActionScheduleMap != nil {
@@ -779,7 +779,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 		} else {
 			s.D.Set("batching_strategy", nil)
 		}
-
+		log.Printf("[FSULOG] collection_type Set: %v", v.CollectionType)
 		s.D.Set("collection_type", v.CollectionType)
 
 		if v.CompartmentId != nil {
@@ -809,7 +809,6 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 		if v.FsuCollectionId != nil {
 			s.D.Set("fsu_collection_id", *v.FsuCollectionId)
 		}
-
 		if v.GoalVersionDetails != nil {
 			goalVersionDetailsArray := []interface{}{}
 			if goalVersionDetailsMap := FsuGoalVersionDetailsToMap(&v.GoalVersionDetails); goalVersionDetailsMap != nil {
@@ -991,7 +990,9 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+
 		s.D.Set("is_ignore_missing_patches", nil)
+
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *s.Res)
 		return nil
@@ -1137,7 +1138,7 @@ func BatchingStrategyDetailsToMap(obj *oci_fleet_software_update.BatchingStrateg
 			result["percentage"] = int(*v.Percentage)
 		}
 	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		log.Printf("[WARN] Received 'type' of unknown type %T", v)
 		return nil
 	}
 
@@ -1181,7 +1182,7 @@ func ScheduleDetailsToMap(obj *oci_fleet_software_update.ScheduleDetails) map[st
 			result["time_to_start"] = v.TimeToStart.Format(time.RFC3339Nano)
 		}
 	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		log.Printf("[WARN] Received 'type' of unknown type %T", *obj)
 		return nil
 	}
 
@@ -1333,10 +1334,10 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) mapToFsuGoalVersionDetails(fie
 			tmp := softwareImageId.(string)
 			details.SoftwareImageId = &tmp
 		}
-		if homePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "home_policy")); ok {
+		if homePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "home_policy")); ok && homePolicy != "" {
 			details.HomePolicy = oci_fleet_software_update.FsuGoalVersionDetailsHomePolicyEnum(homePolicy.(string))
 		}
-		if newHomePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "new_home_prefix")); ok {
+		if newHomePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "new_home_prefix")); ok && newHomePrefix != "" {
 			tmp := newHomePrefix.(string)
 			details.NewHomePrefix = &tmp
 		}
@@ -1386,7 +1387,6 @@ func FsuGoalVersionDetailsToMap(obj *oci_fleet_software_update.FsuGoalVersionDet
 		if v.SoftwareImageId != nil {
 			result["software_image_id"] = string(*v.SoftwareImageId)
 		}
-
 		if v.NewHomePrefix != nil {
 			result["new_home_prefix"] = string(*v.NewHomePrefix)
 		}
@@ -1399,9 +1399,6 @@ func FsuGoalVersionDetailsToMap(obj *oci_fleet_software_update.FsuGoalVersionDet
 		if v.Version != nil {
 			result["version"] = string(*v.Version)
 		}
-
-		result["home_policy"] = string(v.HomePolicy)
-
 		if v.NewHomePrefix != nil {
 			result["new_home_prefix"] = string(*v.NewHomePrefix)
 		}
@@ -1409,10 +1406,9 @@ func FsuGoalVersionDetailsToMap(obj *oci_fleet_software_update.FsuGoalVersionDet
 			result["home_policy"] = homePolicy
 		}
 	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		log.Printf("[WARN] Received 'type' of unknown type %T", v)
 		return nil
 	}
-
 	return result
 }
 
@@ -1961,6 +1957,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) populateTopLevelPolymorphicUpd
 		tmp := s.D.Id()
 		request.FsuCycleId = &tmp
 		if goalVersionDetails, ok := s.D.GetOkExists("goal_version_details"); ok {
+			log.Printf("[FSULOG] goalVersionDetails-Update %v", goalVersionDetails)
 			if tmpList := goalVersionDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "goal_version_details", 0)
 				tmp, err := s.mapToFsuGoalVersionDetails(fieldKeyFormat)
@@ -2036,7 +2033,7 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) populateTopLevelPolymorphicUpd
 	return nil
 }
 
-func (s *FleetSoftwareUpdateFsuCycleResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *FleetSoftwareUpdateFsuCycleResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_fleet_software_update.ChangeFsuCycleCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2047,11 +2044,11 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) updateCompartment(ctx context.
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update")
 
-	response, err := s.Client.ChangeFsuCycleCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeFsuCycleCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFsuCycleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFsuCycleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_software_update"), oci_fleet_software_update.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

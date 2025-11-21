@@ -6,7 +6,6 @@ package ocvp
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -16,7 +15,7 @@ import (
 
 func OcvpClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOcvpClustersWithContext,
+		Read: readOcvpClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func OcvpClustersDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOcvpClusters(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OcvpClustersDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *OcvpClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OcvpClustersDataSourceCrud) Get() error {
 	request := oci_ocvp.ListClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *OcvpClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListClusters(ctx, request)
+	response, err := s.Client.ListClusters(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *OcvpClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListClusters(ctx, request)
+		listResponse, err := s.Client.ListClusters(context.Background(), request)
 		if err != nil {
 			return err
 		}

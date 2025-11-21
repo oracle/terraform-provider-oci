@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -22,10 +22,10 @@ import (
 
 func JmsJavaDownloadsJavaDownloadReportResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createJmsJavaDownloadsJavaDownloadReportWithContext,
-		ReadContext:   readJmsJavaDownloadsJavaDownloadReportWithContext,
-		DeleteContext: deleteJmsJavaDownloadsJavaDownloadReportWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createJmsJavaDownloadsJavaDownloadReport,
+		Read:     readJmsJavaDownloadsJavaDownloadReport,
+		Delete:   deleteJmsJavaDownloadsJavaDownloadReport,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -137,29 +137,29 @@ func JmsJavaDownloadsJavaDownloadReportResource() *schema.Resource {
 	}
 }
 
-func createJmsJavaDownloadsJavaDownloadReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createJmsJavaDownloadsJavaDownloadReport(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readJmsJavaDownloadsJavaDownloadReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readJmsJavaDownloadsJavaDownloadReport(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteJmsJavaDownloadsJavaDownloadReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteJmsJavaDownloadsJavaDownloadReport(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type JmsJavaDownloadsJavaDownloadReportResourceCrud struct {
@@ -198,7 +198,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) Create() error {
 	request := oci_jms_java_downloads.CreateJavaDownloadReportRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -240,14 +240,14 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) CreateWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.CreateJavaDownloadReport(ctx, request)
+	response, err := s.Client.CreateJavaDownloadReport(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_jms_java_downloads.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_jms_java_downloads.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -263,14 +263,14 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) CreateWithContext(ctx c
 			}
 		}
 	}
-	return s.getJavaDownloadReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getJavaDownloadReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads"), oci_jms_java_downloads.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) getJavaDownloadReportFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) getJavaDownloadReportFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_jms_java_downloads.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	javaDownloadReportId, err := javaDownloadReportWaitForWorkRequest(ctx, workId, "jmsjavadownloadreport",
+	javaDownloadReportId, err := javaDownloadReportWaitForWorkRequest(workId, "jmsjavadownloadreport",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -278,7 +278,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) getJavaDownloadReportFr
 	}
 	s.D.SetId(*javaDownloadReportId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func javaDownloadReportWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -304,7 +304,7 @@ func javaDownloadReportWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func javaDownloadReportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_jms_java_downloads.ActionTypeEnum,
+func javaDownloadReportWaitForWorkRequest(wId *string, entityType string, action oci_jms_java_downloads.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_jms_java_downloads.JavaDownloadClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "jms_java_downloads")
 	retryPolicy.ShouldRetryOperation = javaDownloadReportWorkRequestShouldRetryFunc(timeout)
@@ -323,7 +323,7 @@ func javaDownloadReportWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_jms_java_downloads.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -352,13 +352,13 @@ func javaDownloadReportWaitForWorkRequest(ctx context.Context, wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_jms_java_downloads.OperationStatusEnum(oci_jms_java_downloads.ListWorkRequestsStatusFailed) || response.Status == oci_jms_java_downloads.OperationStatusEnum(oci_jms_java_downloads.ListWorkRequestsStatusCanceled) {
-		return nil, getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(ctx context.Context, client *oci_jms_java_downloads.JavaDownloadClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_jms_java_downloads.ActionTypeEnum) error {
+func getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(client *oci_jms_java_downloads.JavaDownloadClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_jms_java_downloads.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_jms_java_downloads.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -381,7 +381,7 @@ func getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(ctx context.Conte
 	return workRequestErr
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) Get() error {
 	request := oci_jms_java_downloads.GetJavaDownloadReportRequest{}
 
 	tmp := s.D.Id()
@@ -389,7 +389,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) GetWithContext(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.GetJavaDownloadReport(ctx, request)
+	response, err := s.Client.GetJavaDownloadReport(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -398,7 +398,7 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) GetWithContext(ctx cont
 	return nil
 }
 
-func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) Delete() error {
 	request := oci_jms_java_downloads.DeleteJavaDownloadReportRequest{}
 
 	tmp := s.D.Id()
@@ -406,14 +406,14 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) DeleteWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "jms_java_downloads")
 
-	response, err := s.Client.DeleteJavaDownloadReport(ctx, request)
+	response, err := s.Client.DeleteJavaDownloadReport(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := javaDownloadReportWaitForWorkRequest(ctx, workId, "jmsjavadownloadreport",
+	_, delWorkRequestErr := javaDownloadReportWaitForWorkRequest(workId, "jmsjavadownloadreport",
 		oci_jms_java_downloads.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

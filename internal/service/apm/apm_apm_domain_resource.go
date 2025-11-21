@@ -9,12 +9,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_apm "github.com/oracle/oci-go-sdk/v65/apmcontrolplane"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -24,11 +24,11 @@ func ApmApmDomainResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createApmApmDomainWithContext,
-		ReadContext:   readApmApmDomainWithContext,
-		UpdateContext: updateApmApmDomainWithContext,
-		DeleteContext: deleteApmApmDomainWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createApmApmDomain,
+		Read:     readApmApmDomain,
+		Update:   updateApmApmDomain,
+		Delete:   deleteApmApmDomain,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -87,37 +87,37 @@ func ApmApmDomainResource() *schema.Resource {
 	}
 }
 
-func createApmApmDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createApmApmDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readApmApmDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readApmApmDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateApmApmDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateApmApmDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteApmApmDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteApmApmDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &ApmApmDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApmDomainClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type ApmApmDomainResourceCrud struct {
@@ -155,7 +155,7 @@ func (s *ApmApmDomainResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ApmApmDomainResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *ApmApmDomainResourceCrud) Create() error {
 	request := oci_apm.CreateApmDomainRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -192,14 +192,14 @@ func (s *ApmApmDomainResourceCrud) CreateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
-	response, err := s.Client.CreateApmDomain(ctx, request)
+	response, err := s.Client.CreateApmDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_apm.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_apm.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -215,14 +215,14 @@ func (s *ApmApmDomainResourceCrud) CreateWithContext(ctx context.Context) error 
 			}
 		}
 	}
-	return s.getApmDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getApmDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApmApmDomainResourceCrud) getApmDomainFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApmApmDomainResourceCrud) getApmDomainFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apm.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	apmDomainId, err := apmDomainWaitForWorkRequest(ctx, workId, "apmDomain",
+	apmDomainId, err := apmDomainWaitForWorkRequest(workId, "apmDomain",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *ApmApmDomainResourceCrud) getApmDomainFromWorkRequest(ctx context.Conte
 	}
 	s.D.SetId(*apmDomainId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func apmDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -256,7 +256,7 @@ func apmDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func apmDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_apm.ActionTypesEnum,
+func apmDomainWaitForWorkRequest(wId *string, entityType string, action oci_apm.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apm.ApmDomainClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apm")
 	retryPolicy.ShouldRetryOperation = apmDomainWorkRequestShouldRetryFunc(timeout)
@@ -275,7 +275,7 @@ func apmDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_apm.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -304,13 +304,13 @@ func apmDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apm.OperationStatusFailed || response.Status == oci_apm.OperationStatusCanceled {
-		return nil, getErrorFromApmControlPlaneWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApmControlPlaneWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApmControlPlaneWorkRequest(ctx context.Context, client *oci_apm.ApmDomainClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apm.ActionTypesEnum) error {
+func getErrorFromApmControlPlaneWorkRequest(client *oci_apm.ApmDomainClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apm.ActionTypesEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_apm.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -333,7 +333,7 @@ func getErrorFromApmControlPlaneWorkRequest(ctx context.Context, client *oci_apm
 	return workRequestErr
 }
 
-func (s *ApmApmDomainResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApmApmDomainResourceCrud) Get() error {
 	request := oci_apm.GetApmDomainRequest{}
 
 	tmp := s.D.Id()
@@ -341,7 +341,7 @@ func (s *ApmApmDomainResourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
-	response, err := s.Client.GetApmDomain(ctx, request)
+	response, err := s.Client.GetApmDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -350,11 +350,11 @@ func (s *ApmApmDomainResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *ApmApmDomainResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *ApmApmDomainResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -389,16 +389,16 @@ func (s *ApmApmDomainResourceCrud) UpdateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
-	response, err := s.Client.UpdateApmDomain(ctx, request)
+	response, err := s.Client.UpdateApmDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApmDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getApmDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApmApmDomainResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *ApmApmDomainResourceCrud) Delete() error {
 	request := oci_apm.DeleteApmDomainRequest{}
 
 	tmp := s.D.Id()
@@ -406,14 +406,14 @@ func (s *ApmApmDomainResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
-	response, err := s.Client.DeleteApmDomain(ctx, request)
+	response, err := s.Client.DeleteApmDomain(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := apmDomainWaitForWorkRequest(ctx, workId, "apmDomain",
+	_, delWorkRequestErr := apmDomainWaitForWorkRequest(workId, "apmDomain",
 		oci_apm.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -458,7 +458,7 @@ func (s *ApmApmDomainResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ApmApmDomainResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *ApmApmDomainResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_apm.ChangeApmDomainCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -469,11 +469,11 @@ func (s *ApmApmDomainResourceCrud) updateCompartment(ctx context.Context, compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
-	response, err := s.Client.ChangeApmDomainCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeApmDomainCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApmDomainFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getApmDomainFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

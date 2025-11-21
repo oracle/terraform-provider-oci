@@ -6,7 +6,6 @@ package adm
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_adm "github.com/oracle/oci-go-sdk/v65/adm"
 
@@ -16,7 +15,7 @@ import (
 
 func AdmKnowledgeBasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readAdmKnowledgeBasesWithContext,
+		Read: readAdmKnowledgeBases,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func AdmKnowledgeBasesDataSource() *schema.Resource {
 	}
 }
 
-func readAdmKnowledgeBasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readAdmKnowledgeBases(d *schema.ResourceData, m interface{}) error {
 	sync := &AdmKnowledgeBasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApplicationDependencyManagementClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type AdmKnowledgeBasesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *AdmKnowledgeBasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AdmKnowledgeBasesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *AdmKnowledgeBasesDataSourceCrud) Get() error {
 	request := oci_adm.ListKnowledgeBasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *AdmKnowledgeBasesDataSourceCrud) GetWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "adm")
 
-	response, err := s.Client.ListKnowledgeBases(ctx, request)
+	response, err := s.Client.ListKnowledgeBases(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *AdmKnowledgeBasesDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListKnowledgeBases(ctx, request)
+		listResponse, err := s.Client.ListKnowledgeBases(context.Background(), request)
 		if err != nil {
 			return err
 		}

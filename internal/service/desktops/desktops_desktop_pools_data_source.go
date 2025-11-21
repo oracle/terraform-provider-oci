@@ -6,7 +6,6 @@ package desktops
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_desktops "github.com/oracle/oci-go-sdk/v65/desktops"
 
@@ -16,7 +15,7 @@ import (
 
 func DesktopsDesktopPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDesktopsDesktopPoolsWithContext,
+		Read: readDesktopsDesktopPools,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -57,12 +56,12 @@ func DesktopsDesktopPoolsDataSource() *schema.Resource {
 	}
 }
 
-func readDesktopsDesktopPoolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDesktopsDesktopPools(d *schema.ResourceData, m interface{}) error {
 	sync := &DesktopsDesktopPoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DesktopServiceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DesktopsDesktopPoolsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *DesktopsDesktopPoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DesktopsDesktopPoolsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DesktopsDesktopPoolsDataSourceCrud) Get() error {
 	request := oci_desktops.ListDesktopPoolsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -106,7 +105,7 @@ func (s *DesktopsDesktopPoolsDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "desktops")
 
-	response, err := s.Client.ListDesktopPools(ctx, request)
+	response, err := s.Client.ListDesktopPools(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -115,7 +114,7 @@ func (s *DesktopsDesktopPoolsDataSourceCrud) GetWithContext(ctx context.Context)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDesktopPools(ctx, request)
+		listResponse, err := s.Client.ListDesktopPools(context.Background(), request)
 		if err != nil {
 			return err
 		}

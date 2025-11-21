@@ -6,7 +6,6 @@ package opensearch
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -16,7 +15,7 @@ import (
 
 func OpensearchOpensearchClusterPipelinesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOpensearchOpensearchClusterPipelinesWithContext,
+		Read: readOpensearchOpensearchClusterPipelines,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func OpensearchOpensearchClusterPipelinesDataSource() *schema.Resource {
 	}
 }
 
-func readOpensearchOpensearchClusterPipelinesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readOpensearchOpensearchClusterPipelines(d *schema.ResourceData, m interface{}) error {
 	sync := &OpensearchOpensearchClusterPipelinesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterPipelineClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type OpensearchOpensearchClusterPipelinesDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *OpensearchOpensearchClusterPipelinesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpensearchOpensearchClusterPipelinesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *OpensearchOpensearchClusterPipelinesDataSourceCrud) Get() error {
 	request := oci_opensearch.ListOpensearchClusterPipelinesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *OpensearchOpensearchClusterPipelinesDataSourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opensearch")
 
-	response, err := s.Client.ListOpensearchClusterPipelines(ctx, request)
+	response, err := s.Client.ListOpensearchClusterPipelines(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *OpensearchOpensearchClusterPipelinesDataSourceCrud) GetWithContext(ctx 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOpensearchClusterPipelines(ctx, request)
+		listResponse, err := s.Client.ListOpensearchClusterPipelines(context.Background(), request)
 		if err != nil {
 			return err
 		}

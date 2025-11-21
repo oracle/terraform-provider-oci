@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_waa "github.com/oracle/oci-go-sdk/v65/waa"
 
@@ -26,11 +26,11 @@ func WaaWebAppAccelerationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createWaaWebAppAccelerationWithContext,
-		ReadContext:   readWaaWebAppAccelerationWithContext,
-		UpdateContext: updateWaaWebAppAccelerationWithContext,
-		DeleteContext: deleteWaaWebAppAccelerationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createWaaWebAppAcceleration,
+		Read:     readWaaWebAppAcceleration,
+		Update:   updateWaaWebAppAcceleration,
+		Delete:   deleteWaaWebAppAcceleration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"backend_type": {
@@ -103,40 +103,40 @@ func WaaWebAppAccelerationResource() *schema.Resource {
 	}
 }
 
-func createWaaWebAppAccelerationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createWaaWebAppAcceleration(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WaaWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readWaaWebAppAccelerationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readWaaWebAppAcceleration(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateWaaWebAppAccelerationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateWaaWebAppAcceleration(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WaaWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteWaaWebAppAccelerationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteWaaWebAppAcceleration(d *schema.ResourceData, m interface{}) error {
 	sync := &WaaWebAppAccelerationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).WaaClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WaaWorkRequestClient()
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type WaaWebAppAccelerationResourceCrud struct {
@@ -176,7 +176,7 @@ func (s *WaaWebAppAccelerationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationResourceCrud) Create() error {
 	request := oci_waa.CreateWebAppAccelerationRequest{}
 	err := s.populateTopLevelPolymorphicCreateWebAppAccelerationRequest(&request)
 	if err != nil {
@@ -185,7 +185,7 @@ func (s *WaaWebAppAccelerationResourceCrud) CreateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa")
 
-	response, err := s.Client.CreateWebAppAcceleration(ctx, request)
+	response, err := s.Client.CreateWebAppAcceleration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -196,14 +196,14 @@ func (s *WaaWebAppAccelerationResourceCrud) CreateWithContext(ctx context.Contex
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getWebAppAccelerationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWebAppAccelerationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) getWebAppAccelerationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *WaaWebAppAccelerationResourceCrud) getWebAppAccelerationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_waa.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	webAppAccelerationId, err := webAppAccelerationWaitForWorkRequest(ctx, workId, "webappacceleration",
+	webAppAccelerationId, err := webAppAccelerationWaitForWorkRequest(workId, "webappacceleration",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -211,7 +211,7 @@ func (s *WaaWebAppAccelerationResourceCrud) getWebAppAccelerationFromWorkRequest
 	}
 	s.D.SetId(*webAppAccelerationId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func webAppAccelerationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -237,7 +237,7 @@ func webAppAccelerationWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func webAppAccelerationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_waa.WorkRequestResourceActionTypeEnum,
+func webAppAccelerationWaitForWorkRequest(wId *string, entityType string, action oci_waa.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waa.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "waa")
 	retryPolicy.ShouldRetryOperation = webAppAccelerationWorkRequestShouldRetryFunc(timeout)
@@ -256,7 +256,7 @@ func webAppAccelerationWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_waa.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -285,14 +285,14 @@ func webAppAccelerationWaitForWorkRequest(ctx context.Context, wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_waa.WorkRequestStatusFailed || response.Status == oci_waa.WorkRequestStatusCanceled {
-		return nil, getErrorFromWaaWebAppAccelerationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromWaaWebAppAccelerationWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromWaaWebAppAccelerationWorkRequest(ctx context.Context, client *oci_waa.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waa.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromWaaWebAppAccelerationWorkRequest(client *oci_waa.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_waa.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_waa.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -314,7 +314,7 @@ func getErrorFromWaaWebAppAccelerationWorkRequest(ctx context.Context, client *o
 	return workRequestErr
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationResourceCrud) Get() error {
 	request := oci_waa.GetWebAppAccelerationRequest{}
 
 	tmp := s.D.Id()
@@ -322,7 +322,7 @@ func (s *WaaWebAppAccelerationResourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa")
 
-	response, err := s.Client.GetWebAppAcceleration(ctx, request)
+	response, err := s.Client.GetWebAppAcceleration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -331,11 +331,11 @@ func (s *WaaWebAppAccelerationResourceCrud) GetWithContext(ctx context.Context) 
 	return nil
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -378,16 +378,16 @@ func (s *WaaWebAppAccelerationResourceCrud) UpdateWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa")
 
-	response, err := s.Client.UpdateWebAppAcceleration(ctx, request)
+	response, err := s.Client.UpdateWebAppAcceleration(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWebAppAccelerationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWebAppAccelerationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *WaaWebAppAccelerationResourceCrud) Delete() error {
 	request := oci_waa.DeleteWebAppAccelerationRequest{}
 
 	tmp := s.D.Id()
@@ -395,14 +395,14 @@ func (s *WaaWebAppAccelerationResourceCrud) DeleteWithContext(ctx context.Contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa")
 
-	response, err := s.Client.DeleteWebAppAcceleration(ctx, request)
+	response, err := s.Client.DeleteWebAppAcceleration(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := webAppAccelerationWaitForWorkRequest(ctx, workId, "webappacceleration",
+	_, delWorkRequestErr := webAppAccelerationWaitForWorkRequest(workId, "webappacceleration",
 		oci_waa.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -567,7 +567,7 @@ func (s *WaaWebAppAccelerationResourceCrud) populateTopLevelPolymorphicCreateWeb
 	return nil
 }
 
-func (s *WaaWebAppAccelerationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *WaaWebAppAccelerationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_waa.ChangeWebAppAccelerationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -578,11 +578,11 @@ func (s *WaaWebAppAccelerationResourceCrud) updateCompartment(ctx context.Contex
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa")
 
-	response, err := s.Client.ChangeWebAppAccelerationCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeWebAppAccelerationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWebAppAccelerationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWebAppAccelerationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

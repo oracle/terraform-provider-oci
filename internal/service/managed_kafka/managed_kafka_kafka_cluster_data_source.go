@@ -6,7 +6,6 @@ package managed_kafka
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_managed_kafka "github.com/oracle/oci-go-sdk/v65/managedkafka"
 
@@ -20,15 +19,15 @@ func ManagedKafkaKafkaClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ManagedKafkaKafkaClusterResource(), fieldMap, readSingularManagedKafkaKafkaClusterWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ManagedKafkaKafkaClusterResource(), fieldMap, readSingularManagedKafkaKafkaCluster)
 }
 
-func readSingularManagedKafkaKafkaClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularManagedKafkaKafkaCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &ManagedKafkaKafkaClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ManagedKafkaKafkaClusterDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ManagedKafkaKafkaClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ManagedKafkaKafkaClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ManagedKafkaKafkaClusterDataSourceCrud) Get() error {
 	request := oci_managed_kafka.GetKafkaClusterRequest{}
 
 	if kafkaClusterId, ok := s.D.GetOkExists("kafka_cluster_id"); ok {
@@ -51,7 +50,7 @@ func (s *ManagedKafkaKafkaClusterDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "managed_kafka")
 
-	response, err := s.Client.GetKafkaCluster(ctx, request)
+	response, err := s.Client.GetKafkaCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}

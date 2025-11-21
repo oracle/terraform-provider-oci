@@ -6,7 +6,6 @@ package network_firewall
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_network_firewall "github.com/oracle/oci-go-sdk/v65/networkfirewall"
 
@@ -16,7 +15,7 @@ import (
 
 func NetworkFirewallNetworkFirewallPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readNetworkFirewallNetworkFirewallPoliciesWithContext,
+		Read: readNetworkFirewallNetworkFirewallPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func NetworkFirewallNetworkFirewallPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readNetworkFirewallNetworkFirewallPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readNetworkFirewallNetworkFirewallPolicies(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkFirewallNetworkFirewallPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkFirewallClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type NetworkFirewallNetworkFirewallPoliciesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) Get() error {
 	request := oci_network_firewall.ListNetworkFirewallPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) GetWithContext(ct
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_firewall")
 
-	response, err := s.Client.ListNetworkFirewallPolicies(ctx, request)
+	response, err := s.Client.ListNetworkFirewallPolicies(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) GetWithContext(ct
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNetworkFirewallPolicies(ctx, request)
+		listResponse, err := s.Client.ListNetworkFirewallPolicies(context.Background(), request)
 		if err != nil {
 			return err
 		}

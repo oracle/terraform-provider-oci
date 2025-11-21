@@ -7,7 +7,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
 
@@ -21,15 +20,15 @@ func JmsJavaDownloadsJavaDownloadTokenDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(JmsJavaDownloadsJavaDownloadTokenResource(), fieldMap, readSingularJmsJavaDownloadsJavaDownloadTokenWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(JmsJavaDownloadsJavaDownloadTokenResource(), fieldMap, readSingularJmsJavaDownloadsJavaDownloadToken)
 }
 
-func readSingularJmsJavaDownloadsJavaDownloadTokenWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularJmsJavaDownloadsJavaDownloadToken(d *schema.ResourceData, m interface{}) error {
 	sync := &JmsJavaDownloadsJavaDownloadTokenDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaDownloadClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type JmsJavaDownloadsJavaDownloadTokenDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsJavaDownloadsJavaDownloadTokenDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *JmsJavaDownloadsJavaDownloadTokenDataSourceCrud) Get() error {
 	request := oci_jms_java_downloads.GetJavaDownloadTokenRequest{}
 
 	if javaDownloadTokenId, ok := s.D.GetOkExists("java_download_token_id"); ok {
@@ -52,7 +51,7 @@ func (s *JmsJavaDownloadsJavaDownloadTokenDataSourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms_java_downloads")
 
-	response, err := s.Client.GetJavaDownloadToken(ctx, request)
+	response, err := s.Client.GetJavaDownloadToken(context.Background(), request)
 	if err != nil {
 		return err
 	}

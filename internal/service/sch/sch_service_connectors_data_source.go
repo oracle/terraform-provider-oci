@@ -5,7 +5,6 @@ package sch
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +14,7 @@ import (
 
 func SchServiceConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSchServiceConnectorsWithContext,
+		Read: readSchServiceConnectors,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +47,12 @@ func SchServiceConnectorsDataSource() *schema.Resource {
 	}
 }
 
-func readSchServiceConnectorsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSchServiceConnectors(d *schema.ResourceData, m interface{}) error {
 	sync := &SchServiceConnectorsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ServiceConnectorClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type SchServiceConnectorsDataSourceCrud struct {
@@ -66,7 +65,7 @@ func (s *SchServiceConnectorsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SchServiceConnectorsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *SchServiceConnectorsDataSourceCrud) Get() error {
 	request := oci_sch.ListServiceConnectorsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +84,7 @@ func (s *SchServiceConnectorsDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "sch")
 
-	response, err := s.Client.ListServiceConnectors(ctx, request)
+	response, err := s.Client.ListServiceConnectors(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +93,7 @@ func (s *SchServiceConnectorsDataSourceCrud) GetWithContext(ctx context.Context)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListServiceConnectors(ctx, request)
+		listResponse, err := s.Client.ListServiceConnectors(context.Background(), request)
 		if err != nil {
 			return err
 		}

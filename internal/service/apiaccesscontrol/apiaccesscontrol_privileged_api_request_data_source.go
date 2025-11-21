@@ -7,7 +7,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apiaccesscontrol "github.com/oracle/oci-go-sdk/v65/apiaccesscontrol"
 
@@ -21,15 +20,15 @@ func ApiaccesscontrolPrivilegedApiRequestDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ApiaccesscontrolPrivilegedApiRequestResource(), fieldMap, readSingularApiaccesscontrolPrivilegedApiRequestWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ApiaccesscontrolPrivilegedApiRequestResource(), fieldMap, readSingularApiaccesscontrolPrivilegedApiRequest)
 }
 
-func readSingularApiaccesscontrolPrivilegedApiRequestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularApiaccesscontrolPrivilegedApiRequest(d *schema.ResourceData, m interface{}) error {
 	sync := &ApiaccesscontrolPrivilegedApiRequestDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiRequestsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ApiaccesscontrolPrivilegedApiRequestDataSourceCrud struct {
@@ -42,7 +41,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) Get() error {
 	request := oci_apiaccesscontrol.GetPrivilegedApiRequestRequest{}
 
 	if privilegedApiRequestId, ok := s.D.GetOkExists("privileged_api_request_id"); ok {
@@ -52,7 +51,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestDataSourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apiaccesscontrol")
 
-	response, err := s.Client.GetPrivilegedApiRequest(ctx, request)
+	response, err := s.Client.GetPrivilegedApiRequest(context.Background(), request)
 	if err != nil {
 		return err
 	}

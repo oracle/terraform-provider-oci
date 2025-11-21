@@ -6,12 +6,11 @@ package dataflow
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 )
 
 func DataflowPrivateEndpointDataSource() *schema.Resource {
@@ -20,15 +19,15 @@ func DataflowPrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataflowPrivateEndpointResource(), fieldMap, readSingularDataflowPrivateEndpointWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DataflowPrivateEndpointResource(), fieldMap, readSingularDataflowPrivateEndpoint)
 }
 
-func readSingularDataflowPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDataflowPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataflowPrivateEndpointDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DataflowPrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataflowPrivateEndpointDataSourceCrud) Get() error {
 	request := oci_dataflow.GetPrivateEndpointRequest{}
 
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
@@ -51,7 +50,7 @@ func (s *DataflowPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.GetPrivateEndpoint(ctx, request)
+	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}

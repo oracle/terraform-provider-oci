@@ -6,7 +6,6 @@ package zpr
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_zpr "github.com/oracle/oci-go-sdk/v65/zpr"
 
@@ -20,15 +19,15 @@ func ZprZprPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(ZprZprPolicyResource(), fieldMap, readSingularZprZprPolicyWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(ZprZprPolicyResource(), fieldMap, readSingularZprZprPolicy)
 }
 
-func readSingularZprZprPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularZprZprPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ZprZprPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ZprClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ZprZprPolicyDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *ZprZprPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ZprZprPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ZprZprPolicyDataSourceCrud) Get() error {
 	request := oci_zpr.GetZprPolicyRequest{}
 
 	if zprPolicyId, ok := s.D.GetOkExists("zpr_policy_id"); ok {
@@ -51,7 +50,7 @@ func (s *ZprZprPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "zpr")
 
-	response, err := s.Client.GetZprPolicy(ctx, request)
+	response, err := s.Client.GetZprPolicy(context.Background(), request)
 	if err != nil {
 		return err
 	}

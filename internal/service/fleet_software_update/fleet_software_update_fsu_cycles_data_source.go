@@ -6,7 +6,6 @@ package fleet_software_update
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_software_update "github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate"
 
@@ -16,7 +15,7 @@ import (
 
 func FleetSoftwareUpdateFsuCyclesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readFleetSoftwareUpdateFsuCyclesWithContext,
+		Read: readFleetSoftwareUpdateFsuCycles,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"collection_type": {
@@ -61,12 +60,12 @@ func FleetSoftwareUpdateFsuCyclesDataSource() *schema.Resource {
 	}
 }
 
-func readFleetSoftwareUpdateFsuCyclesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readFleetSoftwareUpdateFsuCycles(d *schema.ResourceData, m interface{}) error {
 	sync := &FleetSoftwareUpdateFsuCyclesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetSoftwareUpdateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type FleetSoftwareUpdateFsuCyclesDataSourceCrud struct {
@@ -79,7 +78,7 @@ func (s *FleetSoftwareUpdateFsuCyclesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetSoftwareUpdateFsuCyclesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *FleetSoftwareUpdateFsuCyclesDataSourceCrud) Get() error {
 	request := oci_fleet_software_update.ListFsuCyclesRequest{}
 
 	if collectionType, ok := s.D.GetOkExists("collection_type"); ok {
@@ -112,7 +111,7 @@ func (s *FleetSoftwareUpdateFsuCyclesDataSourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_software_update")
 
-	response, err := s.Client.ListFsuCycles(ctx, request)
+	response, err := s.Client.ListFsuCycles(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +120,7 @@ func (s *FleetSoftwareUpdateFsuCyclesDataSourceCrud) GetWithContext(ctx context.
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFsuCycles(ctx, request)
+		listResponse, err := s.Client.ListFsuCycles(context.Background(), request)
 		if err != nil {
 			return err
 		}

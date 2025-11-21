@@ -6,7 +6,6 @@ package dataflow
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v65/dataflow"
 
@@ -16,7 +15,7 @@ import (
 
 func DataflowPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDataflowPoolsWithContext,
+		Read: readDataflowPools,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func DataflowPoolsDataSource() *schema.Resource {
 	}
 }
 
-func readDataflowPoolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataflowPools(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowPoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DataflowPoolsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *DataflowPoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataflowPoolsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DataflowPoolsDataSourceCrud) Get() error {
 	request := oci_dataflow.ListPoolsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *DataflowPoolsDataSourceCrud) GetWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dataflow")
 
-	response, err := s.Client.ListPools(ctx, request)
+	response, err := s.Client.ListPools(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *DataflowPoolsDataSourceCrud) GetWithContext(ctx context.Context) error 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPools(ctx, request)
+		listResponse, err := s.Client.ListPools(context.Background(), request)
 		if err != nil {
 			return err
 		}

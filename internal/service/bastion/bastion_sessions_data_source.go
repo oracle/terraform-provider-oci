@@ -6,7 +6,6 @@ package bastion
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func BastionSessionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readBastionSessionsWithContext,
+		Read: readBastionSessions,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bastion_id": {
@@ -44,12 +43,12 @@ func BastionSessionsDataSource() *schema.Resource {
 	}
 }
 
-func readBastionSessionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readBastionSessions(d *schema.ResourceData, m interface{}) error {
 	sync := &BastionSessionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BastionClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type BastionSessionsDataSourceCrud struct {
@@ -62,7 +61,7 @@ func (s *BastionSessionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BastionSessionsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *BastionSessionsDataSourceCrud) Get() error {
 	request := oci_bastion.ListSessionsRequest{}
 
 	if bastionId, ok := s.D.GetOkExists("bastion_id"); ok {
@@ -86,7 +85,7 @@ func (s *BastionSessionsDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bastion")
 
-	response, err := s.Client.ListSessions(ctx, request)
+	response, err := s.Client.ListSessions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +94,7 @@ func (s *BastionSessionsDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSessions(ctx, request)
+		listResponse, err := s.Client.ListSessions(context.Background(), request)
 		if err != nil {
 			return err
 		}

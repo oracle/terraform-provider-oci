@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
 )
@@ -26,11 +26,11 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createVisualBuilderVbInstanceWithContext,
-		ReadContext:   readVisualBuilderVbInstanceWithContext,
-		UpdateContext: updateVisualBuilderVbInstanceWithContext,
-		DeleteContext: deleteVisualBuilderVbInstanceWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createVisualBuilderVbInstance,
+		Read:     readVisualBuilderVbInstance,
+		Update:   updateVisualBuilderVbInstance,
+		Delete:   deleteVisualBuilderVbInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -299,37 +299,37 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 	}
 }
 
-func createVisualBuilderVbInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createVisualBuilderVbInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &VisualBuilderVbInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readVisualBuilderVbInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readVisualBuilderVbInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &VisualBuilderVbInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateVisualBuilderVbInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateVisualBuilderVbInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &VisualBuilderVbInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteVisualBuilderVbInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteVisualBuilderVbInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &VisualBuilderVbInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VbInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type VisualBuilderVbInstanceResourceCrud struct {
@@ -367,7 +367,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *VisualBuilderVbInstanceResourceCrud) Create() error {
 	request := oci_visual_builder.CreateVbInstanceRequest{}
 
 	if alternateCustomEndpoints, ok := s.D.GetOkExists("alternate_custom_endpoints"); ok {
@@ -452,14 +452,14 @@ func (s *VisualBuilderVbInstanceResourceCrud) CreateWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder")
 
-	response, err := s.Client.CreateVbInstance(ctx, request)
+	response, err := s.Client.CreateVbInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_visual_builder.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
 		oci_visual_builder.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -475,15 +475,15 @@ func (s *VisualBuilderVbInstanceResourceCrud) CreateWithContext(ctx context.Cont
 			}
 		}
 	}
-	return s.getVbInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getVbInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) getVbInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *VisualBuilderVbInstanceResourceCrud) getVbInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_visual_builder.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
 	// entityType is visualbuilder and not visual_builder
-	vbInstanceId, err := vbInstanceWaitForWorkRequest(ctx, workId, "visualbuilder",
+	vbInstanceId, err := vbInstanceWaitForWorkRequest(workId, "visualbuilder",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -491,7 +491,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) getVbInstanceFromWorkRequest(ctx c
 	}
 	s.D.SetId(*vbInstanceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func vbInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -517,7 +517,7 @@ func vbInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func vbInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_visual_builder.WorkRequestResourceActionTypeEnum,
+func vbInstanceWaitForWorkRequest(wId *string, entityType string, action oci_visual_builder.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_visual_builder.VbInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "visual_builder")
 	retryPolicy.ShouldRetryOperation = vbInstanceWorkRequestShouldRetryFunc(timeout)
@@ -536,7 +536,7 @@ func vbInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_visual_builder.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -565,13 +565,13 @@ func vbInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_visual_builder.WorkRequestStatusFailed || response.Status == oci_visual_builder.WorkRequestStatusCanceled {
-		return nil, getErrorFromVisualBuilderVbInstanceWorkRequest(ctx, client, response.CompartmentId, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromVisualBuilderVbInstanceWorkRequest(client, response.CompartmentId, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromVisualBuilderVbInstanceWorkRequest(ctx context.Context, client *oci_visual_builder.VbInstanceClient, compartmentId *string, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_visual_builder.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromVisualBuilderVbInstanceWorkRequest(client *oci_visual_builder.VbInstanceClient, compartmentId *string, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_visual_builder.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_visual_builder.ListWorkRequestErrorsRequest{
 			CompartmentId: compartmentId,
@@ -595,7 +595,7 @@ func getErrorFromVisualBuilderVbInstanceWorkRequest(ctx context.Context, client 
 	return workRequestErr
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *VisualBuilderVbInstanceResourceCrud) Get() error {
 	request := oci_visual_builder.GetVbInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -603,7 +603,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder")
 
-	response, err := s.Client.GetVbInstance(ctx, request)
+	response, err := s.Client.GetVbInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -612,11 +612,11 @@ func (s *VisualBuilderVbInstanceResourceCrud) GetWithContext(ctx context.Context
 	return nil
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *VisualBuilderVbInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -700,16 +700,16 @@ func (s *VisualBuilderVbInstanceResourceCrud) UpdateWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder")
 
-	response, err := s.Client.UpdateVbInstance(ctx, request)
+	response, err := s.Client.UpdateVbInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVbInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVbInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *VisualBuilderVbInstanceResourceCrud) Delete() error {
 	request := oci_visual_builder.DeleteVbInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -717,7 +717,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) DeleteWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder")
 
-	response, err := s.Client.DeleteVbInstance(ctx, request)
+	response, err := s.Client.DeleteVbInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -725,7 +725,7 @@ func (s *VisualBuilderVbInstanceResourceCrud) DeleteWithContext(ctx context.Cont
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 	// entityType is visualbuilder and not visual_builder
-	_, delWorkRequestErr := vbInstanceWaitForWorkRequest(ctx, workId, "visualbuilder",
+	_, delWorkRequestErr := vbInstanceWaitForWorkRequest(workId, "visualbuilder",
 		oci_visual_builder.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1239,7 +1239,7 @@ func VirtualCloudNetworkToMap(obj oci_visual_builder.VirtualCloudNetwork) map[st
 	return result
 }
 
-func (s *VisualBuilderVbInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *VisualBuilderVbInstanceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_visual_builder.ChangeVbInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1250,11 +1250,11 @@ func (s *VisualBuilderVbInstanceResourceCrud) updateCompartment(ctx context.Cont
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder")
 
-	response, err := s.Client.ChangeVbInstanceCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeVbInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVbInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVbInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "visual_builder"), oci_visual_builder.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

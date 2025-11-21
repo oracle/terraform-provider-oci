@@ -6,7 +6,6 @@ package container_instances
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_container_instances "github.com/oracle/oci-go-sdk/v65/containerinstances"
 
@@ -16,7 +15,7 @@ import (
 
 func ContainerInstancesContainerInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readContainerInstancesContainerInstancesWithContext,
+		Read: readContainerInstancesContainerInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -53,12 +52,12 @@ func ContainerInstancesContainerInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readContainerInstancesContainerInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readContainerInstancesContainerInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerInstancesContainerInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type ContainerInstancesContainerInstancesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *ContainerInstancesContainerInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerInstancesContainerInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *ContainerInstancesContainerInstancesDataSourceCrud) Get() error {
 	request := oci_container_instances.ListContainerInstancesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -95,7 +94,7 @@ func (s *ContainerInstancesContainerInstancesDataSourceCrud) GetWithContext(ctx 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerinstance")
 
-	response, err := s.Client.ListContainerInstances(ctx, request)
+	response, err := s.Client.ListContainerInstances(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *ContainerInstancesContainerInstancesDataSourceCrud) GetWithContext(ctx 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListContainerInstances(ctx, request)
+		listResponse, err := s.Client.ListContainerInstances(context.Background(), request)
 		if err != nil {
 			return err
 		}
