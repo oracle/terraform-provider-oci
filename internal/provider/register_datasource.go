@@ -24,6 +24,7 @@ import (
 	tf_audit "github.com/oracle/terraform-provider-oci/internal/service/audit"
 	tf_autoscaling "github.com/oracle/terraform-provider-oci/internal/service/autoscaling"
 	tf_bastion "github.com/oracle/terraform-provider-oci/internal/service/bastion"
+	tf_batch "github.com/oracle/terraform-provider-oci/internal/service/batch"
 	tf_bds "github.com/oracle/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/oracle/terraform-provider-oci/internal/service/budget"
@@ -200,6 +201,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("bastion") {
 		tf_bastion.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("batch") {
+		tf_batch.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("bds") {
 		tf_bds.RegisterDatasource()
