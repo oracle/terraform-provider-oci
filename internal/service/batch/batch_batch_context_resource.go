@@ -400,7 +400,6 @@ func (s *BatchBatchContextResourceCrud) CreatedPending() []string {
 func (s *BatchBatchContextResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_batch.BatchContextLifecycleStateActive),
-		string(oci_batch.BatchContextLifecycleStateNeedsAttention),
 	}
 }
 
@@ -725,10 +724,9 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 			getResponse, getErr := client.GetBatchContext(ctx, getRequest)
 			if getErr == nil && getResponse.BatchContext.Id != nil {
 				state := getResponse.BatchContext.LifecycleState
-				// For CREATE: Check if resource is in acceptable state
+				// For CREATE: Check if resource is in acceptable state (only ACTIVE)
 				if action == oci_batch.ActionTypeCreated &&
-					(state == oci_batch.BatchContextLifecycleStateActive ||
-						state == oci_batch.BatchContextLifecycleStateNeedsAttention) {
+					state == oci_batch.BatchContextLifecycleStateActive {
 					// Resource is in acceptable state, return the resource ID
 					return resourceId, nil
 				}

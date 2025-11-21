@@ -315,6 +315,7 @@ github.com/oracle/oci-go-sdk/v65/artifacts
 github.com/oracle/oci-go-sdk/v65/audit
 github.com/oracle/oci-go-sdk/v65/autoscaling
 github.com/oracle/oci-go-sdk/v65/bastion
+github.com/oracle/oci-go-sdk/v65/batch
 github.com/oracle/oci-go-sdk/v65/bds
 github.com/oracle/oci-go-sdk/v65/blockchain
 github.com/oracle/oci-go-sdk/v65/budget
