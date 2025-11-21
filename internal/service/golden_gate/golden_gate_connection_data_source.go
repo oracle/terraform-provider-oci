@@ -7,8 +7,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
