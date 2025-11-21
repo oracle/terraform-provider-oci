@@ -505,7 +505,7 @@ func pipelineWaitForWorkRequest(wId *string, entityType string, action oci_golde
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -534,7 +534,7 @@ func pipelineWaitForWorkRequest(wId *string, entityType string, action oci_golde
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGatePipelineWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGatePipelineWorkRequest(context.Background(), client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil

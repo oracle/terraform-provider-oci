@@ -10,8 +10,6 @@ import (
 	"strings"
 	"time"
 
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
