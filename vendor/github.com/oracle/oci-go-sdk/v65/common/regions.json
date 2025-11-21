@@ -640,5 +640,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-columbus-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "jbp",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-kulai-2",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
