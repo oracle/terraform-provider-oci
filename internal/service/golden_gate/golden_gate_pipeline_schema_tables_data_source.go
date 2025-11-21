@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGatePipelineSchemaTablesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGatePipelineSchemaTablesWithContext,
+		Read: readGoldenGatePipelineSchemaTables,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -81,12 +80,12 @@ func GoldenGatePipelineSchemaTablesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGatePipelineSchemaTablesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGatePipelineSchemaTables(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelineSchemaTablesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGatePipelineSchemaTablesDataSourceCrud struct {
@@ -99,7 +98,7 @@ func (s *GoldenGatePipelineSchemaTablesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGatePipelineSchemaTablesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelineSchemaTablesDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListPipelineSchemaTablesRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -124,7 +123,7 @@ func (s *GoldenGatePipelineSchemaTablesDataSourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListPipelineSchemaTables(ctx, request)
+	response, err := s.Client.ListPipelineSchemaTables(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -133,7 +132,7 @@ func (s *GoldenGatePipelineSchemaTablesDataSourceCrud) GetWithContext(ctx contex
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPipelineSchemaTables(ctx, request)
+		listResponse, err := s.Client.ListPipelineSchemaTables(context.Background(), request)
 		if err != nil {
 			return err
 		}

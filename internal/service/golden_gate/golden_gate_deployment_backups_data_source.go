@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGateDeploymentBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGateDeploymentBackupsWithContext,
+		Read: readGoldenGateDeploymentBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func GoldenGateDeploymentBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDeploymentBackups(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentBackupsDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *GoldenGateDeploymentBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentBackupsDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentBackupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +94,7 @@ func (s *GoldenGateDeploymentBackupsDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentBackups(ctx, request)
+	response, err := s.Client.ListDeploymentBackups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +103,7 @@ func (s *GoldenGateDeploymentBackupsDataSourceCrud) GetWithContext(ctx context.C
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentBackups(ctx, request)
+		listResponse, err := s.Client.ListDeploymentBackups(context.Background(), request)
 		if err != nil {
 			return err
 		}

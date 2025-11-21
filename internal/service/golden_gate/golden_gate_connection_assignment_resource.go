@@ -26,10 +26,10 @@ func GoldenGateConnectionAssignmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGoldenGateConnectionAssignmentWithContext,
-		ReadContext:   readGoldenGateConnectionAssignmentWithContext,
-		DeleteContext: deleteGoldenGateConnectionAssignmentWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createGoldenGateConnectionAssignment,
+		Read:     readGoldenGateConnectionAssignment,
+		Delete:   deleteGoldenGateConnectionAssignment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"connection_id": {
@@ -76,29 +76,29 @@ func GoldenGateConnectionAssignmentResource() *schema.Resource {
 	}
 }
 
-func createGoldenGateConnectionAssignmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createGoldenGateConnectionAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateConnectionAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readGoldenGateConnectionAssignmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateConnectionAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateConnectionAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func deleteGoldenGateConnectionAssignmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteGoldenGateConnectionAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateConnectionAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type GoldenGateConnectionAssignmentResourceCrud struct {
@@ -122,7 +122,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *GoldenGateConnectionAssignmentResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *GoldenGateConnectionAssignmentResourceCrud) Create() error {
 	request := oci_golden_gate.CreateConnectionAssignmentRequest{}
 
 	if connectionId, ok := s.D.GetOkExists("connection_id"); ok {
@@ -141,7 +141,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) CreateWithContext(ctx conte
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
-	response, err := s.Client.CreateConnectionAssignment(ctx, request)
+	response, err := s.Client.CreateConnectionAssignment(context.Background(), request)
 
 	if err != nil {
 		return err
@@ -155,7 +155,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) CreateWithContext(ctx conte
 	}
 	// Wait until it finishes
 
-	_, err = connectionAssignmentWaitForWorkRequest(ctx, workId, "goldengateconnectionassignment",
+	_, err = connectionAssignmentWaitForWorkRequest(workId, "goldengateconnectionassignment",
 		oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -163,7 +163,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) CreateWithContext(ctx conte
 	}
 	s.D.SetId(*response.ConnectionAssignment.Id)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func connectionAssignmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -189,7 +189,7 @@ func connectionAssignmentWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func connectionAssignmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func connectionAssignmentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = connectionAssignmentWorkRequestShouldRetryFunc(timeout)
@@ -208,7 +208,7 @@ func connectionAssignmentWaitForWorkRequest(ctx context.Context, wId *string, en
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -255,7 +255,7 @@ func getErrorFromGoldenGateConnectionAssignmentWorkRequest(client *oci_golden_ga
 	return workRequestErr
 }
 
-func (s *GoldenGateConnectionAssignmentResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateConnectionAssignmentResourceCrud) Get() error {
 	request := oci_golden_gate.GetConnectionAssignmentRequest{}
 
 	tmp := s.D.Id()
@@ -263,7 +263,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetConnectionAssignment(ctx, request)
+	response, err := s.Client.GetConnectionAssignment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -272,7 +272,7 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) GetWithContext(ctx context.
 	return nil
 }
 
-func (s *GoldenGateConnectionAssignmentResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *GoldenGateConnectionAssignmentResourceCrud) Delete() error {
 	request := oci_golden_gate.DeleteConnectionAssignmentRequest{}
 
 	tmp := s.D.Id()
@@ -285,14 +285,14 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) DeleteWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeleteConnectionAssignment(ctx, request)
+	response, err := s.Client.DeleteConnectionAssignment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := connectionAssignmentWaitForWorkRequest(ctx, workId, "goldengateconnectionassignment",
+	_, delWorkRequestErr := connectionAssignmentWaitForWorkRequest(workId, "goldengateconnectionassignment",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGateDeploymentPeersWithContext,
+		Read: readGoldenGateDeploymentPeers,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"deployment_id": {
@@ -117,12 +116,12 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentPeersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDeploymentPeers(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentPeersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentPeersDataSourceCrud struct {
@@ -135,7 +134,7 @@ func (s *GoldenGateDeploymentPeersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentPeersDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentPeersDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentPeersRequest{}
 
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
@@ -154,7 +153,7 @@ func (s *GoldenGateDeploymentPeersDataSourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentPeers(ctx, request)
+	response, err := s.Client.ListDeploymentPeers(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -163,7 +162,7 @@ func (s *GoldenGateDeploymentPeersDataSourceCrud) GetWithContext(ctx context.Con
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentPeers(ctx, request)
+		listResponse, err := s.Client.ListDeploymentPeers(context.Background(), request)
 		if err != nil {
 			return err
 		}

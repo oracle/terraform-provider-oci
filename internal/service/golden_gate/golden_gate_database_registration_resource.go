@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 )
@@ -25,11 +25,11 @@ func GoldenGateDatabaseRegistrationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGoldenGateDatabaseRegistrationWithContext,
-		ReadContext:   readGoldenGateDatabaseRegistrationWithContext,
-		UpdateContext: updateGoldenGateDatabaseRegistrationWithContext,
-		DeleteContext: deleteGoldenGateDatabaseRegistrationWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createGoldenGateDatabaseRegistration,
+		Read:     readGoldenGateDatabaseRegistration,
+		Update:   updateGoldenGateDatabaseRegistration,
+		Delete:   deleteGoldenGateDatabaseRegistration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"alias_name": {
@@ -163,37 +163,37 @@ func GoldenGateDatabaseRegistrationResource() *schema.Resource {
 	}
 }
 
-func createGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDatabaseRegistrationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDatabaseRegistrationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDatabaseRegistrationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDatabaseRegistrationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type GoldenGateDatabaseRegistrationResourceCrud struct {
@@ -234,7 +234,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *GoldenGateDatabaseRegistrationResourceCrud) Create() error {
 	request := oci_golden_gate.CreateDatabaseRegistrationRequest{}
 
 	if aliasName, ok := s.D.GetOkExists("alias_name"); ok {
@@ -330,7 +330,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) CreateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.CreateDatabaseRegistration(ctx, request)
+	response, err := s.Client.CreateDatabaseRegistration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -341,14 +341,14 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) CreateWithContext(ctx conte
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDatabaseRegistrationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseRegistrationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) getDatabaseRegistrationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GoldenGateDatabaseRegistrationResourceCrud) getDatabaseRegistrationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseRegistrationId, err := databaseRegistrationWaitForWorkRequest(ctx, workId, "databaseregistration",
+	databaseRegistrationId, err := databaseRegistrationWaitForWorkRequest(workId, "databaseregistration",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -358,7 +358,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) getDatabaseRegistrationFrom
 	}
 	s.D.SetId(*databaseRegistrationId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func databaseRegistrationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -384,7 +384,7 @@ func databaseRegistrationWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func databaseRegistrationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func databaseRegistrationWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = databaseRegistrationWorkRequestShouldRetryFunc(timeout)
@@ -460,7 +460,7 @@ func getErrorFromGoldenGateDatabaseRegistrationWorkRequest(client *oci_golden_ga
 	return workRequestErr
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDatabaseRegistrationResourceCrud) Get() error {
 	request := oci_golden_gate.GetDatabaseRegistrationRequest{}
 
 	tmp := s.D.Id()
@@ -468,7 +468,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetDatabaseRegistration(ctx, request)
+	response, err := s.Client.GetDatabaseRegistration(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -477,11 +477,11 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) GetWithContext(ctx context.
 	return nil
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *GoldenGateDatabaseRegistrationResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -550,16 +550,16 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) UpdateWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.UpdateDatabaseRegistration(ctx, request)
+	response, err := s.Client.UpdateDatabaseRegistration(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseRegistrationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseRegistrationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *GoldenGateDatabaseRegistrationResourceCrud) Delete() error {
 	request := oci_golden_gate.DeleteDatabaseRegistrationRequest{}
 
 	tmp := s.D.Id()
@@ -567,14 +567,14 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) DeleteWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeleteDatabaseRegistration(ctx, request)
+	response, err := s.Client.DeleteDatabaseRegistration(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := databaseRegistrationWaitForWorkRequest(ctx, workId, "databaseregistration",
+	_, delWorkRequestErr := databaseRegistrationWaitForWorkRequest(workId, "databaseregistration",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -745,7 +745,7 @@ func DatabaseRegistrationSummaryToMap(obj oci_golden_gate.DatabaseRegistrationSu
 	return result
 }
 
-func (s *GoldenGateDatabaseRegistrationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *GoldenGateDatabaseRegistrationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_golden_gate.ChangeDatabaseRegistrationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -756,14 +756,14 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) updateCompartment(ctx conte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.ChangeDatabaseRegistrationCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeDatabaseRegistrationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, changeWorkRequestErr := databaseRegistrationWaitForWorkRequest(ctx, workId, "databaseregistration",
+	_, changeWorkRequestErr := databaseRegistrationWaitForWorkRequest(workId, "databaseregistration",
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	return changeWorkRequestErr
 }

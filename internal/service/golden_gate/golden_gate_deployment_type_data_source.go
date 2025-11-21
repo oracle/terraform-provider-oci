@@ -6,8 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -17,7 +15,7 @@ import (
 
 func GoldenGateDeploymentTypeDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularGoldenGateDeploymentTypeWithContext,
+		Read: readSingularGoldenGateDeploymentType,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -78,13 +76,12 @@ func GoldenGateDeploymentTypeDataSource() *schema.Resource {
 	}
 }
 
-func readSingularGoldenGateDeploymentTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-
+func readSingularGoldenGateDeploymentType(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentTypeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentTypeDataSourceCrud struct {
@@ -97,7 +94,7 @@ func (s *GoldenGateDeploymentTypeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentTypeDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentTypeDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentTypesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +109,7 @@ func (s *GoldenGateDeploymentTypeDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentTypes(ctx, request)
+	response, err := s.Client.ListDeploymentTypes(context.Background(), request)
 	if err != nil {
 		return err
 	}

@@ -22,15 +22,15 @@ func GoldenGateConnectionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateConnectionResource(), fieldMap, readSingularGoldenGateConnectionWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GoldenGateConnectionResource(), fieldMap, readSingularGoldenGateConnection)
 }
 
-func readSingularGoldenGateConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGoldenGateConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateConnectionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateConnectionDataSourceCrud struct {
@@ -43,7 +43,7 @@ func (s *GoldenGateConnectionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateConnectionDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateConnectionDataSourceCrud) Get() error {
 	request := oci_golden_gate.GetConnectionRequest{}
 
 	if connectionId, ok := s.D.GetOkExists("connection_id"); ok {
@@ -53,7 +53,7 @@ func (s *GoldenGateConnectionDataSourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetConnection(ctx, request)
+	response, err := s.Client.GetConnection(context.Background(), request)
 	if err != nil {
 		return err
 	}

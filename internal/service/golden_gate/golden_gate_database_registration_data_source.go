@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func GoldenGateDatabaseRegistrationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistrationWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistration)
 }
 
-func readSingularGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGoldenGateDatabaseRegistration(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDatabaseRegistrationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDatabaseRegistrationDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDatabaseRegistrationDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDatabaseRegistrationDataSourceCrud) Get() error {
 	request := oci_golden_gate.GetDatabaseRegistrationRequest{}
 
 	if databaseRegistrationId, ok := s.D.GetOkExists("database_registration_id"); ok {
@@ -51,7 +50,7 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetDatabaseRegistration(ctx, request)
+	response, err := s.Client.GetDatabaseRegistration(context.Background(), request)
 	if err != nil {
 		return err
 	}

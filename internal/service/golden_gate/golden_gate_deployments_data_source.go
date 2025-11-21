@@ -6,17 +6,16 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 )
 
 func GoldenGateDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGateDeploymentsWithContext,
+		Read: readGoldenGateDeployments,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"assignable_connection_id": {
@@ -73,12 +72,12 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDeployments(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentsDataSourceCrud struct {
@@ -91,7 +90,7 @@ func (s *GoldenGateDeploymentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentsRequest{}
 
 	if assignableConnectionId, ok := s.D.GetOkExists("assignable_connection_id"); ok {
@@ -137,7 +136,7 @@ func (s *GoldenGateDeploymentsDataSourceCrud) GetWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeployments(ctx, request)
+	response, err := s.Client.ListDeployments(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -146,7 +145,7 @@ func (s *GoldenGateDeploymentsDataSourceCrud) GetWithContext(ctx context.Context
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeployments(ctx, request)
+		listResponse, err := s.Client.ListDeployments(context.Background(), request)
 		if err != nil {
 			return err
 		}

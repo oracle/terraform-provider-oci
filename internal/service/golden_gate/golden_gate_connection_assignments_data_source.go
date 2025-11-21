@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGateConnectionAssignmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGateConnectionAssignmentsWithContext,
+		Read: readGoldenGateConnectionAssignments,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +56,12 @@ func GoldenGateConnectionAssignmentsDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateConnectionAssignmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateConnectionAssignments(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateConnectionAssignmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateConnectionAssignmentsDataSourceCrud struct {
@@ -75,7 +74,7 @@ func (s *GoldenGateConnectionAssignmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateConnectionAssignmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateConnectionAssignmentsDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListConnectionAssignmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *GoldenGateConnectionAssignmentsDataSourceCrud) GetWithContext(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListConnectionAssignments(ctx, request)
+	response, err := s.Client.ListConnectionAssignments(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *GoldenGateConnectionAssignmentsDataSourceCrud) GetWithContext(ctx conte
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConnectionAssignments(ctx, request)
+		listResponse, err := s.Client.ListConnectionAssignments(context.Background(), request)
 		if err != nil {
 			return err
 		}

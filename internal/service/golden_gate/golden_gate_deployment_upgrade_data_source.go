@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularGoldenGateDeploymentUpgradeWithContext,
+		Read: readSingularGoldenGateDeploymentUpgrade,
 		Schema: map[string]*schema.Schema{
 			"deployment_upgrade_id": {
 				Type:     schema.TypeString,
@@ -142,12 +141,12 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 	}
 }
 
-func readSingularGoldenGateDeploymentUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGoldenGateDeploymentUpgrade(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentUpgradeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentUpgradeDataSourceCrud struct {
@@ -160,7 +159,7 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentUpgradeDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentUpgradeDataSourceCrud) Get() error {
 	request := oci_golden_gate.GetDeploymentUpgradeRequest{}
 
 	if deploymentUpgradeId, ok := s.D.GetOkExists("deployment_upgrade_id"); ok {
@@ -170,7 +169,7 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) GetWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetDeploymentUpgrade(ctx, request)
+	response, err := s.Client.GetDeploymentUpgrade(context.Background(), request)
 	if err != nil {
 		return err
 	}

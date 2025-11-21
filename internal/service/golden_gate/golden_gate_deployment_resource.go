@@ -20,7 +20,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 )
 
 func GoldenGateDeploymentResource() *schema.Resource {
@@ -33,10 +35,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("60m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
-		CreateContext: createGoldenGateDeploymentWithContext,
-		ReadContext:   readGoldenGateDeploymentWithContext,
-		UpdateContext: updateGoldenGateDeploymentWithContext,
-		DeleteContext: deleteGoldenGateDeploymentWithContext,
+		Create: createGoldenGateDeployment,
+		Read:   readGoldenGateDeployment,
+		Update: updateGoldenGateDeployment,
+		Delete: deleteGoldenGateDeployment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -604,7 +606,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 	}
 }
 
-func createGoldenGateDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
@@ -616,26 +618,26 @@ func createGoldenGateDeploymentWithContext(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	if e := tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync)); e != nil {
+	if e := tfresource.CreateResource(d, sync); e != nil {
 		return e
 	}
 
 	if stopDeployment {
-		return tfresource.HandleDiagError(m, sync.stopDeployment(ctx))
+		return sync.stopDeployment()
 	}
 
 	return nil
 }
 
-func readGoldenGateDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateGoldenGateDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
@@ -681,41 +683,41 @@ func updateGoldenGateDeploymentWithContext(ctx context.Context, d *schema.Resour
 	*/
 
 	if startDeployment {
-		if err := upgradeGoldenGateDeploymentIfNeeded(ctx, d, m); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := upgradeGoldenGateDeploymentIfNeeded(d, m); err != nil {
+			return err
 		}
-		if err := sync.startDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.startDeployment(); err != nil {
+			return err
 		}
-		if err := switchoverDeploymentPeerIfNeeded(ctx, d, m); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
 		}
-		return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+		return tfresource.UpdateResource(d, sync)
 
 	} else if stopDeployment {
-		if err := switchoverDeploymentPeerIfNeeded(ctx, d, m); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
 		}
-		if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := tfresource.UpdateResource(d, sync); err != nil {
+			return err
 		}
-		if err := sync.stopDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.stopDeployment(); err != nil {
+			return err
 		}
-		return tfresource.HandleDiagError(m, upgradeGoldenGateDeploymentIfNeeded(ctx, d, m))
+		return upgradeGoldenGateDeploymentIfNeeded(d, m)
 
 	} else {
-		if err := switchoverDeploymentPeerIfNeeded(ctx, d, m); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := switchoverDeploymentPeerIfNeeded(d, m); err != nil {
+			return err
 		}
-		if err := upgradeGoldenGateDeploymentIfNeeded(ctx, d, m); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := upgradeGoldenGateDeploymentIfNeeded(d, m); err != nil {
+			return err
 		}
-		return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+		return tfresource.UpdateResource(d, sync)
 	}
 }
 
-func upgradeGoldenGateDeploymentIfNeeded(ctx context.Context, d *schema.ResourceData, m interface{}) error {
+func upgradeGoldenGateDeploymentIfNeeded(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
@@ -725,7 +727,7 @@ func upgradeGoldenGateDeploymentIfNeeded(ctx context.Context, d *schema.Resource
 	if _, ok := sync.D.GetOkExists(oggVersionKeyFormat); ok && sync.D.HasChange(oggVersionKeyFormat) {
 		oldVersion, newVersion := sync.D.GetChange(oggVersionKeyFormat)
 		if newVersion != "" && oldVersion != newVersion {
-			if err := sync.upgradeToSpecificVersion(ctx, newVersion); err != nil {
+			if err := sync.upgradeToSpecificVersion(newVersion); err != nil {
 				return err
 			}
 		}
@@ -733,13 +735,13 @@ func upgradeGoldenGateDeploymentIfNeeded(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func deleteGoldenGateDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type GoldenGateDeploymentResourceCrud struct {
@@ -780,7 +782,7 @@ func (s *GoldenGateDeploymentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	request := oci_golden_gate.CreateDeploymentRequest{}
 
 	if backupSchedule, ok := s.D.GetOkExists("backup_schedule"); ok {
@@ -990,7 +992,7 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.CreateDeployment(ctx, request)
+	response, err := s.Client.CreateDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1001,14 +1003,14 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	deploymentId, err := deploymentWaitForWorkRequest(ctx, workId, "deployment",
+	deploymentId, err := deploymentWaitForWorkRequest(workId, "deployment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1016,7 +1018,7 @@ func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(ctx cont
 	}
 	s.D.SetId(*deploymentId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func deploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1042,7 +1044,7 @@ func deploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func deploymentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func deploymentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = deploymentWorkRequestShouldRetryFunc(timeout)
@@ -1061,7 +1063,7 @@ func deploymentWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(ctx,
+			response, err = client.GetWorkRequest(context.Background(),
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1090,14 +1092,14 @@ func deploymentWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGateDeploymentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGoldenGateDeploymentWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(ctx,
+func getErrorFromGoldenGateDeploymentWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1119,7 +1121,7 @@ func getErrorFromGoldenGateDeploymentWorkRequest(ctx context.Context, client *oc
 	return workRequestErr
 }
 
-func (s *GoldenGateDeploymentResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) Get() error {
 	request := oci_golden_gate.GetDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -1127,7 +1129,7 @@ func (s *GoldenGateDeploymentResourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetDeployment(ctx, request)
+	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1136,11 +1138,11 @@ func (s *GoldenGateDeploymentResourceCrud) GetWithContext(ctx context.Context) e
 	return nil
 }
 
-func (s *GoldenGateDeploymentResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -1307,16 +1309,16 @@ func (s *GoldenGateDeploymentResourceCrud) UpdateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.UpdateDeployment(ctx, request)
+	response, err := s.Client.UpdateDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GoldenGateDeploymentResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) Delete() error {
 	request := oci_golden_gate.DeleteDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -1329,14 +1331,14 @@ func (s *GoldenGateDeploymentResourceCrud) DeleteWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeleteDeployment(ctx, request)
+	response, err := s.Client.DeleteDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := deploymentWaitForWorkRequest(ctx, workId, "deployment",
+	_, delWorkRequestErr := deploymentWaitForWorkRequest(workId, "deployment",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2272,7 +2274,7 @@ func GroupToRolesMappingDetailsToMap(obj *oci_golden_gate.GroupToRolesMappingDet
 	return result
 }
 
-func (s *GoldenGateDeploymentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_golden_gate.ChangeDeploymentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2288,18 +2290,18 @@ func (s *GoldenGateDeploymentResourceCrud) updateCompartment(ctx context.Context
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.ChangeDeploymentCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	return s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+	return s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(ctx context.Context, oggVersion interface{}) error {
+func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(oggVersion interface{}) error {
 	upgradeDeploymentRequest := oci_golden_gate.UpgradeDeploymentRequest{}
 	upgradeDetails := oci_golden_gate.UpgradeDeploymentSpecificReleaseDetails{}
 
@@ -2317,21 +2319,21 @@ func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(ctx context.
 		upgradeDeploymentRequest.IsLockOverride = &tmp
 	}
 
-	response, err := s.Client.UpgradeDeployment(ctx, upgradeDeploymentRequest)
+	response, err := s.Client.UpgradeDeployment(context.Background(), upgradeDeploymentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, upgradeWorkRequestErr := deploymentWaitForWorkRequest(ctx, workId, "deployment",
+	_, upgradeWorkRequestErr := deploymentWaitForWorkRequest(workId, "deployment",
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if upgradeWorkRequestErr != nil {
 		return upgradeWorkRequestErr
 	}
 
 	// set changed parameters
-	if err := s.getAndSaveStateChanges(ctx); err != nil {
+	if err := s.getAndSaveStateChanges(); err != nil {
 		return err
 	}
 
@@ -2350,7 +2352,7 @@ func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(ctx context.
 	return nil
 }
 
-func (s *GoldenGateDeploymentResourceCrud) startDeployment(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) startDeployment() error {
 	startDeploymentRequest := oci_golden_gate.StartDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -2363,23 +2365,23 @@ func (s *GoldenGateDeploymentResourceCrud) startDeployment(ctx context.Context) 
 		startDeploymentRequest.IsLockOverride = &tmp
 	}
 
-	response, err := s.Client.StartDeployment(ctx, startDeploymentRequest)
+	response, err := s.Client.StartDeployment(context.Background(), startDeploymentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	startWorkRequestErr := s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+	startWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if startWorkRequestErr != nil {
 		return startWorkRequestErr
 	}
 	// set changed parameters
-	return s.getAndSaveStateChanges(ctx)
+	return s.getAndSaveStateChanges()
 }
 
-func (s *GoldenGateDeploymentResourceCrud) stopDeployment(ctx context.Context) error {
+func (s *GoldenGateDeploymentResourceCrud) stopDeployment() error {
 	stopDeploymentRequest := oci_golden_gate.StopDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -2392,24 +2394,24 @@ func (s *GoldenGateDeploymentResourceCrud) stopDeployment(ctx context.Context) e
 		stopDeploymentRequest.IsLockOverride = &tmp
 	}
 
-	response, err := s.Client.StopDeployment(ctx, stopDeploymentRequest)
+	response, err := s.Client.StopDeployment(context.Background(), stopDeploymentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	stopWorkRequestErr := s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+	stopWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if stopWorkRequestErr != nil {
 		return stopWorkRequestErr
 	}
 
 	// set changed parameters
-	return s.getAndSaveStateChanges(ctx)
+	return s.getAndSaveStateChanges()
 }
 
-func switchoverDeploymentPeerIfNeeded(ctx context.Context, d *schema.ResourceData, m interface{}) error {
+func switchoverDeploymentPeerIfNeeded(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
@@ -2423,7 +2425,7 @@ func switchoverDeploymentPeerIfNeeded(ctx context.Context, d *schema.ResourceDat
 		if newAD != "" && newFD != "" && oldAD != newAD && oldFD != newFD {
 			availabilityDomain = newAD.(string)
 			faultDomain = newFD.(string)
-			if err := sync.switchoverDeploymentPeer(ctx, availabilityDomain, faultDomain); err != nil {
+			if err := sync.switchoverDeploymentPeer(availabilityDomain, faultDomain); err != nil {
 				return err
 			}
 		}
@@ -2431,7 +2433,7 @@ func switchoverDeploymentPeerIfNeeded(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func (s *GoldenGateDeploymentResourceCrud) switchoverDeploymentPeer(ctx context.Context, availabilityDomain string, faultDomain string) error {
+func (s *GoldenGateDeploymentResourceCrud) switchoverDeploymentPeer(availabilityDomain string, faultDomain string) error {
 	switchoverDeploymentPeerRequest := oci_golden_gate.SwitchoverDeploymentPeerRequest{}
 	switchoverPeerDetails := oci_golden_gate.SwitchoverDeploymentPeerDetails{}
 
@@ -2444,24 +2446,24 @@ func (s *GoldenGateDeploymentResourceCrud) switchoverDeploymentPeer(ctx context.
 
 	switchoverDeploymentPeerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.SwitchoverDeploymentPeer(ctx, switchoverDeploymentPeerRequest)
+	response, err := s.Client.SwitchoverDeploymentPeer(context.Background(), switchoverDeploymentPeerRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	switchoverWorkRequestErr := s.getDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+	switchoverWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if switchoverWorkRequestErr != nil {
 		return switchoverWorkRequestErr
 	}
 	// set changed parameters
-	return s.getAndSaveStateChanges(ctx)
+	return s.getAndSaveStateChanges()
 }
 
-func (s *GoldenGateDeploymentResourceCrud) getAndSaveStateChanges(ctx context.Context) error {
-	if e := s.GetWithContext(ctx); e != nil {
+func (s *GoldenGateDeploymentResourceCrud) getAndSaveStateChanges() error {
+	if e := s.Get(); e != nil {
 		return e
 	}
 	s.D.Set("state", s.Res.LifecycleState)

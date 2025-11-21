@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGateDeploymentUpgradesWithContext,
+		Read: readGoldenGateDeploymentUpgrades,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -179,12 +178,12 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGateDeploymentUpgradesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGateDeploymentUpgrades(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentUpgradesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentUpgradesDataSourceCrud struct {
@@ -197,7 +196,7 @@ func (s *GoldenGateDeploymentUpgradesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentUpgradesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentUpgradesDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListDeploymentUpgradesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -221,7 +220,7 @@ func (s *GoldenGateDeploymentUpgradesDataSourceCrud) GetWithContext(ctx context.
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListDeploymentUpgrades(ctx, request)
+	response, err := s.Client.ListDeploymentUpgrades(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -230,7 +229,7 @@ func (s *GoldenGateDeploymentUpgradesDataSourceCrud) GetWithContext(ctx context.
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeploymentUpgrades(ctx, request)
+		listResponse, err := s.Client.ListDeploymentUpgrades(context.Background(), request)
 		if err != nil {
 			return err
 		}

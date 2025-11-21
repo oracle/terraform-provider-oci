@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -26,11 +26,11 @@ func GoldenGatePipelineResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGoldenGatePipelineWithContext,
-		ReadContext:   readGoldenGatePipelineWithContext,
-		UpdateContext: updateGoldenGatePipelineWithContext,
-		DeleteContext: deleteGoldenGatePipelineWithContext,
+		Timeouts: tfresource.DefaultTimeout,
+		Create:   createGoldenGatePipeline,
+		Read:     readGoldenGatePipeline,
+		Update:   updateGoldenGatePipeline,
+		Delete:   deleteGoldenGatePipeline,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -355,37 +355,37 @@ func GoldenGatePipelineResource() *schema.Resource {
 	}
 }
 
-func createGoldenGatePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createGoldenGatePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readGoldenGatePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGatePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateGoldenGatePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateGoldenGatePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteGoldenGatePipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteGoldenGatePipeline(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type GoldenGatePipelineResourceCrud struct {
@@ -425,7 +425,7 @@ func (s *GoldenGatePipelineResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GoldenGatePipelineResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelineResourceCrud) Create() error {
 	request := oci_golden_gate.CreatePipelineRequest{}
 	err := s.populateTopLevelPolymorphicCreatePipelineRequest(&request)
 	if err != nil {
@@ -434,7 +434,7 @@ func (s *GoldenGatePipelineResourceCrud) CreateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.CreatePipeline(ctx, request)
+	response, err := s.Client.CreatePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -445,14 +445,14 @@ func (s *GoldenGatePipelineResourceCrud) CreateWithContext(ctx context.Context) 
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GoldenGatePipelineResourceCrud) getPipelineFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GoldenGatePipelineResourceCrud) getPipelineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	pipelineId, err := pipelineWaitForWorkRequest(ctx, workId, "pipeline",
+	pipelineId, err := pipelineWaitForWorkRequest(workId, "pipeline",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -460,7 +460,7 @@ func (s *GoldenGatePipelineResourceCrud) getPipelineFromWorkRequest(ctx context.
 	}
 	s.D.SetId(*pipelineId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func pipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -486,7 +486,7 @@ func pipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func pipelineWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = pipelineWorkRequestShouldRetryFunc(timeout)
@@ -563,7 +563,7 @@ func getErrorFromGoldenGatePipelineWorkRequest(ctx context.Context, client *oci_
 	return workRequestErr
 }
 
-func (s *GoldenGatePipelineResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelineResourceCrud) Get() error {
 	request := oci_golden_gate.GetPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -571,7 +571,7 @@ func (s *GoldenGatePipelineResourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.GetPipeline(ctx, request)
+	response, err := s.Client.GetPipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -580,11 +580,11 @@ func (s *GoldenGatePipelineResourceCrud) GetWithContext(ctx context.Context) err
 	return nil
 }
 
-func (s *GoldenGatePipelineResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelineResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -598,16 +598,16 @@ func (s *GoldenGatePipelineResourceCrud) UpdateWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.UpdatePipeline(ctx, request)
+	response, err := s.Client.UpdatePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GoldenGatePipelineResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelineResourceCrud) Delete() error {
 	request := oci_golden_gate.DeletePipelineRequest{}
 
 	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
@@ -620,14 +620,14 @@ func (s *GoldenGatePipelineResourceCrud) DeleteWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.DeletePipeline(ctx, request)
+	response, err := s.Client.DeletePipeline(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := pipelineWaitForWorkRequest(ctx, workId, "pipeline",
+	_, delWorkRequestErr := pipelineWaitForWorkRequest(workId, "pipeline",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1174,7 +1174,7 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicUpdatePipeli
 	return nil
 }
 
-func (s *GoldenGatePipelineResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *GoldenGatePipelineResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_golden_gate.ChangePipelineCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1190,11 +1190,11 @@ func (s *GoldenGatePipelineResourceCrud) updateCompartment(ctx context.Context, 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.ChangePipelineCompartment(ctx, changeCompartmentRequest)
+	response, err := s.Client.ChangePipelineCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

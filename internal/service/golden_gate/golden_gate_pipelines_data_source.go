@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v65/goldengate"
 
@@ -16,7 +15,7 @@ import (
 
 func GoldenGatePipelinesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readGoldenGatePipelinesWithContext,
+		Read: readGoldenGatePipelines,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +52,12 @@ func GoldenGatePipelinesDataSource() *schema.Resource {
 	}
 }
 
-func readGoldenGatePipelinesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readGoldenGatePipelines(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGatePipelinesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGatePipelinesDataSourceCrud struct {
@@ -71,7 +70,7 @@ func (s *GoldenGatePipelinesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGatePipelinesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGatePipelinesDataSourceCrud) Get() error {
 	request := oci_golden_gate.ListPipelinesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +93,7 @@ func (s *GoldenGatePipelinesDataSourceCrud) GetWithContext(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListPipelines(ctx, request)
+	response, err := s.Client.ListPipelines(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +102,7 @@ func (s *GoldenGatePipelinesDataSourceCrud) GetWithContext(ctx context.Context) 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPipelines(ctx, request)
+		listResponse, err := s.Client.ListPipelines(context.Background(), request)
 		if err != nil {
 			return err
 		}

@@ -6,8 +6,6 @@ package golden_gate
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -21,15 +19,15 @@ func GoldenGateDeploymentBackupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDeploymentBackupResource(), fieldMap, readSingularGoldenGateDeploymentBackupWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(GoldenGateDeploymentBackupResource(), fieldMap, readSingularGoldenGateDeploymentBackup)
 }
 
-func readSingularGoldenGateDeploymentBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularGoldenGateDeploymentBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &GoldenGateDeploymentBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type GoldenGateDeploymentBackupDataSourceCrud struct {
@@ -42,7 +40,7 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateDeploymentBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *GoldenGateDeploymentBackupDataSourceCrud) Get() error {
 	request := oci_golden_gate.GetDeploymentBackupRequest{}
 
 	if deploymentBackupId, ok := s.D.GetOkExists("deployment_backup_id"); ok {
@@ -52,7 +50,7 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.GetDeploymentBackup(ctx, request)
+	response, err := s.Client.GetDeploymentBackup(context.Background(), request)
 	if err != nil {
 		return err
 	}
