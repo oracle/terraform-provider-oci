@@ -138,6 +138,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
+    * `batch` - Discovers batch resources within the specified compartment
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
@@ -432,6 +433,14 @@ bastion
     
 * oci\_bastion\_bastion
 * oci\_bastion\_session
+
+batch
+    
+* oci\_batch\_batch\_task\_environment
+* oci\_batch\_batch\_task\_profile
+* oci\_batch\_batch\_context
+* oci\_batch\_batch\_job\_pool
+* oci\_batch\_batch\_job
 
 bds
     
