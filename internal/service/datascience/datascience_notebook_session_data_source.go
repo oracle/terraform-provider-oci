@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -20,15 +19,15 @@ func DatascienceNotebookSessionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceNotebookSessionResource(), fieldMap, readSingularDatascienceNotebookSessionWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatascienceNotebookSessionResource(), fieldMap, readSingularDatascienceNotebookSession)
 }
 
-func readSingularDatascienceNotebookSessionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceNotebookSessionDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DatascienceNotebookSessionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceNotebookSessionDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceNotebookSessionDataSourceCrud) Get() error {
 	request := oci_datascience.GetNotebookSessionRequest{}
 
 	if notebookSessionId, ok := s.D.GetOkExists("notebook_session_id"); ok {
@@ -51,7 +50,7 @@ func (s *DatascienceNotebookSessionDataSourceCrud) GetWithContext(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetNotebookSession(ctx, request)
+	response, err := s.Client.GetNotebookSession(context.Background(), request)
 	if err != nil {
 		return err
 	}

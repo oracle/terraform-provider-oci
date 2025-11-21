@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceModelDeploymentModelStatesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceModelDeploymentModelStatesWithContext,
+		Read: readDatascienceModelDeploymentModelStates,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -95,12 +94,12 @@ func DatascienceModelDeploymentModelStatesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceModelDeploymentModelStatesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceModelDeploymentModelStates(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDeploymentModelStatesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceModelDeploymentModelStatesDataSourceCrud struct {
@@ -113,7 +112,7 @@ func (s *DatascienceModelDeploymentModelStatesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelDeploymentModelStatesDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelDeploymentModelStatesDataSourceCrud) Get() error {
 	request := oci_datascience.ListModelDeploymentModelStatesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -148,7 +147,7 @@ func (s *DatascienceModelDeploymentModelStatesDataSourceCrud) GetWithContext(ctx
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListModelDeploymentModelStates(ctx, request)
+	response, err := s.Client.ListModelDeploymentModelStates(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -157,7 +156,7 @@ func (s *DatascienceModelDeploymentModelStatesDataSourceCrud) GetWithContext(ctx
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModelDeploymentModelStates(ctx, request)
+		listResponse, err := s.Client.ListModelDeploymentModelStates(context.Background(), request)
 		if err != nil {
 			return err
 		}

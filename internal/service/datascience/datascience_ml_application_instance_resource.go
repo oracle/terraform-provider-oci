@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -26,11 +26,11 @@ func DatascienceMlApplicationInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.MlApplicationInstanceTimeout,
-		CreateContext: createDatascienceMlApplicationInstanceWithContext,
-		ReadContext:   readDatascienceMlApplicationInstanceWithContext,
-		UpdateContext: updateDatascienceMlApplicationInstanceWithContext,
-		DeleteContext: deleteDatascienceMlApplicationInstanceWithContext,
+		Timeouts: tfresource.MlApplicationInstanceTimeout,
+		Create:   createDatascienceMlApplicationInstance,
+		Read:     readDatascienceMlApplicationInstance,
+		Update:   updateDatascienceMlApplicationInstance,
+		Delete:   deleteDatascienceMlApplicationInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -207,37 +207,37 @@ func DatascienceMlApplicationInstanceResource() *schema.Resource {
 	}
 }
 
-func createDatascienceMlApplicationInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceMlApplicationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	return tfresource.CreateResource(d, sync)
 }
 
-func readDatascienceMlApplicationInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceMlApplicationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceMlApplicationInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceMlApplicationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	return tfresource.UpdateResource(d, sync)
 }
 
-func deleteDatascienceMlApplicationInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceMlApplicationInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceMlApplicationInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceMlApplicationInstanceResourceCrud struct {
@@ -276,7 +276,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationInstanceResourceCrud) Create() error {
 	request := oci_datascience.CreateMlApplicationInstanceRequest{}
 
 	if authConfiguration, ok := s.D.GetOkExists("auth_configuration"); ok {
@@ -346,7 +346,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) CreateWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateMlApplicationInstance(ctx, request)
+	response, err := s.Client.CreateMlApplicationInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -357,14 +357,14 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) CreateWithContext(ctx con
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMlApplicationInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMlApplicationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) getMlApplicationInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceMlApplicationInstanceResourceCrud) getMlApplicationInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	mlApplicationInstanceId, err := mlApplicationInstanceWaitForWorkRequest(ctx, workId, "mlapplicationinstance",
+	mlApplicationInstanceId, err := mlApplicationInstanceWaitForWorkRequest(workId, "mlapplicationinstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -384,7 +384,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) getMlApplicationInstanceF
 	}
 	s.D.SetId(*mlApplicationInstanceId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func mlApplicationInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -410,7 +410,7 @@ func mlApplicationInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func mlApplicationInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func mlApplicationInstanceWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = mlApplicationInstanceWorkRequestShouldRetryFunc(timeout)
@@ -487,7 +487,7 @@ func getErrorFromDatascienceMlApplicationInstanceWorkRequest(client *oci_datasci
 	return workRequestErr
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationInstanceResourceCrud) Get() error {
 	request := oci_datascience.GetMlApplicationInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -495,7 +495,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) GetWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetMlApplicationInstance(ctx, request)
+	response, err := s.Client.GetMlApplicationInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -504,11 +504,11 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) GetWithContext(ctx contex
 	return nil
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(ctx, compartment)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
@@ -560,16 +560,16 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) UpdateWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateMlApplicationInstance(ctx, request)
+	response, err := s.Client.UpdateMlApplicationInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMlApplicationInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMlApplicationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceMlApplicationInstanceResourceCrud) Delete() error {
 	request := oci_datascience.DeleteMlApplicationInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -577,14 +577,14 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) DeleteWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteMlApplicationInstance(ctx, request)
+	response, err := s.Client.DeleteMlApplicationInstance(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := mlApplicationInstanceWaitForWorkRequest(ctx, workId, "mlapplicationinstance",
+	_, delWorkRequestErr := mlApplicationInstanceWaitForWorkRequest(workId, "mlapplicationinstance",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -830,7 +830,7 @@ func PredictionUriToMap(obj oci_datascience.PredictionUri) map[string]interface{
 	return result
 }
 
-func (s *DatascienceMlApplicationInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+func (s *DatascienceMlApplicationInstanceResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeMlApplicationInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -847,5 +847,5 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) updateCompartment(ctx con
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMlApplicationInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMlApplicationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

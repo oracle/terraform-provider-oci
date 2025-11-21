@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceJobRunsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceJobRunsWithContext,
+		Read: readDatascienceJobRuns,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +51,12 @@ func DatascienceJobRunsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceJobRunsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceJobRuns(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobRunsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceJobRunsDataSourceCrud struct {
@@ -70,7 +69,7 @@ func (s *DatascienceJobRunsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceJobRunsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceJobRunsDataSourceCrud) Get() error {
 	request := oci_datascience.ListJobRunsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *DatascienceJobRunsDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListJobRuns(ctx, request)
+	response, err := s.Client.ListJobRuns(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *DatascienceJobRunsDataSourceCrud) GetWithContext(ctx context.Context) e
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJobRuns(ctx, request)
+		listResponse, err := s.Client.ListJobRuns(context.Background(), request)
 		if err != nil {
 			return err
 		}

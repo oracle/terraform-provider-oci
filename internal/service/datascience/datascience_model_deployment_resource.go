@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 )
@@ -31,10 +31,10 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 			Update: &tfresource.ThirtyMinutes,
 			Delete: &tfresource.TwentyMinutes,
 		},
-		CreateContext: createDatascienceModelDeploymentWithContext,
-		ReadContext:   readDatascienceModelDeploymentWithContext,
-		UpdateContext: updateDatascienceModelDeploymentWithContext,
-		DeleteContext: deleteDatascienceModelDeploymentWithContext,
+		Create: createDatascienceModelDeployment,
+		Read:   readDatascienceModelDeployment,
+		Update: updateDatascienceModelDeployment,
+		Delete: deleteDatascienceModelDeployment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -853,7 +853,7 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -865,13 +865,13 @@ func createDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.
 		}
 	}
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
 	}
 
 	if powerOff {
-		if err := sync.StopModelDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
 	}
@@ -879,15 +879,15 @@ func createDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.
 
 }
 
-func readDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
-func updateDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func updateDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
@@ -904,19 +904,19 @@ func updateDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.
 	}
 
 	if powerOn {
-		if err := sync.StartModelDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StartModelDeployment(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
 	}
 
 	if powerOff {
-		if err := sync.StopModelDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if err := sync.StopModelDeployment(); err != nil {
+			return err
 		}
 		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
 	}
@@ -924,13 +924,13 @@ func updateDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.
 	return nil
 }
 
-func deleteDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDatascienceModelDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatascienceModelDeploymentResourceCrud struct {
@@ -984,7 +984,7 @@ func (s *DatascienceModelDeploymentResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) CreateWithContext(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 	request := oci_datascience.CreateModelDeploymentRequest{}
 
 	if categoryLogDetails, ok := s.D.GetOkExists("category_log_details"); ok {
@@ -1048,7 +1048,7 @@ func (s *DatascienceModelDeploymentResourceCrud) CreateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateModelDeployment(ctx, request)
+	response, err := s.Client.CreateModelDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1059,10 +1059,10 @@ func (s *DatascienceModelDeploymentResourceCrud) CreateWithContext(ctx context.C
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getModelDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getModelDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -1086,7 +1086,7 @@ func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkReque
 	}
 	s.D.SetId(*modelDeploymentId)
 
-	return s.GetWithContext(ctx)
+	return s.Get()
 }
 
 func modelDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1189,7 +1189,7 @@ func getErrorFromDatascienceModelDeploymentWorkRequest(client *oci_datascience.D
 	return workRequestErr
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) Get() error {
 	request := oci_datascience.GetModelDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -1197,7 +1197,7 @@ func (s *DatascienceModelDeploymentResourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetModelDeployment(ctx, request)
+	response, err := s.Client.GetModelDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1206,7 +1206,7 @@ func (s *DatascienceModelDeploymentResourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -1267,16 +1267,16 @@ func (s *DatascienceModelDeploymentResourceCrud) UpdateWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateModelDeployment(ctx, request)
+	response, err := s.Client.UpdateModelDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getModelDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) DeleteWithContext(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) Delete() error {
 	request := oci_datascience.DeleteModelDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -1284,7 +1284,7 @@ func (s *DatascienceModelDeploymentResourceCrud) DeleteWithContext(ctx context.C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteModelDeployment(ctx, request)
+	response, err := s.Client.DeleteModelDeployment(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1366,7 +1366,7 @@ func (s *DatascienceModelDeploymentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment() error {
 	request := oci_datascience.ActivateModelDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -1380,10 +1380,10 @@ func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment(ctx contex
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateActive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment(ctx context.Context) error {
+func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment() error {
 	request := oci_datascience.DeactivateModelDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -1397,7 +1397,7 @@ func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment(ctx context
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateInactive }
-	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatascienceModelDeploymentResourceCrud) mapToAutoScalingPolicyDetails(fieldKeyFormat string) (oci_datascience.AutoScalingPolicyDetails, error) {
@@ -2776,7 +2776,7 @@ func (s *DatascienceModelDeploymentResourceCrud) updateCompartment(compartment i
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -20,15 +19,15 @@ func DatascienceModelGroupVersionHistoryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceModelGroupVersionHistoryResource(), fieldMap, readSingularDatascienceModelGroupVersionHistoryWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(DatascienceModelGroupVersionHistoryResource(), fieldMap, readSingularDatascienceModelGroupVersionHistory)
 }
 
-func readSingularDatascienceModelGroupVersionHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularDatascienceModelGroupVersionHistory(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelGroupVersionHistoryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceModelGroupVersionHistoryDataSourceCrud struct {
@@ -41,7 +40,7 @@ func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) Get() error {
 	request := oci_datascience.GetModelGroupVersionHistoryRequest{}
 
 	if modelGroupVersionHistoryId, ok := s.D.GetOkExists("model_group_version_history_id"); ok {
@@ -51,7 +50,7 @@ func (s *DatascienceModelGroupVersionHistoryDataSourceCrud) GetWithContext(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetModelGroupVersionHistory(ctx, request)
+	response, err := s.Client.GetModelGroupVersionHistory(context.Background(), request)
 	if err != nil {
 		return err
 	}

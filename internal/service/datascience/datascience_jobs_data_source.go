@@ -6,7 +6,6 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -16,7 +15,7 @@ import (
 
 func DatascienceJobsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDatascienceJobsWithContext,
+		Read: readDatascienceJobs,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +51,12 @@ func DatascienceJobsDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceJobsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDatascienceJobs(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceJobsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type DatascienceJobsDataSourceCrud struct {
@@ -70,7 +69,7 @@ func (s *DatascienceJobsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceJobsDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *DatascienceJobsDataSourceCrud) Get() error {
 	request := oci_datascience.ListJobsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -104,7 +103,7 @@ func (s *DatascienceJobsDataSourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListJobs(ctx, request)
+	response, err := s.Client.ListJobs(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +112,7 @@ func (s *DatascienceJobsDataSourceCrud) GetWithContext(ctx context.Context) erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJobs(ctx, request)
+		listResponse, err := s.Client.ListJobs(context.Background(), request)
 		if err != nil {
 			return err
 		}
