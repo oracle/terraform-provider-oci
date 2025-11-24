@@ -40,6 +40,9 @@ var (
 	FsuCollection_DB23_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_DB23_Representation)
 
+	FsuCollection_DB23_XS_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_DB23_XS_Representation)
+
 	FsuCollection_DB26_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_DB26_Representation)
 
@@ -54,6 +57,9 @@ var (
 
 	FsuCollection_GI23_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_GI23_Representation)
+
+	FsuCollection_GI23_XS_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_GI23_XS_Representation)
 
 	FsuCollection_GI26_ResourceConfig = FleetSoftwareUpdateFsuCollectionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_GI26_Representation)
@@ -113,6 +119,16 @@ var (
 		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreFsuCollectionDefinedTagsChangesRepresentation},
 	}
 
+	FsuCollection_DB23_XS_Representation = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"service_type":         acctest.Representation{RepType: acctest.Required, Create: `EXADBXS`},
+		"source_major_version": acctest.Representation{RepType: acctest.Required, Create: `DB_23`},
+		"type":                 acctest.Representation{RepType: acctest.Required, Create: `DB`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `TF_TEST_Collection`, Update: `TF_TEST_Collection_Updated`},
+		"fleet_discovery":      acctest.RepresentationGroup{RepType: acctest.Required, Group: fsuCollectionFleetDiscoveryDBRepresentation},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreFsuCollectionDefinedTagsChangesRepresentation},
+	}
+
 	FsuCollection_DB26_Representation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"service_type":         acctest.Representation{RepType: acctest.Required, Create: `EXACS`},
@@ -157,6 +173,16 @@ var (
 	FsuCollection_GI23_Representation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"service_type":         acctest.Representation{RepType: acctest.Required, Create: `EXACS`},
+		"source_major_version": acctest.Representation{RepType: acctest.Required, Create: `GI_23`},
+		"type":                 acctest.Representation{RepType: acctest.Required, Create: `GI`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `TF_TEST_Collection`, Update: `TF_TEST_Collection_Updated`},
+		"fleet_discovery":      acctest.RepresentationGroup{RepType: acctest.Required, Group: fsuCollectionFleetDiscoveryGIRepresentation},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreFsuCollectionDefinedTagsChangesRepresentation},
+	}
+
+	FsuCollection_GI23_XS_Representation = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"service_type":         acctest.Representation{RepType: acctest.Required, Create: `EXADBXS`},
 		"source_major_version": acctest.Representation{RepType: acctest.Required, Create: `GI_23`},
 		"type":                 acctest.Representation{RepType: acctest.Required, Create: `GI`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `TF_TEST_Collection`, Update: `TF_TEST_Collection_Updated`},
@@ -771,6 +797,359 @@ func TestFleetSoftwareUpdateFsuCollectionResource_GI_19(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "EXACS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_major_version", "GI_19"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "GI"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + FleetSoftwareUpdateFsuCollectionGIRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+// TERSI-4051: Tests for db EXADBXS
+func TestFleetSoftwareUpdateFsuCollectionResource_DB_EXADBXS(t *testing.T) {
+	httpreplay.SetScenario("TestFleetSoftwareUpdateFsuCollectionResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	//compartment_id
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_23_XS_target_1")
+	dbTargetId1VariableStr := fmt.Sprintf("variable \"db_target_1\" { default = \"%s\" }\n", dbTargetId1)
+
+	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr
+
+	resourceName := "oci_fleet_software_update_fsu_collection.test_fsu_collection"
+	datasourceName := "data.oci_fleet_software_update_fsu_collections.test_fsu_collections"
+	singularDatasourceName := "data.oci_fleet_software_update_fsu_collection.test_fsu_collection"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	var testConfig = config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional,
+			acctest.Create, FsuCollection_DB23_XS_Representation)
+	acctest.SaveConfigContent(testConfig, "fleetsoftwareupdate", "fsuCollection", t)
+	fmt.Printf("FSU_TEST_LOG CONF:\n%s\n", testConfig)
+
+	acctest.ResourceTest(t, testAccCheckFleetSoftwareUpdateFsuCollectionDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FsuCollection_DB23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "DB_23"),
+				resource.TestCheckResourceAttr(resourceName, "type", "DB"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Create, FsuCollection_DB23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "DB_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "DB"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + variablesStr + compartmentIdUVariableStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FsuCollection_DB23_XS_Representation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "DB_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "DB"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_DB23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "DB_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "DB"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_collections", "test_fsu_collections", acctest.Optional, acctest.Update, FleetSoftwareUpdateFsuCollectionDBDataSourceRepresentation) +
+				variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_DB23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "DB"),
+				resource.TestCheckResourceAttr(datasourceName, "fsu_collection_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "fsu_collection_summary_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FleetSoftwareUpdateFsuCollectionSingularDataSourceRepresentation) +
+				variablesStr + FsuCollection_DB23_XS_ResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fsu_collection_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "active_fsu_cycle.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "last_completed_fsu_cycle_id", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_major_version", "DB_23"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "DB"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + FleetSoftwareUpdateFsuCollectionDBRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestFleetSoftwareUpdateFsuCollectionResource_GI_EXADBXS(t *testing.T) {
+	httpreplay.SetScenario("TestFleetSoftwareUpdateFsuCollectionGIResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	//compartment_id
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	giTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_gi_23_XS_target_1")
+	giTargetId1VariableStr := fmt.Sprintf("variable \"gi_target_1\" { default = \"%s\" }\n", giTargetId1)
+
+	var variablesStr = compartmentIdVariableStr + giTargetId1VariableStr
+
+	resourceName := "oci_fleet_software_update_fsu_collection.test_fsu_collection"
+	datasourceName := "data.oci_fleet_software_update_fsu_collections.test_fsu_collections"
+	singularDatasourceName := "data.oci_fleet_software_update_fsu_collection.test_fsu_collection"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	var testConfig = config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection",
+			acctest.Optional, acctest.Create, FsuCollection_GI23_Representation)
+	acctest.SaveConfigContent(testConfig, "fleetsoftwareupdate", "fsuCollection", t)
+	fmt.Printf("FSU_TEST_LOG CONF:\n%s\n", testConfig)
+
+	acctest.ResourceTest(t, testAccCheckFleetSoftwareUpdateFsuCollectionDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection",
+					acctest.Required, acctest.Create, FsuCollection_GI23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "GI_23"),
+				resource.TestCheckResourceAttr(resourceName, "type", "GI"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Create, FsuCollection_GI23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "GI_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "GI"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + variablesStr + compartmentIdUVariableStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FsuCollection_GI23_XS_Representation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "GI_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "GI"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_GI23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(resourceName, "source_major_version", "GI_23"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "GI"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_collections", "test_fsu_collections", acctest.Optional, acctest.Update, FleetSoftwareUpdateFsuCollectionGIDataSourceRepresentation) +
+				variablesStr + FleetSoftwareUpdateFsuCollectionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Optional, acctest.Update, FsuCollection_GI23_XS_Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "GI"),
+				resource.TestCheckResourceAttr(datasourceName, "fsu_collection_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "fsu_collection_summary_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FleetSoftwareUpdateFsuCollectionSingularDataSourceRepresentation) +
+				variablesStr + FsuCollection_GI23_XS_ResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fsu_collection_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "active_fsu_cycle.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Collection_Updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "EXADBXS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_major_version", "GI_23"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
