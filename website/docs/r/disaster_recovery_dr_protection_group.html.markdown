@@ -189,6 +189,12 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 		}
 		peer_cluster_id = oci_containerengine_cluster.test_cluster.id
 		peer_db_system_id = oci_database_db_system.test_db_system.id
+		resource_modifier_mappings {
+
+			#Optional
+			config_map = var.dr_protection_group_members_resource_modifier_mappings_config_map
+			namespace = var.dr_protection_group_members_resource_modifier_mappings_namespace
+		}
 		source_volume_to_destination_encryption_key_mappings {
 
 			#Optional
@@ -348,6 +354,9 @@ The following arguments are supported:
 	* `password_vault_secret_id` - (Applicable when member_type=AUTONOMOUS_DATABASE | DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.   Example: `ocid1.cluster.oc1..uniqueID` 
 	* `peer_db_system_id` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
+	* `resource_modifier_mappings` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of config maps along with their corresponding namespaces. This property applies to the OKE cluster member in primary region. 
+		* `config_map` - (Required when member_type=OKE_CLUSTER) (Updatable) The name of the config map containing resource modification details. Example: `resource-modifier` 
+		* `namespace` - (Required when member_type=OKE_CLUSTER) (Updatable) The OKE namespace where the config map resides. Example: `namespace_string_5` 
 	* `source_volume_to_destination_encryption_key_mappings` - (Applicable when member_type=VOLUME_GROUP) (Updatable) A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
@@ -490,6 +499,9 @@ The following attributes are exported:
 	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.  Example: `ocid1.cluster.oc1.uniqueID` 
 	* `peer_db_system_id` - The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
+	* `resource_modifier_mappings` - The list of config maps along with their corresponding namespaces. This property applies to the OKE cluster member in primary region. 
+		* `config_map` - The name of the config map containing resource modification details. Example: `resource-modifier` 
+		* `namespace` - The OKE namespace where the config map resides. Example: `namespace_string_5` 
 	* `source_volume_to_destination_encryption_key_mappings` - A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
@@ -560,4 +572,3 @@ DrProtectionGroups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_disaster_recovery_dr_protection_group.test_dr_protection_group "id"
 ```
-

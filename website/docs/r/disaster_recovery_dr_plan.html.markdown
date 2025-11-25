@@ -86,7 +86,7 @@ The following attributes are exported:
 				* `namespace` - The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
 				* `object` - The object name inside the object storage bucket.  Example: `validate_app_start.sh` 
 			* `request_body` - The request body for the function.  Example: `{ "FnParam1", "FnParam2" }` 
-			* `run_as_user` - The userid on the instance to be used for executing the script or command.  Example: `opc` 
+			* `run_as_user` - The user ID on the instance that will be used to execute the script specified in 'scriptCommand'. Example: `opc` 
 			* `run_on_instance_id` - The OCID of the instance on which this script or command should be executed.  
 
 				**For moving instances:** *runOnInstanceId* must be the OCID of the instance in the region where the  instance is currently present.  
@@ -95,7 +95,7 @@ The following attributes are exported:
 
 				Example: `ocid1.instance.oc1..uniqueID` 
 			* `run_on_instance_region` - The region of the instance where this script or command should be executed.  Example: `us-ashburn-1` 
-			* `script_command` - The script name and arguments.  Example: `/usr/bin/python3 /home/opc/scripts/my_app_script.py arg1 arg2 arg3` 
+			* `script_command` - The entire path and arguments for the script that is stored in object store, or inside a compressed archive in object store. Example: `/usr/bin/python3.7 scripts/start_server.py --port 8080 --env "production" --max-connections 200 --log-level "INFO"` 
 			* `step_type` - The type of the user-defined step.
 
 				**RUN_OBJECTSTORE_SCRIPT_PRECHECK** - A built-in step which performs a precheck on a script stored in Oracle Cloud Infrastructure object storage.  This step cannot be added, deleted, or customized by the user.
