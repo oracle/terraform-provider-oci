@@ -309,6 +309,152 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"step_status_counts": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"failed_steps": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"failed": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"timed_out": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"total_failed": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"remaining_steps": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"in_progress": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"paused": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"queued": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"total_remaining": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"skipped_steps": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"canceled": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"disabled": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"failed_ignored": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"timed_out_ignored": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"total_skipped": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"successful_steps": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"succeeded": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"total_successful": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"total_steps": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"warning_steps": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"total_warnings": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"warnings_ignored": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -727,6 +873,12 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.StepStatusCounts != nil {
+		s.D.Set("step_status_counts", []interface{}{DrPlanExecutionStepStatusCountsToMap(s.Res.StepStatusCounts)})
+	} else {
+		s.D.Set("step_status_counts", nil)
+	}
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
@@ -759,6 +911,24 @@ func AutomaticExecutionDetailsToMap(obj *oci_disaster_recovery.AutomaticExecutio
 
 	if obj.MemberId != nil {
 		result["member_id"] = string(*obj.MemberId)
+	}
+
+	return result
+}
+
+func DrPlanExecutionFailedStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionFailedStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Failed != nil {
+		result["failed"] = int(*obj.Failed)
+	}
+
+	if obj.TimedOut != nil {
+		result["timed_out"] = int(*obj.TimedOut)
+	}
+
+	if obj.TotalFailed != nil {
+		result["total_failed"] = int(*obj.TotalFailed)
 	}
 
 	return result
@@ -928,6 +1098,98 @@ func DrPlanExecutionOptionsToMap(obj *oci_disaster_recovery.DrPlanExecutionOptio
 	return result
 }
 
+func DrPlanExecutionRemainingStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionRemainingStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.InProgress != nil {
+		result["in_progress"] = int(*obj.InProgress)
+	}
+
+	if obj.Paused != nil {
+		result["paused"] = int(*obj.Paused)
+	}
+
+	if obj.Queued != nil {
+		result["queued"] = int(*obj.Queued)
+	}
+
+	if obj.TotalRemaining != nil {
+		result["total_remaining"] = int(*obj.TotalRemaining)
+	}
+
+	return result
+}
+
+func DrPlanExecutionSkippedStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionSkippedStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Canceled != nil {
+		result["canceled"] = int(*obj.Canceled)
+	}
+
+	if obj.Disabled != nil {
+		result["disabled"] = int(*obj.Disabled)
+	}
+
+	if obj.FailedIgnored != nil {
+		result["failed_ignored"] = int(*obj.FailedIgnored)
+	}
+
+	if obj.TimedOutIgnored != nil {
+		result["timed_out_ignored"] = int(*obj.TimedOutIgnored)
+	}
+
+	if obj.TotalSkipped != nil {
+		result["total_skipped"] = int(*obj.TotalSkipped)
+	}
+
+	return result
+}
+
+func DrPlanExecutionStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FailedSteps != nil {
+		result["failed_steps"] = []interface{}{DrPlanExecutionFailedStepStatusCountsToMap(obj.FailedSteps)}
+	}
+
+	if obj.RemainingSteps != nil {
+		result["remaining_steps"] = []interface{}{DrPlanExecutionRemainingStepStatusCountsToMap(obj.RemainingSteps)}
+	}
+
+	if obj.SkippedSteps != nil {
+		result["skipped_steps"] = []interface{}{DrPlanExecutionSkippedStepStatusCountsToMap(obj.SkippedSteps)}
+	}
+
+	if obj.SuccessfulSteps != nil {
+		result["successful_steps"] = []interface{}{DrPlanExecutionSuccessfulStepStatusCountsToMap(obj.SuccessfulSteps)}
+	}
+
+	if obj.TotalSteps != nil {
+		result["total_steps"] = int(*obj.TotalSteps)
+	}
+
+	if obj.WarningSteps != nil {
+		result["warning_steps"] = []interface{}{DrPlanExecutionWarningStepStatusCountsToMap(obj.WarningSteps)}
+	}
+
+	return result
+}
+
+func DrPlanExecutionSuccessfulStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionSuccessfulStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Succeeded != nil {
+		result["succeeded"] = int(*obj.Succeeded)
+	}
+
+	if obj.TotalSuccessful != nil {
+		result["total_successful"] = int(*obj.TotalSuccessful)
+	}
+
+	return result
+}
+
 func DrPlanExecutionSummaryToMap(obj oci_disaster_recovery.DrPlanExecutionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -999,6 +1261,20 @@ func DrPlanExecutionSummaryToMap(obj oci_disaster_recovery.DrPlanExecutionSummar
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func DrPlanExecutionWarningStepStatusCountsToMap(obj *oci_disaster_recovery.DrPlanExecutionWarningStepStatusCounts) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TotalWarnings != nil {
+		result["total_warnings"] = int(*obj.TotalWarnings)
+	}
+
+	if obj.WarningsIgnored != nil {
+		result["warnings_ignored"] = int(*obj.WarningsIgnored)
 	}
 
 	return result

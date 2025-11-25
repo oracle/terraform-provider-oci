@@ -139,6 +139,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								"COMPUTE_INSTANCE_NON_MOVABLE",
 								"DATABASE",
 								"FILE_SYSTEM",
+								"INTEGRATION_INSTANCE",
 								"LOAD_BALANCER",
 								"MYSQL_DB_SYSTEM",
 								"NETWORK_LOAD_BALANCER",
@@ -763,6 +764,30 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"resource_modifier_mappings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"config_map": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"source_volume_to_destination_encryption_key_mappings": {
 							Type:     schema.TypeList,
@@ -2330,6 +2355,13 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			details.MemberId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("INTEGRATION_INSTANCE"):
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberIntegrationInstanceDetails{}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("LOAD_BALANCER"):
 		details := oci_disaster_recovery.CreateDrProtectionGroupMemberLoadBalancerDetails{}
 		if backendSetMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_set_mappings")); ok {
@@ -2515,6 +2547,22 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		if peerClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_cluster_id")); ok {
 			tmp := peerClusterId.(string)
 			details.PeerClusterId = &tmp
+		}
+		if resourceModifierMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings")); ok {
+			interfaces := resourceModifierMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.UpdateOkeClusterResourceModifierMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings"), stateDataIndex)
+				converted, err := s.mapToUpdateOkeClusterResourceModifierMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings")) {
+				details.ResourceModifierMappings = tmp
+			}
 		}
 		if vaultMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_mappings")); ok {
 			interfaces := vaultMappings.([]interface{})
@@ -2882,6 +2930,15 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			}
 		}
 		baseObject = details
+	case strings.ToLower("INTEGRATION_INSTANCE"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberIntegrationInstanceDetails{}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("LOAD_BALANCER"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberLoadBalancerDetails{}
 		if backendSetMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_set_mappings")); ok {
@@ -3084,6 +3141,22 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			tmp := peerClusterId.(string)
 			if tmp != "" {
 				details.PeerClusterId = &tmp
+			}
+		}
+		if resourceModifierMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings")); ok {
+			interfaces := resourceModifierMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.UpdateOkeClusterResourceModifierMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings"), stateDataIndex)
+				converted, err := s.mapToUpdateOkeClusterResourceModifierMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "resource_modifier_mappings")) {
+				details.ResourceModifierMappings = tmp
 			}
 		}
 		if vaultMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_mappings")); ok {
@@ -3322,6 +3395,14 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
 		}
+
+	case oci_disaster_recovery.DrProtectionGroupMemberIntegrationInstance:
+		result["member_type"] = "INTEGRATION_INSTANCE"
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberLoadBalancerDetails:
 	case oci_disaster_recovery.DrProtectionGroupMemberLoadBalancer:
 		result["member_type"] = "LOAD_BALANCER"
 
@@ -3457,6 +3538,12 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		if v.PeerClusterId != nil {
 			result["peer_cluster_id"] = string(*v.PeerClusterId)
 		}
+
+		resourceModifierMappings := []interface{}{}
+		for _, item := range v.ResourceModifierMappings {
+			resourceModifierMappings = append(resourceModifierMappings, OkeClusterResourceModifierMappingToMap(item))
+		}
+		result["resource_modifier_mappings"] = resourceModifierMappings
 
 		vaultMappings := []interface{}{}
 		for _, item := range v.VaultMappings {
@@ -4043,6 +4130,52 @@ func OkeClusterNetworkLoadBalancerMappingToMap(obj oci_disaster_recovery.OkeClus
 
 	if obj.SourceNetworkLoadBalancerId != nil {
 		result["source_network_load_balancer_id"] = string(*obj.SourceNetworkLoadBalancerId)
+	}
+
+	return result
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateOkeClusterResourceModifierMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateOkeClusterResourceModifierMappingDetails, error) {
+	result := oci_disaster_recovery.CreateOkeClusterResourceModifierMappingDetails{}
+
+	if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+		tmp := configMap.(string)
+		result.ConfigMap = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateOkeClusterResourceModifierMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateOkeClusterResourceModifierMappingDetails, error) {
+	result := oci_disaster_recovery.UpdateOkeClusterResourceModifierMappingDetails{}
+
+	if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+		tmp := configMap.(string)
+		result.ConfigMap = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	return result, nil
+}
+
+func OkeClusterResourceModifierMappingToMap(obj oci_disaster_recovery.OkeClusterResourceModifierMapping) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConfigMap != nil {
+		result["config_map"] = string(*obj.ConfigMap)
+	}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
 	}
 
 	return result
@@ -4726,6 +4859,20 @@ func UpdateOkeClusterNetworkLoadBalancerMappingDetailsToMap(obj oci_disaster_rec
 
 	if obj.SourceNetworkLoadBalancerId != nil {
 		result["source_network_load_balancer_id"] = string(*obj.SourceNetworkLoadBalancerId)
+	}
+
+	return result
+}
+
+func UpdateOkeClusterResourceModifierMappingDetailsToMap(obj oci_disaster_recovery.UpdateOkeClusterResourceModifierMappingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConfigMap != nil {
+		result["config_map"] = string(*obj.ConfigMap)
+	}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
 	}
 
 	return result

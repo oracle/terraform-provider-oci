@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -25,11 +25,11 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDisasterRecoveryDrPlan,
-		Read:     readDisasterRecoveryDrPlan,
-		Update:   updateDisasterRecoveryDrPlan,
-		Delete:   deleteDisasterRecoveryDrPlan,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDisasterRecoveryDrPlanWithContext,
+		ReadContext:   readDisasterRecoveryDrPlanWithContext,
+		UpdateContext: updateDisasterRecoveryDrPlanWithContext,
+		DeleteContext: deleteDisasterRecoveryDrPlanWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {
@@ -274,23 +274,27 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 	}
 }
 
-func createDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
+func createDisasterRecoveryDrPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
+	}
+	return nil
+
 }
 
-func readDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
+func readDisasterRecoveryDrPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
+func updateDisasterRecoveryDrPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
@@ -300,34 +304,37 @@ func updateDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			return sync.RefreshDrPlan()
+			return tfresource.HandleDiagError(m, sync.RefreshDrPlan(ctx))
+
 		} else {
 			sync.D.Set("refresh_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
-
 	} else if _, ok := sync.D.GetOkExists("verify_trigger"); ok && sync.D.HasChange("verify_trigger") {
 		oldRaw, newRaw := sync.D.GetChange("verify_trigger")
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			return sync.VerifyDrPlan()
+			return tfresource.HandleDiagError(m, sync.VerifyDrPlan(ctx))
+
 		} else {
 			sync.D.Set("verify_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
-	} else {
-		return tfresource.UpdateResource(d, sync)
+	} else if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
+
+	return nil
 }
 
-func deleteDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
+func deleteDisasterRecoveryDrPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DisasterRecoveryDrPlanResourceCrud struct {
@@ -366,7 +373,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) Create() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.CreateDrPlanRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -402,7 +409,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.CreateDrPlan(context.Background(), request)
+	response, err := s.Client.CreateDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -413,20 +420,20 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDrPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) getDrPlanFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DisasterRecoveryDrPlanResourceCrud) getDrPlanFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_disaster_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	drPlanId, err := drPlanWaitForWorkRequest(workId, "drPlan",
+	drPlanId, err := drPlanWaitForWorkRequest(ctx, workId, "drplan",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, drPlanId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_disaster_recovery.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -440,7 +447,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) getDrPlanFromWorkRequest(workId *st
 	}
 	s.D.SetId(*drPlanId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func drPlanWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -466,7 +473,7 @@ func drPlanWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_c
 	}
 }
 
-func drPlanWaitForWorkRequest(wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
+func drPlanWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_disaster_recovery.DisasterRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "disaster_recovery")
 	retryPolicy.ShouldRetryOperation = drPlanWorkRequestShouldRetryFunc(timeout)
@@ -485,7 +492,7 @@ func drPlanWaitForWorkRequest(wId *string, entityType string, action oci_disaste
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_disaster_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -504,7 +511,7 @@ func drPlanWaitForWorkRequest(wId *string, entityType string, action oci_disaste
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
 			if res.ActionType == action {
 				identifier = res.Identifier
 				break
@@ -514,14 +521,14 @@ func drPlanWaitForWorkRequest(wId *string, entityType string, action oci_disaste
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_disaster_recovery.OperationStatusFailed || response.Status == oci_disaster_recovery.OperationStatusCanceled {
-		return nil, getErrorFromDisasterRecoveryDrPlanWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDisasterRecoveryDrPlanWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDisasterRecoveryDrPlanWorkRequest(client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDisasterRecoveryDrPlanWorkRequest(ctx context.Context, client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_disaster_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -543,7 +550,7 @@ func getErrorFromDisasterRecoveryDrPlanWorkRequest(client *oci_disaster_recovery
 	return workRequestErr
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) Get() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.GetDrPlanRequest{}
 
 	tmp := s.D.Id()
@@ -551,7 +558,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.GetDrPlan(context.Background(), request)
+	response, err := s.Client.GetDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -560,58 +567,25 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) Update() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.UpdateDrPlanRequest{}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.DefinedTags = convertedDefinedTags
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
-	}
-
-	tmp := s.D.Id()
-	request.DrPlanId = &tmp
-
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if planGroups, ok := s.D.GetOkExists("plan_groups"); ok {
-		interfaces := planGroups.([]interface{})
-		tmp := make([]oci_disaster_recovery.UpdateDrPlanGroupDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "plan_groups", stateDataIndex)
-			converted, err := s.mapToUpdateDrPlanGroupDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("plan_groups") {
-			request.PlanGroups = tmp
-		}
+	err := s.populateTopLevelPolymorphicUpdateDrPlanRequest(&request)
+	if err != nil {
+		return err
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.UpdateDrPlan(context.Background(), request)
+	response, err := s.Client.UpdateDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDrPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) Delete() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.DeleteDrPlanRequest{}
 
 	tmp := s.D.Id()
@@ -619,7 +593,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	_, err := s.Client.DeleteDrPlan(context.Background(), request)
+	_, err := s.Client.DeleteDrPlan(ctx, request)
 	return err
 }
 
@@ -685,7 +659,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan(ctx context.Context) error {
 	request := oci_disaster_recovery.RefreshDrPlanRequest{}
 	err := s.populateTopLevelPolymorphicRefreshDrPlanRequest(&request)
 	if err != nil {
@@ -699,7 +673,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan() error {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -712,10 +686,10 @@ func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDrPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan() error {
+func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan(ctx context.Context) error {
 	request := oci_disaster_recovery.VerifyDrPlanRequest{}
 
 	err := s.populateTopLevelPolymorphicVerifyDrPlanRequest(&request)
@@ -730,7 +704,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan() error {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -743,44 +717,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-}
-
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanGroup(fieldKeyFormat string) (oci_disaster_recovery.DrPlanGroup, error) {
-	result := oci_disaster_recovery.DrPlanGroup{}
-
-	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
-		tmp := displayName.(string)
-		result.DisplayName = &tmp
-	}
-
-	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
-		tmp := id.(string)
-		result.Id = &tmp
-	}
-
-	if steps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "steps")); ok {
-		interfaces := steps.([]interface{})
-		tmp := make([]oci_disaster_recovery.DrPlanStep, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "steps"), stateDataIndex)
-			converted, err := s.mapToDrPlanStep(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "steps")) {
-			result.Steps = tmp
-		}
-	}
-
-	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		result.Type = oci_disaster_recovery.DrPlanGroupTypeEnum(type_.(string))
-	}
-
-	return result, nil
+	return s.getDrPlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanGroupDetails, error) {
@@ -796,11 +733,10 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(field
 		result.Id = &tmp
 	}
 
-	/*
-		if isPauseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pause_enabled")); ok {
-			tmp := isPauseEnabled.(bool)
-			result.IsPauseEnabled = &tmp
-		}*/
+	/*if isPauseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pause_enabled")); ok {
+		tmp := isPauseEnabled.(bool)
+		result.IsPauseEnabled = &tmp
+	}*/
 
 	if steps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "steps")); ok {
 		interfaces := steps.([]interface{})
@@ -821,47 +757,6 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(field
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_disaster_recovery.DrPlanGroupTypeEnum(type_.(string))
-	}
-
-	return result, nil
-}
-
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanStepDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanStepDetails, error) {
-	result := oci_disaster_recovery.UpdateDrPlanStepDetails{}
-
-	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
-		tmp := displayName.(string)
-		result.DisplayName = &tmp
-	}
-
-	if errorMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "error_mode")); ok {
-		result.ErrorMode = oci_disaster_recovery.DrPlanStepErrorModeEnum(errorMode.(string))
-	}
-
-	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
-		tmp := id.(string)
-		result.Id = &tmp
-	}
-
-	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
-		tmp := isEnabled.(bool)
-		result.IsEnabled = &tmp
-	}
-
-	if timeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout")); ok {
-		tmp := timeout.(int)
-		result.Timeout = &tmp
-	}
-
-	if userDefinedStep, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_defined_step")); ok {
-		if tmpList := userDefinedStep.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user_defined_step"), 0)
-			tmp, err := s.mapToUpdateDrPlanUserDefinedStepDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert user_defined_step, encountered error: %v", err)
-			}
-			result.UserDefinedStep = tmp
-		}
 	}
 
 	return result, nil
@@ -895,8 +790,8 @@ func DrPlanGroupToMap(obj oci_disaster_recovery.DrPlanGroup) map[string]interfac
 	return result
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanStep(fieldKeyFormat string) (oci_disaster_recovery.DrPlanStep, error) {
-	result := oci_disaster_recovery.DrPlanStep{}
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanStepDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanStepDetails, error) {
+	result := oci_disaster_recovery.UpdateDrPlanStepDetails{}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
@@ -925,7 +820,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanStep(fieldKeyFormat stri
 	if userDefinedStep, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_defined_step")); ok {
 		if tmpList := userDefinedStep.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user_defined_step"), 0)
-			tmp, err := s.mapToDrPlanUserDefinedStep(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToUpdateDrPlanUserDefinedStepDetails(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, fmt.Errorf("unable to convert user_defined_step, encountered error: %v", err)
 			}
@@ -1042,75 +937,6 @@ func DrPlanSummaryToMap(obj oci_disaster_recovery.DrPlanSummary) map[string]inte
 	return result
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanUserDefinedStep(fieldKeyFormat string) (oci_disaster_recovery.DrPlanUserDefinedStep, error) {
-	var baseObject oci_disaster_recovery.DrPlanUserDefinedStep
-	//discriminator
-	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
-	var stepType string
-	if ok {
-		stepType = stepTypeRaw.(string)
-	} else {
-		stepType = "" // default value
-	}
-	switch strings.ToLower(stepType) {
-	case strings.ToLower("INVOKE_FUNCTION"):
-		details := oci_disaster_recovery.UpdateInvokeFunctionUserDefinedStepDetails{}
-		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
-			tmp := functionId.(string)
-			details.FunctionId = &tmp
-		}
-		if requestBody, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "request_body")); ok {
-			tmp := requestBody.(string)
-			details.RequestBody = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("INVOKE_FUNCTION_PRECHECK"):
-		details := oci_disaster_recovery.UpdateInvokeFunctionPrecheckStepDetails{}
-		baseObject = details
-	case strings.ToLower("RUN_LOCAL_SCRIPT"):
-		details := oci_disaster_recovery.UpdateRunLocalScriptUserDefinedStepDetails{}
-		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
-			tmp := runAsUser.(string)
-			details.RunAsUser = &tmp
-		}
-		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
-			tmp := runOnInstanceId.(string)
-			details.RunOnInstanceId = &tmp
-		}
-		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
-			tmp := scriptCommand.(string)
-			details.ScriptCommand = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("RUN_LOCAL_SCRIPT_PRECHECK"):
-		details := oci_disaster_recovery.UpdateLocalScriptPrecheckStepDetails{}
-		baseObject = details
-	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT"):
-		details := oci_disaster_recovery.UpdateRunObjectStoreScriptUserDefinedStepDetails{}
-		if objectStorageScriptLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_script_location")); ok {
-			if tmpList := objectStorageScriptLocation.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_script_location"), 0)
-				tmp, err := s.mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert object_storage_script_location, encountered error: %v", err)
-				}
-				details.ObjectStorageScriptLocation = &tmp
-			}
-		}
-		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
-			tmp := runOnInstanceId.(string)
-			details.RunOnInstanceId = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_PRECHECK"):
-		details := oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails{}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
-	}
-	return baseObject, nil
-}
-
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrPlanUserDefinedStepDetails, error) {
 	var baseObject oci_disaster_recovery.UpdateDrPlanUserDefinedStepDetails
 	//discriminator
@@ -1192,9 +1018,17 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 				details.ObjectStorageScriptLocation = &tmp
 			}
 		}
+		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
 		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
 			tmp := runOnInstanceId.(string)
 			details.RunOnInstanceId = &tmp
+		}
+		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
+			tmp := scriptCommand.(string)
+			details.ScriptCommand = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("RUN_OBJECTSTORE_SCRIPT_PRECHECK"):
@@ -1212,9 +1046,17 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanUserDefinedStepDet
 				details.ObjectStorageScriptLocation = &tmp
 			}
 		}
+		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
+			tmp := runAsUser.(string)
+			details.RunAsUser = &tmp
+		}
 		if runOnInstanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_on_instance_id")); ok {
 			tmp := runOnInstanceId.(string)
 			details.RunOnInstanceId = &tmp
+		}
+		if scriptCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_command")); ok {
+			tmp := scriptCommand.(string)
+			details.ScriptCommand = &tmp
 		}
 		baseObject = details
 	default:
@@ -1285,8 +1127,16 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 			result["object_storage_script_location"] = []interface{}{UpdateObjectStorageScriptLocationDetailsToMap(v.ObjectStorageScriptLocation)}
 		}
 
+		if v.RunAsUser != nil {
+			result["run_as_user"] = string(*v.RunAsUser)
+		}
+
 		if v.RunOnInstanceId != nil {
 			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
+		}
+
+		if v.ScriptCommand != nil {
+			result["script_command"] = string(*v.ScriptCommand)
 		}
 	case oci_disaster_recovery.UpdateObjectStoreScriptPrecheckStepDetails:
 		result["step_type"] = "RUN_OBJECTSTORE_SCRIPT_PRECHECK"
@@ -1297,8 +1147,16 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 			result["object_storage_script_location"] = []interface{}{UpdateObjectStorageScriptLocationDetailsToMap(v.ObjectStorageScriptLocation)}
 		}
 
+		if v.RunAsUser != nil {
+			result["run_as_user"] = string(*v.RunAsUser)
+		}
+
 		if v.RunOnInstanceId != nil {
 			result["run_on_instance_id"] = string(*v.RunOnInstanceId)
+		}
+
+		if v.ScriptCommand != nil {
+			result["script_command"] = string(*v.ScriptCommand)
 		}
 	default:
 		log.Printf("[WARN] Received 'step_type' of unknown type %v", *obj)
@@ -1308,8 +1166,8 @@ func DrPlanUserDefinedStepToMap(obj *oci_disaster_recovery.DrPlanUserDefinedStep
 	return result
 }
 
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToObjectStorageScriptLocation(fieldKeyFormat string) (oci_disaster_recovery.ObjectStorageScriptLocation, error) {
-	result := oci_disaster_recovery.ObjectStorageScriptLocation{}
+func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails, error) {
+	result := oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails{}
 
 	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 		tmp := bucket.(string)
@@ -1345,27 +1203,6 @@ func ObjectStorageScriptLocationToMap(obj *oci_disaster_recovery.ObjectStorageSc
 	}
 
 	return result
-}
-
-func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateObjectStorageScriptLocationDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails, error) {
-	result := oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails{}
-
-	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
-		tmp := bucket.(string)
-		result.Bucket = &tmp
-	}
-
-	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
-		tmp := namespace.(string)
-		result.Namespace = &tmp
-	}
-
-	if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
-		tmp := object.(string)
-		result.Object = &tmp
-	}
-
-	return result, nil
 }
 
 func UpdateObjectStorageScriptLocationDetailsToMap(obj *oci_disaster_recovery.UpdateObjectStorageScriptLocationDetails) map[string]interface{} {
