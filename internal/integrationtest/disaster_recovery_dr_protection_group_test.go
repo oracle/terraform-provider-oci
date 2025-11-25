@@ -184,7 +184,7 @@ var (
 	data "oci_core_instances" "dr_instances" {
 	  	#Required
 	  	compartment_id = var.compartment_id
-	
+
 	  	#Optional
 	  	display_name = "example-instance"
 	}
@@ -261,7 +261,7 @@ var (
 			member_type = "VOLUME_GROUP"
 			destination_backup_policy_id = data.oci_core_volume_backup_policies.test_backup_policy.volume_backup_policies[0].id
 		}
-	
+
 		# Optional
 		association {
     		role        = "PRIMARY"
@@ -282,16 +282,16 @@ var (
         	namespace = data.oci_objectstorage_namespace.test_namespace.namespace
     	}
     	members {
-        	member_id = "ocid1.filesystem.oc1.uk_london_1.aaaaaaaaaalfsel3nruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljr" 
+        	member_id = "ocid1.filesystem.oc1.uk_london_1.aaaaaaaaaalfsel3nruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljr"
         	member_type = "FILE_SYSTEM"
-        	destination_availability_domain = "MGpW:UK-LONDON-1-AD-2" 
-        	destination_snapshot_policy_id = "ocid1.filesystemsnapshotpolicy.oc1.uk_london_1.aaaaaby27vie7y7znruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljs" 
+        	destination_availability_domain = "MGpW:UK-LONDON-1-AD-2"
+        	destination_snapshot_policy_id = "ocid1.filesystemsnapshotpolicy.oc1.uk_london_1.aaaaaby27vie7y7znruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljs"
         	export_mappings {
 				export_id = "ocid1.export.oc1.uk_london_1.aaaaacvipp24kiennruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljr"
-        	    destination_mount_target_id = "ocid1.mounttarget.oc1.uk_london_1.aaaaaa4np2vysybcnruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljs" 
+        	    destination_mount_target_id = "ocid1.mounttarget.oc1.uk_london_1.aaaaaa4np2vysybcnruhellqojxwiotvnmwwy33omrxw4ljrfvqwiljs"
         	}
     	}
-    
+
 	# Optional
     	association {
         	role        = "PRIMARY"
@@ -315,27 +315,27 @@ var (
 		members {
 			member_id   = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_primary.db_systems[0].id
 			member_type = "MYSQL_DB_SYSTEM"
-			
+
 			# Peer database system (standby)
 			peer_db_system_id = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_standby.db_systems[0].id
-			
+
 			# Admin user credentials
 			db_system_admin_user_details {
 				username                  = "example-mysqldb-primary"
 				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
 			}
-			
+
 			# Replication user credentials
 			db_system_replication_user_details {
 				username                  = "example-mysqldb-primary"
 				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
 			}
-			
+
 			# GTID reconciliation settings
 			gtid_reconciliation_timeout                   = 600
 			is_continue_on_gtid_reconciliation_timeout    = false
 		}
-		
+
 		# Keep the same association with test_peer
 		association {
     		role        = "PRIMARY"
