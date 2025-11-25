@@ -11,6 +11,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entities", LogAnalyticsLogAnalyticsEntitiesDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entities_summary", LogAnalyticsLogAnalyticsEntitiesSummaryDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity", LogAnalyticsLogAnalyticsEntityDataSource())
+	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity_associations_list", LogAnalyticsLogAnalyticsEntityAssociationsListDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity_topology", LogAnalyticsLogAnalyticsEntityTopologyDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity_type", LogAnalyticsLogAnalyticsEntityTypeDataSource())
 	tfresource.RegisterDatasource("oci_log_analytics_log_analytics_entity_types", LogAnalyticsLogAnalyticsEntityTypesDataSource())
