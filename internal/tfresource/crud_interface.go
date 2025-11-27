@@ -144,3 +144,29 @@ type ResourceFetcherWithContext interface {
 	// Get() may expect s.D.Id() to be set, but not s.Resource, or anything else in s.D
 	GetWithContext(ctx context.Context) error
 }
+
+type StatefulResourceWithContext interface {
+	ResourceReaderWithContext
+	// ID identifies the resource, or a work request to Create the resource.
+	ID() string
+	State() string
+	setState(StatefulResourceWithContext) error
+}
+
+type StatefullyCreatedResourceWithContext interface {
+	StatefulResourceWithContext
+	CreatedPending() []string
+	CreatedTarget() []string
+}
+
+type StatefullyUpdatedResourceWithContext interface {
+	StatefulResourceWithContext
+	UpdatedPending() []string
+	UpdatedTarget() []string
+}
+
+type StatefullyDeletedResourceWithContext interface {
+	StatefulResourceWithContext
+	DeletedPending() []string
+	DeletedTarget() []string
+}
