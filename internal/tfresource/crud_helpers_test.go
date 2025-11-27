@@ -237,6 +237,55 @@ func (b deleteResourceCrud) ExtraWaitPostDelete() time.Duration {
 	return timeoutDuration
 }
 
+// WithContext test doubles that satisfy Statefully*ResourceWithContext
+type createResourceCrudWithCtx struct {
+	D *mockResourceData
+}
+
+func (b createResourceCrudWithCtx) CreateWithContext(ctx context.Context) error { return nil }
+func (b createResourceCrudWithCtx) ID() string                                  { return "" }
+func (b createResourceCrudWithCtx) SetData() error                              { return nil }
+func (b createResourceCrudWithCtx) VoidState()                                  {}
+func (b createResourceCrudWithCtx) State() string                               { return "FAILED" }
+func (b createResourceCrudWithCtx) GetWithContext(ctx context.Context) error    { return nil }
+func (b createResourceCrudWithCtx) CreatedPending() []string                    { return []string{"a", "b"} }
+func (b createResourceCrudWithCtx) CreatedTarget() []string                     { return []string{"a", "b"} }
+func (b createResourceCrudWithCtx) setState(sr StatefulResourceWithContext) error {
+	return nil
+}
+
+type updateResourceCrudWithCtx struct {
+	D *mockResourceData
+}
+
+func (b updateResourceCrudWithCtx) UpdateWithContext(ctx context.Context) error { return nil }
+func (b updateResourceCrudWithCtx) ID() string                                  { return "" }
+func (b updateResourceCrudWithCtx) SetData() error                              { return nil }
+func (b updateResourceCrudWithCtx) VoidState()                                  {}
+func (b updateResourceCrudWithCtx) State() string                               { return "FAILED" }
+func (b updateResourceCrudWithCtx) GetWithContext(ctx context.Context) error    { return nil }
+func (b updateResourceCrudWithCtx) UpdatedPending() []string                    { return []string{"a", "b"} }
+func (b updateResourceCrudWithCtx) UpdatedTarget() []string                     { return []string{"a", "b"} }
+func (b updateResourceCrudWithCtx) setState(sr StatefulResourceWithContext) error {
+	return nil
+}
+
+type deleteResourceCrudWithCtx struct {
+	D *mockResourceData
+}
+
+func (b deleteResourceCrudWithCtx) DeleteWithContext(ctx context.Context) error { return nil }
+func (b deleteResourceCrudWithCtx) ID() string                                  { return "" }
+func (b deleteResourceCrudWithCtx) SetData() error                              { return nil }
+func (b deleteResourceCrudWithCtx) VoidState()                                  {}
+func (b deleteResourceCrudWithCtx) State() string                               { return "FAILED" }
+func (b deleteResourceCrudWithCtx) GetWithContext(ctx context.Context) error    { return nil }
+func (b deleteResourceCrudWithCtx) DeletedPending() []string                    { return []string{"a", "b"} }
+func (b deleteResourceCrudWithCtx) DeletedTarget() []string                     { return []string{"a", "b"} }
+func (b deleteResourceCrudWithCtx) setState(sr StatefulResourceWithContext) error {
+	return nil
+}
+
 type mockResourceData struct {
 	state string
 }
@@ -2505,7 +2554,7 @@ func TestUnitValidateNotEmptyString(t *testing.T) {
 }
 
 func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
-	s := &updateResourceCrud{}
+	s := &updateResourceCrudWithCtx{}
 	reqResourceData := &mockResourceData{}
 	s.D = reqResourceData
 
@@ -2525,7 +2574,7 @@ func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: true,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return errors.New("default")
 				}
 			},
@@ -2535,7 +2584,7 @@ func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: false,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return nil
 				}
 			},
@@ -2544,14 +2593,14 @@ func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
 		test.mockFunc()
-		if res := WaitForUpdatedStateWithContext(test.args.d, test.args.sync); (res != nil) != test.gotError {
+		if res := WaitForUpdatedStateWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
 		}
 	}
 }
 
 func TestUnitUpdateResourceWithContext(t *testing.T) {
-	s := &updateResourceCrud{}
+	s := &updateResourceCrudWithCtx{}
 	reqResourceData := &mockResourceData{}
 	s.D = reqResourceData
 
@@ -2571,7 +2620,7 @@ func TestUnitUpdateResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: true,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return errors.New("default")
 				}
 			},
@@ -2581,7 +2630,7 @@ func TestUnitUpdateResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: false,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return nil
 				}
 			},
@@ -2597,7 +2646,7 @@ func TestUnitUpdateResourceWithContext(t *testing.T) {
 }
 
 func TestUnitDeleteResourceWithContext(t *testing.T) {
-	s := &deleteResourceCrud{}
+	s := &deleteResourceCrudWithCtx{}
 	reqResourceData := &mockResourceData{}
 	s.D = reqResourceData
 
@@ -2617,7 +2666,7 @@ func TestUnitDeleteResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: true,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return errors.New("default")
 				}
 			},
@@ -2627,7 +2676,7 @@ func TestUnitDeleteResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: false,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return nil
 				}
 			},
@@ -2643,7 +2692,7 @@ func TestUnitDeleteResourceWithContext(t *testing.T) {
 }
 
 func TestUnitCreateResourceWithContext(t *testing.T) {
-	s := &ResourceCrud{}
+	s := &createResourceCrudWithCtx{}
 	reqResourceData := &mockResourceData{}
 	s.D = reqResourceData
 
@@ -2663,7 +2712,7 @@ func TestUnitCreateResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: true,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					return errors.New("default")
 					//return nil
 				}
@@ -2674,7 +2723,7 @@ func TestUnitCreateResourceWithContext(t *testing.T) {
 			args:     args{sync: s, d: reqResourceData},
 			gotError: false,
 			mockFunc: func() {
-				waitForStateRefreshVar = func(sr StatefulResource, timeout time.Duration, operationName string, pending []string, target []string) error {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
 					//return errors.New("default")
 					return nil
 				}
