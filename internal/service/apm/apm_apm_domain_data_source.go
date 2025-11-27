@@ -92,6 +92,10 @@ func (s *ApmApmDomainDataSourceCrud) SetData() error {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
 
+	if s.Res.LogGroupId != nil {
+		s.D.Set("log_group_id", *s.Res.LogGroupId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

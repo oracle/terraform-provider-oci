@@ -28,6 +28,10 @@ variable "apm_domain_is_free_tier" {
   default = false
 }
 
+variable "apm_domain_log_group_id" {
+  default = "logGroupId1"
+}
+
 variable "apm_domain_state" {
   default = "ACTIVE"
 }
@@ -54,6 +58,7 @@ resource "oci_apm_apm_domain" "test_apm_domain" {
   description   = var.apm_domain_description
   freeform_tags = var.apm_domain_freeform_tags
   is_free_tier  = var.apm_domain_is_free_tier
+  log_group_id  = var.apm_domain_log_group_id
 }
 
 data "oci_apm_apm_domains" "test_apm_domains" {

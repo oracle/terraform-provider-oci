@@ -65,6 +65,11 @@ func ApmApmDomainResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"log_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"data_upload_endpoint": {
@@ -188,6 +193,11 @@ func (s *ApmApmDomainResourceCrud) Create() error {
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 		tmp := isFreeTier.(bool)
 		request.IsFreeTier = &tmp
+	}
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
@@ -387,6 +397,11 @@ func (s *ApmApmDomainResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.UpdateApmDomain(context.Background(), request)
@@ -443,6 +458,10 @@ func (s *ApmApmDomainResourceCrud) SetData() error {
 
 	if s.Res.IsFreeTier != nil {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
+	}
+
+	if s.Res.LogGroupId != nil {
+		s.D.Set("log_group_id", *s.Res.LogGroupId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
