@@ -11,6 +11,7 @@ import (
 
 func init() {
 	RegisterOracleClient("oci_budget.BudgetClient", &OracleClient{InitClientFn: initBudgetBudgetClient})
+	RegisterOracleClient("oci_budget.CostAdClient", &OracleClient{InitClientFn: initBudgetCostAdClient})
 }
 
 func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -31,4 +32,24 @@ func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, con
 
 func (m *OracleClients) BudgetClient() *oci_budget.BudgetClient {
 	return m.GetClient("oci_budget.BudgetClient").(*oci_budget.BudgetClient)
+}
+
+func initBudgetCostAdClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_budget.NewCostAdClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) CostAdClient() *oci_budget.CostAdClient {
+	return m.GetClient("oci_budget.CostAdClient").(*oci_budget.CostAdClient)
 }

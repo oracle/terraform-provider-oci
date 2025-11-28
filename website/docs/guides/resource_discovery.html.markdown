@@ -464,6 +464,9 @@ budget
     
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
+* oci\_budget\_cost\_anomaly\_monitor
+* oci\_budget\_cost\_anomaly\_event
+* oci\_budget\_cost\_alert\_subscription
 
 capacity_management
     

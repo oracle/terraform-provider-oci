@@ -8,4 +8,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_budget_alert_rule", BudgetAlertRuleResource())
 	tfresource.RegisterResource("oci_budget_budget", BudgetBudgetResource())
+	tfresource.RegisterResource("oci_budget_cost_alert_subscription", BudgetCostAlertSubscriptionResource())
+	tfresource.RegisterResource("oci_budget_cost_anomaly_event", BudgetCostAnomalyEventResource())
+	tfresource.RegisterResource("oci_budget_cost_anomaly_monitor", BudgetCostAnomalyMonitorResource())
+	tfresource.RegisterResource("oci_budget_cost_anomaly_monitor_costanomalymonitorenabletoggles_management", BudgetCostAnomalyMonitorCostanomalymonitorenabletogglesManagementResource())
 }
