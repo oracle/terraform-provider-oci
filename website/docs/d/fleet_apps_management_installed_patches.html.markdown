@@ -37,7 +37,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment in which to list resources.
 * `target_id` - (Optional) Target identifier.
 * `target_name` - (Optional) Target name.
-* `patch_level` - (Optional) Patch level with values like LATEST, LATEST_MINUS_ONE, LATEST_MIUS_TWO etc.,.
+* `patch_level` - (Optional) Patch level with values like LATEST, LATEST_MINUS_ONE, LATEST_MINUS_TWO etc.,.
 * `patch_type` - (Optional) Patch type.
 * `severity` - (Optional) Patch severity with values like CRITICAL, HIGH, MEDIUM and LOW.
 
