@@ -42,6 +42,9 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
 		}
 		instance_id = oci_core_instance.test_instance.id
 		instance_name = oci_core_instance.test_instance.name
+		is_compliance_policy_required_for_softlink = var.platform_configuration_config_category_details_is_compliance_policy_required_for_softlink
+		is_softlink = var.platform_configuration_config_category_details_is_softlink
+		link_product_id = oci_fleet_apps_management_link_product.test_link_product.id
 		patch_types {
 
 			#Optional
@@ -91,17 +94,20 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment OCID
 * `config_category_details` - (Required) (Updatable) Config Category Details.
-	* `compatible_products` - (Applicable when config_category=PRODUCT) (Updatable) Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
+	* `compatible_products` - (Applicable when config_category=PRODUCT) (Updatable) Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - (Required when config_category=PRODUCT) (Updatable) The OCID of the resource.
-	* `components` - (Applicable when config_category=PRODUCT) (Updatable) Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite. 
+	* `components` - (Applicable when config_category=PRODUCT) (Updatable) Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite. This property is not applicable if isSoftlink is set to true. 
 	* `config_category` - (Required) (Updatable) Category of configuration
-	* `credentials` - (Applicable when config_category=PRODUCT) (Updatable) OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
+	* `credentials` - (Applicable when config_category=PRODUCT) (Updatable) OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - (Required when config_category=PRODUCT) (Updatable) The OCID of the resource.
 	* `instance_id` - (Required when config_category=SELF_HOSTED_INSTANCE) (Updatable) The OCID of the resource.
 	* `instance_name` - (Applicable when config_category=SELF_HOSTED_INSTANCE) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-	* `patch_types` - (Applicable when config_category=PRODUCT) (Updatable) Patch Types associated with this Product. 
+	* `is_compliance_policy_required_for_softlink` - (Applicable when config_category=PRODUCT) (Updatable) If set true ,compliance policies will be created for softlink product. This property is applicable only if isSoftlink is set to true 
+	* `is_softlink` - (Applicable when config_category=PRODUCT) (Updatable) Specify if the product is softlink product or not 
+	* `link_product_id` - (Applicable when config_category=PRODUCT) (Updatable) The OCID of the product that would be the target for the softlink. This property is applicable only if isSoftlink is set to true 
+	* `patch_types` - (Applicable when config_category=PRODUCT) (Updatable) Patch Types associated with this Product. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - (Applicable when config_category=PRODUCT) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - (Required when config_category=PRODUCT) (Updatable) The OCID of the resource.
 	* `products` - (Required when config_category=PRODUCT_STACK) (Updatable) Products that belong to the stack. For example, Oracle WebLogic and Java for the Oracle Fusion Middleware product stack. 
@@ -117,7 +123,7 @@ The following arguments are supported:
 			* `id` - (Required when sub_category=PRODUCT_STACK_AS_PRODUCT) (Updatable) The OCID of the resource.
 		* `sub_category` - (Required) (Updatable) SubCategory of Product Stack.
 		* `versions` - (Required when sub_category=PRODUCT_STACK_AS_PRODUCT) (Updatable) Versions associated with the PRODUCT .  
-	* `versions` - (Required when config_category=PRODUCT) (Updatable) Versions associated with the PRODUCT .  
+	* `versions` - (Applicable when config_category=PRODUCT) (Updatable) Versions associated with the PRODUCT. Mandatory if product is not softlink product. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
@@ -133,17 +139,20 @@ The following attributes are exported:
 
 * `compartment_id` - Compartment OCID
 * `config_category_details` - Config Category Details.
-	* `compatible_products` - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one 
+	* `compatible_products` - Products compatible with this Product. Provide products from the list of other products you have created that are compatible with the present one. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
-	* `components` - Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite. 
+	* `components` - Various components of the Product. For example:The administration server or node manager can be the components of the Oracle WebLogic Application server. Forms server or concurrent manager can be the components of the Oracle E-Business Suite. This property is not applicable if isSoftlink is set to true. 
 	* `config_category` - Category of configuration
-	* `credentials` - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. 
+	* `credentials` - OCID for the Credential name to be associated with the Product. These are useful for target discovery or lifecycle management activities, for example, Oracle WebLogic admin credentials for Oracle WebLogic Application server. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
 	* `instance_id` - The OCID of the resource.
 	* `instance_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-	* `patch_types` - Patch Types associated with this Product. 
+	* `is_compliance_policy_required_for_softlink` - If set true ,compliance policies will be created for softlink product. This property is applicable only if isSoftlink is set to true 
+	* `is_softlink` - Specify if the product is softlink product or not 
+	* `link_product_id` - The OCID of the product that would be the target for the softlink. This property is applicable only if isSoftlink is set to true 
+	* `patch_types` - Patch Types associated with this Product. This property is not applicable if isSoftlink is set to true. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `id` - The OCID of the resource.
 	* `products` - Products that belong to the stack. For example, Oracle WebLogic and Java for the Oracle Fusion Middleware product stack. 
@@ -159,7 +168,7 @@ The following attributes are exported:
 			* `id` - The OCID of the resource.
 		* `sub_category` - SubCategory of Product Stack.
 		* `versions` - Versions associated with the PRODUCT .  
-	* `versions` - Versions associated with the PRODUCT .  
+	* `versions` - Versions associated with the PRODUCT. Mandatory if product is not softlink product. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 

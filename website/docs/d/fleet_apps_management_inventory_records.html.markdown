@@ -68,6 +68,7 @@ The following attributes are exported:
 		* `time_applied` - Date on which the patch was applied to the target
 		* `time_released` - The date on which patch was released.
 	* `os_type` - OS installed on the resource associated with the target
+	* `parent_target_name` - Name of the parent target.
 	* `properties` - List of target properties
 		* `name` - Name of the inventory target property.
 		* `value` - Value of the inventory target property.

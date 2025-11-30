@@ -157,6 +157,10 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"parent_target_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"properties": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -422,6 +426,10 @@ func InventoryRecordSummaryToMap(obj oci_fleet_apps_management.InventoryRecordSu
 
 	if obj.OsType != nil {
 		result["os_type"] = string(*obj.OsType)
+	}
+
+	if obj.ParentTargetName != nil {
+		result["parent_target_name"] = string(*obj.ParentTargetName)
 	}
 
 	properties := []interface{}{}

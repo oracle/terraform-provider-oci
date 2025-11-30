@@ -57,6 +57,7 @@ The following attributes are exported:
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `id` - The OCID of the resource.
 	* `is_last_discovery_attempt_successful` - A boolean flag that represents whether the last discovery attempt was successful.
+	* `parent_target_name` - Name of the parent target.
 	* `product` - Product to which the target belongs to.
 	* `resource` - Resource Information for the Target.
 		* `resource_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
