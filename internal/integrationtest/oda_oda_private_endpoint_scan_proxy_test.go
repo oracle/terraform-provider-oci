@@ -153,7 +153,7 @@ func getPrivateEndpointScanProxyImportCompositeId(resourceName string) resource.
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("odaPrivateEndpoints/" + rs.Primary.Attributes["oda_private_endpoint_id"] + "/odaPrivateEndpointScanProxies/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("odaPrivateEndpoints/%s/odaPrivateEndpointScanProxies/%s", rs.Primary.Attributes["oda_private_endpoint_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 

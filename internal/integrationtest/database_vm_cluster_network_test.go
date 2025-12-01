@@ -626,6 +626,6 @@ func getVmClusterNetworkImportId(resourceName string) resource.ImportStateIdFunc
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("exadataInfrastructures/" + rs.Primary.Attributes["exadata_infrastructure_id"] + "/vmClusterNetworks/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("exadataInfrastructures/%s/vmClusterNetworks/%s", rs.Primary.Attributes["exadata_infrastructure_id"], rs.Primary.Attributes["id"]), nil
 	}
 }

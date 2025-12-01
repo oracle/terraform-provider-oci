@@ -186,7 +186,7 @@ func Load(name string) (*Scenario, error) {
 	data, err := ioutil.ReadFile(fileName)
 
 	if err != nil {
-		debugLogf(err.Error())
+		debugLogf("%s", err.Error())
 		return nil, err
 	}
 
