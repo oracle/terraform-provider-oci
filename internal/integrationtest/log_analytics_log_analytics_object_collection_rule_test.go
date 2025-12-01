@@ -252,7 +252,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						utils.Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
+						utils.Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", resId, resId2)
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
@@ -299,7 +299,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						utils.Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
+						utils.Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", resId, resId2)
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					return err
@@ -513,6 +513,6 @@ func getLogAnalyticsObjectCollectionRulesEndpointImportId(resourceName string) r
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("namespaces/" + rs.Primary.Attributes["namespace"] + "/logAnalyticsObjectCollectionRules/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("namespaces/%s/logAnalyticsObjectCollectionRules/%s", rs.Primary.Attributes["namespace"], rs.Primary.Attributes["id"]), nil
 	}
 }

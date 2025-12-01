@@ -63,7 +63,7 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}, resourceS
 		var pathElements []string
 		var err error
 		if pathElements, err = getFieldPathElements(resourceSchema, keyword); err != nil {
-			log.Printf(err.Error())
+			log.Printf("%s", err.Error())
 			pathElements = []string{keyword}
 		}
 
@@ -113,7 +113,7 @@ func ApplyFiltersInCollection(filters *schema.Set, items []interface{}, resource
 		var pathElements []string
 		var err error
 		if pathElements, err = getFieldPathElements(resourceSchema, keyword); err != nil {
-			log.Printf(err.Error())
+			log.Printf("%s", err.Error())
 			pathElements = []string{keyword}
 		}
 

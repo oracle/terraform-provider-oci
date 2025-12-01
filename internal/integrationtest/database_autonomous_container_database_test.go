@@ -1427,7 +1427,7 @@ func getStandbyAcdOcid(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf(rs.Primary.Attributes["dataguard_group_members.1.autonomous_container_database_id"]), nil
+		return rs.Primary.Attributes["dataguard_group_members.1.autonomous_container_database_id"], nil
 	}
 }
 
@@ -1438,6 +1438,6 @@ func getStandbyAcdOcidOldDG(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf(rs.Primary.Attributes["autonomous_container_database_dataguard_associations.0.peer_autonomous_container_database_id"]), nil
+		return rs.Primary.Attributes["autonomous_container_database_dataguard_associations.0.peer_autonomous_container_database_id"], nil
 	}
 }
