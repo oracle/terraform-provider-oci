@@ -49,8 +49,9 @@ func initResourceanalyticsResourceAnalyticsInstanceClient(configProvider oci_com
 		return nil, err
 	}
 
-	// Add interceptor to ensure Content-Length header is set for POST requests without body
-	// This fixes the issue where disableOac calls fail due to missing Content-Length header
+	originalInterceptor := client.Interceptor
+	//Add interceptor to ensure Content-Length header is set for POST requests without body
+	//This fixes the issue where disableOac calls fail due to missing Content-Length header
 	client.Interceptor = func(request *http.Request) error {
 		if request.Method == "POST" && request.ContentLength <= 0 {
 			// For POST requests without a body (like disableOac), set Content-Length to 0
@@ -71,6 +72,11 @@ func initResourceanalyticsResourceAnalyticsInstanceClient(configProvider oci_com
 				request.Header.Set("Content-Length", "0")
 				request.ContentLength = 0
 			}
+		}
+
+		err := originalInterceptor(request)
+		if err != nil {
+			return err
 		}
 		return nil
 	}
