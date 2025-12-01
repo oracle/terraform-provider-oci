@@ -128,6 +128,6 @@ func getLogAnalyticsNamespaceOnBoardImportId(resourceName string) resource.Impor
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("compartmentId/" + rs.Primary.Attributes["compartment_id"] + "/namespace/" + rs.Primary.Attributes["namespace"]), nil
+		return fmt.Sprintf("compartmentId/%s/namespace/%s", rs.Primary.Attributes["compartment_id"], rs.Primary.Attributes["namespace"]), nil
 	}
 }

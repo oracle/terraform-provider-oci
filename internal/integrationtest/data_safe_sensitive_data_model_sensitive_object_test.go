@@ -60,7 +60,7 @@ func TestDataSafeSensitiveDataModelSensitiveObjectResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "key")
-					fmt.Printf(resId)
+					fmt.Printf("resId: %s", resId)
 					return err
 				},
 			),

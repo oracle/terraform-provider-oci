@@ -452,6 +452,6 @@ func getLogAnalyticsNamespaceIngestTimeRulesEndpointImportId(resourceName string
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("namespaces/" + rs.Primary.Attributes["namespace"] + "/ingestTimeRules/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("namespaces/%s/ingestTimeRules/%s"+rs.Primary.Attributes["namespace"], rs.Primary.Attributes["id"]), nil
 	}
 }

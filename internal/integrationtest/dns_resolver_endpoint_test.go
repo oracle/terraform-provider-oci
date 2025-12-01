@@ -247,6 +247,6 @@ func getResolverEndpointImportId(resourceName string) resource.ImportStateIdFunc
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("resolverId/" + rs.Primary.Attributes["resolver_id"] + "/name/" + rs.Primary.Attributes["name"] + "/scope/" + rs.Primary.Attributes["scope"]), nil
+		return fmt.Sprintf("resolverId/%s/name/%s/scope/%s", rs.Primary.Attributes["resolver_id"], rs.Primary.Attributes["name"], rs.Primary.Attributes["scope"]), nil
 	}
 }

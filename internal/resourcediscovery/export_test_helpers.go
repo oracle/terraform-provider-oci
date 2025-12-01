@@ -108,7 +108,7 @@ func TestExportCompartment(compartmentId *string, exportCommandArgs *tf_export.E
 		log.Printf("'provider_bin_path' not provided for resource discovery testing, using GOPATH/bin as default provider location")
 	}
 	dir, _ := os.Getwd()
-	outputDir := fmt.Sprintf(dir + "/exportCompartment")
+	outputDir := fmt.Sprintf("%s/exportCompartment", dir)
 	if err := os.RemoveAll(outputDir); err != nil {
 		log.Printf("unable to remove existing '%s' due to error '%v'", outputDir, err)
 		return err
@@ -196,7 +196,7 @@ func TestExportCompartment(compartmentId *string, exportCommandArgs *tf_export.E
 
 	var planArgs []tfexec.PlanOption
 	if exportCommandArgs.GenerateState {
-		statefile := fmt.Sprintf(*exportCommandArgs.OutputDir + "/terraform.tfstate")
+		statefile := fmt.Sprintf("%s/terraform.tfstate", *exportCommandArgs.OutputDir)
 		planArgs = append(planArgs, tfexec.State(statefile))
 	}
 

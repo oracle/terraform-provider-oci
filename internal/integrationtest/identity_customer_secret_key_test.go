@@ -144,7 +144,7 @@ func getCustomerKeyImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/customerSecretKeys/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("users/%s/customerSecretKeys/%s", rs.Primary.Attributes["user_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 
