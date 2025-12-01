@@ -238,7 +238,7 @@ func getDataAssetConnectionImportId(resourceName string) resource.ImportStateIdF
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("catalogs/" + rs.Primary.Attributes["catalog_id"] + "/dataAssets/" + rs.Primary.Attributes["data_asset_key"] + "/connections/" + rs.Primary.Attributes["key"]), nil
+		return fmt.Sprintf("catalogs/%s/dataAssets/%s/connections/%s", rs.Primary.Attributes["catalog_id"], rs.Primary.Attributes["data_asset_key"], rs.Primary.Attributes["key"]), nil
 	}
 }
 

@@ -326,6 +326,6 @@ func getLogAnalyticsLogGroupsEndpointImportId(resourceName string) resource.Impo
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("namespaces/" + rs.Primary.Attributes["namespace"] + "/logAnalyticsLogGroups/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("namespaces/%s/logAnalyticsLogGroups/%s", rs.Primary.Attributes["namespace"], rs.Primary.Attributes["id"]), nil
 	}
 }

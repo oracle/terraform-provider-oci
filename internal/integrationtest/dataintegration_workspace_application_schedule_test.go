@@ -89,7 +89,7 @@ func TestDataintegrationWorkspaceApplicationScheduleResource_basic(t *testing.T)
 	datasourceName := "data.oci_dataintegration_workspace_application_schedules.test_workspace_application_schedules"
 	singularDatasourceName := "data.oci_dataintegration_workspace_application_schedule.test_workspace_application_schedule"
 	fmt.Printf("value  isss")
-	fmt.Printf(compartmentIdVariableStr)
+	fmt.Print(compartmentIdVariableStr)
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.

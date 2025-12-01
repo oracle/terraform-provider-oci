@@ -1353,7 +1353,7 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 	}
 	canEdit, operation, oldLoadbalancer, newLoadBalancer, errorMsg := s.oneEditAway(oldBalancers, newBalancers)
 	if !canEdit {
-		return fmt.Errorf(errorMsg)
+		return fmt.Errorf("%s", errorMsg)
 	}
 
 	if operation == "ignoreOrder" {

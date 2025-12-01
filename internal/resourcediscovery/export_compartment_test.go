@@ -1180,7 +1180,7 @@ func TestUnitRunExportCommand_errorSuggestionForPartialSuccess(t *testing.T) {
 			Errors: append(errors, &tf_export.ResourceDiscoveryError{
 				ResourceType:   "load_balancer",
 				ParentResource: "export",
-				Error:          fmt.Errorf("Error Message: [ERROR] Error while discovering below resources:\n" + parentResource),
+				Error:          fmt.Errorf("Error Message: [ERROR] Error while discovering below resources: %s\n", parentResource),
 				ResourceGraph:  nil,
 			}),
 		},
@@ -1446,7 +1446,7 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 		t.Logf("running test #%d with following ocids: ", idx)
 		restrictedOcids := testCase["ocids"].(map[string]bool)
 		for ocid := range restrictedOcids {
-			t.Logf(ocid)
+			t.Log(ocid)
 		}
 
 		ctx := &tf_export.ResourceDiscoveryContext{
@@ -2451,7 +2451,7 @@ func TestUnitGenerateStateParallel(t *testing.T) {
 			omittedResources:    []*tf_export.OCIResource{},
 		},
 	}
-	t.Logf(fmt.Sprintf("%v", steps))
+	t.Logf("%v", steps)
 	err := generateStateParallel(ctx, steps)
 	assert.NoError(t, err, "")
 }

@@ -257,6 +257,6 @@ func getNetworkSecurityGroupSecurityRuleImportId(resourceName string) resource.I
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("networkSecurityGroups/" + rs.Primary.Attributes["network_security_group_id"] + "/securityRules/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("networkSecurityGroups/%s/securityRules/%s", rs.Primary.Attributes["network_security_group_id"], rs.Primary.Attributes["id"]), nil
 	}
 }

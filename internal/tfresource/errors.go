@@ -145,7 +145,7 @@ func (tfE customError) Error() error {
 			// For compute out of host capacity error support
 			serviceError = shortErrorDescription + furtherInfo + detailedDescription
 		}
-		finalError = fmt.Errorf(serviceError)
+		finalError = fmt.Errorf("%s", serviceError)
 	case TimeoutError:
 		finalError = fmt.Errorf("%s \n"+
 			"%s \n"+
@@ -170,7 +170,7 @@ func (tfE customError) Error() error {
 			"Suggestion: %s\n",
 			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
 	default:
-		finalError = fmt.Errorf(tfE.Message)
+		finalError = fmt.Errorf("%s", tfE.Message)
 	}
 	if isJsonErrorEnable, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault(JsonErrorEnable, "false")); isJsonErrorEnable {
 		finalError = fmt.Errorf("%s \n"+

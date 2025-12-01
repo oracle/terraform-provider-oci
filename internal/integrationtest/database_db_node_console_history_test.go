@@ -203,7 +203,7 @@ func getDatabaseConsoleHistoryCompositeId(resourceName string) resource.ImportSt
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("dbNodes/" + rs.Primary.Attributes["db_node_id"] + "/consoleHistories/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("dbNodes/%s/consoleHistories/%s", rs.Primary.Attributes["db_node_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 

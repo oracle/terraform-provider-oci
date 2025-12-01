@@ -491,7 +491,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 		var readErr error
 		if resourceSchema.ReadContext != nil {
 			if diags := resourceSchema.ReadContext(context.Background(), d, r.ctx.Clients); diags.HasError() {
-				readErr = fmt.Errorf(strings.Join(tf_export.ParseDiagToError(diags), " | "))
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
 			}
 		} else {
 			readErr = resourceSchema.Read(d, r.ctx.Clients)
