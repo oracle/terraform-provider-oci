@@ -142,7 +142,7 @@ func getApiKeyImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("oci_identity_api_key:users/" + rs.Primary.Attributes["user_id"] + "/apiKeys/" + rs.Primary.Attributes["fingerprint"]), nil
+		return fmt.Sprintf("oci_identity_api_key:users/%s/apiKeys/%s/"+rs.Primary.Attributes["user_id"], rs.Primary.Attributes["fingerprint"]), nil
 	}
 }
 

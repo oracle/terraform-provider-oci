@@ -398,6 +398,6 @@ func getSchedulingWindowImportId(resourceName string) resource.ImportStateIdFunc
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("schedulingPolicies/" + rs.Primary.Attributes["scheduling_policy_id"] + "/schedulingWindows/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("schedulingPolicies/%s/schedulingWindows/%s", rs.Primary.Attributes["scheduling_policy_id"], rs.Primary.Attributes["id"]), nil
 	}
 }

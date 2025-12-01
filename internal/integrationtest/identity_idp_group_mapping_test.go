@@ -157,7 +157,7 @@ func getIdpGroupMappingImportId(resourceName string) resource.ImportStateIdFunc 
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("identityProviders/" + rs.Primary.Attributes["identity_provider_id"] + "/groupMappings/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("identityProviders/%s/groupMappings/%s", rs.Primary.Attributes["identity_provider_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 

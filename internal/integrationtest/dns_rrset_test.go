@@ -248,8 +248,7 @@ func getRrSetImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("zoneNameOrId/" + rs.Primary.Attributes["zone_name_or_id"] + "/domain/" + rs.Primary.Attributes["domain"] + "/rtype/" + rs.Primary.Attributes["rtype"] + "/scope/" +
-			rs.Primary.Attributes["scope"] + "/viewId/" + rs.Primary.Attributes["view_id"]), nil
+		return fmt.Sprintf("zoneNameOrId/%s/domain/%s/rtype/%s/scope/%s/viewId/%s", rs.Primary.Attributes["zone_name_or_id"], rs.Primary.Attributes["domain"], rs.Primary.Attributes["rtype"], rs.Primary.Attributes["scope"], rs.Primary.Attributes["view_id"]), nil
 	}
 }
 
