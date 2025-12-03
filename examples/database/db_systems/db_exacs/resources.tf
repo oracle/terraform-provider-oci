@@ -257,3 +257,13 @@ resource "oci_database_cloud_vm_cluster" "test_exascale_cloud_vm_cluster" {
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
   subscription_id                 = var.tenant_subscription_id
 }
+
+resource "oci_database_advanced_cluster_file_system" "test_advanced_cluster_file_system" {
+  #Required
+  name           = var.advanced_cluster_file_system_name
+  storage_in_gbs = var.advanced_cluster_file_system_storage_in_gbs
+  vm_cluster_id  = oci_database_cloud_vm_cluster.test_exascale_cloud_vm_cluster.id
+
+  #Optional
+  compartment_id = var.compartment_ocid
+}

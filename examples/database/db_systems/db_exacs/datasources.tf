@@ -43,3 +43,13 @@ data "oci_database_db_nodes" "db_nodes" {
   compartment_id = var.compartment_ocid
   vm_cluster_id  = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
 }
+
+data "oci_database_advanced_cluster_file_systems" "test_advanced_cluster_file_systems" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  name          = var.advanced_cluster_file_system_name
+
+  vm_cluster_id = oci_database_cloud_vm_cluster.test_exascale_cloud_vm_cluster.id
+}

@@ -86,7 +86,9 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	subscription_id = var.tenant_subscription_id
 	system_version = var.cloud_vm_cluster_system_version
 	time_zone = var.cloud_vm_cluster_time_zone
+	vm_backup_storage_type = var.cloud_vm_cluster_vm_backup_storage_type
 	vm_cluster_type = var.cloud_vm_cluster_vm_cluster_type
+	vm_file_system_storage_type = var.cloud_vm_cluster_vm_file_system_storage_type
 }
 ```
 
@@ -163,7 +165,9 @@ The following arguments are supported:
 * `system_version` - (Optional) Operating system version of the image.
 * `tde_key_store_type` - Use 'AZURE' for installing azure encryption RPMS. Use 'OCI' to install oracle managed encryption RPMS. Use 'NONE' to uninstall encryption RPMS.
 * `time_zone` - (Optional) The time zone to use for the cloud VM cluster. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
+* `vm_backup_storage_type` - (Optional) (Updatable) Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `vm_cluster_type` - (Optional) The vmcluster type for the VM cluster/Cloud VM cluster.
+* `vm_file_system_storage_type` - (Optional) Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
 
 
 ** IMPORTANT **
@@ -267,7 +271,9 @@ The following attributes are exported:
 * `vipv6ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) IPv6 addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP IPv6 address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
+* `vm_backup_storage_type` - Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
+* `vm_file_system_storage_type` - Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `zone_id` - The OCID of the zone the cloud VM cluster is associated with. 
 
 ## Timeouts
