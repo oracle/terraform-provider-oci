@@ -28,7 +28,7 @@ data "oci_log_analytics_log_analytics_log_group" "test_log_analytics_log_group" 
 The following arguments are supported:
 
 * `log_analytics_log_group_id` - (Required) unique logAnalytics log group identifier
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

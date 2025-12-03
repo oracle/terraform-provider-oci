@@ -39,7 +39,7 @@ The following arguments are supported:
 * `entity_id` - (Optional) The entity ocid. 
 * `is_include_patterns` - (Optional) The include pattern flag. 
 * `name` - (Optional) The property name used for filtering. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `pattern_id` - (Optional) The pattern id. 
 * `pattern_id_long` - (Optional) The pattern id (long). 
 * `source_name` - (Optional) The source name.

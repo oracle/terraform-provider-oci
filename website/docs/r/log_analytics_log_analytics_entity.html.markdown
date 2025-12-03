@@ -53,7 +53,7 @@ resource "oci_log_analytics_log_analytics_entity" "test_log_analytics_entity" {
 
 The following arguments are supported:
 
-* `cloud_resource_id` - (Optional) The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
+* `cloud_resource_id` - (Optional) (Updatable) The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity represents a non-cloud resource that the customer may have on their premises. 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `entity_type_name` - (Required) Log analytics entity type name. 
@@ -66,7 +66,7 @@ The following arguments are supported:
 		* `type` - (Optional) (Updatable) The metadata type.
 		* `value` - (Optional) (Updatable) The metadata value.
 * `name` - (Required) (Updatable) Log analytics entity name. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `properties` - (Optional) (Updatable) The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - (Optional) This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 * `time_last_discovered` - (Optional) (Updatable) The date and time the resource was last discovered, in the format defined by RFC3339. 
