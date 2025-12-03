@@ -39,7 +39,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return rules whose displayName matches in whole or in part the specified value. The match is case-insensitive. 
 * `field_name` - (Optional) The field name used for filtering. Only rules using the specified field name will be returned. 
 * `field_value` - (Optional) The field value used for filtering. Only rules using the specified field value will be returned. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `state` - (Optional) The rule lifecycle state used for filtering. Currently supported values are ACTIVE and DELETED. 
 
 

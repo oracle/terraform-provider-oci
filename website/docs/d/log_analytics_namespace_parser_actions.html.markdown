@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `action_display_text` - (Optional) The parser action display text used for filtering. 
 * `name` - (Optional) The parser action name used for filtering. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

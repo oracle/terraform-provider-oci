@@ -108,6 +108,10 @@ func LogAnalyticsNamespaceRulesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"task_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -268,6 +272,8 @@ func RuleSummaryToMap(obj oci_log_analytics.RuleSummary) map[string]interface{} 
 	if obj.TargetService != nil {
 		result["target_service"] = string(*obj.TargetService)
 	}
+
+	result["task_status"] = string(obj.TaskStatus)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

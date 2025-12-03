@@ -26,8 +26,8 @@ data "oci_log_analytics_log_analytics_entity_type" "test_log_analytics_entity_ty
 
 The following arguments are supported:
 
-* `entity_type_name` - (Required) Log analytics entity type name. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `entity_type_name` - (Required) Log analytics entity type name. Entity type name can be obtained by running 'oci log-analytics entity-type list --namespace-name <namespacename> --all'. The json output 'internal-name' parameter value contains the entity type name. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

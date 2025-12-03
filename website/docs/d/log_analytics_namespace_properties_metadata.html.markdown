@@ -36,7 +36,7 @@ The following arguments are supported:
 * `display_text` - (Optional) The property display text used for filtering. Only properties matching the specified display name or description will be returned. 
 * `level` - (Optional) The level for which applicable properties are to be listed. 
 * `name` - (Optional) The property name used for filtering. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

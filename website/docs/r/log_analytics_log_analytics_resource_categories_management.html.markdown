@@ -32,7 +32,7 @@ resource "oci_log_analytics_log_analytics_resource_categories_management" "test_
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 * `resource_categories` - (Required) The list of categories to be assigned to the resource.
 * `resource_id` - (Required) The resource unique identifier for which catagories are managed.
 * `resource_type` - (Required) The resource type of the resource for which categories are managed.

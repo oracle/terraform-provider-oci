@@ -61,18 +61,18 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A string that describes the details of the rule. It does not have to be unique, and can be changed. Avoid entering confidential information. 
-* `entity_id` - (Optional) (Updatable) Logging Analytics entity OCID. Associates the processed logs with the given entity (optional).
+* `entity_id` - (Optional) (Updatable) Log Analytics entity OCID. Associates the processed logs with the given entity (optional).
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_enabled` - (Optional) (Updatable) Whether or not this rule is currently enabled. 
 * `is_force_historic_collection` - (Optional) Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule 
-* `log_group_id` - (Required) (Updatable) Logging Analytics Log group OCID to associate the processed logs with.
+* `log_group_id` - (Required) (Updatable) Log Analytics Log group OCID to associate the processed logs with.
 * `log_set` - (Optional) (Updatable) The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
 * `log_set_ext_regex` - (Optional) (Updatable) The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
 * `log_set_key` - (Optional) (Updatable) An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>). 
-* `log_source_name` - (Optional) (Updatable) Name of the Logging Analytics Source to use for the processing.
+* `log_source_name` - (Optional) (Updatable) Name of the Log Analytics Source to use for the processing.
 * `log_type` - (Optional) Type of files/objects in this object collection rule. 
 * `name` - (Required) A unique name given to the rule. The name must be unique within the tenancy, and cannot be modified.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `object_name_filters` - (Optional) (Updatable) When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
 * `os_bucket_name` - (Required) Name of the Object Storage bucket.
 * `os_namespace` - (Required) Object Storage namespace.
@@ -81,7 +81,7 @@ The following arguments are supported:
 * `poll_till` - (Optional) The newest time of the file in the bucket to consider for collection. Accepted values are: CURRENT_TIME or RFC3339 formatted datetime string. Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error. 
 * `stream_cursor_time` - (Optional) (Updatable) The time from which to consume the objects, if streamCursorType is AT_TIME.  
 * `stream_cursor_type` - (Optional) (Updatable) Cursor type used to fetch messages from stream. When the streamCursorType is set to DEFAULT, the existing cursor position will be used if already set by any previous objection collection rule(s) using the same stream.  Otherwise, the behaviour is to consume from the oldest available message in the stream.  When the streamCursorType is set to TRIM_HORIZON, the behaviour is to start consuming from the oldest available message in the stream.  When the streamCursorType is set to LATEST, the behavior is to start consuming messages that were published after the creation of this rule.  When the streamCursorType is set to AT_TIME, the behavior is to start consuming from a given time.  For more information on cursor types, see [Stream Consumer Groups](https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/using_consumer_groups.htm). 
-* `stream_id` - (Optional) (Updatable) A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
+* `stream_id` - (Optional) (Updatable) A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Log Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
 * `timezone` - (Optional) (Updatable) Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 
 
 
@@ -97,18 +97,18 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A string that describes the details of the rule. It does not have to be unique, and can be changed. Avoid entering confidential information. 
-* `entity_id` - Logging Analytics entity OCID to associate the processed logs with.
+* `entity_id` - Log Analytics entity OCID to associate the processed logs with.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 * `is_enabled` - Whether or not this rule is currently enabled. 
 * `is_force_historic_collection` - Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule 
 * `last_collected_object` - Last Collected Object for the rule 
 * `lifecycle_details` - A detailed status of the life cycle state.
-* `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
+* `log_group_id` - Log Analytics Log group OCID to associate the processed logs with.
 * `log_set` - The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
 * `log_set_ext_regex` - The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
 * `log_set_key` - An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>). 
-* `log_source_name` - Name of the Logging Analytics Source to use for the processing.
+* `log_source_name` - Name of the Log Analytics Source to use for the processing.
 * `log_type` - Type of files/objects in this object collection rule. 
 * `name` - A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
 * `object_name_filters` - When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
@@ -120,7 +120,7 @@ The following attributes are exported:
 * `state` - The current state of the rule. 
 * `stream_cursor_time` - The time from which to consume the objects, if streamCursorType is AT_TIME.  
 * `stream_cursor_type` - Cursor type used to fetch messages from stream. When the streamCursorType is set to DEFAULT, the existing cursor position will be used if already set by any previous objection collection rule(s) using the same stream.  Otherwise, the behaviour is to consume from the oldest available message in the stream.  When the streamCursorType is set to TRIM_HORIZON, the behaviour is to start consuming from the oldest available message in the stream.  When the streamCursorType is set to LATEST, the behavior is to start consuming messages that were published after the creation of this rule.  When the streamCursorType is set to AT_TIME, the behavior is to start consuming from a given time.  For more information on cursor types, see [Stream Consumer Groups](https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/using_consumer_groups.htm). 
-* `stream_id` - A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
+* `stream_id` - A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Log Analytics while creating Event Rule and consume the event notifications created by the Object Storage. 
 * `time_created` - The time when this rule was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time when this rule was last updated. An RFC3339 formatted datetime string.
 * `timezone` - Timezone to be used when processing log entries whose timestamps do not include an explicit timezone.  When this property is not specified, the timezone of the entity specified is used.  If the entity is also not specified or do not have a valid timezone then UTC is used. 

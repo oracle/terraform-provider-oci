@@ -40,7 +40,7 @@ The following arguments are supported:
 * `items` - (Optional) An array of tenant preference details.
 	* `name` - (Optional) The preference name.
 	* `value` - (Optional) The preference value.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ** IMPORTANT **
