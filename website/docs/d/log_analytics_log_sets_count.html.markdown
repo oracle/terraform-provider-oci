@@ -26,7 +26,7 @@ data "oci_log_analytics_log_sets_count" "test_log_sets_count" {
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

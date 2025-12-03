@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `name` - (Optional) The template name used for filtering. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `namespace_template_filter` - (Optional) filter
 * `state` - (Optional) The template lifecycle state used for filtering. Currently supported values are ACTIVE and DELETED. 
 * `template_display_text` - (Optional) The template display text used for filtering. Only templates with the specified name or description will be returned. 

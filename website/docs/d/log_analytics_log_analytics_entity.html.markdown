@@ -30,8 +30,8 @@ data "oci_log_analytics_log_analytics_entity" "test_log_analytics_entity" {
 The following arguments are supported:
 
 * `is_show_associated_sources_count` - (Optional) Option to return count of associated log sources for log analytics entity(s).
-* `log_analytics_entity_id` - (Required) The log analytics entity OCID. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `log_analytics_entity_id` - (Required) The log analytics entity ID [OCID]. Entity ID can be obtained by running 'oci log-analytics entity list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'id' parameter value contains the entity ID. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

@@ -32,9 +32,9 @@ data "oci_log_analytics_log_analytics_entity_topology" "test_log_analytics_entit
 The following arguments are supported:
 
 * `context` - (Optional) A filter to return log analytics entity toplogy whose context matches the specified string. 
-* `log_analytics_entity_id` - (Required) The log analytics entity OCID. 
+* `log_analytics_entity_id` - (Required) The log analytics entity ID [OCID]. Entity ID can be obtained by running 'oci log-analytics entity list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'id' parameter value contains the entity ID. 
 * `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `state` - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive. 
 
 

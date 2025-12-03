@@ -59,7 +59,6 @@ func LogAnalyticsLogAnalyticsEntityResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -399,6 +398,11 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 		}
 	}
 	request := oci_log_analytics.UpdateLogAnalyticsEntityRequest{}
+
+	if cloudResourceId, ok := s.D.GetOkExists("cloud_resource_id"); ok {
+		tmp := cloudResourceId.(string)
+		request.CloudResourceId = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))

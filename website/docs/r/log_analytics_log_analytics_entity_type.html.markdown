@@ -41,7 +41,7 @@ The following arguments are supported:
 
 * `category` - (Optional) Log analytics entity type category. Category will be used for grouping and filtering. 
 * `name` - (Required) Log analytics entity type name. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `properties` - (Optional) Log analytics entity type property definition.
 	* `description` - (Optional) Description for the log analytics entity type property. 
 	* `name` - (Required) Log analytics entity type property name. 

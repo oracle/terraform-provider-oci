@@ -27,8 +27,8 @@ data "oci_log_analytics_namespace_field_usage" "test_namespace_field_usage" {
 
 The following arguments are supported:
 
-* `field_name` - (Required) The field name.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `field_name` - (Required) The field name. Field name can be obtained by running 'oci log-analytics field list-fields --namespace-name <namespace>'. The json output 'name' parameter value contains the field name.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

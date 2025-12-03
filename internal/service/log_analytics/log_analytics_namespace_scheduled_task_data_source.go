@@ -11,7 +11,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
@@ -26,15 +25,15 @@ func LogAnalyticsNamespaceScheduledTaskDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(LogAnalyticsNamespaceScheduledTaskResource(), fieldMap, readSingularLogAnalyticsNamespaceScheduledTaskWithContext)
+	return tfresource.GetSingularDataSourceItemSchema(LogAnalyticsNamespaceScheduledTaskResource(), fieldMap, readSingularLogAnalyticsNamespaceScheduledTask)
 }
 
-func readSingularLogAnalyticsNamespaceScheduledTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readSingularLogAnalyticsNamespaceScheduledTask(d *schema.ResourceData, m interface{}) error {
 	sync := &LogAnalyticsNamespaceScheduledTaskDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
+	return tfresource.ReadResource(sync)
 }
 
 type LogAnalyticsNamespaceScheduledTaskDataSourceCrud struct {
@@ -47,7 +46,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) GetWithContext(ctx context.Context) error {
+func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) Get() error {
 	request := oci_log_analytics.GetScheduledTaskRequest{}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -66,7 +65,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) GetWithContext(ctx co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.GetScheduledTask(ctx, request)
+	response, err := s.Client.GetScheduledTask(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -113,6 +112,10 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) SetData() error {
 
 	if s.Res.GetDefinedTags() != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
+	}
+
+	if s.Res.GetDescription() != nil {
+		s.D.Set("description", *s.Res.GetDescription())
 	}
 
 	if s.Res.GetDisplayName() != nil {

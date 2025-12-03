@@ -33,9 +33,9 @@ The following arguments are supported:
 
 * `cloud_type` - (Optional) A filter to return CLOUD or NON_CLOUD entity types. 
 * `name` - (Optional) A filter to return only log analytics entity types whose name matches the entire name given. The match is case-insensitive. 
-* `name_contains` - (Optional) A filter to return only log analytics entity types whose name or internalName contains name given. The match is case-insensitive. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
-* `state` - (Optional) A filter to return only those log analytics entity types with the specified lifecycle state. The state value is case-insensitive.
+* `name_contains` - (Optional) A filter to return only log analytics entity types whose name or internalName contains name given. The match is case-insensitive.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
+* `state` - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive.
 
 
 ## Attributes Reference

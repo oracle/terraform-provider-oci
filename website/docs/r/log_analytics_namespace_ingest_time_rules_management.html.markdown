@@ -30,8 +30,8 @@ resource "oci_log_analytics_namespace_ingest_time_rules_management" "test_namesp
 
 The following arguments are supported:
 
-* `ingest_time_rule_id` - (Required) Unique ocid of the ingest time rule. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `ingest_time_rule_id` - (Required) Unique ocid of the ingest time rule. Ingest time rule ID can be obtained by running 'oci log-analytics ingest-time-rule list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'id' parameter value contains the rule ID. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `enable_ingest_time_rule` - (Required) (Updatable) A required field when set to `true` calls enable action and when set to `false` calls disable action.
 
 

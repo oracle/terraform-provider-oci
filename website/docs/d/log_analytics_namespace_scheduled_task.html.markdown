@@ -26,7 +26,7 @@ data "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_task
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `scheduled_task_id` - (Required) Unique scheduledTask id returned from task create. If invalid will lead to a 404 not found. 
 
 
@@ -39,6 +39,13 @@ The following attributes are exported:
 	* `data_type` - the type of the log data to be purged
 	* `metric_extraction` - Specify metric extraction for SAVED_SEARCH scheduled task execution to post to Oracle Cloud Infrastructure Monitoring. 
 		* `compartment_id` - The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric. 
+		* `metric_collections` - Details for the metrics to be collected.
+			* `dimensions` - Selected dimension fields for the metric collection.
+				* `dimension_name` - Dimension name to be stored with the metric.
+				* `query_field_name` - Output field in the query to be used as the source for the metric dimension.
+			* `metric_name` - The metric name for this metric collection. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
+			* `metric_query_field_name` - Output field in the query to be used as the metric value.
+			* `query_table_name` - Output table in the query.
 		* `metric_name` - The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
 		* `namespace` - The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_). 
 		* `resource_group` - The resource group of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
@@ -54,6 +61,7 @@ The following attributes are exported:
 	* `type` - Action type discriminator.
 * `compartment_id` - Compartment Identifier [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `description` - Description for this resource. 
 * `display_name` - A user-friendly name that is changeable and that does not have to be unique. Format: a leading alphanumeric, followed by zero or more alphanumerics, underscores, spaces, backslashes, or hyphens in any order). No trailing spaces allowed. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource. 
@@ -62,12 +70,14 @@ The following attributes are exported:
 * `schedules` - Schedules.
 	* `expression` - Value in cron format.
 	* `misfire_policy` - Schedule misfire retry policy.
+	* `query_offset_secs` - Number of seconds to offset the query time window by to accommodate capture late arriving data. For example, a schedule run at 12:00 with a 10 minute interval and queryOffsetSecs=120 will use the query time window of 11:48-11:58 rather than 11:50-12:00 without queryOffsetSecs.
 	* `recurring_interval` - Recurring interval in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P14D (not P2W). The value must be at least 5 minutes (PT5M) and at most 3 weeks (P21D or PT30240M). 
 	* `repeat_count` - Number of times (0-based) to execute until auto-stop. Default value -1 will execute indefinitely. Value 0 will execute once. 
+	* `time_end` - End time for the schedule, even if the schedule would otherwise have remaining executions. 
 	* `time_zone` - Time zone, by default UTC.
 	* `type` - Schedule type discriminator.
 * `state` - The current state of the scheduled task.
-* `task_status` - Status of the scheduled task. - PURGE_RESOURCE_NOT_FOUND
+* `task_status` - Status of the scheduled task. - PURGE_RESOURCE_NOT_FOUND - LIMIT_EXCEEDED
 * `task_type` - Task type.
 * `time_created` - The date and time the scheduled task was created, in the format defined by RFC3339. 
 * `time_updated` - The date and time the scheduled task was last updated, in the format defined by RFC3339. 

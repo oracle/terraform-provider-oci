@@ -39,6 +39,9 @@ var (
 	LogAnalyticsNamespaceScheduledTaskMetricExtractionFromTemplateResourceConfig = LogAnalyticsNamespaceScheduledTaskResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, LogAnalyticsNamespaceScheduledTaskMetricExtractionFromTemplateRepresentation)
 
+	LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionResourceConfig = LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Update, LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionRepresentation)
+
 	LogAnalyticsLogAnalyticsNamespaceScheduledTaskSingularDataSourceRepresentation = map[string]interface{}{
 		"namespace":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"scheduled_task_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task.scheduled_task_id}`},
@@ -66,7 +69,7 @@ var (
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"task_type":      acctest.Representation{RepType: acctest.Required, Create: `PURGE`},
 		"action":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsPurgeActionRepresentation},
-		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
+		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsPurgeSchedulesRepresentation},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreLogAnalyticsPurgeTaskRepresentationDefinedTagsRepresentation},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfPurgeTask1`, Update: `tfPurgeTask3`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -95,6 +98,13 @@ var (
 		"task_type":      acctest.Representation{RepType: acctest.Optional, Create: `SAVED_SEARCH`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskDataSourceFilterRepresentation}}
 
+	namespaceScheduledTaskMetricExtractionWithCollectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tfMetricsExtractionCollectionTask`},
+		"task_type":      acctest.Representation{RepType: acctest.Optional, Create: `SAVED_SEARCH`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskDataSourceFilterRepresentation}}
+
 	LogAnalyticsNamespaceScheduledTaskMetricExtractionRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"kind":            acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
@@ -104,6 +114,7 @@ var (
 		"schedules":       acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionTask`, Update: `tfMetricsExtractionTask2`},
+		"description":     acctest.Representation{RepType: acctest.Required, Create: `A metric extraction task`},
 		"saved_search_id": acctest.Representation{RepType: acctest.Required, Create: `${var.saved_search_id}`},
 	}
 
@@ -126,7 +137,7 @@ var (
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"task_type":      acctest.Representation{RepType: acctest.Required, Create: `SAVED_SEARCH`},
 		"action":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionFromTemplateRepresentation},
-		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
+		"schedules":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsPurgeSchedulesRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionTemplateTask`, Update: `tfMetricsExtractionTemplateTask2`},
 	}
@@ -138,18 +149,58 @@ var (
 	}
 
 	LogAnalyticsTemplateDetailsRepresentation = map[string]interface{}{
-		"template_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_log_analytics_namespace_templates.test_namespace_templates.log_analytics_template_collection[0].items[0].id}`},
+		"template_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_log_analytics_namespace_templates.test_namespace_templates.log_analytics_template_collection[0].items[2].id}`},
 		"template_params": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: LogAnalyticsTemplateParamsRepresentation1}, {RepType: acctest.Required, Group: LogAnalyticsTemplateParamsRepresentation2}},
 	}
 
 	LogAnalyticsTemplateParamsRepresentation1 = map[string]interface{}{
-		"key_field":   acctest.Representation{RepType: acctest.Required, Create: `RootLoginThreshold`},
+		"key_field":   acctest.Representation{RepType: acctest.Required, Create: `Size_Threshold`},
 		"value_field": acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 
 	LogAnalyticsTemplateParamsRepresentation2 = map[string]interface{}{
 		"key_field":   acctest.Representation{RepType: acctest.Required, Create: `oci_la_compartment`},
 		"value_field": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kind":            acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
+		"namespace":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"task_type":       acctest.Representation{RepType: acctest.Required, Create: `SAVED_SEARCH`},
+		"action":          acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionWithCollectionRepresentation},
+		"schedules":       acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsSchedulesRepresentation},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tfMetricsExtractionCollectionTask`, Update: `tfMetricsExtractionCollectionTask2`},
+		"saved_search_id": acctest.Representation{RepType: acctest.Required, Create: `${var.saved_search_id}`},
+	}
+
+	LogAnalyticsNamespaceScheduledTaskActionMetricExtractionWithCollectionRepresentation = map[string]interface{}{
+		"type":              acctest.Representation{RepType: acctest.Required, Create: `STREAM`},
+		"metric_extraction": acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsMetricsExtractionWithCollectionRepresentation},
+		"saved_search_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.saved_search_id}`},
+	}
+
+	LogAnalyticsMetricsExtractionWithCollectionRepresentation = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"metric_name":        acctest.Representation{RepType: acctest.Required, Create: ``},
+		"namespace":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"metric_collections": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: LogAnalyticsMetricCollectionRepresentation}},
+	}
+
+	LogAnalyticsMetricCollectionRepresentation = map[string]interface{}{
+		"metric_name":             acctest.Representation{RepType: acctest.Required, Create: `JobCount`},
+		"metric_query_field_name": acctest.Representation{RepType: acctest.Required, Create: `Jobs`},
+		"dimensions":              []acctest.RepresentationGroup{{RepType: acctest.Required, Group: LogAnalyticsDimensionFieldRepresentation}},
+	}
+
+	LogAnalyticsDimensionFieldRepresentation = map[string]interface{}{
+		"query_field_name": acctest.Representation{RepType: acctest.Required, Create: `Status`},
+		"dimension_name":   acctest.Representation{RepType: acctest.Required, Create: `JobsStatus`},
+	}
+
+	LogAnalyticsPurgeSchedulesRepresentation = map[string]interface{}{
+		"schedule": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: purgeFixedSchedulesRepresentation}},
 	}
 
 	LogAnalyticsSchedulesRepresentation = map[string]interface{}{
@@ -163,11 +214,19 @@ var (
 			}
 	*/
 
-	fixedSchedulesRepresentation = map[string]interface{}{
+	purgeFixedSchedulesRepresentation = map[string]interface{}{
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `FIXED_FREQUENCY`, Update: `FIXED_FREQUENCY`},
 		"recurring_interval": acctest.Representation{RepType: acctest.Required, Create: `P1D`, Update: `P2D`},
 		"repeat_count":       acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
 		"misfire_policy":     acctest.Representation{RepType: acctest.Required, Create: `RETRY_ONCE`, Update: `RETRY_INDEFINITELY`},
+	}
+	fixedSchedulesRepresentation = map[string]interface{}{
+		"type":               acctest.Representation{RepType: acctest.Required, Create: `FIXED_FREQUENCY`, Update: `FIXED_FREQUENCY`},
+		"recurring_interval": acctest.Representation{RepType: acctest.Required, Create: `P1D`, Update: `P2D`},
+		"repeat_count":       acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
+		"query_offset_secs":  acctest.Representation{RepType: acctest.Required, Create: `300`, Update: `360`},
+		"misfire_policy":     acctest.Representation{RepType: acctest.Required, Create: `RETRY_ONCE`, Update: `RETRY_INDEFINITELY`},
+		"time_end":           acctest.Representation{RepType: acctest.Required, Create: `2030-09-12T20:30:00Z`, Update: `2030-09-16T20:30:00Z`},
 	}
 	cronSchedulesRepresentation = map[string]interface{}{
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `CRON`, Update: `CRON`},
@@ -179,9 +238,19 @@ var (
 		"template_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_log_analytics_template.test_template.id}`},
 		"template_params": acctest.RepresentationGroup{RepType: acctest.Optional, Group: LogAnalyticsNamespaceScheduledTaskActionTemplateDetailsTemplateParamsRepresentation},
 	}
+	LogAnalyticsNamespaceScheduledTaskActionMetricExtractionMetricCollectionsRepresentation = map[string]interface{}{
+		"dimensions":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: LogAnalyticsNamespaceScheduledTaskActionMetricExtractionMetricCollectionsDimensionsRepresentation},
+		"metric_name":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_metric.test_metric.name}`},
+		"metric_query_field_name": acctest.Representation{RepType: acctest.Optional, Create: `metricQueryFieldName`},
+		"query_table_name":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_nosql_table.test_table.name}`},
+	}
 	LogAnalyticsNamespaceScheduledTaskActionTemplateDetailsTemplateParamsRepresentation = map[string]interface{}{
 		"key_field":   acctest.Representation{RepType: acctest.Optional, Create: `keyField`},
 		"value_field": acctest.Representation{RepType: acctest.Optional, Create: `valueField`},
+	}
+	LogAnalyticsNamespaceScheduledTaskActionMetricExtractionMetricCollectionsDimensionsRepresentation = map[string]interface{}{
+		"dimension_name":   acctest.Representation{RepType: acctest.Optional, Create: `dimensionName`},
+		"query_field_name": acctest.Representation{RepType: acctest.Optional, Create: `queryFieldName`},
 	}
 
 	LogAnalyticsNamespaceScheduledTaskResourceDependencies = DefinedTagsDependencies +
@@ -295,6 +364,7 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "kind", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tfMetricsExtractionTask"),
+					resource.TestCheckResourceAttr(resourceName, "description", "A metric extraction task"),
 					resource.TestCheckResourceAttr(resourceName, "task_type", "SAVED_SEARCH"),
 					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "action.0.type", "STREAM"),
@@ -309,6 +379,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 						"misfire_policy":     "RETRY_ONCE",
 						"recurring_interval": "P1D",
 						"repeat_count":       "4",
+						"query_offset_secs":  "300",
+						"time_end":           "2030-09-12T20:30:00Z",
 					}, []string{}),
 
 					func(s *terraform.State) (err error) {
@@ -362,6 +434,8 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 						"misfire_policy":     "RETRY_INDEFINITELY",
 						"recurring_interval": "P2D",
 						"repeat_count":       "6",
+						"query_offset_secs":  "360",
+						"time_end":           "2030-09-16T20:30:00Z",
 					}, []string{}),
 				),
 			},
@@ -467,6 +541,103 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 						"misfire_policy":     "RETRY_INDEFINITELY",
 						"recurring_interval": "P2D",
 						"repeat_count":       "6",
+					}, []string{}),
+				),
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies,
+			},
+			// verify creation of metric collection based task
+			{
+				Config: config + compartmentIdVariableStr + savedSearchIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "kind", "STANDARD"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "tfMetricsExtractionCollectionTask"),
+					resource.TestCheckResourceAttr(resourceName, "task_type", "SAVED_SEARCH"),
+					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.type", "STREAM"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_name", ""),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.metric_name", "JobCount"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.metric_query_field_name", "Jobs"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.0.query_field_name", "Status"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.0.dimension_name", "JobsStatus"),
+					resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "schedules.0.schedule.#", "1"),
+					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "schedules.0.schedule", map[string]string{
+						"type":               "FIXED_FREQUENCY",
+						"misfire_policy":     "RETRY_ONCE",
+						"recurring_interval": "P1D",
+						"repeat_count":       "4",
+						"query_offset_secs":  "300",
+						"time_end":           "2030-09-12T20:30:00Z",
+					}, []string{}),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId == "" {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_tasks", "test_namespace_scheduled_tasks", acctest.Optional, acctest.Create, namespaceScheduledTaskMetricExtractionWithCollectionDataSourceRepresentation) +
+					compartmentIdVariableStr + savedSearchIdVariableStr + LogAnalyticsNamespaceScheduledTaskResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Optional, acctest.Create, LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "tfMetricsExtractionCollectionTask"),
+					resource.TestCheckResourceAttr(datasourceName, "task_type", "SAVED_SEARCH"),
+					resource.TestCheckResourceAttr(datasourceName, "scheduled_task_collection.#", "1"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace_scheduled_task", "test_namespace_scheduled_task", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceScheduledTaskSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + savedSearchIdVariableStr + LogAnalyticsNamespaceScheduledTaskMetricExtractionWithCollectionResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_task_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "num_occurrences"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "tfMetricsExtractionCollectionTask2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "task_status"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "task_type", "SAVED_SEARCH"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "action.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "action.0.type", "STREAM"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_name", ""),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.metric_name", "JobCount"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.metric_query_field_name", "Jobs"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.0.query_field_name", "Status"),
+					resource.TestCheckResourceAttr(resourceName, "action.0.metric_extraction.0.metric_collections.0.dimensions.0.dimension_name", "JobsStatus"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "schedules.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.schedule.#", "1"),
+					acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "schedules.0.schedule", map[string]string{
+						"type":               "FIXED_FREQUENCY",
+						"misfire_policy":     "RETRY_INDEFINITELY",
+						"recurring_interval": "P2D",
+						"repeat_count":       "6",
+						"query_offset_secs":  "360",
+						"time_end":           "2030-09-16T20:30:00Z",
 					}, []string{}),
 				),
 			},

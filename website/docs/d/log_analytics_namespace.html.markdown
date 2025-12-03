@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_log_analytics_namespace
 This data source provides details about a specific Namespace resource in Oracle Cloud Infrastructure Log Analytics service.
 
-This API gets the namespace details of a tenancy already onboarded in Logging Analytics Application
+This API gets the namespace details of a tenancy already onboarded in Log Analytics Application
 
 
 ## Example Usage
@@ -26,17 +26,18 @@ data "oci_log_analytics_namespace" "test_namespace" {
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `compartment_id` - The is the tenancy ID
+* `compartment_id` - This is the tenancy ID
 * `is_archiving_enabled` - This indicates if old data can be archived for a tenancy
-* `is_onboarded` - This indicates if the tenancy is onboarded to Logging Analytics
+* `is_onboarded` - This indicates if the tenancy is onboarded to Log Analytics
 * `namespace` - This is the namespace name of a tenancy
+* `state` - The current state of the compartment.
 * `is_logSet_enabled` - This indicates if the tenancy is logSet enable
 * `is_data_ever_ingested` - This indicates if the tenancy is data ever ingested
 

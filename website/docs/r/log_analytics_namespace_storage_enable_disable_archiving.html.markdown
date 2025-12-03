@@ -29,7 +29,7 @@ resource "oci_log_analytics_namespace_storage_enable_disable_archiving" "test_na
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `enable_archiving_tenant` - (Required) (Updatable) A required field when set to `true` calls enable action and when set to `false` calls disable action.
 
 

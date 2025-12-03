@@ -26,7 +26,7 @@ data "oci_log_analytics_namespace_storage_archival_config" "test_namespace_stora
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference
@@ -36,5 +36,6 @@ The following attributes are exported:
 * `archiving_configuration` - This is the configuration for data archiving in object storage
 	* `active_storage_duration` - This is the duration data in active storage before data is archived, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
 	* `archival_storage_duration` - This is the duration before archived data is deleted from object storage, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
+	* `time_oldest_active_bucket_ended` - end time of the oldest active CoreGroup
 * `is_archiving_enabled` - This indicates if old data can be archived for a tenancy
 
