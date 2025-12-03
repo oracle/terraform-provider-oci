@@ -162,3 +162,11 @@ variable "cloud_vm_cluster_db_servers" {
 variable "cloud_exadata_infrastructure_configure_exascale_management_total_storage_in_gbs" {
   default = 4096
 }
+
+variable "advanced_cluster_file_system_name" {
+  default = "fileSystemName"
+}
+
+variable "advanced_cluster_file_system_storage_in_gbs" {
+  default = 10
+}

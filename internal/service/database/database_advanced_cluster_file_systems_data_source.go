@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseAdvancedClusterFileSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAdvancedClusterFileSystems,
+		ReadContext: readDatabaseAdvancedClusterFileSystemsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DatabaseAdvancedClusterFileSystemsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAdvancedClusterFileSystems(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAdvancedClusterFileSystemsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAdvancedClusterFileSystemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAdvancedClusterFileSystemsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DatabaseAdvancedClusterFileSystemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAdvancedClusterFileSystemsDataSourceCrud) Get() error {
+func (s *DatabaseAdvancedClusterFileSystemsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAdvancedClusterFileSystemsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DatabaseAdvancedClusterFileSystemsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAdvancedClusterFileSystems(context.Background(), request)
+	response, err := s.Client.ListAdvancedClusterFileSystems(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DatabaseAdvancedClusterFileSystemsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAdvancedClusterFileSystems(context.Background(), request)
+		listResponse, err := s.Client.ListAdvancedClusterFileSystems(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -273,7 +273,11 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
 
+	s.D.Set("vm_backup_storage_type", s.Res.VmBackupStorageType)
+
 	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
+	s.D.Set("vm_file_system_storage_type", s.Res.VmFileSystemStorageType)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)

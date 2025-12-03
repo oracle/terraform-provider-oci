@@ -5,11 +5,9 @@ package database
 
 import (
 	"context"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -320,16 +318,12 @@ func (s *DatabaseAdvancedClusterFileSystemResourceCrud) DeleteWithContext(ctx co
 
 	response, err := s.Client.DeleteAdvancedClusterFileSystem(ctx, request)
 	if err != nil {
-		if failure, isServiceError := oci_common.IsServiceError(err); isServiceError && failure.GetCode() == "IncorrectState" && strings.Contains(failure.GetMessage(), "DELETED state") {
-			// Already deleted, treat as success
-			return nil
-		}
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequest(s.WorkRequestClient, workId, "advancedclusterfilesystem", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, false)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "advancedclusterfilesystem", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
