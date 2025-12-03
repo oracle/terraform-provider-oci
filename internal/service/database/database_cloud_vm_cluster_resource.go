@@ -366,13 +366,23 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_backup_storage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"vm_cluster_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
 			},
-
+			"vm_file_system_storage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"tde_key_store_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -892,8 +902,16 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
+	if vmBackupStorageType, ok := s.D.GetOkExists("vm_backup_storage_type"); ok {
+		request.VmBackupStorageType = oci_database.CreateCloudVmClusterDetailsVmBackupStorageTypeEnum(vmBackupStorageType.(string))
+	}
+
 	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
 		request.VmClusterType = oci_database.CreateCloudVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
+	if vmFileSystemStorageType, ok := s.D.GetOkExists("vm_file_system_storage_type"); ok {
+		request.VmFileSystemStorageType = oci_database.CreateCloudVmClusterDetailsVmFileSystemStorageTypeEnum(vmFileSystemStorageType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1115,6 +1133,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
 			request.SshPublicKeys = tmp
 		}
+	}
+
+	if vmBackupStorageType, ok := s.D.GetOkExists("vm_backup_storage_type"); ok {
+		request.VmBackupStorageType = oci_database.UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum(vmBackupStorageType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1399,7 +1421,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
 
+	s.D.Set("vm_backup_storage_type", s.Res.VmBackupStorageType)
+
 	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
+	s.D.Set("vm_file_system_storage_type", s.Res.VmFileSystemStorageType)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
