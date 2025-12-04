@@ -81,6 +81,10 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 		s.D.Set("availability_policy", nil)
 	}
 
+	if s.Res.BootVolumeSizeInGBs != nil {
+		s.D.Set("boot_volume_size_in_gbs", *s.Res.BootVolumeSizeInGBs)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

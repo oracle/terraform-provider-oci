@@ -70,6 +70,7 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
 	storage_size_in_gbs = var.desktop_pool_storage_size_in_gbs
 
 	#Optional
+	boot_volume_size_in_gbs = var.desktop_pool_boot_volume_size_in_gbs
 	are_volumes_preserved = var.desktop_pool_are_volumes_preserved
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.desktop_pool_description
@@ -127,6 +128,7 @@ The following arguments are supported:
 	* `stop_schedule` - (Optional) (Updatable) Provides the schedule information for a desktop.
 		* `cron_expression` - (Required) (Updatable) A cron expression describing the desktop's schedule.
 		* `timezone` - (Required) (Updatable) The timezone of the desktop's schedule.
+* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size in GBs of the boot volume for the desktop pool.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment which will contain the desktop pool.
 * `contact_details` - (Required) (Updatable) Contact information of the desktop pool administrator. Avoid entering confidential information. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
@@ -196,6 +198,7 @@ The following attributes are exported:
 	* `stop_schedule` - Provides the schedule information for a desktop.
 		* `cron_expression` - A cron expression describing the desktop's schedule.
 		* `timezone` - The timezone of the desktop's schedule.
+* `boot_volume_size_in_gbs` - The size in GBs of the boot volume for the desktop pool.
 * `compartment_id` - The OCID of the compartment of the desktop pool.
 * `contact_details` - Contact information of the desktop pool administrator. Avoid entering confidential information. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 

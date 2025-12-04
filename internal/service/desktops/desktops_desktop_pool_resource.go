@@ -249,6 +249,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 			},
 
 			// Optional
+			"boot_volume_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -549,6 +554,11 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 			}
 			request.AvailabilityPolicy = &tmp
 		}
+	}
+
+	if bootVolumeSizeInGBs, ok := s.D.GetOkExists("boot_volume_size_in_gbs"); ok {
+		tmp := bootVolumeSizeInGBs.(int)
+		request.BootVolumeSizeInGBs = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -896,6 +906,11 @@ func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 		}
 	}
 
+	if bootVolumeSizeInGBs, ok := s.D.GetOkExists("boot_volume_size_in_gbs"); ok {
+		tmp := bootVolumeSizeInGBs.(int)
+		request.BootVolumeSizeInGBs = &tmp
+	}
+
 	if contactDetails, ok := s.D.GetOkExists("contact_details"); ok {
 		tmp := contactDetails.(string)
 		request.ContactDetails = &tmp
@@ -1024,6 +1039,10 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 		s.D.Set("availability_policy", []interface{}{DesktopAvailabilityPolicyToMap(s.Res.AvailabilityPolicy)})
 	} else {
 		s.D.Set("availability_policy", nil)
+	}
+
+	if s.Res.BootVolumeSizeInGBs != nil {
+		s.D.Set("boot_volume_size_in_gbs", *s.Res.BootVolumeSizeInGBs)
 	}
 
 	if s.Res.CompartmentId != nil {
