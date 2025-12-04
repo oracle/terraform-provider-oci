@@ -54,6 +54,9 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
 
   are_volumes_preserved = var.desktop_pool_are_volumes_preserved
 
+  # Optional
+  boot_volume_size_in_gbs = var.desktop_pool_boot_volume_size_in_gbs
+
   shape_name   = var.desktop_pool_shape_name
   standby_size = var.desktop_pool_standby_size
   maximum_size = var.desktop_pool_maximum_size
