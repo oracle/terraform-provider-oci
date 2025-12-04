@@ -17,6 +17,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_jobs", DatascienceJobsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_ml_application", DatascienceMlApplicationDataSource())
 	tfresource.RegisterDatasource("oci_datascience_ml_application_implementation", DatascienceMlApplicationImplementationDataSource())
+	tfresource.RegisterDatasource("oci_datascience_ml_application_implementation_version", DatascienceMlApplicationImplementationVersionDataSource())
+	tfresource.RegisterDatasource("oci_datascience_ml_application_implementation_versions", DatascienceMlApplicationImplementationVersionsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_ml_application_implementations", DatascienceMlApplicationImplementationsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_ml_application_instance", DatascienceMlApplicationInstanceDataSource())
 	tfresource.RegisterDatasource("oci_datascience_ml_application_instances", DatascienceMlApplicationInstancesDataSource())
