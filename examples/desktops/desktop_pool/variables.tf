@@ -108,6 +108,11 @@ variable "desktop_pool_are_volumes_preserved" {
   default = false
 }
 
+variable "desktop_pool_boot_volume_size_in_gbs" {
+  description = ""
+  default = null
+}
+
 variable "desktop_pool_vcn_id" {
   description = ""
 }
