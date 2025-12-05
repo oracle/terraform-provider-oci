@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -132,13 +132,14 @@ var (
 	DesktopsDesktopPoolAvailabilityPolicyNoStartStopSchedulesRepresentation = map[string]interface{}{}
 
 	DesktopsDesktopPoolDevicePolicyRepresentation = map[string]interface{}{
-		"audio_mode":          acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
-		"cdm_mode":            acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `READONLY`},
-		"clipboard_mode":      acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
-		"is_display_enabled":  acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_keyboard_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
-		"is_pointer_enabled":  acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
-		"is_printing_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"audio_mode":             acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
+		"cdm_mode":               acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `READONLY`},
+		"clipboard_mode":         acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
+		"is_display_enabled":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"is_keyboard_enabled":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"is_pointer_enabled":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"is_printing_enabled":    acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"is_video_input_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	DesktopsDesktopPoolImageRepresentation = map[string]interface{}{
 		"image_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.test_image_id}`},
@@ -421,6 +422,7 @@ func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -494,6 +496,7 @@ func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -561,6 +564,7 @@ func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -651,6 +655,7 @@ func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -726,6 +731,7 @@ func TestDesktopsDesktopPoolResource_session_lifecycle_disconnect(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -782,6 +788,7 @@ func TestDesktopsDesktopPoolResource_session_lifecycle_disconnect(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
