@@ -44,17 +44,18 @@ The following attributes are exported:
 		* `timezone` - The timezone of the desktop's schedule.
 * `boot_volume_size_in_gbs` - The size in GBs of the boot volume for the desktop pool.
 * `compartment_id` - The OCID of the compartment of the desktop pool.
-* `contact_details` - Contact information of the desktop pool administrator. Avoid entering confidential information.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
-* `description` - A user friendly description providing additional information about the resource. Avoid entering confidential information.
-* `device_policy` - Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access.
-  * `audio_mode` - The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop.
-  * `cdm_mode` - The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.
-  * `clipboard_mode` - The clipboard mode. NONE: No access to the local clipboard is permitted. TODESKTOP: The clipboard can be used to transfer data to the desktop only.  FROMDESKTOP: The clipboard can be used to transfer data from the desktop only. FULL: The clipboard can be used to transfer data to and from the desktop.
-  * `is_display_enabled` - Indicates whether the display is enabled.
-  * `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
-  * `is_pointer_enabled` - Indicates whether the pointer is enabled.
-  * `is_printing_enabled` - Indicates whether printing is enabled.
+* `contact_details` - Contact information of the desktop pool administrator. Avoid entering confidential information. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `description` - A user friendly description providing additional information about the resource. Avoid entering confidential information. 
+* `device_policy` - Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access. 
+	* `audio_mode` - The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop. 
+	* `cdm_mode` - The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.  
+	* `clipboard_mode` - The clipboard mode. NONE: No access to the local clipboard is permitted. TODESKTOP: The clipboard can be used to transfer data to the desktop only.  FROMDESKTOP: The clipboard can be used to transfer data from the desktop only. FULL: The clipboard can be used to transfer data to and from the desktop. 
+	* `is_display_enabled` - Indicates whether the display is enabled.
+	* `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
+	* `is_pointer_enabled` - Indicates whether the pointer is enabled.
+	* `is_printing_enabled` - Indicates whether printing is enabled.
+	* `is_video_input_enabled` - Indicates whether video input is enabled.
 * `display_name` - A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `id` - The OCID of the desktop pool.

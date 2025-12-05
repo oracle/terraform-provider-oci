@@ -53,6 +53,7 @@ The following attributes are exported:
 	* `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
 	* `is_pointer_enabled` - Indicates whether the pointer is enabled.
 	* `is_printing_enabled` - Indicates whether printing is enabled.
+	* `is_video_input_enabled` - Indicates whether video input is enabled.
 * `display_name` - A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `hosting_options` - Provides information about where a desktop is hosted.
