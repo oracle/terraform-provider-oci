@@ -151,6 +151,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_video_input_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -1391,6 +1396,11 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopDevicePolicy(fieldKeyForma
 		result.IsPrintingEnabled = &tmp
 	}
 
+	if isVideoInputEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_video_input_enabled")); ok {
+		tmp := isVideoInputEnabled.(bool)
+		result.IsVideoInputEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1417,6 +1427,10 @@ func DesktopDevicePolicyToMap(obj *oci_desktops.DesktopDevicePolicy) map[string]
 
 	if obj.IsPrintingEnabled != nil {
 		result["is_printing_enabled"] = bool(*obj.IsPrintingEnabled)
+	}
+
+	if obj.IsVideoInputEnabled != nil {
+		result["is_video_input_enabled"] = bool(*obj.IsVideoInputEnabled)
 	}
 
 	return result

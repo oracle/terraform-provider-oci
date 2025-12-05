@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -54,6 +54,11 @@ variable "desktop_pool_device_policy_is_pointer_enabled" {
 }
 
 variable "desktop_pool_device_policy_is_printing_enabled" {
+  description = ""
+  default = false
+}
+
+variable "desktop_pool_device_policy_is_video_input_enabled" {
   description = ""
   default = false
 }

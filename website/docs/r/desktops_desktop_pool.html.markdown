@@ -47,6 +47,9 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
 		is_keyboard_enabled = var.desktop_pool_device_policy_is_keyboard_enabled
 		is_pointer_enabled = var.desktop_pool_device_policy_is_pointer_enabled
 		is_printing_enabled = var.desktop_pool_device_policy_is_printing_enabled
+
+		#Optional
+		is_video_input_enabled = var.desktop_pool_device_policy_is_video_input_enabled
 	}
 	display_name = var.desktop_pool_display_name
 	image {
@@ -141,6 +144,7 @@ The following arguments are supported:
 	* `is_keyboard_enabled` - (Required) (Updatable) Indicates whether the keyboard is enabled.
 	* `is_pointer_enabled` - (Required) (Updatable) Indicates whether the pointer is enabled.
 	* `is_printing_enabled` - (Required) (Updatable) Indicates whether printing is enabled.
+	* `is_video_input_enabled` - (Optional) (Updatable) Indicates whether video input is enabled.
 * `display_name` - (Required) (Updatable) A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `image` - (Required) (Updatable) Provides information about the desktop image.
@@ -211,6 +215,7 @@ The following attributes are exported:
 	* `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
 	* `is_pointer_enabled` - Indicates whether the pointer is enabled.
 	* `is_printing_enabled` - Indicates whether printing is enabled.
+	* `is_video_input_enabled` - Indicates whether video input is enabled.
 * `display_name` - A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the desktop pool.
