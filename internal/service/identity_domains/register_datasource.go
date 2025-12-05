@@ -52,6 +52,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_identity_domains_identity_settings", IdentityDomainsIdentitySettingsDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_kmsi_setting", IdentityDomainsKmsiSettingDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_kmsi_settings", IdentityDomainsKmsiSettingsDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_mapped_attribute", IdentityDomainsMappedAttributeDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_mapped_attributes", IdentityDomainsMappedAttributesDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_my_api_key", IdentityDomainsMyApiKeyDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_my_api_keys", IdentityDomainsMyApiKeysDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_my_apps", IdentityDomainsMyAppsDataSource())

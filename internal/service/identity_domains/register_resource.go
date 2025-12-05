@@ -27,6 +27,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_identity_domains_identity_provider", IdentityDomainsIdentityProviderResource())
 	tfresource.RegisterResource("oci_identity_domains_identity_setting", IdentityDomainsIdentitySettingResource())
 	tfresource.RegisterResource("oci_identity_domains_kmsi_setting", IdentityDomainsKmsiSettingResource())
+	tfresource.RegisterResource("oci_identity_domains_mapped_attribute", IdentityDomainsMappedAttributeResource())
 	tfresource.RegisterResource("oci_identity_domains_my_api_key", IdentityDomainsMyApiKeyResource())
 	tfresource.RegisterResource("oci_identity_domains_my_auth_token", IdentityDomainsMyAuthTokenResource())
 	tfresource.RegisterResource("oci_identity_domains_my_customer_secret_key", IdentityDomainsMyCustomerSecretKeyResource())
