@@ -98,6 +98,8 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("network_launch_type", s.Res.NetworkLaunchType)
+
 	if s.Res.NodeConfigDetails != nil {
 		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, true)})
 	} else {
@@ -164,6 +166,16 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 
 	if s.Res.QuantityPerSubnet != nil {
 		s.D.Set("quantity_per_subnet", *s.Res.QuantityPerSubnet)
+	}
+
+	if s.Res.SecondaryVnics != nil {
+		secondaryVnics := []interface{}{}
+		for _, item := range s.Res.SecondaryVnics {
+			secondaryVnics = append(secondaryVnics, NodePoolSecondaryVnicDetailsToMap(item, true))
+		}
+		s.D.Set("secondary_vnics", secondaryVnics)
+	} else {
+		s.D.Set("secondary_vnics", nil)
 	}
 
 	if s.Res.SshPublicKey != nil {

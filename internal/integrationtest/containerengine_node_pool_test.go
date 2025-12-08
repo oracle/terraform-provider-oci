@@ -31,6 +31,12 @@ var (
 	ContainerengineNodePoolResourceConfig = ContainerengineNodePoolResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolRepresentation)
 
+	NodePoolWithSecondaryVnicsResource = ContainerengineNodePoolSecondaryVnicsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Required, acctest.Create, nodePoolSecondaryVnicsRepresentation)
+
+	ContainerengineNodePoolSecondaryVnicsResourceConfig = ContainerengineNodePoolSecondaryVnicsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolSecondaryVnicsRepresentation)
+
 	ContainerengineContainerengineNodePoolSingularDataSourceRepresentation = map[string]interface{}{
 		"node_pool_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_node_pool.test_node_pool.id}`},
 	}
@@ -55,11 +61,45 @@ var (
 		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"initial_node_labels":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
-		"node_metadata":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodeEvictionNodePoolSettingsRepresentation},
+		"node_metadata":                    acctest.Representation{RepType: acctest.Required, Create: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}, Update: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}},
 		"node_pool_cycling_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodePoolCyclingDetailsRepresentation},
 		"ssh_public_key":                   acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 		"node_config_details":              acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
-		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodeEvictionNodePoolSettingsRepresentation},
+	}
+
+	nodePoolSecondaryVnicsRepresentation = map[string]interface{}{
+		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"node_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeSourceDetailsRepresentation},
+		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.A1.Flex`},
+		"node_shape_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeShapeConfigRepresentation},
+		"network_launch_type": acctest.Representation{RepType: acctest.Required, Create: `VFIO`, Update: `PARAVIRTUALIZED`},
+		"node_metadata":       acctest.Representation{RepType: acctest.Required, Create: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}},
+		"secondary_vnics":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineNodePoolSecondaryVnicsRepresentation},
+		"node_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodeConfigDetailsSecondaryVnicsRepresentation},
+		"ssh_public_key":      acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1EC4AEirS3uyK7GpJrcX8jsFU+7K/rUvelIxXaP/KHERPMQjFODLyrPoirgTkExgN37gzjisjJx6YAcZE0xasovAULLb7r2U1pVEmIregxIae6AWB6CzsLfoGVytXbUlMVXGi1RRaz04HgYYWXb9rmmIYlEa5jT6rzdJiNcpCSEuW//NEuyk4ZIdc69lXsnhWEGWCDdAzNI3em1I94ehhtRvKHjrbkO1a8Hybk8ut5JZXpvSfOK6hHuI85FjpsaYKEiNyO0qKdVnE/0wm33kVWG5NlE019wk6k6erD+v3AVB0Y3oAVUNcV5j6u1z38KZePMhWV+foYLf5llc3IlYV ssh-key-2025-10-29`},
+	}
+
+	nodeConfigDetailsSecondaryVnicsRepresentation = map[string]interface{}{
+		"placement_configs":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: placementConfigsSecondaryVnicsRepresentation},
+		"size":                                 acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"node_pool_pod_network_option_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolPodNetworkOptionsRepresentation},
+	}
+
+	nodeSourceDetailsRepresentation = map[string]interface{}{
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `IMAGE`},
+		"image_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources[0].image_id}`},
+	}
+
+	nodeShapeConfigRepresentation = map[string]interface{}{
+		"ocpus": acctest.Representation{RepType: acctest.Required, Create: `1.0`},
+	}
+
+	nodePoolPodNetworkOptionsRepresentation = map[string]interface{}{
+		"cni_type": acctest.Representation{RepType: acctest.Required, Create: `OCI_VCN_IP_NATIVE`},
 	}
 
 	nodeConfigDetailsRepresentation = map[string]interface{}{
@@ -74,6 +114,11 @@ var (
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.nodePool_Subnet_1.id}`},
 		"capacity_reservation_id": acctest.Representation{RepType: acctest.Optional, Update: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+	}
+
+	placementConfigsSecondaryVnicsRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.nodePool_Subnet_1.id}`},
 	}
 
 	nodePreemptibleNodeConfigRepresentation = map[string]interface{}{
@@ -114,6 +159,26 @@ var (
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"destination_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
 		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	ContainerengineNodePoolSecondaryVnicsRepresentation = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineNodePoolSecondaryVnicsCreateVnicDetailsRepresentation},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+	ContainerengineNodePoolSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
+		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.nodePool_Subnet_1.id}`},
+		"application_resources":  acctest.Representation{RepType: acctest.Optional, Create: []string{`applicationResources`}, Update: []string{`applicationResources2`}},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ip_count":               acctest.Representation{RepType: acctest.Optional, Create: `8`, Update: `16`},
+		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		//"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+	}
+
+	ContainerengineClusterEndpointConfigSecondaryVnicsRepresentation = map[string]interface{}{
+		//"nsg_ids":              acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"subnet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"is_public_ip_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 
 	ContainerengineSecurityListIngressSecurityRulesICMPforNodePoolRepresentation = map[string]interface{}{
@@ -156,6 +221,109 @@ var (
 		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
+	ContainerengineSecurityListIngressSecurityRulesAccessToK8sEndpointSubnetRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `External access to Kubernetes API endpoint`},
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineSecurityListTcpOptionsRepresentation},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListIngressSecurityRulesWorkerToK8sEndpointSubnetRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Kubernetes worker to Kubernetes API endpoint communication`},
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineSecurityListTcpOptionsRepresentation},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListIngressSecurityRulesWorkerToControlPlaneRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Kubernetes worker to control plane communication`},
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListTcpOptionsRepresentation, map[string]interface{}{
+			"max": acctest.Representation{RepType: acctest.Required, Create: `12250`},
+			"min": acctest.Representation{RepType: acctest.Required, Create: `12250`},
+		})},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListEgressSecurityRulesControlPlaneToOKERepresentation = map[string]interface{}{
+		"destination":      acctest.Representation{RepType: acctest.Required, Create: `all-phx-services-in-oracle-services-network`},
+		"protocol":         acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description":      acctest.Representation{RepType: acctest.Required, Create: `Allow Kubernetes Control Plane to communicate with OKE`},
+		"destination_type": acctest.Representation{RepType: acctest.Required, Create: `SERVICE_CIDR_BLOCK`},
+		"stateless":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListTcpOptionsRepresentation, map[string]interface{}{
+			"max": acctest.Representation{RepType: acctest.Required, Create: `443`},
+			"min": acctest.Representation{RepType: acctest.Required, Create: `443`},
+		})},
+	}
+
+	ContainerengineSecurityListIngressSecurityRulesICMP3forNodePoolRepresentation = map[string]interface{}{
+		"protocol":     acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"description":  acctest.Representation{RepType: acctest.Required, Create: `Path discovery`},
+		"source":       acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`},
+		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerEngineSecurityListIngressSecurityRulesIcmpOptionsRepresentation},
+		"source_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListEgressSecurityRulesICMPforNodePoolRepresentation = map[string]interface{}{
+		"protocol":     acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"description":  acctest.Representation{RepType: acctest.Required, Create: `Path discovery`},
+		"destination":  acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`},
+		"icmp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerEngineSecurityListIngressSecurityRulesIcmpOptionsRepresentation},
+		"source_type":  acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListIngressSecurityRulesSSHToWorkerNodes = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Inbound SSH traffic to worker nodes`},
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListTcpOptionsRepresentation, map[string]interface{}{
+			"max": acctest.Representation{RepType: acctest.Required, Create: `22`},
+			"min": acctest.Representation{RepType: acctest.Required, Create: `22`},
+		})},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListEgressSecurityRulesWorkerToK8sEndpointRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Access to Kubernetes API Endpoint`},
+		"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineSecurityListTcpOptionsRepresentation},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerengineSecurityListEgressSecurityRulesWorkerToControlPlaneRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Kubernetes worker to control plane communication`},
+		"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListTcpOptionsRepresentation, map[string]interface{}{
+			"max": acctest.Representation{RepType: acctest.Required, Create: `12250`},
+			"min": acctest.Representation{RepType: acctest.Required, Create: `12250`},
+		})},
+		"source_type": acctest.Representation{RepType: acctest.Optional, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	ContainerEngineSecurityListIngressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"code": acctest.Representation{RepType: acctest.Required, Create: `4`},
+	}
+
+	ContainerengineSecurityListTcpOptionsRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `6443`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `6443`},
+	}
+
 	ContainerengineNodePoolResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", acctest.Required, acctest.Create, ContainerengineContainerengineNodePoolOptionSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreRouteTableRepresentation, map[string]interface{}{
@@ -183,6 +351,43 @@ var (
 			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`}, "instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(CoreComputeCapacityReservationInstanceReservationConfigsRepresentation, map[string]interface{}{
 				"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`}, "fault_domain": acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`}, "reserved_count": acctest.Representation{RepType: acctest.Required, Create: `6`}, "cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
 			})}}))
+
+	ContainerengineNodePoolSecondaryVnicsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreRouteTableRepresentation, map[string]interface{}{
+			"route_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineRouteTableRouteRulesforNodePoolRepresentation},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "k8s_endpoint_security_list", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSecurityListRepresentation, map[string]interface{}{
+			"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesAccessToK8sEndpointSubnetRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesWorkerToK8sEndpointSubnetRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesWorkerToControlPlaneRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesICMP3forNodePoolRepresentation},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesWorkerToK8sEndpointSubnetRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesWorkerToControlPlaneRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesICMP3forNodePoolRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})}},
+			"egress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesControlPlaneToOKERepresentation}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`}, "protocol": acctest.Representation{RepType: acctest.Required, Create: `6`}})}, {RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesICMPforNodePoolRepresentation},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "protocol": acctest.Representation{RepType: acctest.Required, Create: `6`}})}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesICMPforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "node_security_list", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSecurityListRepresentation, map[string]interface{}{
+			"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesICMP3forNodePoolRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`}})}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesALLforNodePoolRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`}})},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesTCPforNodePoolRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`}})}, {RepType: acctest.Required, Group: ContainerengineSecurityListIngressSecurityRulesSSHToWorkerNodes}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListIngressSecurityRulesALLforNodePoolRepresentation, map[string]interface{}{"source": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})}},
+			"egress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesControlPlaneToOKERepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesWorkerToK8sEndpointRepresentation}, {RepType: acctest.Required, Group: ContainerengineSecurityListEgressSecurityRulesWorkerToControlPlaneRepresentation},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`}})}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesICMPforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`}})}, {RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesICMPforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`}})},
+				{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(ContainerengineSecurityListEgressSecurityRulesAllforNodePoolRepresentation, map[string]interface{}{"destination": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation2, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.node_security_list.id}`}}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "ipv4cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`10.0.10.0/24`, `10.0.20.0/24`}}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `nodepool1`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(ContainerengineClusterRepresentation, map[string]interface{}{
+				"type":                        acctest.Representation{RepType: acctest.Required, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
+				"endpoint_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterEndpointConfigSecondaryVnicsRepresentation},
+				"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterClusterPodNetworkOptionsRepresentation},
+			})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.k8s_endpoint_security_list.id}`}}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/28`}, "route_table_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster2`}})) +
+		AvailabilityDomainConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+		})) +
+		//acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(ContainerengineContainerengineNodePoolOptionSingularDataSourceRepresentation, map[string]interface{}{
+				"node_pool_option_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+			}))
 )
 
 // issue-routing-tag: containerengine/default
@@ -272,7 +477,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("node_metadata", acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}}, nodePoolRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -380,6 +585,168 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:                  config + NodePoolRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestContainerengineNodePoolResource_secondaryVnics(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineNodePoolResource_secondaryVnics")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_containerengine_node_pool.test_node_pool"
+	datasourceName := "data.oci_containerengine_node_pools.test_node_pools"
+	singularDatasourceName := "data.oci_containerengine_node_pool.test_node_pool"
+
+	var resId, resId2 string
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ContainerengineNodePoolSecondaryVnicsResourceDependencies+nodePoolResourceConfigForVMStandard+
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Create, nodePoolSecondaryVnicsRepresentation), "containerengine", "nodePool", t)
+
+	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Create, nodePoolSecondaryVnicsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard.A1.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "network_launch_type", "VFIO"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.application_resources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.ip_count", "8"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "secondary_vnics.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.nic_index", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		//Verify Update
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update,
+				nodePoolSecondaryVnicsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard.A1.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "network_launch_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.application_resources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.ip_count", "16"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "secondary_vnics.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "secondary_vnics.0.nic_index", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", acctest.Optional, acctest.Update, ContainerengineContainerengineNodePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolSecondaryVnicsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard.A1.Flex"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.network_launch_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.application_resources.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.ip_count", "16"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.secondary_vnics.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.secondary_vnics.0.nic_index", "0"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
+					acctest.Required, acctest.Create,
+					ContainerengineContainerengineNodePoolSingularDataSourceRepresentation) + compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard.A1.Flex"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_launch_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_source_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.application_resources.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.ip_count", "16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "secondary_vnics.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secondary_vnics.0.nic_index", "0"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + NodePoolWithSecondaryVnicsResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
