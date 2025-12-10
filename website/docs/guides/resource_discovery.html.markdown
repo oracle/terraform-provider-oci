@@ -108,9 +108,9 @@ Make sure the `output_path` is empty before running resource discovery
 **Parameter Description**
 
 * `command` - Command to run. Supported commands include:
-    * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
-    * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
-    * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
+  * `export` - Discovers Oracle Cloud Infrastructure resources within your compartment and generates Terraform configuration files for them
+  * `list_export_resources` - Lists the Terraform Oracle Cloud Infrastructure resources types that can be discovered by the `export` command
+  * `list_export_services` - Lists the allowed values for services arguments along with scope in json format
 * `compartment_id` - OCID of a compartment to export. If `compartment_id`  or `compartment_name` is not specified, the root compartment will be used
 * `compartment_name` - The name of a compartment to export. Use this instead of `compartment_id` to provide a compartment name
 * `exclude_services` - Comma-separated list of service resources to exclude from export. If a service is present in both 'services' and 'exclude_services' argument, it will be excluded
@@ -120,126 +120,129 @@ Make sure the `output_path` is empty before running resource discovery
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `parallelism` - The number of threads to use for resource discovery. By default the value is 1
 * `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
+* `custom_api_timeout` - Specifies the maximum duration an API call will wait for a response before timing out. The default value is 60 seconds.
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
-    * `adm` - Discovers adm resources within the specified compartment
-    * `ai_data_platform` - Discovers ai_data_platform resources within the specified compartment
-    * `ai_document` - Discovers ai_document resources within the specified compartment
-    * `ai_language` - Discovers ai_language resources within the specified compartment
-    * `ai_vision` - Discovers ai_vision resources within the specified compartment
-    * `analytics` - Discovers analytics resources within the specified compartment
-    * `announcements_service` - Discovers announcements_service resources within the specified compartment
-    * `api_platform` - Discovers api_platform resources within the specified compartment
-    * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
-    * `apigateway` - Discovers apigateway resources within the specified compartment
-    * `apm` - Discovers apm resources within the specified compartment
-    * `apm_config` - Discovers apm_config resources within the specified compartment
-    * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
-    * `apm_traces` - Discovers apm_traces resources within the specified compartment
-    * `artifacts` - Discovers artifacts resources within the specified compartment
-    * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
-    * `bastion` - Discovers bastion resources within the specified compartment
-    * `batch` - Discovers batch resources within the specified compartment
-    * `bds` - Discovers big data service resources within the specified compartment
-    * `blockchain` - Discovers blockchain resources within the specified compartment
-    * `budget` - Discovers budget resources across the entire tenancy
-    * `capacity_management` - Discovers capacity_management resources within the specified compartment
-    * `certificates_management` - Discovers certificates_management resources within the specified compartment
-    * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
-    * `cloud_guard` - Discovers cloud guard resources within the specified compartment
-    * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
-    * `cluster_placement_groups` - Discovers cluster_placement_groups resources within the specified compartment
-    * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
-    * `container_instances` - Discovers container_instances resources within the specified compartment
-    * `containerengine` - Discovers containerengine resources within the specified compartment
-    * `core` - Discovers compute, block storage, and networking resources within the specified compartment
-    * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
-    * `data_safe` - Discovers data_safe resources within the specified compartment
-    * `database` - Discovers database resources within the specified compartment
-    * `database_migration` - Discovers database_migration resources within the specified compartment
-    * `database_tools` - Discovers database_tools resources within the specified compartment
-    * `datacatalog` - Discovers datacatalog resources within the specified compartment
-    * `dataflow` - Discovers dataflow resources within the specified compartment
-    * `dataintegration` - Discovers dataintegration resources within the specified compartment
-    * `datascience` - Discovers datascience resources within the specified compartment
-    * `dblm` - Discovers dblm resources within the specified compartment
-    * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
-    * `demand_signal` - Discovers demand_signal resources within the specified compartment
-    * `desktops` - Discovers desktop pool resources within the specified compartment
-    * `devops` - Discovers devops resources within the specified compartment
-    * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
-    * `dns` - Discovers dns resources (except record) within the specified compartment
-    * `email` - Discovers email_sender resources within the specified compartment
-    * `events` - Discovers events resources within the specified compartment
-    * `file_storage` - Discovers file_storage resources within the specified compartment
-    * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
-    * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
-    * `functions` - Discovers functions resources within the specified compartment
-    * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
-    * `generative_ai` - Discovers generative_ai resources within the specified compartment
-    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
-    * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
-    * `golden_gate` - Discovers golden_gate resources within the specified compartment
-    * `health_checks` - Discovers health_checks resources within the specified compartment
-    * `identity` - Discovers identity resources across the entire tenancy
-    * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
-    * `identity_domains` - Discovers identity_domains resources within the specified compartment
-    * `integration` - Discovers integration resources within the specified compartment
-    * `iot` - Discovers iot resources within the specified compartment
-    * `jms` - Discovers jms resources within the specified compartment
-    * `kms` - Discovers kms resources within the specified compartment
-    * `license_manager` - Discovers license_manager resources within the specified compartment
-    * `limits` - Discovers limits resources across the entire tenancy
-    * `load_balancer` - Discovers load balancer resources within the specified compartment
-    * `log_analytics` - Discovers log_analytics resources within the specified compartment
-    * `logging` - Discovers logging resources within the specified compartment
-    * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
-    * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
-    * `management_agent` - Discovers management_agent resources within the specified compartment
-    * `marketplace` - Discovers marketplace resources within the specified compartment
-    * `media_services` - Discovers media_services resources within the specified compartment
-    * `metering_computation` - Discovers metering_computation resources within the specified compartment
-    * `monitoring` - Discovers monitoring resources within the specified compartment
-    * `mysql` - Discovers mysql resources within the specified compartment
-    * `network_firewall` - Discovers network_firewall resources within the specified compartment
-    * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
-    * `nosql` - Discovers nosql resources within the specified compartment
-    * `object_storage` - Discovers object storage resources within the specified compartment
-    * `oce` - Discovers oce resources within the specified compartment
-    * `ocvp` - Discovers ocvp resources within the specified compartment
-    * `oda` - Discovers oda resources within the specified compartment
-    * `ons` - Discovers ons resources within the specified compartment
-    * `opa` - Discovers opa resources within the specified compartment
-    * `opensearch` - Discovers opensearch resources within the specified compartment
-    * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
-    * `opsi` - Discovers opsi resources within the specified compartment
-    * `optimizer` - Discovers optimizer resources within the specified compartment
-    * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
-    * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
-    * `psql` - Discovers psql resources within the specified compartment
-    * `queue` - Discovers queue resources within the specified compartment
-    * `recovery` - Discovers recovery resources within the specified compartment
-    * `redis` - Discovers redis resources within the specified compartment
-    * `resource_analytics` - Discovers resource_analytics resources within the specified compartment
-    * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
-    * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
-    * `sch` - Discovers sch resources within the specified compartment
-    * `security_attribute` - Discovers security attribute resources across the entire tenancy
-    * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
-    * `streaming` - Discovers streaming resources within the specified compartment
-    * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
-    * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
-    * `vault` - Discovers vault resources within the specified compartment
-    * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
-    * `visual_builder` - Discovers visual_builder resources within the specified compartment
-    * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
-    * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
-    * `waa` - Discovers waa resources within the specified compartment
-    * `waas` - Discovers waas resources within the specified compartment
-    * `waf` - Discovers waf resources within the specified compartment
-    * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
+  * `adm` - Discovers adm resources within the specified compartment
+  * `ai_data_platform` - Discovers ai_data_platform resources within the specified compartment
+  * `ai_document` - Discovers ai_document resources within the specified compartment
+  * `ai_language` - Discovers ai_language resources within the specified compartment
+  * `ai_vision` - Discovers ai_vision resources within the specified compartment
+  * `analytics` - Discovers analytics resources within the specified compartment
+  * `announcements_service` - Discovers announcements_service resources within the specified compartment
+  * `api_platform` - Discovers api_platform resources within the specified compartment
+  * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
+  * `apigateway` - Discovers apigateway resources within the specified compartment
+  * `apm` - Discovers apm resources within the specified compartment
+  * `apm_config` - Discovers apm_config resources within the specified compartment
+  * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
+  * `apm_traces` - Discovers apm_traces resources within the specified compartment
+  * `artifacts` - Discovers artifacts resources within the specified compartment
+  * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
+  * `bastion` - Discovers bastion resources within the specified compartment
+  * `bds` - Discovers big data service resources within the specified compartment
+  * `blockchain` - Discovers blockchain resources within the specified compartment
+  * `budget` - Discovers budget resources across the entire tenancy
+  * `capacity_management` - Discovers capacity_management resources within the specified compartment
+  * `certificates_management` - Discovers certificates_management resources within the specified compartment
+  * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
+  * `cloud_guard` - Discovers cloud guard resources within the specified compartment
+  * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+  * `cluster_placement_groups` - Discovers cluster_placement_groups resources within the specified compartment
+  * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
+  * `container_instances` - Discovers container_instances resources within the specified compartment
+  * `containerengine` - Discovers containerengine resources within the specified compartment
+  * `core` - Discovers compute, block storage, and networking resources within the specified compartment
+  * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
+  * `data_safe` - Discovers data_safe resources within the specified compartment
+  * `database` - Discovers database resources within the specified compartment
+  * `database_migration` - Discovers database_migration resources within the specified compartment
+  * `database_tools` - Discovers database_tools resources within the specified compartment
+  * `datacatalog` - Discovers datacatalog resources within the specified compartment
+  * `dataflow` - Discovers dataflow resources within the specified compartment
+  * `dataintegration` - Discovers dataintegration resources within the specified compartment
+  * `datascience` - Discovers datascience resources within the specified compartment
+  * `dblm` - Discovers dblm resources within the specified compartment
+  * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
+  * `demand_signal` - Discovers demand_signal resources within the specified compartment
+  * `desktops` - Discovers desktop pool resources within the specified compartment
+  * `devops` - Discovers devops resources within the specified compartment
+  * `dif` - Discovers dif resources within the specified compartment
+  * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
+  * `dns` - Discovers dns resources (except record) within the specified compartment
+  * `email` - Discovers email_sender resources within the specified compartment
+  * `events` - Discovers events resources within the specified compartment
+  * `file_storage` - Discovers file_storage resources within the specified compartment
+  * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
+  * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
+  * `functions` - Discovers functions resources within the specified compartment
+  * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
+  * `generative_ai` - Discovers generative_ai resources within the specified compartment
+  * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
+  * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
+  * `golden_gate` - Discovers golden_gate resources within the specified compartment
+  * `health_checks` - Discovers health_checks resources within the specified compartment
+  * `identity` - Discovers identity resources across the entire tenancy
+  * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
+  * `identity_domains` - Discovers identity_domains resources within the specified compartment
+  * `integration` - Discovers integration resources within the specified compartment
+  * `iot` - Discovers iot resources within the specified compartment
+  * `jms` - Discovers jms resources within the specified compartment
+  * `jms_utils` - Discovers jms_utils resources within the specified compartment
+  * `kms` - Discovers kms resources within the specified compartment
+  * `license_manager` - Discovers license_manager resources within the specified compartment
+  * `limits` - Discovers limits resources across the entire tenancy
+  * `load_balancer` - Discovers load balancer resources within the specified compartment
+  * `log_analytics` - Discovers log_analytics resources within the specified compartment
+  * `logging` - Discovers logging resources within the specified compartment
+  * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
+  * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
+  * `management_agent` - Discovers management_agent resources within the specified compartment
+  * `marketplace` - Discovers marketplace resources within the specified compartment
+  * `media_services` - Discovers media_services resources within the specified compartment
+  * `metering_computation` - Discovers metering_computation resources within the specified compartment
+  * `monitoring` - Discovers monitoring resources within the specified compartment
+  * `mysql` - Discovers mysql resources within the specified compartment
+  * `network_firewall` - Discovers network_firewall resources within the specified compartment
+  * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
+  * `nosql` - Discovers nosql resources within the specified compartment
+  * `object_storage` - Discovers object storage resources within the specified compartment
+  * `oce` - Discovers oce resources within the specified compartment
+  * `ocvp` - Discovers ocvp resources within the specified compartment
+  * `oda` - Discovers oda resources within the specified compartment
+  * `ons` - Discovers ons resources within the specified compartment
+  * `opa` - Discovers opa resources within the specified compartment
+  * `opensearch` - Discovers opensearch resources within the specified compartment
+  * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
+  * `opsi` - Discovers opsi resources within the specified compartment
+  * `optimizer` - Discovers optimizer resources within the specified compartment
+  * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
+  * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+  * `psa` - Discovers psa resources within the specified compartment
+  * `psql` - Discovers psql resources within the specified compartment
+  * `queue` - Discovers queue resources within the specified compartment
+  * `recovery` - Discovers recovery resources within the specified compartment
+  * `redis` - Discovers redis resources within the specified compartment
+  * `resource_analytics` - Discovers resource_analytics resources within the specified compartment
+  * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
+  * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
+  * `sch` - Discovers sch resources within the specified compartment
+  * `security_attribute` - Discovers security attribute resources across the entire tenancy
+  * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
+  * `streaming` - Discovers streaming resources within the specified compartment
+  * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
+  * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
+  * `vault` - Discovers vault resources within the specified compartment
+  * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
+  * `visual_builder` - Discovers visual_builder resources within the specified compartment
+  * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
+  * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
+  * `waa` - Discovers waa resources within the specified compartment
+  * `waas` - Discovers waas resources within the specified compartment
+  * `waf` - Discovers waf resources within the specified compartment
+  * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
-    * 0.11
-    * 0.12
+  * 0.11
+  * 0.12
 
 | Arguments | Resources discovered |
 | ----------| -------------------- |
@@ -335,30 +338,30 @@ terraform-provider-oci -command=list_export_resources
 ```
 
 adm
-    
+
 * oci\_adm\_vulnerability\_audit
 * oci\_adm\_knowledge\_base
 * oci\_adm\_remediation\_recipe
 * oci\_adm\_remediation\_run
 
 ai_data_platform
-    
+
 * oci\_ai\_data\_platform\_ai\_data\_platform
 
 ai_document
-    
+
 * oci\_ai\_document\_processor\_job
 * oci\_ai\_document\_project
 * oci\_ai\_document\_model
 
 ai_language
-    
+
 * oci\_ai\_language\_project
 * oci\_ai\_language\_model
 * oci\_ai\_language\_endpoint
 
 ai_vision
-    
+
 * oci\_ai\_vision\_project
 * oci\_ai\_vision\_model
 * oci\_ai\_vision\_vision\_private\_endpoint
@@ -367,26 +370,26 @@ ai_vision
 * oci\_ai\_vision\_stream\_job
 
 analytics
-    
+
 * oci\_analytics\_analytics\_instance
 
 announcements_service
-    
+
 * oci\_announcements\_service\_announcement\_subscription
 * oci\_announcements\_service\_announcement\_subscriptions\_actions\_change\_compartment
 * oci\_announcements\_service\_announcement\_subscriptions\_filter\_group
 
 api_platform
-    
+
 * oci\_api\_platform\_api\_platform\_instance
 
 apiaccesscontrol
-    
+
 * oci\_apiaccesscontrol\_privileged\_api\_control
 * oci\_apiaccesscontrol\_privileged\_api\_request
 
 apigateway
-    
+
 * oci\_apigateway\_api
 * oci\_apigateway\_gateway
 * oci\_apigateway\_deployment
@@ -395,15 +398,15 @@ apigateway
 * oci\_apigateway\_usage\_plan
 
 apm
-    
+
 * oci\_apm\_apm\_domain
 
 apm_config
-    
+
 * oci\_apm\_config\_config
 
 apm_synthetics
-    
+
 * oci\_apm\_synthetics\_script
 * oci\_apm\_synthetics\_monitor
 * oci\_apm\_synthetics\_dedicated\_vantage\_point
@@ -411,11 +414,11 @@ apm_synthetics
 * oci\_apm\_synthetics\_on\_premise\_vantage\_point
 
 apm_traces
-    
+
 * oci\_apm\_traces\_scheduled\_query
 
 artifacts
-    
+
 * oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
 * oci\_artifacts\_container\_image\_signature
@@ -423,24 +426,16 @@ artifacts
 * oci\_artifacts\_generic\_artifact
 
 auto_scaling
-    
+
 * oci\_autoscaling\_auto\_scaling\_configuration
 
 bastion
-    
+
 * oci\_bastion\_bastion
 * oci\_bastion\_session
 
-batch
-    
-* oci\_batch\_batch\_task\_environment
-* oci\_batch\_batch\_task\_profile
-* oci\_batch\_batch\_context
-* oci\_batch\_batch\_job\_pool
-* oci\_batch\_batch\_job
-
 bds
-    
+
 * oci\_bds\_bds\_instance
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
@@ -452,21 +447,18 @@ bds
 * oci\_bds\_bds\_instance\_identity\_configuration
 
 blockchain
-    
+
 * oci\_blockchain\_blockchain\_platform
 * oci\_blockchain\_peer
 * oci\_blockchain\_osn
 
 budget
-    
+
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
-* oci\_budget\_cost\_anomaly\_monitor
-* oci\_budget\_cost\_anomaly\_event
-* oci\_budget\_cost\_alert\_subscription
 
 capacity_management
-    
+
 * oci\_capacity\_management\_occ\_customer\_group
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
@@ -477,13 +469,13 @@ capacity_management
 * oci\_capacity\_management\_occm\_demand\_signal
 
 certificates_management
-    
+
 * oci\_certificates\_management\_ca\_bundle
 * oci\_certificates\_management\_certificate\_authority
 * oci\_certificates\_management\_certificate
 
 cloud_bridge
-    
+
 * oci\_cloud\_bridge\_agent\_plugin
 * oci\_cloud\_bridge\_agent\_dependency
 * oci\_cloud\_bridge\_environment
@@ -494,7 +486,7 @@ cloud_bridge
 * oci\_cloud\_bridge\_inventory
 
 cloud_guard
-    
+
 * oci\_cloud\_guard\_target
 * oci\_cloud\_guard\_managed\_list
 * oci\_cloud\_guard\_responder\_recipe
@@ -508,7 +500,7 @@ cloud_guard
 * oci\_cloud\_guard\_saved\_query
 
 cloud_migrations
-    
+
 * oci\_cloud\_migrations\_migration\_asset
 * oci\_cloud\_migrations\_migration\_plan
 * oci\_cloud\_migrations\_target\_asset
@@ -516,20 +508,20 @@ cloud_migrations
 * oci\_cloud\_migrations\_replication\_schedule
 
 cluster_placement_groups
-    
+
 * oci\_cluster\_placement\_groups\_cluster\_placement\_group
 
 compute_cloud_at_customer
-    
+
 * oci\_compute\_cloud\_at\_customer\_ccc\_upgrade\_schedule
 * oci\_compute\_cloud\_at\_customer\_ccc\_infrastructure
 
 container_instances
-    
+
 * oci\_container\_instances\_container\_instance
 
 containerengine
-    
+
 * oci\_containerengine\_cluster
 * oci\_containerengine\_node\_pool
 * oci\_containerengine\_virtual\_node\_pool
@@ -537,7 +529,7 @@ containerengine
 * oci\_containerengine\_cluster\_workload\_mapping
 
 core
-    
+
 * oci\_core\_boot\_volume\_backup
 * oci\_core\_boot\_volume
 * oci\_core\_console\_history
@@ -598,11 +590,11 @@ core
 * oci\_core\_compute\_host\_group
 
 data_labeling_service
-    
+
 * oci\_data\_labeling\_service\_dataset
 
 data_safe
-    
+
 * oci\_data\_safe\_data\_safe\_private\_endpoint
 * oci\_data\_safe\_on\_prem\_connector
 * oci\_data\_safe\_target\_database
@@ -651,7 +643,7 @@ data_safe
 * oci\_data\_safe\_target\_database\_group
 
 database
-    
+
 * oci\_database\_autonomous\_container\_database
 * oci\_database\_autonomous\_container\_database\_dataguard\_association
 * oci\_database\_autonomous\_database
@@ -689,20 +681,21 @@ database
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
 * oci\_database\_pluggable\_database\_snapshot
-* oci\_database\_db\_node\_snapshot\_management
+* oci\_database\_database\_snapshot\_standby
 
 database_migration
-    
+
 * oci\_database\_migration\_connection
 * oci\_database\_migration\_migration
 
 database_tools
-    
+
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
+* oci\_database\_tools\_database\_tools\_identity
 
 datacatalog
-    
+
 * oci\_datacatalog\_catalog
 * oci\_datacatalog\_data\_asset
 * oci\_datacatalog\_connection
@@ -710,7 +703,7 @@ datacatalog
 * oci\_datacatalog\_metastore
 
 dataflow
-    
+
 * oci\_dataflow\_application
 * oci\_dataflow\_private\_endpoint
 * oci\_dataflow\_run\_statement
@@ -718,7 +711,7 @@ dataflow
 * oci\_dataflow\_sql\_endpoint
 
 dataintegration
-    
+
 * oci\_dataintegration\_workspace
 * oci\_dataintegration\_workspace\_project
 * oci\_dataintegration\_workspace\_folder
@@ -731,7 +724,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_task
 
 datascience
-    
+
 * oci\_datascience\_project
 * oci\_datascience\_notebook\_session
 * oci\_datascience\_model
@@ -751,11 +744,11 @@ datascience
 * oci\_datascience\_model\_group
 
 dblm
-    
+
 * oci\_dblm\_vulnerability\_scan
 
 dbmulticloud
-    
+
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault\_association
 * oci\_dbmulticloud\_multi\_cloud\_resource\_discovery
 * oci\_dbmulticloud\_oracle\_db\_azure\_blob\_container
@@ -764,17 +757,19 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault
 * oci\_dbmulticloud\_oracle\_db\_gcp\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
+* oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
+* oci\_dbmulticloud\_oracle\_db\_aws\_key
 
 demand_signal
-    
+
 * oci\_demand\_signal\_occ\_demand\_signal
 
 desktops
-    
+
 * oci\_desktops\_desktop\_pool
 
 devops
-    
+
 * oci\_devops\_project
 * oci\_devops\_deploy\_environment
 * oci\_devops\_deploy\_artifact
@@ -792,14 +787,18 @@ devops
 * oci\_devops\_repository\_setting
 * oci\_devops\_project\_repository\_setting
 
+dif
+
+* oci\_dif\_stack
+
 disaster_recovery
-    
+
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
 
 dns
-    
+
 * oci\_dns\_zone
 * oci\_dns\_steering\_policy
 * oci\_dns\_steering\_policy\_attachment
@@ -807,7 +806,7 @@ dns
 * oci\_dns\_rrset
 
 email
-    
+
 * oci\_email\_suppression
 * oci\_email\_sender
 * oci\_email\_email\_domain
@@ -815,11 +814,11 @@ email
 * oci\_email\_email\_return\_path
 
 events
-    
+
 * oci\_events\_rule
 
 file_storage
-    
+
 * oci\_file\_storage\_file\_system
 * oci\_file\_storage\_mount\_target
 * oci\_file\_storage\_export
@@ -830,7 +829,7 @@ file_storage
 * oci\_file\_storage\_file\_system\_quota\_rule
 
 fleet_apps_management
-    
+
 * oci\_fleet\_apps\_management\_task\_record
 * oci\_fleet\_apps\_management\_maintenance\_window
 * oci\_fleet\_apps\_management\_fleet
@@ -846,18 +845,18 @@ fleet_apps_management
 * oci\_fleet\_apps\_management\_provision
 
 fleet_software_update
-    
+
 * oci\_fleet\_software\_update\_fsu\_cycle
 * oci\_fleet\_software\_update\_fsu\_collection
 
 functions
-    
+
 * oci\_functions\_application
 * oci\_functions\_function
 * oci\_functions\_invoke\_function
 
 fusion_apps
-    
+
 * oci\_fusion\_apps\_fusion\_environment\_refresh\_activity
 * oci\_fusion\_apps\_fusion\_environment\_admin\_user
 * oci\_fusion\_apps\_fusion\_environment\_service\_attachment
@@ -866,7 +865,7 @@ fusion_apps
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
 
 generative_ai
-    
+
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
@@ -874,7 +873,7 @@ generative_ai
 * oci\_generative\_ai\_generative\_ai\_private\_endpoint
 
 generative_ai_agent
-    
+
 * oci\_generative\_ai\_agent\_data\_source
 * oci\_generative\_ai\_agent\_agent
 * oci\_generative\_ai\_agent\_data\_ingestion\_job
@@ -883,12 +882,12 @@ generative_ai_agent
 * oci\_generative\_ai\_agent\_tool
 
 globally_distributed_database
-    
+
 * oci\_globally\_distributed\_database\_private\_endpoint
 * oci\_globally\_distributed\_database\_sharded\_database
 
 golden_gate
-    
+
 * oci\_golden\_gate\_database\_registration
 * oci\_golden\_gate\_deployment
 * oci\_golden\_gate\_deployment\_backup
@@ -898,12 +897,12 @@ golden_gate
 * oci\_golden\_gate\_pipeline
 
 health_checks
-    
+
 * oci\_health\_checks\_http\_monitor
 * oci\_health\_checks\_ping\_monitor
 
 identity
-    
+
 * oci\_identity\_api\_key
 * oci\_identity\_authentication\_policy
 * oci\_identity\_auth\_token
@@ -927,11 +926,11 @@ identity
 * oci\_identity\_import\_standard\_tags\_management
 
 identity_data_plane
-    
+
 * oci\_identity\_data\_plane\_generate\_scoped\_access\_token
 
 identity_domains
-    
+
 * oci\_identity\_domains\_user
 * oci\_identity\_domains\_group
 * oci\_identity\_domains\_dynamic\_resource\_group
@@ -976,14 +975,13 @@ identity_domains
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
 * oci\_identity\_domains\_social\_identity\_provider
-* oci\_identity\_domains\_mapped\_attribute
 
 integration
-    
+
 * oci\_integration\_integration\_instance
 
 iot
-    
+
 * oci\_iot\_digital\_twin\_model
 * oci\_iot\_iot\_domain\_group
 * oci\_iot\_iot\_domain
@@ -992,14 +990,20 @@ iot
 * oci\_iot\_digital\_twin\_adapter
 
 jms
-    
+
 * oci\_jms\_fleet
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 * oci\_jms\_task\_schedule
+* oci\_jms\_fleet\_agent\_configuration
+
+jms_utils
+
+* oci\_jms\_utils\_subscription\_acknowledgment\_configuration
+* oci\_jms\_utils\_analyze\_applications\_configuration
 
 kms
-    
+
 * oci\_kms\_key
 * oci\_kms\_key\_version
 * oci\_kms\_vault
@@ -1008,17 +1012,17 @@ kms
 * oci\_kms\_ekms\_private\_endpoint
 
 license_manager
-    
+
 * oci\_license\_manager\_configuration
 * oci\_license\_manager\_product\_license
 * oci\_license\_manager\_license\_record
 
 limits
-    
+
 * oci\_limits\_quota
 
 load_balancer
-    
+
 * oci\_load\_balancer\_backend
 * oci\_load\_balancer\_backend\_set
 * oci\_load\_balancer\_certificate
@@ -1031,7 +1035,7 @@ load_balancer
 * oci\_load\_balancer\_ssl\_cipher\_suite
 
 log_analytics
-    
+
 * oci\_log\_analytics\_log\_analytics\_object\_collection\_rule
 * oci\_log\_analytics\_log\_analytics\_import\_custom\_content
 * oci\_log\_analytics\_namespace\_scheduled\_task
@@ -1047,39 +1051,39 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_entity\_type
 * oci\_log\_analytics\_log\_analytics\_entity\_associations\_add
 * oci\_log\_analytics\_log\_analytics\_entity\_associations\_remove
-* oci\_log\_analytics\_namespace\_association
 
 logging
-    
+
 * oci\_logging\_log\_group
 * oci\_logging\_log
 * oci\_logging\_log\_saved\_search
 * oci\_logging\_unified\_agent\_configuration
 
 lustre_file_storage
-    
+
 * oci\_lustre\_file\_storage\_lustre\_file\_system
+* oci\_lustre\_file\_storage\_object\_storage\_link
 
 managed_kafka
-    
+
 * oci\_managed\_kafka\_kafka\_cluster\_config
 * oci\_managed\_kafka\_kafka\_cluster
 
 management_agent
-    
+
 * oci\_management\_agent\_management\_agent
 * oci\_management\_agent\_management\_agent\_install\_key
 * oci\_management\_agent\_management\_agent\_data\_source
 * oci\_management\_agent\_named\_credential
 
 marketplace
-    
+
 * oci\_marketplace\_accepted\_agreement
 * oci\_marketplace\_publication
 * oci\_marketplace\_marketplace\_external\_attested\_metadata
 
 media_services
-    
+
 * oci\_media\_services\_stream\_packaging\_config
 * oci\_media\_services\_media\_workflow
 * oci\_media\_services\_stream\_distribution\_channel
@@ -1089,7 +1093,7 @@ media_services
 * oci\_media\_services\_media\_workflow\_configuration
 
 metering_computation
-    
+
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
 * oci\_metering\_computation\_schedule
@@ -1098,12 +1102,12 @@ metering_computation
 * oci\_metering\_computation\_usage\_statement\_email\_recipients\_group
 
 monitoring
-    
+
 * oci\_monitoring\_alarm
 * oci\_monitoring\_alarm\_suppression
 
 mysql
-    
+
 * oci\_mysql\_mysql\_configuration
 * oci\_mysql\_mysql\_backup
 * oci\_mysql\_mysql\_db\_system
@@ -1111,7 +1115,7 @@ mysql
 * oci\_mysql\_replica
 
 network_firewall
-    
+
 * oci\_network\_firewall\_network\_firewall\_policy
 * oci\_network\_firewall\_network\_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_address\_list
@@ -1128,21 +1132,21 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_nat\_rule
 
 network_load_balancer
-    
+
 * oci\_network\_load\_balancer\_network\_load\_balancer
 * oci\_network\_load\_balancer\_backend\_set
 * oci\_network\_load\_balancer\_backend
 * oci\_network\_load\_balancer\_listener
 
 nosql
-    
+
 * oci\_nosql\_table
 * oci\_nosql\_index
 * oci\_nosql\_table\_replica
 * oci\_nosql\_configuration
 
 object_storage
-    
+
 * oci\_objectstorage\_bucket
 * oci\_objectstorage\_object\_lifecycle\_policy
 * oci\_objectstorage\_object
@@ -1150,44 +1154,43 @@ object_storage
 * oci\_objectstorage\_replication\_policy
 
 oce
-    
+
 * oci\_oce\_oce\_instance
 
 ocvp
-    
+
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
 * oci\_ocvp\_cluster
-* oci\_ocvp\_management\_appliance
 
 oda
-    
+
 * oci\_oda\_oda\_instance
 * oci\_oda\_oda\_private\_endpoint\_attachment
 * oci\_oda\_oda\_private\_endpoint
 * oci\_oda\_oda\_private\_endpoint\_scan\_proxy
 
 ons
-    
+
 * oci\_ons\_notification\_topic
 * oci\_ons\_subscription
 
 opa
-    
+
 * oci\_opa\_opa\_instance
 
 opensearch
-    
+
 * oci\_opensearch\_opensearch\_cluster
 * oci\_opensearch\_opensearch\_cluster\_pipeline
 
 operator_access_control
-    
+
 * oci\_operator\_access\_control\_operator\_control
 * oci\_operator\_access\_control\_operator\_control\_assignment
 
 opsi
-    
+
 * oci\_opsi\_enterprise\_manager\_bridge
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
@@ -1203,11 +1206,11 @@ opsi
 * oci\_opsi\_awr\_hub\_source
 
 optimizer
-    
+
 * oci\_optimizer\_profile
 
 os_management_hub
-    
+
 * oci\_os\_management\_hub\_managed\_instance
 * oci\_os\_management\_hub\_managed\_instance\_update\_packages\_management
 * oci\_os\_management\_hub\_managed\_instance\_install\_windows\_updates\_management
@@ -1253,53 +1256,56 @@ os_management_hub
 * oci\_os\_management\_hub\_work\_request\_rerun\_management
 
 osp_gateway
-    
+
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
 
+psa
+
+* oci\_psa\_private\_service\_acces
+
 psql
-    
+
 * oci\_psql\_configuration
 * oci\_psql\_db\_system
 * oci\_psql\_backup
 
 queue
-    
+
 * oci\_queue\_queue
-* oci\_queue\_consumer\_group
 
 recovery
-    
+
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
 * oci\_recovery\_long\_term\_backup
 
 redis
-    
+
 * oci\_redis\_redis\_cluster
 * oci\_redis\_oci\_cache\_user
 * oci\_redis\_oci\_cache\_config\_set
 
 resource_scheduler
-    
+
 * oci\_resource\_scheduler\_schedule
 
 resourcemanager
-    
+
 * oci\_resourcemanager\_private\_endpoint
 
 sch
-    
+
 * oci\_sch\_service\_connector
 
 security_attribute
-    
+
 * oci\_security\_attribute\_security\_attribute\_namespace
 * oci\_security\_attribute\_security\_attribute
 
 stack_monitoring
-    
+
 * oci\_stack\_monitoring\_monitored\_resource
 * oci\_stack\_monitoring\_discovery\_job
 * oci\_stack\_monitoring\_monitored\_resources\_list\_member
@@ -1319,62 +1325,62 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitoring\_template
 
 streaming
-    
+
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
 
 tenantmanagercontrolplane
-    
+
 * oci\_tenantmanagercontrolplane\_subscription\_mapping
 
 usage_proxy
-    
+
 * oci\_usage\_proxy\_subscription\_redeemable\_user
 
 vault
-    
+
 * oci\_vault\_secret
 
 vbs_inst
-    
+
 * oci\_vbs\_inst\_vbs\_instance
 
 visual_builder
-    
+
 * oci\_visual\_builder\_vb\_instance
 
 vn_monitoring
-    
+
 * oci\_vn\_monitoring\_path\_analyzer\_test
 * oci\_vn\_monitoring\_path\_analysi
 
 vulnerability_scanning
-    
+
 * oci\_vulnerability\_scanning\_host\_scan\_recipe
 * oci\_vulnerability\_scanning\_host\_scan\_target
 * oci\_vulnerability\_scanning\_container\_scan\_recipe
 * oci\_vulnerability\_scanning\_container\_scan\_target
 
 waa
-    
+
 * oci\_waa\_web\_app\_acceleration\_policy
 * oci\_waa\_web\_app\_acceleration
 
 waas
-    
+
 * oci\_waas\_address\_list
 * oci\_waas\_custom\_protection\_rule
 * oci\_waas\_http\_redirect
 * oci\_waas\_waas\_policy
 
 waf
-    
+
 * oci\_waf\_web\_app\_firewall\_policy
 * oci\_waf\_web\_app\_firewall
 * oci\_waf\_network\_address\_list
 
 zpr
-    
+
 * oci\_zpr\_configuration
 * oci\_zpr\_zpr\_policy
