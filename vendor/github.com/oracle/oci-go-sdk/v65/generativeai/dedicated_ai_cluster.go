@@ -316,6 +316,14 @@ const (
 	DedicatedAiClusterUnitShapeH200X2          DedicatedAiClusterUnitShapeEnum = "H200_X2"
 	DedicatedAiClusterUnitShapeH200X4          DedicatedAiClusterUnitShapeEnum = "H200_X4"
 	DedicatedAiClusterUnitShapeH200X8          DedicatedAiClusterUnitShapeEnum = "H200_X8"
+	DedicatedAiClusterUnitShapeOaiA10X2        DedicatedAiClusterUnitShapeEnum = "OAI_A10_X2"
+	DedicatedAiClusterUnitShapeOaiH100X1       DedicatedAiClusterUnitShapeEnum = "OAI_H100_X1"
+	DedicatedAiClusterUnitShapeOaiH100X2       DedicatedAiClusterUnitShapeEnum = "OAI_H100_X2"
+	DedicatedAiClusterUnitShapeOaiH200X1       DedicatedAiClusterUnitShapeEnum = "OAI_H200_X1"
+	DedicatedAiClusterUnitShapeOaiA10080gX1    DedicatedAiClusterUnitShapeEnum = "OAI_A100_80G_X1"
+	DedicatedAiClusterUnitShapeOaiA10080gX2    DedicatedAiClusterUnitShapeEnum = "OAI_A100_80G_X2"
+	DedicatedAiClusterUnitShapeOaiA10040gX1    DedicatedAiClusterUnitShapeEnum = "OAI_A100_40G_X1"
+	DedicatedAiClusterUnitShapeOaiA10040gX4    DedicatedAiClusterUnitShapeEnum = "OAI_A100_40G_X4"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -356,6 +364,14 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"H200_X2":           DedicatedAiClusterUnitShapeH200X2,
 	"H200_X4":           DedicatedAiClusterUnitShapeH200X4,
 	"H200_X8":           DedicatedAiClusterUnitShapeH200X8,
+	"OAI_A10_X2":        DedicatedAiClusterUnitShapeOaiA10X2,
+	"OAI_H100_X1":       DedicatedAiClusterUnitShapeOaiH100X1,
+	"OAI_H100_X2":       DedicatedAiClusterUnitShapeOaiH100X2,
+	"OAI_H200_X1":       DedicatedAiClusterUnitShapeOaiH200X1,
+	"OAI_A100_80G_X1":   DedicatedAiClusterUnitShapeOaiA10080gX1,
+	"OAI_A100_80G_X2":   DedicatedAiClusterUnitShapeOaiA10080gX2,
+	"OAI_A100_40G_X1":   DedicatedAiClusterUnitShapeOaiA10040gX1,
+	"OAI_A100_40G_X4":   DedicatedAiClusterUnitShapeOaiA10040gX4,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -396,6 +412,14 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"h200_x2":           DedicatedAiClusterUnitShapeH200X2,
 	"h200_x4":           DedicatedAiClusterUnitShapeH200X4,
 	"h200_x8":           DedicatedAiClusterUnitShapeH200X8,
+	"oai_a10_x2":        DedicatedAiClusterUnitShapeOaiA10X2,
+	"oai_h100_x1":       DedicatedAiClusterUnitShapeOaiH100X1,
+	"oai_h100_x2":       DedicatedAiClusterUnitShapeOaiH100X2,
+	"oai_h200_x1":       DedicatedAiClusterUnitShapeOaiH200X1,
+	"oai_a100_80g_x1":   DedicatedAiClusterUnitShapeOaiA10080gX1,
+	"oai_a100_80g_x2":   DedicatedAiClusterUnitShapeOaiA10080gX2,
+	"oai_a100_40g_x1":   DedicatedAiClusterUnitShapeOaiA10040gX1,
+	"oai_a100_40g_x4":   DedicatedAiClusterUnitShapeOaiA10040gX4,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -447,6 +471,14 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"H200_X2",
 		"H200_X4",
 		"H200_X8",
+		"OAI_A10_X2",
+		"OAI_H100_X1",
+		"OAI_H100_X2",
+		"OAI_H200_X1",
+		"OAI_A100_80G_X1",
+		"OAI_A100_80G_X2",
+		"OAI_A100_40G_X1",
+		"OAI_A100_40G_X4",
 	}
 }
 
