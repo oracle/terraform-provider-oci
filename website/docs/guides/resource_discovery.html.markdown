@@ -682,6 +682,9 @@ database
 * oci\_database\_autonomous\_container\_database\_add\_standby
 * oci\_database\_pluggable\_database\_snapshot
 * oci\_database\_database\_snapshot\_standby
+* oci\_database\_db\_node\_snapshot\_management
+* oci\_database\_advanced\_cluster\_file\_system
+* oci\_database\_db\_node\_snapshot\_management
 
 database_migration
 

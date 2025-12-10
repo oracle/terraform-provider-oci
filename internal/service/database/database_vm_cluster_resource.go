@@ -286,7 +286,18 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_backup_storage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"vm_file_system_storage_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -589,6 +600,10 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
+	if vmBackupStorageType, ok := s.D.GetOkExists("vm_backup_storage_type"); ok {
+		request.VmBackupStorageType = oci_database.CreateVmClusterDetailsVmBackupStorageTypeEnum(vmBackupStorageType.(string))
+	}
+
 	if vmClusterNetworkId, ok := s.D.GetOkExists("vm_cluster_network_id"); ok {
 		tmp := vmClusterNetworkId.(string)
 		request.VmClusterNetworkId = &tmp
@@ -596,6 +611,10 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 
 	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
 		request.VmClusterType = oci_database.CreateVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
+	if vmFileSystemStorageType, ok := s.D.GetOkExists("vm_file_system_storage_type"); ok {
+		request.VmFileSystemStorageType = oci_database.CreateVmClusterDetailsVmFileSystemStorageTypeEnum(vmFileSystemStorageType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -734,6 +753,10 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 			}
 		}
 		request.SshPublicKeys = tmp
+	}
+
+	if vmBackupStorageType, ok := s.D.GetOkExists("vm_backup_storage_type"); ok {
+		request.VmBackupStorageType = oci_database.UpdateVmClusterDetailsVmBackupStorageTypeEnum(vmBackupStorageType.(string))
 	}
 
 	tmp := s.D.Id()
@@ -888,11 +911,15 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("time_zone", *s.Res.TimeZone)
 	}
 
+	s.D.Set("vm_backup_storage_type", s.Res.VmBackupStorageType)
+
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
 
 	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
+	s.D.Set("vm_file_system_storage_type", s.Res.VmFileSystemStorageType)
 
 	return nil
 }
