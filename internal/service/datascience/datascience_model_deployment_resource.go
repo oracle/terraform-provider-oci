@@ -27,9 +27,9 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &tfresource.TwentyMinutes,
-			Update: &tfresource.ThirtyMinutes,
-			Delete: &tfresource.TwentyMinutes,
+			Create: tfresource.GetTimeoutDuration("245m"),
+			Update: tfresource.GetTimeoutDuration("245m"),
+			Delete: tfresource.GetTimeoutDuration("35m"),
 		},
 		Create: createDatascienceModelDeployment,
 		Read:   readDatascienceModelDeployment,
@@ -87,6 +87,13 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"default_environment_variables": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
 									},
 									"entrypoint": {
 										Type:     schema.TypeList,
@@ -832,6 +839,10 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 						// Computed
 						"current_instance_count": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"model_type": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"system_infra_type": {
@@ -2474,6 +2485,8 @@ func ModelDeploymentSystemDataToMap(obj *oci_datascience.ModelDeploymentSystemDa
 		if v.CurrentInstanceCount != nil {
 			result["current_instance_count"] = int(*v.CurrentInstanceCount)
 		}
+
+		result["model_type"] = string(v.ModelType)
 	default:
 		log.Printf("[WARN] Received 'system_infra_type' of unknown type %v", *obj)
 		return nil

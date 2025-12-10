@@ -24,6 +24,22 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 	model_deployment_configuration_details {
 		#Required
 		deployment_type = var.model_deployment_model_deployment_configuration_details_deployment_type
+		#Optional
+		environment_configuration_details {
+			#Required
+			environment_configuration_type = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_configuration_type
+
+			#Optional
+			cmd = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_cmd
+			default_environment_variables = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_default_environment_variables
+			entrypoint = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_entrypoint
+			environment_variables = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_variables
+			health_check_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_health_check_port
+			image = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image
+			image_digest = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image_digest
+			server_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_server_port
+		}
+		infrastructure_configuration_details {
 		model_configuration_details {
 			#Required
 			instance_configuration {
@@ -149,17 +165,18 @@ The following arguments are supported:
 	* `deployment_type` - (Required) (Updatable) The type of the model deployment.
 	* `environment_configuration_details` - (Optional) (Updatable) The configuration to carry the environment details thats used in Model Deployment creation
 		* `cmd` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `default_environment_variables` - (Applicable when environment_configuration_type=OCIR_CONTAINER) Service injected Environment variables set for the web server container and can not be set or modified by user. 
 		* `entrypoint` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
 		* `environment_configuration_type` - (Required) (Updatable) The environment configuration type
 		* `environment_variables` - (Optional) (Updatable) Environment variables to set for the web server container. The size of envVars must be less than 2048 bytes. Key should be under 32 characters. Key should contain only letters, digits and underscore (_) Key should start with a letter. Key should have at least 2 characters. Key should not end with underscore eg. `TEST_` Key if added cannot be empty. Value can be empty. No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes. Key can't be reserved Model Deployment environment variables. 
 		* `health_check_port` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The port on which the container [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck) would listen. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
-		* `image` - (Required when environment_configuration_type=OCIR_CONTAINER) (Updatable) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+		* `image` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. The container image is optional while using service managed open source foundation model. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
 		* `image_digest` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `server_port` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - (Required) (Updatable) The model configuration details.
 		* `bandwidth_mbps` - (Optional) (Updatable) The minimum network bandwidth for the model deployment.
 		* `instance_configuration` - (Required) (Updatable) The model deployment instance configuration.
-			* `instance_shape_name` - (Required) (Updatable) The shape used to launch the model deployment instances.
+			* `instance_shape_name` - (Required) (Updatable) The shape used to launch the model deployment instances.  When using service managed open source foundation model, the supported shapes can be retrieved using get model api /models/{modelId}/definedMetadata/deploymentConfiguration/artifact/content. 
 			* `model_deployment_instance_shape_config_details` - (Optional) (Updatable) Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 				* `memory_in_gbs` - (Optional) (Updatable) A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
@@ -248,17 +265,18 @@ The following attributes are exported:
 	* `deployment_type` - The type of the model deployment.
 	* `environment_configuration_details` - The configuration to carry the environment details thats used in Model Deployment creation
 		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `default_environment_variables` - Service injected Environment variables set for the web server container and can not be set or modified by user. 
 		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
 		* `environment_configuration_type` - The environment configuration type
 		* `environment_variables` - Environment variables to set for the web server container. The size of envVars must be less than 2048 bytes. Key should be under 32 characters. Key should contain only letters, digits and underscore (_) Key should start with a letter. Key should have at least 2 characters. Key should not end with underscore eg. `TEST_` Key if added cannot be empty. Value can be empty. No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes. Key can't be reserved Model Deployment environment variables. 
 		* `health_check_port` - The port on which the container [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck) would listen. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
-		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. The container image is optional while using service managed open source foundation model. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
-		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
+		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`.
 	* `model_configuration_details` - The model configuration details.
 		* `bandwidth_mbps` - The minimum network bandwidth for the model deployment.
 		* `instance_configuration` - The model deployment instance configuration.
-			* `instance_shape_name` - The shape used to launch the model deployment instances.
+			* `instance_shape_name` - The shape used to launch the model deployment instances.  When using service managed open source foundation model, the supported shapes can be retrieved using get model api /models/{modelId}/definedMetadata/deploymentConfiguration/artifact/content. 
 			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 				* `memory_in_gbs` - A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
@@ -318,6 +336,7 @@ The following attributes are exported:
 			* `policy_type` - The type of scaling policy.
 * `model_deployment_system_data` - Model deployment system data.
 	* `current_instance_count` - This value is the current count of the model deployment instances.
+	* `model_type` - The type of the deployed model.
 	* `system_infra_type` - The infrastructure type of the model deployment.
 * `model_deployment_url` - The URL to interact with the model deployment.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the model deployment.

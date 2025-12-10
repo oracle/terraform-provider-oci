@@ -175,6 +175,16 @@ func (s *DatascienceModelDeploymentsDataSourceCrud) SetData() error {
 			modelDeployment["model_deployment_configuration_details"] = nil
 		}
 
+		if r.ModelDeploymentSystemData != nil {
+			modelDeploymentSystemDataArray := []interface{}{}
+			if modelDeploymentSystemDataMap := ModelDeploymentSystemDataToMap(&r.ModelDeploymentSystemData); modelDeploymentSystemDataMap != nil {
+				modelDeploymentSystemDataArray = append(modelDeploymentSystemDataArray, modelDeploymentSystemDataMap)
+			}
+			modelDeployment["model_deployment_system_data"] = modelDeploymentSystemDataArray
+		} else {
+			modelDeployment["model_deployment_system_data"] = nil
+		}
+
 		if r.ModelDeploymentUrl != nil {
 			modelDeployment["model_deployment_url"] = *r.ModelDeploymentUrl
 		}
