@@ -33,6 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+
 * `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
 * `attached_shape_attributes` - The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault.
 * `autoscale_limit_in_gbs` - Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.

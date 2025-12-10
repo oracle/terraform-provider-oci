@@ -183,7 +183,9 @@ The following attributes are exported:
 * `dns_server` - The list of DNS server IP addresses. Maximum of 3 allowed.
 * `exascale_config` - The exascale config response details for the Exadata Cloud@Customer infrastructure or cloud Exadata infrastructure . Applies to both Exadata Cloud@Customer instances and Exadata Cloud Service instances. 
 	* `available_storage_in_gbs` - Available storage size for Exascale in GBs.
+	* `available_vm_storage_in_gbs` - Available storage size for VM storage on Exascale in GBs.
 	* `total_storage_in_gbs` - Storage size needed for Exascale in GBs.
+	* `total_vm_storage_in_gbs` - Storage size needed for VM storage on Exascale in GBs.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gateway` - The gateway for the control plane network.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

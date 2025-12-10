@@ -54,7 +54,7 @@ var (
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
 		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetworkClientVmNetworkRepresentation}},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dns":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
@@ -67,7 +67,7 @@ var (
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"scans":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2ScansRepresentation},
 		"vm_networks":               []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabaseVmClusterNetwork2BackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabaseVmClusterNetwork2ClientVmNetworkRepresentation}},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dns":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
@@ -237,7 +237,7 @@ var (
 		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
 		"scans":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkScansRepresentation},
 		"vm_networks":                 []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkBackupVmNetworkRepresentation}, {RepType: acctest.Required, Group: DatabasePeerVmClusterNetworkClientVmNetworkRepresentation}},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dns":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ntp":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
@@ -474,7 +474,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DatabaseVmClusterNetworkRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DatabaseVmClusterNetworkRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateIdFunc: getVmClusterNetworkImportId(resourceName),
 			ImportStateVerify: true,
@@ -507,7 +507,8 @@ func testAccCheckDatabaseVmClusterNetworkDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_database.VmClusterNetworkLifecycleStateTerminated): true,
+					string(oci_database.VmClusterNetworkLifecycleStateTerminated):  true,
+					string(oci_database.VmClusterNetworkLifecycleStateTerminating): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -517,8 +518,8 @@ func testAccCheckDatabaseVmClusterNetworkDestroy(s *terraform.State) error {
 				continue
 			}
 
-			//Verify that exception is for '404 not found'.
-			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+			//Verify that exception is for a client error (4xx), indicating the resource is deleted.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() < 400 || failure.GetHTTPStatusCode() >= 500 {
 				return err
 			}
 		}
