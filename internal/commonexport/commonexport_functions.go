@@ -466,7 +466,7 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 	var readErr error
 	if datasource.ReadContext != nil {
 		if diags := datasource.ReadContext(context.Background(), d, clients); diags.HasError() {
-			readErr = fmt.Errorf(strings.Join(ParseDiagToError(diags), " | "))
+			readErr = fmt.Errorf("%s", strings.Join(ParseDiagToError(diags), " | "))
 		}
 	} else if datasource.Read != nil {
 		readErr = datasource.Read(d, clients)
@@ -566,7 +566,7 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 
 				if resourceSchema.ReadContext != nil {
 					if diags := resourceSchema.ReadContext(context.Background(), r, clients); diags.HasError() {
-						err = fmt.Errorf(strings.Join(ParseDiagToError(diags), " | "))
+						err = fmt.Errorf("%s", strings.Join(ParseDiagToError(diags), " | "))
 					} else {
 						err = nil
 					}
