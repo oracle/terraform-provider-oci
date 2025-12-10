@@ -141,7 +141,7 @@ func getAuthTokenImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("users/" + rs.Primary.Attributes["user_id"] + "/authTokens/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("users/%s/authTokens/%s", rs.Primary.Attributes["user_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 

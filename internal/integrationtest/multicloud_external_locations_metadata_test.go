@@ -17,7 +17,7 @@ import (
 
 var (
 	MulticloudExternalLocationsMetadataDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"subscription_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_id}`},
 		"subscription_service_name": acctest.Representation{RepType: acctest.Required, Create: `${var.subscription_service_name}`},
 	}
@@ -48,7 +48,7 @@ func TestMulticloudExternalLocationsMetadataResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + subscriptionIdVariableStr + subscriptionServiceNameVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_multicloud_external_locations_metadata", "test_external_locations_metadata", acctest.Required, acctest.Create, MulticloudExternalLocationsMetadataDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_multicloud_external_locations_metadata", "test_external_locations_metadata", acctest.Optional, acctest.Create, MulticloudExternalLocationsMetadataDataSourceRepresentation) +
 				MulticloudExternalLocationsMetadataResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -59,8 +59,10 @@ func TestMulticloudExternalLocationsMetadataResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.#"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.cpg_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.cluster_placement_group_id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.0.csp_logical_az"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.0.csp_logical_az_display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.0.csp_physical_az"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.0.csp_physical_az_display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_locations_metadatum_collection.0.items.0.external_location.0.csp_region"),

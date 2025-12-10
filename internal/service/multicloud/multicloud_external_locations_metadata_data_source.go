@@ -18,15 +18,27 @@ func MulticloudExternalLocationsMetadataDataSource() *schema.Resource {
 		Read: readMulticloudExternalLocationsMetadata,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"entity_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"external_location": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"linked_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"logical_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -62,6 +74,10 @@ func MulticloudExternalLocationsMetadataDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"cluster_placement_group_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"cpg_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -82,6 +98,10 @@ func MulticloudExternalLocationsMetadataDataSource() *schema.Resource {
 
 												// Computed
 												"csp_logical_az": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"csp_logical_az_display_name": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -146,6 +166,18 @@ func MulticloudExternalLocationsMetadataDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"partner_cloud_account_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"partner_cloud_account_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"partner_cloud_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"system_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -182,6 +214,11 @@ func (s *MulticloudExternalLocationsMetadataDataSourceCrud) VoidState() {
 func (s *MulticloudExternalLocationsMetadataDataSourceCrud) Get() error {
 	request := oci_multicloud.ListExternalLocationDetailsMetadataRequest{}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -191,9 +228,19 @@ func (s *MulticloudExternalLocationsMetadataDataSourceCrud) Get() error {
 		request.EntityType = oci_multicloud.ListExternalLocationDetailsMetadataEntityTypeEnum(entityType.(string))
 	}
 
+	if externalLocation, ok := s.D.GetOkExists("external_location"); ok {
+		tmp := externalLocation.(string)
+		request.ExternalLocation = &tmp
+	}
+
 	if linkedCompartmentId, ok := s.D.GetOkExists("linked_compartment_id"); ok {
 		tmp := linkedCompartmentId.(string)
 		request.LinkedCompartmentId = &tmp
+	}
+
+	if logicalZone, ok := s.D.GetOkExists("logical_zone"); ok {
+		tmp := logicalZone.(string)
+		request.LogicalZone = &tmp
 	}
 
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
@@ -282,6 +329,10 @@ func ExternalLocationDetailToMap(obj *oci_multicloud.ExternalLocationDetail) map
 		result["csp_logical_az"] = string(*obj.CspLogicalAz)
 	}
 
+	if obj.CspLogicalAzDisplayName != nil {
+		result["csp_logical_az_display_name"] = string(*obj.CspLogicalAzDisplayName)
+	}
+
 	if obj.CspPhysicalAz != nil {
 		result["csp_physical_az"] = string(*obj.CspPhysicalAz)
 	}
@@ -310,6 +361,10 @@ func ExternalLocationDetailToMap(obj *oci_multicloud.ExternalLocationDetail) map
 func ExternalLocationsMetadatumSummaryToMap(obj oci_multicloud.ExternalLocationsMetadatumSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
+	}
+
 	if obj.CpgId != nil {
 		result["cpg_id"] = string(*obj.CpgId)
 	}
@@ -334,6 +389,18 @@ func ExternalLocationsMetadatumSummaryToMap(obj oci_multicloud.ExternalLocations
 
 	if obj.OciRegion != nil {
 		result["oci_region"] = string(*obj.OciRegion)
+	}
+
+	if obj.PartnerCloudAccountName != nil {
+		result["partner_cloud_account_name"] = string(*obj.PartnerCloudAccountName)
+	}
+
+	if obj.PartnerCloudAccountUrl != nil {
+		result["partner_cloud_account_url"] = string(*obj.PartnerCloudAccountUrl)
+	}
+
+	if obj.PartnerCloudName != nil {
+		result["partner_cloud_name"] = string(*obj.PartnerCloudName)
 	}
 
 	if obj.SystemTags != nil {

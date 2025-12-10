@@ -163,7 +163,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dblm` - Discovers dblm resources within the specified compartment
     * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
-    * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
@@ -761,11 +760,6 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_aws\_key
 
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
 demand_signal
     
 * oci\_demand\_signal\_occ\_demand\_signal
@@ -875,6 +869,7 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
+* oci\_generative\_ai\_imported\_model
 * oci\_generative\_ai\_generative\_ai\_private\_endpoint
 
 generative_ai_agent
@@ -1054,6 +1049,8 @@ log_analytics
 * oci\_log\_analytics\_namespace\_storage\_archival\_config
 * oci\_log\_analytics\_log\_analytics\_entity\_type
 * oci\_log\_analytics\_log\_analytics\_entity\_type
+* oci\_log\_analytics\_log\_analytics\_entity\_associations\_add
+* oci\_log\_analytics\_log\_analytics\_entity\_associations\_remove
 
 logging
     
@@ -1165,8 +1162,6 @@ ocvp
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
 * oci\_ocvp\_cluster
-* oci\_ocvp\_datastore
-* oci\_ocvp\_datastore\_cluster
 
 oda
     
@@ -1291,12 +1286,6 @@ redis
 * oci\_redis\_redis\_cluster
 * oci\_redis\_oci\_cache\_user
 * oci\_redis\_oci\_cache\_config\_set
-
-resource_analytics
-    
-* oci\_resource\_analytics\_resource\_analytics\_instance
-* oci\_resource\_analytics\_tenancy\_attachment
-* oci\_resource\_analytics\_monitored\_region
 
 resource_scheduler
     

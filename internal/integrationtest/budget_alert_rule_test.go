@@ -242,7 +242,7 @@ func getAlertRuleImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("budgets/" + rs.Primary.Attributes["budget_id"] + "/alertRules/" + rs.Primary.Attributes["id"]), nil
+		return fmt.Sprintf("budgets/%s/alertRules/%s", rs.Primary.Attributes["budget_id"], rs.Primary.Attributes["id"]), nil
 	}
 }
 

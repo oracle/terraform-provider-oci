@@ -84,7 +84,7 @@ var (
 		"is_single_host_sddc":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_hcx_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"hcx_action":              acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
-		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTagsChangesRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 	}
 	OcvpSddcInitialConfigurationRepresentation = map[string]interface{}{
 		"initial_cluster_configurations": acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsRepresentation},
@@ -162,9 +162,6 @@ var (
 
 	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
-	ignoreTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
 	OcvpSddcDatastoresRepresentation = map[string]interface{}{
 		"block_volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volume.id}`}},

@@ -23,9 +23,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-exec/tfexec"
-
 	"github.com/hashicorp/hcl2/hclwrite"
+	"github.com/hashicorp/terraform-exec/tfexec"
 )
 
 var isInitDone bool
@@ -482,15 +481,23 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 
 		utils.Logf("===> Finding resource with ID '%s' and type '%s'", resourceId, resourceClass)
 		resourceSchema, exists := tf_export.ResourcesMap[resourceClass]
-		if !exists || resourceSchema.Read == nil {
+		if !exists || (resourceSchema.Read == nil && resourceSchema.ReadContext == nil) {
 			utils.Logf("[WARN] No valid resource schema could be found. Skipping.")
 			continue
 		}
 
 		d := resourceSchema.Data(nil)
 		d.SetId(resourceId)
-		if err := resourceSchema.Read(d, r.ctx.Clients); err != nil {
-			utils.Logf("[WARN] Unable to read resource due to error: %v", err)
+		var readErr error
+		if resourceSchema.ReadContext != nil {
+			if diags := resourceSchema.ReadContext(context.Background(), d, r.ctx.Clients); diags.HasError() {
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+			}
+		} else {
+			readErr = resourceSchema.Read(d, r.ctx.Clients)
+		}
+		if readErr != nil {
+			utils.Logf("[WARN] Unable to read resource due to error: %v", readErr)
 			continue
 		}
 

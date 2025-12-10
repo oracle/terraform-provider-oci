@@ -216,7 +216,7 @@ func getDataAssetImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("catalogs/" + rs.Primary.Attributes["catalog_id"] + "/dataAssets/" + rs.Primary.Attributes["key"]), nil
+		return fmt.Sprintf("catalogs/%s/dataAssets/%s", rs.Primary.Attributes["catalog_id"], rs.Primary.Attributes["key"]), nil
 	}
 }
 

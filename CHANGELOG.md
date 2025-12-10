@@ -1,3 +1,20 @@
+## 7.28.0 (December 10, 2025)
+
+### Added
+- max_attempts configuration option in retry configuration
+- Log Analytics Entity Associations CRUD operations support
+- Support for Project Flash
+- ListMulticloudsubscriptions and ListMulticloudResources APIs for Multicloud service
+- Support for ADB-S: Display Elastic Pool Cost Savings in OCI Console
+- Changes to Resource Discovery flow for context aware SIGINT
+
+
+### Bug Fix
+- oci_ocvp_sddc system_tag fix
+- Support for Resource Analytics with OBO tokens
+- terraform bugfix for adbs switchover doc
+- Added data source support for ML Application Implementation Version resource
+
 ## 7.27.0 (November 20, 2025)
 
 ### Added

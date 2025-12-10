@@ -182,7 +182,7 @@ func (tfE ResourceDiscoveryCustomError) Error() error {
 				"Suggestion: %s\n",
 			tfE.Message.Error(), tfE.Suggestion)
 	default:
-		return fmt.Errorf(tfE.Message.Error())
+		return fmt.Errorf("%s", tfE.Message.Error())
 	}
 }
 

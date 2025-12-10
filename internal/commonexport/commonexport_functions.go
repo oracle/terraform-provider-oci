@@ -1,6 +1,7 @@
 package commonexport
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -8,6 +9,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
@@ -461,9 +463,19 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 		}
 	}
 	utils.Debugf("[DEBUG] Initiating GET Datasource Call for %s compartment %s", tfMeta.DatasourceClass, parent.CompartmentId)
-	if err := datasource.Read(d, clients); err != nil {
-		utils.Debugf("[DEBUG] GET Datasource Call Failure for %s compartment %s\nError: %s", tfMeta.DatasourceClass, parent.CompartmentId, err)
-		return results, err
+	var readErr error
+	if datasource.ReadContext != nil {
+		if diags := datasource.ReadContext(context.Background(), d, clients); diags.HasError() {
+			readErr = fmt.Errorf("%s", strings.Join(ParseDiagToError(diags), " | "))
+		}
+	} else if datasource.Read != nil {
+		readErr = datasource.Read(d, clients)
+	} else {
+		readErr = fmt.Errorf("[ERROR] datasource '%s' has neither ReadContext nor Read implemented", tfMeta.DatasourceClass)
+	}
+	if readErr != nil {
+		utils.Debugf("[DEBUG] GET Datasource Call Failure for %s compartment %s\nError: %s", tfMeta.DatasourceClass, parent.CompartmentId, readErr)
+		return results, readErr
 	}
 	utils.Debugf("[DEBUG] GET Datasource Call Success for %s compartment %s", tfMeta.DatasourceClass, parent.CompartmentId)
 	if !tfMeta.DiscoversWithSingularDatasource() {
@@ -552,7 +564,16 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 					continue
 				}
 
-				if err = resourceSchema.Read(r, clients); err != nil {
+				if resourceSchema.ReadContext != nil {
+					if diags := resourceSchema.ReadContext(context.Background(), r, clients); diags.HasError() {
+						err = fmt.Errorf("%s", strings.Join(ParseDiagToError(diags), " | "))
+					} else {
+						err = nil
+					}
+				} else {
+					err = resourceSchema.Read(r, clients)
+				}
+				if err != nil {
 					rdError := &ResourceDiscoveryError{
 						ResourceType:   tfMeta.ResourceClass,
 						ParentResource: parent.TerraformName,
@@ -895,4 +916,17 @@ func GetValidUniqueTerraformName(terraformName string) string {
 	terraformName = CheckDuplicateResourceName(terraformName)
 
 	return terraformName
+}
+func ParseDiagToError(diags diag.Diagnostics) []string {
+	var msgs []string
+	for _, dg := range diags {
+		if dg.Severity == diag.Error {
+			if dg.Detail != "" {
+				msgs = append(msgs, fmt.Sprintf("%s: %s", dg.Summary, dg.Detail))
+			} else {
+				msgs = append(msgs, dg.Summary)
+			}
+		}
+	}
+	return msgs
 }
