@@ -480,18 +480,6 @@
         "realmDomainComponent": "oraclecloud.com"
     },
     {
-        "regionKey": "des",
-        "realmKey": "oc1",
-        "regionIdentifier": "ap-chennai-1",
-        "realmDomainComponent": "oraclecloud.com"
-    },
-    {
-        "regionKey": "vkz",
-        "realmKey": "oc1",
-        "regionIdentifier": "us-columbus-1",
-        "realmDomainComponent": "oraclecloud.com"
-    },
-    {
         "regionKey": "nrq",
         "realmKey": "oc1",
         "regionIdentifier": "eu-turin-1",
