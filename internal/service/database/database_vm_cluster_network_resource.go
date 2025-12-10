@@ -528,6 +528,13 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Get() error {
 
 func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 
+	// Hydrate current resource so lifecycle checks below use latest state
+	if s.Res == nil || string(s.Res.LifecycleState) == "" {
+		if err := s.Get(); err != nil {
+			return err
+		}
+	}
+
 	if action, ok := s.D.GetOkExists("action"); ok && s.D.HasChange("action") {
 
 		request := oci_database.ResizeVmClusterNetworkRequest{}
@@ -573,6 +580,16 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 
 		return nil
 
+	}
+
+	// Disallow updating a VM Cluster Network once it is VALIDATED, except for allowed operations
+	// like explicit resize via the "action" path above. This matches the provider's contract and
+	// the integration test expectation.
+	if s.Res != nil && s.Res.LifecycleState == oci_database.VmClusterNetworkLifecycleStateValidated {
+		// If any of the following fields are changing, block the update.
+		if s.D.HasChange("scans") || s.D.HasChange("vm_networks") || s.D.HasChange("dns") || s.D.HasChange("ntp") || s.D.HasChange("defined_tags") || s.D.HasChange("freeform_tags") {
+			return fmt.Errorf("Update not allowed on validated vm cluster network")
+		}
 	}
 
 	request := oci_database.UpdateVmClusterNetworkRequest{}

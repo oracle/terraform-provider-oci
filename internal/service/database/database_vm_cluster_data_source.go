@@ -186,11 +186,15 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("time_zone", *s.Res.TimeZone)
 	}
 
+	s.D.Set("vm_backup_storage_type", s.Res.VmBackupStorageType)
+
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
 
 	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
+	s.D.Set("vm_file_system_storage_type", s.Res.VmFileSystemStorageType)
 
 	return nil
 }
