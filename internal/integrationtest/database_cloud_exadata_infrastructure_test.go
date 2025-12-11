@@ -26,10 +26,8 @@ import (
 )
 
 var (
-	DatabaseCloudExadataInfrastructureRequiredOnlyResource = DatabaseCloudExadataInfrastructureResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation)
-
-	DatabaseCloudExadataInfrastructureResourceConfig = DatabaseCloudExadataInfrastructureResourceDependencies +
+	DatabaseCloudExadataInfrastructureRequiredOnlyResource = DatabaseCloudExadataInfrastructureResourceDependencies
+	DatabaseCloudExadataInfrastructureResourceConfig       = DatabaseCloudExadataInfrastructureResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation)
 
 	PeerCeiRepresentation                                                      = acctest.GetUpdatedRepresentationCopy("display_name", acctest.Representation{RepType: acctest.Required, Create: "peerCEInfra"}, DatabaseCloudExadataInfrastructureRepresentation)

@@ -49,7 +49,9 @@ var (
 		"type_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseKeyStoreTypeDetailsRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value" })}`, Update: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue" })}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
+
 	DatabaseKeyStoreTypeDetailsRepresentation = map[string]interface{}{
 		"admin_username": acctest.Representation{RepType: acctest.Required, Create: `username1`, Update: `adminUsername2`},
 		"connection_ips": acctest.Representation{RepType: acctest.Required, Create: []string{`192.1.1.1`}, Update: []string{`192.1.1.1`, `192.1.1.2`}},

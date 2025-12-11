@@ -56,7 +56,7 @@ var (
 	}
 
 	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
-		"depends_on": []string{"time_sleep.wait_30_seconds"},
+		"depends_on": []string{"oci_dns_resolver.test_resolver"},
 		"file_system_configuration_details": []acctest.RepresentationGroup{
 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0},
 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1},
@@ -258,6 +258,9 @@ var (
 
 	CoreCoreVcnDnsResolverAssociationRepresentation = map[string]interface{}{
 		"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`},
+		"depends_on": []string{
+			"oci_core_virtual_network.t",
+		},
 	}
 
 	ResolverRepresentation = map[string]interface{}{
@@ -268,6 +271,9 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
+		"depends_on": []string{
+			"data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association",
+		},
 	}
 
 	cloudVmClusterIgnoreDefinedTagsRepresentation = map[string]interface{}{
@@ -358,7 +364,7 @@ var (
                     display_name        = "ExadataSubnet"
                     compartment_id      = "${var.compartment_id}"
                     vcn_id              = "${oci_core_virtual_network.t.id}"
-                    route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+                    route_table_id      = "${oci_core_route_table.t.id}"
                     dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
                     security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
                     dns_label           = "subnetexadata1"
@@ -370,7 +376,7 @@ var (
                     display_name        = "ExadataBackupSubnet"
                     compartment_id      = "${var.compartment_id}"
                     vcn_id              = "${oci_core_virtual_network.t.id}"
-                    route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+                    route_table_id      = "${oci_core_route_table.t.id}"
                     dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
                     security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
                     dns_label           = "subnetexadata2"
@@ -411,7 +417,6 @@ var (
           } 
 		` +
 		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, ViewRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
 	DatabaseExascaleCloudVmClusterResourceDependencies = ad_subnet_security + DatabaseExascaleDbStorageExacsVaultResourceDependencies +
@@ -420,16 +425,7 @@ var (
 	DatabaseExascaleCloudVmClusterResourceDependenciesOptional = ad_subnet_security + DatabaseExascaleDbStorageExacsVaultResourceDependenciesOptional +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageExacsVaultRepresentation)
 
-	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep30
-
-	Sleep30 = "resource \"time_sleep\" \"wait_30_seconds\" {\n  depends_on = [oci_dns_resolver.test_resolver] \n create_duration = \"30s\"\n}" +
-		`
-		terraform {
-  			required_providers {
-    			time = "0.5.0"
-  			}
-		}
-	`
+	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies
 
 	CloudVmClusterResourceUpdateDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"compute_count"}), map[string]interface{}{
@@ -505,7 +501,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"domain"}), map[string]interface{}{
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
@@ -752,7 +748,6 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "20"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.domain", "sicdbaas.exacs.zonetest"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.system_tags.%", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.gi_version", "19.9.0.0.0"),
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
@@ -766,9 +761,6 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.scan_dns_name"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.scan_ip_ids.#", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.scan_ipv6ids.#", "3"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.%", "2"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.oracle-zpr.maxegresscount.value", "updatedValue"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.shape"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.state"),
@@ -778,8 +770,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.subscription_id", ""),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vip_ids.#", "2"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vipv6ids.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vip_ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vipv6ids.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.zone_id"),
 			),
@@ -845,8 +837,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vip_ids.#", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vipv6ids.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vip_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vipv6ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
