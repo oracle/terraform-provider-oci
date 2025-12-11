@@ -94,6 +94,24 @@ func QueueQueueResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"capabilities": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"is_primary_consumer_group_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -280,6 +298,23 @@ func (s *QueueQueueResourceCrud) Create() error {
 	if visibilityInSeconds, ok := s.D.GetOkExists("visibility_in_seconds"); ok {
 		tmp := visibilityInSeconds.(int)
 		request.VisibilityInSeconds = &tmp
+	}
+
+	if capabilities, ok := s.D.GetOkExists("capabilities"); ok {
+		interfaces := capabilities.([]interface{})
+		tmp := make([]oci_queue.QueueCapability, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "capabilities", stateDataIndex)
+			converted, err := s.mapToQueueCapability(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("capabilities") {
+			request.Capabilities = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
@@ -499,6 +534,23 @@ func (s *QueueQueueResourceCrud) Update() error {
 		request.VisibilityInSeconds = &tmp
 	}
 
+	if capabilities, ok := s.D.GetOkExists("capabilities"); ok {
+		interfaces := capabilities.([]interface{})
+		tmp := make([]oci_queue.QueueCapability, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "capabilities", stateDataIndex)
+			converted, err := s.mapToQueueCapability(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("capabilities") {
+			request.Capabilities = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
 	response, err := s.Client.UpdateQueue(context.Background(), request)
@@ -591,6 +643,14 @@ func (s *QueueQueueResourceCrud) SetData() error {
 		s.D.Set("visibility_in_seconds", *s.Res.VisibilityInSeconds)
 	}
 
+	if s.Res.Capabilities != nil {
+		capabilities := []interface{}{}
+		for _, item := range s.Res.Capabilities {
+			capabilities = append(capabilities, QueueCapabilityToMap(item))
+		}
+		s.D.Set("capabilities", capabilities)
+	}
+
 	return nil
 }
 
@@ -638,6 +698,36 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *QueueQueueResourceCrud) mapToQueueCapability(fieldKeyFormat string) (oci_queue.QueueCapability, error) {
+	result := oci_queue.QueueCapability{}
+
+	if capabilityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		tmp := capabilityType.(string)
+		result.Type = &tmp
+	}
+
+	if isPrimaryConsumerGroupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_primary_consumer_group_enabled")); ok {
+		tmp := isPrimaryConsumerGroupEnabled.(bool)
+		result.IsPrimaryConsumerGroupEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func QueueCapabilityToMap(obj oci_queue.QueueCapability) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Type != nil {
+		result["type"] = string(*obj.Type)
+	}
+
+	if obj.IsPrimaryConsumerGroupEnabled != nil {
+		result["is_primary_consumer_group_enabled"] = bool(*obj.IsPrimaryConsumerGroupEnabled)
+	}
+
+	return result
 }
 
 func QueueSummaryToMap(obj oci_queue.QueueSummary) map[string]interface{} {

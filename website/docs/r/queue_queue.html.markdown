@@ -35,6 +35,10 @@ resource "oci_queue_queue" "test_queue" {
 	retention_in_seconds = var.queue_retention_in_seconds
 	timeout_in_seconds = var.queue_timeout_in_seconds
 	visibility_in_seconds = var.queue_visibility_in_seconds
+	capabilities {
+		type = "CONSUMER_GROUPS"
+		is_primary_consumer_group_enabled = false
+	}
 }
 ```
 
@@ -54,6 +58,9 @@ The following arguments are supported:
 * `visibility_in_seconds` - (Optional) (Updatable) The default visibility timeout of the messages consumed from the queue, in seconds.
 * `purge_trigger` - (Optional) (Updatable) An optional property when incremented triggers Purge. Could be set to any integer value.
 * `purge_type` - (Optional) (Updatable) An optional value that specifies the purge behavior for the Queue. Could be set to NORMAL, DLQ or BOTH. If unset, the default value is NORMAL
+* `capabilities` - (Optional) (Updatable) The capabilities configuration for the queue.
+	* `type` - (Required) The type of capability. Example: `CONSUMER_GROUPS`
+	* `is_primary_consumer_group_enabled` - (Optional) Whether the primary consumer group is enabled for this capability.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -79,6 +86,9 @@ The following attributes are exported:
 * `time_updated` - The time that the queue was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 * `timeout_in_seconds` - The default polling timeout of the messages in the queue, in seconds.
 * `visibility_in_seconds` - The default visibility timeout of the messages consumed from the queue, in seconds.
+* `capabilities` - The capabilities configuration for the queue.
+	* `type` - The type of capability. Example: `CONSUMER_GROUPS`
+	* `is_primary_consumer_group_enabled` - Whether the primary consumer group is enabled for this capability.
 
 ## Timeouts
 
