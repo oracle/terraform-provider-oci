@@ -14,7 +14,7 @@ import (
 // ListFieldsRequest wrapper for the ListFields operation
 type ListFieldsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// A flag indicating how to handle filtering when multiple filter criteria are specified.

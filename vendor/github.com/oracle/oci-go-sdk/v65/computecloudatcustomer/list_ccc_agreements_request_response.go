@@ -22,7 +22,7 @@ type ListCccAgreementsRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to
 	// list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`

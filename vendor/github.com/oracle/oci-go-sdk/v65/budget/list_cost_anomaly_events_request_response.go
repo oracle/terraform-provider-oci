@@ -26,9 +26,9 @@ type ListCostAnomalyEventsRequest struct {
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListCostAnomalyEventsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. If not specified, the default is timeCreated.
-	// The default sort order for timeCreated is DESC.
-	// The default sort order for displayName is ASC in alphanumeric order.
+	// The field to sort by. If not specified, the default is timeAnomalyEventDate.
+	// The default sort order for timeAnomalyEventDate is DESC.
+	// The default sort order for costAnomalyName is ASC in alphanumeric order.
 	SortBy ListCostAnomalyEventsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique, non-changeable resource name.
@@ -49,8 +49,11 @@ type ListCostAnomalyEventsRequest struct {
 	// region of the anomaly event.
 	Region []string `contributesTo:"query" name:"region" collectionFormat:"csv"`
 
-	// cost impact of the anomaly event.
+	// cost impact (absolute) of the anomaly event.
 	CostImpact *float64 `mandatory:"false" contributesTo:"query" name:"costImpact"`
+
+	// cost impact (percentage) of the anomaly event.
+	CostImpactPercentage *float64 `mandatory:"false" contributesTo:"query" name:"costImpactPercentage"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -178,18 +181,21 @@ type ListCostAnomalyEventsSortByEnum string
 
 // Set of constants representing the allowable values for ListCostAnomalyEventsSortByEnum
 const (
-	ListCostAnomalyEventsSortByTimecreated ListCostAnomalyEventsSortByEnum = "timeCreated"
-	ListCostAnomalyEventsSortByDisplayname ListCostAnomalyEventsSortByEnum = "displayName"
+	ListCostAnomalyEventsSortByTimeanomalyeventdate ListCostAnomalyEventsSortByEnum = "timeAnomalyEventDate"
+	ListCostAnomalyEventsSortByCostanomalyname      ListCostAnomalyEventsSortByEnum = "costAnomalyName"
+	ListCostAnomalyEventsSortById                   ListCostAnomalyEventsSortByEnum = "id"
 )
 
 var mappingListCostAnomalyEventsSortByEnum = map[string]ListCostAnomalyEventsSortByEnum{
-	"timeCreated": ListCostAnomalyEventsSortByTimecreated,
-	"displayName": ListCostAnomalyEventsSortByDisplayname,
+	"timeAnomalyEventDate": ListCostAnomalyEventsSortByTimeanomalyeventdate,
+	"costAnomalyName":      ListCostAnomalyEventsSortByCostanomalyname,
+	"id":                   ListCostAnomalyEventsSortById,
 }
 
 var mappingListCostAnomalyEventsSortByEnumLowerCase = map[string]ListCostAnomalyEventsSortByEnum{
-	"timecreated": ListCostAnomalyEventsSortByTimecreated,
-	"displayname": ListCostAnomalyEventsSortByDisplayname,
+	"timeanomalyeventdate": ListCostAnomalyEventsSortByTimeanomalyeventdate,
+	"costanomalyname":      ListCostAnomalyEventsSortByCostanomalyname,
+	"id":                   ListCostAnomalyEventsSortById,
 }
 
 // GetListCostAnomalyEventsSortByEnumValues Enumerates the set of values for ListCostAnomalyEventsSortByEnum
@@ -204,8 +210,9 @@ func GetListCostAnomalyEventsSortByEnumValues() []ListCostAnomalyEventsSortByEnu
 // GetListCostAnomalyEventsSortByEnumStringValues Enumerates the set of values in String for ListCostAnomalyEventsSortByEnum
 func GetListCostAnomalyEventsSortByEnumStringValues() []string {
 	return []string{
-		"timeCreated",
-		"displayName",
+		"timeAnomalyEventDate",
+		"costAnomalyName",
+		"id",
 	}
 }
 

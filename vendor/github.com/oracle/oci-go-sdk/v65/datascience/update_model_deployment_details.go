@@ -32,6 +32,8 @@ type UpdateModelDeploymentDetails struct {
 
 	CategoryLogDetails *UpdateCategoryLogDetails `mandatory:"false" json:"categoryLogDetails"`
 
+	EndpointProtocolDetails *ModelDeploymentEndpointProtocolList `mandatory:"false" json:"endpointProtocolDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,6 +66,7 @@ func (m *UpdateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 		Description                         *string                                   `json:"description"`
 		ModelDeploymentConfigurationDetails updatemodeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
 		CategoryLogDetails                  *UpdateCategoryLogDetails                 `json:"categoryLogDetails"`
+		EndpointProtocolDetails             *ModelDeploymentEndpointProtocolList      `json:"endpointProtocolDetails"`
 		FreeformTags                        map[string]string                         `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}         `json:"definedTags"`
 	}{}
@@ -88,6 +91,8 @@ func (m *UpdateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.CategoryLogDetails = model.CategoryLogDetails
+
+	m.EndpointProtocolDetails = model.EndpointProtocolDetails
 
 	m.FreeformTags = model.FreeformTags
 

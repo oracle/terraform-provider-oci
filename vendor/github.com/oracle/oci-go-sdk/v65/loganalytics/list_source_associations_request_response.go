@@ -14,7 +14,7 @@ import (
 // ListSourceAssociationsRequest wrapper for the ListSourceAssociations operation
 type ListSourceAssociationsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The souce name used for filtering associations.
@@ -25,6 +25,9 @@ type ListSourceAssociationsRequest struct {
 
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`
+
+	// The entity name used for filtering.
+	EntityName *string `mandatory:"false" contributesTo:"query" name:"entityName"`
 
 	// The life cycle state used for filtering.  Only associations with the specified
 	// life cycle state will be returned.

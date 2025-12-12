@@ -37,9 +37,9 @@ type CccListingSummary struct {
 	// The publisher category to which the listing belongs. The publisher category informs where the listing appears for use.
 	ListingType CccListingSummaryListingTypeEnum `mandatory:"true" json:"listingType"`
 
-	// The release date of the listing, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The create time of the listing, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
-	TimeReleased *common.SDKTime `mandatory:"true" json:"timeReleased"`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The tagline of the listing.
 	Tagline *string `mandatory:"false" json:"tagline"`

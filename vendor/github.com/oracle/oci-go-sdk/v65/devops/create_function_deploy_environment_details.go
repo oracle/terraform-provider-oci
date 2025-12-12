@@ -41,9 +41,6 @@ type CreateFunctionDeployEnvironmentDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
 }
 
 // GetDescription returns Description
@@ -74,11 +71,6 @@ func (m CreateFunctionDeployEnvironmentDetails) GetDefinedTags() map[string]map[
 // GetSecurityAttributes returns SecurityAttributes
 func (m CreateFunctionDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m CreateFunctionDeployEnvironmentDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m CreateFunctionDeployEnvironmentDetails) String() string {

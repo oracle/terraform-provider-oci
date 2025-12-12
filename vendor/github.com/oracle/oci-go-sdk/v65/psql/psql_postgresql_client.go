@@ -1939,6 +1939,124 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 	return response, err
 }
 
+// StartDbSystem Start the DB System.
+// A default retry strategy applies to this operation StartDbSystem()
+func (client PostgresqlClient) StartDbSystem(ctx context.Context, request StartDbSystemRequest) (response StartDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartDbSystemResponse")
+	}
+	return
+}
+
+// startDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) startDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/start", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/StartDbSystem"
+		err = common.PostProcessServiceError(err, "Postgresql", "StartDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopDbSystem Stop the DB System.
+// A default retry strategy applies to this operation StopDbSystem()
+func (client PostgresqlClient) StopDbSystem(ctx context.Context, request StopDbSystemRequest) (response StopDbSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopDbSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopDbSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopDbSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopDbSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopDbSystemResponse")
+	}
+	return
+}
+
+// stopDbSystem implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) stopDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/stop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/StopDbSystem"
+		err = common.PostProcessServiceError(err, "Postgresql", "StopDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SwitchOver Switchover the roles between a primary database system and its replica, making the replica the new primary and the original primary become its replica.
 // A default retry strategy applies to this operation SwitchOver()
 func (client PostgresqlClient) SwitchOver(ctx context.Context, request SwitchOverRequest) (response SwitchOverResponse, err error) {

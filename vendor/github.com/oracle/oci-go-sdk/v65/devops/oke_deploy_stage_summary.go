@@ -60,14 +60,6 @@ type OkeDeployStageSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
@@ -152,16 +144,6 @@ func (m OkeDeployStageSummary) GetSystemTags() map[string]map[string]interface{}
 	return m.SystemTags
 }
 
-// GetSecurityAttributes returns SecurityAttributes
-func (m OkeDeployStageSummary) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m OkeDeployStageSummary) GetTagSlugs() []string {
-	return m.TagSlugs
-}
-
 func (m OkeDeployStageSummary) String() string {
 	return common.PointerString(m)
 }
@@ -208,8 +190,6 @@ func (m *OkeDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                        map[string]string                 `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                          map[string]map[string]interface{} `json:"systemTags"`
-		SecurityAttributes                  map[string]map[string]interface{} `json:"securityAttributes"`
-		TagSlugs                            []string                          `json:"tagSlugs"`
 		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
 		OkeEnvironmentDetails               okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		Namespace                           *string                           `json:"namespace"`
@@ -246,10 +226,6 @@ func (m *OkeDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
-	m.SecurityAttributes = model.SecurityAttributes
-
-	m.TagSlugs = make([]string, len(model.TagSlugs))
-	copy(m.TagSlugs, model.TagSlugs)
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
 	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)

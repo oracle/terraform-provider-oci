@@ -1847,7 +1847,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // DeleteLogAnalyticsObjectCollectionRule Deletes the configured object storage bucket based collection rule and stop the log collection.
-// It will not delete the existing processed data associated with this bucket from logging analytics storage.
+// It will not delete the existing processed data associated with this bucket from Log Analytics Storage.
 func (client LogAnalyticsClient) DeleteLogAnalyticsObjectCollectionRule(ctx context.Context, request DeleteLogAnalyticsObjectCollectionRuleRequest) (response DeleteLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4356,7 +4356,7 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 	return response, err
 }
 
-// GetNamespace This API gets the namespace details of a tenancy already onboarded in Logging Analytics Application
+// GetNamespace This API gets the namespace details of a tenancy already onboarded in Log Analytics Application
 // A default retry strategy applies to this operation GetNamespace()
 func (client LogAnalyticsClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6683,7 +6683,7 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 }
 
 // ListNamespaces Given a tenancy OCID, this API returns the namespace of the tenancy if it is valid and subscribed to the region.  The
-// result also indicates if the tenancy is onboarded with Logging Analytics.
+// result also indicates if the tenancy is onboarded with Log Analytics.
 // A default retry strategy applies to this operation ListNamespaces()
 func (client LogAnalyticsClient) ListNamespaces(ctx context.Context, request ListNamespacesRequest) (response ListNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8410,7 +8410,7 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// OffboardNamespace Off-boards a tenant from Logging Analytics
+// OffboardNamespace Off-boards a tenant from Log Analytics
 func (client LogAnalyticsClient) OffboardNamespace(ctx context.Context, request OffboardNamespaceRequest) (response OffboardNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8468,7 +8468,7 @@ func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request 
 	return response, err
 }
 
-// OnboardNamespace On-boards a tenant to Logging Analytics.
+// OnboardNamespace On-boards a tenant to Log Analytics.
 func (client LogAnalyticsClient) OnboardNamespace(ctx context.Context, request OnboardNamespaceRequest) (response OnboardNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10317,7 +10317,7 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	return response, err
 }
 
-// UploadDiscoveryData Accepts discovery data for processing by Logging Analytics.
+// UploadDiscoveryData Accepts discovery data for processing by Log Analytics.
 // A default retry strategy applies to this operation UploadDiscoveryData()
 func (client LogAnalyticsClient) UploadDiscoveryData(ctx context.Context, request UploadDiscoveryDataRequest) (response UploadDiscoveryDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10388,7 +10388,7 @@ func (client LogAnalyticsClient) uploadDiscoveryData(ctx context.Context, reques
 	return response, err
 }
 
-// UploadLogEventsFile Accepts log events for processing by Logging Analytics.
+// UploadLogEventsFile Accepts log events for processing by Log Analytics.
 // A default retry strategy applies to this operation UploadLogEventsFile()
 func (client LogAnalyticsClient) UploadLogEventsFile(ctx context.Context, request UploadLogEventsFileRequest) (response UploadLogEventsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10459,7 +10459,7 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 	return response, err
 }
 
-// UploadLogFile Accepts log data for processing by Logging Analytics.
+// UploadLogFile Accepts log data for processing by Log Analytics.
 // A default retry strategy applies to this operation UploadLogFile()
 func (client LogAnalyticsClient) UploadLogFile(ctx context.Context, request UploadLogFileRequest) (response UploadLogFileResponse, err error) {
 	var ociResponse common.OCIResponse

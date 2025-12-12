@@ -33,14 +33,6 @@ type UpdateComputeInstanceGroupCanaryDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
-	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// The OCID of the artifact that contains the deployment specification.
 	DeploymentSpecDeployArtifactId *string `mandatory:"false" json:"deploymentSpecDeployArtifactId"`
 
@@ -75,16 +67,6 @@ func (m UpdateComputeInstanceGroupCanaryDeployStageDetails) GetFreeformTags() ma
 // GetDefinedTags returns DefinedTags
 func (m UpdateComputeInstanceGroupCanaryDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
-}
-
-// GetSecurityAttributes returns SecurityAttributes
-func (m UpdateComputeInstanceGroupCanaryDeployStageDetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateComputeInstanceGroupCanaryDeployStageDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m UpdateComputeInstanceGroupCanaryDeployStageDetails) String() string {
@@ -125,8 +107,6 @@ func (m *UpdateComputeInstanceGroupCanaryDeployStageDetails) UnmarshalJSON(data 
 		DeployStagePredecessorCollection *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
 		FreeformTags                     map[string]string                 `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
-		SecurityAttributes               map[string]map[string]interface{} `json:"securityAttributes"`
-		TagSlugs                         []string                          `json:"tagSlugs"`
 		DeploymentSpecDeployArtifactId   *string                           `json:"deploymentSpecDeployArtifactId"`
 		DeployArtifactIds                []string                          `json:"deployArtifactIds"`
 		RolloutPolicy                    computeinstancegrouprolloutpolicy `json:"rolloutPolicy"`
@@ -148,10 +128,6 @@ func (m *UpdateComputeInstanceGroupCanaryDeployStageDetails) UnmarshalJSON(data 
 
 	m.DefinedTags = model.DefinedTags
 
-	m.SecurityAttributes = model.SecurityAttributes
-
-	m.TagSlugs = make([]string, len(model.TagSlugs))
-	copy(m.TagSlugs, model.TagSlugs)
 	m.DeploymentSpecDeployArtifactId = model.DeploymentSpecDeployArtifactId
 
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))

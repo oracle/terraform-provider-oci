@@ -50,18 +50,21 @@ type DisconnectConfigActionEnum string
 
 // Set of constants representing the allowable values for DisconnectConfigActionEnum
 const (
-	DisconnectConfigActionNone DisconnectConfigActionEnum = "NONE"
-	DisconnectConfigActionStop DisconnectConfigActionEnum = "STOP"
+	DisconnectConfigActionNone   DisconnectConfigActionEnum = "NONE"
+	DisconnectConfigActionStop   DisconnectConfigActionEnum = "STOP"
+	DisconnectConfigActionDelete DisconnectConfigActionEnum = "DELETE"
 )
 
 var mappingDisconnectConfigActionEnum = map[string]DisconnectConfigActionEnum{
-	"NONE": DisconnectConfigActionNone,
-	"STOP": DisconnectConfigActionStop,
+	"NONE":   DisconnectConfigActionNone,
+	"STOP":   DisconnectConfigActionStop,
+	"DELETE": DisconnectConfigActionDelete,
 }
 
 var mappingDisconnectConfigActionEnumLowerCase = map[string]DisconnectConfigActionEnum{
-	"none": DisconnectConfigActionNone,
-	"stop": DisconnectConfigActionStop,
+	"none":   DisconnectConfigActionNone,
+	"stop":   DisconnectConfigActionStop,
+	"delete": DisconnectConfigActionDelete,
 }
 
 // GetDisconnectConfigActionEnumValues Enumerates the set of values for DisconnectConfigActionEnum
@@ -78,6 +81,7 @@ func GetDisconnectConfigActionEnumStringValues() []string {
 	return []string{
 		"NONE",
 		"STOP",
+		"DELETE",
 	}
 }
 

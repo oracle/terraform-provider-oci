@@ -33,14 +33,6 @@ type UpdateComputeInstanceGroupDeployStageDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
-	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// A compute instance group environment OCID for rolling deployment.
 	ComputeInstanceGroupDeployEnvironmentId *string `mandatory:"false" json:"computeInstanceGroupDeployEnvironmentId"`
 
@@ -84,16 +76,6 @@ func (m UpdateComputeInstanceGroupDeployStageDetails) GetDefinedTags() map[strin
 	return m.DefinedTags
 }
 
-// GetSecurityAttributes returns SecurityAttributes
-func (m UpdateComputeInstanceGroupDeployStageDetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateComputeInstanceGroupDeployStageDetails) GetTagSlugs() []string {
-	return m.TagSlugs
-}
-
 func (m UpdateComputeInstanceGroupDeployStageDetails) String() string {
 	return common.PointerString(m)
 }
@@ -132,8 +114,6 @@ func (m *UpdateComputeInstanceGroupDeployStageDetails) UnmarshalJSON(data []byte
 		DeployStagePredecessorCollection        *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
 		FreeformTags                            map[string]string                 `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{} `json:"definedTags"`
-		SecurityAttributes                      map[string]map[string]interface{} `json:"securityAttributes"`
-		TagSlugs                                []string                          `json:"tagSlugs"`
 		ComputeInstanceGroupDeployEnvironmentId *string                           `json:"computeInstanceGroupDeployEnvironmentId"`
 		DeploymentSpecDeployArtifactId          *string                           `json:"deploymentSpecDeployArtifactId"`
 		DeployArtifactIds                       []string                          `json:"deployArtifactIds"`
@@ -158,10 +138,6 @@ func (m *UpdateComputeInstanceGroupDeployStageDetails) UnmarshalJSON(data []byte
 
 	m.DefinedTags = model.DefinedTags
 
-	m.SecurityAttributes = model.SecurityAttributes
-
-	m.TagSlugs = make([]string, len(model.TagSlugs))
-	copy(m.TagSlugs, model.TagSlugs)
 	m.ComputeInstanceGroupDeployEnvironmentId = model.ComputeInstanceGroupDeployEnvironmentId
 
 	m.DeploymentSpecDeployArtifactId = model.DeploymentSpecDeployArtifactId

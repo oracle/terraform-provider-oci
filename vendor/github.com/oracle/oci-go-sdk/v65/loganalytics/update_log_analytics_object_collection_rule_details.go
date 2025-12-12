@@ -22,13 +22,13 @@ type UpdateLogAnalyticsObjectCollectionRuleDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Logging Analytics Log group OCID to associate the processed logs with.
+	// Log Analytics Log group OCID to associate the processed logs with.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
-	// Name of the Logging Analytics Source to use for the processing.
+	// Name of the Log Analytics Source to use for the processing.
 	LogSourceName *string `mandatory:"false" json:"logSourceName"`
 
-	// Logging Analytics entity OCID. Associates the processed logs with the given entity (optional).
+	// Log Analytics entity OCID. Associates the processed logs with the given entity (optional).
 	EntityId *string `mandatory:"false" json:"entityId"`
 
 	// An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing.
@@ -67,7 +67,7 @@ type UpdateLogAnalyticsObjectCollectionRuleDetails struct {
 	// For more information on filters, see Event Filters (https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm).
 	ObjectNameFilters []string `mandatory:"false" json:"objectNameFilters"`
 
-	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
+	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Log Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
 	StreamId *string `mandatory:"false" json:"streamId"`
 
 	// Cursor type used to fetch messages from stream.

@@ -14,7 +14,7 @@ import (
 // ListWarningsRequest wrapper for the ListWarnings operation
 type ListWarningsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The ID of the compartment in which to list resources.
@@ -36,8 +36,7 @@ type ListWarningsRequest struct {
 	// warning message query parameter
 	WarningMessage *string `mandatory:"false" contributesTo:"query" name:"warningMessage"`
 
-	// The entity name used for filtering.  Only warnings associated with an entity with the
-	// specified name will be returned.
+	// The entity name used for filtering.
 	EntityName *string `mandatory:"false" contributesTo:"query" name:"entityName"`
 
 	// The entity type used for filtering.  Only associations on an entity with the

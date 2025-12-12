@@ -20,6 +20,9 @@ type ManagedComputeClusterModelDeploymentResourceConfiguration struct {
 	ResourceRequestConfiguration *ResourceRequestConfiguration `mandatory:"true" json:"resourceRequestConfiguration"`
 
 	ResourceLimitConfiguration *ResourceLimitConfiguration `mandatory:"false" json:"resourceLimitConfiguration"`
+
+	// Routing policy to be used by the Model Deployment load balancer. Only one type of routing policy can be set per model deployment.
+	RoutingPolicy RoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
 }
 
 func (m ManagedComputeClusterModelDeploymentResourceConfiguration) String() string {
@@ -32,6 +35,9 @@ func (m ManagedComputeClusterModelDeploymentResourceConfiguration) String() stri
 func (m ManagedComputeClusterModelDeploymentResourceConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingPolicyEnum(string(m.RoutingPolicy)); !ok && m.RoutingPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingPolicy: %s. Supported values are: %s.", m.RoutingPolicy, strings.Join(GetRoutingPolicyEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

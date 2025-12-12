@@ -24,6 +24,9 @@ type PolicySimulation struct {
 	// compartmentId for which the Policy Simulation task is being run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// name for the Policy Simulation run.
+	RunName *string `mandatory:"true" json:"runName"`
+
 	// Status of the Policy Simulation task.
 	LifecycleState PolicySimulationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -45,6 +48,9 @@ type PolicySimulation struct {
 
 	// principalId for whom the Policy Simulation task is being run.
 	PrincipalId *string `mandatory:"false" json:"principalId"`
+
+	// creation time of the updated policies.
+	DateLoaded *common.SDKTime `mandatory:"false" json:"dateLoaded"`
 
 	// Message detailing failure during Policy Simulation task.
 	FailureMessage *string `mandatory:"false" json:"failureMessage"`

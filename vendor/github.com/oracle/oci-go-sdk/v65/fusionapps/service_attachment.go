@@ -84,27 +84,30 @@ type ServiceAttachmentServiceInstanceTypeEnum string
 
 // Set of constants representing the allowable values for ServiceAttachmentServiceInstanceTypeEnum
 const (
-	ServiceAttachmentServiceInstanceTypeDigitalAssistant    ServiceAttachmentServiceInstanceTypeEnum = "DIGITAL_ASSISTANT"
-	ServiceAttachmentServiceInstanceTypeIntegrationCloud    ServiceAttachmentServiceInstanceTypeEnum = "INTEGRATION_CLOUD"
-	ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse  ServiceAttachmentServiceInstanceTypeEnum = "ANALYTICS_WAREHOUSE"
-	ServiceAttachmentServiceInstanceTypeVbcs                ServiceAttachmentServiceInstanceTypeEnum = "VBCS"
-	ServiceAttachmentServiceInstanceTypeVisualBuilderStudio ServiceAttachmentServiceInstanceTypeEnum = "VISUAL_BUILDER_STUDIO"
+	ServiceAttachmentServiceInstanceTypeDigitalAssistant       ServiceAttachmentServiceInstanceTypeEnum = "DIGITAL_ASSISTANT"
+	ServiceAttachmentServiceInstanceTypeIntegrationCloud       ServiceAttachmentServiceInstanceTypeEnum = "INTEGRATION_CLOUD"
+	ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse     ServiceAttachmentServiceInstanceTypeEnum = "ANALYTICS_WAREHOUSE"
+	ServiceAttachmentServiceInstanceTypeFusionDataIntelligence ServiceAttachmentServiceInstanceTypeEnum = "FUSION_DATA_INTELLIGENCE"
+	ServiceAttachmentServiceInstanceTypeVbcs                   ServiceAttachmentServiceInstanceTypeEnum = "VBCS"
+	ServiceAttachmentServiceInstanceTypeVisualBuilderStudio    ServiceAttachmentServiceInstanceTypeEnum = "VISUAL_BUILDER_STUDIO"
 )
 
 var mappingServiceAttachmentServiceInstanceTypeEnum = map[string]ServiceAttachmentServiceInstanceTypeEnum{
-	"DIGITAL_ASSISTANT":     ServiceAttachmentServiceInstanceTypeDigitalAssistant,
-	"INTEGRATION_CLOUD":     ServiceAttachmentServiceInstanceTypeIntegrationCloud,
-	"ANALYTICS_WAREHOUSE":   ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse,
-	"VBCS":                  ServiceAttachmentServiceInstanceTypeVbcs,
-	"VISUAL_BUILDER_STUDIO": ServiceAttachmentServiceInstanceTypeVisualBuilderStudio,
+	"DIGITAL_ASSISTANT":        ServiceAttachmentServiceInstanceTypeDigitalAssistant,
+	"INTEGRATION_CLOUD":        ServiceAttachmentServiceInstanceTypeIntegrationCloud,
+	"ANALYTICS_WAREHOUSE":      ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse,
+	"FUSION_DATA_INTELLIGENCE": ServiceAttachmentServiceInstanceTypeFusionDataIntelligence,
+	"VBCS":                     ServiceAttachmentServiceInstanceTypeVbcs,
+	"VISUAL_BUILDER_STUDIO":    ServiceAttachmentServiceInstanceTypeVisualBuilderStudio,
 }
 
 var mappingServiceAttachmentServiceInstanceTypeEnumLowerCase = map[string]ServiceAttachmentServiceInstanceTypeEnum{
-	"digital_assistant":     ServiceAttachmentServiceInstanceTypeDigitalAssistant,
-	"integration_cloud":     ServiceAttachmentServiceInstanceTypeIntegrationCloud,
-	"analytics_warehouse":   ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse,
-	"vbcs":                  ServiceAttachmentServiceInstanceTypeVbcs,
-	"visual_builder_studio": ServiceAttachmentServiceInstanceTypeVisualBuilderStudio,
+	"digital_assistant":        ServiceAttachmentServiceInstanceTypeDigitalAssistant,
+	"integration_cloud":        ServiceAttachmentServiceInstanceTypeIntegrationCloud,
+	"analytics_warehouse":      ServiceAttachmentServiceInstanceTypeAnalyticsWarehouse,
+	"fusion_data_intelligence": ServiceAttachmentServiceInstanceTypeFusionDataIntelligence,
+	"vbcs":                     ServiceAttachmentServiceInstanceTypeVbcs,
+	"visual_builder_studio":    ServiceAttachmentServiceInstanceTypeVisualBuilderStudio,
 }
 
 // GetServiceAttachmentServiceInstanceTypeEnumValues Enumerates the set of values for ServiceAttachmentServiceInstanceTypeEnum
@@ -122,6 +125,7 @@ func GetServiceAttachmentServiceInstanceTypeEnumStringValues() []string {
 		"DIGITAL_ASSISTANT",
 		"INTEGRATION_CLOUD",
 		"ANALYTICS_WAREHOUSE",
+		"FUSION_DATA_INTELLIGENCE",
 		"VBCS",
 		"VISUAL_BUILDER_STUDIO",
 	}

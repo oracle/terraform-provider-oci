@@ -92,7 +92,7 @@ type LogAnalyticsSourceSummary struct {
 	// A flag indicating whether or not the source is marked for auto-association.
 	IsAutoAssociationEnabled *bool `mandatory:"false" json:"isAutoAssociationEnabled"`
 
-	// A flag indicating whether or not the auto-association state should be overriden.
+	// A flag indicating whether or not the auto-association state should be overridden.
 	IsAutoAssociationOverride *bool `mandatory:"false" json:"isAutoAssociationOverride"`
 
 	// The rule unique identifier.
@@ -130,6 +130,9 @@ type LogAnalyticsSourceSummary struct {
 
 	// A list of source properties.
 	SourceProperties []LogAnalyticsProperty `mandatory:"false" json:"sourceProperties"`
+
+	// The current state of the Log Analytics source.
+	LifecycleState LogAnalyticsSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 func (m LogAnalyticsSourceSummary) String() string {
@@ -142,6 +145,9 @@ func (m LogAnalyticsSourceSummary) String() string {
 func (m LogAnalyticsSourceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLogAnalyticsSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogAnalyticsSourceLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -188,6 +194,7 @@ func (m *LogAnalyticsSourceSummary) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated               *common.SDKTime                             `json:"timeUpdated"`
 		Endpoints                 []loganalyticsendpoint                      `json:"endpoints"`
 		SourceProperties          []LogAnalyticsProperty                      `json:"sourceProperties"`
+		LifecycleState            LogAnalyticsSourceLifecycleStateEnum        `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -279,5 +286,7 @@ func (m *LogAnalyticsSourceSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.SourceProperties = make([]LogAnalyticsProperty, len(model.SourceProperties))
 	copy(m.SourceProperties, model.SourceProperties)
+	m.LifecycleState = model.LifecycleState
+
 	return
 }

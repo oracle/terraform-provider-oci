@@ -47,8 +47,8 @@ type CostAnomalyEvent struct {
 	// The updated time of the cost anomaly event.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The type of the associated cost monitor.
-	CostMonitorType *string `mandatory:"false" json:"costMonitorType"`
+	// Type of cost monitor
+	CostMonitorType MonitorTypeEnum `mandatory:"false" json:"costMonitorType,omitempty"`
 
 	// The cost impact of the detected anomaly.
 	CostImpact *float64 `mandatory:"false" json:"costImpact"`
@@ -91,6 +91,9 @@ func (m CostAnomalyEvent) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCostAnomalyEventLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingMonitorTypeEnum(string(m.CostMonitorType)); !ok && m.CostMonitorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CostMonitorType: %s. Supported values are: %s.", m.CostMonitorType, strings.Join(GetMonitorTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCostAnomalyEventFeedbackResponseEnum(string(m.FeedbackResponse)); !ok && m.FeedbackResponse != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeedbackResponse: %s. Supported values are: %s.", m.FeedbackResponse, strings.Join(GetCostAnomalyEventFeedbackResponseEnumStringValues(), ",")))
 	}
@@ -149,19 +152,16 @@ type CostAnomalyEventFeedbackResponseEnum string
 const (
 	CostAnomalyEventFeedbackResponseAccurateAnomaly CostAnomalyEventFeedbackResponseEnum = "ACCURATE_ANOMALY"
 	CostAnomalyEventFeedbackResponseExpectedAnomaly CostAnomalyEventFeedbackResponseEnum = "EXPECTED_ANOMALY"
-	CostAnomalyEventFeedbackResponseNotAnAnomaly    CostAnomalyEventFeedbackResponseEnum = "NOT_AN_ANOMALY"
 )
 
 var mappingCostAnomalyEventFeedbackResponseEnum = map[string]CostAnomalyEventFeedbackResponseEnum{
 	"ACCURATE_ANOMALY": CostAnomalyEventFeedbackResponseAccurateAnomaly,
 	"EXPECTED_ANOMALY": CostAnomalyEventFeedbackResponseExpectedAnomaly,
-	"NOT_AN_ANOMALY":   CostAnomalyEventFeedbackResponseNotAnAnomaly,
 }
 
 var mappingCostAnomalyEventFeedbackResponseEnumLowerCase = map[string]CostAnomalyEventFeedbackResponseEnum{
 	"accurate_anomaly": CostAnomalyEventFeedbackResponseAccurateAnomaly,
 	"expected_anomaly": CostAnomalyEventFeedbackResponseExpectedAnomaly,
-	"not_an_anomaly":   CostAnomalyEventFeedbackResponseNotAnAnomaly,
 }
 
 // GetCostAnomalyEventFeedbackResponseEnumValues Enumerates the set of values for CostAnomalyEventFeedbackResponseEnum
@@ -178,7 +178,6 @@ func GetCostAnomalyEventFeedbackResponseEnumStringValues() []string {
 	return []string{
 		"ACCURATE_ANOMALY",
 		"EXPECTED_ANOMALY",
-		"NOT_AN_ANOMALY",
 	}
 }
 

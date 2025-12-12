@@ -39,6 +39,9 @@ type UpdateBaseccVmClusterDetails struct {
 	// The user-friendly name for the Basecc VM cluster on BICC Infrastructure. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
+	AdditionalVmStorageSizeInGBs *int `mandatory:"false" json:"additionalVmStorageSizeInGBs"`
+
 	UpdateDetails *BaseccVmClusterUpdateDetails `mandatory:"false" json:"updateDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

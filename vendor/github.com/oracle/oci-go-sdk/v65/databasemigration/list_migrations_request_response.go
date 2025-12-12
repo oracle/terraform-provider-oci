@@ -304,6 +304,7 @@ const (
 	ListMigrationsLifecycleDetailsAborting   ListMigrationsLifecycleDetailsEnum = "ABORTING"
 	ListMigrationsLifecycleDetailsValidating ListMigrationsLifecycleDetailsEnum = "VALIDATING"
 	ListMigrationsLifecycleDetailsValidated  ListMigrationsLifecycleDetailsEnum = "VALIDATED"
+	ListMigrationsLifecycleDetailsAssessed   ListMigrationsLifecycleDetailsEnum = "ASSESSED"
 	ListMigrationsLifecycleDetailsWaiting    ListMigrationsLifecycleDetailsEnum = "WAITING"
 	ListMigrationsLifecycleDetailsMigrating  ListMigrationsLifecycleDetailsEnum = "MIGRATING"
 	ListMigrationsLifecycleDetailsDone       ListMigrationsLifecycleDetailsEnum = "DONE"
@@ -314,6 +315,7 @@ var mappingListMigrationsLifecycleDetailsEnum = map[string]ListMigrationsLifecyc
 	"ABORTING":   ListMigrationsLifecycleDetailsAborting,
 	"VALIDATING": ListMigrationsLifecycleDetailsValidating,
 	"VALIDATED":  ListMigrationsLifecycleDetailsValidated,
+	"ASSESSED":   ListMigrationsLifecycleDetailsAssessed,
 	"WAITING":    ListMigrationsLifecycleDetailsWaiting,
 	"MIGRATING":  ListMigrationsLifecycleDetailsMigrating,
 	"DONE":       ListMigrationsLifecycleDetailsDone,
@@ -324,6 +326,7 @@ var mappingListMigrationsLifecycleDetailsEnumLowerCase = map[string]ListMigratio
 	"aborting":   ListMigrationsLifecycleDetailsAborting,
 	"validating": ListMigrationsLifecycleDetailsValidating,
 	"validated":  ListMigrationsLifecycleDetailsValidated,
+	"assessed":   ListMigrationsLifecycleDetailsAssessed,
 	"waiting":    ListMigrationsLifecycleDetailsWaiting,
 	"migrating":  ListMigrationsLifecycleDetailsMigrating,
 	"done":       ListMigrationsLifecycleDetailsDone,
@@ -345,6 +348,7 @@ func GetListMigrationsLifecycleDetailsEnumStringValues() []string {
 		"ABORTING",
 		"VALIDATING",
 		"VALIDATED",
+		"ASSESSED",
 		"WAITING",
 		"MIGRATING",
 		"DONE",

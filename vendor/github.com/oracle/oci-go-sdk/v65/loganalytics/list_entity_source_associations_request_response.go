@@ -14,11 +14,14 @@ import (
 // ListEntitySourceAssociationsRequest wrapper for the ListEntitySourceAssociations operation
 type ListEntitySourceAssociationsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
+	// The source name.
+	SourceName *string `mandatory:"false" contributesTo:"query" name:"sourceName"`
 
 	// The entity OCID.
 	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`

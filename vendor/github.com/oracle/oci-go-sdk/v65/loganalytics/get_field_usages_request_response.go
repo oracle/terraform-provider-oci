@@ -14,10 +14,10 @@ import (
 // GetFieldUsagesRequest wrapper for the GetFieldUsages operation
 type GetFieldUsagesRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The field name.
+	// The field name. Field name can be obtained by running 'oci log-analytics field list-fields --namespace-name <namespace>'. The json output 'name' parameter value contains the field name.
 	FieldName *string `mandatory:"true" contributesTo:"path" name:"fieldName"`
 
 	// The client request ID for tracing.

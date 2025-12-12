@@ -32,14 +32,6 @@ type UpdateDeployStageDetails interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
-
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	GetSecurityAttributes() map[string]map[string]interface{}
-
-	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
-	GetTagSlugs() []string
 }
 
 type updatedeploystagedetails struct {
@@ -49,8 +41,6 @@ type updatedeploystagedetails struct {
 	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"false" json:"deployStagePredecessorCollection"`
 	FreeformTags                     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SecurityAttributes               map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-	TagSlugs                         []string                          `mandatory:"false" json:"tagSlugs"`
 	DeployStageType                  string                            `json:"deployStageType"`
 }
 
@@ -70,8 +60,6 @@ func (m *updatedeploystagedetails) UnmarshalJSON(data []byte) error {
 	m.DeployStagePredecessorCollection = s.Model.DeployStagePredecessorCollection
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
-	m.SecurityAttributes = s.Model.SecurityAttributes
-	m.TagSlugs = s.Model.TagSlugs
 	m.DeployStageType = s.Model.DeployStageType
 
 	return err
@@ -191,16 +179,6 @@ func (m updatedeploystagedetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m updatedeploystagedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
-}
-
-// GetSecurityAttributes returns SecurityAttributes
-func (m updatedeploystagedetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m updatedeploystagedetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m updatedeploystagedetails) String() string {

@@ -40,8 +40,8 @@ type CostAnomalyEventSummary struct {
 	// The name of the associated cost Anomaly.
 	CostAnomalyName *string `mandatory:"false" json:"costAnomalyName"`
 
-	// The type of the associated cost monitor.
-	CostMonitorType *string `mandatory:"false" json:"costMonitorType"`
+	// Type of cost monitor
+	CostMonitorType MonitorTypeEnum `mandatory:"false" json:"costMonitorType,omitempty"`
 
 	// The current state of the cost anomaly event.
 	LifecycleState CostAnomalyEventLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
@@ -79,6 +79,9 @@ func (m CostAnomalyEventSummary) String() string {
 func (m CostAnomalyEventSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMonitorTypeEnum(string(m.CostMonitorType)); !ok && m.CostMonitorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CostMonitorType: %s. Supported values are: %s.", m.CostMonitorType, strings.Join(GetMonitorTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCostAnomalyEventLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCostAnomalyEventLifecycleStateEnumStringValues(), ",")))
 	}

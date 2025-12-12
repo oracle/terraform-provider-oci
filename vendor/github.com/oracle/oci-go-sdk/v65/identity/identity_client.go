@@ -10587,6 +10587,69 @@ func (client IdentityClient) resetIdpScimClient(ctx context.Context, request com
 	return response, err
 }
 
+// SetCompartmentProperty Set the property to the target compartment.
+// A default retry strategy applies to this operation SetCompartmentProperty()
+func (client IdentityClient) SetCompartmentProperty(ctx context.Context, request SetCompartmentPropertyRequest) (response SetCompartmentPropertyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.setCompartmentProperty, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetCompartmentPropertyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetCompartmentPropertyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetCompartmentPropertyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetCompartmentPropertyResponse")
+	}
+	return
+}
+
+// setCompartmentProperty implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) setCompartmentProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/setProperty", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(SetCompartmentPropertyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response SetCompartmentPropertyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/SetCompartmentProperty"
+		err = common.PostProcessServiceError(err, "Identity", "SetCompartmentProperty", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SetGovernanceFromChild Set the governing tenancy of child tenancy to be the parent (request originated from child)
 // A default retry strategy applies to this operation SetGovernanceFromChild()
 func (client IdentityClient) SetGovernanceFromChild(ctx context.Context, request SetGovernanceFromChildRequest) (response SetGovernanceFromChildResponse, err error) {
@@ -10706,6 +10769,69 @@ func (client IdentityClient) setGovernanceFromParent(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Tenancy/SetGovernanceFromParent"
 		err = common.PostProcessServiceError(err, "Identity", "SetGovernanceFromParent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnsetCompartmentProperty Unset the property from the target compartment.
+// A default retry strategy applies to this operation UnsetCompartmentProperty()
+func (client IdentityClient) UnsetCompartmentProperty(ctx context.Context, request UnsetCompartmentPropertyRequest) (response UnsetCompartmentPropertyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unsetCompartmentProperty, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnsetCompartmentPropertyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnsetCompartmentPropertyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnsetCompartmentPropertyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnsetCompartmentPropertyResponse")
+	}
+	return
+}
+
+// unsetCompartmentProperty implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) unsetCompartmentProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/unsetProperty", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UnsetCompartmentPropertyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UnsetCompartmentPropertyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/UnsetCompartmentProperty"
+		err = common.PostProcessServiceError(err, "Identity", "UnsetCompartmentProperty", apiReferenceLink)
 		return response, err
 	}
 

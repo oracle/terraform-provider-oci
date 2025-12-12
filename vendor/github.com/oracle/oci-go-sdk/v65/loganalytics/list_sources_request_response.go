@@ -14,7 +14,7 @@ import (
 // ListSourcesRequest wrapper for the ListSources operation
 type ListSourcesRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The ID of the compartment in which to list resources.
@@ -32,6 +32,10 @@ type ListSourcesRequest struct {
 	// will be returned.  Valid values are built in, custom (for user defined items), or
 	// all (for all items, regardless of system value).
 	IsSystem ListSourcesIsSystemEnum `mandatory:"false" contributesTo:"query" name:"isSystem" omitEmpty:"true"`
+
+	// The source lifecycle state used for filtering. Currently supported
+	// values are ACTIVE and DELETED.
+	LifecycleState ListSourcesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// An auto-associate flag used for filtering.  Only sources which are marked for automatic
 	// association will be returned.
@@ -110,6 +114,9 @@ func (request ListSourcesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListSourcesIsSystemEnum(string(request.IsSystem)); !ok && request.IsSystem != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsSystem: %s. Supported values are: %s.", request.IsSystem, strings.Join(GetListSourcesIsSystemEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListSourcesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSourcesLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListSourcesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSourcesSortOrderEnumStringValues(), ",")))
@@ -198,6 +205,52 @@ func GetListSourcesIsSystemEnumStringValues() []string {
 // GetMappingListSourcesIsSystemEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListSourcesIsSystemEnum(val string) (ListSourcesIsSystemEnum, bool) {
 	enum, ok := mappingListSourcesIsSystemEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListSourcesLifecycleStateEnum Enum with underlying type: string
+type ListSourcesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListSourcesLifecycleStateEnum
+const (
+	ListSourcesLifecycleStateActive  ListSourcesLifecycleStateEnum = "ACTIVE"
+	ListSourcesLifecycleStateDeleted ListSourcesLifecycleStateEnum = "DELETED"
+	ListSourcesLifecycleStateAll     ListSourcesLifecycleStateEnum = "ALL"
+)
+
+var mappingListSourcesLifecycleStateEnum = map[string]ListSourcesLifecycleStateEnum{
+	"ACTIVE":  ListSourcesLifecycleStateActive,
+	"DELETED": ListSourcesLifecycleStateDeleted,
+	"ALL":     ListSourcesLifecycleStateAll,
+}
+
+var mappingListSourcesLifecycleStateEnumLowerCase = map[string]ListSourcesLifecycleStateEnum{
+	"active":  ListSourcesLifecycleStateActive,
+	"deleted": ListSourcesLifecycleStateDeleted,
+	"all":     ListSourcesLifecycleStateAll,
+}
+
+// GetListSourcesLifecycleStateEnumValues Enumerates the set of values for ListSourcesLifecycleStateEnum
+func GetListSourcesLifecycleStateEnumValues() []ListSourcesLifecycleStateEnum {
+	values := make([]ListSourcesLifecycleStateEnum, 0)
+	for _, v := range mappingListSourcesLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSourcesLifecycleStateEnumStringValues Enumerates the set of values in String for ListSourcesLifecycleStateEnum
+func GetListSourcesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+		"ALL",
+	}
+}
+
+// GetMappingListSourcesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSourcesLifecycleStateEnum(val string) (ListSourcesLifecycleStateEnum, bool) {
+	enum, ok := mappingListSourcesLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

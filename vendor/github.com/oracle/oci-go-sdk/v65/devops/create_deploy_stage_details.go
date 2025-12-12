@@ -35,14 +35,6 @@ type CreateDeployStageDetails interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
-
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	GetSecurityAttributes() map[string]map[string]interface{}
-
-	// The list of tag slugs associated with this stage. Used by Splat to reconcile tag state with downstream.
-	GetTagSlugs() []string
 }
 
 type createdeploystagedetails struct {
@@ -51,8 +43,6 @@ type createdeploystagedetails struct {
 	DisplayName                      *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags                     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SecurityAttributes               map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-	TagSlugs                         []string                          `mandatory:"false" json:"tagSlugs"`
 	DeployPipelineId                 *string                           `mandatory:"true" json:"deployPipelineId"`
 	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"true" json:"deployStagePredecessorCollection"`
 	DeployStageType                  string                            `json:"deployStageType"`
@@ -75,8 +65,6 @@ func (m *createdeploystagedetails) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
-	m.SecurityAttributes = s.Model.SecurityAttributes
-	m.TagSlugs = s.Model.TagSlugs
 	m.DeployStageType = s.Model.DeployStageType
 
 	return err
@@ -191,16 +179,6 @@ func (m createdeploystagedetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createdeploystagedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
-}
-
-// GetSecurityAttributes returns SecurityAttributes
-func (m createdeploystagedetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m createdeploystagedetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 // GetDeployPipelineId returns DeployPipelineId

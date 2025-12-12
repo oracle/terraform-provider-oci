@@ -14,7 +14,7 @@ import (
 // DeleteUploadWarningRequest wrapper for the DeleteUploadWarning operation
 type DeleteUploadWarningRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Unique internal identifier to refer upload container.

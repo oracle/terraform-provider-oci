@@ -14,26 +14,11 @@ import (
 // ListArtifactVersionsRequest wrapper for the ListArtifactVersions operation
 type ListArtifactVersionsRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.
-	KnowledgeBaseId *string `mandatory:"true" contributesTo:"path" name:"knowledgeBaseId"`
+	// Unique Artifact Version Audit identifier path parameter.
+	ArtifactVersionAuditId *string `mandatory:"true" contributesTo:"path" name:"artifactVersionAuditId"`
 
-	// Filters on the Artifact Version id, used to retrieve a specific Artifact Version.
-	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
-
-	// Filters on the ecosystem. This parameter can be used either to filter on an entire ecosystem (e.g. OracleLinux) or to filter on a specific ecosystem version (e.g. OracleLinux:8).
-	// Multiple values can be provided to filter on multiple ecosystems.
-	Ecosystem []string `contributesTo:"query" name:"ecosystem" collectionFormat:"multi"`
-
-	// Filters on the version field, allowing only exact matches.
-	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
-
-	// Filters on the Artifact Purl, returning versions of the matching artifact.
-	// Package URL (purl) is used to identify artifacts.
-	ArtifactPurl *string `mandatory:"false" contributesTo:"query" name:"artifactPurl"`
-
-	// Partially filters on the Artifact Purl, returning versions of all partially matching artifacts.
-	// Package URL (purl) is used to identify an Artifact.
-	ArtifactPurlContains *string `mandatory:"false" contributesTo:"query" name:"artifactPurlContains"`
+	// A filter to return only records with matching node ids
+	NodeId []string `contributesTo:"query" name:"nodeId" collectionFormat:"multi"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -92,8 +77,8 @@ type ListArtifactVersionsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of ArtifactVersionSummaryCollection instances
-	ArtifactVersionSummaryCollection `presentIn:"body"`
+	// A list of ArtifactVersionAuditResultCollection instances
+	ArtifactVersionAuditResultCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

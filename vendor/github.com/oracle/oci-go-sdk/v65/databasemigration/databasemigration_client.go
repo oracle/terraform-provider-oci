@@ -1327,6 +1327,114 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
+// ListAdvisorReportCheckObjects Get the Pre-Migration extended Advisor report object list.
+// A default retry strategy applies to this operation ListAdvisorReportCheckObjects()
+func (client DatabaseMigrationClient) ListAdvisorReportCheckObjects(ctx context.Context, request ListAdvisorReportCheckObjectsRequest) (response ListAdvisorReportCheckObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdvisorReportCheckObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdvisorReportCheckObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdvisorReportCheckObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdvisorReportCheckObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdvisorReportCheckObjectsResponse")
+	}
+	return
+}
+
+// listAdvisorReportCheckObjects implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listAdvisorReportCheckObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/advisorReportChecks/{advisorReportCheckId}/objects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdvisorReportCheckObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/ListAdvisorReportCheckObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAdvisorReportCheckObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdvisorReportChecks List of Pre-Migration checks from the advisor.
+// A default retry strategy applies to this operation ListAdvisorReportChecks()
+func (client DatabaseMigrationClient) ListAdvisorReportChecks(ctx context.Context, request ListAdvisorReportChecksRequest) (response ListAdvisorReportChecksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdvisorReportChecks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdvisorReportChecksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdvisorReportChecksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdvisorReportChecksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdvisorReportChecksResponse")
+	}
+	return
+}
+
+// listAdvisorReportChecks implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listAdvisorReportChecks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/advisorReportChecks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdvisorReportChecksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/ListAdvisorReportChecks"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAdvisorReportChecks", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListConnections List all Database Connections.
 // A default retry strategy applies to this operation ListConnections()
 func (client DatabaseMigrationClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
@@ -1374,6 +1482,60 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/ConnectionSummary/ListConnections"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListConnections", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseConnectionType List supported Database Types, Sub-types and Versions.
+// A default retry strategy applies to this operation ListDatabaseConnectionType()
+func (client DatabaseMigrationClient) ListDatabaseConnectionType(ctx context.Context, request ListDatabaseConnectionTypeRequest) (response ListDatabaseConnectionTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseConnectionType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseConnectionTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseConnectionTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseConnectionTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseConnectionTypeResponse")
+	}
+	return
+}
+
+// listDatabaseConnectionType implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listDatabaseConnectionType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connections/databaseconnectiontype", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseConnectionTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/DatabaseConnectionTypeSummary/ListDatabaseConnectionType"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListDatabaseConnectionType", apiReferenceLink)
 		return response, err
 	}
 
@@ -2315,6 +2477,114 @@ func (client DatabaseMigrationClient) suspendJob(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/SuspendJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "SuspendJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAdvisorReportCheck Update the premigration extended Advisor report check.
+// A default retry strategy applies to this operation UpdateAdvisorReportCheck()
+func (client DatabaseMigrationClient) UpdateAdvisorReportCheck(ctx context.Context, request UpdateAdvisorReportCheckRequest) (response UpdateAdvisorReportCheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAdvisorReportCheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAdvisorReportCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAdvisorReportCheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAdvisorReportCheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAdvisorReportCheckResponse")
+	}
+	return
+}
+
+// updateAdvisorReportCheck implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) updateAdvisorReportCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/jobs/{jobId}/advisorReportChecks/{advisorReportCheckId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAdvisorReportCheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateAdvisorReportCheck", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAdvisorReportCheckObjects Update the Pre-Migration extended Advisor report object list.
+// A default retry strategy applies to this operation UpdateAdvisorReportCheckObjects()
+func (client DatabaseMigrationClient) UpdateAdvisorReportCheckObjects(ctx context.Context, request UpdateAdvisorReportCheckObjectsRequest) (response UpdateAdvisorReportCheckObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAdvisorReportCheckObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAdvisorReportCheckObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAdvisorReportCheckObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAdvisorReportCheckObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAdvisorReportCheckObjectsResponse")
+	}
+	return
+}
+
+// updateAdvisorReportCheckObjects implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) updateAdvisorReportCheckObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/advisorReportChecks/{advisorReportCheckId}/actions/updateObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAdvisorReportCheckObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/AdvisorReportCheckCollection/UpdateAdvisorReportCheckObjects"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateAdvisorReportCheckObjects", apiReferenceLink)
 		return response, err
 	}
 

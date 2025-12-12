@@ -543,7 +543,7 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	request.URL.Host = clientURL.Host
 	request.URL.Scheme = clientURL.Scheme
 	currentPath := request.URL.Path
-	if !strings.Contains(currentPath, fmt.Sprintf("/%s", client.BasePath)) {
+	if !strings.HasPrefix(currentPath, fmt.Sprintf("/%s", client.BasePath)) {
 		request.URL.Path = path.Clean(fmt.Sprintf("/%s/%s", client.BasePath, currentPath))
 		err := setRawPath(request.URL)
 		if err != nil {

@@ -18,7 +18,7 @@ import (
 // StepInfo StepInfo
 type StepInfo struct {
 
-	// The currnet input sequence match.
+	// The current input sequence match.
 	InputSequenceCurrentMatch *string `mandatory:"false" json:"inputSequenceCurrentMatch"`
 
 	// The regular expression engine class name.

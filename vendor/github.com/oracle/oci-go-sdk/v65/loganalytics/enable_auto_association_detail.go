@@ -18,7 +18,7 @@ import (
 // EnableAutoAssociationDetail The information required to enable log source auto-association.
 type EnableAutoAssociationDetail struct {
 
-	// The unique identifier of the log group to use when auto-associting the log source to
+	// The unique identifier of the log group to use when auto-associating the log source to
 	// eligible entities.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 }

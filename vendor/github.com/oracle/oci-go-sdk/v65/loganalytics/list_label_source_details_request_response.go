@@ -14,7 +14,7 @@ import (
 // ListLabelSourceDetailsRequest wrapper for the ListLabelSourceDetails operation
 type ListLabelSourceDetailsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The label name used for filtering.  Only items with, or associated with, the

@@ -58,10 +58,7 @@ type CreateBaseccVmClusterDetails struct {
 	// The time zone to use for the Basecc VM cluster on BICC Infrastructure. For details, see Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
-	// The cluster name for Basecc VM cluster on BICC Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
-	ClusterName *string `mandatory:"false" json:"clusterName"`
-
-	// The Boot Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
+	// The Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
 	AdditionalVmStorageSizeInGBs *int `mandatory:"false" json:"additionalVmStorageSizeInGBs"`
 
 	// The Data Disk Group size in GB for the Basecc VM cluster on BICC Infrastructure.

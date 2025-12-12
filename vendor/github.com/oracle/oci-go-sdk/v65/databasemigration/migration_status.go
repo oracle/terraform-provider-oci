@@ -22,6 +22,7 @@ const (
 	MigrationStatusAborting   MigrationStatusEnum = "ABORTING"
 	MigrationStatusValidating MigrationStatusEnum = "VALIDATING"
 	MigrationStatusValidated  MigrationStatusEnum = "VALIDATED"
+	MigrationStatusAssessed   MigrationStatusEnum = "ASSESSED"
 	MigrationStatusWaiting    MigrationStatusEnum = "WAITING"
 	MigrationStatusMigrating  MigrationStatusEnum = "MIGRATING"
 	MigrationStatusDone       MigrationStatusEnum = "DONE"
@@ -32,6 +33,7 @@ var mappingMigrationStatusEnum = map[string]MigrationStatusEnum{
 	"ABORTING":   MigrationStatusAborting,
 	"VALIDATING": MigrationStatusValidating,
 	"VALIDATED":  MigrationStatusValidated,
+	"ASSESSED":   MigrationStatusAssessed,
 	"WAITING":    MigrationStatusWaiting,
 	"MIGRATING":  MigrationStatusMigrating,
 	"DONE":       MigrationStatusDone,
@@ -42,6 +44,7 @@ var mappingMigrationStatusEnumLowerCase = map[string]MigrationStatusEnum{
 	"aborting":   MigrationStatusAborting,
 	"validating": MigrationStatusValidating,
 	"validated":  MigrationStatusValidated,
+	"assessed":   MigrationStatusAssessed,
 	"waiting":    MigrationStatusWaiting,
 	"migrating":  MigrationStatusMigrating,
 	"done":       MigrationStatusDone,
@@ -63,6 +66,7 @@ func GetMigrationStatusEnumStringValues() []string {
 		"ABORTING",
 		"VALIDATING",
 		"VALIDATED",
+		"ASSESSED",
 		"WAITING",
 		"MIGRATING",
 		"DONE",

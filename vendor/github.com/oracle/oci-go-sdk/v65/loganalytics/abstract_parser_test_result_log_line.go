@@ -23,6 +23,24 @@ type AbstractParserTestResultLogLine struct {
 
 	// The pre-processed log line.
 	PreProcessedLogLine *string `mandatory:"false" json:"preProcessedLogLine"`
+
+	// The find start index.
+	FindStartIndex *int `mandatory:"false" json:"findStartIndex"`
+
+	// The find end index.
+	FindEndIndex *int `mandatory:"false" json:"findEndIndex"`
+
+	// The replacement string.
+	ReplaceString *string `mandatory:"false" json:"replaceString"`
+
+	// The replace start index.
+	ReplaceStartIndex *int `mandatory:"false" json:"replaceStartIndex"`
+
+	// The replace end index.
+	ReplaceEndIndex *int `mandatory:"false" json:"replaceEndIndex"`
+
+	// The group name value map.
+	GrpNameValueMap map[string]NamedCaptureValue `mandatory:"false" json:"grpNameValueMap"`
 }
 
 func (m AbstractParserTestResultLogLine) String() string {

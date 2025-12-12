@@ -36,9 +36,6 @@ type UpdateComputeInstanceGroupDeployEnvironmentDetails struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	ComputeInstanceGroupSelectors *ComputeInstanceGroupSelectorCollection `mandatory:"false" json:"computeInstanceGroupSelectors"`
 }
 
@@ -65,11 +62,6 @@ func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetDefinedTags() map
 // GetSecurityAttributes returns SecurityAttributes
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) String() string {

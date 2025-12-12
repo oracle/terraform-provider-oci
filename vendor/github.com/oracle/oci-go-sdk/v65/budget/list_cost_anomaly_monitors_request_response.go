@@ -173,17 +173,20 @@ type ListCostAnomalyMonitorsSortByEnum string
 // Set of constants representing the allowable values for ListCostAnomalyMonitorsSortByEnum
 const (
 	ListCostAnomalyMonitorsSortByTimecreated ListCostAnomalyMonitorsSortByEnum = "timeCreated"
-	ListCostAnomalyMonitorsSortByDisplayname ListCostAnomalyMonitorsSortByEnum = "displayName"
+	ListCostAnomalyMonitorsSortByName        ListCostAnomalyMonitorsSortByEnum = "name"
+	ListCostAnomalyMonitorsSortById          ListCostAnomalyMonitorsSortByEnum = "id"
 )
 
 var mappingListCostAnomalyMonitorsSortByEnum = map[string]ListCostAnomalyMonitorsSortByEnum{
 	"timeCreated": ListCostAnomalyMonitorsSortByTimecreated,
-	"displayName": ListCostAnomalyMonitorsSortByDisplayname,
+	"name":        ListCostAnomalyMonitorsSortByName,
+	"id":          ListCostAnomalyMonitorsSortById,
 }
 
 var mappingListCostAnomalyMonitorsSortByEnumLowerCase = map[string]ListCostAnomalyMonitorsSortByEnum{
 	"timecreated": ListCostAnomalyMonitorsSortByTimecreated,
-	"displayname": ListCostAnomalyMonitorsSortByDisplayname,
+	"name":        ListCostAnomalyMonitorsSortByName,
+	"id":          ListCostAnomalyMonitorsSortById,
 }
 
 // GetListCostAnomalyMonitorsSortByEnumValues Enumerates the set of values for ListCostAnomalyMonitorsSortByEnum
@@ -199,7 +202,8 @@ func GetListCostAnomalyMonitorsSortByEnumValues() []ListCostAnomalyMonitorsSortB
 func GetListCostAnomalyMonitorsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
-		"displayName",
+		"name",
+		"id",
 	}
 }
 

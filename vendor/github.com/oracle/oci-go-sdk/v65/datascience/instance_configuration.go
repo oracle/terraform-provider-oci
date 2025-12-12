@@ -29,6 +29,9 @@ type InstanceConfiguration struct {
 
 	// The OCID of a Data Science private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	// This specifies the list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed capacity reservation to be used for launching model deployment instances.
+	CapacityReservationIds []string `mandatory:"false" json:"capacityReservationIds"`
 }
 
 func (m InstanceConfiguration) String() string {

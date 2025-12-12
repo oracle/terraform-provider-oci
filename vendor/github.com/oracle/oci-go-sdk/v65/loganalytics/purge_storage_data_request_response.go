@@ -14,7 +14,7 @@ import (
 // PurgeStorageDataRequest wrapper for the PurgeStorageData operation
 type PurgeStorageDataRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// This is the input to purge old data.

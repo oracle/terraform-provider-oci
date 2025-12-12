@@ -59,9 +59,6 @@ type DeployEnvironment interface {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	GetSecurityAttributes() map[string]map[string]interface{}
-
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	GetTagSlugs() []string
 }
 
 type deployenvironment struct {
@@ -76,7 +73,6 @@ type deployenvironment struct {
 	DefinedTags           map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
 	SystemTags            map[string]map[string]interface{}   `mandatory:"false" json:"systemTags"`
 	SecurityAttributes    map[string]map[string]interface{}   `mandatory:"false" json:"securityAttributes"`
-	TagSlugs              []string                            `mandatory:"false" json:"tagSlugs"`
 	Id                    *string                             `mandatory:"true" json:"id"`
 	ProjectId             *string                             `mandatory:"true" json:"projectId"`
 	CompartmentId         *string                             `mandatory:"true" json:"compartmentId"`
@@ -107,7 +103,6 @@ func (m *deployenvironment) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
 	m.SecurityAttributes = s.Model.SecurityAttributes
-	m.TagSlugs = s.Model.TagSlugs
 	m.DeployEnvironmentType = s.Model.DeployEnvironmentType
 
 	return err
@@ -192,11 +187,6 @@ func (m deployenvironment) GetSystemTags() map[string]map[string]interface{} {
 // GetSecurityAttributes returns SecurityAttributes
 func (m deployenvironment) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m deployenvironment) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 // GetId returns Id

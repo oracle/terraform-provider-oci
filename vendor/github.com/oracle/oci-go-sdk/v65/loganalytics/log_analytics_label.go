@@ -57,6 +57,9 @@ type LogAnalyticsLabel struct {
 
 	// A flag indicating whether or not the label has been deleted.
 	IsUserDeleted *bool `mandatory:"false" json:"isUserDeleted"`
+
+	// The last updated date.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m LogAnalyticsLabel) String() string {

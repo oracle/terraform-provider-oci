@@ -29,11 +29,6 @@ type CreateCccProvisionedPackageDetails struct {
 	// Compute Cloud@Customer infrastructure where the marketplace provisioned package will reside.
 	CccInfrastructureId *string `mandatory:"true" json:"cccInfrastructureId"`
 
-	// Compute Cloud@Customer marketplace listing
-	// identifier that this provisioned package is associated with.
-	// This cannot be updated once provisioned.
-	CccListingId *string `mandatory:"true" json:"cccListingId"`
-
 	// Compute Cloud@Customer package
 	// identifier that relates to a version of the package that will be provisioned.
 	CccPackageId *string `mandatory:"true" json:"cccPackageId"`

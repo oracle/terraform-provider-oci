@@ -14,7 +14,7 @@ import (
 // CreateLogAnalyticsObjectCollectionRuleRequest wrapper for the CreateLogAnalyticsObjectCollectionRule operation
 type CreateLogAnalyticsObjectCollectionRuleRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Details of the rule to be created.

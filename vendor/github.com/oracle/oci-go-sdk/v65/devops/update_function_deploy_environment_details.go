@@ -36,9 +36,6 @@ type UpdateFunctionDeployEnvironmentDetails struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// The OCID of the Function.
 	FunctionId *string `mandatory:"false" json:"functionId"`
 }
@@ -66,11 +63,6 @@ func (m UpdateFunctionDeployEnvironmentDetails) GetDefinedTags() map[string]map[
 // GetSecurityAttributes returns SecurityAttributes
 func (m UpdateFunctionDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateFunctionDeployEnvironmentDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m UpdateFunctionDeployEnvironmentDetails) String() string {

@@ -28,10 +28,6 @@ type CccListing struct {
 	// A description of the listing.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The release date of the listing, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
-	// timestamp format.
-	TimeReleased *common.SDKTime `mandatory:"true" json:"timeReleased"`
-
 	Publisher *Publisher `mandatory:"true" json:"publisher"`
 
 	// The pricing type for the listing and the versions of the package within the listing.
@@ -42,6 +38,10 @@ type CccListing struct {
 
 	// The publisher category to which the listing belongs. The publisher category informs where the listing appears for use.
 	ListingType CccListingListingTypeEnum `mandatory:"true" json:"listingType"`
+
+	// The create time of the listing, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// timestamp format.
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The version of the listing, this is not the version of the package itself.
 	Version *string `mandatory:"false" json:"version"`

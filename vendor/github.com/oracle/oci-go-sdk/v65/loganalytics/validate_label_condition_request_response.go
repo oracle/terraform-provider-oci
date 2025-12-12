@@ -14,7 +14,7 @@ import (
 // ValidateLabelConditionRequest wrapper for the ValidateLabelCondition operation
 type ValidateLabelConditionRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Details of source label condition to validate.

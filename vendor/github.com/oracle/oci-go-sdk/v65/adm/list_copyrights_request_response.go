@@ -14,11 +14,11 @@ import (
 // ListCopyrightsRequest wrapper for the ListCopyrights operation
 type ListCopyrightsRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.
-	KnowledgeBaseId *string `mandatory:"true" contributesTo:"path" name:"knowledgeBaseId"`
+	// Unique Artifact Version Audit identifier path parameter.
+	ArtifactVersionAuditId *string `mandatory:"true" contributesTo:"path" name:"artifactVersionAuditId"`
 
-	// Artifact version id, used to retrieve a specific Artifact Version.
-	ArtifactVersionId *string `mandatory:"true" contributesTo:"path" name:"artifactVersionId"`
+	// A filter to return only records with matching node ids
+	NodeId []string `contributesTo:"query" name:"nodeId" collectionFormat:"multi"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -77,8 +77,8 @@ type ListCopyrightsResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of CopyrightCollection instances
-	CopyrightCollection `presentIn:"body"`
+	// A list of ArtifactVersionCopyrightCollection instances
+	ArtifactVersionCopyrightCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

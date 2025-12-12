@@ -20,18 +20,21 @@ type ResultTypeEnum string
 const (
 	ResultTypeSucceeded ResultTypeEnum = "SUCCEEDED"
 	ResultTypeFailed    ResultTypeEnum = "FAILED"
+	ResultTypeWarning   ResultTypeEnum = "WARNING"
 	ResultTypeTimedOut  ResultTypeEnum = "TIMED_OUT"
 )
 
 var mappingResultTypeEnum = map[string]ResultTypeEnum{
 	"SUCCEEDED": ResultTypeSucceeded,
 	"FAILED":    ResultTypeFailed,
+	"WARNING":   ResultTypeWarning,
 	"TIMED_OUT": ResultTypeTimedOut,
 }
 
 var mappingResultTypeEnumLowerCase = map[string]ResultTypeEnum{
 	"succeeded": ResultTypeSucceeded,
 	"failed":    ResultTypeFailed,
+	"warning":   ResultTypeWarning,
 	"timed_out": ResultTypeTimedOut,
 }
 
@@ -49,6 +52,7 @@ func GetResultTypeEnumStringValues() []string {
 	return []string{
 		"SUCCEEDED",
 		"FAILED",
+		"WARNING",
 		"TIMED_OUT",
 	}
 }

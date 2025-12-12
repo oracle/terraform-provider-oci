@@ -97,7 +97,7 @@ type BaseccVmCluster struct {
 	// The Boot disk group size to be allocated in GBs for the Basecc VM cluster on BICC Infrastructure.
 	BootStorageSizeInGBs *int `mandatory:"false" json:"bootStorageSizeInGBs"`
 
-	// The Boot Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
+	// The Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
 	AdditionalVmStorageSizeInGBs *int `mandatory:"false" json:"additionalVmStorageSizeInGBs"`
 
 	// The total storage allocated in GBs.

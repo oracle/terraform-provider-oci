@@ -28,7 +28,8 @@ type StartDbSystemDetails struct {
 	// The name of the shape for the database system nodes. Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"false" json:"shape"`
 
-	DbConfigurationParams *UpdateDbConfigParams `mandatory:"false" json:"dbConfigurationParams"`
+	// The updated configId for the database system.
+	ConfigId *string `mandatory:"false" json:"configId"`
 }
 
 func (m StartDbSystemDetails) String() string {

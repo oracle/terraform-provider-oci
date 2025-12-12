@@ -197,6 +197,64 @@ func (client IdentityDomainsClient) createApp(ctx context.Context, request commo
 	return response, err
 }
 
+// CreateAppResource Create an AppResource
+func (client IdentityDomainsClient) CreateAppResource(ctx context.Context, request CreateAppResourceRequest) (response CreateAppResourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAppResource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAppResourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAppResourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAppResourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAppResourceResponse")
+	}
+	return
+}
+
+// createAppResource implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createAppResource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/AppResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAppResourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateAppResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAppRole Create an AppRole
 func (client IdentityDomainsClient) CreateAppRole(ctx context.Context, request CreateAppRoleRequest) (response CreateAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -770,6 +828,64 @@ func (client IdentityDomainsClient) createCondition(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateCondition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateConditionGroup Create a Condition Group
+func (client IdentityDomainsClient) CreateConditionGroup(ctx context.Context, request CreateConditionGroupRequest) (response CreateConditionGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createConditionGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateConditionGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateConditionGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateConditionGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateConditionGroupResponse")
+	}
+	return
+}
+
+// createConditionGroup implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createConditionGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/ConditionGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateConditionGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateConditionGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -3039,6 +3155,64 @@ func (client IdentityDomainsClient) deleteApp(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteAppResource Delete an AppResource
+func (client IdentityDomainsClient) DeleteAppResource(ctx context.Context, request DeleteAppResourceRequest) (response DeleteAppResourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteAppResource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAppResourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAppResourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAppResourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAppResourceResponse")
+	}
+	return
+}
+
+// deleteAppResource implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteAppResource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/AppResources/{appResourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAppResourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/DeleteAppResource"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteAppResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAppRole Delete an AppRole
 func (client IdentityDomainsClient) DeleteAppRole(ctx context.Context, request DeleteAppRoleRequest) (response DeleteAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3554,6 +3728,64 @@ func (client IdentityDomainsClient) deleteCondition(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/DeleteCondition"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCondition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteConditionGroup Delete a Condition Group
+func (client IdentityDomainsClient) DeleteConditionGroup(ctx context.Context, request DeleteConditionGroupRequest) (response DeleteConditionGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteConditionGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteConditionGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteConditionGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteConditionGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteConditionGroupResponse")
+	}
+	return
+}
+
+// deleteConditionGroup implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteConditionGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/ConditionGroups/{conditionGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteConditionGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/DeleteConditionGroup"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteConditionGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -5533,6 +5765,64 @@ func (client IdentityDomainsClient) getApp(ctx context.Context, request common.O
 	return response, err
 }
 
+// GetAppResource Get an AppResource
+func (client IdentityDomainsClient) GetAppResource(ctx context.Context, request GetAppResourceRequest) (response GetAppResourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getAppResource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAppResourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAppResourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAppResourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAppResourceResponse")
+	}
+	return
+}
+
+// getAppResource implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getAppResource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/AppResources/{appResourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAppResourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/GetAppResource"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAppResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAppRole Get an AppRole
 func (client IdentityDomainsClient) GetAppRole(ctx context.Context, request GetAppRoleRequest) (response GetAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6164,6 +6454,64 @@ func (client IdentityDomainsClient) getCondition(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/GetCondition"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCondition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConditionGroup Get a Condition Group
+func (client IdentityDomainsClient) GetConditionGroup(ctx context.Context, request GetConditionGroupRequest) (response GetConditionGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getConditionGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConditionGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConditionGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConditionGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConditionGroupResponse")
+	}
+	return
+}
+
+// getConditionGroup implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getConditionGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/ConditionGroups/{conditionGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConditionGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/GetConditionGroup"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetConditionGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -8955,6 +9303,64 @@ func (client IdentityDomainsClient) listApiKeys(ctx context.Context, request com
 	return response, err
 }
 
+// ListAppResources Search AppResources
+func (client IdentityDomainsClient) ListAppResources(ctx context.Context, request ListAppResourcesRequest) (response ListAppResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listAppResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAppResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAppResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAppResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAppResourcesResponse")
+	}
+	return
+}
+
+// listAppResources implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listAppResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/AppResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAppResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/ListAppResources"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAppResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAppRoles Search AppRoles
 func (client IdentityDomainsClient) ListAppRoles(ctx context.Context, request ListAppRolesRequest) (response ListAppRolesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9586,6 +9992,64 @@ func (client IdentityDomainsClient) listCloudGates(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGates/ListCloudGates"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListCloudGates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConditionGroups Search Condition Groups
+func (client IdentityDomainsClient) ListConditionGroups(ctx context.Context, request ListConditionGroupsRequest) (response ListConditionGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listConditionGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListConditionGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListConditionGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListConditionGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListConditionGroupsResponse")
+	}
+	return
+}
+
+// listConditionGroups implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listConditionGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/ConditionGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListConditionGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/ListConditionGroups"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListConditionGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -12609,6 +13073,64 @@ func (client IdentityDomainsClient) patchApp(ctx context.Context, request common
 	return response, err
 }
 
+// PatchAppResource Update an AppResource
+func (client IdentityDomainsClient) PatchAppResource(ctx context.Context, request PatchAppResourceRequest) (response PatchAppResourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchAppResource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchAppResourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchAppResourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchAppResourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchAppResourceResponse")
+	}
+	return
+}
+
+// patchAppResource implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchAppResource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/admin/v1/AppResources/{appResourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchAppResourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/PatchAppResource"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchAppResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PatchAppRole Update an AppRole
 func (client IdentityDomainsClient) PatchAppRole(ctx context.Context, request PatchAppRoleRequest) (response PatchAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13066,6 +13588,64 @@ func (client IdentityDomainsClient) patchCondition(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/PatchCondition"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCondition", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchConditionGroup Update a Condition Group
+func (client IdentityDomainsClient) PatchConditionGroup(ctx context.Context, request PatchConditionGroupRequest) (response PatchConditionGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchConditionGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchConditionGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchConditionGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchConditionGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchConditionGroupResponse")
+	}
+	return
+}
+
+// patchConditionGroup implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchConditionGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/admin/v1/ConditionGroups/{conditionGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchConditionGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/PatchConditionGroup"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchConditionGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -15567,6 +16147,64 @@ func (client IdentityDomainsClient) putCondition(ctx context.Context, request co
 	return response, err
 }
 
+// PutConditionGroup Replace a Condition Group
+func (client IdentityDomainsClient) PutConditionGroup(ctx context.Context, request PutConditionGroupRequest) (response PutConditionGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putConditionGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutConditionGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutConditionGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutConditionGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutConditionGroupResponse")
+	}
+	return
+}
+
+// putConditionGroup implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putConditionGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/admin/v1/ConditionGroups/{conditionGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutConditionGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/PutConditionGroup"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutConditionGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PutDynamicResourceGroup Replace a Dynamic Resource Group.
 func (client IdentityDomainsClient) PutDynamicResourceGroup(ctx context.Context, request PutDynamicResourceGroupRequest) (response PutDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17191,6 +17829,64 @@ func (client IdentityDomainsClient) searchApiKeys(ctx context.Context, request c
 	return response, err
 }
 
+// SearchAppResources Search AppResources Using POST
+func (client IdentityDomainsClient) SearchAppResources(ctx context.Context, request SearchAppResourcesRequest) (response SearchAppResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchAppResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchAppResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchAppResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchAppResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchAppResourcesResponse")
+	}
+	return
+}
+
+// searchAppResources implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchAppResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/AppResources/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchAppResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/SearchAppResources"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAppResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchAppRoles Search AppRoles Using POST
 func (client IdentityDomainsClient) SearchAppRoles(ctx context.Context, request SearchAppRolesRequest) (response SearchAppRolesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17590,6 +18286,64 @@ func (client IdentityDomainsClient) searchCloudGates(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGates/SearchCloudGates"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchCloudGates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchConditionGroups Search Condition Groups Using POST
+func (client IdentityDomainsClient) SearchConditionGroups(ctx context.Context, request SearchConditionGroupsRequest) (response SearchConditionGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchConditionGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchConditionGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchConditionGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchConditionGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchConditionGroupsResponse")
+	}
+	return
+}
+
+// searchConditionGroups implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchConditionGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/ConditionGroups/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchConditionGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/SearchConditionGroups"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchConditionGroups", apiReferenceLink)
 		return response, err
 	}
 

@@ -25,6 +25,9 @@ type UpdateApmDomainDetails struct {
 	// Description of the APM domain.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OCID of the Log Analytics log group to which the data uploaded to this APM domain will be mapped to.
+	LogGroupId *string `mandatory:"false" json:"logGroupId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

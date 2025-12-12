@@ -128,7 +128,6 @@ const (
 	ListApmDomainsLifecycleStateDeleting ListApmDomainsLifecycleStateEnum = "DELETING"
 	ListApmDomainsLifecycleStateDeleted  ListApmDomainsLifecycleStateEnum = "DELETED"
 	ListApmDomainsLifecycleStateFailed   ListApmDomainsLifecycleStateEnum = "FAILED"
-	ListApmDomainsLifecycleStateInactive ListApmDomainsLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListApmDomainsLifecycleStateEnum = map[string]ListApmDomainsLifecycleStateEnum{
@@ -138,7 +137,6 @@ var mappingListApmDomainsLifecycleStateEnum = map[string]ListApmDomainsLifecycle
 	"DELETING": ListApmDomainsLifecycleStateDeleting,
 	"DELETED":  ListApmDomainsLifecycleStateDeleted,
 	"FAILED":   ListApmDomainsLifecycleStateFailed,
-	"INACTIVE": ListApmDomainsLifecycleStateInactive,
 }
 
 var mappingListApmDomainsLifecycleStateEnumLowerCase = map[string]ListApmDomainsLifecycleStateEnum{
@@ -148,7 +146,6 @@ var mappingListApmDomainsLifecycleStateEnumLowerCase = map[string]ListApmDomains
 	"deleting": ListApmDomainsLifecycleStateDeleting,
 	"deleted":  ListApmDomainsLifecycleStateDeleted,
 	"failed":   ListApmDomainsLifecycleStateFailed,
-	"inactive": ListApmDomainsLifecycleStateInactive,
 }
 
 // GetListApmDomainsLifecycleStateEnumValues Enumerates the set of values for ListApmDomainsLifecycleStateEnum
@@ -169,7 +166,6 @@ func GetListApmDomainsLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"INACTIVE",
 	}
 }
 

@@ -18,7 +18,7 @@ type ListCccFlexNetworksRequest struct {
 	// list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter used to return only resources that match the given infrastructureId.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"cccInfrastructureId"`
 
 	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a

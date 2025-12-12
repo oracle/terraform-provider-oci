@@ -23,6 +23,12 @@ type CronSchedule struct {
 	// thereafter the task will execute as specified in the schedule.
 	TimeOfFirstExecution *common.SDKTime `mandatory:"false" json:"timeOfFirstExecution"`
 
+	// Number of seconds to offset the query time window by to accommodate capture late arriving data. For example, a schedule run at 12:00 with a 10 minute interval and queryOffsetSecs=120 will use the query time window of 11:48-11:58 rather than 11:50-12:00 without queryOffsetSecs.
+	QueryOffsetSecs *int `mandatory:"false" json:"queryOffsetSecs"`
+
+	// End time for the schedule, even if the schedule would otherwise have remaining executions.
+	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
+
 	// Value in cron format.
 	Expression *string `mandatory:"false" json:"expression"`
 
@@ -41,6 +47,16 @@ func (m CronSchedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 // GetTimeOfFirstExecution returns TimeOfFirstExecution
 func (m CronSchedule) GetTimeOfFirstExecution() *common.SDKTime {
 	return m.TimeOfFirstExecution
+}
+
+// GetQueryOffsetSecs returns QueryOffsetSecs
+func (m CronSchedule) GetQueryOffsetSecs() *int {
+	return m.QueryOffsetSecs
+}
+
+// GetTimeEnd returns TimeEnd
+func (m CronSchedule) GetTimeEnd() *common.SDKTime {
+	return m.TimeEnd
 }
 
 func (m CronSchedule) String() string {

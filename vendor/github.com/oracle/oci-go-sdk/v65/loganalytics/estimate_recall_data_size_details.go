@@ -29,6 +29,10 @@ type EstimateRecallDataSizeDetails struct {
 
 	// This indicates if only new data has to be recalled in the timeframe
 	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
+
+	// This is the existing recalled data collection ID, to be used only for recalling new data.
+	// If specified, the recall new data will be estimated only for this collection
+	CollectionId *int64 `mandatory:"false" json:"collectionId"`
 }
 
 func (m EstimateRecallDataSizeDetails) String() string {

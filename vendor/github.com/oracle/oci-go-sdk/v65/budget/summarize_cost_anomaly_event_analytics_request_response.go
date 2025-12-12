@@ -26,9 +26,9 @@ type SummarizeCostAnomalyEventAnalyticsRequest struct {
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder SummarizeCostAnomalyEventAnalyticsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. If not specified, the default is timeCreated.
-	// The default sort order for timeCreated is DESC.
-	// The default sort order for displayName is ASC in alphanumeric order.
+	// The field to sort by. If not specified, the default is timeAnomalyEventDate.
+	// The default sort order for timeAnomalyEventDate is DESC.
+	// The default sort order for costAnomalyName is ASC in alphanumeric order.
 	SortBy SummarizeCostAnomalyEventAnalyticsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique, non-changeable resource name.
@@ -49,8 +49,11 @@ type SummarizeCostAnomalyEventAnalyticsRequest struct {
 	// region of the anomaly event.
 	Region []string `contributesTo:"query" name:"region" collectionFormat:"csv"`
 
-	// cost impact of the anomaly event.
+	// cost impact (absolute) of the anomaly event.
 	CostImpact *float64 `mandatory:"false" contributesTo:"query" name:"costImpact"`
+
+	// cost impact (percentage) of the anomaly event.
+	CostImpactPercentage *float64 `mandatory:"false" contributesTo:"query" name:"costImpactPercentage"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -178,18 +181,21 @@ type SummarizeCostAnomalyEventAnalyticsSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeCostAnomalyEventAnalyticsSortByEnum
 const (
-	SummarizeCostAnomalyEventAnalyticsSortByTimecreated SummarizeCostAnomalyEventAnalyticsSortByEnum = "timeCreated"
-	SummarizeCostAnomalyEventAnalyticsSortByDisplayname SummarizeCostAnomalyEventAnalyticsSortByEnum = "displayName"
+	SummarizeCostAnomalyEventAnalyticsSortByTimeanomalyeventdate SummarizeCostAnomalyEventAnalyticsSortByEnum = "timeAnomalyEventDate"
+	SummarizeCostAnomalyEventAnalyticsSortByCostanomalyname      SummarizeCostAnomalyEventAnalyticsSortByEnum = "costAnomalyName"
+	SummarizeCostAnomalyEventAnalyticsSortById                   SummarizeCostAnomalyEventAnalyticsSortByEnum = "id"
 )
 
 var mappingSummarizeCostAnomalyEventAnalyticsSortByEnum = map[string]SummarizeCostAnomalyEventAnalyticsSortByEnum{
-	"timeCreated": SummarizeCostAnomalyEventAnalyticsSortByTimecreated,
-	"displayName": SummarizeCostAnomalyEventAnalyticsSortByDisplayname,
+	"timeAnomalyEventDate": SummarizeCostAnomalyEventAnalyticsSortByTimeanomalyeventdate,
+	"costAnomalyName":      SummarizeCostAnomalyEventAnalyticsSortByCostanomalyname,
+	"id":                   SummarizeCostAnomalyEventAnalyticsSortById,
 }
 
 var mappingSummarizeCostAnomalyEventAnalyticsSortByEnumLowerCase = map[string]SummarizeCostAnomalyEventAnalyticsSortByEnum{
-	"timecreated": SummarizeCostAnomalyEventAnalyticsSortByTimecreated,
-	"displayname": SummarizeCostAnomalyEventAnalyticsSortByDisplayname,
+	"timeanomalyeventdate": SummarizeCostAnomalyEventAnalyticsSortByTimeanomalyeventdate,
+	"costanomalyname":      SummarizeCostAnomalyEventAnalyticsSortByCostanomalyname,
+	"id":                   SummarizeCostAnomalyEventAnalyticsSortById,
 }
 
 // GetSummarizeCostAnomalyEventAnalyticsSortByEnumValues Enumerates the set of values for SummarizeCostAnomalyEventAnalyticsSortByEnum
@@ -204,8 +210,9 @@ func GetSummarizeCostAnomalyEventAnalyticsSortByEnumValues() []SummarizeCostAnom
 // GetSummarizeCostAnomalyEventAnalyticsSortByEnumStringValues Enumerates the set of values in String for SummarizeCostAnomalyEventAnalyticsSortByEnum
 func GetSummarizeCostAnomalyEventAnalyticsSortByEnumStringValues() []string {
 	return []string{
-		"timeCreated",
-		"displayName",
+		"timeAnomalyEventDate",
+		"costAnomalyName",
+		"id",
 	}
 }
 

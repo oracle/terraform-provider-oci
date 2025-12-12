@@ -44,7 +44,8 @@ type TokenExchangeConfigurationProvider struct {
 // function provided to retrieve a token from an identity provider.
 func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
 	domainUrl string, clientId string, clientSecret string,
-	region string) (common.ConfigurationProvider, error) {
+	region string, requestedTokenType string,
+	resType string) (common.ConfigurationProvider, error) {
 
 	if tokenIssuer == nil {
 		return nil, fmt.Errorf("invalid TokenIssuer")
@@ -54,9 +55,13 @@ func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
 		clientId + ":" + clientSecret))
 
 	requestData := map[string][]string{
-		"requested_token_type": {"urn:oci:token-type:oci-upst"},
+		"requested_token_type": {requestedTokenType},
 		"grant_type":           {"urn:ietf:params:oauth:grant-type:token-exchange"},
 		"subject_token_type":   {"jwt"},
+	}
+
+	if requestedTokenType == "urn:oci:token-type:oci-rpst" && resType != "" {
+		requestData["res_type"] = []string{resType}
 	}
 
 	fc := newTokenExchangeFederationClient(tokenIssuer, domainUrl, authCode, requestData)
@@ -70,13 +75,13 @@ func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
 // TokenExchangeConfigurationProviderFromToken returns a new configuration provider
 // from a static token.
 func TokenExchangeConfigurationProviderFromToken(token string, domainEndpoint string,
-	clientId string, clientSecret string, region string) (common.ConfigurationProvider,
-	error) {
+	clientId string, clientSecret string, region string, requestedTokenType string,
+	resType string) (common.ConfigurationProvider, error) {
 
 	issuer := StaticTokenIssuer{token: token}
 
 	return TokenExchangeConfigurationProviderFromIssuer(issuer, domainEndpoint, clientId,
-		clientSecret, region)
+		clientSecret, region, requestedTokenType, resType)
 }
 
 func (c TokenExchangeConfigurationProvider) GetClaim(key string) (interface{}, error) {

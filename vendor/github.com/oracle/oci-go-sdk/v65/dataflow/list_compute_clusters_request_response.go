@@ -55,6 +55,9 @@ type ListComputeClustersRequest struct {
 	// The time stamp at which the resource operation was triggered. An RFC3339 formatted datetime string.
 	ResourceOperationTimestamp *common.SDKTime `mandatory:"false" contributesTo:"header" name:"resource-operation-timestamp"`
 
+	// The workspace key of AIDP.
+	WorkspaceKey *string `mandatory:"false" contributesTo:"query" name:"workspaceKey"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

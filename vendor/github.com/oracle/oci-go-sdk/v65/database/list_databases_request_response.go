@@ -41,6 +41,12 @@ type ListDatabasesRequest struct {
 	// A filter to return only resources that match the entire database name given. The match is not case sensitive.
 	DbName *string `mandatory:"false" contributesTo:"query" name:"dbName"`
 
+	// Filter the databases by managed auto failover param.
+	ManagedAutoFailover ListDatabasesManagedAutoFailoverEnum `mandatory:"false" contributesTo:"query" name:"managedAutoFailover" omitEmpty:"true"`
+
+	// Filter the databases by failoverTargets param.
+	FailoverTargets ListDatabasesFailoverTargetsEnum `mandatory:"false" contributesTo:"query" name:"failoverTargets" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -89,6 +95,12 @@ func (request ListDatabasesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDatabaseSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDatabasesManagedAutoFailoverEnum(string(request.ManagedAutoFailover)); !ok && request.ManagedAutoFailover != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedAutoFailover: %s. Supported values are: %s.", request.ManagedAutoFailover, strings.Join(GetListDatabasesManagedAutoFailoverEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDatabasesFailoverTargetsEnum(string(request.FailoverTargets)); !ok && request.FailoverTargets != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailoverTargets: %s. Supported values are: %s.", request.FailoverTargets, strings.Join(GetListDatabasesFailoverTargetsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -206,5 +218,97 @@ func GetListDatabasesSortOrderEnumStringValues() []string {
 // GetMappingListDatabasesSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDatabasesSortOrderEnum(val string) (ListDatabasesSortOrderEnum, bool) {
 	enum, ok := mappingListDatabasesSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDatabasesManagedAutoFailoverEnum Enum with underlying type: string
+type ListDatabasesManagedAutoFailoverEnum string
+
+// Set of constants representing the allowable values for ListDatabasesManagedAutoFailoverEnum
+const (
+	ListDatabasesManagedAutoFailoverRegistered   ListDatabasesManagedAutoFailoverEnum = "REGISTERED"
+	ListDatabasesManagedAutoFailoverUnregistered ListDatabasesManagedAutoFailoverEnum = "UNREGISTERED"
+	ListDatabasesManagedAutoFailoverAll          ListDatabasesManagedAutoFailoverEnum = "ALL"
+)
+
+var mappingListDatabasesManagedAutoFailoverEnum = map[string]ListDatabasesManagedAutoFailoverEnum{
+	"REGISTERED":   ListDatabasesManagedAutoFailoverRegistered,
+	"UNREGISTERED": ListDatabasesManagedAutoFailoverUnregistered,
+	"ALL":          ListDatabasesManagedAutoFailoverAll,
+}
+
+var mappingListDatabasesManagedAutoFailoverEnumLowerCase = map[string]ListDatabasesManagedAutoFailoverEnum{
+	"registered":   ListDatabasesManagedAutoFailoverRegistered,
+	"unregistered": ListDatabasesManagedAutoFailoverUnregistered,
+	"all":          ListDatabasesManagedAutoFailoverAll,
+}
+
+// GetListDatabasesManagedAutoFailoverEnumValues Enumerates the set of values for ListDatabasesManagedAutoFailoverEnum
+func GetListDatabasesManagedAutoFailoverEnumValues() []ListDatabasesManagedAutoFailoverEnum {
+	values := make([]ListDatabasesManagedAutoFailoverEnum, 0)
+	for _, v := range mappingListDatabasesManagedAutoFailoverEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDatabasesManagedAutoFailoverEnumStringValues Enumerates the set of values in String for ListDatabasesManagedAutoFailoverEnum
+func GetListDatabasesManagedAutoFailoverEnumStringValues() []string {
+	return []string{
+		"REGISTERED",
+		"UNREGISTERED",
+		"ALL",
+	}
+}
+
+// GetMappingListDatabasesManagedAutoFailoverEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDatabasesManagedAutoFailoverEnum(val string) (ListDatabasesManagedAutoFailoverEnum, bool) {
+	enum, ok := mappingListDatabasesManagedAutoFailoverEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDatabasesFailoverTargetsEnum Enum with underlying type: string
+type ListDatabasesFailoverTargetsEnum string
+
+// Set of constants representing the allowable values for ListDatabasesFailoverTargetsEnum
+const (
+	ListDatabasesFailoverTargetsDefined   ListDatabasesFailoverTargetsEnum = "DEFINED"
+	ListDatabasesFailoverTargetsUndefined ListDatabasesFailoverTargetsEnum = "UNDEFINED"
+	ListDatabasesFailoverTargetsAll       ListDatabasesFailoverTargetsEnum = "ALL"
+)
+
+var mappingListDatabasesFailoverTargetsEnum = map[string]ListDatabasesFailoverTargetsEnum{
+	"DEFINED":   ListDatabasesFailoverTargetsDefined,
+	"UNDEFINED": ListDatabasesFailoverTargetsUndefined,
+	"ALL":       ListDatabasesFailoverTargetsAll,
+}
+
+var mappingListDatabasesFailoverTargetsEnumLowerCase = map[string]ListDatabasesFailoverTargetsEnum{
+	"defined":   ListDatabasesFailoverTargetsDefined,
+	"undefined": ListDatabasesFailoverTargetsUndefined,
+	"all":       ListDatabasesFailoverTargetsAll,
+}
+
+// GetListDatabasesFailoverTargetsEnumValues Enumerates the set of values for ListDatabasesFailoverTargetsEnum
+func GetListDatabasesFailoverTargetsEnumValues() []ListDatabasesFailoverTargetsEnum {
+	values := make([]ListDatabasesFailoverTargetsEnum, 0)
+	for _, v := range mappingListDatabasesFailoverTargetsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDatabasesFailoverTargetsEnumStringValues Enumerates the set of values in String for ListDatabasesFailoverTargetsEnum
+func GetListDatabasesFailoverTargetsEnumStringValues() []string {
+	return []string{
+		"DEFINED",
+		"UNDEFINED",
+		"ALL",
+	}
+}
+
+// GetMappingListDatabasesFailoverTargetsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDatabasesFailoverTargetsEnum(val string) (ListDatabasesFailoverTargetsEnum, bool) {
+	enum, ok := mappingListDatabasesFailoverTargetsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

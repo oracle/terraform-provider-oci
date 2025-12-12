@@ -14,7 +14,7 @@ import (
 // ListLogAnalyticsLogGroupsRequest wrapper for the ListLogAnalyticsLogGroups operation
 type ListLogAnalyticsLogGroupsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The ID of the compartment in which to list resources.

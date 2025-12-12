@@ -167,17 +167,20 @@ type ListCostAlertSubscriptionsSortByEnum string
 // Set of constants representing the allowable values for ListCostAlertSubscriptionsSortByEnum
 const (
 	ListCostAlertSubscriptionsSortByTimecreated ListCostAlertSubscriptionsSortByEnum = "timeCreated"
-	ListCostAlertSubscriptionsSortByDisplayname ListCostAlertSubscriptionsSortByEnum = "displayName"
+	ListCostAlertSubscriptionsSortByName        ListCostAlertSubscriptionsSortByEnum = "name"
+	ListCostAlertSubscriptionsSortById          ListCostAlertSubscriptionsSortByEnum = "id"
 )
 
 var mappingListCostAlertSubscriptionsSortByEnum = map[string]ListCostAlertSubscriptionsSortByEnum{
 	"timeCreated": ListCostAlertSubscriptionsSortByTimecreated,
-	"displayName": ListCostAlertSubscriptionsSortByDisplayname,
+	"name":        ListCostAlertSubscriptionsSortByName,
+	"id":          ListCostAlertSubscriptionsSortById,
 }
 
 var mappingListCostAlertSubscriptionsSortByEnumLowerCase = map[string]ListCostAlertSubscriptionsSortByEnum{
 	"timecreated": ListCostAlertSubscriptionsSortByTimecreated,
-	"displayname": ListCostAlertSubscriptionsSortByDisplayname,
+	"name":        ListCostAlertSubscriptionsSortByName,
+	"id":          ListCostAlertSubscriptionsSortById,
 }
 
 // GetListCostAlertSubscriptionsSortByEnumValues Enumerates the set of values for ListCostAlertSubscriptionsSortByEnum
@@ -193,7 +196,8 @@ func GetListCostAlertSubscriptionsSortByEnumValues() []ListCostAlertSubscription
 func GetListCostAlertSubscriptionsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
-		"displayName",
+		"name",
+		"id",
 	}
 }
 

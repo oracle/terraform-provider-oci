@@ -14,7 +14,7 @@ import (
 // GetLogAnalyticsLogGroupRequest wrapper for the GetLogAnalyticsLogGroup operation
 type GetLogAnalyticsLogGroupRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// unique logAnalytics log group identifier

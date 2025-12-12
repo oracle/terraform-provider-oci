@@ -36,9 +36,6 @@ type UpdateClusterNamespaceDeployEnvironmentDetails struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// The OCID of the Cluster Namespace to deploy to.
 	ClusterNamespaceId *string `mandatory:"false" json:"clusterNamespaceId"`
 
@@ -68,11 +65,6 @@ func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetDefinedTags() map[str
 // GetSecurityAttributes returns SecurityAttributes
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) String() string {
@@ -113,7 +105,6 @@ func (m *UpdateClusterNamespaceDeployEnvironmentDetails) UnmarshalJSON(data []by
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		SecurityAttributes map[string]map[string]interface{} `json:"securityAttributes"`
-		TagSlugs           []string                          `json:"tagSlugs"`
 		ClusterNamespaceId *string                           `json:"clusterNamespaceId"`
 		NetworkChannel     networkchannel                    `json:"networkChannel"`
 	}{}
@@ -133,8 +124,6 @@ func (m *UpdateClusterNamespaceDeployEnvironmentDetails) UnmarshalJSON(data []by
 
 	m.SecurityAttributes = model.SecurityAttributes
 
-	m.TagSlugs = make([]string, len(model.TagSlugs))
-	copy(m.TagSlugs, model.TagSlugs)
 	m.ClusterNamespaceId = model.ClusterNamespaceId
 
 	nn, e = model.NetworkChannel.UnmarshalPolymorphicJSON(model.NetworkChannel.JsonData)

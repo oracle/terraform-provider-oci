@@ -18,7 +18,7 @@ type ListCccProvisionedPackagesRequest struct {
 	// OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CccProvisionedPackageId *string `mandatory:"false" contributesTo:"query" name:"cccProvisionedPackageId"`
 
-	// A filter used to return only resources that match the given infrastructureId.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"cccInfrastructureId"`
 
 	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.

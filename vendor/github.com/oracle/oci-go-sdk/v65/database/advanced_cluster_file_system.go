@@ -100,6 +100,7 @@ const (
 	AdvancedClusterFileSystemLifecycleStateFailed    AdvancedClusterFileSystemLifecycleStateEnum = "FAILED"
 	AdvancedClusterFileSystemLifecycleStateUpdating  AdvancedClusterFileSystemLifecycleStateEnum = "UPDATING"
 	AdvancedClusterFileSystemLifecycleStateDeleted   AdvancedClusterFileSystemLifecycleStateEnum = "DELETED"
+	AdvancedClusterFileSystemLifecycleStateDeleting  AdvancedClusterFileSystemLifecycleStateEnum = "DELETING"
 )
 
 var mappingAdvancedClusterFileSystemLifecycleStateEnum = map[string]AdvancedClusterFileSystemLifecycleStateEnum{
@@ -108,6 +109,7 @@ var mappingAdvancedClusterFileSystemLifecycleStateEnum = map[string]AdvancedClus
 	"FAILED":    AdvancedClusterFileSystemLifecycleStateFailed,
 	"UPDATING":  AdvancedClusterFileSystemLifecycleStateUpdating,
 	"DELETED":   AdvancedClusterFileSystemLifecycleStateDeleted,
+	"DELETING":  AdvancedClusterFileSystemLifecycleStateDeleting,
 }
 
 var mappingAdvancedClusterFileSystemLifecycleStateEnumLowerCase = map[string]AdvancedClusterFileSystemLifecycleStateEnum{
@@ -116,6 +118,7 @@ var mappingAdvancedClusterFileSystemLifecycleStateEnumLowerCase = map[string]Adv
 	"failed":    AdvancedClusterFileSystemLifecycleStateFailed,
 	"updating":  AdvancedClusterFileSystemLifecycleStateUpdating,
 	"deleted":   AdvancedClusterFileSystemLifecycleStateDeleted,
+	"deleting":  AdvancedClusterFileSystemLifecycleStateDeleting,
 }
 
 // GetAdvancedClusterFileSystemLifecycleStateEnumValues Enumerates the set of values for AdvancedClusterFileSystemLifecycleStateEnum
@@ -135,6 +138,7 @@ func GetAdvancedClusterFileSystemLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"UPDATING",
 		"DELETED",
+		"DELETING",
 	}
 }
 

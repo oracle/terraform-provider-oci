@@ -92,7 +92,7 @@ type LogAnalyticsSource struct {
 	// A flag indicating whether or not the source is marked for auto-association.
 	IsAutoAssociationEnabled *bool `mandatory:"false" json:"isAutoAssociationEnabled"`
 
-	// A flag indicating whether or not the auto-association state should be overriden.
+	// A flag indicating whether or not the auto-association state should be overridden.
 	IsAutoAssociationOverride *bool `mandatory:"false" json:"isAutoAssociationOverride"`
 
 	// The rule unique identifier.
@@ -110,7 +110,7 @@ type LogAnalyticsSource struct {
 	// The source metadata fields.
 	MetadataFields []LogAnalyticsSourceMetadataField `mandatory:"false" json:"metadataFields"`
 
-	// The labls used by the source.
+	// The labels used by the source.
 	LabelDefinitions []LogAnalyticsLabelDefinition `mandatory:"false" json:"labelDefinitions"`
 
 	// The entity types.
@@ -137,6 +137,9 @@ type LogAnalyticsSource struct {
 
 	// A list of source properties.
 	SourceProperties []LogAnalyticsProperty `mandatory:"false" json:"sourceProperties"`
+
+	// The current state of the Log Analytics source.
+	LifecycleState LogAnalyticsSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 func (m LogAnalyticsSource) String() string {
@@ -149,6 +152,9 @@ func (m LogAnalyticsSource) String() string {
 func (m LogAnalyticsSource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLogAnalyticsSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLogAnalyticsSourceLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -197,6 +203,7 @@ func (m *LogAnalyticsSource) UnmarshalJSON(data []byte) (e error) {
 		Categories                []LogAnalyticsCategory                      `json:"categories"`
 		Endpoints                 []loganalyticsendpoint                      `json:"endpoints"`
 		SourceProperties          []LogAnalyticsProperty                      `json:"sourceProperties"`
+		LifecycleState            LogAnalyticsSourceLifecycleStateEnum        `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -292,5 +299,49 @@ func (m *LogAnalyticsSource) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.SourceProperties = make([]LogAnalyticsProperty, len(model.SourceProperties))
 	copy(m.SourceProperties, model.SourceProperties)
+	m.LifecycleState = model.LifecycleState
+
 	return
+}
+
+// LogAnalyticsSourceLifecycleStateEnum Enum with underlying type: string
+type LogAnalyticsSourceLifecycleStateEnum string
+
+// Set of constants representing the allowable values for LogAnalyticsSourceLifecycleStateEnum
+const (
+	LogAnalyticsSourceLifecycleStateActive  LogAnalyticsSourceLifecycleStateEnum = "ACTIVE"
+	LogAnalyticsSourceLifecycleStateDeleted LogAnalyticsSourceLifecycleStateEnum = "DELETED"
+)
+
+var mappingLogAnalyticsSourceLifecycleStateEnum = map[string]LogAnalyticsSourceLifecycleStateEnum{
+	"ACTIVE":  LogAnalyticsSourceLifecycleStateActive,
+	"DELETED": LogAnalyticsSourceLifecycleStateDeleted,
+}
+
+var mappingLogAnalyticsSourceLifecycleStateEnumLowerCase = map[string]LogAnalyticsSourceLifecycleStateEnum{
+	"active":  LogAnalyticsSourceLifecycleStateActive,
+	"deleted": LogAnalyticsSourceLifecycleStateDeleted,
+}
+
+// GetLogAnalyticsSourceLifecycleStateEnumValues Enumerates the set of values for LogAnalyticsSourceLifecycleStateEnum
+func GetLogAnalyticsSourceLifecycleStateEnumValues() []LogAnalyticsSourceLifecycleStateEnum {
+	values := make([]LogAnalyticsSourceLifecycleStateEnum, 0)
+	for _, v := range mappingLogAnalyticsSourceLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLogAnalyticsSourceLifecycleStateEnumStringValues Enumerates the set of values in String for LogAnalyticsSourceLifecycleStateEnum
+func GetLogAnalyticsSourceLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETED",
+	}
+}
+
+// GetMappingLogAnalyticsSourceLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLogAnalyticsSourceLifecycleStateEnum(val string) (LogAnalyticsSourceLifecycleStateEnum, bool) {
+	enum, ok := mappingLogAnalyticsSourceLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -60,9 +60,6 @@ type FunctionDeployEnvironmentSummary struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// The list of tag slugs associated with this resource. These must be returned to Splat unchanged.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
-
 	// The current state of the deployment environment.
 	LifecycleState DeployEnvironmentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -130,11 +127,6 @@ func (m FunctionDeployEnvironmentSummary) GetSystemTags() map[string]map[string]
 // GetSecurityAttributes returns SecurityAttributes
 func (m FunctionDeployEnvironmentSummary) GetSecurityAttributes() map[string]map[string]interface{} {
 	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m FunctionDeployEnvironmentSummary) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m FunctionDeployEnvironmentSummary) String() string {

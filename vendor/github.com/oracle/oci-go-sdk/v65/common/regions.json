@@ -646,5 +646,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-kulai-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "hnw",
+        "realmKey": "oc52",
+        "regionIdentifier": "sa-riodejaneiro-1",
+        "realmDomainComponent": "oraclecloud52.com"
     }
 ]

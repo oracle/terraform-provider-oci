@@ -67,14 +67,6 @@ type Deployment interface {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	GetSecurityAttributes() map[string]map[string]interface{}
-
-	// The list of tag slugs associated with this deployment. Used by Splat to reconcile tag state with downstream.
-	GetTagSlugs() []string
-
 	// Internal-only URL to change management ticket for annotation on dashboards.
 	GetCmUrl() *string
 }
@@ -95,8 +87,6 @@ type deployment struct {
 	FreeformTags                    map[string]string                         `mandatory:"false" json:"freeformTags"`
 	DefinedTags                     map[string]map[string]interface{}         `mandatory:"false" json:"definedTags"`
 	SystemTags                      map[string]map[string]interface{}         `mandatory:"false" json:"systemTags"`
-	SecurityAttributes              map[string]map[string]interface{}         `mandatory:"false" json:"securityAttributes"`
-	TagSlugs                        []string                                  `mandatory:"false" json:"tagSlugs"`
 	CmUrl                           *string                                   `mandatory:"false" json:"cmUrl"`
 	Id                              *string                                   `mandatory:"true" json:"id"`
 	ProjectId                       *string                                   `mandatory:"true" json:"projectId"`
@@ -134,8 +124,6 @@ func (m *deployment) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
-	m.SecurityAttributes = s.Model.SecurityAttributes
-	m.TagSlugs = s.Model.TagSlugs
 	m.CmUrl = s.Model.CmUrl
 	m.DeploymentType = s.Model.DeploymentType
 
@@ -241,16 +229,6 @@ func (m deployment) GetDefinedTags() map[string]map[string]interface{} {
 // GetSystemTags returns SystemTags
 func (m deployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
-}
-
-// GetSecurityAttributes returns SecurityAttributes
-func (m deployment) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m deployment) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 // GetCmUrl returns CmUrl

@@ -26,7 +26,7 @@ type LogAnalyticsParserFilter struct {
 	// The agent version.
 	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 
-	// A flag idicating whether or not hte filter is currently being used.
+	// A flag indicating whether or not the filter is currently being used.
 	IsInUse *int64 `mandatory:"false" json:"isInUse"`
 
 	// The operating system.

@@ -14,7 +14,7 @@ import (
 // ExtractStructuredLogFieldPathsRequest wrapper for the ExtractStructuredLogFieldPaths operation
 type ExtractStructuredLogFieldPathsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// parser definition
@@ -108,18 +108,21 @@ const (
 	ExtractStructuredLogFieldPathsParserTypeXml       ExtractStructuredLogFieldPathsParserTypeEnum = "XML"
 	ExtractStructuredLogFieldPathsParserTypeJson      ExtractStructuredLogFieldPathsParserTypeEnum = "JSON"
 	ExtractStructuredLogFieldPathsParserTypeDelimited ExtractStructuredLogFieldPathsParserTypeEnum = "DELIMITED"
+	ExtractStructuredLogFieldPathsParserTypeRegex     ExtractStructuredLogFieldPathsParserTypeEnum = "REGEX"
 )
 
 var mappingExtractStructuredLogFieldPathsParserTypeEnum = map[string]ExtractStructuredLogFieldPathsParserTypeEnum{
 	"XML":       ExtractStructuredLogFieldPathsParserTypeXml,
 	"JSON":      ExtractStructuredLogFieldPathsParserTypeJson,
 	"DELIMITED": ExtractStructuredLogFieldPathsParserTypeDelimited,
+	"REGEX":     ExtractStructuredLogFieldPathsParserTypeRegex,
 }
 
 var mappingExtractStructuredLogFieldPathsParserTypeEnumLowerCase = map[string]ExtractStructuredLogFieldPathsParserTypeEnum{
 	"xml":       ExtractStructuredLogFieldPathsParserTypeXml,
 	"json":      ExtractStructuredLogFieldPathsParserTypeJson,
 	"delimited": ExtractStructuredLogFieldPathsParserTypeDelimited,
+	"regex":     ExtractStructuredLogFieldPathsParserTypeRegex,
 }
 
 // GetExtractStructuredLogFieldPathsParserTypeEnumValues Enumerates the set of values for ExtractStructuredLogFieldPathsParserTypeEnum
@@ -137,6 +140,7 @@ func GetExtractStructuredLogFieldPathsParserTypeEnumStringValues() []string {
 		"XML",
 		"JSON",
 		"DELIMITED",
+		"REGEX",
 	}
 }
 

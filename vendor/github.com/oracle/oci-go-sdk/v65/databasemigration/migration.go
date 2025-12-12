@@ -56,6 +56,9 @@ type Migration interface {
 	// The OCID of the resource being referenced.
 	GetExecutingJobId() *string
 
+	// The OCID of the resource being referenced.
+	GetAssessmentId() *string
+
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	GetTimeUpdated() *common.SDKTime
 
@@ -83,6 +86,7 @@ type migration struct {
 	Description                *string                           `mandatory:"false" json:"description"`
 	WaitAfter                  OdmsJobPhasesEnum                 `mandatory:"false" json:"waitAfter,omitempty"`
 	ExecutingJobId             *string                           `mandatory:"false" json:"executingJobId"`
+	AssessmentId               *string                           `mandatory:"false" json:"assessmentId"`
 	TimeUpdated                *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	TimeLastMigration          *common.SDKTime                   `mandatory:"false" json:"timeLastMigration"`
 	LifecycleDetails           MigrationStatusEnum               `mandatory:"false" json:"lifecycleDetails,omitempty"`
@@ -122,6 +126,7 @@ func (m *migration) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.WaitAfter = s.Model.WaitAfter
 	m.ExecutingJobId = s.Model.ExecutingJobId
+	m.AssessmentId = s.Model.AssessmentId
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.TimeLastMigration = s.Model.TimeLastMigration
 	m.LifecycleDetails = s.Model.LifecycleDetails
@@ -169,6 +174,11 @@ func (m migration) GetWaitAfter() OdmsJobPhasesEnum {
 // GetExecutingJobId returns ExecutingJobId
 func (m migration) GetExecutingJobId() *string {
 	return m.ExecutingJobId
+}
+
+// GetAssessmentId returns AssessmentId
+func (m migration) GetAssessmentId() *string {
+	return m.AssessmentId
 }
 
 // GetTimeUpdated returns TimeUpdated

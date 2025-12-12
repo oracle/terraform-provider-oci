@@ -14,7 +14,7 @@ import (
 // OnboardNamespaceRequest wrapper for the OnboardNamespace operation
 type OnboardNamespaceRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

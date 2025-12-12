@@ -21,6 +21,9 @@ type CreatePolicySimulationDetails struct {
 	// compartmentId for which the Policy Simulation task is being run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// name for the the Policy Simulation run.
+	RunName *string `mandatory:"true" json:"runName"`
+
 	// Start of the time window for which the Policy Simulation task should process the logs.
 	StartTime *common.SDKTime `mandatory:"true" json:"startTime"`
 

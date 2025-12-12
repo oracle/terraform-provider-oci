@@ -1550,6 +1550,61 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 	return response, err
 }
 
+// ListAllArtifactVersions Returns a list of all available versions for the specified artifact from the Knowledge Base.
+// The artifact is identified by its nodeId within the Artifact Version Audit.
+// A default retry strategy applies to this operation ListAllArtifactVersions()
+func (client ApplicationDependencyManagementClient) ListAllArtifactVersions(ctx context.Context, request ListAllArtifactVersionsRequest) (response ListAllArtifactVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAllArtifactVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAllArtifactVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAllArtifactVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAllArtifactVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAllArtifactVersionsResponse")
+	}
+	return
+}
+
+// listAllArtifactVersions implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listAllArtifactVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/artifacts/{nodeId}/allVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAllArtifactVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAllArtifactVersions"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAllArtifactVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListApplicationDependencyRecommendations Returns a list of application dependency with their associated recommendations.
 // A default retry strategy applies to this operation ListApplicationDependencyRecommendations()
 func (client ApplicationDependencyManagementClient) ListApplicationDependencyRecommendations(ctx context.Context, request ListApplicationDependencyRecommendationsRequest) (response ListApplicationDependencyRecommendationsResponse, err error) {
@@ -1713,9 +1768,9 @@ func (client ApplicationDependencyManagementClient) listArtifactVersionAudits(ct
 	return response, err
 }
 
-// ListAuditArtifactVersions Returns a list of artifact versions with their associated details.
-// A default retry strategy applies to this operation ListAuditArtifactVersions()
-func (client ApplicationDependencyManagementClient) ListAuditArtifactVersions(ctx context.Context, request ListAuditArtifactVersionsRequest) (response ListAuditArtifactVersionsResponse, err error) {
+// ListArtifactVersions Returns a list of artifact versions with their associated details.
+// A default retry strategy applies to this operation ListArtifactVersions()
+func (client ApplicationDependencyManagementClient) ListArtifactVersions(ctx context.Context, request ListArtifactVersionsRequest) (response ListArtifactVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -1724,42 +1779,42 @@ func (client ApplicationDependencyManagementClient) ListAuditArtifactVersions(ct
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.listAuditArtifactVersions, policy)
+	ociResponse, err = common.Retry(ctx, request, client.listArtifactVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAuditArtifactVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = ListArtifactVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = ListAuditArtifactVersionsResponse{}
+				response = ListArtifactVersionsResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(ListAuditArtifactVersionsResponse); ok {
+	if convertedResponse, ok := ociResponse.(ListArtifactVersionsResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAuditArtifactVersionsResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into ListArtifactVersionsResponse")
 	}
 	return
 }
 
-// listAuditArtifactVersions implements the OCIOperation interface (enables retrying operations)
-func (client ApplicationDependencyManagementClient) listAuditArtifactVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// listArtifactVersions implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listArtifactVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/artifactVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response ListAuditArtifactVersionsResponse
+	var response ListArtifactVersionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditArtifactVersions"
-		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditArtifactVersions", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListArtifactVersions"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListArtifactVersions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1767,9 +1822,9 @@ func (client ApplicationDependencyManagementClient) listAuditArtifactVersions(ct
 	return response, err
 }
 
-// ListAuditCopyrights Returns a list of copyright statements for all artifact versions in the audit.
-// A default retry strategy applies to this operation ListAuditCopyrights()
-func (client ApplicationDependencyManagementClient) ListAuditCopyrights(ctx context.Context, request ListAuditCopyrightsRequest) (response ListAuditCopyrightsResponse, err error) {
+// ListCopyrights Returns a list of copyright statements for all artifact versions in the audit.
+// A default retry strategy applies to this operation ListCopyrights()
+func (client ApplicationDependencyManagementClient) ListCopyrights(ctx context.Context, request ListCopyrightsRequest) (response ListCopyrightsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -1778,96 +1833,42 @@ func (client ApplicationDependencyManagementClient) ListAuditCopyrights(ctx cont
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.listAuditCopyrights, policy)
+	ociResponse, err = common.Retry(ctx, request, client.listCopyrights, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAuditCopyrightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = ListCopyrightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = ListAuditCopyrightsResponse{}
+				response = ListCopyrightsResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(ListAuditCopyrightsResponse); ok {
+	if convertedResponse, ok := ociResponse.(ListCopyrightsResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAuditCopyrightsResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into ListCopyrightsResponse")
 	}
 	return
 }
 
-// listAuditCopyrights implements the OCIOperation interface (enables retrying operations)
-func (client ApplicationDependencyManagementClient) listAuditCopyrights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// listCopyrights implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listCopyrights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
 	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/copyrights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response ListAuditCopyrightsResponse
+	var response ListCopyrightsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditCopyrights"
-		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditCopyrights", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListAuditNotices Returns a list of notice files for all artifact versions in the audit.
-// A default retry strategy applies to this operation ListAuditNotices()
-func (client ApplicationDependencyManagementClient) ListAuditNotices(ctx context.Context, request ListAuditNoticesRequest) (response ListAuditNoticesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listAuditNotices, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListAuditNoticesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListAuditNoticesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListAuditNoticesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListAuditNoticesResponse")
-	}
-	return
-}
-
-// listAuditNotices implements the OCIOperation interface (enables retrying operations)
-func (client ApplicationDependencyManagementClient) listAuditNotices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/notices", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListAuditNoticesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListAuditNotices"
-		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListAuditNotices", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListCopyrights"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListCopyrights", apiReferenceLink)
 		return response, err
 	}
 
@@ -1923,6 +1924,60 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/KnowledgeBase/ListKnowledgeBases"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListKnowledgeBases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListNotices Returns a list of notice files for all artifact versions in the audit.
+// A default retry strategy applies to this operation ListNotices()
+func (client ApplicationDependencyManagementClient) ListNotices(ctx context.Context, request ListNoticesRequest) (response ListNoticesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listNotices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNoticesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNoticesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNoticesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNoticesResponse")
+	}
+	return
+}
+
+// listNotices implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listNotices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/artifactVersionAudits/{artifactVersionAuditId}/notices", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNoticesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ArtifactVersionAudit/ListNotices"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListNotices", apiReferenceLink)
 		return response, err
 	}
 

@@ -14,7 +14,7 @@ import (
 // ResumeScheduledTaskRequest wrapper for the ResumeScheduledTask operation
 type ResumeScheduledTaskRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Unique scheduledTask id returned from task create.

@@ -39,7 +39,7 @@ type ListCccInfrastructuresRequest struct {
 	// A filter to return only resources whose display name contains the substring.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// A filter used to return only resources that match the given infrastructureId.
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a Compute Cloud@Customer Infrastructure.
 	CccInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"cccInfrastructureId"`
 
 	// The maximum number of items to return.

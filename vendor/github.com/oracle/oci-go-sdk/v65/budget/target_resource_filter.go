@@ -20,7 +20,7 @@ import (
 // filter is monitored for anomalous deviations.
 type TargetResourceFilter struct {
 
-	// The filter operator. Example: 'AND', 'OR', 'NOT'.
+	// The filter operator. Example: 'AND', 'OR'.
 	Operator TargetResourceFilterOperatorEnum `mandatory:"false" json:"operator,omitempty"`
 
 	// The dimensions to filter on.
@@ -58,19 +58,16 @@ type TargetResourceFilterOperatorEnum string
 // Set of constants representing the allowable values for TargetResourceFilterOperatorEnum
 const (
 	TargetResourceFilterOperatorAnd TargetResourceFilterOperatorEnum = "AND"
-	TargetResourceFilterOperatorNot TargetResourceFilterOperatorEnum = "NOT"
 	TargetResourceFilterOperatorOr  TargetResourceFilterOperatorEnum = "OR"
 )
 
 var mappingTargetResourceFilterOperatorEnum = map[string]TargetResourceFilterOperatorEnum{
 	"AND": TargetResourceFilterOperatorAnd,
-	"NOT": TargetResourceFilterOperatorNot,
 	"OR":  TargetResourceFilterOperatorOr,
 }
 
 var mappingTargetResourceFilterOperatorEnumLowerCase = map[string]TargetResourceFilterOperatorEnum{
 	"and": TargetResourceFilterOperatorAnd,
-	"not": TargetResourceFilterOperatorNot,
 	"or":  TargetResourceFilterOperatorOr,
 }
 
@@ -87,7 +84,6 @@ func GetTargetResourceFilterOperatorEnumValues() []TargetResourceFilterOperatorE
 func GetTargetResourceFilterOperatorEnumStringValues() []string {
 	return []string{
 		"AND",
-		"NOT",
 		"OR",
 	}
 }

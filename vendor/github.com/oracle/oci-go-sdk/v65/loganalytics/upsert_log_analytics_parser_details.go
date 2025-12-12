@@ -73,7 +73,7 @@ type UpsertLogAnalyticsParserDetails struct {
 	// The time zone.
 	ParserTimezone *string `mandatory:"false" json:"parserTimezone"`
 
-	// A flag indicating whther or not the parser is write once.
+	// A flag indicating whether or not the parser is write once.
 	IsParserWrittenOnce *bool `mandatory:"false" json:"isParserWrittenOnce"`
 
 	// The parser function list.

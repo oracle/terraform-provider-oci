@@ -60,6 +60,8 @@ type ModelDeployment struct {
 	// The mode of model deployment.
 	DeploymentMode ModelDeploymentDeploymentModeEnum `mandatory:"false" json:"deploymentMode,omitempty"`
 
+	EndpointProtocolDetails *ModelDeploymentEndpointProtocolList `mandatory:"false" json:"endpointProtocolDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -94,22 +96,23 @@ func (m ModelDeployment) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                         *string                             `json:"description"`
-		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
-		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
-		ModelDeploymentSystemData           modeldeploymentsystemdata           `json:"modelDeploymentSystemData"`
-		LifecycleDetails                    *string                             `json:"lifecycleDetails"`
-		DeploymentMode                      ModelDeploymentDeploymentModeEnum   `json:"deploymentMode"`
-		FreeformTags                        map[string]string                   `json:"freeformTags"`
-		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
-		Id                                  *string                             `json:"id"`
-		TimeCreated                         *common.SDKTime                     `json:"timeCreated"`
-		DisplayName                         *string                             `json:"displayName"`
-		ProjectId                           *string                             `json:"projectId"`
-		CreatedBy                           *string                             `json:"createdBy"`
-		CompartmentId                       *string                             `json:"compartmentId"`
-		ModelDeploymentUrl                  *string                             `json:"modelDeploymentUrl"`
-		LifecycleState                      ModelDeploymentLifecycleStateEnum   `json:"lifecycleState"`
+		Description                         *string                              `json:"description"`
+		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails  `json:"modelDeploymentConfigurationDetails"`
+		CategoryLogDetails                  *CategoryLogDetails                  `json:"categoryLogDetails"`
+		ModelDeploymentSystemData           modeldeploymentsystemdata            `json:"modelDeploymentSystemData"`
+		LifecycleDetails                    *string                              `json:"lifecycleDetails"`
+		DeploymentMode                      ModelDeploymentDeploymentModeEnum    `json:"deploymentMode"`
+		EndpointProtocolDetails             *ModelDeploymentEndpointProtocolList `json:"endpointProtocolDetails"`
+		FreeformTags                        map[string]string                    `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{}    `json:"definedTags"`
+		Id                                  *string                              `json:"id"`
+		TimeCreated                         *common.SDKTime                      `json:"timeCreated"`
+		DisplayName                         *string                              `json:"displayName"`
+		ProjectId                           *string                              `json:"projectId"`
+		CreatedBy                           *string                              `json:"createdBy"`
+		CompartmentId                       *string                              `json:"compartmentId"`
+		ModelDeploymentUrl                  *string                              `json:"modelDeploymentUrl"`
+		LifecycleState                      ModelDeploymentLifecycleStateEnum    `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -144,6 +147,8 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.DeploymentMode = model.DeploymentMode
+
+	m.EndpointProtocolDetails = model.EndpointProtocolDetails
 
 	m.FreeformTags = model.FreeformTags
 

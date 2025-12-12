@@ -39,6 +39,8 @@ type CreateModelDeploymentDetails struct {
 	// The mode of model deployment.
 	DeploymentMode ModelDeploymentDeploymentModeEnum `mandatory:"false" json:"deploymentMode,omitempty"`
 
+	EndpointProtocolDetails *ModelDeploymentEndpointProtocolList `mandatory:"false" json:"endpointProtocolDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -70,15 +72,16 @@ func (m CreateModelDeploymentDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                         *string                             `json:"displayName"`
-		Description                         *string                             `json:"description"`
-		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
-		DeploymentMode                      ModelDeploymentDeploymentModeEnum   `json:"deploymentMode"`
-		FreeformTags                        map[string]string                   `json:"freeformTags"`
-		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
-		ProjectId                           *string                             `json:"projectId"`
-		CompartmentId                       *string                             `json:"compartmentId"`
-		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
+		DisplayName                         *string                              `json:"displayName"`
+		Description                         *string                              `json:"description"`
+		CategoryLogDetails                  *CategoryLogDetails                  `json:"categoryLogDetails"`
+		DeploymentMode                      ModelDeploymentDeploymentModeEnum    `json:"deploymentMode"`
+		EndpointProtocolDetails             *ModelDeploymentEndpointProtocolList `json:"endpointProtocolDetails"`
+		FreeformTags                        map[string]string                    `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{}    `json:"definedTags"`
+		ProjectId                           *string                              `json:"projectId"`
+		CompartmentId                       *string                              `json:"compartmentId"`
+		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails  `json:"modelDeploymentConfigurationDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -93,6 +96,8 @@ func (m *CreateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CategoryLogDetails = model.CategoryLogDetails
 
 	m.DeploymentMode = model.DeploymentMode
+
+	m.EndpointProtocolDetails = model.EndpointProtocolDetails
 
 	m.FreeformTags = model.FreeformTags
 

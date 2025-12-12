@@ -32,6 +32,9 @@ type CloneMigrationDetails interface {
 	// The OCID of the resource being referenced.
 	GetCompartmentId() *string
 
+	// The OCID of the resource being referenced.
+	GetAssessmentId() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	GetFreeformTags() map[string]string
@@ -45,6 +48,7 @@ type clonemigrationdetails struct {
 	JsonData                   []byte
 	DisplayName                *string                           `mandatory:"false" json:"displayName"`
 	CompartmentId              *string                           `mandatory:"false" json:"compartmentId"`
+	AssessmentId               *string                           `mandatory:"false" json:"assessmentId"`
 	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SourceDatabaseConnectionId *string                           `mandatory:"true" json:"sourceDatabaseConnectionId"`
@@ -67,6 +71,7 @@ func (m *clonemigrationdetails) UnmarshalJSON(data []byte) error {
 	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
 	m.DisplayName = s.Model.DisplayName
 	m.CompartmentId = s.Model.CompartmentId
+	m.AssessmentId = s.Model.AssessmentId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.DatabaseCombination = s.Model.DatabaseCombination
@@ -105,6 +110,11 @@ func (m clonemigrationdetails) GetDisplayName() *string {
 // GetCompartmentId returns CompartmentId
 func (m clonemigrationdetails) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+// GetAssessmentId returns AssessmentId
+func (m clonemigrationdetails) GetAssessmentId() *string {
+	return m.AssessmentId
 }
 
 // GetFreeformTags returns FreeformTags

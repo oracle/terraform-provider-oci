@@ -20,7 +20,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDatabaseForStandbyDbSystemDetails struct {
 
-	// A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+	// For SYS, SYSTEM, and PDB Admin, enter the same password as the primary admin password.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
 	// The protection mode of this Data Guard association. For more information, see
@@ -37,6 +37,9 @@ type CreateDatabaseForStandbyDbSystemDetails struct {
 	// in the Oracle Data Guard documentation.
 	// **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC.
 	TransportType CreateDatabaseForStandbyDbSystemDetailsTransportTypeEnum `mandatory:"true" json:"transportType"`
+
+	// For TDE Wallet, enter the same password as the primary wallet password.
+	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword"`
 
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
@@ -92,6 +95,7 @@ func (m CreateDatabaseForStandbyDbSystemDetails) ValidateEnumValue() (bool, erro
 // UnmarshalJSON unmarshals from json
 func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		TdeWalletPassword                  *string                                                   `json:"tdeWalletPassword"`
 		DatabaseSoftwareImageId            *string                                                   `json:"databaseSoftwareImageId"`
 		IsActiveDataGuardEnabled           *bool                                                     `json:"isActiveDataGuardEnabled"`
 		DbDomain                           *string                                                   `json:"dbDomain"`
@@ -111,6 +115,8 @@ func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e 
 		return
 	}
 	var nn interface{}
+	m.TdeWalletPassword = model.TdeWalletPassword
+
 	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
 
 	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled

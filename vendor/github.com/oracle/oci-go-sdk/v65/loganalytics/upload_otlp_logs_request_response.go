@@ -15,7 +15,7 @@ import (
 // UploadOtlpLogsRequest wrapper for the UploadOtlpLogs operation
 type UploadOtlpLogsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The log group OCID to which the log data in this upload will be mapped to.

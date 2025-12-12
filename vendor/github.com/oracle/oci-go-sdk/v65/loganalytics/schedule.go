@@ -25,12 +25,20 @@ type Schedule interface {
 	// The date and time the scheduled task should execute first time after create or update;
 	// thereafter the task will execute as specified in the schedule.
 	GetTimeOfFirstExecution() *common.SDKTime
+
+	// Number of seconds to offset the query time window by to accommodate capture late arriving data. For example, a schedule run at 12:00 with a 10 minute interval and queryOffsetSecs=120 will use the query time window of 11:48-11:58 rather than 11:50-12:00 without queryOffsetSecs.
+	GetQueryOffsetSecs() *int
+
+	// End time for the schedule, even if the schedule would otherwise have remaining executions.
+	GetTimeEnd() *common.SDKTime
 }
 
 type schedule struct {
 	JsonData             []byte
 	MisfirePolicy        ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
 	TimeOfFirstExecution *common.SDKTime           `mandatory:"false" json:"timeOfFirstExecution"`
+	QueryOffsetSecs      *int                      `mandatory:"false" json:"queryOffsetSecs"`
+	TimeEnd              *common.SDKTime           `mandatory:"false" json:"timeEnd"`
 	Type                 string                    `json:"type"`
 }
 
@@ -47,6 +55,8 @@ func (m *schedule) UnmarshalJSON(data []byte) error {
 	}
 	m.MisfirePolicy = s.Model.MisfirePolicy
 	m.TimeOfFirstExecution = s.Model.TimeOfFirstExecution
+	m.QueryOffsetSecs = s.Model.QueryOffsetSecs
+	m.TimeEnd = s.Model.TimeEnd
 	m.Type = s.Model.Type
 
 	return err
@@ -87,6 +97,16 @@ func (m schedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 // GetTimeOfFirstExecution returns TimeOfFirstExecution
 func (m schedule) GetTimeOfFirstExecution() *common.SDKTime {
 	return m.TimeOfFirstExecution
+}
+
+// GetQueryOffsetSecs returns QueryOffsetSecs
+func (m schedule) GetQueryOffsetSecs() *int {
+	return m.QueryOffsetSecs
+}
+
+// GetTimeEnd returns TimeEnd
+func (m schedule) GetTimeEnd() *common.SDKTime {
+	return m.TimeEnd
 }
 
 func (m schedule) String() string {

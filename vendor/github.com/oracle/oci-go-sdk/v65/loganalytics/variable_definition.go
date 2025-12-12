@@ -27,6 +27,9 @@ type VariableDefinition struct {
 	// Type of the variable to show the user.
 	Type VariableDefinitionTypeEnum `mandatory:"false" json:"type,omitempty"`
 
+	// List of variables if this variable is a map.
+	MapKeys []VariableDefinition `mandatory:"false" json:"mapKeys"`
+
 	// Default value of the variable is not already set.
 	DefaultValue *string `mandatory:"false" json:"defaultValue"`
 

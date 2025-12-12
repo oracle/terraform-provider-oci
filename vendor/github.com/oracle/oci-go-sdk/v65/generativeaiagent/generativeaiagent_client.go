@@ -625,65 +625,6 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// CreateFlow Creates a flow.
-// A default retry strategy applies to this operation CreateFlow()
-func (client GenerativeAiAgentClient) CreateFlow(ctx context.Context, request CreateFlowRequest) (response CreateFlowResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createFlow, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateFlowResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateFlowResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateFlowResponse")
-	}
-	return
-}
-
-// createFlow implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiAgentClient) createFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/flows", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateFlowResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Flow/CreateFlow"
-		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateFlow", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateKnowledgeBase Creates a knowledge base.
 // A default retry strategy applies to this operation CreateKnowledgeBase()
 func (client GenerativeAiAgentClient) CreateKnowledgeBase(ctx context.Context, request CreateKnowledgeBaseRequest) (response CreateKnowledgeBaseResponse, err error) {
@@ -1070,60 +1011,6 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/DeleteDataSource"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteDataSource", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteFlow Deletes a flow.
-// A default retry strategy applies to this operation DeleteFlow()
-func (client GenerativeAiAgentClient) DeleteFlow(ctx context.Context, request DeleteFlowRequest) (response DeleteFlowResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteFlow, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteFlowResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteFlowResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteFlowResponse")
-	}
-	return
-}
-
-// deleteFlow implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiAgentClient) deleteFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/flows/{flowId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteFlowResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Flow/DeleteFlow"
-		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteFlow", apiReferenceLink)
 		return response, err
 	}
 
@@ -1562,60 +1449,6 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 	return response, err
 }
 
-// GetFlow Gets information about a flow.
-// A default retry strategy applies to this operation GetFlow()
-func (client GenerativeAiAgentClient) GetFlow(ctx context.Context, request GetFlowRequest) (response GetFlowResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getFlow, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetFlowResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetFlowResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetFlowResponse")
-	}
-	return
-}
-
-// getFlow implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiAgentClient) getFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/flows/{flowId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetFlowResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Flow/GetFlow"
-		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetFlow", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetKnowledgeBase Gets information about a knowledge base.
 // A default retry strategy applies to this operation GetKnowledgeBase()
 func (client GenerativeAiAgentClient) GetKnowledgeBase(ctx context.Context, request GetKnowledgeBaseRequest) (response GetKnowledgeBaseResponse, err error) {
@@ -2041,60 +1874,6 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/ListDataSources"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListDataSources", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListFlows Gets a list of flows.
-// A default retry strategy applies to this operation ListFlows()
-func (client GenerativeAiAgentClient) ListFlows(ctx context.Context, request ListFlowsRequest) (response ListFlowsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listFlows, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListFlowsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListFlowsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListFlowsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListFlowsResponse")
-	}
-	return
-}
-
-// listFlows implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiAgentClient) listFlows(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/flows", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListFlowsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Flow/ListFlows"
-		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListFlows", apiReferenceLink)
 		return response, err
 	}
 
@@ -2581,60 +2360,6 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/UpdateDataSource"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateDataSource", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateFlow Updates a flow.
-// A default retry strategy applies to this operation UpdateFlow()
-func (client GenerativeAiAgentClient) UpdateFlow(ctx context.Context, request UpdateFlowRequest) (response UpdateFlowResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateFlow, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateFlowResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateFlowResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateFlowResponse")
-	}
-	return
-}
-
-// updateFlow implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiAgentClient) updateFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/flows/{flowId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateFlowResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Flow/UpdateFlow"
-		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateFlow", apiReferenceLink)
 		return response, err
 	}
 

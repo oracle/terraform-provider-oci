@@ -14,7 +14,7 @@ import (
 // ListScheduledTasksRequest wrapper for the ListScheduledTasks operation
 type ListScheduledTasksRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Required parameter to specify schedule task type.

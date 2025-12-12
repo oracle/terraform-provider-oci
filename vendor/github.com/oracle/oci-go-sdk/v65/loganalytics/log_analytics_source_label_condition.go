@@ -47,7 +47,7 @@ type LogAnalyticsSourceLabelCondition struct {
 	// The content example.
 	ContentExample *string `mandatory:"false" json:"contentExample"`
 
-	// A flag inidcating whether or not the condition is enabled.
+	// A flag indicating whether or not the condition is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The internal field name.

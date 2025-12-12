@@ -136,7 +136,7 @@ type Database struct {
 	// The patch version of the database.
 	PatchVersion *string `mandatory:"false" json:"patchVersion"`
 
-	// Managed HA Exadata VM cluster feature.
+	// If true, a managed HA VM cluster exists for the Exadata VM cluster. If false, a managed HA VM cluster does not exist.
 	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`
 
 	// Represents managed HA type of Exadata VM cluster and database.

@@ -75,6 +75,9 @@ type UpdateExadbVmClusterDetails struct {
 
 	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
 	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
+
+	// If set to true, a managed HA VM cluster is created if it does not already exist for the Exadata VM cluster. If set to false, the existing managed HA VM cluster will be deleted.
+	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`
 }
 
 func (m UpdateExadbVmClusterDetails) String() string {

@@ -27,14 +27,6 @@ type UpdateDeployPipelineRedeploymentDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
-	// The list of tag slugs associated with this deployment. Used by Splat to reconcile tag state with downstream.
-	TagSlugs []string `mandatory:"false" json:"tagSlugs"`
 }
 
 // GetDisplayName returns DisplayName
@@ -50,16 +42,6 @@ func (m UpdateDeployPipelineRedeploymentDetails) GetFreeformTags() map[string]st
 // GetDefinedTags returns DefinedTags
 func (m UpdateDeployPipelineRedeploymentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
-}
-
-// GetSecurityAttributes returns SecurityAttributes
-func (m UpdateDeployPipelineRedeploymentDetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
-// GetTagSlugs returns TagSlugs
-func (m UpdateDeployPipelineRedeploymentDetails) GetTagSlugs() []string {
-	return m.TagSlugs
 }
 
 func (m UpdateDeployPipelineRedeploymentDetails) String() string {

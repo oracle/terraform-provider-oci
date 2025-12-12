@@ -49,42 +49,45 @@ type DesktopActionActionEnum string
 
 // Set of constants representing the allowable values for DesktopActionActionEnum
 const (
-	DesktopActionActionApiStart          DesktopActionActionEnum = "API_START"
-	DesktopActionActionApiStop           DesktopActionActionEnum = "API_STOP"
-	DesktopActionActionAvailabilityStart DesktopActionActionEnum = "AVAILABILITY_START"
-	DesktopActionActionAvailabilityStop  DesktopActionActionEnum = "AVAILABILITY_STOP"
-	DesktopActionActionDisconnectedStop  DesktopActionActionEnum = "DISCONNECTED_STOP"
-	DesktopActionActionScheduledStart    DesktopActionActionEnum = "SCHEDULED_START"
-	DesktopActionActionScheduledStop     DesktopActionActionEnum = "SCHEDULED_STOP"
-	DesktopActionActionSynchronize       DesktopActionActionEnum = "SYNCHRONIZE"
-	DesktopActionActionConnected         DesktopActionActionEnum = "CONNECTED"
-	DesktopActionActionDisconnected      DesktopActionActionEnum = "DISCONNECTED"
+	DesktopActionActionApiStart           DesktopActionActionEnum = "API_START"
+	DesktopActionActionApiStop            DesktopActionActionEnum = "API_STOP"
+	DesktopActionActionAvailabilityStart  DesktopActionActionEnum = "AVAILABILITY_START"
+	DesktopActionActionAvailabilityStop   DesktopActionActionEnum = "AVAILABILITY_STOP"
+	DesktopActionActionDisconnectedStop   DesktopActionActionEnum = "DISCONNECTED_STOP"
+	DesktopActionActionDisconnectedDelete DesktopActionActionEnum = "DISCONNECTED_DELETE"
+	DesktopActionActionScheduledStart     DesktopActionActionEnum = "SCHEDULED_START"
+	DesktopActionActionScheduledStop      DesktopActionActionEnum = "SCHEDULED_STOP"
+	DesktopActionActionSynchronize        DesktopActionActionEnum = "SYNCHRONIZE"
+	DesktopActionActionConnected          DesktopActionActionEnum = "CONNECTED"
+	DesktopActionActionDisconnected       DesktopActionActionEnum = "DISCONNECTED"
 )
 
 var mappingDesktopActionActionEnum = map[string]DesktopActionActionEnum{
-	"API_START":          DesktopActionActionApiStart,
-	"API_STOP":           DesktopActionActionApiStop,
-	"AVAILABILITY_START": DesktopActionActionAvailabilityStart,
-	"AVAILABILITY_STOP":  DesktopActionActionAvailabilityStop,
-	"DISCONNECTED_STOP":  DesktopActionActionDisconnectedStop,
-	"SCHEDULED_START":    DesktopActionActionScheduledStart,
-	"SCHEDULED_STOP":     DesktopActionActionScheduledStop,
-	"SYNCHRONIZE":        DesktopActionActionSynchronize,
-	"CONNECTED":          DesktopActionActionConnected,
-	"DISCONNECTED":       DesktopActionActionDisconnected,
+	"API_START":           DesktopActionActionApiStart,
+	"API_STOP":            DesktopActionActionApiStop,
+	"AVAILABILITY_START":  DesktopActionActionAvailabilityStart,
+	"AVAILABILITY_STOP":   DesktopActionActionAvailabilityStop,
+	"DISCONNECTED_STOP":   DesktopActionActionDisconnectedStop,
+	"DISCONNECTED_DELETE": DesktopActionActionDisconnectedDelete,
+	"SCHEDULED_START":     DesktopActionActionScheduledStart,
+	"SCHEDULED_STOP":      DesktopActionActionScheduledStop,
+	"SYNCHRONIZE":         DesktopActionActionSynchronize,
+	"CONNECTED":           DesktopActionActionConnected,
+	"DISCONNECTED":        DesktopActionActionDisconnected,
 }
 
 var mappingDesktopActionActionEnumLowerCase = map[string]DesktopActionActionEnum{
-	"api_start":          DesktopActionActionApiStart,
-	"api_stop":           DesktopActionActionApiStop,
-	"availability_start": DesktopActionActionAvailabilityStart,
-	"availability_stop":  DesktopActionActionAvailabilityStop,
-	"disconnected_stop":  DesktopActionActionDisconnectedStop,
-	"scheduled_start":    DesktopActionActionScheduledStart,
-	"scheduled_stop":     DesktopActionActionScheduledStop,
-	"synchronize":        DesktopActionActionSynchronize,
-	"connected":          DesktopActionActionConnected,
-	"disconnected":       DesktopActionActionDisconnected,
+	"api_start":           DesktopActionActionApiStart,
+	"api_stop":            DesktopActionActionApiStop,
+	"availability_start":  DesktopActionActionAvailabilityStart,
+	"availability_stop":   DesktopActionActionAvailabilityStop,
+	"disconnected_stop":   DesktopActionActionDisconnectedStop,
+	"disconnected_delete": DesktopActionActionDisconnectedDelete,
+	"scheduled_start":     DesktopActionActionScheduledStart,
+	"scheduled_stop":      DesktopActionActionScheduledStop,
+	"synchronize":         DesktopActionActionSynchronize,
+	"connected":           DesktopActionActionConnected,
+	"disconnected":        DesktopActionActionDisconnected,
 }
 
 // GetDesktopActionActionEnumValues Enumerates the set of values for DesktopActionActionEnum
@@ -104,6 +107,7 @@ func GetDesktopActionActionEnumStringValues() []string {
 		"AVAILABILITY_START",
 		"AVAILABILITY_STOP",
 		"DISCONNECTED_STOP",
+		"DISCONNECTED_DELETE",
 		"SCHEDULED_START",
 		"SCHEDULED_STOP",
 		"SYNCHRONIZE",

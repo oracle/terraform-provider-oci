@@ -18,7 +18,7 @@ import (
 // CostAlertSubscriptionMap The mapping of cost monitor to alert subscription along with thresholds.
 type CostAlertSubscriptionMap struct {
 
-	// The filter operator. Example: 'AND', 'OR', 'NOT'.
+	// The filter operator. Example: 'AND', 'OR'.
 	Operator CostAlertSubscriptionMapOperatorEnum `mandatory:"false" json:"operator,omitempty"`
 
 	// The absolute threshold value.
@@ -56,19 +56,16 @@ type CostAlertSubscriptionMapOperatorEnum string
 // Set of constants representing the allowable values for CostAlertSubscriptionMapOperatorEnum
 const (
 	CostAlertSubscriptionMapOperatorAnd CostAlertSubscriptionMapOperatorEnum = "AND"
-	CostAlertSubscriptionMapOperatorNot CostAlertSubscriptionMapOperatorEnum = "NOT"
 	CostAlertSubscriptionMapOperatorOr  CostAlertSubscriptionMapOperatorEnum = "OR"
 )
 
 var mappingCostAlertSubscriptionMapOperatorEnum = map[string]CostAlertSubscriptionMapOperatorEnum{
 	"AND": CostAlertSubscriptionMapOperatorAnd,
-	"NOT": CostAlertSubscriptionMapOperatorNot,
 	"OR":  CostAlertSubscriptionMapOperatorOr,
 }
 
 var mappingCostAlertSubscriptionMapOperatorEnumLowerCase = map[string]CostAlertSubscriptionMapOperatorEnum{
 	"and": CostAlertSubscriptionMapOperatorAnd,
-	"not": CostAlertSubscriptionMapOperatorNot,
 	"or":  CostAlertSubscriptionMapOperatorOr,
 }
 
@@ -85,7 +82,6 @@ func GetCostAlertSubscriptionMapOperatorEnumValues() []CostAlertSubscriptionMapO
 func GetCostAlertSubscriptionMapOperatorEnumStringValues() []string {
 	return []string{
 		"AND",
-		"NOT",
 		"OR",
 	}
 }
