@@ -44,8 +44,6 @@ var (
 		"peer_autonomous_container_database_display_name":   acctest.Representation{RepType: acctest.Required, Create: `FirstStandby`},
 		"peer_autonomous_vm_cluster_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.peer_autonomous_vm_cluster.id}`},
 		"protection_mode":                                   acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_AVAILABILITY`},
-		"is_automatic_failover_enabled":                     acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"fast_start_fail_over_lag_limit_in_seconds":         acctest.Representation{RepType: acctest.Required, Create: `0`},
 		"standby_maintenance_buffer_in_days":                acctest.Representation{RepType: acctest.Optional, Create: `7`},
 		"peer_autonomous_container_database_backup_config":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseBackupConfigRepresentation},
 	}
@@ -151,7 +149,7 @@ func TestDatabaseAdbccAutonomousContainerDatabaseAddStandbyResource_basic(t *tes
 	resourceName := "oci_database_autonomous_container_database_add_standby.test_autonomous_container_database_add_standby"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAdbdAutonomousContainerDatabaseAddStandbyResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AdbccDgSetupDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, DatabaseAdbccAutonomousContainerDatabaseAddStandbyRepresentation), "database", "autonomousContainerDatabaseAddStandby", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
@@ -161,7 +159,6 @@ func TestDatabaseAdbccAutonomousContainerDatabaseAddStandbyResource_basic(t *tes
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, DatabaseAdbccAutonomousContainerDatabaseAddStandbyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_display_name", "FirstStandby"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
 				resource.TestCheckResourceAttr(resourceName, "standby_maintenance_buffer_in_days", "7"),
