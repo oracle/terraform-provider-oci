@@ -25,7 +25,11 @@ func RedisRedisClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(60 * time.Minute),
+			Update: schema.DefaultTimeout(60 * time.Minute),
+			Delete: schema.DefaultTimeout(60 * time.Minute),
+		},
 		CreateContext: createRedisRedisClusterWithContext,
 		ReadContext:   readRedisRedisClusterWithContext,
 		UpdateContext: updateRedisRedisClusterWithContext,
