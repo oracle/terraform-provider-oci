@@ -1,3 +1,16 @@
+## 7.29.0 (December 16, 2025)
+
+### Added
+- Support for New CP Public APIs to Support Additional Features in Oracle Integration Cloud (OIC) - REDWOOD MIGRATION
+- Support for OCI Compute Farm (OCF) Service – Initial Release
+- Support for OCI Data Science - Model Explorer
+- Support for Configure backend NSG at OKE cluster level
+- Support for IDCS MappedAttributes API to OCI SDK, CLI and Terraform provider
+- Support for Ability to Create ACLs for Oracle Integration Cloud (OIC) Design Time
+- Support for Firmware Pinning using Host Groups
+- OIC member support for Full Stack Disaster Recovery
+
+
 ## 7.28.0 (December 10, 2025)
 
 ### Added
