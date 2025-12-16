@@ -166,7 +166,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
-    * `dif` - Discovers dif resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
@@ -187,7 +186,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `integration` - Discovers integration resources within the specified compartment
     * `iot` - Discovers iot resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
-    * `jms_utils` - Discovers jms_utils resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
     * `license_manager` - Discovers license_manager resources within the specified compartment
     * `limits` - Discovers limits resources across the entire tenancy
@@ -217,7 +215,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `optimizer` - Discovers optimizer resources within the specified compartment
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
-    * `psa` - Discovers psa resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
@@ -688,6 +685,10 @@ database
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 * oci\_database\_autonomous\_database\_software\_image
+* oci\_database\_cloud\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_autonomous\_container\_database\_snapshot\_standby
+* oci\_database\_autonomous\_container\_database\_add\_standby
+* oci\_database\_pluggable\_database\_snapshot
 * oci\_database\_db\_node\_snapshot\_management
 
 database_migration
@@ -699,7 +700,6 @@ database_tools
     
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
-* oci\_database\_tools\_database\_tools\_identity
 
 datacatalog
     
@@ -764,8 +764,6 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault
 * oci\_dbmulticloud\_oracle\_db\_gcp\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
-* oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
-* oci\_dbmulticloud\_oracle\_db\_aws\_key
 
 demand_signal
     
@@ -793,10 +791,6 @@ devops
 * oci\_devops\_repository\_mirror
 * oci\_devops\_repository\_setting
 * oci\_devops\_project\_repository\_setting
-
-dif
-    
-* oci\_dif\_stack
 
 disaster_recovery
     
@@ -1003,12 +997,6 @@ jms
 * oci\_jms\_fleet\_advanced\_feature\_configuration
 * oci\_jms\_jms\_plugin
 * oci\_jms\_task\_schedule
-* oci\_jms\_fleet\_agent\_configuration
-
-jms_utils
-    
-* oci\_jms\_utils\_subscription\_acknowledgment\_configuration
-* oci\_jms\_utils\_analyze\_applications\_configuration
 
 kms
     
@@ -1071,7 +1059,6 @@ logging
 lustre_file_storage
     
 * oci\_lustre\_file\_storage\_lustre\_file\_system
-* oci\_lustre\_file\_storage\_object\_storage\_link
 
 managed_kafka
     
@@ -1268,10 +1255,6 @@ osp_gateway
     
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
-
-psa
-    
-* oci\_psa\_private\_service\_acces
 
 psql
     
