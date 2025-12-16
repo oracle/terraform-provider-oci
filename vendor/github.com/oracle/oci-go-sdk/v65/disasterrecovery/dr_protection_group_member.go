@@ -95,6 +95,10 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberObjectStorageBucket{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "INTEGRATION_INSTANCE":
+		mm := DrProtectionGroupMemberIntegrationInstance{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_MOVABLE":
 		mm := DrProtectionGroupMemberComputeInstanceMovable{}
 		err = json.Unmarshal(data, &mm)
