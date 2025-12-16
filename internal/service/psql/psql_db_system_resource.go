@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -27,11 +28,15 @@ func PsqlDbSystemResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createPsqlDbSystem,
-		Read:     readPsqlDbSystem,
-		Update:   updatePsqlDbSystem,
-		Delete:   deletePsqlDbSystem,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("1h"),
+			Update: tfresource.GetTimeoutDuration("1h"),
+			Delete: tfresource.GetTimeoutDuration("1h"),
+		},
+		CreateContext: createPsqlDbSystemWithContext,
+		ReadContext:   readPsqlDbSystemWithContext,
+		UpdateContext: updatePsqlDbSystemWithContext,
+		DeleteContext: deletePsqlDbSystemWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -150,12 +155,23 @@ func PsqlDbSystemResource() *schema.Resource {
 					"RELOAD",
 				}, true),
 			},
-			"credentials": {
-				Type:     schema.TypeList,
+			"apply_change_mode_to_stand_alone": {
+				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"IMMEDIATELY",
+					"REPLAY_PENDING_UPDATES",
+				}, true),
+				ConflictsWith: []string{"source.0.primary_db_system_id"},
+			},
+			"credentials": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				Computed:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"source.0.primary_db_system_id"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -449,6 +465,32 @@ func PsqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"replication_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_rpo_enforced": {
+							Type:             schema.TypeBool,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"rpo_in_seconds": {
+							Type:         schema.TypeString,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: tfresource.ValidateInt64TypeString,
+						},
+					},
+				},
+			},
 			"patch_operations": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -496,19 +538,18 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"source_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"DB_SYSTEM",
 								"NONE",
 							}, true),
 						},
@@ -518,13 +559,16 @@ func PsqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"is_having_restore_config_overrides": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
+						},
+						"primary_db_system_id": {
+							Type:          schema.TypeString,
+							Optional:      true,
+							ConflictsWith: []string{"apply_change_mode_to_stand_alone"},
 						},
 
 						// Computed
@@ -602,6 +646,10 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_role": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -619,12 +667,10 @@ func PsqlDbSystemResource() *schema.Resource {
 	}
 }
 
-func createPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
+func createPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
-	ctx := context.Background()
-
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
 		wantedPowerState := oci_psql.DbSystemLifecycleStateEnum(strings.ToUpper(powerState.(string)))
@@ -634,31 +680,31 @@ func createPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return e
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if powerOff {
 		if err := sync.StopDbSystem(ctx); err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_psql.DbSystemLifecycleStateInactive)
 	}
 	return nil
+
 }
 
-func readPsqlDbSystem(d *schema.ResourceData, m interface{}) error {
+func readPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updatePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
+func updatePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
-	ctx := context.Background()
 
 	powerOn, powerOff := false, false
 
@@ -673,18 +719,18 @@ func updatePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 
 	if powerOn {
 		if err := sync.StartDbSystem(ctx); err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_psql.DbSystemLifecycleStateActive)
 	}
 
 	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
 		if err := sync.StopDbSystem(ctx); err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_psql.DbSystemLifecycleStateInactive)
 	}
@@ -692,13 +738,13 @@ func updatePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deletePsqlDbSystem(d *schema.ResourceData, m interface{}) error {
+func deletePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type PsqlDbSystemResourceCrud struct {
@@ -738,7 +784,7 @@ func (s *PsqlDbSystemResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *PsqlDbSystemResourceCrud) Create() error {
+func (s *PsqlDbSystemResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_psql.CreateDbSystemRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -854,6 +900,17 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 		}
 	}
 
+	if replicationConfig, ok := s.D.GetOkExists("replication_config"); ok {
+		if tmpList := replicationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_config", 0)
+			tmp, err := s.mapToCreateReplicationConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationConfig = &tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
@@ -887,7 +944,7 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.CreateDbSystem(context.Background(), request)
+	response, err := s.Client.CreateDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -898,10 +955,10 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlDbSystemResourceCrud) Patch() error {
+func (s *PsqlDbSystemResourceCrud) Patch(ctx context.Context) error {
 	request := oci_psql.PatchDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -933,20 +990,20 @@ func (s *PsqlDbSystemResourceCrud) Patch() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
-	response, err := s.Client.PatchDbSystem(context.Background(), request)
+	response, err := s.Client.PatchDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dbSystemId, err := dbSystemWaitForWorkRequest(workId, "dbsystem",
+	dbSystemId, err := dbSystemWaitForWorkRequest(ctx, workId, "dbsystem",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -954,7 +1011,7 @@ func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(workId *string, re
 	}
 	s.D.SetId(*dbSystemId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dbSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -980,7 +1037,7 @@ func dbSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.ActionTypeEnum,
+func dbSystemWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_psql.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_psql.PostgresqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "psql")
 	retryPolicy.ShouldRetryOperation = dbSystemWorkRequestShouldRetryFunc(timeout)
@@ -999,7 +1056,7 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_psql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1011,7 +1068,7 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1026,14 +1083,14 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_psql.OperationStatusFailed || response.Status == oci_psql.OperationStatusCanceled {
-		return nil, getErrorFromPsqlDbSystemWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromPsqlDbSystemWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromPsqlDbSystemWorkRequest(client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromPsqlDbSystemWorkRequest(ctx context.Context, client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_psql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1055,7 +1112,7 @@ func getErrorFromPsqlDbSystemWorkRequest(client *oci_psql.PostgresqlClient, work
 	return workRequestErr
 }
 
-func (s *PsqlDbSystemResourceCrud) Get() error {
+func (s *PsqlDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_psql.GetDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -1076,7 +1133,7 @@ func (s *PsqlDbSystemResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.GetDbSystem(context.Background(), request)
+	response, err := s.Client.GetDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1085,10 +1142,21 @@ func (s *PsqlDbSystemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PsqlDbSystemResourceCrud) Update() error {
+func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error {
+	if s.isStandaloneToWarmStandbyConversion() {
+		err := s.convertStandaloneToWarmStandbyConversion(ctx)
+		if err != nil {
+			return err
+		}
+	} else if s.isWarmStandbyToStandaloneConversion() {
+		err := s.convertWarmStandbyToStandaloneConversion(ctx)
+		if err != nil {
+			return err
+		}
+	}
 
 	if _, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
-		err := s.ResetMasterUserPassword()
+		err := s.ResetMasterUserPassword(ctx)
 		if err != nil {
 			return err
 		}
@@ -1096,7 +1164,7 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1196,6 +1264,17 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if replicationConfig, ok := s.D.GetOkExists("replication_config"); ok && s.D.HasChange("replication_config") {
+		if tmpList := replicationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_config", 0)
+			tmp, err := s.mapToUpdateReplicationConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationConfig = &tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
 		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
@@ -1242,17 +1321,17 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.UpdateDbSystem(context.Background(), request)
+	response, err := s.Client.UpdateDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
-	err = s.Patch()
+	err = s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err
@@ -1260,7 +1339,7 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 	return nil
 }
 
-func (s *PsqlDbSystemResourceCrud) Delete() error {
+func (s *PsqlDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_psql.DeleteDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -1268,14 +1347,14 @@ func (s *PsqlDbSystemResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.DeleteDbSystem(context.Background(), request)
+	response, err := s.Client.DeleteDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dbSystemWaitForWorkRequest(workId, "dbsystem",
+	_, delWorkRequestErr := dbSystemWaitForWorkRequest(ctx, workId, "dbsystem",
 		oci_psql.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1356,6 +1435,12 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("odsp_insight_details", nil)
 	}
 
+	if s.Res.ReplicationConfig != nil {
+		s.D.Set("replication_config", []interface{}{ReplicationConfigToMap(s.Res.ReplicationConfig)})
+	} else {
+		s.D.Set("replication_config", nil)
+	}
+
 	if s.Res.Shape != nil {
 		shape := "PostgreSQL." + *s.Res.Shape + "." + strconv.Itoa(*s.Res.InstanceOcpuCount) + "." + strconv.Itoa(*s.Res.InstanceMemorySizeInGBs) + "GB"
 
@@ -1373,6 +1458,9 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 			sourceArray = append(sourceArray, sourceMap)
 		}
 		s.D.Set("source", sourceArray)
+		if isWarmStandby(&s.Res.Source) {
+			s.D.Set("apply_change_mode_to_stand_alone", nil)
+		}
 	} else {
 		s.D.Set("source", nil)
 	}
@@ -1389,6 +1477,8 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("storage_details", nil)
 	}
 
+	s.D.Set("system_role", s.Res.SystemRole)
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
@@ -1402,7 +1492,6 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-
 	return nil
 }
 
@@ -1460,7 +1549,7 @@ func (s *PsqlDbSystemResourceCrud) StopDbSystem(ctx context.Context) error {
 	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
+func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword(ctx context.Context) error {
 	request := oci_psql.ResetMasterUserPasswordRequest{}
 
 	idTmp := s.D.Id()
@@ -1482,12 +1571,12 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	_, err := s.Client.ResetMasterUserPassword(context.Background(), request)
+	_, err := s.Client.ResetMasterUserPassword(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1761,6 +1850,67 @@ func CreateDbInstanceDetailsToMap(obj oci_psql.CreateDbInstanceDetails) map[stri
 
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
+	}
+
+	return result
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToCreateReplicationConfigDetails(fieldKeyFormat string) (oci_psql.CreateReplicationConfigDetails, error) {
+	result := oci_psql.CreateReplicationConfigDetails{}
+
+	_, new := s.D.GetChange("replication_config")
+	list, ok := new.([]interface{})
+
+	if !ok || len(list) == 0 {
+		log.Printf("!!!! Replication config is removed new")
+		tmp := false
+		result.IsRpoEnforced = &tmp
+	} else if isRpoEnforced, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_rpo_enforced")); ok {
+		tmp := isRpoEnforced.(bool)
+		result.IsRpoEnforced = &tmp
+	}
+
+	if rpoInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rpo_in_seconds")); ok {
+		tmp := rpoInSeconds.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert rpoInSeconds string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RpoInSeconds = &tmpInt64
+	}
+
+	return result, nil
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToUpdateReplicationConfigDetails(fieldKeyFormat string) (oci_psql.UpdateReplicationConfigDetails, error) {
+	result := oci_psql.UpdateReplicationConfigDetails{}
+
+	if isRpoEnforced, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_rpo_enforced")); ok {
+		tmp := isRpoEnforced.(bool)
+		result.IsRpoEnforced = &tmp
+	}
+
+	if rpoInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rpo_in_seconds")); ok {
+		tmp := rpoInSeconds.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert rpoInSeconds string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RpoInSeconds = &tmpInt64
+	}
+
+	return result, nil
+}
+
+func ReplicationConfigToMap(obj *oci_psql.ReplicationConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsRpoEnforced != nil {
+		result["is_rpo_enforced"] = bool(*obj.IsRpoEnforced)
+	}
+
+	if obj.RpoInSeconds != nil {
+		result["rpo_in_seconds"] = strconv.FormatInt(*obj.RpoInSeconds, 10)
 	}
 
 	return result
@@ -2243,6 +2393,13 @@ func (s *PsqlDbSystemResourceCrud) mapToSourceDetails(fieldKeyFormat string) (oc
 			details.IsHavingRestoreConfigOverrides = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("DB_SYSTEM"):
+		details := oci_psql.PrimaryDbSystemSourceDetails{}
+		if primaryDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_db_system_id")); ok {
+			tmp := primaryDbSystemId.(string)
+			details.PrimaryDbSystemId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NONE"):
 		details := oci_psql.NoneSourceDetails{}
 		baseObject = details
@@ -2264,6 +2421,12 @@ func SourceDetailsToMap(obj *oci_psql.SourceDetails) map[string]interface{} {
 
 		if v.IsHavingRestoreConfigOverrides != nil {
 			result["is_having_restore_config_overrides"] = bool(*v.IsHavingRestoreConfigOverrides)
+		}
+	case oci_psql.PrimaryDbSystemSourceDetails:
+		result["source_type"] = "DB_SYSTEM"
+
+		if v.PrimaryDbSystemId != nil {
+			result["primary_db_system_id"] = string(*v.PrimaryDbSystemId)
 		}
 	case oci_psql.NoneSourceDetails:
 		result["source_type"] = "NONE"
@@ -2391,7 +2554,7 @@ func UpdateDbConfigParamsToMap(obj *oci_psql.UpdateDbConfigParams) map[string]in
 	return result
 }
 
-func (s *PsqlDbSystemResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *PsqlDbSystemResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_psql.ChangeDbSystemCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2402,7 +2565,7 @@ func (s *PsqlDbSystemResourceCrud) updateCompartment(compartment interface{}) er
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	_, err := s.Client.ChangeDbSystemCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDbSystemCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
@@ -2466,5 +2629,131 @@ func isOdspInsightDisabled(old, new string, d *schema.ResourceData) bool {
 			return true
 		}
 	}
+	return false
+}
+
+func isReplicationRpoEnforced(old, new string, d *schema.ResourceData) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_config", 0)
+	kindRaw, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_rpo_enforced"))
+	if ok {
+		if kindRaw.(bool) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *PsqlDbSystemResourceCrud) isStandaloneToWarmStandbyConversion() bool {
+	if systemRole, ok := s.D.GetOkExists("system_role"); ok {
+		if role, ok := systemRole.(string); ok && role == "STANDALONE_DB_SYSTEM" {
+			if source, ok := s.D.GetOkExists("source"); ok && source != nil {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source", 0)
+				if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_db_system_id")); ok {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func (s *PsqlDbSystemResourceCrud) convertStandaloneToWarmStandbyConversion(ctx context.Context) error {
+	if systemRole, ok := s.D.GetOkExists("system_role"); ok {
+		if role, ok := systemRole.(string); ok && role == "STANDALONE_DB_SYSTEM" {
+			if source, ok := s.D.GetOkExists("source"); ok && source != nil && source != "" {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source", 0)
+				if primaryDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_db_system_id")); ok && primaryDbSystemId != "" {
+					dbSystemId := s.D.Id()
+					varPrimaryDbSystemId := primaryDbSystemId.(string)
+					changeRoleToReplicaRequest := oci_psql.ChangeRoleToReplicaRequest{}
+					changeRoleToReplicaDetails := oci_psql.ChangeRoleToReplicaDetails{}
+					changeRoleToReplicaDetails.PrimaryDbSystemId = &varPrimaryDbSystemId
+					changeRoleToReplicaRequest.ChangeRoleToReplicaDetails = changeRoleToReplicaDetails
+					changeRoleToReplicaRequest.DbSystemId = &dbSystemId
+					response, err := s.Client.ChangeRoleToReplica(ctx, changeRoleToReplicaRequest)
+					if err != nil {
+						return err
+					}
+
+					workId := response.OpcWorkRequestId
+					err = s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+					if err != nil {
+						return err
+					}
+					s.D.Set("apply_change_mode_to_stand_alone", nil)
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (s *PsqlDbSystemResourceCrud) isWarmStandbyToStandaloneConversion() bool {
+	if systemRole, ok := s.D.GetOkExists("system_role"); ok {
+		if role, ok := systemRole.(string); ok && role == "WARM_STANDBY_DB_SYSTEM" {
+			if changeMode, ok := s.D.GetOkExists("apply_change_mode_to_stand_alone"); ok && changeMode != nil && changeMode != "" {
+				return true
+			}
+			sourceDetails, ok := s.D.GetOkExists("source")
+			if !ok || sourceDetails == "" || sourceDetails == nil {
+				return true
+			}
+			if _, ok := s.D.GetOkExists("source"); ok {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source", 0)
+				primaryDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_db_system_id"))
+				if !ok || primaryDbSystemId == "" || primaryDbSystemId == nil {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func (s *PsqlDbSystemResourceCrud) convertWarmStandbyToStandaloneConversion(ctx context.Context) error {
+	if systemRole, ok := s.D.GetOkExists("system_role"); ok {
+		if role, ok := systemRole.(string); ok && role == "WARM_STANDBY_DB_SYSTEM" {
+			if _, ok := s.D.GetOkExists("apply_change_mode_to_stand_alone"); ok {
+				if applyChangeToStandAlone, ok := s.D.GetOkExists("apply_change_mode_to_stand_alone"); ok {
+					if applyChangeToStandAlone == nil || applyChangeToStandAlone == "" {
+						applyChangeToStandAlone = "REPLAY_PENDING_UPDATES"
+					}
+					changeRoleToStandaloneRequest := oci_psql.ChangeRoleToStandaloneRequest{}
+
+					changeRoleToStandaloneDetails := oci_psql.ChangeRoleToStandaloneDetails{}
+					tmp := applyChangeToStandAlone.(string)
+					changeRoleToStandaloneDetails.ChangeMode = oci_psql.ChangeRoleToStandaloneDetailsChangeModeEnum(tmp)
+					dbSystemId := s.D.Id()
+					changeRoleToStandaloneRequest.DbSystemId = &dbSystemId
+					changeRoleToStandaloneRequest.ChangeRoleToStandaloneDetails = changeRoleToStandaloneDetails
+
+					response, err := s.Client.ChangeRoleToStandalone(ctx, changeRoleToStandaloneRequest)
+					if err != nil {
+						return err
+					}
+
+					workId := response.OpcWorkRequestId
+					err = s.getDbSystemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+					if err != nil {
+						return err
+					}
+				}
+			}
+		}
+
+	}
+	return nil
+}
+
+func isWarmStandby(obj *oci_psql.SourceDetails) bool {
+	switch v := (*obj).(type) {
+	case oci_psql.PrimaryDbSystemSourceDetails:
+		if v.PrimaryDbSystemId != nil {
+			return true
+		}
+	default:
+		return false
+	}
+
 	return false
 }

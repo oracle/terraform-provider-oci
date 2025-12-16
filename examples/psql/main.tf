@@ -25,6 +25,12 @@ variable "source_backup_id" {
 variable "source_region" {
 }
 
+variable "availability_domain" {
+}
+
+variable "primary_db_system_id" {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -135,6 +141,46 @@ resource "oci_psql_db_system" "test_flexdb_system" {
   }
 }
 
+# Creating a warm standby dbsystem
+resource "oci_psql_db_system" "test_warm_standby_dbsystem" {
+  #Required
+  db_version          = "15"
+  display_name = "crr-tf-warm-standby-dbsystem"
+  network_details {
+    subnet_id = oci_core_subnet.test_subnet.id
+  }
+  shape = "PostgreSQL.VM.Standard.E5.Flex"
+  storage_details {
+    is_regionally_durable = false
+    availability_domain = var.availability_domain
+    system_type = "OCI_OPTIMIZED_STORAGE"
+    iops = "75000"
+  }
+  # Converting from warm standby to standalone
+  # Comment out primary_db_system_id and add apply_change_mode_to_stand_alone
+  # apply_change_mode_to_stand_alone = "REPLAY_PENDING_UPDATES" (default) or "IMMEDIATELY"
+  source {
+    source_type = "DB_SYSTEM"
+    primary_db_system_id = var.primary_db_system_id
+  }
+  replication_config {
+    is_rpo_enforced = true
+    rpo_in_seconds = "300"
+  }
+  compartment_id      = var.compartment_ocid
+  instance_count = "1"
+  instance_ocpu_count = "2"
+  instance_memory_size_in_gbs = "32"
+  system_type = "OCI_OPTIMIZED_STORAGE"
+  config_id = oci_psql_configuration.test_flexible_configuration.id
+  management_policy {
+    backup_policy {
+      kind              = "NONE"
+    }
+    maintenance_window_start = "THU 17:00"
+  }
+}
+
 # Creating a dbSystem flex configuration
 resource "oci_psql_configuration" "test_fixed_configuration" {
   #Required
@@ -195,6 +241,7 @@ resource "oci_psql_configuration" "test_flexible_multiple_comp_configuration" {
   is_flexible = true
   description = "test flexible configuration with multiple compatible shapes created by terraform"
 }
+
 
 data "oci_psql_configurations" "test_configurations" {
   compartment_id = var.compartment_ocid

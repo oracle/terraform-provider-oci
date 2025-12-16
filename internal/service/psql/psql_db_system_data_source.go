@@ -158,6 +158,12 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("odsp_insight_details", nil)
 	}
 
+	if s.Res.ReplicationConfig != nil {
+		s.D.Set("replication_config", []interface{}{ReplicationConfigToMap(s.Res.ReplicationConfig)})
+	} else {
+		s.D.Set("replication_config", nil)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -183,6 +189,8 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("storage_details", nil)
 	}
+
+	s.D.Set("system_role", s.Res.SystemRole)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))

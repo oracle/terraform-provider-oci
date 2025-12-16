@@ -34,6 +34,10 @@ func PsqlDbSystemsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"system_role": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -90,6 +94,10 @@ func (s *PsqlDbSystemsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_psql.DbSystemLifecycleStateEnum(state.(string))
+	}
+
+	if systemRole, ok := s.D.GetOkExists("system_role"); ok {
+		request.SystemRole = oci_psql.DbSystemSystemRoleEnum(systemRole.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "psql")
