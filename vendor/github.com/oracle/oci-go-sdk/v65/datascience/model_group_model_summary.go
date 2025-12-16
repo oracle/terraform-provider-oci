@@ -56,6 +56,9 @@ type ModelGroupModelSummary struct {
 	// Identifier to indicate whether a model artifact resides in the Service Tenancy or Customer Tenancy.
 	IsModelByReference *bool `mandatory:"true" json:"isModelByReference"`
 
+	// SaaS friendly name of the model.
+	InferenceKey *string `mandatory:"false" json:"inferenceKey"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

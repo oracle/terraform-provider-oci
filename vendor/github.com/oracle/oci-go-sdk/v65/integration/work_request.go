@@ -89,6 +89,10 @@ const (
 	WorkRequestOperationTypeDeleteIntegrationInstance               WorkRequestOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 	WorkRequestOperationTypeChangePrivateEndpointOutboundConnection WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestOperationTypeEnableProcessAutomation                 WorkRequestOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
+	WorkRequestOperationTypeDisableProcessAutomation                WorkRequestOperationTypeEnum = "DISABLE_PROCESS_AUTOMATION"
+	WorkRequestOperationTypeAddLogAnalyticsLogGroup                 WorkRequestOperationTypeEnum = "ADD_LOG_ANALYTICS_LOG_GROUP"
+	WorkRequestOperationTypeDeleteLogAnalyticsLogGroup              WorkRequestOperationTypeEnum = "DELETE_LOG_ANALYTICS_LOG_GROUP"
+	WorkRequestOperationTypeConvertInstance                         WorkRequestOperationTypeEnum = "CONVERT_INSTANCE"
 	WorkRequestOperationTypeExtendDataRetention                     WorkRequestOperationTypeEnum = "EXTEND_DATA_RETENTION"
 	WorkRequestOperationTypeDisasterRecoveryFailover                WorkRequestOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 	WorkRequestOperationTypeCreateCustomEndpoint                    WorkRequestOperationTypeEnum = "CREATE_CUSTOM_ENDPOINT"
@@ -103,6 +107,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestOperationTypeEnableProcessAutomation,
+	"DISABLE_PROCESS_AUTOMATION":                  WorkRequestOperationTypeDisableProcessAutomation,
+	"ADD_LOG_ANALYTICS_LOG_GROUP":                 WorkRequestOperationTypeAddLogAnalyticsLogGroup,
+	"DELETE_LOG_ANALYTICS_LOG_GROUP":              WorkRequestOperationTypeDeleteLogAnalyticsLogGroup,
+	"CONVERT_INSTANCE":                            WorkRequestOperationTypeConvertInstance,
 	"EXTEND_DATA_RETENTION":                       WorkRequestOperationTypeExtendDataRetention,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestOperationTypeDisasterRecoveryFailover,
 	"CREATE_CUSTOM_ENDPOINT":                      WorkRequestOperationTypeCreateCustomEndpoint,
@@ -117,6 +125,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_integration_instance":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"change_private_endpoint_outbound_connection": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestOperationTypeEnableProcessAutomation,
+	"disable_process_automation":                  WorkRequestOperationTypeDisableProcessAutomation,
+	"add_log_analytics_log_group":                 WorkRequestOperationTypeAddLogAnalyticsLogGroup,
+	"delete_log_analytics_log_group":              WorkRequestOperationTypeDeleteLogAnalyticsLogGroup,
+	"convert_instance":                            WorkRequestOperationTypeConvertInstance,
 	"extend_data_retention":                       WorkRequestOperationTypeExtendDataRetention,
 	"disaster_recovery_failover":                  WorkRequestOperationTypeDisasterRecoveryFailover,
 	"create_custom_endpoint":                      WorkRequestOperationTypeCreateCustomEndpoint,
@@ -142,6 +154,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_INTEGRATION_INSTANCE",
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
+		"DISABLE_PROCESS_AUTOMATION",
+		"ADD_LOG_ANALYTICS_LOG_GROUP",
+		"DELETE_LOG_ANALYTICS_LOG_GROUP",
+		"CONVERT_INSTANCE",
 		"EXTEND_DATA_RETENTION",
 		"DISASTER_RECOVERY_FAILOVER",
 		"CREATE_CUSTOM_ENDPOINT",

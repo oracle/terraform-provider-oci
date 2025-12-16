@@ -18,11 +18,15 @@ import (
 
 // ModelDeploymentSystemData Model deployment system data.
 type ModelDeploymentSystemData interface {
+
+	// The type of the deployed model.
+	GetModelType() ModelDeploymentModelTypeEnum
 }
 
 type modeldeploymentsystemdata struct {
 	JsonData        []byte
-	SystemInfraType string `json:"systemInfraType"`
+	ModelType       ModelDeploymentModelTypeEnum `mandatory:"false" json:"modelType,omitempty"`
+	SystemInfraType string                       `json:"systemInfraType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +40,7 @@ func (m *modeldeploymentsystemdata) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.ModelType = s.Model.ModelType
 	m.SystemInfraType = s.Model.SystemInfraType
 
 	return err
@@ -60,6 +65,11 @@ func (m *modeldeploymentsystemdata) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
+// GetModelType returns ModelType
+func (m modeldeploymentsystemdata) GetModelType() ModelDeploymentModelTypeEnum {
+	return m.ModelType
+}
+
 func (m modeldeploymentsystemdata) String() string {
 	return common.PointerString(m)
 }
@@ -70,6 +80,9 @@ func (m modeldeploymentsystemdata) String() string {
 func (m modeldeploymentsystemdata) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingModelDeploymentModelTypeEnum(string(m.ModelType)); !ok && m.ModelType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ModelType: %s. Supported values are: %s.", m.ModelType, strings.Join(GetModelDeploymentModelTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

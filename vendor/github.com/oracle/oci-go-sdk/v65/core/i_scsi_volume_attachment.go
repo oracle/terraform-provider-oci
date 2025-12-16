@@ -94,6 +94,10 @@ type IScsiVolumeAttachment struct {
 	// Example: `ocid1.volume.oc1.phx.<unique_ID>`
 	ChapUsername *string `mandatory:"false" json:"chapUsername"`
 
+	// The volume's iSCSI IPv6 address.
+	// Example: `2001:db8::1/64`
+	Ipv6 *string `mandatory:"false" json:"ipv6"`
+
 	// A list of secondary multipath devices
 	MultipathDevices []MultipathDevice `mandatory:"false" json:"multipathDevices"`
 

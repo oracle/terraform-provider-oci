@@ -91,6 +91,70 @@ func (client *IntegrationInstanceClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
+// AddLogAnalyticsLogGroup Add LogGroup with specified ocid for Integration Instance to enable sending OIC Activity
+// Stream to OCI Logging Analytics.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddLogAnalyticsLogGroup.go.html to see an example of how to use AddLogAnalyticsLogGroup API.
+// A default retry strategy applies to this operation AddLogAnalyticsLogGroup()
+func (client IntegrationInstanceClient) AddLogAnalyticsLogGroup(ctx context.Context, request AddLogAnalyticsLogGroupRequest) (response AddLogAnalyticsLogGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addLogAnalyticsLogGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddLogAnalyticsLogGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddLogAnalyticsLogGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddLogAnalyticsLogGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddLogAnalyticsLogGroupResponse")
+	}
+	return
+}
+
+// addLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) addLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/addLogAnalyticsLogGroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddLogAnalyticsLogGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/AddLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "AddLogAnalyticsLogGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddOracleManagedCustomEndpoint Enable Oracle Managed Custom Endpoint for given integration instance.
 //
 // # See also
@@ -342,6 +406,71 @@ func (client IntegrationInstanceClient) changePrivateEndpointOutboundConnection(
 	return response, err
 }
 
+// ConvertInstance Integration instance identified by ID will be migrated to a new Disaster Recovery enabled integration instance.
+// If a given Integration instance has certain features enabled which are not supported for conversion/migration
+// it will not be accepted for conversion.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ConvertInstance.go.html to see an example of how to use ConvertInstance API.
+// A default retry strategy applies to this operation ConvertInstance()
+func (client IntegrationInstanceClient) ConvertInstance(ctx context.Context, request ConvertInstanceRequest) (response ConvertInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.convertInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertInstanceResponse")
+	}
+	return
+}
+
+// convertInstance implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) convertInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/convertInstance", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/ConvertInstance"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ConvertInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateIntegrationInstance Creates a new Integration Instance.
 //
 // # See also
@@ -455,6 +584,69 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/DeleteIntegrationInstance"
 		err = common.PostProcessServiceError(err, "IntegrationInstance", "DeleteIntegrationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableProcessAutomation Disable Process Automation for given Integration Instance
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DisableProcessAutomation.go.html to see an example of how to use DisableProcessAutomation API.
+// A default retry strategy applies to this operation DisableProcessAutomation()
+func (client IntegrationInstanceClient) DisableProcessAutomation(ctx context.Context, request DisableProcessAutomationRequest) (response DisableProcessAutomationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableProcessAutomation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableProcessAutomationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableProcessAutomationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableProcessAutomationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableProcessAutomationResponse")
+	}
+	return
+}
+
+// disableProcessAutomation implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) disableProcessAutomation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/disableProcessAutomation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableProcessAutomationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/DisableProcessAutomation"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "DisableProcessAutomation", apiReferenceLink)
 		return response, err
 	}
 
@@ -988,6 +1180,70 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveLogAnalyticsLogGroup Removes Log Analytics logGroup, if enabled for given integrationInstance. Since only single LogGroup can be enabled
+// for integration instance, no additional details are required to be includes in the request.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/RemoveLogAnalyticsLogGroup.go.html to see an example of how to use RemoveLogAnalyticsLogGroup API.
+// A default retry strategy applies to this operation RemoveLogAnalyticsLogGroup()
+func (client IntegrationInstanceClient) RemoveLogAnalyticsLogGroup(ctx context.Context, request RemoveLogAnalyticsLogGroupRequest) (response RemoveLogAnalyticsLogGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeLogAnalyticsLogGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveLogAnalyticsLogGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveLogAnalyticsLogGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveLogAnalyticsLogGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveLogAnalyticsLogGroupResponse")
+	}
+	return
+}
+
+// removeLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) removeLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/removeLogAnalyticsLogGroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveLogAnalyticsLogGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/RemoveLogAnalyticsLogGroup"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "RemoveLogAnalyticsLogGroup", apiReferenceLink)
 		return response, err
 	}
 
