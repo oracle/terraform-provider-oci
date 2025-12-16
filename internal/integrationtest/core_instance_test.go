@@ -954,24 +954,56 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"source_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceSourceDetailsRepresentation},
 	}
 	createCapacityReservationForInstanceBeforeUpdate = map[string]interface{}{
-		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: setCapacityReservationShapeBeforeUpdate},
-		"is_default_reservation":       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_default_reservation": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"instance_reservation_configs": []acctest.RepresentationGroup{
+			{RepType: acctest.Required, Group: setCapacityReservationShapeBeforeUpdate},
+			{RepType: acctest.Required, Group: setCapacityReservationShapeAfterUpdate},
+		},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{
+				"instance_reservation_configs",
+				"used_instance_count",
+				"reserved_instance_count",
+				"defined_tags",
+				"freeform_tags",
+			}},
+		}},
 	}
 	setCapacityReservationShapeBeforeUpdate = map[string]interface{}{
 		"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"reserved_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"instance_shape_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
+			"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `15`},
+		}},
 	}
 	createCapacityReservationForInstanceAfterUpdate = map[string]interface{}{
-		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: setCapacityReservationShapeAfterUpdate},
-		"is_default_reservation":       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_default_reservation": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"instance_reservation_configs": []acctest.RepresentationGroup{
+			{RepType: acctest.Required, Group: setCapacityReservationShapeAfterUpdate},
+			{RepType: acctest.Required, Group: setCapacityReservationShapeBeforeUpdate},
+		},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{
+				"instance_reservation_configs",
+				"used_instance_count",
+				"reserved_instance_count",
+				"defined_tags",
+				"freeform_tags",
+			}},
+		}},
 	}
 	setCapacityReservationShapeAfterUpdate = map[string]interface{}{
 		"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
 		"reserved_count": acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"instance_shape_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2`},
+			"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `30`},
+		}},
 	}
 )
 
@@ -1980,10 +2012,7 @@ func TestCoreInstanceResource_updateShapeAndCapacityReservation(t *testing.T) {
 			})) +
 			acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create,
 				acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
-			AvailabilityDomainConfig +
-			DefinedTagsDependencies +
-			CoreKeyResourceDependencyConfig +
-			acctest.ProviderTestConfig() + compartmentIdVariableStr +
+			AvailabilityDomainConfig + DefinedTagsDependencies + CoreKeyResourceDependencyConfig + acctest.ProviderTestConfig() + compartmentIdVariableStr +
 			acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "before_test_compute_capacity_reservation", acctest.Required, acctest.Create, createCapacityReservationForInstanceBeforeUpdate) +
 			acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "after_test_compute_capacity_reservation", acctest.Required, acctest.Create, createCapacityReservationForInstanceAfterUpdate)
 
@@ -2021,6 +2050,32 @@ func TestCoreInstanceResource_updateShapeAndCapacityReservation(t *testing.T) {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
+				},
+			),
+		},
+		// update only capacity_reservation_id
+		{
+			Config: capacityReservationConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(instanceUpdateShapeAndCapacityReservation, map[string]interface{}{
+						// Keep the already-updated shape so it does NOT change
+						"shape": acctest.Representation{RepType: acctest.Required, Update: `VM.Standard2.2`},
+						// Flip only capacity_reservation_id (back to the “before” reservation)
+						"capacity_reservation_id": acctest.Representation{RepType: acctest.Required, Update: `${oci_core_compute_capacity_reservation.before_test_compute_capacity_reservation.id}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttrPair(resourceName, "capacity_reservation_id", "oci_core_compute_capacity_reservation.before_test_compute_capacity_reservation", "id"),
+
+				func(s *terraform.State) (err error) {
+					resId3, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resId2 != resId3 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return nil
 				},
 			),
 		},

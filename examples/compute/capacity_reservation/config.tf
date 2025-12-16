@@ -1,5 +1,14 @@
 
 
+data "oci_core_images" "instance_image" {
+  compartment_id           = var.compartment_ocid
+  operating_system         = var.image_operating_system
+  operating_system_version = var.image_operating_system_version
+  shape                    = var.instance_shape
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
+}
+
 resource "oci_core_compute_capacity_reservation" "cr" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
@@ -39,6 +48,6 @@ resource "oci_core_instance" "test_instance" {
   }
   source_details {
     source_type = "image"
-    source_id = var.instance_image_ocid[var.region]
+    source_id = data.oci_core_images.instance_image.images[0].id
   }
 }

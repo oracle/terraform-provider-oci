@@ -34,21 +34,15 @@ variable "region" {
   default = "us-phoenix-1"
 }
 
-# variable "image" {
-#   description = "image OCID to launch instances from. This will be unique per region. This default is for region: us-phoenix-1."
-#   default = "ocid1.image.oc1.phx.aaaaaaaapxvrtwbpgy3lchk2usn462ekarljwg4zou2acmundxlkzdty4bjq"
-# }
-variable "instance_image_ocid" {
-  type = map(string)
+# Dynamic image lookup filters
+variable "image_operating_system" {
+  description = "Operating system to filter images."
+  default     = "Oracle Linux"
+}
 
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-  }
+variable "image_operating_system_version" {
+  description = "Operating system version to filter images (e.g., 8 or 8.10)."
+  default     = "8"
 }
 
 variable "instance_shape" {
