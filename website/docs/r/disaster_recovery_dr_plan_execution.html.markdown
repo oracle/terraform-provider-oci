@@ -107,6 +107,29 @@ The following attributes are exported:
 * `plan_execution_type` - The type of the DR plan executed. 
 * `plan_id` - The OCID of the DR plan.  Example: `ocid1.drplan.oc1..uniqueID` 
 * `state` - The current state of the DR plan execution. 
+* `step_status_counts` - A categorized summary of step execution statuses and their corresponding counts. 
+	* `failed_steps` - A summary of steps that failed during a DR plan execution, including failed and timed out steps. 
+		* `failed` - The total number of failed steps in a DR plan execution. 
+		* `timed_out` - The total number of steps that timed out during a DR plan execution. 
+		* `total_failed` - The total number of steps that failed during a DR plan execution. 
+	* `remaining_steps` - A summary of remaining steps in a DR plan execution, including queued, paused, and in-progress steps. 
+		* `in_progress` - The total number of steps in progress during a DR plan execution. 
+		* `paused` - The total number of paused steps in a DR plan execution. 
+		* `queued` - The total number of queued steps in a DR plan execution. 
+		* `total_remaining` - The total number of remaining steps in a DR plan execution. 
+	* `skipped_steps` - A summary of steps that were skipped during a DR plan execution, including disabled, failed but ignored, timed out but ignored, and canceled steps. 
+		* `canceled` - The total number of canceled steps in a DR plan execution. 
+		* `disabled` - The total number of disabled steps in a DR plan execution. 
+		* `failed_ignored` - The total number of steps that failed but were ignored during a DR plan execution. 
+		* `timed_out_ignored` - The total number of steps that timed out but were ignored during a DR plan execution. 
+		* `total_skipped` - The total number of steps that were skipped during a DR plan execution. 
+	* `successful_steps` - A summary of steps that completed successfully during a DR plan execution. 
+		* `succeeded` - The total number of steps that succeeded during a DR plan execution. 
+		* `total_successful` - The total number of successful steps in a DR plan execution. 
+	* `total_steps` - The total number of steps in a DR plan execution. 
+	* `warning_steps` - A summary of steps that encountered warnings during a DR plan execution. 
+		* `total_warnings` - The total number of steps that encountered warnings in a DR plan execution. 
+		* `warnings_ignored` - The total number of steps with warnings that were ignored during a DR plan execution. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time at which DR plan execution was created. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
 * `time_ended` - The date and time at which DR plan execution succeeded, failed, was paused, or was canceled. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 

@@ -78,6 +78,12 @@ type ComputeHost struct {
 
 	RecycleDetails *RecycleDetails `mandatory:"false" json:"recycleDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique firmware bundle associated with the Host.
+	FirmwareBundleId *string `mandatory:"false" json:"firmwareBundleId"`
+
+	// The platform of the host
+	Platform *string `mandatory:"false" json:"platform"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique Network Block
 	NetworkBlockId *string `mandatory:"false" json:"networkBlockId"`
 

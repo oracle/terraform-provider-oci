@@ -119,6 +119,10 @@ func CoreComputeHostResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"firmware_bundle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -157,6 +161,10 @@ func CoreComputeHostResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"platform": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"recycle_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -185,6 +193,11 @@ func CoreComputeHostResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"configuration_action_type": {
+				Type:     schema.TypeString,
+				Computed: false,
+				Optional: true,
 			},
 			"time_configuration_check": {
 				Type:     schema.TypeString,
@@ -289,6 +302,21 @@ func (s *CoreComputeHostResourceCrud) Get() error {
 }
 
 func (s *CoreComputeHostResourceCrud) Update() error {
+	if _, ok := s.D.GetOk("configuration_action_type"); ok && s.D.HasChange("configuration_action_type") {
+		if s.D.Get("configuration_action_type").(string) == "check" {
+			err := s.CheckHostConfiguration()
+			if err != nil {
+				return err
+			}
+		}
+		if s.D.Get("configuration_action_type").(string) == "apply" {
+			err := s.ApplyHostConfiguration()
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	computeHost, err := s.getComputeHost(s.D.Id())
 	if err != nil {
 		return err
@@ -336,6 +364,10 @@ func (s *CoreComputeHostResourceCrud) SetData() error {
 		s.D.Set("fault_domain", *s.Res.FaultDomain)
 	}
 
+	if s.Res.FirmwareBundleId != nil {
+		s.D.Set("firmware_bundle_id", *s.Res.FirmwareBundleId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.GpuMemoryFabricId != nil {
@@ -368,6 +400,10 @@ func (s *CoreComputeHostResourceCrud) SetData() error {
 		s.D.Set("network_block_id", *s.Res.NetworkBlockId)
 	}
 
+	if s.Res.Platform != nil {
+		s.D.Set("platform", *s.Res.Platform)
+	}
+
 	if s.Res.RecycleDetails != nil {
 		s.D.Set("recycle_details", []interface{}{RecycleDetailsToMap(s.Res.RecycleDetails)})
 	} else {
@@ -390,6 +426,46 @@ func (s *CoreComputeHostResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	return nil
+}
+
+func (s *CoreComputeHostResourceCrud) ApplyHostConfiguration() error {
+	request := oci_core.ApplyHostConfigurationRequest{}
+
+	idTmp := s.D.Id()
+	request.ComputeHostId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ApplyHostConfiguration(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *CoreComputeHostResourceCrud) CheckHostConfiguration() error {
+	request := oci_core.CheckHostConfigurationRequest{}
+
+	idTmp := s.D.Id()
+	request.ComputeHostId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.CheckHostConfiguration(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
@@ -488,6 +564,10 @@ func ComputeHostSummaryToMap(obj oci_core.ComputeHostSummary) map[string]interfa
 		result["network_block_id"] = string(*obj.NetworkBlockId)
 	}
 
+	if obj.Platform != nil {
+		result["platform"] = string(*obj.Platform)
+	}
+
 	if obj.RecycleDetails != nil {
 		result["recycle_details"] = []interface{}{RecycleDetailsToMap(obj.RecycleDetails)}
 	}
@@ -505,7 +585,6 @@ func ComputeHostSummaryToMap(obj oci_core.ComputeHostSummary) map[string]interfa
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
-
 	return result
 }
 

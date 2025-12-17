@@ -59,6 +59,10 @@ type DrProtectionGroupMemberOkeCluster struct {
 	// The list of node pools with configurations for minimum and maximum node counts.
 	// This property applies to the OKE cluster member in both the primary and standby region.
 	VirtualNodePoolConfigs []OkeClusterVirtualNodePoolConfiguration `mandatory:"false" json:"virtualNodePoolConfigs"`
+
+	// The list of config maps along with their corresponding namespaces.
+	// This property applies to the OKE cluster member in primary region.
+	ResourceModifierMappings []OkeClusterResourceModifierMapping `mandatory:"false" json:"resourceModifierMappings"`
 }
 
 // GetMemberId returns MemberId

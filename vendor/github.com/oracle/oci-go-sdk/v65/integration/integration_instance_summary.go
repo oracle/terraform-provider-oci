@@ -105,6 +105,9 @@ type IntegrationInstanceSummary struct {
 
 	// Data retention period set for given integration instance
 	DataRetentionPeriod IntegrationInstanceSummaryDataRetentionPeriodEnum `mandatory:"false" json:"dataRetentionPeriod,omitempty"`
+
+	// OCID of LogAnalytics LogGroup, enabled for given integration instance
+	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
@@ -161,6 +164,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		PrivateEndpointOutboundConnection outboundconnection                                    `json:"privateEndpointOutboundConnection"`
 		IsDisasterRecoveryEnabled         *bool                                                 `json:"isDisasterRecoveryEnabled"`
 		DataRetentionPeriod               IntegrationInstanceSummaryDataRetentionPeriodEnum     `json:"dataRetentionPeriod"`
+		LogGroupId                        *string                                               `json:"logGroupId"`
 		Id                                *string                                               `json:"id"`
 		DisplayName                       *string                                               `json:"displayName"`
 		CompartmentId                     *string                                               `json:"compartmentId"`
@@ -230,6 +234,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.IsDisasterRecoveryEnabled = model.IsDisasterRecoveryEnabled
 
 	m.DataRetentionPeriod = model.DataRetentionPeriod
+
+	m.LogGroupId = model.LogGroupId
 
 	m.Id = model.Id
 

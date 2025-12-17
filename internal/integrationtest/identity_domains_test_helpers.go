@@ -108,3 +108,18 @@ var MyAppTestGrantDependencies = testUserOcidVarStr + `
 		}
 	}
 `
+
+var MappedAttributeRefResourceAppDependencies = `
+	resource "oci_identity_domains_app" "test_saml_app" {
+		idcs_endpoint = data.oci_identity_domain.test_domain.url
+		based_on_template {
+			value = "CustomSAMLAppTemplateId"
+		}
+		is_saml_service_provider = false
+		display_name = "TestSamlApp"
+		schemas = ["urn:ietf:params:scim:schemas:oracle:idcs:App", "urn:ietf:params:scim:schemas:oracle:idcs:extension:samlServiceProvider:App"]
+		lifecycle {
+			ignore_changes = [schemas]
+		}
+	}
+`

@@ -39,6 +39,9 @@ type ListShapesRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an image.
 	ImageId *string `mandatory:"false" contributesTo:"query" name:"imageId"`
 
+	// Shape name.
+	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
