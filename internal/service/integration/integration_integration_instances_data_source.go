@@ -172,6 +172,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LogGroupId != nil {
+			integrationInstance["log_group_id"] = *r.LogGroupId
+		}
+
 		if r.MessagePacks != nil {
 			integrationInstance["message_packs"] = *r.MessagePacks
 		}

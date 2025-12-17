@@ -30,6 +30,10 @@ func CoreShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -485,6 +489,13 @@ func CoreShapesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"platform_names": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"processor_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -569,6 +580,11 @@ func (s *CoreShapesDataSourceCrud) Get() error {
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
 		tmp := imageId.(string)
 		request.ImageId = &tmp
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
@@ -707,6 +723,8 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 		} else {
 			shape["platform_config_options"] = nil
 		}
+
+		shape["platform_names"] = r.PlatformNames
 
 		if r.ProcessorDescription != nil {
 			shape["processor_description"] = *r.ProcessorDescription

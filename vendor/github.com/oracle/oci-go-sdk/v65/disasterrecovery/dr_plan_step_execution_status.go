@@ -21,42 +21,45 @@ type DrPlanStepExecutionStatusEnum string
 
 // Set of constants representing the allowable values for DrPlanStepExecutionStatusEnum
 const (
-	DrPlanStepExecutionStatusQueued          DrPlanStepExecutionStatusEnum = "QUEUED"
-	DrPlanStepExecutionStatusDisabled        DrPlanStepExecutionStatusEnum = "DISABLED"
-	DrPlanStepExecutionStatusInProgress      DrPlanStepExecutionStatusEnum = "IN_PROGRESS"
-	DrPlanStepExecutionStatusSucceeded       DrPlanStepExecutionStatusEnum = "SUCCEEDED"
-	DrPlanStepExecutionStatusFailed          DrPlanStepExecutionStatusEnum = "FAILED"
-	DrPlanStepExecutionStatusFailedIgnored   DrPlanStepExecutionStatusEnum = "FAILED_IGNORED"
-	DrPlanStepExecutionStatusTimedOut        DrPlanStepExecutionStatusEnum = "TIMED_OUT"
-	DrPlanStepExecutionStatusTimedOutIgnored DrPlanStepExecutionStatusEnum = "TIMED_OUT_IGNORED"
-	DrPlanStepExecutionStatusPaused          DrPlanStepExecutionStatusEnum = "PAUSED"
-	DrPlanStepExecutionStatusCanceled        DrPlanStepExecutionStatusEnum = "CANCELED"
+	DrPlanStepExecutionStatusQueued               DrPlanStepExecutionStatusEnum = "QUEUED"
+	DrPlanStepExecutionStatusDisabled             DrPlanStepExecutionStatusEnum = "DISABLED"
+	DrPlanStepExecutionStatusInProgress           DrPlanStepExecutionStatusEnum = "IN_PROGRESS"
+	DrPlanStepExecutionStatusSucceeded            DrPlanStepExecutionStatusEnum = "SUCCEEDED"
+	DrPlanStepExecutionStatusSucceededWithWarning DrPlanStepExecutionStatusEnum = "SUCCEEDED_WITH_WARNING"
+	DrPlanStepExecutionStatusFailed               DrPlanStepExecutionStatusEnum = "FAILED"
+	DrPlanStepExecutionStatusFailedIgnored        DrPlanStepExecutionStatusEnum = "FAILED_IGNORED"
+	DrPlanStepExecutionStatusTimedOut             DrPlanStepExecutionStatusEnum = "TIMED_OUT"
+	DrPlanStepExecutionStatusTimedOutIgnored      DrPlanStepExecutionStatusEnum = "TIMED_OUT_IGNORED"
+	DrPlanStepExecutionStatusPaused               DrPlanStepExecutionStatusEnum = "PAUSED"
+	DrPlanStepExecutionStatusCanceled             DrPlanStepExecutionStatusEnum = "CANCELED"
 )
 
 var mappingDrPlanStepExecutionStatusEnum = map[string]DrPlanStepExecutionStatusEnum{
-	"QUEUED":            DrPlanStepExecutionStatusQueued,
-	"DISABLED":          DrPlanStepExecutionStatusDisabled,
-	"IN_PROGRESS":       DrPlanStepExecutionStatusInProgress,
-	"SUCCEEDED":         DrPlanStepExecutionStatusSucceeded,
-	"FAILED":            DrPlanStepExecutionStatusFailed,
-	"FAILED_IGNORED":    DrPlanStepExecutionStatusFailedIgnored,
-	"TIMED_OUT":         DrPlanStepExecutionStatusTimedOut,
-	"TIMED_OUT_IGNORED": DrPlanStepExecutionStatusTimedOutIgnored,
-	"PAUSED":            DrPlanStepExecutionStatusPaused,
-	"CANCELED":          DrPlanStepExecutionStatusCanceled,
+	"QUEUED":                 DrPlanStepExecutionStatusQueued,
+	"DISABLED":               DrPlanStepExecutionStatusDisabled,
+	"IN_PROGRESS":            DrPlanStepExecutionStatusInProgress,
+	"SUCCEEDED":              DrPlanStepExecutionStatusSucceeded,
+	"SUCCEEDED_WITH_WARNING": DrPlanStepExecutionStatusSucceededWithWarning,
+	"FAILED":                 DrPlanStepExecutionStatusFailed,
+	"FAILED_IGNORED":         DrPlanStepExecutionStatusFailedIgnored,
+	"TIMED_OUT":              DrPlanStepExecutionStatusTimedOut,
+	"TIMED_OUT_IGNORED":      DrPlanStepExecutionStatusTimedOutIgnored,
+	"PAUSED":                 DrPlanStepExecutionStatusPaused,
+	"CANCELED":               DrPlanStepExecutionStatusCanceled,
 }
 
 var mappingDrPlanStepExecutionStatusEnumLowerCase = map[string]DrPlanStepExecutionStatusEnum{
-	"queued":            DrPlanStepExecutionStatusQueued,
-	"disabled":          DrPlanStepExecutionStatusDisabled,
-	"in_progress":       DrPlanStepExecutionStatusInProgress,
-	"succeeded":         DrPlanStepExecutionStatusSucceeded,
-	"failed":            DrPlanStepExecutionStatusFailed,
-	"failed_ignored":    DrPlanStepExecutionStatusFailedIgnored,
-	"timed_out":         DrPlanStepExecutionStatusTimedOut,
-	"timed_out_ignored": DrPlanStepExecutionStatusTimedOutIgnored,
-	"paused":            DrPlanStepExecutionStatusPaused,
-	"canceled":          DrPlanStepExecutionStatusCanceled,
+	"queued":                 DrPlanStepExecutionStatusQueued,
+	"disabled":               DrPlanStepExecutionStatusDisabled,
+	"in_progress":            DrPlanStepExecutionStatusInProgress,
+	"succeeded":              DrPlanStepExecutionStatusSucceeded,
+	"succeeded_with_warning": DrPlanStepExecutionStatusSucceededWithWarning,
+	"failed":                 DrPlanStepExecutionStatusFailed,
+	"failed_ignored":         DrPlanStepExecutionStatusFailedIgnored,
+	"timed_out":              DrPlanStepExecutionStatusTimedOut,
+	"timed_out_ignored":      DrPlanStepExecutionStatusTimedOutIgnored,
+	"paused":                 DrPlanStepExecutionStatusPaused,
+	"canceled":               DrPlanStepExecutionStatusCanceled,
 }
 
 // GetDrPlanStepExecutionStatusEnumValues Enumerates the set of values for DrPlanStepExecutionStatusEnum
@@ -75,6 +78,7 @@ func GetDrPlanStepExecutionStatusEnumStringValues() []string {
 		"DISABLED",
 		"IN_PROGRESS",
 		"SUCCEEDED",
+		"SUCCEEDED_WITH_WARNING",
 		"FAILED",
 		"FAILED_IGNORED",
 		"TIMED_OUT",

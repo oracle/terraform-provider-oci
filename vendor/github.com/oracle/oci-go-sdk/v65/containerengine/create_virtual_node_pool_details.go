@@ -35,6 +35,9 @@ type CreateVirtualNodePoolDetails struct {
 	// The list of placement configurations which determines where Virtual Nodes will be provisioned across as it relates to the subnet and availability domains. The size attribute determines how many we evenly spread across these placement configurations
 	PlacementConfigurations []PlacementConfiguration `mandatory:"true" json:"placementConfigurations"`
 
+	// The pod configuration for pods run on virtual nodes of this virtual node pool.
+	PodConfiguration *PodConfiguration `mandatory:"true" json:"podConfiguration"`
+
 	// Initial labels that will be added to the Kubernetes Virtual Node object when it registers.
 	InitialVirtualNodeLabels []InitialVirtualNodeLabel `mandatory:"false" json:"initialVirtualNodeLabels"`
 
@@ -43,9 +46,6 @@ type CreateVirtualNodePoolDetails struct {
 
 	// List of network security group id's applied to the Virtual Node VNIC.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
-	// The pod configuration for pods run on virtual nodes of this virtual node pool.
-	PodConfiguration *PodConfiguration `mandatory:"false" json:"podConfiguration"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

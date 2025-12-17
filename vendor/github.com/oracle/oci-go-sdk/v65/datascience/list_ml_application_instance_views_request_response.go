@@ -30,6 +30,9 @@ type ListMlApplicationInstanceViewsRequest struct {
 	// unique MlApplicationImplementation identifier
 	MlApplicationImplementationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationImplementationId"`
 
+	// unique MlApplicationInstance identifier
+	MlApplicationInstanceId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationInstanceId"`
+
 	// A filter to return only resources matching the given lifecycleState.
 	LifecycleState MlApplicationInstanceViewLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

@@ -106,6 +106,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 		service_lb_config {
 
 			#Optional
+			backend_nsg_ids = var.cluster_options_service_lb_config_backend_nsg_ids
 			defined_tags = {"Operations.CostCenter"= "42"}
 			freeform_tags = {"Department"= "Finance"}
 		}
@@ -165,6 +166,7 @@ The following arguments are supported:
 		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_config` - (Optional) (Updatable) Configuration to be applied to load balancers created by Kubernetes services
+		* `backend_nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) associated to backends to LBs (pods/nodes/virtual pods, etc.). Rules necessary for LB to backend communication would be added when rule management mode is set to NSG via annotations. see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_subnet_ids` - (Optional) The OCIDs of the subnets used for Kubernetes services load balancers.
@@ -247,6 +249,7 @@ The following attributes are exported:
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_config` - Configuration to be applied to load balancers created by Kubernetes services
+		* `backend_nsg_ids` - A list of the OCIDs of the network security groups (NSGs) associated to backends to LBs (pods/nodes/virtual pods, etc.). Rules necessary for LB to backend communication would be added when rule management mode is set to NSG via annotations. see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `service_lb_subnet_ids` - The OCIDs of the subnets used for Kubernetes services load balancers.
