@@ -140,6 +140,12 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.StepStatusCounts != nil {
+		s.D.Set("step_status_counts", []interface{}{DrPlanExecutionStepStatusCountsToMap(s.Res.StepStatusCounts)})
+	} else {
+		s.D.Set("step_status_counts", nil)
+	}
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}

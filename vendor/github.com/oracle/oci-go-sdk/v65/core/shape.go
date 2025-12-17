@@ -119,6 +119,9 @@ type Shape struct {
 
 	// The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape.
 	RecommendedAlternatives []ShapeAlternativeObject `mandatory:"false" json:"recommendedAlternatives"`
+
+	// The list of platform names that can be used for this shapes
+	PlatformNames []string `mandatory:"false" json:"platformNames"`
 }
 
 func (m Shape) String() string {

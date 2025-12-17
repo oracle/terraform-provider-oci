@@ -20,10 +20,11 @@ import (
 type OcirModelDeploymentEnvironmentConfigurationDetails struct {
 
 	// The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.
+	// The container image is optional while using service managed open source foundation model.
 	// Acceptable format:
 	// `<region>.ocir.io/<registry>/<image>:<tag>`
 	// `<region>.ocir.io/<registry>/<image>:<tag>@digest`
-	Image *string `mandatory:"true" json:"image"`
+	Image *string `mandatory:"false" json:"image"`
 
 	// The digest of the container image. For example,
 	// `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030`
@@ -59,6 +60,9 @@ type OcirModelDeploymentEnvironmentConfigurationDetails struct {
 	// No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes.
 	// Key can't be reserved Model Deployment environment variables.
 	EnvironmentVariables map[string]string `mandatory:"false" json:"environmentVariables"`
+
+	// Service injected Environment variables set for the web server container and can not be set or modified by user.
+	DefaultEnvironmentVariables map[string]string `mandatory:"false" json:"defaultEnvironmentVariables"`
 }
 
 func (m OcirModelDeploymentEnvironmentConfigurationDetails) String() string {

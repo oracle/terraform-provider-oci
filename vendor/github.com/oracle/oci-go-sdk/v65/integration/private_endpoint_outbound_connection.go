@@ -24,6 +24,9 @@ type PrivateEndpointOutboundConnection struct {
 
 	// One or more Network security group Ids. This is an optional argument.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// Indicates if all traffic should go through configured outbound connection
+	IsAllOutboundTrafficPrivate *bool `mandatory:"false" json:"isAllOutboundTrafficPrivate"`
 }
 
 func (m PrivateEndpointOutboundConnection) String() string {

@@ -55,6 +55,9 @@ type AutomaticDrConfigurationSummary struct {
 	// Example: `ocid1.drplan.oc1..uniqueID`
 	DefaultFailoverDrPlanId *string `mandatory:"false" json:"defaultFailoverDrPlanId"`
 
+	// The current sub-state of the Automatic DR configuration.
+	LifecycleSubState AutomaticDrConfigurationLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// A message describing the Automatic DR configuration's current state in more detail.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -84,6 +87,9 @@ func (m AutomaticDrConfigurationSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutomaticDrConfigurationLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutomaticDrConfigurationLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetAutomaticDrConfigurationLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

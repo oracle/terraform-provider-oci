@@ -63,7 +63,31 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 			#Optional
 			allowlisted_ips = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_allowlisted_ips
 		}
+		design_time {
+
+			#Optional
+			allowlisted_http_ips = var.integration_instance_network_endpoint_details_design_time_allowlisted_http_ips
+			allowlisted_http_vcns {
+				#Required
+				id = var.integration_instance_network_endpoint_details_design_time_allowlisted_http_vcns_id
+
+				#Optional
+				allowlisted_ips = var.integration_instance_network_endpoint_details_design_time_allowlisted_http_vcns_allowlisted_ips
+			}
+		}
 		is_integration_vcn_allowlisted = var.integration_instance_network_endpoint_details_is_integration_vcn_allowlisted
+		runtime {
+
+			#Optional
+			allowlisted_http_ips = var.integration_instance_network_endpoint_details_runtime_allowlisted_http_ips
+			allowlisted_http_vcns {
+				#Required
+				id = var.integration_instance_network_endpoint_details_runtime_allowlisted_http_vcns_id
+
+				#Optional
+				allowlisted_ips = var.integration_instance_network_endpoint_details_runtime_allowlisted_http_vcns_allowlisted_ips
+			}
+		}
 	}
 
     security_attributes = {
@@ -107,6 +131,24 @@ The following arguments are supported:
 	* `allowlisted_http_vcns` - (Optional) Virtual Cloud Networks allowed to access this network endpoint.
 		* `allowlisted_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
 		* `id` - (Required) The Virtual Cloud Network OCID.
+	* `design_time` - (Optional) A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - (Optional) Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - (Required) The Virtual Cloud Network OCID.
+	* `is_integration_vcn_allowlisted` - (Optional) The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - (Required) The type of network endpoint.
+	* `runtime` - (Optional) A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - (Optional) Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - (Required) The Virtual Cloud Network OCID.
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+* `network_endpoint_details` - (Optional) Base representation of a network endpoint.
+	* `allowlisted_http_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+	* `allowlisted_http_vcns` - (Optional) Virtual Cloud Networks allowed to access this network endpoint.
+		* `allowlisted_ips` - (Optional) Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `id` - (Required) The Virtual Cloud Network OCID.
 	* `is_integration_vcn_allowlisted` - (Optional) The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	* `network_endpoint_type` - (Required) The type of network endpoint.
 * `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
@@ -114,11 +156,10 @@ The following arguments are supported:
     "oracle-zpr.sensitivity.mode" = "enforce"
   }`
 * `shape` - (Optional) Shape
+* `convert_instance_trigger` - (Optional) (Updatable) An optional property when incremented triggers Convert Instance. Could be set to any integer value.
+* `disable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Disable Process Automation. Could be set to any integer value.
 * `enable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.
-* `extend_data_retention_trigger` - (Optional) (Updatable) An optional property when incremented triggers Extend Data Retention. Could be set to any integer value.
-* `add_oracle_managed_custom_endpoint_trigger` - (Optional) (Updatable) An optional property when incremented triggers Add Oracle Managed Custom Endpoint. Could be set to any integer value.
-* `enable_process_automation_trigger` - (Optional) (Updatable) An optional property when incremented triggers Enable Process Automation. Could be set to any integer value.
-* `remove_oracle_managed_custom_endpoint_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Oracle Managed Custom Endpoint. Could be set to any integer value.
+* `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
 * `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
   * `network_endpoint_type` - (Required) The type of network endpoint.
 * `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
@@ -196,7 +237,26 @@ The following attributes are exported:
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `lifecycle_details` - Additional details of lifecycleState or substates
+* `log_group_id` - OCID of LogAnalytics LogGroup, enabled for given integration instance
 * `message_packs` - The number of configured message packs (if any)
+* `network_endpoint_details` - Base representation of a network endpoint.
+	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `id` - The Virtual Cloud Network OCID.
+	* `design_time` - A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - The Virtual Cloud Network OCID.
+	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
+	* `network_endpoint_type` - The type of network endpoint.
+	* `runtime` - A collection of AllowListedIps and AllowListedVcns for a specific OIC component: global, RT, or DT
+		* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+		* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
+			* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
+			* `id` - The Virtual Cloud Network OCID.
+* `private_endpoint_outbound_connection` - Base representation for Outbound Connection (Reverse Connection).
 * `network_endpoint_details` - Base representation of a network endpoint.
 	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
 	* `allowlisted_http_vcns` - Virtual Cloud Networks allowed to access this network endpoint.
