@@ -78,8 +78,31 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
     "oracle-zpr.sensitivity.mode" = "enforce"
   }
 
+  network_endpoint_details {
+    allowlisted_http_ips = ["172.16.0.239/32"]
+    allowlisted_http_vcns {
+      allowlisted_ips = ["172.16.0.239/32"]
+      id = "${var.allow_listed_http_vcn}"
+    }
+    design_time {
+      allowlisted_http_ips = ["allowlistedHttpIps"]
+      allowlisted_http_vcns {
+        allowlisted_ips = ["allowlistedIps"]
+        id = "id"
+      }
+    }
+    is_integration_vcn_allowlisted = "false"
+    network_endpoint_type = "PUBLIC"
+    runtime {
+      allowlisted_http_ips = ["allowlistedHttpIps"]
+      allowlisted_http_vcns {
+        allowlisted_ips = ["allowlistedIps"]
+        id = "id"
+      }
+    }
+  }
   shape                     = "DEVELOPMENT"
-  display_name              = "instance-created-via-tf-${random_integer.seq.result}"
+  display_name              = "displayName"
   is_byol                   = "false"
   message_packs             = "1"
   domain_id                 = var.domain_id
@@ -124,7 +147,7 @@ resource "oci_identity_dynamic_group" "DG_managed_custom_endpoint" {
   provider = oci.phx
 
   compartment_id = var.tenancy_ocid
-  name = "DG_${oci_integration_integration_instance.test_integration_instance.display_name}"
+  name = "DG_tf_${oci_integration_integration_instance.test_integration_instance.display_name}"
   description = "DG for Oracle Managed Custom Endpoint"
   matching_rule = "any { resource.id = '${oci_integration_integration_instance.test_integration_instance.idcs_info[0].idcs_app_name}' }"
 }
@@ -135,7 +158,7 @@ resource "oci_identity_policy" "policy_managed_custom_endpoint" {
   #Required
   compartment_id = var.tenancy_ocid
   description = "Policy for Oracle Managed Custom Endpoint"
-  name = "policy_${oci_integration_integration_instance.test_integration_instance.display_name}"
+  name = "policy_tf_${oci_integration_integration_instance.test_integration_instance.display_name}"
   statements = [
     "ENDORSE any-user TO MANAGE certificate-authority-family IN any-tenancy",
     "Allow dynamic-group ${oci_identity_dynamic_group.DG_managed_custom_endpoint.name} to manage dns-zones in tenancy",
@@ -147,7 +170,7 @@ data "oci_integration_integration_instances" "test_integration_instances" {
   #Required
   compartment_id = var.compartment_id
 
-  display_name = "instance-created-via-tf"
+  display_name = "displayName"
   state        = "Active"
 }
 
@@ -169,14 +192,14 @@ data "oci_integration_integration_instance" "test_integration_instance" {
 # }
 
 resource "time_sleep" "wait" {
-  depends_on = [oci_identity_policy.policy_managed_custom_endpoint]
+  # depends_on = [oci_identity_policy.policy_managed_custom_endpoint]
 
-  create_duration = "180s"
+  create_duration = "10s" # "180s"
 }
 
 resource "oci_integration_oracle_managed_custom_endpoint" "integretion_custom_endpoint" {
   integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
-  hostname = "${replace(oci_integration_integration_instance.test_integration_instance.display_name, "-", "")}.toronto.oicg3dev.ohaiarch.cloud"
+  hostname = "displayName.toronto.oicg3dev.ohaiarch.cloud"
   dns_zone_name = "toronto.oicg3dev.ohaiarch.cloud"
   depends_on = [time_sleep.wait]
 }

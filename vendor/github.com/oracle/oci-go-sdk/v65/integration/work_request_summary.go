@@ -89,6 +89,10 @@ const (
 	WorkRequestSummaryOperationTypeDeleteIntegrationInstance               WorkRequestSummaryOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
+	WorkRequestSummaryOperationTypeDisableProcessAutomation                WorkRequestSummaryOperationTypeEnum = "DISABLE_PROCESS_AUTOMATION"
+	WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup                 WorkRequestSummaryOperationTypeEnum = "ADD_LOG_ANALYTICS_LOG_GROUP"
+	WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup              WorkRequestSummaryOperationTypeEnum = "DELETE_LOG_ANALYTICS_LOG_GROUP"
+	WorkRequestSummaryOperationTypeConvertInstance                         WorkRequestSummaryOperationTypeEnum = "CONVERT_INSTANCE"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
 	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 	WorkRequestSummaryOperationTypeCreateCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "CREATE_CUSTOM_ENDPOINT"
@@ -103,6 +107,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
+	"DISABLE_PROCESS_AUTOMATION":                  WorkRequestSummaryOperationTypeDisableProcessAutomation,
+	"ADD_LOG_ANALYTICS_LOG_GROUP":                 WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup,
+	"DELETE_LOG_ANALYTICS_LOG_GROUP":              WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup,
+	"CONVERT_INSTANCE":                            WorkRequestSummaryOperationTypeConvertInstance,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"CREATE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
@@ -117,6 +125,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"delete_integration_instance":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
+	"disable_process_automation":                  WorkRequestSummaryOperationTypeDisableProcessAutomation,
+	"add_log_analytics_log_group":                 WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup,
+	"delete_log_analytics_log_group":              WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup,
+	"convert_instance":                            WorkRequestSummaryOperationTypeConvertInstance,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"create_custom_endpoint":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
@@ -142,6 +154,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"DELETE_INTEGRATION_INSTANCE",
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
+		"DISABLE_PROCESS_AUTOMATION",
+		"ADD_LOG_ANALYTICS_LOG_GROUP",
+		"DELETE_LOG_ANALYTICS_LOG_GROUP",
+		"CONVERT_INSTANCE",
 		"EXTEND_DATA_RETENTION",
 		"DISASTER_RECOVERY_FAILOVER",
 		"CREATE_CUSTOM_ENDPOINT",

@@ -72,6 +72,8 @@ func init() {
 	exportIdentityDomainsIdentityPropagationTrustHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsSocialIdentityProviderHints.GetIdFn = getGetIdFn("socialIdentityProviders")
 	exportIdentityDomainsSocialIdentityProviderHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsMappedAttributeHints.GetIdFn = getGetIdFn("mappedAttributes")
+	exportIdentityDomainsMappedAttributeHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 
 	//// User sub-resources
 	exportIdentityDomainsApiKeyHints.GetIdFn = getUserSubResourceGetIdFn("apiKeys")
@@ -569,6 +571,13 @@ var exportIdentityDomainsSocialIdentityProviderHints = &tf_export.TerraformResou
 	ResourceAbbreviation: "social_identity_provider",
 }
 
+var exportIdentityDomainsMappedAttributeHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_mapped_attribute",
+	DatasourceClass:      "oci_identity_domains_mapped_attributes",
+	DatasourceItemsAttr:  "mapped_attributes",
+	ResourceAbbreviation: "mapped_attribute",
+}
+
 var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportIdentityDomainHints},
@@ -798,6 +807,12 @@ var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentityDomainsSocialIdentityProviderHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsMappedAttributeHints,
 			DatasourceQueryParams: map[string]string{
 				"idcs_endpoint": "url",
 			},

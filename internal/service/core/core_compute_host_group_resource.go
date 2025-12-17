@@ -67,6 +67,11 @@ func CoreComputeHostGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"state": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"target": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -450,6 +455,10 @@ func (s *CoreComputeHostGroupResourceCrud) mapToHostGroupConfiguration(fieldKeyF
 		result.RecycleLevel = oci_core.HostGroupConfigurationRecycleLevelEnum(recycleLevel.(string))
 	}
 
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.State = oci_core.HostGroupConfigurationStateEnum(state.(string))
+	}
+
 	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
 		tmp := target.(string)
 		result.Target = &tmp
@@ -466,6 +475,8 @@ func HostGroupConfigurationToMap(obj oci_core.HostGroupConfiguration) map[string
 	}
 
 	result["recycle_level"] = string(obj.RecycleLevel)
+
+	result["state"] = string(obj.State)
 
 	if obj.Target != nil {
 		result["target"] = string(*obj.Target)

@@ -59,6 +59,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 
 	var err error
 	switch m.MemberType {
+	case "INTEGRATION_INSTANCE":
+		mm := CreateDrProtectionGroupMemberIntegrationInstanceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := CreateDrProtectionGroupMemberDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)

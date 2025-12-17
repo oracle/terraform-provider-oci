@@ -26,6 +26,10 @@ type PublicEndpointDetails struct {
 	// Virtual Cloud Networks allowed to access this network endpoint.
 	AllowlistedHttpVcns []VirtualCloudNetwork `mandatory:"false" json:"allowlistedHttpVcns"`
 
+	Runtime *ComponentAllowListDetails `mandatory:"false" json:"runtime"`
+
+	DesignTime *ComponentAllowListDetails `mandatory:"false" json:"designTime"`
+
 	// The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	IsIntegrationVcnAllowlisted *bool `mandatory:"false" json:"isIntegrationVcnAllowlisted"`
 }

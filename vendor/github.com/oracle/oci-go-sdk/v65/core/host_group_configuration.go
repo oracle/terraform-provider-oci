@@ -34,6 +34,9 @@ type HostGroupConfiguration struct {
 	// * `SKIP_RECYCLE` - Skips host wipe.
 	// * `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior.
 	RecycleLevel HostGroupConfigurationRecycleLevelEnum `mandatory:"false" json:"recycleLevel,omitempty"`
+
+	// The state of the host group configuration.
+	State HostGroupConfigurationStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 
 func (m HostGroupConfiguration) String() string {
@@ -48,6 +51,9 @@ func (m HostGroupConfiguration) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingHostGroupConfigurationRecycleLevelEnum(string(m.RecycleLevel)); !ok && m.RecycleLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecycleLevel: %s. Supported values are: %s.", m.RecycleLevel, strings.Join(GetHostGroupConfigurationRecycleLevelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingHostGroupConfigurationStateEnum(string(m.State)); !ok && m.State != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for State: %s. Supported values are: %s.", m.State, strings.Join(GetHostGroupConfigurationStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -94,5 +100,47 @@ func GetHostGroupConfigurationRecycleLevelEnumStringValues() []string {
 // GetMappingHostGroupConfigurationRecycleLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingHostGroupConfigurationRecycleLevelEnum(val string) (HostGroupConfigurationRecycleLevelEnum, bool) {
 	enum, ok := mappingHostGroupConfigurationRecycleLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// HostGroupConfigurationStateEnum Enum with underlying type: string
+type HostGroupConfigurationStateEnum string
+
+// Set of constants representing the allowable values for HostGroupConfigurationStateEnum
+const (
+	HostGroupConfigurationStateValid   HostGroupConfigurationStateEnum = "VALID"
+	HostGroupConfigurationStateInvalid HostGroupConfigurationStateEnum = "INVALID"
+)
+
+var mappingHostGroupConfigurationStateEnum = map[string]HostGroupConfigurationStateEnum{
+	"VALID":   HostGroupConfigurationStateValid,
+	"INVALID": HostGroupConfigurationStateInvalid,
+}
+
+var mappingHostGroupConfigurationStateEnumLowerCase = map[string]HostGroupConfigurationStateEnum{
+	"valid":   HostGroupConfigurationStateValid,
+	"invalid": HostGroupConfigurationStateInvalid,
+}
+
+// GetHostGroupConfigurationStateEnumValues Enumerates the set of values for HostGroupConfigurationStateEnum
+func GetHostGroupConfigurationStateEnumValues() []HostGroupConfigurationStateEnum {
+	values := make([]HostGroupConfigurationStateEnum, 0)
+	for _, v := range mappingHostGroupConfigurationStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetHostGroupConfigurationStateEnumStringValues Enumerates the set of values in String for HostGroupConfigurationStateEnum
+func GetHostGroupConfigurationStateEnumStringValues() []string {
+	return []string{
+		"VALID",
+		"INVALID",
+	}
+}
+
+// GetMappingHostGroupConfigurationStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingHostGroupConfigurationStateEnum(val string) (HostGroupConfigurationStateEnum, bool) {
+	enum, ok := mappingHostGroupConfigurationStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
