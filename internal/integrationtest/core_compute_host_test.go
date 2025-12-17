@@ -137,7 +137,7 @@ func TestCoreComputeHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					log.Printf(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithOptionalCreate)
+					log.Print(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithOptionalCreate)
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
@@ -162,7 +162,7 @@ func TestCoreComputeHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration_action_type", "check"),
 
 				func(s *terraform.State) (err error) {
-					log.Printf(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies +
+					log.Print(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies +
 						CoreComputeHostResourceWithOptionalUpdate)
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -230,7 +230,7 @@ func TestCoreComputeHostResource_apply_configuration(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					log.Printf(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithOptionalCreate)
+					log.Print(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies + CoreComputeHostResourceWithOptionalCreate)
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
@@ -256,7 +256,7 @@ func TestCoreComputeHostResource_apply_configuration(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration_action_type", "apply"),
 
 				func(s *terraform.State) (err error) {
-					log.Printf(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies +
+					log.Print(config + compartmentIdVariableStr + CoreComputeHostResourceDependencies +
 						acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host", "test_compute_host", acctest.Optional, acctest.Update,
 							acctest.RepresentationCopyWithNewProperties(CoreComputeHostRepresentation, map[string]interface{}{
 								"configuration_action_type": acctest.Representation{RepType: acctest.Optional, Update: `${oci_core_compute_host_group.test_compute_host_group2.id}`},
