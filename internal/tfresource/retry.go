@@ -180,7 +180,31 @@ func SetRetriesConfig(configFile string) error {
 }
 
 func GetRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) time.Duration {
-	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
+	backoffDuration := getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
+	if response.Response != nil && response.Response.HTTPResponse() != nil {
+		statusCode := response.Response.HTTPResponse().StatusCode
+		switch statusCode {
+		case 429, 503:
+			utils.Logf("[DEGUG] Handling Retry Timeout for API Response Error Code %d", statusCode)
+			rawResponse := response.Response.HTTPResponse()
+			retryAfterVal := rawResponse.Header.Get("Retry-After")
+			if retryAfterVal == "" {
+				retryAfterVal = rawResponse.Header.Get("retry-after")
+			}
+			if retryAfterVal != "" {
+				if waitTime, err := strconv.Atoi(retryAfterVal); err == nil {
+					backoffDuration = time.Duration(waitTime) * time.Second
+					utils.Logf("[DEGUG] Retry Timeout obtained from response header is %s", backoffDuration)
+
+				} else {
+					utils.Logf("[DEGUG] Error while reading retry-after from response header. Obtained retry-after value is %s. Proceeding with default retry time %s", retryAfterVal, backoffDuration)
+				}
+			} else {
+				utils.Logf("[DEGUG] retry-after value not found in header to handle API Response Error Code %d. Proceeding with default retry time %s", statusCode, backoffDuration)
+			}
+		}
+	}
+	return backoffDuration
 }
 
 func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn, optionals ...interface{}) time.Duration {
