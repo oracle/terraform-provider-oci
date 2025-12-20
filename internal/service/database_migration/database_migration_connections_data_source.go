@@ -41,6 +41,10 @@ func DatabaseMigrationConnectionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"technology_sub_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"technology_type": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -117,6 +121,11 @@ func (s *DatabaseMigrationConnectionsDataSourceCrud) GetWithContext(ctx context.
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database_migration.ListConnectionsLifecycleStateEnum(state.(string))
+	}
+
+	if technologySubType, ok := s.D.GetOkExists("technology_sub_type"); ok {
+		tmp := technologySubType.(string)
+		request.TechnologySubType = &tmp
 	}
 
 	if technologyType, ok := s.D.GetOkExists("technology_type"); ok {

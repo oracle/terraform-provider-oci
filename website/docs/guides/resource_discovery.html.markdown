@@ -689,6 +689,9 @@ database_migration
 
 * oci\_database\_migration\_connection
 * oci\_database\_migration\_migration
+* oci\_database\_migration\_assessment
+* oci\_database\_migration\_assessment\_assessor\_action
+* oci\_database\_migration\_job\_advisor\_report\_check
 
 database_tools
 

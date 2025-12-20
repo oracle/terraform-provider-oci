@@ -211,6 +211,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 											},
 										},
 									},
+									"group_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"is_advisor_report_available": {
 										Type:     schema.TypeBool,
 										Computed: true,
@@ -780,6 +784,10 @@ func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interfa
 		extract = append(extract, PhaseExtractEntryToMap(item))
 	}
 	result["extract"] = extract
+
+	if obj.GroupDisplayName != nil {
+		result["group_display_name"] = string(*obj.GroupDisplayName)
+	}
 
 	if obj.IsAdvisorReportAvailable != nil {
 		result["is_advisor_report_available"] = bool(*obj.IsAdvisorReportAvailable)

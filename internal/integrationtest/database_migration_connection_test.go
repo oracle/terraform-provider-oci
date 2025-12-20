@@ -72,7 +72,6 @@ var (
 		"database_name":         acctest.Representation{RepType: acctest.Required, Create: `ggfe`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"host":                  acctest.Representation{RepType: acctest.Required, Create: `254.249.0.0`, Update: `254.249.0.0`},
-		"nsg_ids":               acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_mysql_id}`}},
 		"port":                  acctest.Representation{RepType: acctest.Required, Create: `3306`, Update: `3306`},
 		"replication_password":  acctest.Representation{RepType: acctest.Optional, Create: `replicationPassword`, Update: `replicationPassword2`},
 		"replication_username":  acctest.Representation{RepType: acctest.Optional, Create: `replicationUsername`, Update: `replicationUsername`},
@@ -97,9 +96,9 @@ var (
 		"additional_attributes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationConnectionAdditionalAttributesRepresentation},
 		"connection_string":     acctest.Representation{RepType: acctest.Required, Create: `10.10.10.10:10/test`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"nsg_ids":               acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_mysql_id}`, `${var.nsg_mysql_id2}`}, Update: []string{`${var.nsg_mysql_id}`, `${var.nsg_mysql_id2}`}},
 		"replication_password":  acctest.Representation{RepType: acctest.Optional, Create: `replicationPassword`, Update: `replicationPassword2`},
 		"replication_username":  acctest.Representation{RepType: acctest.Optional, Create: `replicationUsername`},
+		"subnet_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_mysql_id}`},
 		"wallet":                acctest.Representation{RepType: acctest.Required, Create: `wallet`, Update: `wallet2`},
 	}
 

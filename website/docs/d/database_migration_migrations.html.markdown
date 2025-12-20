@@ -55,6 +55,7 @@ The following attributes are exported:
 * `advisor_settings` - Details about Oracle Advisor Settings.
 	* `is_ignore_errors` - True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false. 
 	* `is_skip_advisor` - True to skip the Pre-Migration Advisor execution. Default is false.
+* `assessment_id` - The OCID of the resource being referenced.
 * `compartment_id` - The OCID of the resource being referenced.
 * `data_transfer_medium_details` - Optional additional properties for data transfer.
 	* `access_key_id` - AWS access key credentials identifier Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys 

@@ -24,6 +24,7 @@ data "oci_database_migration_jobs" "test_jobs" {
 
 	#Optional
 	display_name = var.job_display_name
+	job_id_not_equal_to = var.job_job_id_not_equal_to
 	state = var.job_state
 }
 ```
@@ -33,6 +34,7 @@ data "oci_database_migration_jobs" "test_jobs" {
 The following arguments are supported:
 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. 
+* `job_id_not_equal_to` - (Optional) The ID of the Job to exclude from the list of jobs. 
 * `migration_id` - (Required) The ID of the migration in which to list resources. 
 * `state` - (Optional) The lifecycle state of the Migration Job. 
 
@@ -78,6 +80,7 @@ The following attributes are exported:
 		* `extract` - Summary of phase status results. 
 			* `message` - Message in entry. 
 			* `type` - Type of extract. 
+		* `group_display_name` - Job Phase group display name e.g. 'Step 1: Migration' 
 		* `is_advisor_report_available` - True if a Pre-Migration Advisor report is available for this phase. False or null if no report is available. 
 		* `is_suspend_available` - This is returned as true if the current phase can be suspended. 
 		* `issue` - The text describing the root cause of the reported issue 
