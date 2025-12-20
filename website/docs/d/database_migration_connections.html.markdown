@@ -26,6 +26,7 @@ data "oci_database_migration_connections" "test_connections" {
 	display_name = var.connection_display_name
 	source_connection_id = oci_database_migration_connection.test_connection.id
 	state = var.connection_state
+	technology_sub_type = var.connection_technology_sub_type
 	technology_type = var.connection_technology_type
 }
 ```
@@ -38,7 +39,8 @@ The following arguments are supported:
 * `connection_type` - (Optional) The array of connection types.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `source_connection_id` - (Optional) The OCID of the source database connection.
-* `state` - (Optional) The current state of the Database Migration Deployment.
+* `state` - (Optional) The current state of the Database Migration Deployment. 
+* `technology_sub_type` - (Optional) The database technology sub-type.
 * `technology_type` - (Optional) The array of technology types.
 
 
