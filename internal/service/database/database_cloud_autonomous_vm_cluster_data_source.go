@@ -192,6 +192,12 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -265,6 +271,8 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
+
+	s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

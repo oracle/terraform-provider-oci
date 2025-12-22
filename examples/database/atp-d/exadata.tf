@@ -144,6 +144,11 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   #  total_container_databases             = 1
   compute_model                   = "ECPU"
 
+  // Ensure container database is destroyed before deleting this VM Cluster
+  depends_on = [
+    oci_database_autonomous_container_database.test_autonomous_container_database_for_add_standby
+  ]
+
   //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
   lifecycle {
     ignore_changes = [

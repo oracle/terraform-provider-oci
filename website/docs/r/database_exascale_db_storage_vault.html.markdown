@@ -48,7 +48,7 @@ resource "oci_database_exascale_db_storage_vault" "test_exascale_db_storage_vaul
 The following arguments are supported:
 
 * `additional_flash_cache_in_percent` - (Optional) (Updatable) The size of additional Flash Cache in percentage of High Capacity database storage. 
-* `autoscale_limit_in_gbs` - (Optional) (Updatable) Maximum limit storage size in gigabytes, that is applicable for the Database Storage Vault.
+* `autoscale_limit_in_gbs` - (Optional) (Updatable) The maximum limit, in gigabytes, to which the Vault storage size can automatically scale when auto scaling is enabled for the Database Storage Vault
 * `availability_domain` - (Required) The name of the availability domain in which the Exadata Database Storage Vault is located.
 * `cluster_placement_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure or Db System.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
