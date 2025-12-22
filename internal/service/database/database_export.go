@@ -17,6 +17,7 @@ func init() {
 	exportDatabaseDbNodeConsoleHistoryHints.ProcessDiscoveredResourcesFn = processDatabaseDbNodeConsoleHistory
 	exportDatabaseAutonomousContainerDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousContainerDatabaseHints.FindResourcesOverrideFn = findAllAutonomousContainerDatabases
+	exportDatabasePluggableDatabaseHints.FindResourcesOverrideFn = findPluggableDatabasesSingleFilter
 	exportDatabaseAutonomousDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.ProcessDiscoveredResourcesFn = processAutonomousDatabaseSource
 	exportDatabaseAutonomousExadataInfrastructureHints.RequireResourceRefresh = true
@@ -32,6 +33,27 @@ func init() {
 	exportDatabaseDatabaseHints.ProcessDiscoveredResourcesFn = processDatabases
 	exportDatabaseExadataInfrastructureHints.ProcessDiscoveredResourcesFn = processDatabaseExadataInfrastructures
 	tf_export.RegisterCompartmentGraphs("database", databaseResourceGraph)
+}
+
+// Minimal override for oci_database_pluggable_database resource discovery:
+// Always supply either database_id (if parent is oci_database_database), or compartment_id (from tfMeta.Inputs),
+// but never both (to comply with API requirements).
+func findPluggableDatabasesSingleFilter(
+	ctx *tf_export.ResourceDiscoveryContext,
+	tfMeta *tf_export.TerraformResourceAssociation,
+	parent *tf_export.OCIResource,
+	resourceGraph *tf_export.TerraformResourceGraph,
+) (resources []*tf_export.OCIResource, err error) {
+	queryParams := make(map[string]string)
+	if parent != nil && parent.TerraformClass == "oci_database_database" {
+		queryParams["database_id"] = parent.Id
+	} else if val, ok := tfMeta.DatasourceQueryParams["compartment_id"]; ok && val != "" {
+		queryParams["compartment_id"] = val
+	}
+	originalParams := tfMeta.DatasourceQueryParams
+	tfMeta.DatasourceQueryParams = queryParams
+	defer func() { tfMeta.DatasourceQueryParams = originalParams }()
+	return tf_export.FindResourcesGeneric(ctx, tfMeta, parent, resourceGraph)
 }
 
 func findAllAutonomousContainerDatabases(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) (resources []*tf_export.OCIResource, err error) {
@@ -660,6 +682,13 @@ var exportDatabaseCloudExadataInfrastructureConfigureExascaleManagementHints = &
 }
 
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
+	// DO NOT attempt to export these from compartment scope (would trigger export with missing parent ID and raise 400 errors)
+	// See: https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/ListExecutionActions etc.
+	// "oci_database_execution_action"
+	// "oci_database_execution_window"
+	// "oci_database_scheduling_plan"
+	// "oci_database_scheduled_action"
+	//
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints,

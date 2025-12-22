@@ -258,6 +258,12 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
 
+		multiCloudIdentityConnectorConfigs := []interface{}{}
+		for _, item := range r.MultiCloudIdentityConnectorConfigs {
+			multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+		}
+		cloudAutonomousVmCluster["multi_cloud_identity_connector_configs"] = multiCloudIdentityConnectorConfigs
+
 		if r.NextMaintenanceRunId != nil {
 			cloudAutonomousVmCluster["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
@@ -327,6 +333,8 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 		if r.SystemTags != nil {
 			cloudAutonomousVmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}
+
+		cloudAutonomousVmCluster["tde_key_store_type"] = r.TdeKeyStoreType
 
 		if r.TimeCreated != nil {
 			cloudAutonomousVmCluster["time_created"] = r.TimeCreated.String()

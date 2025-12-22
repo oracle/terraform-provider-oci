@@ -1119,6 +1119,35 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"encryption_key_location_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"aws_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"azure_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"hsm_password": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"provider_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -2802,6 +2831,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 	s.D.Set("encryption_key_history_entry", encryptionKeyHistoryEntry)
 
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		encryptionKeyLocationDetailsArray := []interface{}{}
+		if encryptionKeyLocationDetailsMap := AdbdEncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+			encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+		}
+		s.D.Set("encryption_key_location_details", encryptionKeyLocationDetailsArray)
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
+	}
+
 	if s.Res.FailedDataRecoveryInSeconds != nil {
 		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
 	}
@@ -3795,6 +3834,34 @@ func ImportTransportableTablespaceDetailsToMap(obj *oci_database.ImportTransport
 		result["tts_bundle_url"] = string(*obj.TtsBundleUrl)
 	}
 
+	return result
+}
+
+func AdbdEncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database.AwsEncryptionKeyDetails:
+		result["provider_type"] = "AWS"
+
+		if v.AwsEncryptionKeyId != nil {
+			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
+	case oci_database.AzureEncryptionKeyDetails:
+		result["provider_type"] = "AZURE"
+
+		if v.AzureEncryptionKeyId != nil {
+			result["azure_encryption_key_id"] = string(*v.AzureEncryptionKeyId)
+		}
+	case oci_database.ExternalHsmEncryptionDetails:
+		result["provider_type"] = "EXTERNAL"
+
+		if v.HsmPassword != nil {
+			result["hsm_password"] = string(*v.HsmPassword)
+		}
+	default:
+		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
+		return nil
+	}
 	return result
 }
 

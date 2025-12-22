@@ -62,3 +62,10 @@ data "oci_database_cloud_autonomous_vm_cluster_resource_usage" "test_cloud_auton
 data "oci_database_autonomous_database_software_image" "test_autonomous_database_software_image" {
   autonomous_database_software_image_id = oci_database_autonomous_database_software_image.autonomous_database_software_image.id
 }
+
+# Minimal example to exercise ListAutonomousDatabaseClones via oci_database_autonomous_databases_clones data source.
+# This ensures the provider makes the API call; used for backward compatibility validation.
+data "oci_database_autonomous_databases_clones" "test_autonomous_database_clones" {
+  compartment_id         = var.compartment_ocid
+  autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
+}

@@ -463,6 +463,35 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"encryption_key_location_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"aws_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"azure_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"hsm_password": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"provider_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -1006,6 +1035,16 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) SetData() er
 
 	if s.Res.DstFileVersion != nil {
 		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
+	}
+
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		encryptionKeyLocationDetailsArray := []interface{}{}
+		if encryptionKeyLocationDetailsMap := ACDEncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+			encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+		}
+		s.D.Set("encryption_key_location_details", encryptionKeyLocationDetailsArray)
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
