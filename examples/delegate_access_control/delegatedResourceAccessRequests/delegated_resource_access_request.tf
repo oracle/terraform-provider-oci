@@ -6,9 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-
-variable "test_delegation_control_id" {}
+variable "compartment_ocid" {}
 
 variable "delegated_resource_access_request_request_status" {
   default = "CREATED"
@@ -33,18 +31,15 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-  region           = var.region
+  region           = var.region  
 }
 
-data "oci_delegation_management_delegated_resource_access_requests" "test_delegated_resource_access_requests" {
+data "oci_delegate_access_control_delegated_resource_access_requests" "test_delegated_resource_access_requests" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
-  delegation_control_id = var.test_delegation_control_id
   request_status        = var.delegated_resource_access_request_request_status
-  #resource_id           = oci_usage_proxy_resource.test_resource.id
   state                 = var.delegated_resource_access_request_state
-  #time_end              = var.delegated_resource_access_request_time_end
-  #time_start            = var.delegated_resource_access_request_time_start
 }
+

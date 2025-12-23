@@ -6,7 +6,8 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "test_delegation_control_id" {}
+variable "delegation_control_ocid" {}
+
 
 
 provider "oci" {
@@ -17,7 +18,8 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_delegation_management_delegation_control_resources" "test_delegation_control_resources" {
+data "oci_delegate_access_control_delegation_control_resources" "test_delegation_control_resources" {
   #Required
-  delegation_control_id = var.test_delegation_control_id
+  delegation_control_id              = var.delegation_control_ocid
 }
+

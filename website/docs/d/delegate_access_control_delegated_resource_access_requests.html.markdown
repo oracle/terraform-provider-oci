@@ -60,10 +60,12 @@ The following attributes are exported:
 	* `approver_comment` - Comment specified by the approver of the request.
 	* `approver_id` - User ID of the approver.
 	* `time_approved_for_access` - Access start time that is actually approved by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format, e.g. '2020-05-22T21:10:29.600Z'.
+	* `time_of_action` - Time when the access request was approved or rejected by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-22T21:10:29.600Z'.
 * `audit_types` - Specifies the type of auditing to be enabled. There are two levels of auditing: command-level and keystroke-level.  By default, both command-level and keystroke-level auditing are enabled, i.e. commands and key strokes issued by the support operator are logged. 
 * `closure_comment` - The comment entered by the support operator while closing the request.
 * `compartment_id` - The OCID of the compartment that contains the Delegated Resource Access Request.
-* `database_name_list` - List of Database unique names for which access is requested. This parameter is required for DLGT_MGMT_SYS_MAINT_ACCESS cage when database access in needed.
+* `database_id_list` - List of Database ID for which access is requested. This parameter is required when database access is needed.
+* `database_name_list` - List of Database unique names for which access is requested. This parameter is required when database access in needed.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `delegation_control_id` - The OCID of the Delegation Control governing the target resource.
 * `delegation_subscription_ids` - List of Delegation Subscription OCID that are associated with this Delegated Resource Access Request based on the service types being requested.

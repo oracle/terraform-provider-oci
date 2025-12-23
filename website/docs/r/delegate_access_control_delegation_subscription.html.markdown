@@ -33,7 +33,7 @@ resource "oci_delegate_access_control_delegation_subscription" "test_delegation_
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the Delegation Control.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the Delegation Subscription.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) Description of the Delegation Subscription. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

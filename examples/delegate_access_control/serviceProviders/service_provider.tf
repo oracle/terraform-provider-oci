@@ -6,7 +6,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
 
 variable "service_provider_name" {
   default = "name"
@@ -24,9 +23,7 @@ variable "service_provider_supported_resource_type" {
   default = "VMCLUSTER"
 }
 
-variable "root_compartment_id" {
-  default = "ocid1.tenancy.region1..aaaaaaaagyw5okosjg54csr3u5qgaxvtjufz55537h44mjy2umiqur4z5w3a"
-}
+
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -36,9 +33,9 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_delegation_management_service_providers" "test_service_providers" {
+data "oci_delegate_access_control_service_providers" "test_service_providers" {
   #Required
-  compartment_id = var.root_compartment_id
+  compartment_id = var.tenancy_ocid
 
   #Optional
   name                    = var.service_provider_name
@@ -46,3 +43,4 @@ data "oci_delegation_management_service_providers" "test_service_providers" {
   state                   = var.service_provider_state
   supported_resource_type = var.service_provider_supported_resource_type
 }
+
