@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "test_access_req_id" {}
+
 
 
 provider "oci" {
@@ -17,7 +17,8 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_delegation_management_delegated_resource_access_request_histories" "test_delegated_resource_access_request_histories" {
+data "oci_delegate_access_control_delegated_resource_access_request_histories" "test_delegated_resource_access_request_histories" {
   #Required
-  delegated_resource_access_request_id = var.test_access_req_id
+  delegated_resource_access_request_id = oci_delegate_access_control_delegated_resource_access_request.test_delegated_resource_access_request.id
 }
+

@@ -56,6 +56,10 @@ func DelegateAccessControlDelegatedResourceAccessRequestDataSource() *schema.Res
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_of_action": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -73,6 +77,13 @@ func DelegateAccessControlDelegatedResourceAccessRequestDataSource() *schema.Res
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"database_id_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"database_name_list": {
 				Type:     schema.TypeList,
@@ -271,6 +282,8 @@ func (s *DelegateAccessControlDelegatedResourceAccessRequestDataSourceCrud) SetD
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("database_id_list", s.Res.DatabaseIdList)
 
 	s.D.Set("database_name_list", s.Res.DatabaseNameList)
 

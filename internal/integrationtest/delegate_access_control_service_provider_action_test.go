@@ -17,17 +17,12 @@ import (
 
 var (
 	DelegateAccessControlServiceProviderActionSingularDataSourceRepresentation = map[string]interface{}{
-		//"service_provider_action_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_delegate_access_control_service_provider_action.test_service_provider_action.id}`},
-		"service_provider_action_id": acctest.Representation{RepType: acctest.Required, Create: `${var.spActionId}`},
+		"service_provider_action_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_delegate_access_control_service_provider_actions.test_service_provider_actions.service_provider_action_summary_collection.0.items.0.id}`},
 	}
 
 	DelegateAccessControlServiceProviderActionDataSourceRepresentation = map[string]interface{}{
 		// can be only in root compartment, which is the tenancy
-		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"name":                          acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"resource_type":                 acctest.Representation{RepType: acctest.Optional, Create: `VMCLUSTER`},
-		"service_provider_service_type": acctest.Representation{RepType: acctest.Optional, Create: []string{`serviceProviderServiceType`}},
-		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	DelegateAccessControlServiceProviderActionResourceConfig = ""
@@ -40,7 +35,7 @@ func TestDelegateAccessControlServiceProviderActionResource_basic(t *testing.T) 
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_delegate_access_control_service_provider_actions.test_service_provider_actions"
@@ -55,32 +50,26 @@ func TestDelegateAccessControlServiceProviderActionResource_basic(t *testing.T) 
 				acctest.GenerateDataSourceFromRepresentationMap("oci_delegate_access_control_service_provider_actions", "test_service_provider_actions", acctest.Required, acctest.Create, DelegateAccessControlServiceProviderActionDataSourceRepresentation) +
 				compartmentIdVariableStr + DelegateAccessControlServiceProviderActionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				/*resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "resource_type", "VMCLUSTER"),
-				resource.TestCheckResourceAttr(datasourceName, "service_provider_service_type.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),*/
-
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "service_provider_action_summary_collection.#"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_delegate_access_control_service_provider_actions", "test_service_provider_actions", acctest.Required, acctest.Create, DelegateAccessControlServiceProviderActionDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_delegate_access_control_service_provider_action", "test_service_provider_action", acctest.Required, acctest.Create, DelegateAccessControlServiceProviderActionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DelegateAccessControlServiceProviderActionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_provider_action_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "component"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "customer_display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "service_provider_service_types.#", "2"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 			),
 		},
 	})

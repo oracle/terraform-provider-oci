@@ -97,6 +97,10 @@ func DelegateAccessControlDelegatedResourceAccessRequestsDataSource() *schema.Re
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"time_of_action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 											},
 										},
 									},
@@ -114,6 +118,13 @@ func DelegateAccessControlDelegatedResourceAccessRequestsDataSource() *schema.Re
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"database_id_list": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
 									},
 									"database_name_list": {
 										Type:     schema.TypeList,
@@ -395,6 +406,10 @@ func DelegatedResourceAccessRequestApprovalDetailsToMap(obj oci_delegate_access_
 
 	if obj.TimeApprovedForAccess != nil {
 		result["time_approved_for_access"] = obj.TimeApprovedForAccess.String()
+	}
+
+	if obj.TimeOfAction != nil {
+		result["time_of_action"] = obj.TimeOfAction.String()
 	}
 
 	return result

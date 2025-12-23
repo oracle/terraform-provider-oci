@@ -49,10 +49,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `compartment_id` - The OCID of the compartment that contains the Service Provider Action.
 * `component` - Name of the infrastructure layer associated with the Service Provider Action.
 * `customer_display_name` - Display Name of the Service Provider Action.
 * `description` - Description of the Service Provider Action in terms of associated risk profile, and characteristics of the operating system commands made available to the support operator under this Service Provider Action. 
 * `id` - Unique Oracle assigned identifier for the Service Provider Action.
+* `is_ssh_access_allowed` - Indicates whether the service provider action allows SSH access.
 * `name` - Unique name of the Service Provider Action.
 * `properties` - Fine grained properties associated with the Delegation Control.
 	* `name` - Name of the property

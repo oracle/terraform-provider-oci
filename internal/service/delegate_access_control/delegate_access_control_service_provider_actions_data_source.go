@@ -56,6 +56,10 @@ func DelegateAccessControlServiceProviderActionsDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"component": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -70,6 +74,10 @@ func DelegateAccessControlServiceProviderActionsDataSource() *schema.Resource {
 									},
 									"id": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_ssh_access_allowed": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"name": {
@@ -242,6 +250,10 @@ func ServiceProviderActionPropertiesToMap(obj oci_delegate_access_control.Servic
 func ServiceProviderActionSummaryToMap(obj oci_delegate_access_control.ServiceProviderActionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
 	if obj.Component != nil {
 		result["component"] = string(*obj.Component)
 	}
@@ -256,6 +268,10 @@ func ServiceProviderActionSummaryToMap(obj oci_delegate_access_control.ServicePr
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsSshAccessAllowed != nil {
+		result["is_ssh_access_allowed"] = bool(*obj.IsSshAccessAllowed)
 	}
 
 	if obj.Name != nil {

@@ -6,7 +6,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "test_access_req_id" {}
 
 variable "delegated_resource_access_request_audit_log_report_is_process_tree_enabled" {
   default = false
@@ -22,10 +21,11 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_delegation_management_delegated_resource_access_request_audit_log_report" "test_delegated_resource_access_request_audit_log_report" {
+data "oci_delegate_access_control_delegated_resource_access_request_audit_log_reports" "test_delegated_resource_access_request_audit_log_reports" {
   #Required
-  delegated_resource_access_request_id = var.test_access_req_id
+  delegated_resource_access_request_id = oci_delegate_access_control_delegated_resource_access_request.test_delegated_resource_access_request.id
 
   #Optional
   is_process_tree_enabled = var.delegated_resource_access_request_audit_log_report_is_process_tree_enabled
 }
+

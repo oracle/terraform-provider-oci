@@ -6,7 +6,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
 
 variable "service_provider_action_name" {
   default = "name"
@@ -24,9 +23,6 @@ variable "service_provider_action_state" {
   default = "ACTIVE"
 }
 
-variable "root_compartment_id" {
-  default = "ocid1.tenancy.region1..aaaaaaaagyw5okosjg54csr3u5qgaxvtjufz55537h44mjy2umiqur4z5w3a"
-}
 
 
 provider "oci" {
@@ -37,9 +33,9 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_delegation_management_service_provider_actions" "test_service_provider_actions" {
+data "oci_delegate_access_control_service_provider_actions" "test_service_provider_actions" {
   #Required
-  compartment_id = var.root_compartment_id
+  compartment_id = var.tenancy_ocid
 
   #Optional
   name                          = var.service_provider_action_name
@@ -47,3 +43,4 @@ data "oci_delegation_management_service_provider_actions" "test_service_provider
   service_provider_service_type = var.service_provider_action_service_provider_service_type
   state                         = var.service_provider_action_state
 }
+
