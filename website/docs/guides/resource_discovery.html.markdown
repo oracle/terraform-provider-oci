@@ -1056,6 +1056,7 @@ log_analytics
 * oci\_log\_analytics\_log\_analytics\_entity\_type
 * oci\_log\_analytics\_log\_analytics\_entity\_associations\_add
 * oci\_log\_analytics\_log\_analytics\_entity\_associations\_remove
+* oci\_log\_analytics\_namespace\_association
 
 logging
     
