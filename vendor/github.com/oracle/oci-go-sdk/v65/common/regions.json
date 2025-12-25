@@ -652,5 +652,11 @@
         "realmKey": "oc52",
         "regionIdentifier": "sa-riodejaneiro-1",
         "realmDomainComponent": "oraclecloud52.com"
+    },
+    {
+        "regionKey": "lej",
+        "realmKey": "oc1",
+        "regionIdentifier": "af-casablanca-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

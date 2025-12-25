@@ -143,7 +143,7 @@ func (client OsmhReportClient) changeReportCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/ChangeReportCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "ChangeReportCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -202,7 +202,7 @@ func (client OsmhReportClient) createReport(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/CreateReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "CreateReport", apiReferenceLink)
 		return response, err
 	}
@@ -256,7 +256,7 @@ func (client OsmhReportClient) deleteReport(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/DeleteReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "DeleteReport", apiReferenceLink)
 		return response, err
 	}
@@ -310,7 +310,7 @@ func (client OsmhReportClient) getReport(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/GetReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "GetReport", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client OsmhReportClient) getReportContent(ctx context.Context, request com
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/GetReportContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "GetReportContent", apiReferenceLink)
 		return response, err
 	}
@@ -417,7 +417,7 @@ func (client OsmhReportClient) getReportVersion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ReportVersion/GetReportVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "GetReportVersion", apiReferenceLink)
 		return response, err
 	}
@@ -470,7 +470,7 @@ func (client OsmhReportClient) getReportVersionContent(ctx context.Context, requ
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/GetReportVersionContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "GetReportVersionContent", apiReferenceLink)
 		return response, err
 	}
@@ -524,7 +524,7 @@ func (client OsmhReportClient) listReportVersions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/VersionCollection/ListReportVersions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "ListReportVersions", apiReferenceLink)
 		return response, err
 	}
@@ -578,7 +578,7 @@ func (client OsmhReportClient) listReports(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/ListReports"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "ListReports", apiReferenceLink)
 		return response, err
 	}
@@ -637,7 +637,7 @@ func (client OsmhReportClient) rerunReport(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/RerunReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "RerunReport", apiReferenceLink)
 		return response, err
 	}
@@ -691,7 +691,7 @@ func (client OsmhReportClient) updateReport(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/UpdateReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "UpdateReport", apiReferenceLink)
 		return response, err
 	}
@@ -750,7 +750,7 @@ func (client OsmhReportClient) updateReportVulnerabilities(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Report/UpdateReportVulnerabilities"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OsmhReport", "UpdateReportVulnerabilities", apiReferenceLink)
 		return response, err
 	}

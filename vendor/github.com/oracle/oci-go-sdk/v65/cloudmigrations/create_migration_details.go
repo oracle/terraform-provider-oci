@@ -33,6 +33,8 @@ type CreateMigrationDetails struct {
 	// Indicates whether migration is marked as complete.
 	IsCompleted *bool `mandatory:"false" json:"isCompleted"`
 
+	MigrationConfig *MigrationConfig `mandatory:"false" json:"migrationConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

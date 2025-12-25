@@ -18,7 +18,7 @@ import (
 // GenAiDetail GenAI details required to provision dedicated clusters.
 type GenAiDetail struct {
 
-	// Id for the GGCS instance to be provisioned.
+	// Id for the GenAi instance to be provisioned.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 
 	// The dedicated AI cluster type.

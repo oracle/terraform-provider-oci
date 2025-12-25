@@ -143,7 +143,7 @@ func (client EventClient) changeEventCompartment(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/ChangeEventCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "ChangeEventCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -197,7 +197,7 @@ func (client EventClient) deleteEvent(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/DeleteEvent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "DeleteEvent", apiReferenceLink)
 		return response, err
 	}
@@ -256,7 +256,7 @@ func (client EventClient) deleteEventContent(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/DeleteEventContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "DeleteEventContent", apiReferenceLink)
 		return response, err
 	}
@@ -310,7 +310,7 @@ func (client EventClient) getEvent(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/GetEvent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "GetEvent", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client EventClient) getEventContent(ctx context.Context, request common.OC
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/GetEventContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "GetEventContent", apiReferenceLink)
 		return response, err
 	}
@@ -422,7 +422,7 @@ func (client EventClient) importEventContent(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/ImportEventContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "ImportEventContent", apiReferenceLink)
 		return response, err
 	}
@@ -476,7 +476,7 @@ func (client EventClient) listEvents(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/EventCollection/ListEvents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "ListEvents", apiReferenceLink)
 		return response, err
 	}
@@ -530,7 +530,7 @@ func (client EventClient) listEventsAnalytics(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/EventsAnalyticsCollection/ListEventsAnalytics"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "ListEventsAnalytics", apiReferenceLink)
 		return response, err
 	}
@@ -584,7 +584,7 @@ func (client EventClient) updateEvent(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Event/UpdateEvent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Event", "UpdateEvent", apiReferenceLink)
 		return response, err
 	}

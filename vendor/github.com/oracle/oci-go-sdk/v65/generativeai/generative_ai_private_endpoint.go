@@ -54,6 +54,9 @@ type GenerativeAiPrivateEndpoint struct {
 	// A list of the OCIDs of the network security groups that the private endpoint's VNIC belongs to.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// Flag that allows access to on-demand models using this private endpoint.
+	IsAllowOnDemand *bool `mandatory:"false" json:"isAllowOnDemand"`
+
 	// The private IP address (in the customer's VCN) that represents the access point for the associated endpoint service.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 

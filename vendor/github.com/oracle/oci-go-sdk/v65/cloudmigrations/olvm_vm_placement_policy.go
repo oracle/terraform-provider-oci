@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// OlvmVmPlacementPolicy The configuration of the virtual machine’s placement policy.
+// OlvmVmPlacementPolicy The configuration of the virtual machine???s placement policy.
 type OlvmVmPlacementPolicy struct {
 
 	// Affinity of the virtual machine.

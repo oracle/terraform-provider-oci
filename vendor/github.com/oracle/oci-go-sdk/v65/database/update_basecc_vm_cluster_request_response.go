@@ -14,10 +14,10 @@ import (
 // UpdateBaseccVmClusterRequest wrapper for the UpdateBaseccVmCluster operation
 type UpdateBaseccVmClusterRequest struct {
 
-	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The BaseDB-C@C VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BaseccVmClusterId *string `mandatory:"true" contributesTo:"path" name:"baseccVmClusterId"`
 
-	// Request to update the attributes of a VM cluster.
+	// Request to update the attributes of a BaseDB-C@C VM cluster.
 	UpdateBaseccVmClusterDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

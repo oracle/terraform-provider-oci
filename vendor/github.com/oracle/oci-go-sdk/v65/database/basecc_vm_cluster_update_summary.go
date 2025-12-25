@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BaseccVmClusterUpdateSummary A maintenance update details for an Basecc VM cluster on BICC Infrastructure.
+// BaseccVmClusterUpdateSummary Maintenance update details for a BaseDB-C@C VM cluster.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access,
 // see Getting Started with Policies (https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
@@ -27,7 +27,7 @@ type BaseccVmClusterUpdateSummary struct {
 	// Details of the maintenance update package.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The type of Basecc VM cluster maintenance update.
+	// The type of Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster maintenance update.
 	UpdateType BaseccVmClusterUpdateSummaryUpdateTypeEnum `mandatory:"true" json:"updateType"`
 
 	// The date and time the maintenance update was released.

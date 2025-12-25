@@ -17,7 +17,7 @@ type ListBaseccVmClustersRequest struct {
 	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// If provided, filters the results for the given BICC Infrastructure.
+	// If provided, filters the results for the given Oracle Data Cloud@Customer Infrastructure.
 	BaseInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"baseInfrastructureId"`
 
 	// The maximum number of items to return per page.
@@ -41,7 +41,7 @@ type ListBaseccVmClustersRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to return only basecc vmclusters that match the given vmcluster type exactly.
+	// A filter to return only BaseDB-C@C VM clusters that match the given VM Cluster type exactly.
 	VmClusterType BaseccVmClusterSummaryVmClusterTypeEnum `mandatory:"false" contributesTo:"query" name:"vmClusterType" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

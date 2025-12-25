@@ -142,7 +142,7 @@ func (client ScheduledJobClient) changeScheduledJobCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ChangeScheduledJobCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "ChangeScheduledJobCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client ScheduledJobClient) createScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/CreateScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "CreateScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +255,7 @@ func (client ScheduledJobClient) deleteScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/DeleteScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "DeleteScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client ScheduledJobClient) getScheduledJob(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/GetScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "GetScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client ScheduledJobClient) listScheduledJobs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ListScheduledJobs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "ListScheduledJobs", apiReferenceLink)
 		return response, err
 	}
@@ -423,7 +423,7 @@ func (client ScheduledJobClient) pauseScheduledJob(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/PauseScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "PauseScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -483,7 +483,7 @@ func (client ScheduledJobClient) resumeScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ResumeScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "ResumeScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -543,7 +543,7 @@ func (client ScheduledJobClient) runScheduledJobNow(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/RunScheduledJobNow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "RunScheduledJobNow", apiReferenceLink)
 		return response, err
 	}
@@ -597,7 +597,7 @@ func (client ScheduledJobClient) updateScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/UpdateScheduledJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ScheduledJob", "UpdateScheduledJob", apiReferenceLink)
 		return response, err
 	}

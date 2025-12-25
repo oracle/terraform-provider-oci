@@ -58,6 +58,10 @@ type Endpoint struct {
 
 	ContentModerationConfig *ContentModerationConfig `mandatory:"false" json:"contentModerationConfig"`
 
+	PromptInjectionConfig *PromptInjectionConfig `mandatory:"false" json:"promptInjectionConfig"`
+
+	PiiDetectionConfig *PiiDetectionConfig `mandatory:"false" json:"piiDetectionConfig"`
+
 	PreviousState *Endpoint `mandatory:"false" json:"previousState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

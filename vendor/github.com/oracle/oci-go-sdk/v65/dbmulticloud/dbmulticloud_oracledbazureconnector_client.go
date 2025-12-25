@@ -163,7 +163,7 @@ func (client OracleDBAzureConnectorClient) changeOracleDbAzureConnectorCompartme
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/ChangeOracleDbAzureConnectorCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "ChangeOracleDbAzureConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +222,7 @@ func (client OracleDBAzureConnectorClient) createOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/CreateOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "CreateOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -276,7 +276,7 @@ func (client OracleDBAzureConnectorClient) deleteOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/DeleteOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "DeleteOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -330,7 +330,7 @@ func (client OracleDBAzureConnectorClient) getOracleDbAzureConnector(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/GetOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "GetOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +384,7 @@ func (client OracleDBAzureConnectorClient) listOracleDbAzureConnectors(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/ListOracleDbAzureConnectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "ListOracleDbAzureConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -438,7 +438,7 @@ func (client OracleDBAzureConnectorClient) patchOracleDbAzureConnector(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/PatchOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "PatchOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -497,7 +497,7 @@ func (client OracleDBAzureConnectorClient) refreshOracleDbAzureConnector(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/RefreshOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "RefreshOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}
@@ -551,7 +551,7 @@ func (client OracleDBAzureConnectorClient) updateOracleDbAzureConnector(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureConnector/UpdateOracleDbAzureConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureConnector", "UpdateOracleDbAzureConnector", apiReferenceLink)
 		return response, err
 	}

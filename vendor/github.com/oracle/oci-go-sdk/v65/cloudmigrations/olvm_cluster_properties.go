@@ -96,7 +96,7 @@ type OlvmClusterProperties struct {
 	// Indicates if an upgrade has been started for the cluster.
 	IsUpdateInProgress *bool `mandatory:"false" json:"isUpdateInProgress"`
 
-	// If an upgrade is in progress, the upgrade’s reported percent complete.
+	// If an upgrade is in progress, the upgrade???s reported percent complete.
 	UpgradePercentComplete *int `mandatory:"false" json:"upgradePercentComplete"`
 
 	Version *OlvmVersion `mandatory:"false" json:"version"`

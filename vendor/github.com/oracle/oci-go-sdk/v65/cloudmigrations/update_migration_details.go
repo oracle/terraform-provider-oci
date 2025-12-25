@@ -30,6 +30,8 @@ type UpdateMigrationDetails struct {
 	// Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 	MigrationType MigrationMigrationTypeEnum `mandatory:"false" json:"migrationType,omitempty"`
 
+	MigrationConfig *MigrationConfig `mandatory:"false" json:"migrationConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

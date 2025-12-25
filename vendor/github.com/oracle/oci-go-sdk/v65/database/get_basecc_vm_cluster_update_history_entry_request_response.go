@@ -14,7 +14,7 @@ import (
 // GetBaseccVmClusterUpdateHistoryEntryRequest wrapper for the GetBaseccVmClusterUpdateHistoryEntry operation
 type GetBaseccVmClusterUpdateHistoryEntryRequest struct {
 
-	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The BaseDB-C@C VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BaseccVmClusterId *string `mandatory:"true" contributesTo:"path" name:"baseccVmClusterId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.

@@ -217,7 +217,7 @@ func (m reportsummary) ValidateEnumValue() (bool, error) {
 	}
 
 	for _, val := range m.OsFamilies {
-		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && string(val) != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamilies: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 		}
 	}

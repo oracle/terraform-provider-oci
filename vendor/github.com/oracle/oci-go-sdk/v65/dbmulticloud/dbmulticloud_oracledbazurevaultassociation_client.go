@@ -163,7 +163,7 @@ func (client OracleDbAzureVaultAssociationClient) cascadingDeleteOracleDbAzureVa
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/CascadingDeleteOracleDbAzureVaultAssociation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "CascadingDeleteOracleDbAzureVaultAssociation", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +222,7 @@ func (client OracleDbAzureVaultAssociationClient) changeOracleDbAzureVaultAssoci
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/ChangeOracleDbAzureVaultAssociationCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "ChangeOracleDbAzureVaultAssociationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -281,7 +281,7 @@ func (client OracleDbAzureVaultAssociationClient) createOracleDbAzureVaultAssoci
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/CreateOracleDbAzureVaultAssociation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "CreateOracleDbAzureVaultAssociation", apiReferenceLink)
 		return response, err
 	}
@@ -335,7 +335,7 @@ func (client OracleDbAzureVaultAssociationClient) deleteOracleDbAzureVaultAssoci
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/DeleteOracleDbAzureVaultAssociation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "DeleteOracleDbAzureVaultAssociation", apiReferenceLink)
 		return response, err
 	}
@@ -389,7 +389,7 @@ func (client OracleDbAzureVaultAssociationClient) getOracleDbAzureVaultAssociati
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/GetOracleDbAzureVaultAssociation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "GetOracleDbAzureVaultAssociation", apiReferenceLink)
 		return response, err
 	}
@@ -443,7 +443,7 @@ func (client OracleDbAzureVaultAssociationClient) listOracleDbAzureVaultAssociat
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/ListOracleDbAzureVaultAssociations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "ListOracleDbAzureVaultAssociations", apiReferenceLink)
 		return response, err
 	}
@@ -497,7 +497,7 @@ func (client OracleDbAzureVaultAssociationClient) updateOracleDbAzureVaultAssoci
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVaultAssociation/UpdateOracleDbAzureVaultAssociation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVaultAssociation", "UpdateOracleDbAzureVaultAssociation", apiReferenceLink)
 		return response, err
 	}

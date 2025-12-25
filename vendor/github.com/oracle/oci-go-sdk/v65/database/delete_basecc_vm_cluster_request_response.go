@@ -14,7 +14,7 @@ import (
 // DeleteBaseccVmClusterRequest wrapper for the DeleteBaseccVmCluster operation
 type DeleteBaseccVmClusterRequest struct {
 
-	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The BaseDB-C@C VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BaseccVmClusterId *string `mandatory:"true" contributesTo:"path" name:"baseccVmClusterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BaseccVmClusterUpdate A maintenance update details for an Basecc VM cluster on BICC Infrastructure.
+// BaseccVmClusterUpdate Maintenance update details for a BaseDB-C@C VM cluster.
 type BaseccVmClusterUpdate struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
@@ -24,7 +24,7 @@ type BaseccVmClusterUpdate struct {
 	// Details of the maintenance update package.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The type of Basecc VM cluster maintenance update.
+	// The type of Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster maintenance update.
 	UpdateType BaseccVmClusterUpdateUpdateTypeEnum `mandatory:"true" json:"updateType"`
 
 	// The date and time the maintenance update was released.

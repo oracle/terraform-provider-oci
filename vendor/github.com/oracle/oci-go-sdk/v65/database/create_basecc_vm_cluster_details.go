@@ -15,62 +15,62 @@ import (
 	"strings"
 )
 
-// CreateBaseccVmClusterDetails Details for the create Basecc VM cluster operation. Applies to Base Cloud@Customer instances only.
+// CreateBaseccVmClusterDetails Details for creating a BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 type CreateBaseccVmClusterDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The number of CPU cores to enable for the Basecc VM cluster.
+	// Total CPU cores for the BaseDB C@C VM cluster.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Oracle Base Infrastructure.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Oracle Data Cloud@Customer Infrastructure.
 	BaseInfrastructureId *string `mandatory:"true" json:"baseInfrastructureId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Base Virtual Machine Network Id.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of BaseDB-C@C VM Cluster Network.
 	BaseVmClusterNetworkId *string `mandatory:"true" json:"baseVmClusterNetworkId"`
 
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
-	// The user-friendly name for the Basecc VM cluster on BICC Infrastructure. The name does not need to be unique.
+	// The user-friendly name for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The public key portion of one or more key pairs used for SSH access to the Basecc VM cluster on BICC Infrastructure.
+	// The public key portion of one or more key pairs used for SSH access to the VMs of Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition CreateBaseccVmClusterDetailsDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
-	// The number of nodes in the Basecc VM cluster on BICC Infrastructure.
+	// The number of nodes in the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute node on which Oracle Base virtual cluster single instance is launched.
-	// Note keep it blank for RAC Oracle Base virtual machine cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute node of the Oracle Data Cloud@Customer Infrastructure, on which the VM should be launched.
+	// Note: Applies to single node Base Database Service on Cloud@Customer (BaseDB-C@C) VM clusters only
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
-	// The description for Basecc VM Cluster.
+	// The description for Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time zone to use for the Basecc VM cluster on BICC Infrastructure. For details, see Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
+	// The time zone to use for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. For details, see Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
-	// The Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
+	// Total /u01 partition size (GB) for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	AdditionalVmStorageSizeInGBs *int `mandatory:"false" json:"additionalVmStorageSizeInGBs"`
 
-	// The Data Disk Group size in GB for the Basecc VM cluster on BICC Infrastructure.
+	// The DATA Disk Group size in GB for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The Reco Disk Group size in GB for the Basecc VM cluster on BICC Infrastructure.
+	// The RECO Disk Group size in GB for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	RecoStorageSizeInGBs *int `mandatory:"false" json:"recoStorageSizeInGBs"`
 
-	// The memory to be allocated per VM in GBs. The default is 8GB per core.
+	// The total memory to be allocated, in GBs, for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The minimum is 11GB for every 4 ECPU.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
-	// The Oracle license model that applies to the Basecc VM cluster on BICC Infrastructure. The default is LICENSE_INCLUDED.
+	// The Oracle license model that applies to the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The default is LICENSE_INCLUDED.
 	LicenseModel CreateBaseccVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -82,7 +82,7 @@ type CreateBaseccVmClusterDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The vmcluster type for the Base Cloud@Customer VM cluster.
+	// The cluster type for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	VmClusterType CreateBaseccVmClusterDetailsVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`

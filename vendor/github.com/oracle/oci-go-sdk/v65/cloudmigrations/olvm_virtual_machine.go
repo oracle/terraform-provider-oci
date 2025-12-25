@@ -82,7 +82,7 @@ type OlvmVirtualMachine struct {
 
 	StorageDomainLease *OlvmStorageDomainProperties `mandatory:"false" json:"storageDomainLease"`
 
-	// The virtual machine’s memory, in bytes.
+	// The virtual machine???s memory, in bytes.
 	MemoryInBytes *int64 `mandatory:"false" json:"memoryInBytes"`
 
 	MemoryPolicy *OlvmMemoryPolicy `mandatory:"false" json:"memoryPolicy"`
@@ -111,7 +111,7 @@ type OlvmVirtualMachine struct {
 
 	PlacementPolicy *OlvmVmPlacementPolicy `mandatory:"false" json:"placementPolicy"`
 
-	// If true, the virtual machine has been started using the run once command, meaning it’s configuration might differ from the stored one for the purpose of this single run.
+	// If true, the virtual machine has been started using the run once command, meaning it???s configuration might differ from the stored one for the purpose of this single run.
 	IsRunOnce *bool `mandatory:"false" json:"isRunOnce"`
 
 	SerialNumber *OlvmSerialNumber `mandatory:"false" json:"serialNumber"`
@@ -127,7 +127,7 @@ type OlvmVirtualMachine struct {
 	// The date in which the virtual machine was started.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// If true, the virtual machine is stateless - it’s state (disks) are rolled-back after shutdown.
+	// If true, the virtual machine is stateless - it???s state (disks) are rolled-back after shutdown.
 	IsStateless *bool `mandatory:"false" json:"isStateless"`
 
 	Status *OlvmVmStatus `mandatory:"false" json:"status"`
@@ -157,7 +157,7 @@ type OlvmVirtualMachine struct {
 
 	Usb *OlvmUsb `mandatory:"false" json:"usb"`
 
-	// If true, the virtual machine is reconfigured to the latest version of it’s template when it is started.
+	// If true, the virtual machine is reconfigured to the latest version of it???s template when it is started.
 	IsUseLatestTemplateVersion *bool `mandatory:"false" json:"isUseLatestTemplateVersion"`
 
 	// Indicates if Virtio SCSI Support is enabled.

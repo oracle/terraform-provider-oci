@@ -14,10 +14,10 @@ import (
 // ChangeBaseccVmClusterCompartmentRequest wrapper for the ChangeBaseccVmClusterCompartment operation
 type ChangeBaseccVmClusterCompartmentRequest struct {
 
-	// Request to move the Base Cloud@Customer VM cluster to a different compartment.
+	// Request to move the BaseDB-C@C VM cluster to a different compartment.
 	ChangeBaseccVmClusterCompartmentDetails `contributesTo:"body"`
 
-	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The BaseDB-C@C VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BaseccVmClusterId *string `mandatory:"true" contributesTo:"path" name:"baseccVmClusterId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

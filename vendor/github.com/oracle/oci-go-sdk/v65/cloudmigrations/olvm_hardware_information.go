@@ -18,16 +18,16 @@ import (
 // OlvmHardwareInformation Represents hardware information of host
 type OlvmHardwareInformation struct {
 
-	// Type of host’s CPU.
+	// Type of host???s CPU.
 	Family *string `mandatory:"false" json:"family"`
 
-	// Manufacturer of the host’s machine and hardware vendor.
+	// Manufacturer of the host???s machine and hardware vendor.
 	Manufacturer *string `mandatory:"false" json:"manufacturer"`
 
-	// Host’s product name (for example RHEV Hypervisor).
+	// Host???s product name (for example RHEV Hypervisor).
 	ProductName *string `mandatory:"false" json:"productName"`
 
-	// Unique ID for host’s chassis.
+	// Unique ID for host???s chassis.
 	SerialNumber *string `mandatory:"false" json:"serialNumber"`
 
 	// Supported sources of random number generator.

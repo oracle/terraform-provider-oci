@@ -14,7 +14,7 @@ import (
 // CreateBaseccVmClusterRequest wrapper for the CreateBaseccVmCluster operation
 type CreateBaseccVmClusterRequest struct {
 
-	// Request to create a VM cluster. Applies to Base Cloud@Customer instances only.
+	// Request to create a BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 	CreateBaseccVmClusterDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

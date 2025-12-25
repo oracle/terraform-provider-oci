@@ -23,7 +23,11 @@ type CreateReplicationConfigDetails struct {
 
 	// Specify if Recovery point objective (RPO) enforcement needs to be enabled on the database
 	// system.
-	IsRpoEnforced *bool `mandatory:"true" json:"isRpoEnforced"`
+	IsRpoEnforced *bool `mandatory:"false" json:"isRpoEnforced"`
+
+	// Specifies the Recovery point objective (RPO) in seconds that will be enforced, if the
+	// `isRpoEnforced` flag is true.
+	RpoInSeconds *int64 `mandatory:"false" json:"rpoInSeconds"`
 }
 
 func (m CreateReplicationConfigDetails) String() string {

@@ -14,7 +14,7 @@ import (
 // ListBaseccVmClusterUpdatesRequest wrapper for the ListBaseccVmClusterUpdates operation
 type ListBaseccVmClusterUpdatesRequest struct {
 
-	// The VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The BaseDB-C@C VM cluster OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	BaseccVmClusterId *string `mandatory:"true" contributesTo:"path" name:"baseccVmClusterId"`
 
 	// A filter to return only resources that match the given update type exactly.

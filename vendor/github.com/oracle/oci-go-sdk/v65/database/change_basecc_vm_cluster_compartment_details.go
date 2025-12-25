@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeBaseccVmClusterCompartmentDetails The configuration details for moving the Basecc VM cluster on BICC Infrastructure to another compartment. Applies to Basecc  Database Service on BICC Infrastructure only.
+// ChangeBaseccVmClusterCompartmentDetails The configuration details for moving the BaseDB-C@C VM cluster to another compartment. Applies to Base Database Service on Cloud@Customer only.
 type ChangeBaseccVmClusterCompartmentDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

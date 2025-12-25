@@ -48,7 +48,10 @@ type MaskingPolicyHealthReportLogSummary struct {
 	// DETERMINISTIC_ENCRYPTION_FORMAT_CHECK checks if any masking column has deterministic encryption masking format.
 	// COLUMN_EXIST_CHECK checks if the masking columns are available in the target database.
 	// TIME_TRAVEL_CHECK checks if the masking tables have Time Travel enabled.
+	// SYSTEM_OBJECTS_CHECK checks if the masking tables have dependent objects present in SYS schema.
 	// INVALID_PACKAGE_CHECK checks if any of the required packages are in invalid state.
+	// AUDIT_POLICY_CHECK checks if the masking tables have Audit policies enabled.
+	// USER_CREDENTIALS_CHECK checks if target database user credentials are required to run masking using the policy
 	HealthCheckType MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum `mandatory:"false" json:"healthCheckType,omitempty"`
 }
 
@@ -141,7 +144,10 @@ const (
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DETERMINISTIC_ENCRYPTION_FORMAT_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck                   MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "COLUMN_EXIST_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "TIME_TRAVEL_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeSystemObjectsCheck                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "SYSTEM_OBJECTS_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeInvalidPackageCheck                MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "INVALID_PACKAGE_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeAuditPolicyCheck                   MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "AUDIT_POLICY_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeUserCredentialsCheck               MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "USER_CREDENTIALS_CHECK"
 )
 
 var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = map[string]MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum{
@@ -161,7 +167,10 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = map[string]M
 	"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
 	"COLUMN_EXIST_CHECK":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck,
 	"TIME_TRAVEL_CHECK":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck,
+	"SYSTEM_OBJECTS_CHECK":                  MaskingPolicyHealthReportLogSummaryHealthCheckTypeSystemObjectsCheck,
 	"INVALID_PACKAGE_CHECK":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeInvalidPackageCheck,
+	"AUDIT_POLICY_CHECK":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeAuditPolicyCheck,
+	"USER_CREDENTIALS_CHECK":                MaskingPolicyHealthReportLogSummaryHealthCheckTypeUserCredentialsCheck,
 }
 
 var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumLowerCase = map[string]MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum{
@@ -181,7 +190,10 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumLowerCase = map
 	"deterministic_encryption_format_check": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
 	"column_exist_check":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeColumnExistCheck,
 	"time_travel_check":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeTimeTravelCheck,
+	"system_objects_check":                  MaskingPolicyHealthReportLogSummaryHealthCheckTypeSystemObjectsCheck,
 	"invalid_package_check":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeInvalidPackageCheck,
+	"audit_policy_check":                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeAuditPolicyCheck,
+	"user_credentials_check":                MaskingPolicyHealthReportLogSummaryHealthCheckTypeUserCredentialsCheck,
 }
 
 // GetMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumValues Enumerates the set of values for MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum
@@ -212,7 +224,10 @@ func GetMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumStringValues() []s
 		"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK",
 		"COLUMN_EXIST_CHECK",
 		"TIME_TRAVEL_CHECK",
+		"SYSTEM_OBJECTS_CHECK",
 		"INVALID_PACKAGE_CHECK",
+		"AUDIT_POLICY_CHECK",
+		"USER_CREDENTIALS_CHECK",
 	}
 }
 

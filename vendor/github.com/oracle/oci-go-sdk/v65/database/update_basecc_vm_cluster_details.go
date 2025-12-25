@@ -15,31 +15,31 @@ import (
 	"strings"
 )
 
-// UpdateBaseccVmClusterDetails Details for updating the VM cluster. Applies to Basecc Cloud@Customer instances only.
+// UpdateBaseccVmClusterDetails Details for updating the BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 type UpdateBaseccVmClusterDetails struct {
 
-	// The number of CPU cores to enable for the Basecc VM cluster.
+	// Total CPU cores for the BaseDB C@C VM cluster.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The memory to be allocated per VM in GBs. The default is 8GB per core.
+	// The total memory to be allocated, in GBs, for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The minimum is 11GB for every 4 ECPU.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
-	// The Data Disk Group size in GB for the Basecc VM cluster on BICC Infrastructure.
+	// The DATA Disk Group size in GB for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The Reco Disk Group size in GB for the Basecc VM cluster on BICC Infrastructure.
+	// The RECO Disk Group size in GB for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	RecoStorageSizeInGBs *int `mandatory:"false" json:"recoStorageSizeInGBs"`
 
-	// The Oracle license model that applies to the Basecc VM cluster on BICC Infrastructure. The default is LICENSE_INCLUDED.
+	// The Oracle license model that applies to the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The default is LICENSE_INCLUDED.
 	LicenseModel UpdateBaseccVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// The public key portion of one or more key pairs used for SSH access to the Basecc VM cluster on BICC Infrastructure.
+	// The public key portion of one or more key pairs used for SSH access to the VMs of Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	SshPublicKeys []string `mandatory:"false" json:"sshPublicKeys"`
 
-	// The user-friendly name for the Basecc VM cluster on BICC Infrastructure. The name does not need to be unique.
+	// The user-friendly name for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The Additional Vm Storage Size in GB, to be allocated for the /u01 partition for the Basecc VM cluster on BICC Infrastructure.
+	// Total /u01 partition size (GB) for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	AdditionalVmStorageSizeInGBs *int `mandatory:"false" json:"additionalVmStorageSizeInGBs"`
 
 	UpdateDetails *BaseccVmClusterUpdateDetails `mandatory:"false" json:"updateDetails"`

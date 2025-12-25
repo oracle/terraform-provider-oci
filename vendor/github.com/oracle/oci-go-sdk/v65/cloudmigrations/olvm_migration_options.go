@@ -18,18 +18,18 @@ import (
 // OlvmMigrationOptions Reference to cluster-wide configuration of migration of a running virtual machine to another host.
 type OlvmMigrationOptions struct {
 
-	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine → cluster → engine-config.
+	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine ??? cluster ??? engine-config.
 	AutoConverge OlvmMigrationOptionsAutoConvergeEnum `mandatory:"false" json:"autoConverge,omitempty"`
 
 	Bandwidth *MigrationBandwidth `mandatory:"false" json:"bandwidth"`
 
-	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine → cluster → engine-config.
+	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine ??? cluster ??? engine-config.
 	Compressed OlvmMigrationOptionsCompressedEnum `mandatory:"false" json:"compressed,omitempty"`
 
 	// Specifies how many parallel migration connections to use.
 	CustomParallelMigrations *int `mandatory:"false" json:"customParallelMigrations"`
 
-	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine → cluster → engine-config.
+	// Enum representing the boolean value that can be either set, or inherited from a higher level. The inheritance order is virtual machine ??? cluster ??? engine-config.
 	Encrypted OlvmMigrationOptionsEncryptedEnum `mandatory:"false" json:"encrypted,omitempty"`
 
 	// Type representing parallel migration connections policy.

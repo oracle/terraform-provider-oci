@@ -802,7 +802,7 @@ func (t *principalToken) GetClaim(key string) (interface{}, error) {
 	return nil, ErrNoSuchClaim
 }
 
-// nullSigner is required to avoid common.BaseClient panic.
+// nilSigner is required to avoid common.BaseClient panic.
 type nilSigner struct{}
 
 // Sign fulfills the HTTPRequestSigner interface.
@@ -840,18 +840,21 @@ type tokenExchangeFederationClient struct {
 	domainUrl     string
 	authCode      string
 	requestData   map[string][]string
+	instancePrincipalProvider common.ConfigurationProvider
 	mux           sync.Mutex
 }
 
 // newTokenExchangeFederationClient creates a federation client.
 func newTokenExchangeFederationClient(issuer TokenIssuer, host string,
-	authCode string, requestData map[string][]string) *tokenExchangeFederationClient {
+	authCode string, requestData map[string][]string,
+    instancePrincipalProvider common.ConfigurationProvider) *tokenExchangeFederationClient {
 	client := newIDAuthClient(host, "/oauth2/v1/token")
 	fc := tokenExchangeFederationClient{
 		tokenIssuer: issuer,
 		client:      client,
 		authCode:    authCode,
 		requestData: requestData,
+		instancePrincipalProvider: instancePrincipalProvider,
 	}
 
 	return &fc
@@ -876,7 +879,7 @@ func (fc *tokenExchangeFederationClient) SecurityToken() (string, error) {
 	return fmt.Sprintf("ST$%s", fc.securityToken.String()), nil
 }
 
-// GetClaim returns claims embedded in the UPST.
+// GetClaim returns claims embedded in the Security Token.
 func (fc *tokenExchangeFederationClient) GetClaim(key string) (interface{}, error) {
 	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
 		return nil, fmt.Errorf("unable to retrieve claim: %w", err)
@@ -905,9 +908,9 @@ func (fc *tokenExchangeFederationClient) renewSecurityTokenIfNotValid() error {
 	return nil
 }
 
-// renewSecurityToken initiates renewal of the UPST returned by the
+// renewSecurityToken initiates renewal of the Security Token returned by the
 // tokenExchangeFederationClient. Should only be called by renewSecurityTokenIfNotValid.
-// Rotates RSA key and updates federation client with fresh UPST and private key.
+// Rotates RSA key and updates federation client with fresh Security Token and private key.
 func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
 	var token string
 
@@ -936,14 +939,16 @@ func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
 		return fmt.Errorf("unable to generate RSA key: %w", err)
 	}
 
-	publicKey, err := privateToPublicDERBase64(privateKey)
-	if err != nil {
-		return fmt.Errorf("unable to derive public key: %w", err)
-	}
+	var publicKey = ""
+    if vals, ok := fc.requestData["public_key"]; ok && len(vals) > 0 {
+        publicKey = vals[0]
+    } else {
+        return fmt.Errorf("unable to derive public key")
+    }
 
 	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
 	if err != nil {
-		return fmt.Errorf("unable to exchange for UPST: %w", err)
+		return fmt.Errorf("unable to exchange JWT for security token: %w", err)
 	}
 
 	// privateKey and securityToken ONLY updated here while under lock from renewSecurityTokenIfNotValid
@@ -965,22 +970,34 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 	defer common.CloseBodyIfValid(httpResponse)
 
 	for retry := 1; retry <= maxRetries; retry++ {
-		common.Logf("attempt %d to retrieve UPST", retry)
+		common.Logf("attempt %d to retrieve Security Token", retry)
 
 		form := make(url.Values, 0)
 		maps.Copy(form, fc.requestData)
 		form.Set("public_key", publicKey)
-		form.Set("subject_token", token)
-		formBody := strings.NewReader(form.Encode())
+		if token != "" {
+            form.Set("subject_token", token)
+        }
+		formString := form.Encode()
+        formBody := strings.NewReader(formString)
 
 		httpRequest, err := http.NewRequest(http.MethodPost, fc.client.Host, formBody)
 		if err != nil {
 			return t, fmt.Errorf("failed to make request to token endpoint: %w", err)
 		}
 
-		httpRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
 		httpRequest.Header.Set("Accept", "application/json")
+
+        if fc.instancePrincipalProvider != nil {
+            signer := common.RequestSigner(fc.instancePrincipalProvider, genericHeaders, bodyHeaders)
+
+            err := signer.Sign(httpRequest)
+            if err != nil {
+                return t, fmt.Errorf("failed to sign request: %w", err)
+            }
+        } else if fc.authCode != "" {
+            httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
+        }
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		response, err := fc.client.Call(ctx, httpRequest)
@@ -1000,7 +1017,7 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 			common.Logf("invalid response from domain: %v", err)
 		}
 
-		response.Body.Close()
+		common.CloseBodyIfValid(response)
 		cancel()
 
 		sleep := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
@@ -1008,7 +1025,7 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 	}
 
 	if httpResponse == nil {
-		return t, fmt.Errorf("no response from domain: %w", err)
+		return t, fmt.Errorf("no response from domain")
 	}
 
 	if httpResponse.StatusCode != http.StatusOK {

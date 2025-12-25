@@ -74,7 +74,7 @@ type OlvmTemplateProperties struct {
 
 	StorageDomainLease *OlvmStorageDomainProperties `mandatory:"false" json:"storageDomainLease"`
 
-	// The virtual machine’s memory, in bytes.
+	// The virtual machine???s memory, in bytes.
 	MemoryInBytes *int64 `mandatory:"false" json:"memoryInBytes"`
 
 	MemoryPolicy *OlvmMemoryPolicy `mandatory:"false" json:"memoryPolicy"`
@@ -104,7 +104,7 @@ type OlvmTemplateProperties struct {
 	// If true, the virtual machine will be initially in 'paused' state after start.
 	IsStartPaused *bool `mandatory:"false" json:"isStartPaused"`
 
-	// If true, the virtual machine is stateless - it’s state (disks) are rolled-back after shutdown.
+	// If true, the virtual machine is stateless - it???s state (disks) are rolled-back after shutdown.
 	IsStateless *bool `mandatory:"false" json:"isStateless"`
 
 	// The status of the template.

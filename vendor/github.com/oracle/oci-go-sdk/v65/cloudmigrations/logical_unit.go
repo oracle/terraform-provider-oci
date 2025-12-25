@@ -21,10 +21,10 @@ type LogicalUnit struct {
 	// Address of the logical unit.
 	Address *string `mandatory:"false" json:"address"`
 
-	// The maximum number of bytes that can be discarded by the logical unit’s underlying storage in a single operation.
+	// The maximum number of bytes that can be discarded by the logical unit???s underlying storage in a single operation.
 	DiscardMaxSizeInBytes *int64 `mandatory:"false" json:"discardMaxSizeInBytes"`
 
-	// True, if previously discarded blocks in the logical unit’s underlying storage are read back as zeros.
+	// True, if previously discarded blocks in the logical unit???s underlying storage are read back as zeros.
 	IsDiscardZeroesData *bool `mandatory:"false" json:"isDiscardZeroesData"`
 
 	// Disk ID of the logical unit.

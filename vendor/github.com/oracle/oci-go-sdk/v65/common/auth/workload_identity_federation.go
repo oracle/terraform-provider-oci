@@ -15,6 +15,18 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
+type TokenExchangeBuilder struct {
+	DomainUrl                string
+	ClientId                 string
+	ClientSecret             string
+	Region                   string
+	RequestedTokenType       string
+	ResType                  string
+	SubjectTokenType         string
+	PublicKey                string
+	InstancePrincipalProvider common.ConfigurationProvider
+}
+
 // TokenIssuer defines a type capable of retrieving tokens for the issuing
 // authorization server.
 type TokenIssuer interface {
@@ -43,45 +55,63 @@ type TokenExchangeConfigurationProvider struct {
 // TokenExchangeConfigurationProviderFromIssuer creates a Configuration Provider from a
 // function provided to retrieve a token from an identity provider.
 func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
-	domainUrl string, clientId string, clientSecret string,
-	region string, requestedTokenType string,
-	resType string) (common.ConfigurationProvider, error) {
+	tokenExchangeBuilder TokenExchangeBuilder) (common.ConfigurationProvider, error) {
 
 	if tokenIssuer == nil {
 		return nil, fmt.Errorf("invalid TokenIssuer")
 	}
 
-	authCode := base64.StdEncoding.EncodeToString([]byte(
-		clientId + ":" + clientSecret))
+	var authCode string
+    if tokenExchangeBuilder.ClientId != "" && tokenExchangeBuilder.ClientSecret != "" {
+        authCode = base64.StdEncoding.EncodeToString([]byte(
+            tokenExchangeBuilder.ClientId + ":" + tokenExchangeBuilder.ClientSecret))
+    }
 
-	requestData := map[string][]string{
-		"requested_token_type": {requestedTokenType},
-		"grant_type":           {"urn:ietf:params:oauth:grant-type:token-exchange"},
-		"subject_token_type":   {"jwt"},
-	}
+    requestData := map[string][]string{
+        "grant_type":           {"urn:ietf:params:oauth:grant-type:token-exchange"},
+    }
 
-	if requestedTokenType == "urn:oci:token-type:oci-rpst" && resType != "" {
-		requestData["res_type"] = []string{resType}
-	}
+    if tokenExchangeBuilder.RequestedTokenType == "" {
+        return nil, fmt.Errorf("requested_token_type must be provided and non-empty")
+    } else {
+        requestData["requested_token_type"] = []string{tokenExchangeBuilder.RequestedTokenType}
+    }
 
-	fc := newTokenExchangeFederationClient(tokenIssuer, domainUrl, authCode, requestData)
+    if tokenExchangeBuilder.SubjectTokenType != "" {
+        requestData["subject_token_type"] = []string{tokenExchangeBuilder.SubjectTokenType}
+    }
 
-	return TokenExchangeConfigurationProvider{
-		federationClient: fc,
-		region:           common.StringToRegion(region),
-	}, nil
+    if tokenExchangeBuilder.PublicKey != "" {
+        requestData["public_key"] = []string{tokenExchangeBuilder.PublicKey}
+    }
+
+    if tokenExchangeBuilder.RequestedTokenType == "urn:oci:token-type:oci-rpst" {
+        if tokenExchangeBuilder.ResType != "" {
+            requestData["res_type"] = []string{tokenExchangeBuilder.ResType}
+        }
+    }
+
+    instancePrincipalProvider := tokenExchangeBuilder.InstancePrincipalProvider
+
+    if instancePrincipalProvider == nil && authCode == "" {
+        return nil, fmt.Errorf("InstancePrincipalProvider or ClientId and ClientSecret must be provided and non-nil")
+    }
+
+    fc := newTokenExchangeFederationClient(tokenIssuer, tokenExchangeBuilder.DomainUrl, authCode, requestData, instancePrincipalProvider)
+
+    return TokenExchangeConfigurationProvider{
+        federationClient: fc,
+        region:           common.StringToRegion(tokenExchangeBuilder.Region),
+    }, nil
 }
 
 // TokenExchangeConfigurationProviderFromToken returns a new configuration provider
 // from a static token.
-func TokenExchangeConfigurationProviderFromToken(token string, domainEndpoint string,
-	clientId string, clientSecret string, region string, requestedTokenType string,
-	resType string) (common.ConfigurationProvider, error) {
+func TokenExchangeConfigurationProviderFromToken(token string, tokenExchangeBuilder TokenExchangeBuilder) (common.ConfigurationProvider, error) {
 
 	issuer := StaticTokenIssuer{token: token}
 
-	return TokenExchangeConfigurationProviderFromIssuer(issuer, domainEndpoint, clientId,
-		clientSecret, region, requestedTokenType, resType)
+	return TokenExchangeConfigurationProviderFromIssuer(issuer, tokenExchangeBuilder)
 }
 
 func (c TokenExchangeConfigurationProvider) GetClaim(key string) (interface{}, error) {

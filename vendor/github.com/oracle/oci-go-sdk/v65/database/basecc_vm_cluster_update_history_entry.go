@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BaseccVmClusterUpdateHistoryEntry The record of an maintenance update action on a specified Basecc VM cluster on BICC Infrastructure.
+// BaseccVmClusterUpdateHistoryEntry The record of a maintenance update action on a specified BaseDB-C@C VM cluster.
 type BaseccVmClusterUpdateHistoryEntry struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.
@@ -24,7 +24,7 @@ type BaseccVmClusterUpdateHistoryEntry struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
 	UpdateId *string `mandatory:"true" json:"updateId"`
 
-	// The type of Basecc VM cluster maintenance update.
+	// The type of Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster maintenance update.
 	UpdateType BaseccVmClusterUpdateHistoryEntryUpdateTypeEnum `mandatory:"true" json:"updateType"`
 
 	// The current lifecycle state of the maintenance update operation.

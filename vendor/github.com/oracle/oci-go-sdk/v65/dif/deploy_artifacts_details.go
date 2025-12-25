@@ -35,6 +35,12 @@ type DeployArtifactsDetails struct {
 
 	// Dataflow artifact details if dataflow is included in the services.
 	Dataflow []DataflowArtifactsDetail `mandatory:"false" json:"dataflow"`
+
+	// Omk artifact details if omk is included in the services.
+	Omk []OmkArtifactsDetail `mandatory:"false" json:"omk"`
+
+	// Oke artifact details if oke is included in the services.
+	Oke []OkeArtifactsDetail `mandatory:"false" json:"oke"`
 }
 
 func (m DeployArtifactsDetails) String() string {

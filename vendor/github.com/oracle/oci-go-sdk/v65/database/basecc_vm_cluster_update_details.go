@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BaseccVmClusterUpdateDetails Details specifying which maintenance update to apply to the  Basecc VM Cluster and which action is to be performed by the maintenance update. Applies to Base Cloud@Customer instances only.
+// BaseccVmClusterUpdateDetails Details specifying which maintenance update to apply to the BaseDB-C@C VM cluster and which action is to be performed by the maintenance update. Applies to Base Database Service on Cloud@Customer instances only.
 type BaseccVmClusterUpdateDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.

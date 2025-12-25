@@ -1197,7 +1197,7 @@ func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeBaseccVmClusterCompartment Moves a VM cluster and its dependent resources to another compartment. Applies to Base Cloud@Customer instances only.
+// ChangeBaseccVmClusterCompartment Moves a BaseDB-C@C VM cluster and its dependent resources to another compartment. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) ChangeBaseccVmClusterCompartment(ctx context.Context, request ChangeBaseccVmClusterCompartmentRequest) (response ChangeBaseccVmClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4165,7 +4165,7 @@ func (client DatabaseClient) createBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// CreateBaseccVmCluster Creates a Base Cloud@Customer VM cluster.
+// CreateBaseccVmCluster Creates a BaseDB-C@C VM cluster.
 func (client DatabaseClient) CreateBaseccVmCluster(ctx context.Context, request CreateBaseccVmClusterRequest) (response CreateBaseccVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6589,7 +6589,7 @@ func (client DatabaseClient) deleteBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteBaseccVmCluster Deletes the specified VM cluster. Applies to Base Cloud@Customer instances only.
+// DeleteBaseccVmCluster Deletes the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) DeleteBaseccVmCluster(ctx context.Context, request DeleteBaseccVmClusterRequest) (response DeleteBaseccVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11432,7 +11432,7 @@ func (client DatabaseClient) getBackupDestination(ctx context.Context, request c
 	return response, err
 }
 
-// GetBaseccVmCluster Gets information about the Basecc VM cluster. Applies to Base Cloud@Customer instances only.
+// GetBaseccVmCluster Gets information about the BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) GetBaseccVmCluster(ctx context.Context, request GetBaseccVmClusterRequest) (response GetBaseccVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11485,7 +11485,7 @@ func (client DatabaseClient) getBaseccVmCluster(ctx context.Context, request com
 	return response, err
 }
 
-// GetBaseccVmClusterUpdate Gets information about a specified maintenance update package for a VM cluster. Applies to Base Cloud@Customer instances only.
+// GetBaseccVmClusterUpdate Gets information about a specified maintenance update package for a BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) GetBaseccVmClusterUpdate(ctx context.Context, request GetBaseccVmClusterUpdateRequest) (response GetBaseccVmClusterUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11538,7 +11538,7 @@ func (client DatabaseClient) getBaseccVmClusterUpdate(ctx context.Context, reque
 	return response, err
 }
 
-// GetBaseccVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry. Applies to Base Cloud@Customer instances only.
+// GetBaseccVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) GetBaseccVmClusterUpdateHistoryEntry(ctx context.Context, request GetBaseccVmClusterUpdateHistoryEntryRequest) (response GetBaseccVmClusterUpdateHistoryEntryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16347,7 +16347,7 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListBaseccVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified VM cluster. Applies to Base Cloud@Customer instances only.
+// ListBaseccVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) ListBaseccVmClusterUpdateHistoryEntries(ctx context.Context, request ListBaseccVmClusterUpdateHistoryEntriesRequest) (response ListBaseccVmClusterUpdateHistoryEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16400,7 +16400,7 @@ func (client DatabaseClient) listBaseccVmClusterUpdateHistoryEntries(ctx context
 	return response, err
 }
 
-// ListBaseccVmClusterUpdates Lists the maintenance updates that can be applied to the specified VM cluster. Applies to Base Cloud@Customer instances only.
+// ListBaseccVmClusterUpdates Lists the maintenance updates that can be applied to the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) ListBaseccVmClusterUpdates(ctx context.Context, request ListBaseccVmClusterUpdatesRequest) (response ListBaseccVmClusterUpdatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16453,7 +16453,7 @@ func (client DatabaseClient) listBaseccVmClusterUpdates(ctx context.Context, req
 	return response, err
 }
 
-// ListBaseccVmClusters Lists the VM clusters in the specified compartment. Applies to Base Cloud@Customer instances only.
+// ListBaseccVmClusters Lists the BaseDB-C@C VM clusters in the specified compartment. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) ListBaseccVmClusters(ctx context.Context, request ListBaseccVmClustersRequest) (response ListBaseccVmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -24627,7 +24627,7 @@ func (client DatabaseClient) updateBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateBaseccVmCluster Updates the specified VM cluster. Applies to Base Cloud@Customer instances only.
+// UpdateBaseccVmCluster Updates the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
 func (client DatabaseClient) UpdateBaseccVmCluster(ctx context.Context, request UpdateBaseccVmClusterRequest) (response UpdateBaseccVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

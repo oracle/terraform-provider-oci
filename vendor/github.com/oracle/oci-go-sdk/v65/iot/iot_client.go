@@ -143,7 +143,7 @@ func (client IotClient) changeIotDomainCompartment(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/ChangeIotDomainCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ChangeIotDomainCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -202,7 +202,7 @@ func (client IotClient) changeIotDomainDataRetentionPeriod(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/ChangeIotDomainDataRetentionPeriod"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ChangeIotDomainDataRetentionPeriod", apiReferenceLink)
 		return response, err
 	}
@@ -262,7 +262,7 @@ func (client IotClient) changeIotDomainGroupCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/ChangeIotDomainGroupCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ChangeIotDomainGroupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -321,7 +321,7 @@ func (client IotClient) configureIotDomainDataAccess(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/ConfigureIotDomainDataAccess"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ConfigureIotDomainDataAccess", apiReferenceLink)
 		return response, err
 	}
@@ -380,7 +380,7 @@ func (client IotClient) configureIotDomainGroupDataAccess(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/ConfigureIotDomainGroupDataAccess"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ConfigureIotDomainGroupDataAccess", apiReferenceLink)
 		return response, err
 	}
@@ -439,7 +439,7 @@ func (client IotClient) createDigitalTwinAdapter(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinAdapter/CreateDigitalTwinAdapter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateDigitalTwinAdapter", apiReferenceLink)
 		return response, err
 	}
@@ -498,7 +498,7 @@ func (client IotClient) createDigitalTwinInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/CreateDigitalTwinInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateDigitalTwinInstance", apiReferenceLink)
 		return response, err
 	}
@@ -557,7 +557,7 @@ func (client IotClient) createDigitalTwinModel(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/CreateDigitalTwinModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateDigitalTwinModel", apiReferenceLink)
 		return response, err
 	}
@@ -616,7 +616,7 @@ func (client IotClient) createDigitalTwinRelationship(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinRelationship/CreateDigitalTwinRelationship"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateDigitalTwinRelationship", apiReferenceLink)
 		return response, err
 	}
@@ -675,7 +675,7 @@ func (client IotClient) createIotDomain(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/CreateIotDomain"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateIotDomain", apiReferenceLink)
 		return response, err
 	}
@@ -734,7 +734,7 @@ func (client IotClient) createIotDomainGroup(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/CreateIotDomainGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "CreateIotDomainGroup", apiReferenceLink)
 		return response, err
 	}
@@ -788,7 +788,7 @@ func (client IotClient) deleteDigitalTwinAdapter(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinAdapter/DeleteDigitalTwinAdapter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteDigitalTwinAdapter", apiReferenceLink)
 		return response, err
 	}
@@ -842,7 +842,7 @@ func (client IotClient) deleteDigitalTwinInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/DeleteDigitalTwinInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteDigitalTwinInstance", apiReferenceLink)
 		return response, err
 	}
@@ -896,7 +896,7 @@ func (client IotClient) deleteDigitalTwinModel(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/DeleteDigitalTwinModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteDigitalTwinModel", apiReferenceLink)
 		return response, err
 	}
@@ -950,7 +950,7 @@ func (client IotClient) deleteDigitalTwinRelationship(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinRelationship/DeleteDigitalTwinRelationship"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteDigitalTwinRelationship", apiReferenceLink)
 		return response, err
 	}
@@ -1004,7 +1004,7 @@ func (client IotClient) deleteIotDomain(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/DeleteIotDomain"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteIotDomain", apiReferenceLink)
 		return response, err
 	}
@@ -1058,7 +1058,7 @@ func (client IotClient) deleteIotDomainGroup(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/DeleteIotDomainGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "DeleteIotDomainGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1112,7 +1112,7 @@ func (client IotClient) getDigitalTwinAdapter(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinAdapter/GetDigitalTwinAdapter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinAdapter", apiReferenceLink)
 		return response, err
 	}
@@ -1166,7 +1166,7 @@ func (client IotClient) getDigitalTwinInstance(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/GetDigitalTwinInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinInstance", apiReferenceLink)
 		return response, err
 	}
@@ -1220,7 +1220,7 @@ func (client IotClient) getDigitalTwinInstanceContent(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/GetDigitalTwinInstanceContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinInstanceContent", apiReferenceLink)
 		return response, err
 	}
@@ -1274,7 +1274,7 @@ func (client IotClient) getDigitalTwinModel(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/GetDigitalTwinModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinModel", apiReferenceLink)
 		return response, err
 	}
@@ -1328,7 +1328,7 @@ func (client IotClient) getDigitalTwinModelSpec(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/GetDigitalTwinModelSpec"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinModelSpec", apiReferenceLink)
 		return response, err
 	}
@@ -1382,7 +1382,7 @@ func (client IotClient) getDigitalTwinRelationship(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinRelationship/GetDigitalTwinRelationship"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetDigitalTwinRelationship", apiReferenceLink)
 		return response, err
 	}
@@ -1436,7 +1436,7 @@ func (client IotClient) getIotDomain(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/GetIotDomain"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetIotDomain", apiReferenceLink)
 		return response, err
 	}
@@ -1490,7 +1490,7 @@ func (client IotClient) getIotDomainGroup(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/GetIotDomainGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetIotDomainGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1544,7 +1544,7 @@ func (client IotClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1603,7 +1603,7 @@ func (client IotClient) invokeRawCommand(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/InvokeRawCommand"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "InvokeRawCommand", apiReferenceLink)
 		return response, err
 	}
@@ -1657,7 +1657,7 @@ func (client IotClient) listDigitalTwinAdapters(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinAdapter/ListDigitalTwinAdapters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListDigitalTwinAdapters", apiReferenceLink)
 		return response, err
 	}
@@ -1711,7 +1711,7 @@ func (client IotClient) listDigitalTwinInstances(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/ListDigitalTwinInstances"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListDigitalTwinInstances", apiReferenceLink)
 		return response, err
 	}
@@ -1765,7 +1765,7 @@ func (client IotClient) listDigitalTwinModels(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/ListDigitalTwinModels"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListDigitalTwinModels", apiReferenceLink)
 		return response, err
 	}
@@ -1819,7 +1819,7 @@ func (client IotClient) listDigitalTwinRelationships(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinRelationship/ListDigitalTwinRelationships"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListDigitalTwinRelationships", apiReferenceLink)
 		return response, err
 	}
@@ -1873,7 +1873,7 @@ func (client IotClient) listIotDomainGroups(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/ListIotDomainGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListIotDomainGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1927,7 +1927,7 @@ func (client IotClient) listIotDomains(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/ListIotDomains"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListIotDomains", apiReferenceLink)
 		return response, err
 	}
@@ -1981,7 +1981,7 @@ func (client IotClient) listWorkRequestErrors(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/WorkRequest/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2035,7 +2035,7 @@ func (client IotClient) listWorkRequestLogs(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/WorkRequest/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2089,7 +2089,7 @@ func (client IotClient) listWorkRequests(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2143,7 +2143,7 @@ func (client IotClient) updateDigitalTwinAdapter(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinAdapter/UpdateDigitalTwinAdapter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateDigitalTwinAdapter", apiReferenceLink)
 		return response, err
 	}
@@ -2197,7 +2197,7 @@ func (client IotClient) updateDigitalTwinInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinInstance/UpdateDigitalTwinInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateDigitalTwinInstance", apiReferenceLink)
 		return response, err
 	}
@@ -2251,7 +2251,7 @@ func (client IotClient) updateDigitalTwinModel(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinModel/UpdateDigitalTwinModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateDigitalTwinModel", apiReferenceLink)
 		return response, err
 	}
@@ -2305,7 +2305,7 @@ func (client IotClient) updateDigitalTwinRelationship(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/DigitalTwinRelationship/UpdateDigitalTwinRelationship"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateDigitalTwinRelationship", apiReferenceLink)
 		return response, err
 	}
@@ -2359,7 +2359,7 @@ func (client IotClient) updateIotDomain(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomain/UpdateIotDomain"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateIotDomain", apiReferenceLink)
 		return response, err
 	}
@@ -2413,7 +2413,7 @@ func (client IotClient) updateIotDomainGroup(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iot/20250531/IotDomainGroup/UpdateIotDomainGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Iot", "UpdateIotDomainGroup", apiReferenceLink)
 		return response, err
 	}
