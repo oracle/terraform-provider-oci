@@ -16,6 +16,8 @@ variable "region" {
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   region           = var.region
+  # version = "7.29.0"
+  ignore_defined_tags      = ["Oracle-Tags.CreatedBy","Oracle-Tags.CreatedOn"]
 }
 
 
@@ -27,7 +29,7 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_cluster_placement_groups_cluster_placement_group" "test_cpg" {
   #Required
   compartment_id = var.tenancy_ocid
-  description    = "cpg for compute & block resources"
+  description    = "cpg for compute and block resources"
   name           = local.cpg_name
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cluster_placement_group_type = "STANDARD"
@@ -41,6 +43,13 @@ resource "oci_cluster_placement_groups_cluster_placement_group" "test_cpg" {
 
   freeform_tags = {
     "Department" = "Finance"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"]
+    ]
   }
 }
 
