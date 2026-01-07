@@ -10,5 +10,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_ocvp_datastore", OcvpDatastoreResource())
 	tfresource.RegisterResource("oci_ocvp_datastore_cluster", OcvpDatastoreClusterResource())
 	tfresource.RegisterResource("oci_ocvp_esxi_host", OcvpEsxiHostResource())
+	tfresource.RegisterResource("oci_ocvp_management_appliance", OcvpManagementApplianceResource())
 	tfresource.RegisterResource("oci_ocvp_sddc", OcvpSddcResource())
 }
