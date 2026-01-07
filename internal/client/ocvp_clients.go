@@ -14,6 +14,7 @@ func init() {
 	RegisterOracleClient("oci_ocvp.DatastoreClient", &OracleClient{InitClientFn: initOcvpDatastoreClient})
 	RegisterOracleClient("oci_ocvp.DatastoreClusterClient", &OracleClient{InitClientFn: initOcvpDatastoreClusterClient})
 	RegisterOracleClient("oci_ocvp.EsxiHostClient", &OracleClient{InitClientFn: initOcvpEsxiHostClient})
+	RegisterOracleClient("oci_ocvp.ManagementApplianceClient", &OracleClient{InitClientFn: initOcvpManagementApplianceClient})
 	RegisterOracleClient("oci_ocvp.WorkRequestClient", &OracleClient{InitClientFn: initOcvpWorkRequestClient})
 	RegisterOracleClient("oci_ocvp.SddcClient", &OracleClient{InitClientFn: initOcvpSddcClient})
 }
@@ -96,6 +97,26 @@ func initOcvpEsxiHostClient(configProvider oci_common.ConfigurationProvider, con
 
 func (m *OracleClients) EsxiHostClient() *oci_ocvp.EsxiHostClient {
 	return m.GetClient("oci_ocvp.EsxiHostClient").(*oci_ocvp.EsxiHostClient)
+}
+
+func initOcvpManagementApplianceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_ocvp.NewManagementApplianceClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ManagementApplianceClient() *oci_ocvp.ManagementApplianceClient {
+	return m.GetClient("oci_ocvp.ManagementApplianceClient").(*oci_ocvp.ManagementApplianceClient)
 }
 
 func initOcvpWorkRequestClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
