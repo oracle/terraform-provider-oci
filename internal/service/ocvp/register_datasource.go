@@ -14,6 +14,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_ocvp_datastores", OcvpDatastoresDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_esxi_host", OcvpEsxiHostDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_esxi_hosts", OcvpEsxiHostsDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_management_appliance", OcvpManagementApplianceDataSource())
+	tfresource.RegisterDatasource("oci_ocvp_management_appliances", OcvpManagementAppliancesDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_retrieve_password", OcvpRetrievePasswordDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_sddc", OcvpSddcDataSource())
 	tfresource.RegisterDatasource("oci_ocvp_sddcs", OcvpSddcsDataSource())

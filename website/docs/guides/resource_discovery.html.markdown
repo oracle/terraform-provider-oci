@@ -1158,6 +1158,7 @@ ocvp
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
 * oci\_ocvp\_cluster
+* oci\_ocvp\_management\_appliance
 
 oda
     
