@@ -110,6 +110,10 @@ func (s *CoreInstancePoolsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.CurrentSize != nil {
+			instancePool["current_size"] = *r.CurrentSize
+		}
+
 		if r.DefinedTags != nil {
 			instancePool["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
