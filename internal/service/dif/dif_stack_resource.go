@@ -22,18 +22,24 @@ import (
 
 var (
 	difServiceToTemplate = map[string]string{
-		"OBJECTSTORAGE": "DATALAKE",
-		"ADB":           "DATALAKE",
-		"DATAFLOW":      "DATATRANSFORMATION",
-		"GGCS":          "DATAPIPELINE",
-		"GENAI":         "AISERVICES",
+		"OBJECTSTORAGE":  "DATALAKE",
+		"ADB":            "DATALAKE",
+		"DATAFLOW":       "DATATRANSFORMATION",
+		"GGCS":           "DATAPIPELINE",
+		"GENAI":          "AISERVICES",
+		"AIDATAPLATFORM": "AISERVICES",
+		"OMK":            "DEVOPSTOOLKIT",
+		"OKE":            "DEVOPSTOOLKIT",
 	}
 	difBlockToService = map[string]string{
-		"adb":           "ADB",
-		"dataflow":      "DATAFLOW",
-		"genai":         "GENAI",
-		"ggcs":          "GGCS",
-		"objectstorage": "OBJECTSTORAGE",
+		"adb":            "ADB",
+		"dataflow":       "DATAFLOW",
+		"genai":          "GENAI",
+		"ggcs":           "GGCS",
+		"objectstorage":  "OBJECTSTORAGE",
+		"aidataplatform": "AIDATAPLATFORM",
+		"omk":            "OMK",
+		"oke":            "OKE",
 	}
 )
 
@@ -156,6 +162,29 @@ func DifStackResource() *schema.Resource {
 								},
 							},
 						},
+
+						// Computed
+					},
+				},
+			},
+			"aidataplatform": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"default_workspace_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"instance_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
 
 						// Computed
 					},
@@ -594,6 +623,160 @@ func DifStackResource() *schema.Resource {
 					},
 				},
 			},
+			"oke": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"cluster_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"instance_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"namespace_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						// Artifact deployment fields (Same as OMK)
+						"secrets": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"secret_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"template_object_storage_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"secret_data": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"key": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"secret_id": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"manifest_object_storage_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"component_value_overrides": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"component_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"value_overrides": {
+										Type:     schema.TypeMap,
+										Required: true,
+										Elem:     &schema.Schema{Type: schema.TypeString},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			"omk": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"cluster_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"cluster_namespace_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"instance_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"namespace_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						// Artifact deployment fields
+						"secrets": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"secret_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"template_object_storage_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"secret_data": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"key": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"secret_id": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"manifest_object_storage_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"component_value_overrides": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"component_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"value_overrides": {
+										Type:     schema.TypeMap,
+										Required: true,
+										Elem:     &schema.Schema{Type: schema.TypeString},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"add_service_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -653,6 +836,10 @@ func DifStackResource() *schema.Resource {
 											},
 										},
 									},
+									"cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"endpoint_details": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -679,6 +866,10 @@ func DifStackResource() *schema.Resource {
 										Computed: true,
 									},
 									"model_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"namespace": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -848,8 +1039,8 @@ func scanStackChanges(d *schema.ResourceData) (hasAdditions, hasDeletions, hasUp
 		}
 	}
 
-	// Service blocks: adb, dataflow, genai, ggcs, objectstorage
-	for _, block := range []string{"adb", "dataflow", "genai", "ggcs", "objectstorage"} {
+	// Service blocks: adb, dataflow, genai, ggcs, objectstorage, aidataplatform, omk, oke
+	for _, block := range []string{"adb", "dataflow", "genai", "ggcs", "objectstorage", "aidataplatform", "omk", "oke"} {
 		if d.HasChange(block) {
 			oldRaw, newRaw := d.GetChange(block)
 			oldList := oldRaw.([]interface{})
@@ -1011,6 +1202,23 @@ func (s *DifStackResourceCrud) CreateWithContext(ctx context.Context) error {
 		}
 	}
 
+	if aidataplatform, ok := s.D.GetOkExists("aidataplatform"); ok {
+		interfaces := aidataplatform.([]interface{})
+		tmp := make([]oci_dif.AiDataPlatformDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "aidataplatform", stateDataIndex)
+			converted, err := s.mapToAiDataPlatformDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("aidataplatform") {
+			request.Aidataplatform = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -1103,6 +1311,40 @@ func (s *DifStackResourceCrud) CreateWithContext(ctx context.Context) error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("objectstorage") {
 			request.Objectstorage = tmp
+		}
+	}
+
+	if oke, ok := s.D.GetOkExists("oke"); ok {
+		interfaces := oke.([]interface{})
+		tmp := make([]oci_dif.OkeDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "oke", stateDataIndex)
+			converted, err := s.mapToOkeDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("oke") {
+			request.Oke = tmp
+		}
+	}
+
+	if omk, ok := s.D.GetOkExists("omk"); ok {
+		interfaces := omk.([]interface{})
+		tmp := make([]oci_dif.OmkDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "omk", stateDataIndex)
+			converted, err := s.mapToOmkDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("omk") {
+			request.Omk = tmp
 		}
 	}
 
@@ -1636,6 +1878,18 @@ func (s *DifStackResourceCrud) SetData() error {
 		s.D.Set("adb", adb) // Use API data only when no user config
 	}
 
+	aidataplatform := []interface{}{}
+	if s.Res.Aidataplatform != nil {
+		for _, item := range s.Res.Aidataplatform {
+			aidataplatform = append(aidataplatform, AiDataPlatformDetailToMap(item))
+		}
+	}
+	if cfg, ok := s.D.GetOk("aidataplatform"); ok {
+		s.D.Set("aidataplatform", cfg)
+	} else {
+		s.D.Set("aidataplatform", aidataplatform)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1706,6 +1960,30 @@ func (s *DifStackResourceCrud) SetData() error {
 			}
 		}
 		s.D.Set("objectstorage", objectstorage)
+	}
+
+	oke := []interface{}{}
+	if s.Res.Oke != nil {
+		for _, item := range s.Res.Oke {
+			oke = append(oke, OkeDetailToMap(item))
+		}
+	}
+	if cfg, ok := s.D.GetOk("oke"); ok {
+		s.D.Set("oke", cfg)
+	} else {
+		s.D.Set("oke", oke)
+	}
+
+	omk := []interface{}{}
+	if s.Res.Omk != nil {
+		for _, item := range s.Res.Omk {
+			omk = append(omk, OmkDetailToMap(item))
+		}
+	}
+	if cfg, ok := s.D.GetOk("omk"); ok {
+		s.D.Set("omk", cfg)
+	} else {
+		s.D.Set("omk", omk)
 	}
 
 	serviceDetails := []interface{}{}
@@ -1882,6 +2160,63 @@ func (s *DifStackResourceCrud) AddServiceWithContext(ctx context.Context) error 
 			}
 		}
 	}
+	if newServiceInstances["AIDATAPLATFORM"] {
+		if aidp, ok := s.D.GetOkExists("aidataplatform"); ok {
+			interfaces := aidp.([]interface{})
+			var filtered []oci_dif.AiDataPlatformDetail
+			for i := range interfaces {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "aidataplatform", i)
+				converted, err := s.mapToAiDataPlatformDetail(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if converted.InstanceId != nil && !existingServiceInstances[*converted.InstanceId] {
+					filtered = append(filtered, converted)
+				}
+			}
+			if len(filtered) > 0 {
+				request.Aidataplatform = filtered
+			}
+		}
+	}
+	if newServiceInstances["OMK"] {
+		if omk, ok := s.D.GetOkExists("omk"); ok {
+			interfaces := omk.([]interface{})
+			var filtered []oci_dif.OmkDetail
+			for i := range interfaces {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "omk", i)
+				converted, err := s.mapToOmkDetail(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if converted.InstanceId != nil && !existingServiceInstances[*converted.InstanceId] {
+					filtered = append(filtered, converted)
+				}
+			}
+			if len(filtered) > 0 {
+				request.Omk = filtered
+			}
+		}
+	}
+	if newServiceInstances["OKE"] {
+		if oke, ok := s.D.GetOkExists("oke"); ok {
+			interfaces := oke.([]interface{})
+			var filtered []oci_dif.OkeDetail
+			for i := range interfaces {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "oke", i)
+				converted, err := s.mapToOkeDetail(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if converted.InstanceId != nil && !existingServiceInstances[*converted.InstanceId] {
+					filtered = append(filtered, converted)
+				}
+			}
+			if len(filtered) > 0 {
+				request.Oke = filtered
+			}
+		}
+	}
 
 	// Detect added services and templates from sets
 	addedServices := make(map[string]bool)
@@ -1955,7 +2290,8 @@ func (s *DifStackResourceCrud) AddServiceWithContext(ctx context.Context) error 
 	// If nothing net-new, reset trigger and exit
 	if len(servicesToAdd) == 0 &&
 		len(request.Adb) == 0 && len(request.Dataflow) == 0 && len(request.Genai) == 0 &&
-		len(request.Ggcs) == 0 && len(request.Objectstorage) == 0 {
+		len(request.Ggcs) == 0 && len(request.Objectstorage) == 0 &&
+		len(request.Aidataplatform) == 0 && len(request.Omk) == 0 && len(request.Oke) == 0 {
 		val := s.D.Get("add_service_trigger")
 		s.D.Set("add_service_trigger", val)
 		log.Printf("[DEBUG] No new services to add")
@@ -2054,6 +2390,50 @@ func (s *DifStackResourceCrud) DeployArtifactsWithContext(ctx context.Context) e
 		}
 	}
 
+	// OMK Artifact Deployment
+	if omk, ok := s.D.GetOkExists("omk"); ok {
+		interfaces := omk.([]interface{})
+		var tmp []oci_dif.OmkArtifactsDetail
+		for i := range interfaces {
+			if interfaces[i] == nil {
+				continue
+			}
+			if item, ok := interfaces[i].(map[string]interface{}); ok && hasOmkArtifactDeployment(item) {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "omk", i)
+				converted, err := s.mapToOmkArtifactsDetail(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp = append(tmp, converted)
+			}
+		}
+		if len(tmp) > 0 {
+			request.Omk = tmp
+		}
+	}
+
+	// OKE Artifact Deployment (same as OMK)
+	if oke, ok := s.D.GetOkExists("oke"); ok {
+		interfaces := oke.([]interface{})
+		var tmp []oci_dif.OkeArtifactsDetail
+		for i := range interfaces {
+			if interfaces[i] == nil {
+				continue
+			}
+			if item, ok := interfaces[i].(map[string]interface{}); ok && hasOkeArtifactDeployment(item) {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "oke", i)
+				converted, err := s.mapToOkeArtifactsDetail(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp = append(tmp, converted)
+			}
+		}
+		if len(tmp) > 0 {
+			request.Oke = tmp
+		}
+	}
+
 	// Build services and templates from those with artifacts
 	servicesWithArtifacts := make(map[string]bool)
 	templatesWithArtifacts := make(map[string]bool)
@@ -2069,11 +2449,21 @@ func (s *DifStackResourceCrud) DeployArtifactsWithContext(ctx context.Context) e
 		servicesWithArtifacts["GGCS"] = true
 		templatesWithArtifacts["DATAPIPELINE"] = true
 	}
+	if request.Omk != nil && len(request.Omk) > 0 {
+		servicesWithArtifacts["OMK"] = true
+		templatesWithArtifacts["DEVOPSTOOLKIT"] = true
+	}
+	if request.Oke != nil && len(request.Oke) > 0 {
+		servicesWithArtifacts["OKE"] = true
+		templatesWithArtifacts["DEVOPSTOOLKIT"] = true
+	}
 
 	// If nothing to deploy, reset trigger and exit
 	if (request.Adb == nil || len(request.Adb) == 0) &&
 		(request.Dataflow == nil || len(request.Dataflow) == 0) &&
-		(request.Ggcs == nil || len(request.Ggcs) == 0) {
+		(request.Ggcs == nil || len(request.Ggcs) == 0) &&
+		(request.Omk == nil || len(request.Omk) == 0) &&
+		(request.Oke == nil || len(request.Oke) == 0) {
 		val := s.D.Get("deploy_artifacts_trigger")
 		s.D.Set("deploy_artifacts_trigger", val)
 		return nil
@@ -2212,6 +2602,160 @@ func (s *DifStackResourceCrud) mapToAdbUpdateDetail(fieldKeyFormat string) (oci_
 		}
 	}
 
+	return result, nil
+}
+
+func (s *DifStackResourceCrud) mapToOmkArtifactsDetail(fieldKeyFormat string) (oci_dif.OmkArtifactsDetail, error) {
+	result := oci_dif.OmkArtifactsDetail{}
+
+	if instanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_id")); ok {
+		tmp := instanceId.(string)
+		result.InstanceId = &tmp
+	}
+	if secrets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secrets")); ok {
+		interfaces := secrets.([]interface{})
+		secretsSlice := make([]oci_dif.SecretDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secrets"), stateDataIndex)
+			converted, err := s.mapToSecretDetail(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			secretsSlice[i] = converted
+		}
+		if len(secretsSlice) > 0 {
+			result.Secrets = secretsSlice
+		}
+	}
+	if manifestPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "manifest_object_storage_path")); ok {
+		tmp := manifestPath.(string)
+		result.ManifestObjectStoragePath = &tmp
+	}
+	if compVals, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_value_overrides")); ok {
+		interfaces := compVals.([]interface{})
+		overridesSlice := make([]oci_dif.ComponentValueOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "component_value_overrides"), stateDataIndex)
+			converted, err := s.mapToComponentValueOverridesDetail(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			overridesSlice[i] = converted
+		}
+		if len(overridesSlice) > 0 {
+			result.ComponentValueOverrides = overridesSlice
+		}
+	}
+	return result, nil
+}
+
+func (s *DifStackResourceCrud) mapToOkeArtifactsDetail(fieldKeyFormat string) (oci_dif.OkeArtifactsDetail, error) {
+	result := oci_dif.OkeArtifactsDetail{}
+
+	if instanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_id")); ok {
+		tmp := instanceId.(string)
+		result.InstanceId = &tmp
+	}
+	if secrets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secrets")); ok {
+		interfaces := secrets.([]interface{})
+		secretsSlice := make([]oci_dif.SecretDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secrets"), stateDataIndex)
+			converted, err := s.mapToSecretDetail(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			secretsSlice[i] = converted
+		}
+		if len(secretsSlice) > 0 {
+			result.Secrets = secretsSlice
+		}
+	}
+	if manifestPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "manifest_object_storage_path")); ok {
+		tmp := manifestPath.(string)
+		result.ManifestObjectStoragePath = &tmp
+	}
+	if compVals, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_value_overrides")); ok {
+		interfaces := compVals.([]interface{})
+		overridesSlice := make([]oci_dif.ComponentValueOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "component_value_overrides"), stateDataIndex)
+			converted, err := s.mapToComponentValueOverridesDetail(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			overridesSlice[i] = converted
+		}
+		if len(overridesSlice) > 0 {
+			result.ComponentValueOverrides = overridesSlice
+		}
+	}
+	return result, nil
+}
+
+// Helper mapping for secrets
+func (s *DifStackResourceCrud) mapToSecretDetail(fieldKeyFormat string) (oci_dif.SecretDetail, error) {
+	result := oci_dif.SecretDetail{}
+
+	if secretName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_name")); ok {
+		tmp := secretName.(string)
+		result.SecretName = &tmp
+	}
+	if templatePath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "template_object_storage_path")); ok {
+		tmp := templatePath.(string)
+		result.TemplateObjectStoragePath = &tmp
+	}
+	if secretData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_data")); ok {
+		interfaces := secretData.([]interface{})
+		dataSlice := make([]oci_dif.SecretData, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNext := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secret_data"), stateDataIndex)
+			converted, err := s.mapToSecretDataDetail(fieldKeyFormatNext)
+			if err != nil {
+				return result, err
+			}
+			dataSlice[i] = converted
+		}
+		if len(dataSlice) > 0 {
+			result.SecretData = dataSlice
+		}
+	}
+	return result, nil
+}
+
+func (s *DifStackResourceCrud) mapToSecretDataDetail(fieldKeyFormat string) (oci_dif.SecretData, error) {
+	result := oci_dif.SecretData{}
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+	if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+		tmp := secretId.(string)
+		result.SecretId = &tmp
+	}
+	return result, nil
+}
+
+func (s *DifStackResourceCrud) mapToComponentValueOverridesDetail(fieldKeyFormat string) (oci_dif.ComponentValueOverride, error) {
+	result := oci_dif.ComponentValueOverride{}
+	if compName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "component_name")); ok {
+		tmp := compName.(string)
+		result.ComponentName = &tmp
+	}
+	if valOverrides, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value_overrides")); ok {
+		v := map[string]string{}
+		for k, val := range valOverrides.(map[string]interface{}) {
+			if val != nil {
+				v[k] = val.(string)
+			}
+		}
+		result.ValueOverrides = v
+	}
 	return result, nil
 }
 
@@ -2496,6 +3040,10 @@ func AdditionalDetailsToMap(obj *oci_dif.AdditionalDetails) map[string]interface
 	}
 	result["assigned_connections"] = assignedConnections
 
+	if obj.ClusterId != nil {
+		result["cluster_id"] = string(*obj.ClusterId)
+	}
+
 	endpointDetails := []interface{}{}
 	for _, item := range obj.EndpointDetails {
 		endpointDetails = append(endpointDetails, EndpointAdditionalToMap(item))
@@ -2510,12 +3058,46 @@ func AdditionalDetailsToMap(obj *oci_dif.AdditionalDetails) map[string]interface
 		result["model_version"] = string(*obj.ModelVersion)
 	}
 
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
 	if obj.OciRegion != nil {
 		result["oci_region"] = string(*obj.OciRegion)
 	}
 
 	if obj.PrivateEndpointId != nil {
 		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
+	}
+
+	return result
+}
+
+func (s *DifStackResourceCrud) mapToAiDataPlatformDetail(fieldKeyFormat string) (oci_dif.AiDataPlatformDetail, error) {
+	result := oci_dif.AiDataPlatformDetail{}
+
+	if defaultWorkspaceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_workspace_name")); ok {
+		tmp := defaultWorkspaceName.(string)
+		result.DefaultWorkspaceName = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_id")); ok {
+		tmp := instanceId.(string)
+		result.InstanceId = &tmp
+	}
+
+	return result, nil
+}
+
+func AiDataPlatformDetailToMap(obj oci_dif.AiDataPlatformDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefaultWorkspaceName != nil {
+		result["default_workspace_name"] = string(*obj.DefaultWorkspaceName)
+	}
+
+	if obj.InstanceId != nil {
+		result["instance_id"] = string(*obj.InstanceId)
 	}
 
 	return result
@@ -3300,6 +3882,93 @@ func ObjectStorageDetailToMap(obj oci_dif.ObjectStorageDetail) map[string]interf
 	result["object_versioning"] = string(obj.ObjectVersioning)
 
 	result["storage_tier"] = string(obj.StorageTier)
+
+	return result
+}
+
+func (s *DifStackResourceCrud) mapToOkeDetail(fieldKeyFormat string) (oci_dif.OkeDetail, error) {
+	result := oci_dif.OkeDetail{}
+
+	if clusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_id")); ok {
+		tmp := clusterId.(string)
+		result.ClusterId = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_id")); ok {
+		tmp := instanceId.(string)
+		result.InstanceId = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_name")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	return result, nil
+}
+
+func OkeDetailToMap(obj oci_dif.OkeDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClusterId != nil {
+		result["cluster_id"] = string(*obj.ClusterId)
+	}
+
+	if obj.InstanceId != nil {
+		result["instance_id"] = string(*obj.InstanceId)
+	}
+
+	if obj.NamespaceName != nil {
+		result["namespace_name"] = string(*obj.NamespaceName)
+	}
+
+	return result
+}
+
+func (s *DifStackResourceCrud) mapToOmkDetail(fieldKeyFormat string) (oci_dif.OmkDetail, error) {
+	result := oci_dif.OmkDetail{}
+
+	if clusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_id")); ok {
+		tmp := clusterId.(string)
+		result.ClusterId = &tmp
+	}
+
+	if clusterNamespaceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_namespace_id")); ok {
+		tmp := clusterNamespaceId.(string)
+		result.ClusterNamespaceId = &tmp
+	}
+
+	if instanceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_id")); ok {
+		tmp := instanceId.(string)
+		result.InstanceId = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace_name")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	return result, nil
+}
+
+func OmkDetailToMap(obj oci_dif.OmkDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClusterId != nil {
+		result["cluster_id"] = string(*obj.ClusterId)
+	}
+
+	if obj.ClusterNamespaceId != nil {
+		result["cluster_namespace_id"] = string(*obj.ClusterNamespaceId)
+	}
+
+	if obj.InstanceId != nil {
+		result["instance_id"] = string(*obj.InstanceId)
+	}
+
+	if obj.NamespaceName != nil {
+		result["namespace_name"] = string(*obj.NamespaceName)
+	}
 
 	return result
 }

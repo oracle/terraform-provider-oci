@@ -82,3 +82,27 @@ func hasGgcsArtifactDeployment(item map[string]interface{}) bool {
 	}
 	return false
 }
+
+func hasOmkArtifactDeployment(item map[string]interface{}) bool {
+	if val, ok := item["secrets"]; ok && val != nil {
+		if l, ok := val.([]interface{}); ok && len(l) > 0 {
+			return true
+		}
+	}
+	if val, ok := item["manifest_object_storage_path"]; ok && val != nil {
+		if s, ok := val.(string); ok && s != "" {
+			return true
+		}
+	}
+	if val, ok := item["component_value_overrides"]; ok && val != nil {
+		if l, ok := val.([]interface{}); ok && len(l) > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func hasOkeArtifactDeployment(item map[string]interface{}) bool {
+	// Same as OMK payload
+	return hasOmkArtifactDeployment(item)
+}

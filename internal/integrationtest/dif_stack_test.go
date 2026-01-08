@@ -114,6 +114,7 @@ var (
 		"services":        acctest.Representation{RepType: acctest.Required, Create: []string{`OBJECTSTORAGE`, `ADB`, `DATAFLOW`, `GGCS`}, Update: []string{`OBJECTSTORAGE`, `ADB`, `DATAFLOW`, `GGCS`, `GENAI`}},
 		"stack_templates": acctest.Representation{RepType: acctest.Required, Create: []string{`DATALAKE`, `DATATRANSFORMATION`, `DATAPIPELINE`}, Update: []string{`DATALAKE`, `DATATRANSFORMATION`, `DATAPIPELINE`, `AISERVICES`}},
 		"adb":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackAdbRepresentation},
+		"aidataplatform":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackAidataplatformRepresentation},
 		"dataflow":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DifStackDataflowRepresentation},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("example-tag-namespace-all.example-tag", "value")}`, Update: `${map("example-tag-namespace-all.example-tag", "updatedValue")}`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -134,6 +135,10 @@ var (
 		"is_public":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_private_subnet.id}`},
 		"tools_public_access":         acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.10`},
+	}
+	DifStackAidataplatformRepresentation = map[string]interface{}{
+		"default_workspace_name": acctest.Representation{RepType: acctest.Required, Create: `testWorkspace`},
+		"instance_id":            acctest.Representation{RepType: acctest.Required, Create: `testAidp`},
 	}
 	DifStackDataflowRepresentation = map[string]interface{}{
 		"driver_shape":                 acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E5.Flex`, Update: `VM.Standard.E5.Flex`},
@@ -166,6 +171,17 @@ var (
 		"object_versioning": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`},
 		"storage_tier":      acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
 		"auto_tiering":      acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
+	}
+	DifStackOkeRepresentation = map[string]interface{}{
+		"cluster_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
+		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `namespace`},
+	}
+	DifStackOmkRepresentation = map[string]interface{}{
+		"cluster_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"cluster_namespace_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_log_analytics_namespace.test_namespace.id}`},
+		"instance_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
+		"namespace":            acctest.Representation{RepType: acctest.Required, Create: `namespace`},
 	}
 	DifStackDataflowConnectionsRepresentation = map[string]interface{}{
 		"connection_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DataflowConnectionDetailsRepresentation},
@@ -261,6 +277,40 @@ func checkServiceDetailFields(resourceName, serviceType, expectedInstanceID stri
 
 func checkServiceDetail(resourceName, serviceType, expectedInstanceID string) resource.TestCheckFunc {
 	return checkServiceDetailFields(resourceName, serviceType, expectedInstanceID, true, true, nil)
+}
+
+func TestDifStackResource_aidataplatform_only(t *testing.T) {
+	t.Parallel()
+	httpreplay.SetScenario("TestDifStackResource_aidataplatform_only")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig() + compartmentIdVariableStr
+	resourceName := "oci_dif_stack.test_stack"
+	uniqueName := "aidp" + utils.RandomString(8, utils.CharsetLowerCaseWithoutDigits)
+
+	aidpOnlyStack := map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: uniqueName},
+		"services":        acctest.Representation{RepType: acctest.Required, Create: []string{"AIDATAPLATFORM"}},
+		"stack_templates": acctest.Representation{RepType: acctest.Required, Create: []string{"AISERVICES"}},
+		"aidataplatform":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DifStackAidataplatformRepresentation},
+	}
+
+	acctest.SaveConfigContent(config+
+		acctest.GenerateResourceFromRepresentationMap("oci_dif_stack", "test_stack", acctest.Required, acctest.Create, aidpOnlyStack), "dif", "stack_aidp_only", t)
+
+	acctest.ResourceTest(t, testAccCheckDifStackDestroy, []resource.TestStep{
+		{
+			Config: config + DifStackResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dif_stack", "test_stack", acctest.Required, acctest.Create, aidpOnlyStack),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "stack_templates.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", uniqueName),
+			),
+		},
+	})
 }
 
 // issue-routing-tag: dif/default

@@ -123,3 +123,11 @@ resource "oci_dif_stack" "test_stack" {
     ]
   }
 }
+
+data "oci_dif_stack" "test_stack" {
+  stack_id = oci_dif_stack.test_stack.id
+}
+
+data "oci_dif_stacks" "test_stacks" {
+  compartment_id = var.compartment_id
+}

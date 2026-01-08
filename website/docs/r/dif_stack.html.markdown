@@ -47,6 +47,11 @@ resource "oci_dif_stack" "test_stack" {
 			user_type = var.stack_adb_db_credentials_user_type
 		}
 	}
+	aidataplatform {
+		#Required
+		default_workspace_name = oci_dataintegration_workspace.test_workspace.name
+		instance_id = oci_core_instance.test_instance.id
+	}
 	dataflow {
 		#Required
 		driver_shape = var.stack_dataflow_driver_shape
@@ -162,6 +167,49 @@ resource "oci_dif_stack" "test_stack" {
 		#Optional
 		auto_tiering = var.stack_objectstorage_auto_tiering
 	}
+	oke {
+		#Required
+		cluster_id = oci_containerengine_cluster.test_cluster.id
+		instance_id = oci_core_instance.test_instance.id
+		namespace_name = var.stack_oke_namespace_name
+
+		#Deploy Artifact fields
+		secrets {
+			secret_name = var.stack_oke_secrets_secret_name
+			template_object_storage_path = var.stack_oke_secrets_template_object_storage_path
+			secret_data {
+				key = var.stack_oke_secrets_secret_data_key
+				secret_id = var.stack_oke_secrets_secret_data_secret_id
+			}
+		}
+		manifest_object_storage_path = var.stack_oke_manifest_object_storage_path
+		component_value_overrides {
+			component_name = var.stack_oke_component_value_overrides_component_name
+			value_overrides = var.stack_oke_component_value_overrides_value_overrides
+		}
+	}
+	omk {
+		#Required
+		cluster_id = oci_containerengine_cluster.test_cluster.id
+		cluster_namespace_id = oci_log_analytics_namespace.test_namespace.id
+		instance_id = oci_core_instance.test_instance.id
+		namespace_name = var.stack_omk_namespace_name
+
+		#Deploy Artifact fields
+		secrets {
+			secret_name = var.stack_omk_secrets_secret_name
+			template_object_storage_path = var.stack_omk_secrets_template_object_storage_path
+			secret_data {
+				key = var.stack_omk_secrets_secret_data_key
+				secret_id = var.stack_omk_secrets_secret_data_secret_id
+			}
+		}
+		manifest_object_storage_path = var.stack_omk_manifest_object_storage_path
+		component_value_overrides {
+			component_name = var.stack_omk_component_value_overrides_component_name
+			value_overrides = var.stack_omk_component_value_overrides_value_overrides
+		}
+	}
 	subnet_id = var.stack_deploy_artifacts_subnet_id
 }
 ```
@@ -182,10 +230,13 @@ The following arguments are supported:
 	* `subnet_id` - (Optional) The OCID of the subnet the Autonomous Database is associated with.
 	* `tools_public_access` - (Optional) This is an array of CIDR (classless inter-domain routing) notations for a subnet or VCN OCID (virtual cloud network Oracle Cloud ID). Allowed only when subnetId is provided (private ADB).
     * `artifact_object_storage_path` - (Optional) Object storage path for the artifacts.
-    * `db_credentials` - (Optional) DB credential details.
-      * `user_name` - (Required) Username for ADB to be created or updated.
-	  * `secret_id` - (Required) Vault secret OCID containing the corresponding user password.
-	  * `user_type` - (Required) Type of the user. Allowed values are "ADMIN" or "CUSTOM" or "GGCS".
+	* `db_credentials` - (Optional) DB credential details.
+		* `user_name` - (Required) Username for ADB to be created or updated.
+		* `secret_id` - (Required) Vault secret OCID containing the corresponding user password.
+		* `user_type` - (Required) Type of the user. Allowed values are "ADMIN" or "CUSTOM" or "GGCS".
+* `aidataplatform` - (Optional) AI Data Platform Details if aidataplatform is included in services.
+	* `default_workspace_name` - (Required) A default workspace will be created with this name.
+	* `instance_id` - (Required) Identifier for AIDP instance to be provisioned.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the Stack in. 
 * `dataflow` - (Optional) (Updatable) DATAFLOW details if dataflow is included in the services.
 	* `connections` - (Optional) (Updatable) Details for connections to other services from Dataflow.
@@ -220,7 +271,7 @@ The following arguments are supported:
 	* `endpoints` - (Optional) (Updatable) List of endpoints to provision for the GENAI cluster.
 		* `endpoint_name` - (Required) (Updatable) Identifier for each endpoint.
 		* `is_content_moderation_enabled` - (Required) (Updatable) Helps remove toxic and biased content from responses.
-	* `instance_id` - (Required) (Updatable) Id for the GGCS instance to be provisioned.
+	* `instance_id` - (Required) (Updatable) Id for the GenAi instance to be provisioned.
 	* `oci_region` - (Required) Region on which the cluster end endpoint will be provisioned.
 	* `unit_count` - (Required) (Updatable) No of replicas of base model to be used for hosting.
 * `ggcs` - (Optional) (Updatable) GGCS details if ggcs is included in the services.
@@ -261,6 +312,39 @@ The following arguments are supported:
 	* `instance_id` - (Required) (Updatable) Id for Object Storage instance to be provisioned.
 	* `object_versioning` - (Required) (Updatable) Mentions whether the object versioning to be enabled or not,Allowed values are "ENABLED" / "DISABLED"/"SUSPENDED"
 	* `storage_tier` - (Required) Mentions which storage tier to use for the bucket,Allowed values are "STANDARD" / "ARCHIVE"
+* `oke` - (Optional) OKE Details if oke is included in services.
+	* `cluster_id` - (Required) OCID of existing OKE cluster.
+	* `instance_id` - (Required) Unique identifier for an oke instance.
+	* `namespace_name` - (Required) Kubernetes namespace-name of OKE cluster.
+	* `secrets` - (Optional) List of kubernetes secrets to create or update in the namespace-name of the target cluster. Each entry source secret values from OCI vault.
+		* `secret_name` - (Required) Name of the kubernetes secret of max length 63 and contain only lowercase alphanumeric characters or '-' and start and end with an alphabetic character.
+		* `template_object_storage_path` - (Optional) Object storage path for the secret template to be used for creating secret otherwise it will be created with default template.
+		* `secret_data` - (Required) List of kubernetes secret data.
+			* `key` - (Required) Data key in the kubernetes secret.
+			* `secret_id` - (Required) OCID of the Oci vault secret that provides the value for this key. The latest active secret version is used at deploy time unless otherwise configured.
+	* `manifest_object_storage_path` - (Optional) Object storage path for the deployment manifest.
+	* `component_value_overrides` - (Optional) Component overrides for stack specific parameters applied during artifact template rendering.
+		* `component_name` - (Required)  Logical name of the grouping independently deployable kubernetes resource artifacts for the current deployment.
+		* `value_overrides` - (Required) Free-form value overrides for the component. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+			Used for overriding the values in value.yaml artifact of the component.
+			Example: `{"WORKER_THREADS": "8"}`
+* `omk` - (Optional) OMK Details if omk is included in services.
+	* `cluster_id` - (Required) OCID of cluster assigned to OMK cluster-namespace.
+	* `cluster_namespace_id` - (Required) OCID of existing OMK cluster-namespace.
+	* `instance_id` - (Required) Unique identifier for an omk instance.
+	* `namespace_name` - (Required) Kubernetes namespace-name of OMK cluster-namespace.
+	* `secrets` - (Optional) List of kubernetes secrets to create or update in the namespace-name of target cluster-namespace. Each entry source secret values from OCI vault.
+		* `secret_name` - (Required) Name of the kubernetes secret of max length 63 and contain only lowercase alphanumeric characters or '-' and start and end with an alphabetic character.
+		* `template_object_storage_path` - (Optional) Object storage path for the secret template to be used for creating secret otherwise it will be created with default template.
+		* `secret_data` - (Required) List of kubernetes secret data.
+			* `key` - (Required) Data key in the kubernetes secret.
+			* `secret_id` - (Required) OCID of the Oci vault secret that provides the value for this key. The latest active secret version is used at deploy time unless otherwise configured.
+	* `manifest_object_storage_path` - (Optional) Object storage path for the deployment manifest.
+	* `component_value_overrides` - (Optional) Component overrides for stack specific parameters applied during artifact template rendering.
+		* `component_name` - (Required)  Logical name of the grouping independently deployable kubernetes resource artifacts for the current deployment.
+		* `value_overrides` - (Required) Free-form value overrides for the component. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+			Used for overriding the values in value.yaml artifact of the component.
+			Example: `{"WORKER_THREADS": "8"}`
 * `services` - (Required) (Updatable) List of services to be onboarded for the stack.
 * `stack_templates` - (Required) (Updatable) List of templates to be onboarded for the stack.
 * `subnet_id` - (Optional) (Updatable) Subnet id for the Private Endpoint creation for artifact deployment.
@@ -292,6 +376,9 @@ The following attributes are exported:
 	* `is_public` - If true then subnetId should not be provided.
 	* `subnet_id` - The OCID of the subnet the Autonomous Database is associated with.
 	* `tools_public_access` - This is an array of CIDR (classless inter-domain routing) notations for a subnet or VCN OCID (virtual cloud network Oracle Cloud ID). Allowed only when subnetId is provided (private ADB).
+* `aidataplatform` - AI Data Platform Details if aidataplatform is included in services.
+	* `default_workspace_name` - A default workspace will be created with this name.
+	* `instance_id` - Identifier for AIDP instance to be provisioned.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `dataflow` - DATAFLOW details if dataflow is included in the services.
 	* `connections` - Details for connections to other services from Dataflow.
@@ -324,7 +411,7 @@ The following attributes are exported:
 	* `endpoints` - List of endpoints to provision for the GENAI cluster.
 		* `endpoint_name` - Identifier for each endpoint.
 		* `is_content_moderation_enabled` - Helps remove toxic and biased content from responses.
-	* `instance_id` - Id for the GGCS instance to be provisioned.
+	* `instance_id` - Id for the GenAi instance to be provisioned.
 	* `oci_region` - Region on which the cluster end endpoint will be provisioned.
 	* `unit_count` - No of replicas of base model to be used for hosting.
 * `ggcs` - GGCS details if ggcs is included in the services.
@@ -349,17 +436,28 @@ The following attributes are exported:
 	* `instance_id` - Id for Object Storage instance to be provisioned.
 	* `object_versioning` - Mentions whether the object versioning to be enabled or not,Allowed values are "ENABLED" / "DISABLED"/"SUSPENDED"
 	* `storage_tier` - Mentions which storage tier to use for the bucket,Allowed values are "STANDARD" / "ARCHIVE"
+* `oke` - OKE Details if oke is included in services.
+	* `cluster_id` - OCID of existing OKE cluster.
+	* `instance_id` - Unique identifier for an oke instance.
+	* `namespace` - Kubernetes namespace-name of OKE cluster.
+* `omk` - OMK Details if omk is included in services.
+	* `cluster_id` - OCID of cluster assigned to OMK cluster-namespace.
+	* `cluster_namespace_id` - OCID of existing OMK cluster-namespace.
+	* `instance_id` - Unique identifier for an omk instance.
+	* `namespace` - Kubernetes namespace-name of OMK cluster-namespace.
 * `service_details` - Details of the service onboarded for the data intelligence stack.
 	* `additional_details` - Additional details about the provisioned services
 		* `assigned_connections` - connections assigned to Golden Gate deployment
 			* `connection_id` - OCID of the connection.
 			* `connection_name` - Name of the connection.
 			* `requested_by` - Specifies who has made this connection.
+		* `cluster_id` - OCID of cluster assigned to OMK cluster-namespace.
 		* `endpoint_details` - details of all endpoints assigned to cluster
 			* `endpoint_id` - OCID of the endpoint.
 			* `endpoint_name` - Identifier for each endpoint.
 		* `model_id` - OCID of model
 		* `model_version` - version of model
+		* `namespace` - Kubernetes namespace-name of omk cluster-namespace.
 		* `oci_region` - region of cluster
 		* `private_endpoint_id` - OCID of model
 	* `current_artifact_path` - name of the service
