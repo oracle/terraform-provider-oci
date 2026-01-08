@@ -334,6 +334,10 @@ func CoreInstancePoolResource() *schema.Resource {
 			},
 
 			// Computed
+			"current_size": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Computed:         true,
@@ -730,6 +734,10 @@ func (s *CoreInstancePoolResourceCrud) Delete() error {
 func (s *CoreInstancePoolResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CurrentSize != nil {
+		s.D.Set("current_size", *s.Res.CurrentSize)
 	}
 
 	if s.Res.DefinedTags != nil {

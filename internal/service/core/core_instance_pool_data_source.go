@@ -70,6 +70,10 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.CurrentSize != nil {
+		s.D.Set("current_size", *s.Res.CurrentSize)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
