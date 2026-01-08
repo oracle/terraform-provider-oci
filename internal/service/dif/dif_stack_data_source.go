@@ -73,6 +73,12 @@ func (s *DifStackDataSourceCrud) SetData() error {
 	}
 	s.D.Set("adb", adb)
 
+	aidataplatform := []interface{}{}
+	for _, item := range s.Res.Aidataplatform {
+		aidataplatform = append(aidataplatform, AiDataPlatformDetailToMap(item))
+	}
+	s.D.Set("aidataplatform", aidataplatform)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -118,6 +124,18 @@ func (s *DifStackDataSourceCrud) SetData() error {
 		objectstorage = append(objectstorage, ObjectStorageDetailToMap(item))
 	}
 	s.D.Set("objectstorage", objectstorage)
+
+	oke := []interface{}{}
+	for _, item := range s.Res.Oke {
+		oke = append(oke, OkeDetailToMap(item))
+	}
+	s.D.Set("oke", oke)
+
+	omk := []interface{}{}
+	for _, item := range s.Res.Omk {
+		omk = append(omk, OmkDetailToMap(item))
+	}
+	s.D.Set("omk", omk)
 
 	serviceDetails := []interface{}{}
 	for _, item := range s.Res.ServiceDetails {
