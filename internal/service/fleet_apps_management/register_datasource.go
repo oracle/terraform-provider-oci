@@ -27,7 +27,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_resource", FleetAppsManagementFleetResourceDataSource())
 	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_resources", FleetAppsManagementFleetResourcesDataSource())
 	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_targets", FleetAppsManagementFleetTargetsDataSource())
-	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_targets", FleetAppsManagementFleetTargetsDataSource())
 	tfresource.RegisterDatasource("oci_fleet_apps_management_fleets", FleetAppsManagementFleetsDataSource())
 	tfresource.RegisterDatasource("oci_fleet_apps_management_installed_patches", FleetAppsManagementInstalledPatchesDataSource())
 	tfresource.RegisterDatasource("oci_fleet_apps_management_inventory_records", FleetAppsManagementInventoryRecordsDataSource())
