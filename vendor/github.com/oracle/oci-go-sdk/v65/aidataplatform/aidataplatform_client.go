@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -136,7 +136,7 @@ func (client AiDataPlatformClient) cancelWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client AiDataPlatformClient) changeAiDataPlatformCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/ChangeAiDataPlatformCompartment"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "ChangeAiDataPlatformCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -250,7 +250,7 @@ func (client AiDataPlatformClient) createAiDataPlatform(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/CreateAiDataPlatform"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "CreateAiDataPlatform", apiReferenceLink)
 		return response, err
 	}
@@ -304,7 +304,7 @@ func (client AiDataPlatformClient) deleteAiDataPlatform(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/DeleteAiDataPlatform"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "DeleteAiDataPlatform", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client AiDataPlatformClient) enableAiFeature(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/EnableAiFeature"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "EnableAiFeature", apiReferenceLink)
 		return response, err
 	}
@@ -417,7 +417,7 @@ func (client AiDataPlatformClient) getAiDataPlatform(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/GetAiDataPlatform"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "GetAiDataPlatform", apiReferenceLink)
 		return response, err
 	}
@@ -471,7 +471,7 @@ func (client AiDataPlatformClient) getWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -525,7 +525,7 @@ func (client AiDataPlatformClient) listAiDataPlatforms(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatformCollection/ListAiDataPlatforms"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "ListAiDataPlatforms", apiReferenceLink)
 		return response, err
 	}
@@ -579,7 +579,7 @@ func (client AiDataPlatformClient) listWorkRequestErrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -633,7 +633,7 @@ func (client AiDataPlatformClient) listWorkRequestLogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -687,7 +687,7 @@ func (client AiDataPlatformClient) listWorkRequests(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -741,7 +741,7 @@ func (client AiDataPlatformClient) updateAiDataPlatform(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/UpdateAiDataPlatform"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "UpdateAiDataPlatform", apiReferenceLink)
 		return response, err
 	}

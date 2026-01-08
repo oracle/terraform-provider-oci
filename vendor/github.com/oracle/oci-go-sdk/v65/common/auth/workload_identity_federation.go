@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package auth
@@ -16,14 +16,14 @@ import (
 )
 
 type TokenExchangeBuilder struct {
-	DomainUrl                string
-	ClientId                 string
-	ClientSecret             string
-	Region                   string
-	RequestedTokenType       string
-	ResType                  string
-	SubjectTokenType         string
-	PublicKey                string
+	DomainUrl                 string
+	ClientId                  string
+	ClientSecret              string
+	Region                    string
+	RequestedTokenType        string
+	ResType                   string
+	SubjectTokenType          string
+	PublicKey                 string
 	InstancePrincipalProvider common.ConfigurationProvider
 }
 
@@ -62,47 +62,47 @@ func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
 	}
 
 	var authCode string
-    if tokenExchangeBuilder.ClientId != "" && tokenExchangeBuilder.ClientSecret != "" {
-        authCode = base64.StdEncoding.EncodeToString([]byte(
-            tokenExchangeBuilder.ClientId + ":" + tokenExchangeBuilder.ClientSecret))
-    }
+	if tokenExchangeBuilder.ClientId != "" && tokenExchangeBuilder.ClientSecret != "" {
+		authCode = base64.StdEncoding.EncodeToString([]byte(
+			tokenExchangeBuilder.ClientId + ":" + tokenExchangeBuilder.ClientSecret))
+	}
 
-    requestData := map[string][]string{
-        "grant_type":           {"urn:ietf:params:oauth:grant-type:token-exchange"},
-    }
+	requestData := map[string][]string{
+		"grant_type": {"urn:ietf:params:oauth:grant-type:token-exchange"},
+	}
 
-    if tokenExchangeBuilder.RequestedTokenType == "" {
-        return nil, fmt.Errorf("requested_token_type must be provided and non-empty")
-    } else {
-        requestData["requested_token_type"] = []string{tokenExchangeBuilder.RequestedTokenType}
-    }
+	if tokenExchangeBuilder.RequestedTokenType == "" {
+		return nil, fmt.Errorf("requested_token_type must be provided and non-empty")
+	} else {
+		requestData["requested_token_type"] = []string{tokenExchangeBuilder.RequestedTokenType}
+	}
 
-    if tokenExchangeBuilder.SubjectTokenType != "" {
-        requestData["subject_token_type"] = []string{tokenExchangeBuilder.SubjectTokenType}
-    }
+	if tokenExchangeBuilder.SubjectTokenType != "" {
+		requestData["subject_token_type"] = []string{tokenExchangeBuilder.SubjectTokenType}
+	}
 
-    if tokenExchangeBuilder.PublicKey != "" {
-        requestData["public_key"] = []string{tokenExchangeBuilder.PublicKey}
-    }
+	if tokenExchangeBuilder.PublicKey != "" {
+		requestData["public_key"] = []string{tokenExchangeBuilder.PublicKey}
+	}
 
-    if tokenExchangeBuilder.RequestedTokenType == "urn:oci:token-type:oci-rpst" {
-        if tokenExchangeBuilder.ResType != "" {
-            requestData["res_type"] = []string{tokenExchangeBuilder.ResType}
-        }
-    }
+	if tokenExchangeBuilder.RequestedTokenType == "urn:oci:token-type:oci-rpst" {
+		if tokenExchangeBuilder.ResType != "" {
+			requestData["res_type"] = []string{tokenExchangeBuilder.ResType}
+		}
+	}
 
-    instancePrincipalProvider := tokenExchangeBuilder.InstancePrincipalProvider
+	instancePrincipalProvider := tokenExchangeBuilder.InstancePrincipalProvider
 
-    if instancePrincipalProvider == nil && authCode == "" {
-        return nil, fmt.Errorf("InstancePrincipalProvider or ClientId and ClientSecret must be provided and non-nil")
-    }
+	if instancePrincipalProvider == nil && authCode == "" {
+		return nil, fmt.Errorf("InstancePrincipalProvider or ClientId and ClientSecret must be provided and non-nil")
+	}
 
-    fc := newTokenExchangeFederationClient(tokenIssuer, tokenExchangeBuilder.DomainUrl, authCode, requestData, instancePrincipalProvider)
+	fc := newTokenExchangeFederationClient(tokenIssuer, tokenExchangeBuilder.DomainUrl, authCode, requestData, instancePrincipalProvider)
 
-    return TokenExchangeConfigurationProvider{
-        federationClient: fc,
-        region:           common.StringToRegion(tokenExchangeBuilder.Region),
-    }, nil
+	return TokenExchangeConfigurationProvider{
+		federationClient: fc,
+		region:           common.StringToRegion(tokenExchangeBuilder.Region),
+	}, nil
 }
 
 // TokenExchangeConfigurationProviderFromToken returns a new configuration provider

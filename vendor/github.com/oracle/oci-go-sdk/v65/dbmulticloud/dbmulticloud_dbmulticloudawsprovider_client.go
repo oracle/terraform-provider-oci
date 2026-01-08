@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -163,7 +163,7 @@ func (client DbMulticloudAwsProviderClient) changeOracleDbAwsIdentityConnectorCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/ChangeOracleDbAwsIdentityConnectorCompartment"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ChangeOracleDbAwsIdentityConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +222,7 @@ func (client DbMulticloudAwsProviderClient) changeOracleDbAwsKeyCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/ChangeOracleDbAwsKeyCompartment"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ChangeOracleDbAwsKeyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -281,7 +281,7 @@ func (client DbMulticloudAwsProviderClient) createOracleDbAwsIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/CreateOracleDbAwsIdentityConnector"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "CreateOracleDbAwsIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -340,7 +340,7 @@ func (client DbMulticloudAwsProviderClient) createOracleDbAwsKey(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/CreateOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "CreateOracleDbAwsKey", apiReferenceLink)
 		return response, err
 	}
@@ -394,7 +394,7 @@ func (client DbMulticloudAwsProviderClient) deleteOracleDbAwsIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/DeleteOracleDbAwsIdentityConnector"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "DeleteOracleDbAwsIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -448,7 +448,7 @@ func (client DbMulticloudAwsProviderClient) deleteOracleDbAwsKey(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/DeleteOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "DeleteOracleDbAwsKey", apiReferenceLink)
 		return response, err
 	}
@@ -502,7 +502,7 @@ func (client DbMulticloudAwsProviderClient) getOracleDbAwsIdentityConnector(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/GetOracleDbAwsIdentityConnector"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "GetOracleDbAwsIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -556,7 +556,7 @@ func (client DbMulticloudAwsProviderClient) getOracleDbAwsKey(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/GetOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "GetOracleDbAwsKey", apiReferenceLink)
 		return response, err
 	}
@@ -610,7 +610,7 @@ func (client DbMulticloudAwsProviderClient) listOracleDbAwsIdentityConnectors(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/ListOracleDbAwsIdentityConnectors"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ListOracleDbAwsIdentityConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -664,7 +664,7 @@ func (client DbMulticloudAwsProviderClient) listOracleDbAwsKeys(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/ListOracleDbAwsKeys"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ListOracleDbAwsKeys", apiReferenceLink)
 		return response, err
 	}
@@ -723,7 +723,7 @@ func (client DbMulticloudAwsProviderClient) refreshOracleDbAwsIdentityConnector(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/RefreshOracleDbAwsIdentityConnector"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "RefreshOracleDbAwsIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -782,7 +782,7 @@ func (client DbMulticloudAwsProviderClient) refreshOracleDbAwsKey(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/RefreshOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "RefreshOracleDbAwsKey", apiReferenceLink)
 		return response, err
 	}
@@ -836,7 +836,7 @@ func (client DbMulticloudAwsProviderClient) updateOracleDbAwsIdentityConnector(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/UpdateOracleDbAwsIdentityConnector"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "UpdateOracleDbAwsIdentityConnector", apiReferenceLink)
 		return response, err
 	}
@@ -890,7 +890,7 @@ func (client DbMulticloudAwsProviderClient) updateOracleDbAwsKey(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/UpdateOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "UpdateOracleDbAwsKey", apiReferenceLink)
 		return response, err
 	}

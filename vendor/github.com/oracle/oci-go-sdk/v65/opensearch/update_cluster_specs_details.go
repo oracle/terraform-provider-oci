@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,6 +47,15 @@ type UpdateClusterSpecsDetails struct {
 
 	// The amount of memory in GB, for the cluster's search nodes.
 	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
+
+	// The node shape for the cluster's ML nodes.
+	MlNodeHostShape *string `mandatory:"false" json:"mlNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's ML nodes.
+	MlNodeHostOcpuCount *int `mandatory:"false" json:"mlNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's ML nodes.
+	MlNodeHostMemoryGB *int `mandatory:"false" json:"mlNodeHostMemoryGB"`
 
 	// Updated version of the software the cluster is currently running.
 	SoftwareVersion *string `mandatory:"false" json:"softwareVersion"`

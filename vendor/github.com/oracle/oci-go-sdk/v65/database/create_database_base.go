@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -80,8 +80,16 @@ func (m *createdatabasebase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := CreateStandByDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_CLONE":
+		mm := CreateCloneDatabaseFromDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := CreateDatabaseFromDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DB_SNAPSHOT":
+		mm := CreateDatabaseFromSnapshot{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DB_BACKUP":
@@ -135,24 +143,30 @@ type CreateDatabaseBaseSourceEnum string
 
 // Set of constants representing the allowable values for CreateDatabaseBaseSourceEnum
 const (
-	CreateDatabaseBaseSourceNone      CreateDatabaseBaseSourceEnum = "NONE"
-	CreateDatabaseBaseSourceDbBackup  CreateDatabaseBaseSourceEnum = "DB_BACKUP"
-	CreateDatabaseBaseSourceDatabase  CreateDatabaseBaseSourceEnum = "DATABASE"
-	CreateDatabaseBaseSourceDataguard CreateDatabaseBaseSourceEnum = "DATAGUARD"
+	CreateDatabaseBaseSourceNone       CreateDatabaseBaseSourceEnum = "NONE"
+	CreateDatabaseBaseSourceDbBackup   CreateDatabaseBaseSourceEnum = "DB_BACKUP"
+	CreateDatabaseBaseSourceDatabase   CreateDatabaseBaseSourceEnum = "DATABASE"
+	CreateDatabaseBaseSourceDataguard  CreateDatabaseBaseSourceEnum = "DATAGUARD"
+	CreateDatabaseBaseSourceDbSnapshot CreateDatabaseBaseSourceEnum = "DB_SNAPSHOT"
+	CreateDatabaseBaseSourceDbClone    CreateDatabaseBaseSourceEnum = "DB_CLONE"
 )
 
 var mappingCreateDatabaseBaseSourceEnum = map[string]CreateDatabaseBaseSourceEnum{
-	"NONE":      CreateDatabaseBaseSourceNone,
-	"DB_BACKUP": CreateDatabaseBaseSourceDbBackup,
-	"DATABASE":  CreateDatabaseBaseSourceDatabase,
-	"DATAGUARD": CreateDatabaseBaseSourceDataguard,
+	"NONE":        CreateDatabaseBaseSourceNone,
+	"DB_BACKUP":   CreateDatabaseBaseSourceDbBackup,
+	"DATABASE":    CreateDatabaseBaseSourceDatabase,
+	"DATAGUARD":   CreateDatabaseBaseSourceDataguard,
+	"DB_SNAPSHOT": CreateDatabaseBaseSourceDbSnapshot,
+	"DB_CLONE":    CreateDatabaseBaseSourceDbClone,
 }
 
 var mappingCreateDatabaseBaseSourceEnumLowerCase = map[string]CreateDatabaseBaseSourceEnum{
-	"none":      CreateDatabaseBaseSourceNone,
-	"db_backup": CreateDatabaseBaseSourceDbBackup,
-	"database":  CreateDatabaseBaseSourceDatabase,
-	"dataguard": CreateDatabaseBaseSourceDataguard,
+	"none":        CreateDatabaseBaseSourceNone,
+	"db_backup":   CreateDatabaseBaseSourceDbBackup,
+	"database":    CreateDatabaseBaseSourceDatabase,
+	"dataguard":   CreateDatabaseBaseSourceDataguard,
+	"db_snapshot": CreateDatabaseBaseSourceDbSnapshot,
+	"db_clone":    CreateDatabaseBaseSourceDbClone,
 }
 
 // GetCreateDatabaseBaseSourceEnumValues Enumerates the set of values for CreateDatabaseBaseSourceEnum
@@ -171,6 +185,8 @@ func GetCreateDatabaseBaseSourceEnumStringValues() []string {
 		"DB_BACKUP",
 		"DATABASE",
 		"DATAGUARD",
+		"DB_SNAPSHOT",
+		"DB_CLONE",
 	}
 }
 

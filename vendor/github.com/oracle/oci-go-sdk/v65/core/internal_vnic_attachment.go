@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -239,7 +239,7 @@ const (
 	InternalVnicAttachmentVnicShapeVnicaasLbaasFree                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_FREE"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax              InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_60G_GAX"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
-	InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	InternalVnicAttachmentVnicShapeVnicaasLbaas32g5m               InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_32G_5M"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m                InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m8ghost          InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_8GHOST"
 	InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m16ghost         InternalVnicAttachmentVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_16GHOST"
@@ -1821,7 +1821,7 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"VNICAAS_LBAAS_FREE":                   InternalVnicAttachmentVnicShapeVnicaasLbaasFree,
 	"VNICAAS_LBAAS_60G_GAX":                InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax,
 	"VNICAAS_LBAAS_8G_1M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m,
-	"VNICAAS_LBAAS_8G_2M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_32G_5M":                 InternalVnicAttachmentVnicShapeVnicaasLbaas32g5m,
 	"VNICAAS_LBAAS_8G_3M":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m,
 	"VNICAAS_LBAAS_8G_1M_8GHOST":           InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m8ghost,
 	"VNICAAS_LBAAS_8G_1M_16GHOST":          InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m16ghost,
@@ -3403,7 +3403,7 @@ var mappingInternalVnicAttachmentVnicShapeEnumLowerCase = map[string]InternalVni
 	"vnicaas_lbaas_free":                   InternalVnicAttachmentVnicShapeVnicaasLbaasFree,
 	"vnicaas_lbaas_60g_gax":                InternalVnicAttachmentVnicShapeVnicaasLbaas60gGax,
 	"vnicaas_lbaas_8g_1m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m,
-	"vnicaas_lbaas_8g_2m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_32g_5m":                 InternalVnicAttachmentVnicShapeVnicaasLbaas32g5m,
 	"vnicaas_lbaas_8g_3m":                  InternalVnicAttachmentVnicShapeVnicaasLbaas8g3m,
 	"vnicaas_lbaas_8g_1m_8ghost":           InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m8ghost,
 	"vnicaas_lbaas_8g_1m_16ghost":          InternalVnicAttachmentVnicShapeVnicaasLbaas8g1m16ghost,
@@ -4996,7 +4996,7 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"VNICAAS_LBAAS_FREE",
 		"VNICAAS_LBAAS_60G_GAX",
 		"VNICAAS_LBAAS_8G_1M",
-		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_32G_5M",
 		"VNICAAS_LBAAS_8G_3M",
 		"VNICAAS_LBAAS_8G_1M_8GHOST",
 		"VNICAAS_LBAAS_8G_1M_16GHOST",

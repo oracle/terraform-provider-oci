@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -136,7 +136,7 @@ func (client KafkaClusterClient) cancelWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client KafkaClusterClient) changeKafkaClusterCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/ChangeKafkaClusterCompartment"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ChangeKafkaClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -246,7 +246,7 @@ func (client KafkaClusterClient) changeKafkaClusterConfigCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/ChangeKafkaClusterConfigCompartment"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ChangeKafkaClusterConfigCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -305,7 +305,7 @@ func (client KafkaClusterClient) createKafkaCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/CreateKafkaCluster"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "CreateKafkaCluster", apiReferenceLink)
 		return response, err
 	}
@@ -364,7 +364,7 @@ func (client KafkaClusterClient) createKafkaClusterConfig(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/CreateKafkaClusterConfig"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "CreateKafkaClusterConfig", apiReferenceLink)
 		return response, err
 	}
@@ -418,7 +418,7 @@ func (client KafkaClusterClient) deleteKafkaCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/DeleteKafkaCluster"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "DeleteKafkaCluster", apiReferenceLink)
 		return response, err
 	}
@@ -472,7 +472,7 @@ func (client KafkaClusterClient) deleteKafkaClusterConfig(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/DeleteKafkaClusterConfig"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "DeleteKafkaClusterConfig", apiReferenceLink)
 		return response, err
 	}
@@ -526,7 +526,7 @@ func (client KafkaClusterClient) deleteKafkaClusterConfigVersion(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfigVersion/DeleteKafkaClusterConfigVersion"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "DeleteKafkaClusterConfigVersion", apiReferenceLink)
 		return response, err
 	}
@@ -585,7 +585,7 @@ func (client KafkaClusterClient) disableSuperuser(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/DisableSuperuser"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "DisableSuperuser", apiReferenceLink)
 		return response, err
 	}
@@ -644,7 +644,7 @@ func (client KafkaClusterClient) enableSuperuser(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/EnableSuperuser"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "EnableSuperuser", apiReferenceLink)
 		return response, err
 	}
@@ -698,7 +698,7 @@ func (client KafkaClusterClient) getKafkaCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/GetKafkaCluster"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "GetKafkaCluster", apiReferenceLink)
 		return response, err
 	}
@@ -752,7 +752,7 @@ func (client KafkaClusterClient) getKafkaClusterConfig(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/GetKafkaClusterConfig"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "GetKafkaClusterConfig", apiReferenceLink)
 		return response, err
 	}
@@ -806,7 +806,7 @@ func (client KafkaClusterClient) getKafkaClusterConfigVersion(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfigVersion/GetKafkaClusterConfigVersion"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "GetKafkaClusterConfigVersion", apiReferenceLink)
 		return response, err
 	}
@@ -860,7 +860,7 @@ func (client KafkaClusterClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -914,7 +914,7 @@ func (client KafkaClusterClient) listKafkaClusterConfigVersions(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfigVersionCollection/ListKafkaClusterConfigVersions"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListKafkaClusterConfigVersions", apiReferenceLink)
 		return response, err
 	}
@@ -968,7 +968,7 @@ func (client KafkaClusterClient) listKafkaClusterConfigs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/ListKafkaClusterConfigs"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListKafkaClusterConfigs", apiReferenceLink)
 		return response, err
 	}
@@ -1022,7 +1022,7 @@ func (client KafkaClusterClient) listKafkaClusters(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/ListKafkaClusters"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListKafkaClusters", apiReferenceLink)
 		return response, err
 	}
@@ -1076,7 +1076,7 @@ func (client KafkaClusterClient) listNodeShapes(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/ListNodeShapes"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListNodeShapes", apiReferenceLink)
 		return response, err
 	}
@@ -1130,7 +1130,7 @@ func (client KafkaClusterClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1184,7 +1184,7 @@ func (client KafkaClusterClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1238,7 +1238,7 @@ func (client KafkaClusterClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1292,7 +1292,7 @@ func (client KafkaClusterClient) updateKafkaCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/UpdateKafkaCluster"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "UpdateKafkaCluster", apiReferenceLink)
 		return response, err
 	}
@@ -1346,7 +1346,7 @@ func (client KafkaClusterClient) updateKafkaClusterConfig(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterConfig/UpdateKafkaClusterConfig"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "UpdateKafkaClusterConfig", apiReferenceLink)
 		return response, err
 	}

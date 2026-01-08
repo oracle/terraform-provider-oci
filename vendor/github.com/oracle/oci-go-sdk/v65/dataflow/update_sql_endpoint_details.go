@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -55,6 +55,21 @@ type UpdateSqlEndpointDetails struct {
 	// OCI lake OCID
 	LakeId *string `mandatory:"false" json:"lakeId"`
 
+	// The identifier of the log group used with the SQL Endpoint.
+	LogGroupId *string `mandatory:"false" json:"logGroupId"`
+
+	// The identifier of the log group compartment used with the SQL Endpoint.
+	LogCompartmentId *string `mandatory:"false" json:"logCompartmentId"`
+
+	// The friendly name of the log object used with the SQL Endpoint.
+	LogDisplayName *string `mandatory:"false" json:"logDisplayName"`
+
+	// Log retention duration in days
+	LogRetentionDuration *int `mandatory:"false" json:"logRetentionDuration"`
+
+	// The log operation will be performed for the Sql Endpoint.
+	LogOperation SqlEndpointLogOperationEnum `mandatory:"false" json:"logOperation,omitempty"`
+
 	// The Spark configuration passed to the running process.
 	// See https://spark.apache.org/docs/latest/configuration.html#available-properties.
 	// Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" }
@@ -73,6 +88,9 @@ func (m UpdateSqlEndpointDetails) String() string {
 func (m UpdateSqlEndpointDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSqlEndpointLogOperationEnum(string(m.LogOperation)); !ok && m.LogOperation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogOperation: %s. Supported values are: %s.", m.LogOperation, strings.Join(GetSqlEndpointLogOperationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -36,9 +36,9 @@ type LockDurationDetails struct {
 
 	// For snapshots in compliance mode, a cooling-off period (measured in days) begins.
 	// During this time, you can still edit or remove the lock. Once this period ends,
-	// the snapshot become immutable until the specified retention date expires, permanently
+	// the snapshot becomes immutable until the specified retention date expires, permanently
 	// preventing any deletion or modification. The cool off duration can be set for a minimum of
-	// 0 days and a maximum of 365.
+	// 0 days and a maximum of 365. It defaults to 14 days if not set.
 	CoolOffDuration *int `mandatory:"false" json:"coolOffDuration"`
 }
 

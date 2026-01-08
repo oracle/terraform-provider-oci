@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -65,6 +65,9 @@ type DbNode struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second backup VNIC.
 	// **Note:** Applies only to Exadata Cloud Service.
 	BackupVnic2Id *string `mandatory:"false" json:"backupVnic2Id"`
+
+	// Actions that can be performed on the database node, depending on its current lifecycle state.
+	AvailableActions []DbNodeAvailableActionsEnum `mandatory:"false" json:"availableActions,omitempty"`
 
 	// The host name for the database node.
 	Hostname *string `mandatory:"false" json:"hostname"`
@@ -136,6 +139,12 @@ func (m DbNode) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingDbNodeLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbNodeLifecycleStateEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.AvailableActions {
+		if _, ok := GetMappingDbNodeAvailableActionsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetDbNodeAvailableActionsEnumStringValues(), ",")))
+		}
 	}
 
 	if _, ok := GetMappingDbNodeMaintenanceTypeEnum(string(m.MaintenanceType)); !ok && m.MaintenanceType != "" {
@@ -217,6 +226,64 @@ func GetDbNodeLifecycleStateEnumStringValues() []string {
 // GetMappingDbNodeLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbNodeLifecycleStateEnum(val string) (DbNodeLifecycleStateEnum, bool) {
 	enum, ok := mappingDbNodeLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbNodeAvailableActionsEnum Enum with underlying type: string
+type DbNodeAvailableActionsEnum string
+
+// Set of constants representing the allowable values for DbNodeAvailableActionsEnum
+const (
+	DbNodeAvailableActionsStop       DbNodeAvailableActionsEnum = "STOP"
+	DbNodeAvailableActionsForcestop  DbNodeAvailableActionsEnum = "FORCESTOP"
+	DbNodeAvailableActionsForcereset DbNodeAvailableActionsEnum = "FORCERESET"
+	DbNodeAvailableActionsStart      DbNodeAvailableActionsEnum = "START"
+	DbNodeAvailableActionsSoftreset  DbNodeAvailableActionsEnum = "SOFTRESET"
+	DbNodeAvailableActionsReset      DbNodeAvailableActionsEnum = "RESET"
+)
+
+var mappingDbNodeAvailableActionsEnum = map[string]DbNodeAvailableActionsEnum{
+	"STOP":       DbNodeAvailableActionsStop,
+	"FORCESTOP":  DbNodeAvailableActionsForcestop,
+	"FORCERESET": DbNodeAvailableActionsForcereset,
+	"START":      DbNodeAvailableActionsStart,
+	"SOFTRESET":  DbNodeAvailableActionsSoftreset,
+	"RESET":      DbNodeAvailableActionsReset,
+}
+
+var mappingDbNodeAvailableActionsEnumLowerCase = map[string]DbNodeAvailableActionsEnum{
+	"stop":       DbNodeAvailableActionsStop,
+	"forcestop":  DbNodeAvailableActionsForcestop,
+	"forcereset": DbNodeAvailableActionsForcereset,
+	"start":      DbNodeAvailableActionsStart,
+	"softreset":  DbNodeAvailableActionsSoftreset,
+	"reset":      DbNodeAvailableActionsReset,
+}
+
+// GetDbNodeAvailableActionsEnumValues Enumerates the set of values for DbNodeAvailableActionsEnum
+func GetDbNodeAvailableActionsEnumValues() []DbNodeAvailableActionsEnum {
+	values := make([]DbNodeAvailableActionsEnum, 0)
+	for _, v := range mappingDbNodeAvailableActionsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbNodeAvailableActionsEnumStringValues Enumerates the set of values in String for DbNodeAvailableActionsEnum
+func GetDbNodeAvailableActionsEnumStringValues() []string {
+	return []string{
+		"STOP",
+		"FORCESTOP",
+		"FORCERESET",
+		"START",
+		"SOFTRESET",
+		"RESET",
+	}
+}
+
+// GetMappingDbNodeAvailableActionsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbNodeAvailableActionsEnum(val string) (DbNodeAvailableActionsEnum, bool) {
+	enum, ok := mappingDbNodeAvailableActionsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

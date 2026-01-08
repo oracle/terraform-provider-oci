@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -117,7 +117,7 @@ const (
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax              UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_60G_GAX"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
-	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas32g5m               UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_32G_5M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m                UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost          UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_8GHOST"
 	UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost         UpdateVnicShapeDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_16GHOST"
@@ -1699,7 +1699,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"VNICAAS_LBAAS_FREE":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
 	"VNICAAS_LBAAS_60G_GAX":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax,
 	"VNICAAS_LBAAS_8G_1M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
-	"VNICAAS_LBAAS_8G_2M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_32G_5M":                 UpdateVnicShapeDetailsVnicShapeVnicaasLbaas32g5m,
 	"VNICAAS_LBAAS_8G_3M":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
 	"VNICAAS_LBAAS_8G_1M_8GHOST":           UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost,
 	"VNICAAS_LBAAS_8G_1M_16GHOST":          UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost,
@@ -3281,7 +3281,7 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"vnicaas_lbaas_free":                   UpdateVnicShapeDetailsVnicShapeVnicaasLbaasFree,
 	"vnicaas_lbaas_60g_gax":                UpdateVnicShapeDetailsVnicShapeVnicaasLbaas60gGax,
 	"vnicaas_lbaas_8g_1m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m,
-	"vnicaas_lbaas_8g_2m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_32g_5m":                 UpdateVnicShapeDetailsVnicShapeVnicaasLbaas32g5m,
 	"vnicaas_lbaas_8g_3m":                  UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g3m,
 	"vnicaas_lbaas_8g_1m_8ghost":           UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m8ghost,
 	"vnicaas_lbaas_8g_1m_16ghost":          UpdateVnicShapeDetailsVnicShapeVnicaasLbaas8g1m16ghost,
@@ -4874,7 +4874,7 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_LBAAS_FREE",
 		"VNICAAS_LBAAS_60G_GAX",
 		"VNICAAS_LBAAS_8G_1M",
-		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_32G_5M",
 		"VNICAAS_LBAAS_8G_3M",
 		"VNICAAS_LBAAS_8G_1M_8GHOST",
 		"VNICAAS_LBAAS_8G_1M_16GHOST",

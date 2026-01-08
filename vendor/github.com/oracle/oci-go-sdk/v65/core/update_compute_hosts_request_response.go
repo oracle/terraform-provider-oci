@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-// UpdateComputeHostRequest wrapper for the UpdateComputeHost operation
-type UpdateComputeHostRequest struct {
+// UpdateComputeHostsRequest wrapper for the UpdateComputeHosts operation
+type UpdateComputeHostsRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host.
 	ComputeHostId *string `mandatory:"true" contributesTo:"path" name:"computeHostId"`
 
 	// Update compute capacity topology details.
-	UpdateComputeHostDetails `contributesTo:"body"`
+	UpdateComputeHostsDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
@@ -41,12 +41,12 @@ type UpdateComputeHostRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request UpdateComputeHostRequest) String() string {
+func (request UpdateComputeHostsRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UpdateComputeHostRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdateComputeHostsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -56,7 +56,7 @@ func (request UpdateComputeHostRequest) HTTPRequest(method, path string, binaryR
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request UpdateComputeHostRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdateComputeHostsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -64,7 +64,7 @@ func (request UpdateComputeHostRequest) BinaryRequestBody() (*common.OCIReadSeek
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request UpdateComputeHostRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+func (request UpdateComputeHostsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 	if mandatoryParamMap["computeHostId"] != nil {
 		templateParam := mandatoryParamMap["computeHostId"]
 		for _, template := range templateParam {
@@ -78,14 +78,14 @@ func (request UpdateComputeHostRequest) ReplaceMandatoryParamInPath(client *comm
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateComputeHostRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateComputeHostsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request UpdateComputeHostRequest) ValidateEnumValue() (bool, error) {
+func (request UpdateComputeHostsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -93,8 +93,8 @@ func (request UpdateComputeHostRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UpdateComputeHostResponse wrapper for the UpdateComputeHost operation
-type UpdateComputeHostResponse struct {
+// UpdateComputeHostsResponse wrapper for the UpdateComputeHosts operation
+type UpdateComputeHostsResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -112,11 +112,11 @@ type UpdateComputeHostResponse struct {
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response UpdateComputeHostResponse) String() string {
+func (response UpdateComputeHostsResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response UpdateComputeHostResponse) HTTPResponse() *http.Response {
+func (response UpdateComputeHostsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

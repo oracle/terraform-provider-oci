@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -79,6 +79,7 @@ type Image struct {
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	// * `VDPA` - VM instances launch with hardware-assisted paravirtualized networking type.
+	// * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode ImageLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -135,6 +136,7 @@ const (
 	ImageLaunchModeEmulated        ImageLaunchModeEnum = "EMULATED"
 	ImageLaunchModeParavirtualized ImageLaunchModeEnum = "PARAVIRTUALIZED"
 	ImageLaunchModeVdpa            ImageLaunchModeEnum = "VDPA"
+	ImageLaunchModeAcceleratedpv   ImageLaunchModeEnum = "ACCELERATEDPV"
 	ImageLaunchModeCustom          ImageLaunchModeEnum = "CUSTOM"
 )
 
@@ -143,6 +145,7 @@ var mappingImageLaunchModeEnum = map[string]ImageLaunchModeEnum{
 	"EMULATED":        ImageLaunchModeEmulated,
 	"PARAVIRTUALIZED": ImageLaunchModeParavirtualized,
 	"VDPA":            ImageLaunchModeVdpa,
+	"ACCELERATEDPV":   ImageLaunchModeAcceleratedpv,
 	"CUSTOM":          ImageLaunchModeCustom,
 }
 
@@ -151,6 +154,7 @@ var mappingImageLaunchModeEnumLowerCase = map[string]ImageLaunchModeEnum{
 	"emulated":        ImageLaunchModeEmulated,
 	"paravirtualized": ImageLaunchModeParavirtualized,
 	"vdpa":            ImageLaunchModeVdpa,
+	"acceleratedpv":   ImageLaunchModeAcceleratedpv,
 	"custom":          ImageLaunchModeCustom,
 }
 
@@ -170,6 +174,7 @@ func GetImageLaunchModeEnumStringValues() []string {
 		"EMULATED",
 		"PARAVIRTUALIZED",
 		"VDPA",
+		"ACCELERATEDPV",
 		"CUSTOM",
 	}
 }

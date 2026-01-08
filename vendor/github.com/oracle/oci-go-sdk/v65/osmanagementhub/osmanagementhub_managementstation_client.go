@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -142,7 +142,7 @@ func (client ManagementStationClient) changeManagementStationCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/ChangeManagementStationCompartment"
 		err = common.PostProcessServiceError(err, "ManagementStation", "ChangeManagementStationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client ManagementStationClient) createManagementStation(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/CreateManagementStation"
 		err = common.PostProcessServiceError(err, "ManagementStation", "CreateManagementStation", apiReferenceLink)
 		return response, err
 	}
@@ -262,7 +262,7 @@ func (client ManagementStationClient) deleteManagementStation(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/DeleteManagementStation"
 		err = common.PostProcessServiceError(err, "ManagementStation", "DeleteManagementStation", apiReferenceLink)
 		return response, err
 	}
@@ -316,7 +316,7 @@ func (client ManagementStationClient) getManagementStation(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/GetManagementStation"
 		err = common.PostProcessServiceError(err, "ManagementStation", "GetManagementStation", apiReferenceLink)
 		return response, err
 	}
@@ -371,7 +371,7 @@ func (client ManagementStationClient) listManagementStations(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/ListManagementStations"
 		err = common.PostProcessServiceError(err, "ManagementStation", "ListManagementStations", apiReferenceLink)
 		return response, err
 	}
@@ -425,7 +425,7 @@ func (client ManagementStationClient) listMirrors(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/MirrorsCollection/ListMirrors"
 		err = common.PostProcessServiceError(err, "ManagementStation", "ListMirrors", apiReferenceLink)
 		return response, err
 	}
@@ -484,7 +484,7 @@ func (client ManagementStationClient) refreshManagementStationConfig(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/RefreshManagementStationConfig"
 		err = common.PostProcessServiceError(err, "ManagementStation", "RefreshManagementStationConfig", apiReferenceLink)
 		return response, err
 	}
@@ -543,7 +543,7 @@ func (client ManagementStationClient) synchronizeMirrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/SynchronizeMirrors"
 		err = common.PostProcessServiceError(err, "ManagementStation", "SynchronizeMirrors", apiReferenceLink)
 		return response, err
 	}
@@ -602,7 +602,7 @@ func (client ManagementStationClient) synchronizeSingleMirrors(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/SynchronizeSingleMirrors"
 		err = common.PostProcessServiceError(err, "ManagementStation", "SynchronizeSingleMirrors", apiReferenceLink)
 		return response, err
 	}
@@ -656,7 +656,7 @@ func (client ManagementStationClient) updateManagementStation(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/UpdateManagementStation"
 		err = common.PostProcessServiceError(err, "ManagementStation", "UpdateManagementStation", apiReferenceLink)
 		return response, err
 	}

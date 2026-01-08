@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -137,7 +137,7 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -245,7 +245,7 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -300,7 +300,7 @@ func (client WorkRequestClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -359,7 +359,7 @@ func (client WorkRequestClient) rerunWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/RerunWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "RerunWorkRequest", apiReferenceLink)
 		return response, err
 	}

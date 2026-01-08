@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -479,7 +479,7 @@ const (
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_FREE"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas60gGax              CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_60G_GAX"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M"
-	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_2M"
+	CreateInternalVnicDetailsVnicShapeVnicaasLbaas32g5m               CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_32G_5M"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m                CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_3M"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost          CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_8GHOST"
 	CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost         CreateInternalVnicDetailsVnicShapeEnum = "VNICAAS_LBAAS_8G_1M_16GHOST"
@@ -2061,7 +2061,7 @@ var mappingCreateInternalVnicDetailsVnicShapeEnum = map[string]CreateInternalVni
 	"VNICAAS_LBAAS_FREE":                   CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree,
 	"VNICAAS_LBAAS_60G_GAX":                CreateInternalVnicDetailsVnicShapeVnicaasLbaas60gGax,
 	"VNICAAS_LBAAS_8G_1M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
-	"VNICAAS_LBAAS_8G_2M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
+	"VNICAAS_LBAAS_32G_5M":                 CreateInternalVnicDetailsVnicShapeVnicaasLbaas32g5m,
 	"VNICAAS_LBAAS_8G_3M":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
 	"VNICAAS_LBAAS_8G_1M_8GHOST":           CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost,
 	"VNICAAS_LBAAS_8G_1M_16GHOST":          CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost,
@@ -3643,7 +3643,7 @@ var mappingCreateInternalVnicDetailsVnicShapeEnumLowerCase = map[string]CreateIn
 	"vnicaas_lbaas_free":                   CreateInternalVnicDetailsVnicShapeVnicaasLbaasFree,
 	"vnicaas_lbaas_60g_gax":                CreateInternalVnicDetailsVnicShapeVnicaasLbaas60gGax,
 	"vnicaas_lbaas_8g_1m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m,
-	"vnicaas_lbaas_8g_2m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g2m,
+	"vnicaas_lbaas_32g_5m":                 CreateInternalVnicDetailsVnicShapeVnicaasLbaas32g5m,
 	"vnicaas_lbaas_8g_3m":                  CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g3m,
 	"vnicaas_lbaas_8g_1m_8ghost":           CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m8ghost,
 	"vnicaas_lbaas_8g_1m_16ghost":          CreateInternalVnicDetailsVnicShapeVnicaasLbaas8g1m16ghost,
@@ -5236,7 +5236,7 @@ func GetCreateInternalVnicDetailsVnicShapeEnumStringValues() []string {
 		"VNICAAS_LBAAS_FREE",
 		"VNICAAS_LBAAS_60G_GAX",
 		"VNICAAS_LBAAS_8G_1M",
-		"VNICAAS_LBAAS_8G_2M",
+		"VNICAAS_LBAAS_32G_5M",
 		"VNICAAS_LBAAS_8G_3M",
 		"VNICAAS_LBAAS_8G_1M_8GHOST",
 		"VNICAAS_LBAAS_8G_1M_16GHOST",

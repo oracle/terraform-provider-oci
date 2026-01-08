@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -163,7 +163,7 @@ func (client OracleDbAzureVaultClient) changeOracleDbAzureVaultCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/ChangeOracleDbAzureVaultCompartment"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "ChangeOracleDbAzureVaultCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -222,7 +222,7 @@ func (client OracleDbAzureVaultClient) createOracleDbAzureVault(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/CreateOracleDbAzureVault"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "CreateOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -276,7 +276,7 @@ func (client OracleDbAzureVaultClient) deleteOracleDbAzureVault(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/DeleteOracleDbAzureVault"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "DeleteOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -330,7 +330,7 @@ func (client OracleDbAzureVaultClient) getOracleDbAzureVault(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/GetOracleDbAzureVault"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "GetOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +384,7 @@ func (client OracleDbAzureVaultClient) listOracleDbAzureVaults(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/ListOracleDbAzureVaults"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "ListOracleDbAzureVaults", apiReferenceLink)
 		return response, err
 	}
@@ -443,7 +443,7 @@ func (client OracleDbAzureVaultClient) refreshOracleDbAzureVault(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/RefreshOracleDbAzureVault"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "RefreshOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -497,7 +497,7 @@ func (client OracleDbAzureVaultClient) updateOracleDbAzureVault(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/UpdateOracleDbAzureVault"
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "UpdateOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}

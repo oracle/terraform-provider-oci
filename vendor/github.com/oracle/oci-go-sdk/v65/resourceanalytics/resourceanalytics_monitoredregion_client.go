@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -141,7 +141,7 @@ func (client MonitoredRegionClient) createMonitoredRegion(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/CreateMonitoredRegion"
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "CreateMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client MonitoredRegionClient) deleteMonitoredRegion(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/DeleteMonitoredRegion"
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "DeleteMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client MonitoredRegionClient) getMonitoredRegion(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/GetMonitoredRegion"
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "GetMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client MonitoredRegionClient) listMonitoredRegions(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegionCollection/ListMonitoredRegions"
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "ListMonitoredRegions", apiReferenceLink)
 		return response, err
 	}

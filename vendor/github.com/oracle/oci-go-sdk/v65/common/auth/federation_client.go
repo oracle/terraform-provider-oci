@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 // Package auth provides supporting functions and structs for authentication
@@ -833,27 +833,27 @@ type tokenExchangeResponse struct {
 
 // tokenExchangeFederationClient implements federationClient.
 type tokenExchangeFederationClient struct {
-	client        *common.BaseClient
-	securityToken securityToken
-	privateKey    *rsa.PrivateKey
-	tokenIssuer   TokenIssuer
-	domainUrl     string
-	authCode      string
-	requestData   map[string][]string
+	client                    *common.BaseClient
+	securityToken             securityToken
+	privateKey                *rsa.PrivateKey
+	tokenIssuer               TokenIssuer
+	domainUrl                 string
+	authCode                  string
+	requestData               map[string][]string
 	instancePrincipalProvider common.ConfigurationProvider
-	mux           sync.Mutex
+	mux                       sync.Mutex
 }
 
 // newTokenExchangeFederationClient creates a federation client.
 func newTokenExchangeFederationClient(issuer TokenIssuer, host string,
 	authCode string, requestData map[string][]string,
-    instancePrincipalProvider common.ConfigurationProvider) *tokenExchangeFederationClient {
+	instancePrincipalProvider common.ConfigurationProvider) *tokenExchangeFederationClient {
 	client := newIDAuthClient(host, "/oauth2/v1/token")
 	fc := tokenExchangeFederationClient{
-		tokenIssuer: issuer,
-		client:      client,
-		authCode:    authCode,
-		requestData: requestData,
+		tokenIssuer:               issuer,
+		client:                    client,
+		authCode:                  authCode,
+		requestData:               requestData,
 		instancePrincipalProvider: instancePrincipalProvider,
 	}
 
@@ -940,11 +940,11 @@ func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
 	}
 
 	var publicKey = ""
-    if vals, ok := fc.requestData["public_key"]; ok && len(vals) > 0 {
-        publicKey = vals[0]
-    } else {
-        return fmt.Errorf("unable to derive public key")
-    }
+	if vals, ok := fc.requestData["public_key"]; ok && len(vals) > 0 {
+		publicKey = vals[0]
+	} else {
+		return fmt.Errorf("unable to derive public key")
+	}
 
 	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
 	if err != nil {
@@ -976,10 +976,10 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 		maps.Copy(form, fc.requestData)
 		form.Set("public_key", publicKey)
 		if token != "" {
-            form.Set("subject_token", token)
-        }
+			form.Set("subject_token", token)
+		}
 		formString := form.Encode()
-        formBody := strings.NewReader(formString)
+		formBody := strings.NewReader(formString)
 
 		httpRequest, err := http.NewRequest(http.MethodPost, fc.client.Host, formBody)
 		if err != nil {
@@ -988,16 +988,16 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 
 		httpRequest.Header.Set("Accept", "application/json")
 
-        if fc.instancePrincipalProvider != nil {
-            signer := common.RequestSigner(fc.instancePrincipalProvider, genericHeaders, bodyHeaders)
+		if fc.instancePrincipalProvider != nil {
+			signer := common.RequestSigner(fc.instancePrincipalProvider, genericHeaders, bodyHeaders)
 
-            err := signer.Sign(httpRequest)
-            if err != nil {
-                return t, fmt.Errorf("failed to sign request: %w", err)
-            }
-        } else if fc.authCode != "" {
-            httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
-        }
+			err := signer.Sign(httpRequest)
+			if err != nil {
+				return t, fmt.Errorf("failed to sign request: %w", err)
+			}
+		} else if fc.authCode != "" {
+			httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
+		}
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		response, err := fc.client.Call(ctx, httpRequest)

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -173,6 +173,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	// * `VDPA` - VM instances launch with hardware-assisted paravirtualized networking type.
+	// * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -366,6 +367,7 @@ const (
 	InstanceConfigurationLaunchInstanceDetailsLaunchModeEmulated        InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "EMULATED"
 	InstanceConfigurationLaunchInstanceDetailsLaunchModeParavirtualized InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "PARAVIRTUALIZED"
 	InstanceConfigurationLaunchInstanceDetailsLaunchModeVdpa            InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "VDPA"
+	InstanceConfigurationLaunchInstanceDetailsLaunchModeAcceleratedpv   InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "ACCELERATEDPV"
 	InstanceConfigurationLaunchInstanceDetailsLaunchModeCustom          InstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = "CUSTOM"
 )
 
@@ -374,6 +376,7 @@ var mappingInstanceConfigurationLaunchInstanceDetailsLaunchModeEnum = map[string
 	"EMULATED":        InstanceConfigurationLaunchInstanceDetailsLaunchModeEmulated,
 	"PARAVIRTUALIZED": InstanceConfigurationLaunchInstanceDetailsLaunchModeParavirtualized,
 	"VDPA":            InstanceConfigurationLaunchInstanceDetailsLaunchModeVdpa,
+	"ACCELERATEDPV":   InstanceConfigurationLaunchInstanceDetailsLaunchModeAcceleratedpv,
 	"CUSTOM":          InstanceConfigurationLaunchInstanceDetailsLaunchModeCustom,
 }
 
@@ -382,6 +385,7 @@ var mappingInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumLowerCase = m
 	"emulated":        InstanceConfigurationLaunchInstanceDetailsLaunchModeEmulated,
 	"paravirtualized": InstanceConfigurationLaunchInstanceDetailsLaunchModeParavirtualized,
 	"vdpa":            InstanceConfigurationLaunchInstanceDetailsLaunchModeVdpa,
+	"acceleratedpv":   InstanceConfigurationLaunchInstanceDetailsLaunchModeAcceleratedpv,
 	"custom":          InstanceConfigurationLaunchInstanceDetailsLaunchModeCustom,
 }
 
@@ -401,6 +405,7 @@ func GetInstanceConfigurationLaunchInstanceDetailsLaunchModeEnumStringValues() [
 		"EMULATED",
 		"PARAVIRTUALIZED",
 		"VDPA",
+		"ACCELERATEDPV",
 		"CUSTOM",
 	}
 }

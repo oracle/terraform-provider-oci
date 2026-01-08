@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -63,6 +63,9 @@ type InstancePoolSummary struct {
 	// The last date and time the instance pool state was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeStateUpdated *common.SDKTime `mandatory:"false" json:"timeStateUpdated"`
+
+	// Count of instance in running state associated to the Instance Pool.
+	CurrentSize *int `mandatory:"false" json:"currentSize"`
 }
 
 func (m InstancePoolSummary) String() string {

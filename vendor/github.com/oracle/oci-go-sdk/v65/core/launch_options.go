@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,6 +49,7 @@ type LaunchOptions struct {
 	// when you launch an instance using hardware-assisted (SR-IOV) networking.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	// * `VDPA` - VM instances launch with hardware-assisted paravirtualized networking type.
+	// * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 	NetworkType LaunchOptionsNetworkTypeEnum `mandatory:"false" json:"networkType,omitempty"`
 
 	// Emulation type for volume.
@@ -209,6 +210,7 @@ const (
 	LaunchOptionsNetworkTypeVfio            LaunchOptionsNetworkTypeEnum = "VFIO"
 	LaunchOptionsNetworkTypeParavirtualized LaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
 	LaunchOptionsNetworkTypeVdpa            LaunchOptionsNetworkTypeEnum = "VDPA"
+	LaunchOptionsNetworkTypeAcceleratedpv   LaunchOptionsNetworkTypeEnum = "ACCELERATEDPV"
 )
 
 var mappingLaunchOptionsNetworkTypeEnum = map[string]LaunchOptionsNetworkTypeEnum{
@@ -216,6 +218,7 @@ var mappingLaunchOptionsNetworkTypeEnum = map[string]LaunchOptionsNetworkTypeEnu
 	"VFIO":            LaunchOptionsNetworkTypeVfio,
 	"PARAVIRTUALIZED": LaunchOptionsNetworkTypeParavirtualized,
 	"VDPA":            LaunchOptionsNetworkTypeVdpa,
+	"ACCELERATEDPV":   LaunchOptionsNetworkTypeAcceleratedpv,
 }
 
 var mappingLaunchOptionsNetworkTypeEnumLowerCase = map[string]LaunchOptionsNetworkTypeEnum{
@@ -223,6 +226,7 @@ var mappingLaunchOptionsNetworkTypeEnumLowerCase = map[string]LaunchOptionsNetwo
 	"vfio":            LaunchOptionsNetworkTypeVfio,
 	"paravirtualized": LaunchOptionsNetworkTypeParavirtualized,
 	"vdpa":            LaunchOptionsNetworkTypeVdpa,
+	"acceleratedpv":   LaunchOptionsNetworkTypeAcceleratedpv,
 }
 
 // GetLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for LaunchOptionsNetworkTypeEnum
@@ -241,6 +245,7 @@ func GetLaunchOptionsNetworkTypeEnumStringValues() []string {
 		"VFIO",
 		"PARAVIRTUALIZED",
 		"VDPA",
+		"ACCELERATEDPV",
 	}
 }
 

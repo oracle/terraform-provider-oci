@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -73,6 +73,18 @@ type CreateSqlEndpointDetails struct {
 	// Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is
 	// not allowed to be overwritten will cause a 400 status to be returned.
 	SparkAdvancedConfigurations map[string]string `mandatory:"false" json:"sparkAdvancedConfigurations"`
+
+	// The identifier of the log group used with the SQL Endpoint.
+	LogGroupId *string `mandatory:"false" json:"logGroupId"`
+
+	// The identifier of the log group compartment used with the SQL Endpoint.
+	LogCompartmentId *string `mandatory:"false" json:"logCompartmentId"`
+
+	// The friendly name of the log object used with the SQL Endpoint.
+	LogDisplayName *string `mandatory:"false" json:"logDisplayName"`
+
+	// Log retention duration in days
+	LogRetentionDuration *int `mandatory:"false" json:"logRetentionDuration"`
 }
 
 func (m CreateSqlEndpointDetails) String() string {
@@ -100,6 +112,10 @@ func (m *CreateSqlEndpointDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
 		SparkAdvancedConfigurations map[string]string                 `json:"sparkAdvancedConfigurations"`
+		LogGroupId                  *string                           `json:"logGroupId"`
+		LogCompartmentId            *string                           `json:"logCompartmentId"`
+		LogDisplayName              *string                           `json:"logDisplayName"`
+		LogRetentionDuration        *int                              `json:"logRetentionDuration"`
 		CompartmentId               *string                           `json:"compartmentId"`
 		DisplayName                 *string                           `json:"displayName"`
 		SqlEndpointVersion          *string                           `json:"sqlEndpointVersion"`
@@ -129,6 +145,14 @@ func (m *CreateSqlEndpointDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SparkAdvancedConfigurations = model.SparkAdvancedConfigurations
+
+	m.LogGroupId = model.LogGroupId
+
+	m.LogCompartmentId = model.LogCompartmentId
+
+	m.LogDisplayName = model.LogDisplayName
+
+	m.LogRetentionDuration = model.LogRetentionDuration
 
 	m.CompartmentId = model.CompartmentId
 
