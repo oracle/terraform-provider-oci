@@ -265,9 +265,9 @@ func (s *CoreComputeHostsDataSourceCrud) SetData() error {
 	computeHost := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, ComputeHostSummaryToMap(item))
-	}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, ComputeHostSummaryToMap(item))
+	//}
 	computeHost["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
