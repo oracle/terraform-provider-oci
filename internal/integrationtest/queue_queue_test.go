@@ -53,6 +53,7 @@ var (
 	QueueQueueRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"capabilities":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: QueueQueueCapabilitiesRepresentation},
 		"channel_consumption_limit":        acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"custom_encryption_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.custom_encryption_key_id}`},
 		"dead_letter_queue_delivery_count": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -62,6 +63,13 @@ var (
 		"timeout_in_seconds":               acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"visibility_in_seconds":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTagsRepresentation},
+	}
+	QueueQueueCapabilitiesRepresentation = map[string]interface{}{
+		"is_primary_consumer_group_enabled":                       acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"primary_consumer_group_dead_letter_queue_delivery_count": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `0`},
+		"primary_consumer_group_display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `primaryConsumerGroupDisplayName`, Update: ``},
+		"primary_consumer_group_filter":                           acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"type":                                                    acctest.Representation{RepType: acctest.Optional, Create: `CONSUMER_GROUPS`, Update: `LARGE_MESSAGES`},
 	}
 
 	QueueQueueResourceDependencies = DefinedTagsDependencies
@@ -117,6 +125,12 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Create, QueueQueueRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_dead_letter_queue_delivery_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_display_name", "primaryConsumerGroupDisplayName"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_filter", ":name"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
 				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
@@ -152,6 +166,12 @@ func TestQueueQueueResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_dead_letter_queue_delivery_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_display_name", "primaryConsumerGroupDisplayName"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_filter", ":name"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
 				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
@@ -187,6 +207,13 @@ func TestQueueQueueResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_dead_letter_queue_delivery_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_display_name", "primaryConsumerGroupDisplayName"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_filter", ":name"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "CONSUMER_GROUPS"),
+				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "purge_trigger", "0"),
 				resource.TestCheckResourceAttr(resourceName, "purge_type", "normal"),
@@ -218,6 +245,14 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Update, QueueQueueRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+				// the values for consumer_groups capability fields are null/false here since the queue does not have CONSUMER_GROUPS capability enabled
+				// this queue has LARGE_MESSAGES capability enabled
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_dead_letter_queue_delivery_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_display_name", ""),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.primary_consumer_group_filter", ""),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.0.type", "LARGE_MESSAGES"),
 				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
@@ -268,6 +303,12 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "queue_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.is_primary_consumer_group_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.primary_consumer_group_dead_letter_queue_delivery_count", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.primary_consumer_group_display_name", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.primary_consumer_group_filter", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.0.type", "LARGE_MESSAGES"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "channel_consumption_limit", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dead_letter_queue_delivery_count", "11"),

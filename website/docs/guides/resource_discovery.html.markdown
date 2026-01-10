@@ -1266,6 +1266,7 @@ psql
 queue
     
 * oci\_queue\_queue
+* oci\_queue\_consumer\_group
 
 recovery
     

@@ -25,8 +25,28 @@ var exportQueueQueueHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportQueueConsumerGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_queue_consumer_group",
+	DatasourceClass:        "oci_queue_consumer_groups",
+	DatasourceItemsAttr:    "consumer_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "consumer_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_queue.ConsumerGroupLifecycleStateActive),
+	},
+}
+
 var queueResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportQueueQueueHints},
+	},
+	"oci_queue_queue": {
+		{
+			TerraformResourceHints: exportQueueConsumerGroupHints,
+			DatasourceQueryParams: map[string]string{
+				"queue_id": "id",
+			},
+		},
 	},
 }

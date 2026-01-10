@@ -4,7 +4,6 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
-variable "queue_custom_encryption_key_id" {}
 
 variable "queue_display_name" {
   default = "displayName"

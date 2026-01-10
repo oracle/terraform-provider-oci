@@ -1,4 +1,4 @@
-# Creating the queue required parameters and consumer groups capability
+# Creating the queue with required parameters and CONSUMER_GROUPS capability
 resource "oci_queue_queue" "test_queue" {
   #Required
   compartment_id = var.compartment_id
@@ -21,7 +21,7 @@ resource "oci_queue_consumer_group" "test_consumer_group" {
   display_name = var.cg_display_name
 }
 
-# create a consumer group
+# create another consumer group
 resource "oci_queue_consumer_group" "test_consumer_group2" {
   #Required
   queue_id     = oci_queue_queue.test_queue.id
@@ -33,7 +33,7 @@ data "oci_queue_consumer_groups" "test_consumer_groups" {
   queue_id = oci_queue_queue.test_queue.id
 }
 
-# create a queue with LARGE_MESSAGES capability
+# create a queue with required parameters and LARGE_MESSAGES capability
 resource "oci_queue_queue" "test_queue2" {
   #Required
   compartment_id = var.compartment_id
@@ -45,7 +45,7 @@ resource "oci_queue_queue" "test_queue2" {
   }
 }
 
-# create a queue with both CONSUMER_GROUPS and LARGE_MESSAGES capability
+# create a queue with required parameters and both CONSUMER_GROUPS and LARGE_MESSAGES capability
 resource "oci_queue_queue" "test_queue3" {
   #Required
   compartment_id = var.compartment_id

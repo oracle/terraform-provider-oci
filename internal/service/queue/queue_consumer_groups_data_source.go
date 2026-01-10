@@ -13,15 +13,11 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func QueueQueuesDataSource() *schema.Resource {
+func QueueConsumerGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readQueueQueues,
+		Read: readQueueConsumerGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -30,11 +26,15 @@ func QueueQueuesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"queue_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"queue_collection": {
+			"consumer_group_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -43,7 +43,7 @@ func QueueQueuesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     queueListDataSourceSchema(),
+							Elem:     tfresource.GetDataSourceItemSchema(QueueConsumerGroupResource()),
 						},
 					},
 				},
@@ -52,31 +52,26 @@ func QueueQueuesDataSource() *schema.Resource {
 	}
 }
 
-func readQueueQueues(d *schema.ResourceData, m interface{}) error {
-	sync := &QueueQueuesDataSourceCrud{}
+func readQueueConsumerGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &QueueConsumerGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type QueueQueuesDataSourceCrud struct {
+type QueueConsumerGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_queue.QueueAdminClient
-	Res    *oci_queue.ListQueuesResponse
+	Res    *oci_queue.ListConsumerGroupsResponse
 }
 
-func (s *QueueQueuesDataSourceCrud) VoidState() {
+func (s *QueueConsumerGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueQueuesDataSourceCrud) Get() error {
-	request := oci_queue.ListQueuesRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
+func (s *QueueConsumerGroupsDataSourceCrud) Get() error {
+	request := oci_queue.ListConsumerGroupsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -88,13 +83,18 @@ func (s *QueueQueuesDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
+	if queueId, ok := s.D.GetOkExists("queue_id"); ok {
+		tmp := queueId.(string)
+		request.QueueId = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_queue.QueueLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_queue.ConsumerGroupLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.ListQueues(context.Background(), request)
+	response, err := s.Client.ListConsumerGroups(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +103,7 @@ func (s *QueueQueuesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListQueues(context.Background(), request)
+		listResponse, err := s.Client.ListConsumerGroups(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -115,48 +115,30 @@ func (s *QueueQueuesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *QueueQueuesDataSourceCrud) SetData() error {
+func (s *QueueConsumerGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("QueueQueuesDataSource-", QueueQueuesDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("QueueConsumerGroupsDataSource-", QueueConsumerGroupsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	queue := map[string]interface{}{}
+	consumerGroup := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, QueueSummaryToMap(item))
+		items = append(items, ConsumerGroupSummaryToMap(item))
 	}
-	queue["items"] = items
+	consumerGroup["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, QueueQueuesDataSource().Schema["queue_collection"].Elem.(*schema.Resource).Schema)
-		queue["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, QueueConsumerGroupsDataSource().Schema["consumer_group_collection"].Elem.(*schema.Resource).Schema)
+		consumerGroup["items"] = items
 	}
 
-	resources = append(resources, queue)
-	if err := s.D.Set("queue_collection", resources); err != nil {
+	resources = append(resources, consumerGroup)
+	if err := s.D.Set("consumer_group_collection", resources); err != nil {
 		return err
 	}
 
 	return nil
-}
-
-func queueListDataSourceSchema() *schema.Resource {
-
-	var listQueueDataSourceSchema *schema.Resource = tfresource.GetDataSourceItemSchema(QueueQueueResource())
-
-	// Queue list operation returns capabilties with just name
-	// whereas getQueue returns details of the capability.
-	// So overriding capabiltiies schema .
-	listQueueDataSourceSchema.Schema["capabilities"] = &schema.Schema{
-		Type:     schema.TypeSet,
-		Computed: true,
-		Elem: &schema.Schema{
-			Type: schema.TypeString,
-		},
-	}
-
-	return listQueueDataSourceSchema
 }
