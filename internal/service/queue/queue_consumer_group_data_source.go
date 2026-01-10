@@ -13,44 +13,44 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func QueueQueueDataSource() *schema.Resource {
+func QueueConsumerGroupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["queue_id"] = &schema.Schema{
+	fieldMap["consumer_group_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(QueueQueueResource(), fieldMap, readSingularQueueQueue)
+	return tfresource.GetSingularDataSourceItemSchema(QueueConsumerGroupResource(), fieldMap, readSingularQueueConsumerGroup)
 }
 
-func readSingularQueueQueue(d *schema.ResourceData, m interface{}) error {
-	sync := &QueueQueueDataSourceCrud{}
+func readSingularQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &QueueConsumerGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type QueueQueueDataSourceCrud struct {
+type QueueConsumerGroupDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_queue.QueueAdminClient
-	Res    *oci_queue.GetQueueResponse
+	Res    *oci_queue.GetConsumerGroupResponse
 }
 
-func (s *QueueQueueDataSourceCrud) VoidState() {
+func (s *QueueConsumerGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueQueueDataSourceCrud) Get() error {
-	request := oci_queue.GetQueueRequest{}
+func (s *QueueConsumerGroupDataSourceCrud) Get() error {
+	request := oci_queue.GetConsumerGroupRequest{}
 
-	if queueId, ok := s.D.GetOkExists("queue_id"); ok {
-		tmp := queueId.(string)
-		request.QueueId = &tmp
+	if consumerGroupId, ok := s.D.GetOkExists("consumer_group_id"); ok {
+		tmp := consumerGroupId.(string)
+		request.ConsumerGroupId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.GetQueue(context.Background(), request)
+	response, err := s.Client.GetConsumerGroup(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -59,29 +59,15 @@ func (s *QueueQueueDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *QueueQueueDataSourceCrud) SetData() error {
+func (s *QueueConsumerGroupDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
 
-	capabilities := []interface{}{}
-	for _, item := range s.Res.Capabilities {
-		capabilities = append(capabilities, CapabilityDetailsToMap(item))
-	}
-	s.D.Set("capabilities", capabilities)
-
-	if s.Res.ChannelConsumptionLimit != nil {
-		s.D.Set("channel_consumption_limit", *s.Res.ChannelConsumptionLimit)
-	}
-
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
-	}
-
-	if s.Res.CustomEncryptionKeyId != nil {
-		s.D.Set("custom_encryption_key_id", *s.Res.CustomEncryptionKeyId)
+	if s.Res.Filter != nil {
+		s.D.Set("consumer_group_filter", *s.Res.Filter)
 	}
 
 	if s.Res.DeadLetterQueueDeliveryCount != nil {
@@ -102,12 +88,8 @@ func (s *QueueQueueDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
-	if s.Res.MessagesEndpoint != nil {
-		s.D.Set("messages_endpoint", *s.Res.MessagesEndpoint)
-	}
-
-	if s.Res.RetentionInSeconds != nil {
-		s.D.Set("retention_in_seconds", *s.Res.RetentionInSeconds)
+	if s.Res.QueueId != nil {
+		s.D.Set("queue_id", *s.Res.QueueId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -122,14 +104,6 @@ func (s *QueueQueueDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
-	}
-
-	if s.Res.TimeoutInSeconds != nil {
-		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)
-	}
-
-	if s.Res.VisibilityInSeconds != nil {
-		s.D.Set("visibility_in_seconds", *s.Res.VisibilityInSeconds)
 	}
 
 	return nil
