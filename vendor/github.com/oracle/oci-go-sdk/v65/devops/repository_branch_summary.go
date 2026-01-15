@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,12 @@ type RepositoryBranchSummary struct {
 	// Commit ID pointed to by the new branch.
 	CommitId *string `mandatory:"true" json:"commitId"`
 
+	// Creation timestamp. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The time the ref was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -39,6 +45,15 @@ type RepositoryBranchSummary struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The author of latest commit
+	LatestCommitAuthorName *string `mandatory:"false" json:"latestCommitAuthorName"`
+
+	// Up to 5 pull requests associated with this branch.
+	TopNPullRequests []PullRequestSummary `mandatory:"false" json:"topNPullRequests"`
+
+	// Counts of pull requests for this branch grouped by their state.
+	PullRequestStateCounts map[string]int `mandatory:"false" json:"pullRequestStateCounts"`
 }
 
 // GetRefName returns RefName
@@ -54,6 +69,16 @@ func (m RepositoryBranchSummary) GetFullRefName() *string {
 // GetRepositoryId returns RepositoryId
 func (m RepositoryBranchSummary) GetRepositoryId() *string {
 	return m.RepositoryId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m RepositoryBranchSummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m RepositoryBranchSummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 // GetFreeformTags returns FreeformTags

@@ -395,6 +395,21 @@ var (
 			"data_storage_size_in_tbs":    acctest.Representation{RepType: acctest.Required, Create: `1`},
 			"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
 		})
+
+	gatewayId                                                      = utils.GetEnvSettingWithBlankDefault("gateway_id")
+	DatabaseAutonomousDatabaseEnableVanityUrlDetailsRepresentation = map[string]interface{}{
+		"api_gateway_id":       acctest.Representation{RepType: acctest.Required, Create: gatewayId, Update: gatewayId},
+		"is_disabled":          acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+		"vanity_url_host_name": acctest.Representation{RepType: acctest.Required, Create: `testVanityUrl.com`, Update: `testVanityUrl.com`},
+	}
+	DatabaseAutonomousDatabaseUpdateVanityUrlDetailsRepresentation = map[string]interface{}{
+		"is_disabled":          acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+		"api_gateway_id":       acctest.Representation{RepType: acctest.Required, Create: gatewayId, Update: gatewayId},
+		"vanity_url_host_name": acctest.Representation{RepType: acctest.Required, Create: `UpdatedTestVanityUrl.com`, Update: `UpdatedTestVanityUrl.com`},
+	}
+	DatabaseAutonomousDatabaseDisableVanityUrlDetailsRepresentation = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+	}
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -1803,6 +1818,130 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					fmt.Println(resId)
+					return err
+				},
+			),
+		},
+		// Vanity url test scenarios(steps 42-47)
+		// Update compute model to ECPU, Enable resource pool, Enable/Update/Disable vanity url, Disable resource pool
+		// 42. Update compute model to ECPU
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `30`},
+						"compute_model":                   acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+						"compute_count":                   acctest.Representation{RepType: acctest.Required, Create: `4.0`},
+						"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: nil},
+					}), []string{"admin_password"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "30"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		//43. Verify Creating resource pool leader via update request
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRPUpdate, map[string]interface{}{
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryUpdateRepresentation},
+					}), []string{"compute_count", "compute_model", "displayName"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "512"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//44. Verify ENABLE vanity url config for resource pool leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"vanity_url_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseEnableVanityUrlDetailsRepresentation},
+					}), []string{"admin_password", "cpu_core_count", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.api_gateway_id", gatewayId),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.vanity_url_host_name", "testVanityUrl.com"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_connection_urls.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Println(resId)
+					return err
+				},
+			),
+		},
+		//45. Verify UPDATE vanity url config for resource pool leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"vanity_url_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseUpdateVanityUrlDetailsRepresentation},
+					}), []string{"admin_password", "cpu_core_count", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.api_gateway_id", gatewayId),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.vanity_url_host_name", "UpdatedTestVanityUrl.com"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_connection_urls.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Println(resId)
+					return err
+				},
+			),
+		},
+		//46. Verify DISABLE vanity url config for resource pool leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"vanity_url_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDisableVanityUrlDetailsRepresentation},
+					}), []string{"admin_password", "cpu_core_count", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_url_details.0.is_disabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "vanity_connection_urls.#", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Println(resId)
+					return err
+				},
+			),
+		},
+		// 47. verify disable resource pool leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRPUpdate, map[string]interface{}{
+						"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `6.0`, Update: `6.1`},
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPDisableSummaryRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "true"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 // Package common provides supporting functions and structs used by service packages
@@ -525,7 +525,7 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	request.URL.Host = clientURL.Host
 	request.URL.Scheme = clientURL.Scheme
 	currentPath := request.URL.Path
-	if !strings.Contains(currentPath, fmt.Sprintf("/%s", client.BasePath)) {
+	if !strings.HasPrefix(currentPath, fmt.Sprintf("/%s", client.BasePath)) {
 		request.URL.Path = path.Clean(fmt.Sprintf("/%s/%s", client.BasePath, currentPath))
 		err := setRawPath(request.URL)
 		if err != nil {

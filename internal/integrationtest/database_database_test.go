@@ -560,6 +560,7 @@ var (
 		"hsm_password":  acctest.Representation{RepType: acctest.Required, Create: `hsmPassword`},
 		"provider_type": acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
 	}
+
 	DatabaseDatabaseDatabaseSourceEncryptionKeyLocationDetailsRepresentation = map[string]interface{}{
 		"hsm_password":  acctest.Representation{RepType: acctest.Required, Create: `hsmPassword`},
 		"provider_type": acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
@@ -651,6 +652,46 @@ var (
 	dbHomeDbrsRepresentation = acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceNone2, map[string]interface{}{
 		"db_version": acctest.Representation{RepType: acctest.Required, Create: `19.27.0.0`},
 	})
+
+	DatabaseDbHomeRepresentationBase4 = map[string]interface{}{
+		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+	}
+
+	dbHomeRepresentationSourceNone3 = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase4, map[string]interface{}{
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseRepresentationSourceNone2},
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone`},
+		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"lifecycle":    acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	})
+
+	dbHomeDatabaseRepresentationSourceNone2 = map[string]interface{}{
+		"admin_password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`}, // Update password not supported for exa
+		"tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`}, // Update password not supported for exa
+		"db_name":             acctest.Representation{RepType: acctest.Required, Create: `dbNone`},
+		"character_set":       acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_backup_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseDbBackupConfigRepresentation2},
+		"db_workload":         acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":      acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"pdb_name":            acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
+	}
+
+	dbHomeDatabaseDbBackupConfigRepresentation2 = map[string]interface{}{
+		"auto_backup_enabled":       acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"auto_backup_window":        acctest.Representation{RepType: acctest.Required, Create: `SLOT_THREE`},
+		"auto_full_backup_day":      acctest.Representation{RepType: acctest.Required, Create: `WEDNESDAY`, Update: `MONDAY`},
+		"auto_full_backup_window":   acctest.Representation{RepType: acctest.Required, Create: `SLOT_SIX`, Update: `SLOT_SEVEN`},
+		"recovery_window_in_days":   acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"run_immediate_full_backup": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+
+	kmsKeyId            = utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr = fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	DatabaseDbHomeResourceVmClusterDependencies = DbHomeResourceVmClusterDependencies + OkvSecretVariableStr + kmsKeyIdVariableStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_with_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone3)
 
 	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2)
@@ -851,6 +892,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config +
@@ -1045,6 +1087,62 @@ func TestDatabaseDatabaseResource_exadbxs_block_storage(t *testing.T) {
 			),
 		},
 	})
+}
+
+func TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails")
+	defer httpreplay.SaveScenario()
+	const dbWaitConditionDuration = time.Duration(3 * time.Minute)
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
+	var resId string
+	resourceName := "oci_database_db_home.test_pitr_database_db_home"
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceVmClusterDependencies + vaultIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, "oci_database_db_home.test_db_home_with_db", "database.0.id")
+					return err
+				},
+			),
+		},
+		{
+			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+				listBackupsFetchOperation, "database", false),
+			Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceVmClusterDependencies + vaultIdVariableStr +
+				`
+				data "oci_database_backups" "test_backups" {
+					database_id = "${oci_database_db_home.test_db_home_with_db.database.0.id}"
+				}
+				resource "oci_database_db_home" "test_pitr_database_db_home" {
+					database {
+						admin_password = "BEstrO0ng_#11"
+						backup_tde_password = "BEstrO0ng_#11"
+						db_name = "PITRdb"
+						database_id = "${oci_database_db_home.test_db_home_with_db.database.0.id}"
+					}
+  					source     = "DATABASE"
+					db_system_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+				}
+				`,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+			),
+		},
+	})
+
 }
 
 func TestDatabaseDatabaseResource_update(t *testing.T) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,6 +50,8 @@ type UpdateDbSystemDetails struct {
 	AccessMode DbSystemAccessModeEnum `mandatory:"false" json:"accessMode,omitempty"`
 
 	Rest *UpdateRestDetails `mandatory:"false" json:"rest"`
+
+	DatabaseConsole *UpdateDatabaseConsoleDetails `mandatory:"false" json:"databaseConsole"`
 
 	// Specifies if the DB System is highly available.
 	// Set to true to enable high availability. Two secondary MySQL instances are created and placed in the unused
