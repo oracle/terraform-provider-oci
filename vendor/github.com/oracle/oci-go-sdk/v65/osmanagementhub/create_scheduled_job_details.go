@@ -80,14 +80,6 @@ type CreateScheduledJobDetails struct {
 	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
-	// The report OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// This resource can only be specified for the operation type: UPDATE_VULNERABILITY.
-	ReportIds []string `mandatory:"false" json:"reportIds"`
-
-	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability
-	// update (even if it is not attached to it). This field is only available for the operation type: UPDATE_VULNERABILITY.
-	ShouldUseMissingSoftwareSources *bool `mandatory:"false" json:"shouldUseMissingSoftwareSources"`
-
 	// Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies
 	// the tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment).
 	IsSubcompartmentIncluded *bool `mandatory:"false" json:"isSubcompartmentIncluded"`

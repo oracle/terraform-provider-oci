@@ -31,11 +31,11 @@ type SoftwarePackageSummary struct {
 	// Version of the package.
 	Version *string `mandatory:"true" json:"version"`
 
-	// Type of the package.
-	PackageType PackageTypeEnum `mandatory:"false" json:"packageType,omitempty"`
-
 	// The architecture for which this software was built.
 	Architecture SoftwarePackageArchitectureEnum `mandatory:"false" json:"architecture,omitempty"`
+
+	// The date and time the package was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	LastModifiedDate *string `mandatory:"false" json:"lastModifiedDate"`
 
 	// Checksum of the package.
 	Checksum *string `mandatory:"false" json:"checksum"`
@@ -63,9 +63,6 @@ func (m SoftwarePackageSummary) String() string {
 func (m SoftwarePackageSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingPackageTypeEnum(string(m.PackageType)); !ok && m.PackageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingSoftwarePackageArchitectureEnum(string(m.Architecture)); !ok && m.Architecture != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Architecture: %s. Supported values are: %s.", m.Architecture, strings.Join(GetSoftwarePackageArchitectureEnumStringValues(), ",")))
 	}

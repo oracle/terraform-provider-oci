@@ -242,6 +242,8 @@ const (
 	ListLifecycleStagesOsFamilyWindowsServer2016 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListLifecycleStagesOsFamilyWindowsServer2019 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListLifecycleStagesOsFamilyWindowsServer2022 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListLifecycleStagesOsFamilyWindowsServer2025 ListLifecycleStagesOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListLifecycleStagesOsFamilyWindows11         ListLifecycleStagesOsFamilyEnum = "WINDOWS_11"
 	ListLifecycleStagesOsFamilyAll               ListLifecycleStagesOsFamilyEnum = "ALL"
 	ListLifecycleStagesOsFamilyUbuntu2004        ListLifecycleStagesOsFamilyEnum = "UBUNTU_20_04"
 	ListLifecycleStagesOsFamilyUbuntu2204        ListLifecycleStagesOsFamilyEnum = "UBUNTU_22_04"
@@ -257,6 +259,8 @@ var mappingListLifecycleStagesOsFamilyEnum = map[string]ListLifecycleStagesOsFam
 	"WINDOWS_SERVER_2016": ListLifecycleStagesOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListLifecycleStagesOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListLifecycleStagesOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListLifecycleStagesOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListLifecycleStagesOsFamilyWindows11,
 	"ALL":                 ListLifecycleStagesOsFamilyAll,
 	"UBUNTU_20_04":        ListLifecycleStagesOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListLifecycleStagesOsFamilyUbuntu2204,
@@ -272,6 +276,8 @@ var mappingListLifecycleStagesOsFamilyEnumLowerCase = map[string]ListLifecycleSt
 	"windows_server_2016": ListLifecycleStagesOsFamilyWindowsServer2016,
 	"windows_server_2019": ListLifecycleStagesOsFamilyWindowsServer2019,
 	"windows_server_2022": ListLifecycleStagesOsFamilyWindowsServer2022,
+	"windows_server_2025": ListLifecycleStagesOsFamilyWindowsServer2025,
+	"windows_11":          ListLifecycleStagesOsFamilyWindows11,
 	"all":                 ListLifecycleStagesOsFamilyAll,
 	"ubuntu_20_04":        ListLifecycleStagesOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListLifecycleStagesOsFamilyUbuntu2204,
@@ -298,6 +304,8 @@ func GetListLifecycleStagesOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

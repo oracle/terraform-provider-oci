@@ -22,11 +22,11 @@ type MirrorConfiguration struct {
 	// Path to the data volume on the management station where software source mirrors are stored.
 	Directory *string `mandatory:"true" json:"directory"`
 
+	// Default mirror listening port for http.
+	Port *string `mandatory:"true" json:"port"`
+
 	// Default mirror listening port for https.
 	Sslport *string `mandatory:"true" json:"sslport"`
-
-	// Default mirror listening port for http.
-	Port *string `mandatory:"false" json:"port"`
 
 	// Path to the SSL cerfificate.
 	Sslcert *string `mandatory:"false" json:"sslcert"`

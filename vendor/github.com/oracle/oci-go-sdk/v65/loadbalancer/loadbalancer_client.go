@@ -68,7 +68,7 @@ func newLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configPro
 
 // SetRegion overrides the region of this client.
 func (client *LoadBalancerClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://{dualStack?ds.:}iaas.{region}.{dualStack?oci.:}{secondLevelDomain}", "iaas")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://iaas.{region}.{dualStack?ds.oci.:}{secondLevelDomain}", "iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

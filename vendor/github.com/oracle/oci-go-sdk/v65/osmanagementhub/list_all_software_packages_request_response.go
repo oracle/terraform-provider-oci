@@ -14,12 +14,6 @@ import (
 // ListAllSoftwarePackagesRequest wrapper for the ListAllSoftwarePackages operation
 type ListAllSoftwarePackagesRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
-
-	// Indicates whether to include subcompartments in the returned results. Default is false.
-	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
-
 	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -212,6 +206,8 @@ const (
 	ListAllSoftwarePackagesOsFamilyWindowsServer2016 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListAllSoftwarePackagesOsFamilyWindowsServer2019 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListAllSoftwarePackagesOsFamilyWindowsServer2022 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListAllSoftwarePackagesOsFamilyWindowsServer2025 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListAllSoftwarePackagesOsFamilyWindows11         ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_11"
 	ListAllSoftwarePackagesOsFamilyAll               ListAllSoftwarePackagesOsFamilyEnum = "ALL"
 	ListAllSoftwarePackagesOsFamilyUbuntu2004        ListAllSoftwarePackagesOsFamilyEnum = "UBUNTU_20_04"
 	ListAllSoftwarePackagesOsFamilyUbuntu2204        ListAllSoftwarePackagesOsFamilyEnum = "UBUNTU_22_04"
@@ -227,6 +223,8 @@ var mappingListAllSoftwarePackagesOsFamilyEnum = map[string]ListAllSoftwarePacka
 	"WINDOWS_SERVER_2016": ListAllSoftwarePackagesOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListAllSoftwarePackagesOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListAllSoftwarePackagesOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListAllSoftwarePackagesOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListAllSoftwarePackagesOsFamilyWindows11,
 	"ALL":                 ListAllSoftwarePackagesOsFamilyAll,
 	"UBUNTU_20_04":        ListAllSoftwarePackagesOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListAllSoftwarePackagesOsFamilyUbuntu2204,
@@ -242,6 +240,8 @@ var mappingListAllSoftwarePackagesOsFamilyEnumLowerCase = map[string]ListAllSoft
 	"windows_server_2016": ListAllSoftwarePackagesOsFamilyWindowsServer2016,
 	"windows_server_2019": ListAllSoftwarePackagesOsFamilyWindowsServer2019,
 	"windows_server_2022": ListAllSoftwarePackagesOsFamilyWindowsServer2022,
+	"windows_server_2025": ListAllSoftwarePackagesOsFamilyWindowsServer2025,
+	"windows_11":          ListAllSoftwarePackagesOsFamilyWindows11,
 	"all":                 ListAllSoftwarePackagesOsFamilyAll,
 	"ubuntu_20_04":        ListAllSoftwarePackagesOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListAllSoftwarePackagesOsFamilyUbuntu2204,
@@ -268,6 +268,8 @@ func GetListAllSoftwarePackagesOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

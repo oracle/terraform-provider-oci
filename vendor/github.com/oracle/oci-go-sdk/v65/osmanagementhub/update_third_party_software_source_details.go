@@ -56,9 +56,6 @@ type UpdateThirdPartySoftwareSourceDetails struct {
 
 	// Whether this software source can be synced to a management station
 	IsMirrorSyncAllowed *bool `mandatory:"false" json:"isMirrorSyncAllowed"`
-
-	// Indicates if the service can collect the metadata for this software source
-	IsMetadataCollectionAllowed *bool `mandatory:"false" json:"isMetadataCollectionAllowed"`
 }
 
 // GetCompartmentId returns CompartmentId

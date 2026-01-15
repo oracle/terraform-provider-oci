@@ -41,6 +41,12 @@ type ChargebackPlan struct {
 	// Description of OPSI Chargeback Plan.
 	PlanDescription *string `mandatory:"false" json:"planDescription"`
 
+	// Chargeback Plan category of the chargeback entity. It can be OOB, or CUSTOM.
+	PlanCategory ChargebackPlanCategoryEnum `mandatory:"false" json:"planCategory,omitempty"`
+
+	// Indicates whether the chargeback plan can be customized.
+	IsCustomizable *bool `mandatory:"false" json:"isCustomizable"`
+
 	// Source of the chargeback plan.
 	EntitySource ChargebackPlanEntitySourceEnum `mandatory:"false" json:"entitySource,omitempty"`
 
@@ -79,6 +85,9 @@ func (m ChargebackPlan) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingChargebackPlanCategoryEnum(string(m.PlanCategory)); !ok && m.PlanCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanCategory: %s. Supported values are: %s.", m.PlanCategory, strings.Join(GetChargebackPlanCategoryEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingChargebackPlanEntitySourceEnum(string(m.EntitySource)); !ok && m.EntitySource != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EntitySource: %s. Supported values are: %s.", m.EntitySource, strings.Join(GetChargebackPlanEntitySourceEnumStringValues(), ",")))
 	}

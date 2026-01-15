@@ -81,13 +81,13 @@ type ScheduledJob struct {
 
 	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceGroupIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
+	// managedInstanceGroupIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
-	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
+	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
-	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, and dynamicSetIds.
+	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedInstanceGroupIds, and lifecycleStageIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
 	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
@@ -99,14 +99,6 @@ type ScheduledJob struct {
 	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
 	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
-
-	// The report OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// This resource can only be specified for the operation type: UPDATE_VULNERABILITY.
-	ReportIds []string `mandatory:"false" json:"reportIds"`
-
-	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability
-	// update (even if it is not attached to it). This field is only available for the operation type: UPDATE_VULNERABILITY.
-	ShouldUseMissingSoftwareSources *bool `mandatory:"false" json:"shouldUseMissingSoftwareSources"`
 
 	// Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies the tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment).
 	IsSubcompartmentIncluded *bool `mandatory:"false" json:"isSubcompartmentIncluded"`
@@ -133,15 +125,6 @@ type ScheduledJob struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
-
-	// Indicates whether this scheduled job is currently paused.
-	IsPaused *bool `mandatory:"false" json:"isPaused"`
-
-	// The time this scheduled job is set to be paused (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeStartPause *common.SDKTime `mandatory:"false" json:"timeStartPause"`
-
-	// The time this scheduled job is set to be resumed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeStartResume *common.SDKTime `mandatory:"false" json:"timeStartResume"`
 }
 
 func (m ScheduledJob) String() string {

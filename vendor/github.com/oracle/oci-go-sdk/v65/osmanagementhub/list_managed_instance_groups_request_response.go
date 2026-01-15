@@ -244,6 +244,8 @@ const (
 	ListManagedInstanceGroupsOsFamilyWindowsServer2016 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListManagedInstanceGroupsOsFamilyWindowsServer2019 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListManagedInstanceGroupsOsFamilyWindowsServer2022 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListManagedInstanceGroupsOsFamilyWindowsServer2025 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListManagedInstanceGroupsOsFamilyWindows11         ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_11"
 	ListManagedInstanceGroupsOsFamilyAll               ListManagedInstanceGroupsOsFamilyEnum = "ALL"
 	ListManagedInstanceGroupsOsFamilyUbuntu2004        ListManagedInstanceGroupsOsFamilyEnum = "UBUNTU_20_04"
 	ListManagedInstanceGroupsOsFamilyUbuntu2204        ListManagedInstanceGroupsOsFamilyEnum = "UBUNTU_22_04"
@@ -259,6 +261,8 @@ var mappingListManagedInstanceGroupsOsFamilyEnum = map[string]ListManagedInstanc
 	"WINDOWS_SERVER_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListManagedInstanceGroupsOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListManagedInstanceGroupsOsFamilyWindows11,
 	"ALL":                 ListManagedInstanceGroupsOsFamilyAll,
 	"UBUNTU_20_04":        ListManagedInstanceGroupsOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListManagedInstanceGroupsOsFamilyUbuntu2204,
@@ -274,6 +278,8 @@ var mappingListManagedInstanceGroupsOsFamilyEnumLowerCase = map[string]ListManag
 	"windows_server_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
 	"windows_server_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
 	"windows_server_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"windows_server_2025": ListManagedInstanceGroupsOsFamilyWindowsServer2025,
+	"windows_11":          ListManagedInstanceGroupsOsFamilyWindows11,
 	"all":                 ListManagedInstanceGroupsOsFamilyAll,
 	"ubuntu_20_04":        ListManagedInstanceGroupsOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListManagedInstanceGroupsOsFamilyUbuntu2204,
@@ -300,6 +306,8 @@ func GetListManagedInstanceGroupsOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

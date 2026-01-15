@@ -284,6 +284,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The date until which Autonomous AI Database maintenance is temporarily paused.
 	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
 
+	ScheduledMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"scheduledMaintenanceWindow"`
+
+	// The date and time at which operation to change Maintenance Window is scheduled to take place.
+	TimeScheduledMaintenanceWindowUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledMaintenanceWindowUpdate"`
+
 	// True if the Autonomous AI Database is backup retention locked.
 	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
@@ -437,6 +442,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
 		AutonomousDatabaseMaintenanceWindow  *AutonomousDatabaseMaintenanceWindowSummary                          `json:"autonomousDatabaseMaintenanceWindow"`
 		TimeMaintenancePauseUntil            *common.SDKTime                                                      `json:"timeMaintenancePauseUntil"`
+		ScheduledMaintenanceWindow           *AutonomousDatabaseMaintenanceWindowSummary                          `json:"scheduledMaintenanceWindow"`
+		TimeScheduledMaintenanceWindowUpdate *common.SDKTime                                                      `json:"timeScheduledMaintenanceWindowUpdate"`
 		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
 		TimeScheduledDbVersionUpgrade        *common.SDKTime                                                      `json:"timeScheduledDbVersionUpgrade"`
 		IsDisableDbVersionUpgradeSchedule    *bool                                                                `json:"isDisableDbVersionUpgradeSchedule"`
@@ -568,6 +575,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AutonomousDatabaseMaintenanceWindow = model.AutonomousDatabaseMaintenanceWindow
 
 	m.TimeMaintenancePauseUntil = model.TimeMaintenancePauseUntil
+
+	m.ScheduledMaintenanceWindow = model.ScheduledMaintenanceWindow
+
+	m.TimeScheduledMaintenanceWindowUpdate = model.TimeScheduledMaintenanceWindowUpdate
 
 	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 

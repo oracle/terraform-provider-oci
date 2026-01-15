@@ -56,9 +56,6 @@ type PrivateSoftwareSource struct {
 	// The size of the software source in bytes (B).
 	Size *float64 `mandatory:"false" json:"size"`
 
-	// The size of the software source metadata in bytes (B).
-	MetadataSizeInBytes *int64 `mandatory:"false" json:"metadataSizeInBytes"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -84,21 +81,6 @@ type PrivateSoftwareSource struct {
 
 	// Indicates if this software source can be mirrored to a management station.
 	IsMirrorSyncAllowed *bool `mandatory:"false" json:"isMirrorSyncAllowed"`
-
-	// Indicates if the service can collect the metadata for this software source
-	IsMetadataCollectionAllowed *bool `mandatory:"false" json:"isMetadataCollectionAllowed"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job that runs to collect metadata for this software source
-	MetadataCollectionJobId *string `mandatory:"false" json:"metadataCollectionJobId"`
-
-	// Indicates if the software source is associated with a metadata collection scheduled job.
-	HasMetadataCollectionJob *bool `mandatory:"false" json:"hasMetadataCollectionJob"`
-
-	// The date and time the metadata for this software source was last collected (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
-	TimeMetadataLastCollected *common.SDKTime `mandatory:"false" json:"timeMetadataLastCollected"`
-
-	// Indicates if the software source's metadata has been collected by the service.
-	HasMetadata *bool `mandatory:"false" json:"hasMetadata"`
 
 	// Availability of the software source (for non-OCI environments).
 	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
@@ -207,11 +189,6 @@ func (m PrivateSoftwareSource) GetGpgKeyFingerprint() *string {
 // GetSize returns Size
 func (m PrivateSoftwareSource) GetSize() *float64 {
 	return m.Size
-}
-
-// GetMetadataSizeInBytes returns MetadataSizeInBytes
-func (m PrivateSoftwareSource) GetMetadataSizeInBytes() *int64 {
-	return m.MetadataSizeInBytes
 }
 
 // GetFreeformTags returns FreeformTags

@@ -55,42 +55,36 @@ type SoftwareUpdateEventDataOperationTypeEnum string
 
 // Set of constants representing the allowable values for SoftwareUpdateEventDataOperationTypeEnum
 const (
-	SoftwareUpdateEventDataOperationTypeUpdateAllPackages   SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_ALL_PACKAGES"
-	SoftwareUpdateEventDataOperationTypeInstallPackages     SoftwareUpdateEventDataOperationTypeEnum = "INSTALL_PACKAGES"
-	SoftwareUpdateEventDataOperationTypeRemovePackages      SoftwareUpdateEventDataOperationTypeEnum = "REMOVE_PACKAGES"
-	SoftwareUpdateEventDataOperationTypeUpdatePackages      SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_PACKAGES"
-	SoftwareUpdateEventDataOperationTypeUpdateSecurity      SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_SECURITY"
-	SoftwareUpdateEventDataOperationTypeUpdateBugfix        SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_BUGFIX"
-	SoftwareUpdateEventDataOperationTypeUpdateEnhancement   SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_ENHANCEMENT"
-	SoftwareUpdateEventDataOperationTypeUpdateOther         SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_OTHER"
-	SoftwareUpdateEventDataOperationTypeStageUpdate         SoftwareUpdateEventDataOperationTypeEnum = "STAGE_UPDATE"
-	SoftwareUpdateEventDataOperationTypeUpdateVulnerability SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_VULNERABILITY"
+	SoftwareUpdateEventDataOperationTypeUpdateAllPackages SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_ALL_PACKAGES"
+	SoftwareUpdateEventDataOperationTypeInstallPackages   SoftwareUpdateEventDataOperationTypeEnum = "INSTALL_PACKAGES"
+	SoftwareUpdateEventDataOperationTypeRemovePackages    SoftwareUpdateEventDataOperationTypeEnum = "REMOVE_PACKAGES"
+	SoftwareUpdateEventDataOperationTypeUpdatePackages    SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_PACKAGES"
+	SoftwareUpdateEventDataOperationTypeUpdateSecurity    SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_SECURITY"
+	SoftwareUpdateEventDataOperationTypeUpdateBugfix      SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_BUGFIX"
+	SoftwareUpdateEventDataOperationTypeUpdateEnhancement SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_ENHANCEMENT"
+	SoftwareUpdateEventDataOperationTypeUpdateOther       SoftwareUpdateEventDataOperationTypeEnum = "UPDATE_OTHER"
 )
 
 var mappingSoftwareUpdateEventDataOperationTypeEnum = map[string]SoftwareUpdateEventDataOperationTypeEnum{
-	"UPDATE_ALL_PACKAGES":  SoftwareUpdateEventDataOperationTypeUpdateAllPackages,
-	"INSTALL_PACKAGES":     SoftwareUpdateEventDataOperationTypeInstallPackages,
-	"REMOVE_PACKAGES":      SoftwareUpdateEventDataOperationTypeRemovePackages,
-	"UPDATE_PACKAGES":      SoftwareUpdateEventDataOperationTypeUpdatePackages,
-	"UPDATE_SECURITY":      SoftwareUpdateEventDataOperationTypeUpdateSecurity,
-	"UPDATE_BUGFIX":        SoftwareUpdateEventDataOperationTypeUpdateBugfix,
-	"UPDATE_ENHANCEMENT":   SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
-	"UPDATE_OTHER":         SoftwareUpdateEventDataOperationTypeUpdateOther,
-	"STAGE_UPDATE":         SoftwareUpdateEventDataOperationTypeStageUpdate,
-	"UPDATE_VULNERABILITY": SoftwareUpdateEventDataOperationTypeUpdateVulnerability,
+	"UPDATE_ALL_PACKAGES": SoftwareUpdateEventDataOperationTypeUpdateAllPackages,
+	"INSTALL_PACKAGES":    SoftwareUpdateEventDataOperationTypeInstallPackages,
+	"REMOVE_PACKAGES":     SoftwareUpdateEventDataOperationTypeRemovePackages,
+	"UPDATE_PACKAGES":     SoftwareUpdateEventDataOperationTypeUpdatePackages,
+	"UPDATE_SECURITY":     SoftwareUpdateEventDataOperationTypeUpdateSecurity,
+	"UPDATE_BUGFIX":       SoftwareUpdateEventDataOperationTypeUpdateBugfix,
+	"UPDATE_ENHANCEMENT":  SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
+	"UPDATE_OTHER":        SoftwareUpdateEventDataOperationTypeUpdateOther,
 }
 
 var mappingSoftwareUpdateEventDataOperationTypeEnumLowerCase = map[string]SoftwareUpdateEventDataOperationTypeEnum{
-	"update_all_packages":  SoftwareUpdateEventDataOperationTypeUpdateAllPackages,
-	"install_packages":     SoftwareUpdateEventDataOperationTypeInstallPackages,
-	"remove_packages":      SoftwareUpdateEventDataOperationTypeRemovePackages,
-	"update_packages":      SoftwareUpdateEventDataOperationTypeUpdatePackages,
-	"update_security":      SoftwareUpdateEventDataOperationTypeUpdateSecurity,
-	"update_bugfix":        SoftwareUpdateEventDataOperationTypeUpdateBugfix,
-	"update_enhancement":   SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
-	"update_other":         SoftwareUpdateEventDataOperationTypeUpdateOther,
-	"stage_update":         SoftwareUpdateEventDataOperationTypeStageUpdate,
-	"update_vulnerability": SoftwareUpdateEventDataOperationTypeUpdateVulnerability,
+	"update_all_packages": SoftwareUpdateEventDataOperationTypeUpdateAllPackages,
+	"install_packages":    SoftwareUpdateEventDataOperationTypeInstallPackages,
+	"remove_packages":     SoftwareUpdateEventDataOperationTypeRemovePackages,
+	"update_packages":     SoftwareUpdateEventDataOperationTypeUpdatePackages,
+	"update_security":     SoftwareUpdateEventDataOperationTypeUpdateSecurity,
+	"update_bugfix":       SoftwareUpdateEventDataOperationTypeUpdateBugfix,
+	"update_enhancement":  SoftwareUpdateEventDataOperationTypeUpdateEnhancement,
+	"update_other":        SoftwareUpdateEventDataOperationTypeUpdateOther,
 }
 
 // GetSoftwareUpdateEventDataOperationTypeEnumValues Enumerates the set of values for SoftwareUpdateEventDataOperationTypeEnum
@@ -113,8 +107,6 @@ func GetSoftwareUpdateEventDataOperationTypeEnumStringValues() []string {
 		"UPDATE_BUGFIX",
 		"UPDATE_ENHANCEMENT",
 		"UPDATE_OTHER",
-		"STAGE_UPDATE",
-		"UPDATE_VULNERABILITY",
 	}
 }
 

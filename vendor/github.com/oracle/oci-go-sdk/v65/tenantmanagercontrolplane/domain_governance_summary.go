@@ -24,6 +24,9 @@ type DomainGovernanceSummary struct {
 	// The OCID of the tenancy that owns this domain governance entity.
 	OwnerId *string `mandatory:"true" json:"ownerId"`
 
+	// The OCID of the tenancy that has started the registration process for this domain.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The OCID of the domain associated with this domain governance entity.
 	DomainId *string `mandatory:"true" json:"domainId"`
 

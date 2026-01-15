@@ -239,6 +239,8 @@ const (
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2016 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2019 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2022 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListLifecycleEnvironmentsOsFamilyWindowsServer2025 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListLifecycleEnvironmentsOsFamilyWindows11         ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_11"
 	ListLifecycleEnvironmentsOsFamilyAll               ListLifecycleEnvironmentsOsFamilyEnum = "ALL"
 	ListLifecycleEnvironmentsOsFamilyUbuntu2004        ListLifecycleEnvironmentsOsFamilyEnum = "UBUNTU_20_04"
 	ListLifecycleEnvironmentsOsFamilyUbuntu2204        ListLifecycleEnvironmentsOsFamilyEnum = "UBUNTU_22_04"
@@ -254,6 +256,8 @@ var mappingListLifecycleEnvironmentsOsFamilyEnum = map[string]ListLifecycleEnvir
 	"WINDOWS_SERVER_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListLifecycleEnvironmentsOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListLifecycleEnvironmentsOsFamilyWindows11,
 	"ALL":                 ListLifecycleEnvironmentsOsFamilyAll,
 	"UBUNTU_20_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2204,
@@ -269,6 +273,8 @@ var mappingListLifecycleEnvironmentsOsFamilyEnumLowerCase = map[string]ListLifec
 	"windows_server_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
 	"windows_server_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
 	"windows_server_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"windows_server_2025": ListLifecycleEnvironmentsOsFamilyWindowsServer2025,
+	"windows_11":          ListLifecycleEnvironmentsOsFamilyWindows11,
 	"all":                 ListLifecycleEnvironmentsOsFamilyAll,
 	"ubuntu_20_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2204,
@@ -295,6 +301,8 @@ func GetListLifecycleEnvironmentsOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

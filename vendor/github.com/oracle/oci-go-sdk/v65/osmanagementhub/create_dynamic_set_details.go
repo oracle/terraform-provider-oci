@@ -19,9 +19,6 @@ import (
 // CreateDynamicSetDetails Details for creating a dynamic set.
 type CreateDynamicSetDetails struct {
 
-	// User-friendly name for the dynamic set.
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the dynamic set.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -32,6 +29,9 @@ type CreateDynamicSetDetails struct {
 	MatchType MatchTypeEnum `mandatory:"true" json:"matchType"`
 
 	MatchingRule *MatchingRule `mandatory:"true" json:"matchingRule"`
+
+	// User-friendly name for the dynamic set.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// User-specified description for the dynamic set.
 	Description *string `mandatory:"false" json:"description"`

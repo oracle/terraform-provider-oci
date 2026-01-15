@@ -361,6 +361,60 @@ func (client SubscriptionClient) getSubscriptionMapping(ctx context.Context, req
 	return response, err
 }
 
+// ListAssignedSubscriptionAvailableRegions List of available regions for a given assigned subscription.
+// A default retry strategy applies to this operation ListAssignedSubscriptionAvailableRegions()
+func (client SubscriptionClient) ListAssignedSubscriptionAvailableRegions(ctx context.Context, request ListAssignedSubscriptionAvailableRegionsRequest) (response ListAssignedSubscriptionAvailableRegionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAssignedSubscriptionAvailableRegions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAssignedSubscriptionAvailableRegionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAssignedSubscriptionAvailableRegionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAssignedSubscriptionAvailableRegionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAssignedSubscriptionAvailableRegionsResponse")
+	}
+	return
+}
+
+// listAssignedSubscriptionAvailableRegions implements the OCIOperation interface (enables retrying operations)
+func (client SubscriptionClient) listAssignedSubscriptionAvailableRegions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/assignedSubscriptions/{assignedSubscriptionId}/availableRegions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAssignedSubscriptionAvailableRegionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/organizations/20230401/AssignedSubscription/ListAssignedSubscriptionAvailableRegions"
+		err = common.PostProcessServiceError(err, "Subscription", "ListAssignedSubscriptionAvailableRegions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAssignedSubscriptionLineItems List line item summaries that a assigned subscription owns.
 // A default retry strategy applies to this operation ListAssignedSubscriptionLineItems()
 func (client SubscriptionClient) ListAssignedSubscriptionLineItems(ctx context.Context, request ListAssignedSubscriptionLineItemsRequest) (response ListAssignedSubscriptionLineItemsResponse, err error) {

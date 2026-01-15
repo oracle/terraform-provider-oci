@@ -43,13 +43,9 @@ const (
 	OperationTypesInstallOtherWindowsUpdates       OperationTypesEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 	OperationTypesReboot                           OperationTypesEnum = "REBOOT"
 	OperationTypesRerunWorkRequest                 OperationTypesEnum = "RERUN_WORK_REQUEST"
-	OperationTypesCollectMetadata                  OperationTypesEnum = "COLLECT_METADATA"
-	OperationTypesUpdateSoftwareSource             OperationTypesEnum = "UPDATE_SOFTWARE_SOURCE"
-	OperationTypesUpdateVulnerability              OperationTypesEnum = "UPDATE_VULNERABILITY"
 	OperationTypesInstallSnaps                     OperationTypesEnum = "INSTALL_SNAPS"
 	OperationTypesRemoveSnaps                      OperationTypesEnum = "REMOVE_SNAPS"
 	OperationTypesSwitchSnapChannel                OperationTypesEnum = "SWITCH_SNAP_CHANNEL"
-	OperationTypesStageUpdate                      OperationTypesEnum = "STAGE_UPDATE"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -77,13 +73,9 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"INSTALL_OTHER_WINDOWS_UPDATES":       OperationTypesInstallOtherWindowsUpdates,
 	"REBOOT":                              OperationTypesReboot,
 	"RERUN_WORK_REQUEST":                  OperationTypesRerunWorkRequest,
-	"COLLECT_METADATA":                    OperationTypesCollectMetadata,
-	"UPDATE_SOFTWARE_SOURCE":              OperationTypesUpdateSoftwareSource,
-	"UPDATE_VULNERABILITY":                OperationTypesUpdateVulnerability,
 	"INSTALL_SNAPS":                       OperationTypesInstallSnaps,
 	"REMOVE_SNAPS":                        OperationTypesRemoveSnaps,
 	"SWITCH_SNAP_CHANNEL":                 OperationTypesSwitchSnapChannel,
-	"STAGE_UPDATE":                        OperationTypesStageUpdate,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -111,13 +103,9 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"install_other_windows_updates":       OperationTypesInstallOtherWindowsUpdates,
 	"reboot":                              OperationTypesReboot,
 	"rerun_work_request":                  OperationTypesRerunWorkRequest,
-	"collect_metadata":                    OperationTypesCollectMetadata,
-	"update_software_source":              OperationTypesUpdateSoftwareSource,
-	"update_vulnerability":                OperationTypesUpdateVulnerability,
 	"install_snaps":                       OperationTypesInstallSnaps,
 	"remove_snaps":                        OperationTypesRemoveSnaps,
 	"switch_snap_channel":                 OperationTypesSwitchSnapChannel,
-	"stage_update":                        OperationTypesStageUpdate,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -156,13 +144,9 @@ func GetOperationTypesEnumStringValues() []string {
 		"INSTALL_OTHER_WINDOWS_UPDATES",
 		"REBOOT",
 		"RERUN_WORK_REQUEST",
-		"COLLECT_METADATA",
-		"UPDATE_SOFTWARE_SOURCE",
-		"UPDATE_VULNERABILITY",
 		"INSTALL_SNAPS",
 		"REMOVE_SNAPS",
 		"SWITCH_SNAP_CHANNEL",
-		"STAGE_UPDATE",
 	}
 }
 

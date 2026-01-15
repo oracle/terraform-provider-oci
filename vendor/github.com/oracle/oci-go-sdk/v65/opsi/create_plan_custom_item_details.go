@@ -26,6 +26,9 @@ type CreatePlanCustomItemDetails struct {
 
 	// Value of chargeback plan customization item.
 	Value *string `mandatory:"false" json:"value"`
+
+	// Indicates whether the chargeback plan customization item can be customized.
+	IsCustomizable *bool `mandatory:"false" json:"isCustomizable"`
 }
 
 func (m CreatePlanCustomItemDetails) String() string {

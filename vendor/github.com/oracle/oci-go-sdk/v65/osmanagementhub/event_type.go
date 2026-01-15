@@ -29,11 +29,7 @@ const (
 	EventTypeManagementStation EventTypeEnum = "MANAGEMENT_STATION"
 	EventTypeSysadmin          EventTypeEnum = "SYSADMIN"
 	EventTypeReboot            EventTypeEnum = "REBOOT"
-	EventTypeWindowsUpdate     EventTypeEnum = "WINDOWS_UPDATE"
-	EventTypeScheduledJob      EventTypeEnum = "SCHEDULED_JOB"
-	EventTypeRegistration      EventTypeEnum = "REGISTRATION"
 	EventTypeSnapUpdate        EventTypeEnum = "SNAP_UPDATE"
-	EventTypeReport            EventTypeEnum = "REPORT"
 )
 
 var mappingEventTypeEnum = map[string]EventTypeEnum{
@@ -47,11 +43,7 @@ var mappingEventTypeEnum = map[string]EventTypeEnum{
 	"MANAGEMENT_STATION": EventTypeManagementStation,
 	"SYSADMIN":           EventTypeSysadmin,
 	"REBOOT":             EventTypeReboot,
-	"WINDOWS_UPDATE":     EventTypeWindowsUpdate,
-	"SCHEDULED_JOB":      EventTypeScheduledJob,
-	"REGISTRATION":       EventTypeRegistration,
 	"SNAP_UPDATE":        EventTypeSnapUpdate,
-	"REPORT":             EventTypeReport,
 }
 
 var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
@@ -65,11 +57,7 @@ var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
 	"management_station": EventTypeManagementStation,
 	"sysadmin":           EventTypeSysadmin,
 	"reboot":             EventTypeReboot,
-	"windows_update":     EventTypeWindowsUpdate,
-	"scheduled_job":      EventTypeScheduledJob,
-	"registration":       EventTypeRegistration,
 	"snap_update":        EventTypeSnapUpdate,
-	"report":             EventTypeReport,
 }
 
 // GetEventTypeEnumValues Enumerates the set of values for EventTypeEnum
@@ -94,11 +82,7 @@ func GetEventTypeEnumStringValues() []string {
 		"MANAGEMENT_STATION",
 		"SYSADMIN",
 		"REBOOT",
-		"WINDOWS_UPDATE",
-		"SCHEDULED_JOB",
-		"REGISTRATION",
 		"SNAP_UPDATE",
-		"REPORT",
 	}
 }
 

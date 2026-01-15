@@ -171,6 +171,8 @@ const (
 	ListErrataOsFamilyWindowsServer2016 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListErrataOsFamilyWindowsServer2019 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListErrataOsFamilyWindowsServer2022 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListErrataOsFamilyWindowsServer2025 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListErrataOsFamilyWindows11         ListErrataOsFamilyEnum = "WINDOWS_11"
 	ListErrataOsFamilyAll               ListErrataOsFamilyEnum = "ALL"
 	ListErrataOsFamilyUbuntu2004        ListErrataOsFamilyEnum = "UBUNTU_20_04"
 	ListErrataOsFamilyUbuntu2204        ListErrataOsFamilyEnum = "UBUNTU_22_04"
@@ -186,6 +188,8 @@ var mappingListErrataOsFamilyEnum = map[string]ListErrataOsFamilyEnum{
 	"WINDOWS_SERVER_2016": ListErrataOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListErrataOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListErrataOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListErrataOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListErrataOsFamilyWindows11,
 	"ALL":                 ListErrataOsFamilyAll,
 	"UBUNTU_20_04":        ListErrataOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListErrataOsFamilyUbuntu2204,
@@ -201,6 +205,8 @@ var mappingListErrataOsFamilyEnumLowerCase = map[string]ListErrataOsFamilyEnum{
 	"windows_server_2016": ListErrataOsFamilyWindowsServer2016,
 	"windows_server_2019": ListErrataOsFamilyWindowsServer2019,
 	"windows_server_2022": ListErrataOsFamilyWindowsServer2022,
+	"windows_server_2025": ListErrataOsFamilyWindowsServer2025,
+	"windows_11":          ListErrataOsFamilyWindows11,
 	"all":                 ListErrataOsFamilyAll,
 	"ubuntu_20_04":        ListErrataOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListErrataOsFamilyUbuntu2204,
@@ -227,6 +233,8 @@ func GetListErrataOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

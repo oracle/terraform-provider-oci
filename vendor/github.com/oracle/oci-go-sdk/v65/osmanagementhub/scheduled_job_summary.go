@@ -96,10 +96,6 @@ type ScheduledJobSummary struct {
 	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds.
 	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
-	// The report OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// This resource can only be specified for the operation type: UPDATE_VULNERABILITY.
-	ReportIds []string `mandatory:"false" json:"reportIds"`
-
 	// Indicates whether this scheduled job is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
@@ -119,9 +115,6 @@ type ScheduledJobSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request that will be rerun.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
-
-	// Indicates whether this scheduled job is currently paused.
-	IsPaused *bool `mandatory:"false" json:"isPaused"`
 }
 
 func (m ScheduledJobSummary) String() string {

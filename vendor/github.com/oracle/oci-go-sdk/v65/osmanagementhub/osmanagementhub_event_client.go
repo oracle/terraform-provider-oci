@@ -485,60 +485,6 @@ func (client EventClient) listEvents(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// ListEventsAnalytics Lists events analytics with a specified criteria, such as groupBy, start and end time.
-// A default retry strategy applies to this operation ListEventsAnalytics()
-func (client EventClient) ListEventsAnalytics(ctx context.Context, request ListEventsAnalyticsRequest) (response ListEventsAnalyticsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listEventsAnalytics, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListEventsAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListEventsAnalyticsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListEventsAnalyticsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListEventsAnalyticsResponse")
-	}
-	return
-}
-
-// listEventsAnalytics implements the OCIOperation interface (enables retrying operations)
-func (client EventClient) listEventsAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/events/eventsAnalytics", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListEventsAnalyticsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/EventsAnalyticsCollection/ListEventsAnalytics"
-		err = common.PostProcessServiceError(err, "Event", "ListEventsAnalytics", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateEvent Updates the tags for an event.
 // A default retry strategy applies to this operation UpdateEvent()
 func (client EventClient) UpdateEvent(ctx context.Context, request UpdateEventRequest) (response UpdateEventResponse, err error) {

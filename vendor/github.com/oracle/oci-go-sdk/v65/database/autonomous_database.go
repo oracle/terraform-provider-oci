@@ -460,6 +460,11 @@ type AutonomousDatabase struct {
 	// The date until which Autonomous AI Database maintenance is temporarily paused.
 	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
 
+	ScheduledMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"scheduledMaintenanceWindow"`
+
+	// The date and time at which operation to change Maintenance Window is scheduled to take place.
+	TimeScheduledMaintenanceWindowUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledMaintenanceWindowUpdate"`
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -746,6 +751,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		IsOracleServiceGatewayAllowed           *bool                                                   `json:"isOracleServiceGatewayAllowed"`
 		AutonomousDatabaseMaintenanceWindow     *AutonomousDatabaseMaintenanceWindowSummary             `json:"autonomousDatabaseMaintenanceWindow"`
 		TimeMaintenancePauseUntil               *common.SDKTime                                         `json:"timeMaintenancePauseUntil"`
+		ScheduledMaintenanceWindow              *AutonomousDatabaseMaintenanceWindowSummary             `json:"scheduledMaintenanceWindow"`
+		TimeScheduledMaintenanceWindowUpdate    *common.SDKTime                                         `json:"timeScheduledMaintenanceWindowUpdate"`
 		ScheduledOperations                     []ScheduledOperationDetails                             `json:"scheduledOperations"`
 		IsAutoScalingForStorageEnabled          *bool                                                   `json:"isAutoScalingForStorageEnabled"`
 		AllocatedStorageSizeInTBs               *float64                                                `json:"allocatedStorageSizeInTBs"`
@@ -1034,6 +1041,10 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.AutonomousDatabaseMaintenanceWindow = model.AutonomousDatabaseMaintenanceWindow
 
 	m.TimeMaintenancePauseUntil = model.TimeMaintenancePauseUntil
+
+	m.ScheduledMaintenanceWindow = model.ScheduledMaintenanceWindow
+
+	m.TimeScheduledMaintenanceWindowUpdate = model.TimeScheduledMaintenanceWindowUpdate
 
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)

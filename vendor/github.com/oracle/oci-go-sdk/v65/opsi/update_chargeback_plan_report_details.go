@@ -21,9 +21,9 @@ import (
 type UpdateChargebackPlanReportDetails struct {
 
 	// The chargeback plan report name.
-	ReportName *string `mandatory:"false" json:"reportName"`
+	ReportName *string `mandatory:"true" json:"reportName"`
 
-	ReportProperties *ReportPropertyDetails `mandatory:"false" json:"reportProperties"`
+	ReportProperties *ReportPropertyDetails `mandatory:"true" json:"reportProperties"`
 }
 
 func (m UpdateChargebackPlanReportDetails) String() string {

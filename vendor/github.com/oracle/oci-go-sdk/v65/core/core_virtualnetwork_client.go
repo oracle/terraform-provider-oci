@@ -39930,6 +39930,71 @@ func (client VirtualNetworkClient) updateVnicShapeConfig(ctx context.Context, re
 	return response, err
 }
 
+// UpdateVnicShapeConfigVTwo Request to update the shape config of the given VNIC.
+func (client VirtualNetworkClient) UpdateVnicShapeConfigVTwo(ctx context.Context, request UpdateVnicShapeConfigVTwoRequest) (response UpdateVnicShapeConfigVTwoResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateVnicShapeConfigVTwo, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVnicShapeConfigVTwoResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVnicShapeConfigVTwoResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVnicShapeConfigVTwoResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVnicShapeConfigVTwoResponse")
+	}
+	return
+}
+
+// updateVnicShapeConfigVTwo implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateVnicShapeConfigVTwo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/vnicAttachments/actions/updateVnicShapeConfig/v2", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateVnicShapeConfigVTwoResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateVnicShapeConfigVTwo"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicShapeConfigVTwo", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateVnicWorker Updates the specified vnicWorker.
 func (client VirtualNetworkClient) UpdateVnicWorker(ctx context.Context, request UpdateVnicWorkerRequest) (response UpdateVnicWorkerResponse, err error) {
 	var ociResponse common.OCIResponse

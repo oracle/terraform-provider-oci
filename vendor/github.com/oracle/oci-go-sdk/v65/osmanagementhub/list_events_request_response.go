@@ -35,9 +35,6 @@ type ListEventsRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. This filter returns resources associated with the specified resource.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// A multi filter to return only events that match the given resource ids.
-	ResourceIds []string `contributesTo:"query" name:"resourceIds" collectionFormat:"multi"`
-
 	// A filter to return only resources whose type matches the given value.
 	Type []EventTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
@@ -51,24 +48,13 @@ type ListEventsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter that returns events that were created on or before the date provided.
+	// A filter that returns events that occurred on or before the date provided.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 
-	// A filter that returns events that were created on or after the date provided.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
-
-	// A filter that returns events that occurred on or before the date provided.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeOccurredLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeOccurredLessThan"`
-
 	// A filter that returns events that occurred on or after the date provided.
 	// Example: `2016-08-25T21:10:29.600Z`
-	TimeOccurredGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeOccurredGreaterThanOrEqualTo"`
-
-	// A filter to return only events that match the severity provided.
-	EventSeverity ListEventsEventSeverityEnum `mandatory:"false" contributesTo:"query" name:"eventSeverity" omitEmpty:"true"`
+	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListEventsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -127,9 +113,6 @@ func (request ListEventsRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
-	if _, ok := GetMappingListEventsEventSeverityEnum(string(request.EventSeverity)); !ok && request.EventSeverity != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EventSeverity: %s. Supported values are: %s.", request.EventSeverity, strings.Join(GetListEventsEventSeverityEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingListEventsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListEventsSortOrderEnumStringValues(), ",")))
 	}
@@ -166,56 +149,6 @@ func (response ListEventsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListEventsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListEventsEventSeverityEnum Enum with underlying type: string
-type ListEventsEventSeverityEnum string
-
-// Set of constants representing the allowable values for ListEventsEventSeverityEnum
-const (
-	ListEventsEventSeverityCritical ListEventsEventSeverityEnum = "CRITICAL"
-	ListEventsEventSeverityError    ListEventsEventSeverityEnum = "ERROR"
-	ListEventsEventSeverityWarning  ListEventsEventSeverityEnum = "WARNING"
-	ListEventsEventSeverityInfo     ListEventsEventSeverityEnum = "INFO"
-)
-
-var mappingListEventsEventSeverityEnum = map[string]ListEventsEventSeverityEnum{
-	"CRITICAL": ListEventsEventSeverityCritical,
-	"ERROR":    ListEventsEventSeverityError,
-	"WARNING":  ListEventsEventSeverityWarning,
-	"INFO":     ListEventsEventSeverityInfo,
-}
-
-var mappingListEventsEventSeverityEnumLowerCase = map[string]ListEventsEventSeverityEnum{
-	"critical": ListEventsEventSeverityCritical,
-	"error":    ListEventsEventSeverityError,
-	"warning":  ListEventsEventSeverityWarning,
-	"info":     ListEventsEventSeverityInfo,
-}
-
-// GetListEventsEventSeverityEnumValues Enumerates the set of values for ListEventsEventSeverityEnum
-func GetListEventsEventSeverityEnumValues() []ListEventsEventSeverityEnum {
-	values := make([]ListEventsEventSeverityEnum, 0)
-	for _, v := range mappingListEventsEventSeverityEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListEventsEventSeverityEnumStringValues Enumerates the set of values in String for ListEventsEventSeverityEnum
-func GetListEventsEventSeverityEnumStringValues() []string {
-	return []string{
-		"CRITICAL",
-		"ERROR",
-		"WARNING",
-		"INFO",
-	}
-}
-
-// GetMappingListEventsEventSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListEventsEventSeverityEnum(val string) (ListEventsEventSeverityEnum, bool) {
-	enum, ok := mappingListEventsEventSeverityEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListEventsSortOrderEnum Enum with underlying type: string

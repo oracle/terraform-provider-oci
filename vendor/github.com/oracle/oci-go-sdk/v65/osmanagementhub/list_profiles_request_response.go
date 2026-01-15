@@ -196,6 +196,8 @@ const (
 	ListProfilesOsFamilyWindowsServer2016 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListProfilesOsFamilyWindowsServer2019 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListProfilesOsFamilyWindowsServer2022 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListProfilesOsFamilyWindowsServer2025 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListProfilesOsFamilyWindows11         ListProfilesOsFamilyEnum = "WINDOWS_11"
 	ListProfilesOsFamilyAll               ListProfilesOsFamilyEnum = "ALL"
 	ListProfilesOsFamilyUbuntu2004        ListProfilesOsFamilyEnum = "UBUNTU_20_04"
 	ListProfilesOsFamilyUbuntu2204        ListProfilesOsFamilyEnum = "UBUNTU_22_04"
@@ -211,6 +213,8 @@ var mappingListProfilesOsFamilyEnum = map[string]ListProfilesOsFamilyEnum{
 	"WINDOWS_SERVER_2016": ListProfilesOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListProfilesOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListProfilesOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListProfilesOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListProfilesOsFamilyWindows11,
 	"ALL":                 ListProfilesOsFamilyAll,
 	"UBUNTU_20_04":        ListProfilesOsFamilyUbuntu2004,
 	"UBUNTU_22_04":        ListProfilesOsFamilyUbuntu2204,
@@ -226,6 +230,8 @@ var mappingListProfilesOsFamilyEnumLowerCase = map[string]ListProfilesOsFamilyEn
 	"windows_server_2016": ListProfilesOsFamilyWindowsServer2016,
 	"windows_server_2019": ListProfilesOsFamilyWindowsServer2019,
 	"windows_server_2022": ListProfilesOsFamilyWindowsServer2022,
+	"windows_server_2025": ListProfilesOsFamilyWindowsServer2025,
+	"windows_11":          ListProfilesOsFamilyWindows11,
 	"all":                 ListProfilesOsFamilyAll,
 	"ubuntu_20_04":        ListProfilesOsFamilyUbuntu2004,
 	"ubuntu_22_04":        ListProfilesOsFamilyUbuntu2204,
@@ -252,6 +258,8 @@ func GetListProfilesOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

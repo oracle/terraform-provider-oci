@@ -662,65 +662,6 @@ func (client DynamicSetClient) removePackagesFromDynamicSet(ctx context.Context,
 	return response, err
 }
 
-// StageUpdateOnDynamicSet Stages updates on managed instances in the dynamic set.
-// A default retry strategy applies to this operation StageUpdateOnDynamicSet()
-func (client DynamicSetClient) StageUpdateOnDynamicSet(ctx context.Context, request StageUpdateOnDynamicSetRequest) (response StageUpdateOnDynamicSetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.stageUpdateOnDynamicSet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StageUpdateOnDynamicSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StageUpdateOnDynamicSetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StageUpdateOnDynamicSetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StageUpdateOnDynamicSetResponse")
-	}
-	return
-}
-
-// stageUpdateOnDynamicSet implements the OCIOperation interface (enables retrying operations)
-func (client DynamicSetClient) stageUpdateOnDynamicSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dynamicSets/{dynamicSetId}/actions/stageUpdate", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response StageUpdateOnDynamicSetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/StageUpdateOnDynamicSet"
-		err = common.PostProcessServiceError(err, "DynamicSet", "StageUpdateOnDynamicSet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateDynamicSet Updates the specified dynamic set.
 // A default retry strategy applies to this operation UpdateDynamicSet()
 func (client DynamicSetClient) UpdateDynamicSet(ctx context.Context, request UpdateDynamicSetRequest) (response UpdateDynamicSetResponse, err error) {

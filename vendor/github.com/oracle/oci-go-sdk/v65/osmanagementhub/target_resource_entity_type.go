@@ -24,7 +24,6 @@ const (
 	TargetResourceEntityTypeCompartment          TargetResourceEntityTypeEnum = "COMPARTMENT"
 	TargetResourceEntityTypeLifecycleEnvironment TargetResourceEntityTypeEnum = "LIFECYCLE_ENVIRONMENT"
 	TargetResourceEntityTypeSoftwareSource       TargetResourceEntityTypeEnum = "SOFTWARE_SOURCE"
-	TargetResourceEntityTypeReport               TargetResourceEntityTypeEnum = "REPORT"
 	TargetResourceEntityTypeDynamicSet           TargetResourceEntityTypeEnum = "DYNAMIC_SET"
 )
 
@@ -34,7 +33,6 @@ var mappingTargetResourceEntityTypeEnum = map[string]TargetResourceEntityTypeEnu
 	"COMPARTMENT":           TargetResourceEntityTypeCompartment,
 	"LIFECYCLE_ENVIRONMENT": TargetResourceEntityTypeLifecycleEnvironment,
 	"SOFTWARE_SOURCE":       TargetResourceEntityTypeSoftwareSource,
-	"REPORT":                TargetResourceEntityTypeReport,
 	"DYNAMIC_SET":           TargetResourceEntityTypeDynamicSet,
 }
 
@@ -44,7 +42,6 @@ var mappingTargetResourceEntityTypeEnumLowerCase = map[string]TargetResourceEnti
 	"compartment":           TargetResourceEntityTypeCompartment,
 	"lifecycle_environment": TargetResourceEntityTypeLifecycleEnvironment,
 	"software_source":       TargetResourceEntityTypeSoftwareSource,
-	"report":                TargetResourceEntityTypeReport,
 	"dynamic_set":           TargetResourceEntityTypeDynamicSet,
 }
 
@@ -65,7 +62,6 @@ func GetTargetResourceEntityTypeEnumStringValues() []string {
 		"COMPARTMENT",
 		"LIFECYCLE_ENVIRONMENT",
 		"SOFTWARE_SOURCE",
-		"REPORT",
 		"DYNAMIC_SET",
 	}
 }

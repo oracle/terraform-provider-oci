@@ -19,17 +19,14 @@ type WorkRequestResourceMetadataKeyEnum string
 
 // Set of constants representing the allowable values for WorkRequestResourceMetadataKeyEnum
 const (
-	WorkRequestResourceMetadataKeyCommand  WorkRequestResourceMetadataKeyEnum = "COMMAND"
 	WorkRequestResourceMetadataKeyIsDryRun WorkRequestResourceMetadataKeyEnum = "IS_DRY_RUN"
 )
 
 var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
-	"COMMAND":    WorkRequestResourceMetadataKeyCommand,
 	"IS_DRY_RUN": WorkRequestResourceMetadataKeyIsDryRun,
 }
 
 var mappingWorkRequestResourceMetadataKeyEnumLowerCase = map[string]WorkRequestResourceMetadataKeyEnum{
-	"command":    WorkRequestResourceMetadataKeyCommand,
 	"is_dry_run": WorkRequestResourceMetadataKeyIsDryRun,
 }
 
@@ -45,7 +42,6 @@ func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadata
 // GetWorkRequestResourceMetadataKeyEnumStringValues Enumerates the set of values in String for WorkRequestResourceMetadataKeyEnum
 func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
 	return []string{
-		"COMMAND",
 		"IS_DRY_RUN",
 	}
 }

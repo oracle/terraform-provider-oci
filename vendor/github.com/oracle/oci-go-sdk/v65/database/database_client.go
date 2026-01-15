@@ -10134,6 +10134,64 @@ func (client DatabaseClient) enablePluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
+// ExecuteDbSystemOsPatch Execute an operating system (OS) patch action on a DB system. Returns 202 and a work request. Some updates may require a reboot.
+func (client DatabaseClient) ExecuteDbSystemOsPatch(ctx context.Context, request ExecuteDbSystemOsPatchRequest) (response ExecuteDbSystemOsPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.executeDbSystemOsPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExecuteDbSystemOsPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExecuteDbSystemOsPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExecuteDbSystemOsPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExecuteDbSystemOsPatchResponse")
+	}
+	return
+}
+
+// executeDbSystemOsPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) executeDbSystemOsPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/osPatch", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExecuteDbSystemOsPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ExecuteDbSystemOsPatch"
+		err = common.PostProcessServiceError(err, "Database", "ExecuteDbSystemOsPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // FailOverAutonomousDatabase Initiates a failover of the specified Autonomous AI Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
 // This API should be called in the remote region where the peer database resides.
 // Below parameter is optional:
@@ -12918,6 +12976,59 @@ func (client DatabaseClient) getDbSystem(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/GetDbSystem"
 		err = common.PostProcessServiceError(err, "Database", "GetDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDbSystemOsPatchHistoryEntry Gets the details of the specified OS patch action for the specified DB system.
+func (client DatabaseClient) GetDbSystemOsPatchHistoryEntry(ctx context.Context, request GetDbSystemOsPatchHistoryEntryRequest) (response GetDbSystemOsPatchHistoryEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbSystemOsPatchHistoryEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbSystemOsPatchHistoryEntryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbSystemOsPatchHistoryEntryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbSystemOsPatchHistoryEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbSystemOsPatchHistoryEntryResponse")
+	}
+	return
+}
+
+// getDbSystemOsPatchHistoryEntry implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDbSystemOsPatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/osPatchHistoryEntries/{osPatchHistoryEntryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbSystemOsPatchHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemOsPatchHistoryEntry/GetDbSystemOsPatchHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetDbSystemOsPatchHistoryEntry", apiReferenceLink)
 		return response, err
 	}
 
@@ -16407,6 +16518,59 @@ func (client DatabaseClient) listAutonomousVmClusters(ctx context.Context, reque
 	return response, err
 }
 
+// ListAvailableMaintenanceWindows Retrieves the list of available maintenance window options for the specified Autonomous AI Database.
+func (client DatabaseClient) ListAvailableMaintenanceWindows(ctx context.Context, request ListAvailableMaintenanceWindowsRequest) (response ListAvailableMaintenanceWindowsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAvailableMaintenanceWindows, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableMaintenanceWindowsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableMaintenanceWindowsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAvailableMaintenanceWindowsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAvailableMaintenanceWindowsResponse")
+	}
+	return
+}
+
+// listAvailableMaintenanceWindows implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAvailableMaintenanceWindows(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/availableMaintenanceWindows", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAvailableMaintenanceWindowsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAvailableMaintenanceWindows"
+		err = common.PostProcessServiceError(err, "Database", "ListAvailableMaintenanceWindows", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBackupDestination Gets a list of backup destinations in the specified compartment.
 func (client DatabaseClient) ListBackupDestination(ctx context.Context, request ListBackupDestinationRequest) (response ListBackupDestinationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17779,6 +17943,59 @@ func (client DatabaseClient) listDbSystemComputePerformances(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ListDbSystemComputePerformances"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemComputePerformances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbSystemOsPatchHistoryEntries Gets the history of the OS patch actions performed on the specified DB system.
+func (client DatabaseClient) ListDbSystemOsPatchHistoryEntries(ctx context.Context, request ListDbSystemOsPatchHistoryEntriesRequest) (response ListDbSystemOsPatchHistoryEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemOsPatchHistoryEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemOsPatchHistoryEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemOsPatchHistoryEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemOsPatchHistoryEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemOsPatchHistoryEntriesResponse")
+	}
+	return
+}
+
+// listDbSystemOsPatchHistoryEntries implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbSystemOsPatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/osPatchHistoryEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemOsPatchHistoryEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemOsPatchHistoryEntryCollection/ListDbSystemOsPatchHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemOsPatchHistoryEntries", apiReferenceLink)
 		return response, err
 	}
 

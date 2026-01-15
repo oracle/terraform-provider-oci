@@ -11,7 +11,6 @@
 package osmanagementhub
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -111,8 +110,6 @@ type WorkRequest struct {
 	// The number of minutes the service waits for the reboot to complete. If the managed instance doesn't reboot within the timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 
-	VulnerabilityDetails VulnerabilityDetails `mandatory:"false" json:"vulnerabilityDetails"`
-
 	// The details about the snap.
 	SnapSpecs []SnapSpecDetails `mandatory:"false" json:"snapSpecs"`
 }
@@ -137,118 +134,4 @@ func (m WorkRequest) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *WorkRequest) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description                *string                              `json:"description"`
-		DisplayName                *string                              `json:"displayName"`
-		Message                    *string                              `json:"message"`
-		ParentId                   *string                              `json:"parentId"`
-		ChildrenId                 []string                             `json:"childrenId"`
-		PackageNames               []string                             `json:"packageNames"`
-		WindowsUpdateNames         []string                             `json:"windowsUpdateNames"`
-		ModuleSpecs                []ModuleSpecDetails                  `json:"moduleSpecs"`
-		TimeUpdated                *common.SDKTime                      `json:"timeUpdated"`
-		TimeStarted                *common.SDKTime                      `json:"timeStarted"`
-		TimeFinished               *common.SDKTime                      `json:"timeFinished"`
-		InitiatorId                *string                              `json:"initiatorId"`
-		ManagementStation          *WorkRequestManagementStationDetails `json:"managementStation"`
-		TimeScheduled              *common.SDKTime                      `json:"timeScheduled"`
-		ContentLocation            *string                              `json:"contentLocation"`
-		EventId                    *string                              `json:"eventId"`
-		ContentChecksum            *string                              `json:"contentChecksum"`
-		RetryOfId                  *string                              `json:"retryOfId"`
-		RerunOfId                  *string                              `json:"rerunOfId"`
-		RetryIntervals             []int                                `json:"retryIntervals"`
-		IsManagedByAutonomousLinux *bool                                `json:"isManagedByAutonomousLinux"`
-		RebootTimeoutInMins        *int                                 `json:"rebootTimeoutInMins"`
-		VulnerabilityDetails       vulnerabilitydetails                 `json:"vulnerabilityDetails"`
-		SnapSpecs                  []SnapSpecDetails                    `json:"snapSpecs"`
-		OperationType              WorkRequestOperationTypeEnum         `json:"operationType"`
-		Status                     OperationStatusEnum                  `json:"status"`
-		Id                         *string                              `json:"id"`
-		CompartmentId              *string                              `json:"compartmentId"`
-		Resources                  []WorkRequestResource                `json:"resources"`
-		PercentComplete            *float32                             `json:"percentComplete"`
-		TimeCreated                *common.SDKTime                      `json:"timeCreated"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.DisplayName = model.DisplayName
-
-	m.Message = model.Message
-
-	m.ParentId = model.ParentId
-
-	m.ChildrenId = make([]string, len(model.ChildrenId))
-	copy(m.ChildrenId, model.ChildrenId)
-	m.PackageNames = make([]string, len(model.PackageNames))
-	copy(m.PackageNames, model.PackageNames)
-	m.WindowsUpdateNames = make([]string, len(model.WindowsUpdateNames))
-	copy(m.WindowsUpdateNames, model.WindowsUpdateNames)
-	m.ModuleSpecs = make([]ModuleSpecDetails, len(model.ModuleSpecs))
-	copy(m.ModuleSpecs, model.ModuleSpecs)
-	m.TimeUpdated = model.TimeUpdated
-
-	m.TimeStarted = model.TimeStarted
-
-	m.TimeFinished = model.TimeFinished
-
-	m.InitiatorId = model.InitiatorId
-
-	m.ManagementStation = model.ManagementStation
-
-	m.TimeScheduled = model.TimeScheduled
-
-	m.ContentLocation = model.ContentLocation
-
-	m.EventId = model.EventId
-
-	m.ContentChecksum = model.ContentChecksum
-
-	m.RetryOfId = model.RetryOfId
-
-	m.RerunOfId = model.RerunOfId
-
-	m.RetryIntervals = make([]int, len(model.RetryIntervals))
-	copy(m.RetryIntervals, model.RetryIntervals)
-	m.IsManagedByAutonomousLinux = model.IsManagedByAutonomousLinux
-
-	m.RebootTimeoutInMins = model.RebootTimeoutInMins
-
-	nn, e = model.VulnerabilityDetails.UnmarshalPolymorphicJSON(model.VulnerabilityDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.VulnerabilityDetails = nn.(VulnerabilityDetails)
-	} else {
-		m.VulnerabilityDetails = nil
-	}
-
-	m.SnapSpecs = make([]SnapSpecDetails, len(model.SnapSpecs))
-	copy(m.SnapSpecs, model.SnapSpecs)
-	m.OperationType = model.OperationType
-
-	m.Status = model.Status
-
-	m.Id = model.Id
-
-	m.CompartmentId = model.CompartmentId
-
-	m.Resources = make([]WorkRequestResource, len(model.Resources))
-	copy(m.Resources, model.Resources)
-	m.PercentComplete = model.PercentComplete
-
-	m.TimeCreated = model.TimeCreated
-
-	return
 }

@@ -39,6 +39,9 @@ type Configuration struct {
 	// The current state of the Configuration.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The MySQL options defined in the Configuration.
+	Options []Option `mandatory:"true" json:"options"`
+
 	Variables *ConfigurationVariables `mandatory:"true" json:"variables"`
 
 	// User-provided data about the Configuration.

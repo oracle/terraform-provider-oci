@@ -27,6 +27,8 @@ const (
 	OsFamilyWindowsServer2016 OsFamilyEnum = "WINDOWS_SERVER_2016"
 	OsFamilyWindowsServer2019 OsFamilyEnum = "WINDOWS_SERVER_2019"
 	OsFamilyWindowsServer2022 OsFamilyEnum = "WINDOWS_SERVER_2022"
+	OsFamilyWindowsServer2025 OsFamilyEnum = "WINDOWS_SERVER_2025"
+	OsFamilyWindows11         OsFamilyEnum = "WINDOWS_11"
 	OsFamilyAll               OsFamilyEnum = "ALL"
 	OsFamilyUbuntu2004        OsFamilyEnum = "UBUNTU_20_04"
 	OsFamilyUbuntu2204        OsFamilyEnum = "UBUNTU_22_04"
@@ -42,6 +44,8 @@ var mappingOsFamilyEnum = map[string]OsFamilyEnum{
 	"WINDOWS_SERVER_2016": OsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": OsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": OsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": OsFamilyWindowsServer2025,
+	"WINDOWS_11":          OsFamilyWindows11,
 	"ALL":                 OsFamilyAll,
 	"UBUNTU_20_04":        OsFamilyUbuntu2004,
 	"UBUNTU_22_04":        OsFamilyUbuntu2204,
@@ -57,6 +61,8 @@ var mappingOsFamilyEnumLowerCase = map[string]OsFamilyEnum{
 	"windows_server_2016": OsFamilyWindowsServer2016,
 	"windows_server_2019": OsFamilyWindowsServer2019,
 	"windows_server_2022": OsFamilyWindowsServer2022,
+	"windows_server_2025": OsFamilyWindowsServer2025,
+	"windows_11":          OsFamilyWindows11,
 	"all":                 OsFamilyAll,
 	"ubuntu_20_04":        OsFamilyUbuntu2004,
 	"ubuntu_22_04":        OsFamilyUbuntu2204,
@@ -83,6 +89,8 @@ func GetOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
 		"UBUNTU_20_04",
 		"UBUNTU_22_04",

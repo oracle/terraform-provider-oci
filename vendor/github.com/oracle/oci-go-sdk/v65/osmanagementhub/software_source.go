@@ -74,9 +74,6 @@ type SoftwareSource interface {
 	// The size of the software source in bytes (B).
 	GetSize() *float64
 
-	// The size of the software source metadata in bytes (B).
-	GetMetadataSizeInBytes() *int64
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -93,30 +90,29 @@ type SoftwareSource interface {
 }
 
 type softwaresource struct {
-	JsonData            []byte
-	Description         *string                           `mandatory:"false" json:"description"`
-	LifecycleState      SoftwareSourceLifecycleStateEnum  `mandatory:"false" json:"lifecycleState,omitempty"`
-	PackageCount        *int64                            `mandatory:"false" json:"packageCount"`
-	ChecksumType        ChecksumTypeEnum                  `mandatory:"false" json:"checksumType,omitempty"`
-	GpgKeyUrl           *string                           `mandatory:"false" json:"gpgKeyUrl"`
-	GpgKeyId            *string                           `mandatory:"false" json:"gpgKeyId"`
-	GpgKeyFingerprint   *string                           `mandatory:"false" json:"gpgKeyFingerprint"`
-	Size                *float64                          `mandatory:"false" json:"size"`
-	MetadataSizeInBytes *int64                            `mandatory:"false" json:"metadataSizeInBytes"`
-	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	Id                  *string                           `mandatory:"true" json:"id"`
-	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
-	DisplayName         *string                           `mandatory:"true" json:"displayName"`
-	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	Availability        AvailabilityEnum                  `mandatory:"true" json:"availability"`
-	AvailabilityAtOci   AvailabilityEnum                  `mandatory:"true" json:"availabilityAtOci"`
-	RepoId              *string                           `mandatory:"true" json:"repoId"`
-	OsFamily            OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
-	ArchType            ArchTypeEnum                      `mandatory:"true" json:"archType"`
-	Url                 *string                           `mandatory:"true" json:"url"`
-	SoftwareSourceType  string                            `json:"softwareSourceType"`
+	JsonData           []byte
+	Description        *string                           `mandatory:"false" json:"description"`
+	LifecycleState     SoftwareSourceLifecycleStateEnum  `mandatory:"false" json:"lifecycleState,omitempty"`
+	PackageCount       *int64                            `mandatory:"false" json:"packageCount"`
+	ChecksumType       ChecksumTypeEnum                  `mandatory:"false" json:"checksumType,omitempty"`
+	GpgKeyUrl          *string                           `mandatory:"false" json:"gpgKeyUrl"`
+	GpgKeyId           *string                           `mandatory:"false" json:"gpgKeyId"`
+	GpgKeyFingerprint  *string                           `mandatory:"false" json:"gpgKeyFingerprint"`
+	Size               *float64                          `mandatory:"false" json:"size"`
+	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                 *string                           `mandatory:"true" json:"id"`
+	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
+	DisplayName        *string                           `mandatory:"true" json:"displayName"`
+	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	Availability       AvailabilityEnum                  `mandatory:"true" json:"availability"`
+	AvailabilityAtOci  AvailabilityEnum                  `mandatory:"true" json:"availabilityAtOci"`
+	RepoId             *string                           `mandatory:"true" json:"repoId"`
+	OsFamily           OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
+	ArchType           ArchTypeEnum                      `mandatory:"true" json:"archType"`
+	Url                *string                           `mandatory:"true" json:"url"`
+	SoftwareSourceType string                            `json:"softwareSourceType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -148,7 +144,6 @@ func (m *softwaresource) UnmarshalJSON(data []byte) error {
 	m.GpgKeyId = s.Model.GpgKeyId
 	m.GpgKeyFingerprint = s.Model.GpgKeyFingerprint
 	m.Size = s.Model.Size
-	m.MetadataSizeInBytes = s.Model.MetadataSizeInBytes
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -230,11 +225,6 @@ func (m softwaresource) GetGpgKeyFingerprint() *string {
 // GetSize returns Size
 func (m softwaresource) GetSize() *float64 {
 	return m.Size
-}
-
-// GetMetadataSizeInBytes returns MetadataSizeInBytes
-func (m softwaresource) GetMetadataSizeInBytes() *int64 {
-	return m.MetadataSizeInBytes
 }
 
 // GetFreeformTags returns FreeformTags

@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// InitializationVariables User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime.
+// InitializationVariables DEPRECATED -- please use the `options` field instead.
+// User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime.
 type InitializationVariables struct {
 
 	//

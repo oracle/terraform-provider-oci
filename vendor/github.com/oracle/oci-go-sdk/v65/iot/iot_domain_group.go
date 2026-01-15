@@ -29,6 +29,10 @@ type IotDomainGroup struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment corresponding to the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),
+	// making it suitable for development and testing. STANDARD is recommended for production.
+	Type IotDomainGroupTypeEnum `mandatory:"true" json:"type"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -82,6 +86,9 @@ func (m IotDomainGroup) String() string {
 // Not recommended for calling this function directly
 func (m IotDomainGroup) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingIotDomainGroupTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetIotDomainGroupTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingIotDomainGroupLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIotDomainGroupLifecycleStateEnumStringValues(), ",")))
 	}
@@ -90,6 +97,48 @@ func (m IotDomainGroup) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// IotDomainGroupTypeEnum Enum with underlying type: string
+type IotDomainGroupTypeEnum string
+
+// Set of constants representing the allowable values for IotDomainGroupTypeEnum
+const (
+	IotDomainGroupTypeStandard    IotDomainGroupTypeEnum = "STANDARD"
+	IotDomainGroupTypeLightweight IotDomainGroupTypeEnum = "LIGHTWEIGHT"
+)
+
+var mappingIotDomainGroupTypeEnum = map[string]IotDomainGroupTypeEnum{
+	"STANDARD":    IotDomainGroupTypeStandard,
+	"LIGHTWEIGHT": IotDomainGroupTypeLightweight,
+}
+
+var mappingIotDomainGroupTypeEnumLowerCase = map[string]IotDomainGroupTypeEnum{
+	"standard":    IotDomainGroupTypeStandard,
+	"lightweight": IotDomainGroupTypeLightweight,
+}
+
+// GetIotDomainGroupTypeEnumValues Enumerates the set of values for IotDomainGroupTypeEnum
+func GetIotDomainGroupTypeEnumValues() []IotDomainGroupTypeEnum {
+	values := make([]IotDomainGroupTypeEnum, 0)
+	for _, v := range mappingIotDomainGroupTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIotDomainGroupTypeEnumStringValues Enumerates the set of values in String for IotDomainGroupTypeEnum
+func GetIotDomainGroupTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"LIGHTWEIGHT",
+	}
+}
+
+// GetMappingIotDomainGroupTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIotDomainGroupTypeEnum(val string) (IotDomainGroupTypeEnum, bool) {
+	enum, ok := mappingIotDomainGroupTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // IotDomainGroupLifecycleStateEnum Enum with underlying type: string

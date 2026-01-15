@@ -89,31 +89,6 @@ type ListScheduledJobsRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
-	// A filter to return only paused scheduled jobs.
-	IsPaused *bool `mandatory:"false" contributesTo:"query" name:"isPaused"`
-
-	// A filter to return only scheduled jobs with a pause time on or after the given value, in ISO 8601 format.
-	// Example: 2017-07-14T02:40:00.000Z
-	TimeStartPauseGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartPauseGreaterThan"`
-
-	// A filter to return only scheduled jobs with a pause time on or before the given value, in ISO 8601 format.
-	// Example: 2017-07-14T02:40:00.000Z
-	TimeStartPauseLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartPauseLessThan"`
-
-	// A filter to return only scheduled jobs with a resume time on or after the given value, in ISO 8601 format.
-	// Example: 2017-07-14T02:40:00.000Z
-	TimeStartResumeGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartResumeGreaterThan"`
-
-	// A filter to return only scheduled jobs with a resume time on or before the given value, in ISO 8601 format.
-	// Example: 2017-07-14T02:40:00.000Z
-	TimeStartResumeLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartResumeLessThan"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
-	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the report. This resource returns resources associated with this report.
-	ReportId *string `mandatory:"false" contributesTo:"query" name:"reportId"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dynamic set. This filter returns resources associated with this dynamic set.
 	DynamicSetId *string `mandatory:"false" contributesTo:"query" name:"dynamicSetId"`
 
@@ -241,13 +216,9 @@ const (
 	ListScheduledJobsOperationTypeInstallOtherWindowsUpdates       ListScheduledJobsOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeReboot                           ListScheduledJobsOperationTypeEnum = "REBOOT"
 	ListScheduledJobsOperationTypeRerunWorkRequest                 ListScheduledJobsOperationTypeEnum = "RERUN_WORK_REQUEST"
-	ListScheduledJobsOperationTypeCollectMetadata                  ListScheduledJobsOperationTypeEnum = "COLLECT_METADATA"
-	ListScheduledJobsOperationTypeUpdateSoftwareSource             ListScheduledJobsOperationTypeEnum = "UPDATE_SOFTWARE_SOURCE"
-	ListScheduledJobsOperationTypeUpdateVulnerability              ListScheduledJobsOperationTypeEnum = "UPDATE_VULNERABILITY"
 	ListScheduledJobsOperationTypeInstallSnaps                     ListScheduledJobsOperationTypeEnum = "INSTALL_SNAPS"
 	ListScheduledJobsOperationTypeRemoveSnaps                      ListScheduledJobsOperationTypeEnum = "REMOVE_SNAPS"
 	ListScheduledJobsOperationTypeSwitchSnapChannel                ListScheduledJobsOperationTypeEnum = "SWITCH_SNAP_CHANNEL"
-	ListScheduledJobsOperationTypeStageUpdate                      ListScheduledJobsOperationTypeEnum = "STAGE_UPDATE"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
@@ -275,13 +246,9 @@ var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOper
 	"INSTALL_OTHER_WINDOWS_UPDATES":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 	"REBOOT":                              ListScheduledJobsOperationTypeReboot,
 	"RERUN_WORK_REQUEST":                  ListScheduledJobsOperationTypeRerunWorkRequest,
-	"COLLECT_METADATA":                    ListScheduledJobsOperationTypeCollectMetadata,
-	"UPDATE_SOFTWARE_SOURCE":              ListScheduledJobsOperationTypeUpdateSoftwareSource,
-	"UPDATE_VULNERABILITY":                ListScheduledJobsOperationTypeUpdateVulnerability,
 	"INSTALL_SNAPS":                       ListScheduledJobsOperationTypeInstallSnaps,
 	"REMOVE_SNAPS":                        ListScheduledJobsOperationTypeRemoveSnaps,
 	"SWITCH_SNAP_CHANNEL":                 ListScheduledJobsOperationTypeSwitchSnapChannel,
-	"STAGE_UPDATE":                        ListScheduledJobsOperationTypeStageUpdate,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
@@ -309,13 +276,9 @@ var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListSchedule
 	"install_other_windows_updates":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 	"reboot":                              ListScheduledJobsOperationTypeReboot,
 	"rerun_work_request":                  ListScheduledJobsOperationTypeRerunWorkRequest,
-	"collect_metadata":                    ListScheduledJobsOperationTypeCollectMetadata,
-	"update_software_source":              ListScheduledJobsOperationTypeUpdateSoftwareSource,
-	"update_vulnerability":                ListScheduledJobsOperationTypeUpdateVulnerability,
 	"install_snaps":                       ListScheduledJobsOperationTypeInstallSnaps,
 	"remove_snaps":                        ListScheduledJobsOperationTypeRemoveSnaps,
 	"switch_snap_channel":                 ListScheduledJobsOperationTypeSwitchSnapChannel,
-	"stage_update":                        ListScheduledJobsOperationTypeStageUpdate,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -354,13 +317,9 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"INSTALL_OTHER_WINDOWS_UPDATES",
 		"REBOOT",
 		"RERUN_WORK_REQUEST",
-		"COLLECT_METADATA",
-		"UPDATE_SOFTWARE_SOURCE",
-		"UPDATE_VULNERABILITY",
 		"INSTALL_SNAPS",
 		"REMOVE_SNAPS",
 		"SWITCH_SNAP_CHANNEL",
-		"STAGE_UPDATE",
 	}
 }
 

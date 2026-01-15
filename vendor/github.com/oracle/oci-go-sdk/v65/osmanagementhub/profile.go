@@ -163,10 +163,6 @@ func (m *profile) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := SoftwareSourceProfile{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DYNAMIC":
-		mm := DynamicProfile{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GROUP":
 		mm := GroupProfile{}
 		err = json.Unmarshal(data, &mm)

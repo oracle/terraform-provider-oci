@@ -27,6 +27,9 @@ type DomainSummary struct {
 	// The OCID of the tenancy that has started the registration process for this domain.
 	OwnerId *string `mandatory:"true" json:"ownerId"`
 
+	// The OCID of the tenancy that has started the registration process for this domain.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The lifecycle state of the domain.
 	LifecycleState DomainLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 

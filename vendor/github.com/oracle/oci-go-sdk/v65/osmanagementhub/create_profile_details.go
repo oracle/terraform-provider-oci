@@ -117,10 +117,6 @@ func (m *createprofiledetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := CreateSoftwareSourceProfileDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DYNAMIC":
-		mm := CreateDynamicProfileDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "LIFECYCLE":
 		mm := CreateLifecycleProfileDetails{}
 		err = json.Unmarshal(data, &mm)

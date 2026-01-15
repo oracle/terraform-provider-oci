@@ -7325,7 +7325,8 @@ func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request
 	return response, err
 }
 
-// ListSqlSearches Search SQL by SQL Identifier across databases in a compartment and in all sub-compartments if specified.
+// ListSqlSearches This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Search SQL by SQL Identifier across databases in a compartment and in all sub-compartments if specified.
 // And get the SQL Text and the details of the databases executing the SQL for a given time period.
 // A default retry strategy applies to this operation ListSqlSearches()
 func (client OperationsInsightsClient) ListSqlSearches(ctx context.Context, request ListSqlSearchesRequest) (response ListSqlSearchesResponse, err error) {
@@ -10500,8 +10501,9 @@ func (client OperationsInsightsClient) summarizeOperationsInsightsWarehouseResou
 	return response, err
 }
 
-// SummarizeSqlInsights Query SQL Warehouse to get the performance insights for SQLs taking greater than X% database time for a given
-// time period across the given databases or database types in a compartment and in all sub-compartments if specified.
+// SummarizeSqlInsights This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to get the performance insights for SQLs taking greater than X% database time for a given time period across the given databases or database
+// types in a compartment and in all sub-compartments if specified.
 // A default retry strategy applies to this operation SummarizeSqlInsights()
 func (client OperationsInsightsClient) SummarizeSqlInsights(ctx context.Context, request SummarizeSqlInsightsRequest) (response SummarizeSqlInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10555,7 +10557,8 @@ func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context,
 	return response, err
 }
 
-// SummarizeSqlPlanInsights Query SQL Warehouse to get the performance insights on the execution plans for a given SQL for a given time period.
+// SummarizeSqlPlanInsights This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to get the performance insights on the execution plans for a given SQL for a given time period.
 // Either databaseId or id must be specified.
 // A default retry strategy applies to this operation SummarizeSqlPlanInsights()
 func (client OperationsInsightsClient) SummarizeSqlPlanInsights(ctx context.Context, request SummarizeSqlPlanInsightsRequest) (response SummarizeSqlPlanInsightsResponse, err error) {
@@ -10610,8 +10613,8 @@ func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Cont
 	return response, err
 }
 
-// SummarizeSqlResponseTimeDistributions Query SQL Warehouse to summarize the response time distribution of query executions for a given SQL for a given time period.
-// Either databaseId or id must be specified.
+// SummarizeSqlResponseTimeDistributions This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to summarize the response time distribution of query executions for a given SQL for a given time period. Either databaseId or id must be specified.
 // A default retry strategy applies to this operation SummarizeSqlResponseTimeDistributions()
 func (client OperationsInsightsClient) SummarizeSqlResponseTimeDistributions(ctx context.Context, request SummarizeSqlResponseTimeDistributionsRequest) (response SummarizeSqlResponseTimeDistributionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10665,7 +10668,8 @@ func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx
 	return response, err
 }
 
-// SummarizeSqlStatistics Query SQL Warehouse to get the performance statistics for SQLs taking greater than X% database time for a given
+// SummarizeSqlStatistics This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to get the performance statistics for SQLs taking greater than X% database time for a given
 // time period across the given databases or database types in a compartment and in all sub-compartments if specified.
 // A default retry strategy applies to this operation SummarizeSqlStatistics()
 func (client OperationsInsightsClient) SummarizeSqlStatistics(ctx context.Context, request SummarizeSqlStatisticsRequest) (response SummarizeSqlStatisticsResponse, err error) {
@@ -10720,7 +10724,8 @@ func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Contex
 	return response, err
 }
 
-// SummarizeSqlStatisticsTimeSeries Query SQL Warehouse to get the performance statistics time series for a given SQL across given databases for a
+// SummarizeSqlStatisticsTimeSeries This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to get the performance statistics time series for a given SQL across given databases for a
 // given time period in a compartment and in all sub-compartments if specified.
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeries()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeries(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesRequest) (response SummarizeSqlStatisticsTimeSeriesResponse, err error) {
@@ -10775,7 +10780,8 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx cont
 	return response, err
 }
 
-// SummarizeSqlStatisticsTimeSeriesByPlan Query SQL Warehouse to get the performance statistics time series for a given SQL by execution plans for a given time period.
+// SummarizeSqlStatisticsTimeSeriesByPlan This API was deprecated May 2024 and is no longer functional as of May 31st, 2025.
+// Query SQL Warehouse to get the performance statistics time series for a given SQL by execution plans for a given time period.
 // Either databaseId or id must be specified.
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeriesByPlan()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesByPlanRequest) (response SummarizeSqlStatisticsTimeSeriesByPlanResponse, err error) {

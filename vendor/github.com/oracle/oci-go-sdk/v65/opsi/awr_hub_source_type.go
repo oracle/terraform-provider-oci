@@ -35,6 +35,14 @@ const (
 	AwrHubSourceTypeComanagedExacsCdb    AwrHubSourceTypeEnum = "COMANAGED_EXACS_CDB"
 	AwrHubSourceTypeComanagedExacsPdb    AwrHubSourceTypeEnum = "COMANAGED_EXACS_PDB"
 	AwrHubSourceTypeComanagedExacsNoncdb AwrHubSourceTypeEnum = "COMANAGED_EXACS_NONCDB"
+	AwrHubSourceTypeLhS                  AwrHubSourceTypeEnum = "LH_S"
+	AwrHubSourceTypeApexS                AwrHubSourceTypeEnum = "APEX_S"
+	AwrHubSourceTypeAjdS                 AwrHubSourceTypeEnum = "AJD_S"
+	AwrHubSourceTypeAvdS                 AwrHubSourceTypeEnum = "AVD_S"
+	AwrHubSourceTypeLhD                  AwrHubSourceTypeEnum = "LH_D"
+	AwrHubSourceTypeApexD                AwrHubSourceTypeEnum = "APEX_D"
+	AwrHubSourceTypeAjdD                 AwrHubSourceTypeEnum = "AJD_D"
+	AwrHubSourceTypeAvdD                 AwrHubSourceTypeEnum = "AVD_D"
 	AwrHubSourceTypeUndefined            AwrHubSourceTypeEnum = "UNDEFINED"
 )
 
@@ -54,6 +62,14 @@ var mappingAwrHubSourceTypeEnum = map[string]AwrHubSourceTypeEnum{
 	"COMANAGED_EXACS_CDB":    AwrHubSourceTypeComanagedExacsCdb,
 	"COMANAGED_EXACS_PDB":    AwrHubSourceTypeComanagedExacsPdb,
 	"COMANAGED_EXACS_NONCDB": AwrHubSourceTypeComanagedExacsNoncdb,
+	"LH_S":                   AwrHubSourceTypeLhS,
+	"APEX_S":                 AwrHubSourceTypeApexS,
+	"AJD_S":                  AwrHubSourceTypeAjdS,
+	"AVD_S":                  AwrHubSourceTypeAvdS,
+	"LH_D":                   AwrHubSourceTypeLhD,
+	"APEX_D":                 AwrHubSourceTypeApexD,
+	"AJD_D":                  AwrHubSourceTypeAjdD,
+	"AVD_D":                  AwrHubSourceTypeAvdD,
 	"UNDEFINED":              AwrHubSourceTypeUndefined,
 }
 
@@ -73,6 +89,14 @@ var mappingAwrHubSourceTypeEnumLowerCase = map[string]AwrHubSourceTypeEnum{
 	"comanaged_exacs_cdb":    AwrHubSourceTypeComanagedExacsCdb,
 	"comanaged_exacs_pdb":    AwrHubSourceTypeComanagedExacsPdb,
 	"comanaged_exacs_noncdb": AwrHubSourceTypeComanagedExacsNoncdb,
+	"lh_s":                   AwrHubSourceTypeLhS,
+	"apex_s":                 AwrHubSourceTypeApexS,
+	"ajd_s":                  AwrHubSourceTypeAjdS,
+	"avd_s":                  AwrHubSourceTypeAvdS,
+	"lh_d":                   AwrHubSourceTypeLhD,
+	"apex_d":                 AwrHubSourceTypeApexD,
+	"ajd_d":                  AwrHubSourceTypeAjdD,
+	"avd_d":                  AwrHubSourceTypeAvdD,
 	"undefined":              AwrHubSourceTypeUndefined,
 }
 
@@ -103,6 +127,14 @@ func GetAwrHubSourceTypeEnumStringValues() []string {
 		"COMANAGED_EXACS_CDB",
 		"COMANAGED_EXACS_PDB",
 		"COMANAGED_EXACS_NONCDB",
+		"LH_S",
+		"APEX_S",
+		"AJD_S",
+		"AVD_S",
+		"LH_D",
+		"APEX_D",
+		"AJD_D",
+		"AVD_D",
 		"UNDEFINED",
 	}
 }

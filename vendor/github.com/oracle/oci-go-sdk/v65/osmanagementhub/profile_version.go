@@ -53,9 +53,6 @@ type ProfileVersion struct {
 
 	LifecycleStage *LifecycleStageDetails `mandatory:"false" json:"lifecycleStage"`
 
-	// If true, the instance's repositories are synchronized with Vendor Software Sources (VSS) and will be added to the customer's tenancy.
-	CanAddVendorSources *bool `mandatory:"false" json:"canAddVendorSources"`
-
 	// The type of profile.
 	ProfileType ProfileTypeEnum `mandatory:"false" json:"profileType,omitempty"`
 

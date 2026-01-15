@@ -23,6 +23,9 @@ type CreateCustomSoftwareSourceDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// List of vendor software sources.
+	VendorSoftwareSources []Id `mandatory:"true" json:"vendorSoftwareSources"`
+
 	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -38,9 +41,6 @@ type CreateCustomSoftwareSourceDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// List of vendor software sources.
-	VendorSoftwareSources []Id `mandatory:"false" json:"vendorSoftwareSources"`
 
 	CustomSoftwareSourceFilter *CustomSoftwareSourceFilter `mandatory:"false" json:"customSoftwareSourceFilter"`
 
@@ -63,9 +63,6 @@ type CreateCustomSoftwareSourceDetails struct {
 
 	// A property used for compatibility only. It doesn't provide a complete list of packages. See AddPackagesToSoftwareSourceDetails for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
 	Packages []string `mandatory:"false" json:"packages"`
-
-	// Ocid from a reference software source to be cloned
-	ReferenceSoftwareSourceId *string `mandatory:"false" json:"referenceSoftwareSourceId"`
 
 	// The creation type of a software source.
 	SoftwareSourceSubType SoftwareSourceSubTypeEnum `mandatory:"false" json:"softwareSourceSubType,omitempty"`

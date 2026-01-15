@@ -63,15 +63,6 @@ type UpdateScheduledJobDetails struct {
 	// initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service
 	// waits 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
-
-	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
-	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceGroupIds, managedCompartmentIds, and lifecycleStageIds. Updating managedInstanceIds is only supported for COLLECT_METADATA job.
-	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
-
-	// Indicates whether the managed instances should use the required Software Source to execute the vulnerability
-	// update (even if it is not attached to it). This field is only available for the operation type: UPDATE_VULNERABILITY.
-	ShouldUseMissingSoftwareSources *bool `mandatory:"false" json:"shouldUseMissingSoftwareSources"`
 }
 
 func (m UpdateScheduledJobDetails) String() string {
