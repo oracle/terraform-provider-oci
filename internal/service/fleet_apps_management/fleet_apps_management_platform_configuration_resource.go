@@ -127,6 +127,21 @@ func FleetAppsManagementPlatformConfigurationResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_compliance_policy_required_for_softlink": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_softlink": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"link_product_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"patch_types": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -828,6 +843,18 @@ func (s *FleetAppsManagementPlatformConfigurationResourceCrud) mapToConfigCatego
 				details.Credentials = tmp
 			}
 		}
+		if isCompliancePolicyRequiredForSoftlink, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_compliance_policy_required_for_softlink")); ok {
+			tmp := isCompliancePolicyRequiredForSoftlink.(bool)
+			details.IsCompliancePolicyRequiredForSoftlink = &tmp
+		}
+		if isSoftlink, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_softlink")); ok {
+			tmp := isSoftlink.(bool)
+			details.IsSoftlink = &tmp
+		}
+		if linkProductId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "link_product_id")); ok {
+			tmp := linkProductId.(string)
+			details.LinkProductId = &tmp
+		}
 		if patchTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patch_types")); ok {
 			interfaces := patchTypes.([]interface{})
 			tmp := make([]oci_fleet_apps_management.ConfigAssociationDetails, len(interfaces))
@@ -930,6 +957,18 @@ func ConfigCategoryDetailsToMap(obj *oci_fleet_apps_management.ConfigCategoryDet
 			credentials = append(credentials, ConfigAssociationDetailsToMap(item))
 		}
 		result["credentials"] = credentials
+
+		if v.IsCompliancePolicyRequiredForSoftlink != nil {
+			result["is_compliance_policy_required_for_softlink"] = bool(*v.IsCompliancePolicyRequiredForSoftlink)
+		}
+
+		if v.IsSoftlink != nil {
+			result["is_softlink"] = bool(*v.IsSoftlink)
+		}
+
+		if v.LinkProductId != nil {
+			result["link_product_id"] = string(*v.LinkProductId)
+		}
 
 		patchTypes := []interface{}{}
 		for _, item := range v.PatchTypes {

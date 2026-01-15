@@ -342,6 +342,27 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"database_console": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"port": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"database_management": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1345,6 +1366,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 
 	if obj.DataStorageSizeInGBs != nil {
 		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)
+	}
+
+	if obj.DatabaseConsole != nil {
+		result["database_console"] = []interface{}{DatabaseConsoleDetailsToMap(obj.DatabaseConsole)}
 	}
 
 	result["database_management"] = string(obj.DatabaseManagement)

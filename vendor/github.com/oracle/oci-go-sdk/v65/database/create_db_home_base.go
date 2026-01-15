@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -102,6 +102,10 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := CreateDbHomeWithDbSystemIdFromBackupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VM_CLUSTER_DATABASE":
+		mm := CreateDbHomeWithVmClusterIdFromDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VM_CLUSTER_BACKUP":
 		mm := CreateDbHomeWithVmClusterIdFromBackupDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -181,27 +185,30 @@ type CreateDbHomeBaseSourceEnum string
 
 // Set of constants representing the allowable values for CreateDbHomeBaseSourceEnum
 const (
-	CreateDbHomeBaseSourceNone            CreateDbHomeBaseSourceEnum = "NONE"
-	CreateDbHomeBaseSourceDbBackup        CreateDbHomeBaseSourceEnum = "DB_BACKUP"
-	CreateDbHomeBaseSourceDatabase        CreateDbHomeBaseSourceEnum = "DATABASE"
-	CreateDbHomeBaseSourceVmClusterBackup CreateDbHomeBaseSourceEnum = "VM_CLUSTER_BACKUP"
-	CreateDbHomeBaseSourceVmClusterNew    CreateDbHomeBaseSourceEnum = "VM_CLUSTER_NEW"
+	CreateDbHomeBaseSourceNone              CreateDbHomeBaseSourceEnum = "NONE"
+	CreateDbHomeBaseSourceDbBackup          CreateDbHomeBaseSourceEnum = "DB_BACKUP"
+	CreateDbHomeBaseSourceDatabase          CreateDbHomeBaseSourceEnum = "DATABASE"
+	CreateDbHomeBaseSourceVmClusterBackup   CreateDbHomeBaseSourceEnum = "VM_CLUSTER_BACKUP"
+	CreateDbHomeBaseSourceVmClusterNew      CreateDbHomeBaseSourceEnum = "VM_CLUSTER_NEW"
+	CreateDbHomeBaseSourceVmClusterDatabase CreateDbHomeBaseSourceEnum = "VM_CLUSTER_DATABASE"
 )
 
 var mappingCreateDbHomeBaseSourceEnum = map[string]CreateDbHomeBaseSourceEnum{
-	"NONE":              CreateDbHomeBaseSourceNone,
-	"DB_BACKUP":         CreateDbHomeBaseSourceDbBackup,
-	"DATABASE":          CreateDbHomeBaseSourceDatabase,
-	"VM_CLUSTER_BACKUP": CreateDbHomeBaseSourceVmClusterBackup,
-	"VM_CLUSTER_NEW":    CreateDbHomeBaseSourceVmClusterNew,
+	"NONE":                CreateDbHomeBaseSourceNone,
+	"DB_BACKUP":           CreateDbHomeBaseSourceDbBackup,
+	"DATABASE":            CreateDbHomeBaseSourceDatabase,
+	"VM_CLUSTER_BACKUP":   CreateDbHomeBaseSourceVmClusterBackup,
+	"VM_CLUSTER_NEW":      CreateDbHomeBaseSourceVmClusterNew,
+	"VM_CLUSTER_DATABASE": CreateDbHomeBaseSourceVmClusterDatabase,
 }
 
 var mappingCreateDbHomeBaseSourceEnumLowerCase = map[string]CreateDbHomeBaseSourceEnum{
-	"none":              CreateDbHomeBaseSourceNone,
-	"db_backup":         CreateDbHomeBaseSourceDbBackup,
-	"database":          CreateDbHomeBaseSourceDatabase,
-	"vm_cluster_backup": CreateDbHomeBaseSourceVmClusterBackup,
-	"vm_cluster_new":    CreateDbHomeBaseSourceVmClusterNew,
+	"none":                CreateDbHomeBaseSourceNone,
+	"db_backup":           CreateDbHomeBaseSourceDbBackup,
+	"database":            CreateDbHomeBaseSourceDatabase,
+	"vm_cluster_backup":   CreateDbHomeBaseSourceVmClusterBackup,
+	"vm_cluster_new":      CreateDbHomeBaseSourceVmClusterNew,
+	"vm_cluster_database": CreateDbHomeBaseSourceVmClusterDatabase,
 }
 
 // GetCreateDbHomeBaseSourceEnumValues Enumerates the set of values for CreateDbHomeBaseSourceEnum
@@ -221,6 +228,7 @@ func GetCreateDbHomeBaseSourceEnumStringValues() []string {
 		"DATABASE",
 		"VM_CLUSTER_BACKUP",
 		"VM_CLUSTER_NEW",
+		"VM_CLUSTER_DATABASE",
 	}
 }
 

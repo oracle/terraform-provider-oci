@@ -1,3 +1,21 @@
+## 7.30.0 (January 14, 2026)
+
+### Added
+- Support for Log Analytics Associations
+- junits - Follow up for Vanity URL support using API Gateway
+- Support for OpenAI OSS 120B/20B Terraform DUE 1/14 OCI Generative AI - Project Starlight OSS 120B and 20B
+- Support for Support out-of-place restore (iRestore), (ExaDB-D/C@C/XS/Base DB)
+- support for Fleet Application Management Service 2.0.4
+- Support for Exadata Fleet Update - Add Search criteria for Exadata Releases 25.1 and 25.2
+- Support for Customer Cost Anomaly Detection
+- Support for [Elastic Pools with Colocated Members] Terraform Support in Prod Region ADB-S
+- Enable Forwarding of ZPR Security Attributes for Private Endpoint Creation
+- Support for HeatWave Service: MyDAS (MySQL Data Analysis System)
+
+### Bug Fix
+- Set CapacityReservationId on UpdateInstance for correct reservation binding
+- Giversion support for 26ai versions
+
 ## 7.29.0 (December 16, 2025)
 
 ### Added

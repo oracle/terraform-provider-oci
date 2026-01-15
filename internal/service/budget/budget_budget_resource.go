@@ -87,6 +87,12 @@ func BudgetBudgetResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			// target_compartment_id conflicts with targets
 			"target_compartment_id": {
 				Type:          schema.TypeString,
@@ -276,6 +282,14 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		request.StartDate = &oci_common.SDKTime{Time: tmp}
 	}
 
+	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.SystemTags = convertedSystemTags
+	}
+
 	if targetCompartmentId, ok := s.D.GetOkExists("target_compartment_id"); ok {
 		tmp := targetCompartmentId.(string)
 		request.TargetCompartmentId = &tmp
@@ -388,6 +402,14 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 		request.StartDate = &oci_common.SDKTime{Time: tmp}
 	}
 
+	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.SystemTags = convertedSystemTags
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.UpdateBudget(context.Background(), request)
@@ -463,6 +485,10 @@ func (s *BudgetBudgetResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TargetCompartmentId != nil {
 		s.D.Set("target_compartment_id", *s.Res.TargetCompartmentId)

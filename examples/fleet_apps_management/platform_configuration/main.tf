@@ -69,6 +69,11 @@ EOT
 # Identifiers for Relationships
 #########################################################################################################
 
+variable "linked_product" { 
+  type        = string
+  description = "OCID of the linked product Platform Configuration."
+}
+
 variable "compatible_product_id" {
   type        = string
   description = "OCID of the compatible product Platform Configuration."
@@ -103,6 +108,10 @@ resource "oci_fleet_apps_management_platform_configuration" "test_platform_confi
     credentials {
       id = var.credential_id
     }
+    
+    is_compliance_policy_required_for_softlink = "false"
+    is_softlink                                = "false"
+    link_product_id                            = "${var.linked_product}"
 
     patch_types {
       id = var.patch_type_id

@@ -18,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -45,7 +44,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Computed:         true,
 				MaxItems:         1,
 				MinItems:         1,
-				DiffSuppressFunc: dbHomeNestedDbSuppressfunc,
+				DiffSuppressFunc: tfresource.DbHomeNestedDbSuppressfunc,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -107,7 +106,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: disableAutoBackupSuppressfunc,
+										DiffSuppressFunc: tfresource.DisableAutoBackupSuppressfunc,
 									},
 									"auto_full_backup_day": {
 										Type:     schema.TypeString,
@@ -118,7 +117,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: disableAutoBackupSuppressfunc,
+										DiffSuppressFunc: tfresource.DisableAutoBackupSuppressfunc,
 									},
 									"backup_deletion_policy": {
 										Type:     schema.TypeString,
@@ -362,7 +361,6 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-
 						// Computed
 						"connection_strings": {
 							Type:     schema.TypeList,
@@ -421,6 +419,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"vm_cluster_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 					},
 				},
@@ -504,6 +508,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 					"DB_BACKUP",
 					"NONE",
 					"VM_CLUSTER_BACKUP",
+					"VM_CLUSTER_DATABASE",
 					"VM_CLUSTER_NEW",
 				}, true),
 			},
@@ -678,7 +683,6 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 
 		s.Res = &response.DbHome
 	}
-
 	return nil
 }
 
@@ -886,7 +890,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			_, err = s.Client.DeleteDatabase(context.Background(), request)
 
 			// fail on non 404 errors
-			if failure, _ := common.IsServiceError(err); failure.GetHTTPStatusCode() == 404 {
+			if failure, _ := oci_common.IsServiceError(err); failure.GetHTTPStatusCode() == 404 {
 				return nil
 			}
 			return err
@@ -1372,6 +1376,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetai
 		result.TimeStampForPointInTimeRecovery = &oci_common.SDKTime{Time: tmp}
 	}
 
+	if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
+		tmp := vmClusterId.(string)
+		result.VmClusterId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1777,6 +1786,57 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			details.KmsKeyVersionId = &tmp
 		}
 		request.CreateDbHomeWithDbSystemIdDetails = details
+	case strings.ToLower("VM_CLUSTER_DATABASE"):
+		details := oci_database.CreateDbHomeWithVmClusterIdFromDatabaseDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
+		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
 	case strings.ToLower("VM_CLUSTER_NEW"):
 		details := oci_database.CreateDbHomeWithVmClusterIdDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {
@@ -1792,6 +1852,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
+		}
+		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
 		}
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
@@ -1880,7 +1944,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 		if err != nil {
 			return err
 		}
-		if listDatabasesResponse.Items[0].TimeCreated.Sub(common.SDKTime{Time: tmp}.Time) > time.Hour*24 {
+		if listDatabasesResponse.Items[0].TimeCreated.Sub(oci_common.SDKTime{Time: tmp}.Time) > time.Hour*24 {
 			return fmt.Errorf("the first database of the dbHome has since been terminated. Will not try to delete dbHome's database")
 		}
 	}
@@ -2252,30 +2316,4 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat st
 	}
 
 	return result, nil
-}
-
-func dbHomeNestedDbSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
-	oldRaw, newRaw := d.GetChange("database")
-	oldList := oldRaw.([]interface{})
-	newList := newRaw.([]interface{})
-	enableDbDelete, ok := d.GetOkExists("enable_database_delete")
-	// if key is database and database exists in state but not config
-	// check if enable_database_delete is not set or enable_database_delete is set to false then skip diff
-	if k == "database" && len(oldList) > len(newList) {
-		if !ok || !enableDbDelete.(bool) {
-			log.Printf("[DEBUG] SKIPPING DELETE")
-			return true
-		}
-	}
-	return false
-}
-
-func disableAutoBackupSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
-	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
-	if autoBackupEnabled, ok := d.GetOkExists("database.0.db_backup_config.0.auto_backup_enabled"); ok {
-		if !autoBackupEnabled.(bool) {
-			return true
-		}
-	}
-	return false
 }

@@ -63,12 +63,20 @@ var (
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 	}
 	FleetAppsManagementPlatformConfigurationConfigCategoryDetailsRepresentation = map[string]interface{}{
+		// "config_category":     acctest.Representation{RepType: acctest.Required, Create: `PRODUCT`, Update: `PRODUCT_STACK`},
 		"config_category":     acctest.Representation{RepType: acctest.Required, Create: `PRODUCT`},
 		"compatible_products": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCompatibleProductsRepresentation},
 		"components":          acctest.Representation{RepType: acctest.Optional, Create: []string{`components`}, Update: []string{`components2`}},
 		"credentials":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCredentialsRepresentation},
-		"patch_types":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsPatchTypesRepresentation},
-		"versions":            acctest.Representation{RepType: acctest.Required, Create: []string{`1`}, Update: []string{`2`}},
+		// "instance_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.self_hosted_instance_id}`},
+		// "instance_name":       acctest.Representation{RepType: acctest.Optional, Create: `${var.self_hosted_instance_name}`},
+		"is_compliance_policy_required_for_softlink": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_softlink":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"link_product_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.linked_product_name}`},
+		"patch_types":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsPatchTypesRepresentation},
+		// "products":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsProductsRepresentation},
+		// "sub_category_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetAppsManagementPlatformConfigurationConfigCategoryDetailsSubCategoryDetailsRepresentation},
+		"versions": acctest.Representation{RepType: acctest.Required, Create: []string{`1`}, Update: []string{`2`}},
 	}
 	FleetAppsManagementPlatformConfigurationConfigCategoryDetailsCompatibleProductsRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Optional, Create: compatibleProduct, Update: compatibleProductUpdated},
@@ -121,6 +129,9 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 	selfHostedInstanceName := utils.GetEnvSettingWithBlankDefault("self_hosted_instance_name")
 	selfHostedInstanceNameVariableStr := fmt.Sprintf("variable \"self_hosted_instance_name\" { default = \"%s\" }\n", selfHostedInstanceName)
 
+	linkedProduct := utils.GetEnvSettingWithBlankDefault("compatible_product")
+	linkedProductStr := fmt.Sprintf("variable \"linked_product_name\" { default = \"%s\" }\n", linkedProduct)
+
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
@@ -136,14 +147,15 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckFleetAppsManagementPlatformConfigurationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
+			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + linkedProductStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Required, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.#"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.config_category", "PRODUCT"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.products.#"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.versions.#"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.products.0.id", "id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
@@ -159,7 +171,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
+			Config: config + compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + linkedProductStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Create, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -167,9 +179,31 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.compatible_products.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.components.#"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.config_category", "PRODUCT"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.#"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.0.display_name", "tersi-test-credential"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.0.id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_name"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_compliance_policy_required_for_softlink", "false"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_softlink", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.link_product_id"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.0.display_name", "TersiTstPatchOne"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.patch_types.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.products.#"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.products.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.products.0.id", "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.sub_category_details.#"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.components.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.0.id", "id"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.0.id", "id"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.sub_category", "PRODUCT_STACK_GENERIC"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.versions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.versions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.versions.#"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -193,7 +227,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + linkedProductStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(FleetAppsManagementPlatformConfigurationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -206,11 +240,31 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.compatible_products.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.components.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.config_category", "PRODUCT"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.#"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.patch_types.#"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.0.display_name", "tersi-test-credential"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.0.id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_name"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_compliance_policy_required_for_softlink", "false"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_softlink", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.link_product_id"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.0.display_name", "TersiTstPatchOne"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.patch_types.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.products.#"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.products.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.products.0.id", "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.sub_category_details.#"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.versions.#"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.components.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.credentials.0.id", "id"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.#", "1"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.0.display_name", "displayName"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.patch_types.0.id", "id"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.sub_category", "PRODUCT_STACK_GENERIC"),
+				// resource.TestCheckResourceAttr(resourceName, "config_category_details.0.sub_category_details.0.versions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.versions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -231,7 +285,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + linkedProductStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -242,8 +296,13 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.components.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.config_category", "PRODUCT"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.0.display_name"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.credentials.0.display_name", "tersi-test-credential2"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.credentials.0.id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_id"),
+				// resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.instance_name"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_compliance_policy_required_for_softlink", "true"),
+				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.is_softlink", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.link_product_id"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "config_category_details.0.patch_types.0.display_name"),
 				resource.TestCheckResourceAttr(resourceName, "config_category_details.0.patch_types.0.id", patchType),
@@ -269,7 +328,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_platform_configurations", "test_platform_configurations", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr +
+				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + linkedProductStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Optional, acctest.Update, FleetAppsManagementPlatformConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -287,7 +346,7 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_platform_configuration", "test_platform_configuration", acctest.Required, acctest.Create, FleetAppsManagementPlatformConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceConfig,
+				compartmentIdVariableStr + selfHostedInstanceIdVariableStr + selfHostedInstanceNameVariableStr + FleetAppsManagementPlatformConfigurationResourceConfig + linkedProductStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_configuration_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -298,8 +357,10 @@ func TestFleetAppsManagementPlatformConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.components.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.config_category", "PRODUCT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_category_details.0.credentials.0.display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.credentials.0.display_name", "tersi-test-credential2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_category_details.0.credentials.0.id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.is_compliance_policy_required_for_softlink", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.is_softlink", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config_category_details.0.patch_types.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_category_details.0.patch_types.0.display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_category_details.0.patch_types.0.id"),

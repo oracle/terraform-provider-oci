@@ -82,6 +82,10 @@ func FleetAppsManagementFleetTargetsDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"parent_target_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"product": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -258,6 +262,10 @@ func FleetTargetSummaryToMap(obj oci_fleet_apps_management.FleetTargetSummary) m
 
 	if obj.IsLastDiscoveryAttemptSuccessful != nil {
 		result["is_last_discovery_attempt_successful"] = bool(*obj.IsLastDiscoveryAttemptSuccessful)
+	}
+
+	if obj.ParentTargetName != nil {
+		result["parent_target_name"] = string(*obj.ParentTargetName)
 	}
 
 	if obj.Product != nil {
