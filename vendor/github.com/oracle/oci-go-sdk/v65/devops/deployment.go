@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -66,6 +66,9 @@ type Deployment interface {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Internal-only URL to change management ticket for annotation on dashboards.
+	GetCmUrl() *string
 }
 
 type deployment struct {
@@ -84,6 +87,7 @@ type deployment struct {
 	FreeformTags                    map[string]string                         `mandatory:"false" json:"freeformTags"`
 	DefinedTags                     map[string]map[string]interface{}         `mandatory:"false" json:"definedTags"`
 	SystemTags                      map[string]map[string]interface{}         `mandatory:"false" json:"systemTags"`
+	CmUrl                           *string                                   `mandatory:"false" json:"cmUrl"`
 	Id                              *string                                   `mandatory:"true" json:"id"`
 	ProjectId                       *string                                   `mandatory:"true" json:"projectId"`
 	DeployPipelineId                *string                                   `mandatory:"true" json:"deployPipelineId"`
@@ -120,6 +124,7 @@ func (m *deployment) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.CmUrl = s.Model.CmUrl
 	m.DeploymentType = s.Model.DeploymentType
 
 	return err
@@ -224,6 +229,11 @@ func (m deployment) GetDefinedTags() map[string]map[string]interface{} {
 // GetSystemTags returns SystemTags
 func (m deployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetCmUrl returns CmUrl
+func (m deployment) GetCmUrl() *string {
+	return m.CmUrl
 }
 
 // GetId returns Id

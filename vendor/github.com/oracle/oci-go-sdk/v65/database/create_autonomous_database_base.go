@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -244,6 +244,8 @@ type CreateAutonomousDatabaseBase interface {
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
 
+	GetAutonomousDatabaseMaintenanceWindow() *AutonomousDatabaseMaintenanceWindowSummary
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetScheduledOperations() []ScheduledOperationDetails
@@ -316,6 +318,7 @@ type createautonomousdatabasebase struct {
 	ResourcePoolLeaderId                     *string                                                           `mandatory:"false" json:"resourcePoolLeaderId"`
 	ResourcePoolSummary                      *ResourcePoolSummary                                              `mandatory:"false" json:"resourcePoolSummary"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+	AutonomousDatabaseMaintenanceWindow      *AutonomousDatabaseMaintenanceWindowSummary                       `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
@@ -384,6 +387,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.ResourcePoolLeaderId = s.Model.ResourcePoolLeaderId
 	m.ResourcePoolSummary = s.Model.ResourcePoolSummary
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
+	m.AutonomousDatabaseMaintenanceWindow = s.Model.AutonomousDatabaseMaintenanceWindow
 	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.DatabaseEdition = s.Model.DatabaseEdition
@@ -670,6 +674,11 @@ func (m createautonomousdatabasebase) GetResourcePoolSummary() *ResourcePoolSumm
 // GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
+}
+
+// GetAutonomousDatabaseMaintenanceWindow returns AutonomousDatabaseMaintenanceWindow
+func (m createautonomousdatabasebase) GetAutonomousDatabaseMaintenanceWindow() *AutonomousDatabaseMaintenanceWindowSummary {
+	return m.AutonomousDatabaseMaintenanceWindow
 }
 
 // GetScheduledOperations returns ScheduledOperations

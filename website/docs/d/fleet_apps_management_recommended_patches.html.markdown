@@ -38,7 +38,7 @@ The following arguments are supported:
 * `target_id` - (Optional) Fleet target identifier.
 * `target_name` - (Optional) Fleet target name.
 * `patch_id` - (Optional) Patch identifier.
-* `patch_level` - (Optional) Patch level with values like LATEST, LATEST_MINUS_ONE, LATEST_MIUS_TWO etc.,.
+* `patch_level` - (Optional) Patch level with values like LATEST, LATEST_MINUS_ONE, LATEST_MINUS_TWO etc.,.
 * `patch_type` - (Optional) Patch type.
 * `severity` - (Optional) Patch severity with values like CRITICAL, HIGH, MEDIUM and LOW.
 

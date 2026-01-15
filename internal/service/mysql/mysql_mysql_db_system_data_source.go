@@ -116,6 +116,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
 
+	if s.Res.DatabaseConsole != nil {
+		s.D.Set("database_console", []interface{}{DatabaseConsoleDetailsToMap(s.Res.DatabaseConsole)})
+	} else {
+		s.D.Set("database_console", nil)
+	}
+
 	s.D.Set("database_management", s.Res.DatabaseManagement)
 
 	s.D.Set("database_mode", s.Res.DatabaseMode)

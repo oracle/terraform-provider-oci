@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -258,6 +258,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 
+	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
+
+	// The date until which maintenance of Autonomous AI Database is temporarily paused.
+	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
+
 	// True if the Autonomous AI Database is backup retention locked.
 	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
@@ -298,6 +303,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// If true, this will disconnect the Autonomous AI Database from its peer and the Autonomous AI Database can work permanently as a standalone database.
 	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
 	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a dedicated resource pool leader Autonomous AI Database in the same region, that is required when local Autonomous Data Guard is enabled for a dedicated resource pool member using the parameter `isLocalDataGuardEnabled`.
+	// This field applies only to dedicated resource pool members, and the specified leader must be different from the primary’s leader.
+	// Local Autonomous Data Guard can be enabled only if more than one dedicated resource pool exists in the region.
+	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -389,6 +399,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		ResourcePoolLeaderId                 *string                                                              `json:"resourcePoolLeaderId"`
 		ResourcePoolSummary                  *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
 		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		AutonomousDatabaseMaintenanceWindow  *AutonomousDatabaseMaintenanceWindowSummary                          `json:"autonomousDatabaseMaintenanceWindow"`
+		TimeMaintenancePauseUntil            *common.SDKTime                                                      `json:"timeMaintenancePauseUntil"`
 		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
 		TimeScheduledDbVersionUpgrade        *common.SDKTime                                                      `json:"timeScheduledDbVersionUpgrade"`
 		IsDisableDbVersionUpgradeSchedule    *bool                                                                `json:"isDisableDbVersionUpgradeSchedule"`
@@ -402,6 +414,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
 		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
 		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
+		LocalAdgResourcePoolLeaderId         *string                                                              `json:"localAdgResourcePoolLeaderId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -501,6 +514,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
 
+	m.AutonomousDatabaseMaintenanceWindow = model.AutonomousDatabaseMaintenanceWindow
+
+	m.TimeMaintenancePauseUntil = model.TimeMaintenancePauseUntil
+
 	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 
 	m.TimeScheduledDbVersionUpgrade = model.TimeScheduledDbVersionUpgrade
@@ -534,6 +551,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.IsDisconnectPeer = model.IsDisconnectPeer
+
+	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
 
 	return
 }

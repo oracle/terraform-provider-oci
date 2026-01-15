@@ -177,6 +177,12 @@ func DevopsDeployEnvironmentResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -508,6 +514,12 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 			s.D.Set("project_id", *v.ProjectId)
 		}
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -552,6 +564,12 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -608,6 +626,12 @@ func (s *DevopsDeployEnvironmentResourceCrud) SetData() error {
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -945,6 +969,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		request.CreateDeployEnvironmentDetails = details
 	case strings.ToLower("FUNCTION"):
 		details := oci_devops.CreateFunctionDeployEnvironmentDetails{}
@@ -973,6 +1000,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		request.CreateDeployEnvironmentDetails = details
 	case strings.ToLower("OKE_CLUSTER"):
@@ -1012,6 +1042,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		request.CreateDeployEnvironmentDetails = details
 	default:
@@ -1062,6 +1095,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		request.UpdateDeployEnvironmentDetails = details
 	case strings.ToLower("FUNCTION"):
 		details := oci_devops.UpdateFunctionDeployEnvironmentDetails{}
@@ -1088,6 +1124,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		request.UpdateDeployEnvironmentDetails = details
 	case strings.ToLower("OKE_CLUSTER"):
@@ -1125,6 +1164,9 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		request.UpdateDeployEnvironmentDetails = details
 	default:

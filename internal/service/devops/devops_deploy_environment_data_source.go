@@ -96,6 +96,12 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) SetData() error {
 			s.D.Set("project_id", *v.ProjectId)
 		}
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -138,6 +144,12 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) SetData() error {
 			s.D.Set("project_id", *v.ProjectId)
 		}
 
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -178,6 +190,12 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) SetData() error {
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
 		}
 
 		s.D.Set("state", v.LifecycleState)

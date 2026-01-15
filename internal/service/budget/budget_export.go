@@ -46,7 +46,49 @@ var exportBudgetAlertRuleHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportBudgetCostAnomalyMonitorHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_budget_cost_anomaly_monitor",
+	DatasourceClass:        "oci_budget_cost_anomaly_monitors",
+	DatasourceItemsAttr:    "cost_anomaly_monitor_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cost_anomaly_monitor",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_budget.CostAnomalyMonitorLifecycleStateActive),
+	},
+}
+
+var exportBudgetCostAnomalyEventHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_budget_cost_anomaly_event",
+	DatasourceClass:        "oci_budget_cost_anomaly_events",
+	DatasourceItemsAttr:    "cost_anomaly_event_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cost_anomaly_event",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_budget.CostAnomalyEventLifecycleStateActive),
+	},
+}
+
+var exportBudgetCostAlertSubscriptionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_budget_cost_alert_subscription",
+	DatasourceClass:        "oci_budget_cost_alert_subscriptions",
+	DatasourceItemsAttr:    "cost_alert_subscription_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cost_alert_subscription",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_budget.CostAlertSubscriptionLifecycleStateActive),
+	},
+}
+
 var budgetResourceGraph = tf_export.TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportBudgetBudgetHints},
+		{TerraformResourceHints: exportBudgetCostAnomalyMonitorHints},
+		{TerraformResourceHints: exportBudgetCostAnomalyEventHints},
+		{TerraformResourceHints: exportBudgetCostAlertSubscriptionHints},
+	},
 	"oci_identity_tenancy": {
 		{
 			TerraformResourceHints: exportBudgetBudgetHints,

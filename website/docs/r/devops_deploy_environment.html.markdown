@@ -51,6 +51,7 @@ resource "oci_devops_deploy_environment" "test_deploy_environment" {
 		#Optional
 		nsg_ids = var.deploy_environment_network_channel_nsg_ids
 	}
+	security_attributes = var.deploy_environment_security_attributes
 }
 ```
 
@@ -76,6 +77,7 @@ The following arguments are supported:
 	* `nsg_ids` - (Optional) (Updatable) An array of network security group OCIDs.
 	* `subnet_id` - (Required) (Updatable) The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - (Required) The OCID of a project.
+* `security_attributes` - (Optional) (Updatable) Security attributes to be added in to the deployment environment
 
 
 ** IMPORTANT **
@@ -106,6 +108,7 @@ The following attributes are exported:
 	* `nsg_ids` - An array of network security group OCIDs.
 	* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - The OCID of a project.
+* `security_attributes` - Security attributes to be added in to the deployment environment
 * `state` - The current state of the deployment environment.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - Time the deployment environment was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
