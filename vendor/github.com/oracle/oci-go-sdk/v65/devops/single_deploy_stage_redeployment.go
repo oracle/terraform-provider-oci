@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -66,6 +66,9 @@ type SingleDeployStageRedeployment struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Internal-only URL to change management ticket for annotation on dashboards.
+	CmUrl *string `mandatory:"false" json:"cmUrl"`
 
 	// Specifies the OCID of the previous deployment to be redeployed.
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
@@ -162,6 +165,11 @@ func (m SingleDeployStageRedeployment) GetDefinedTags() map[string]map[string]in
 // GetSystemTags returns SystemTags
 func (m SingleDeployStageRedeployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetCmUrl returns CmUrl
+func (m SingleDeployStageRedeployment) GetCmUrl() *string {
+	return m.CmUrl
 }
 
 func (m SingleDeployStageRedeployment) String() string {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -38,6 +39,25 @@ type CreateDatabaseFromAnotherDatabaseDetails struct {
 
 	// The list of pluggable databases that needs to be restored into new database.
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
+
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+
+	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 }
 
 func (m CreateDatabaseFromAnotherDatabaseDetails) String() string {
@@ -54,4 +74,64 @@ func (m CreateDatabaseFromAnotherDatabaseDetails) ValidateEnumValue() (bool, err
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		BackupTDEPassword                  *string                           `json:"backupTDEPassword"`
+		DbUniqueName                       *string                           `json:"dbUniqueName"`
+		DbName                             *string                           `json:"dbName"`
+		TimeStampForPointInTimeRecovery    *common.SDKTime                   `json:"timeStampForPointInTimeRecovery"`
+		PluggableDatabases                 []string                          `json:"pluggableDatabases"`
+		FreeformTags                       map[string]string                 `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{} `json:"definedTags"`
+		SidPrefix                          *string                           `json:"sidPrefix"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails      `json:"sourceEncryptionKeyLocationDetails"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails       `json:"storageSizeDetails"`
+		VmClusterId                        *string                           `json:"vmClusterId"`
+		DatabaseId                         *string                           `json:"databaseId"`
+		AdminPassword                      *string                           `json:"adminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.BackupTDEPassword = model.BackupTDEPassword
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DbName = model.DbName
+
+	m.TimeStampForPointInTimeRecovery = model.TimeStampForPointInTimeRecovery
+
+	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
+	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SidPrefix = model.SidPrefix
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.VmClusterId = model.VmClusterId
+
+	m.DatabaseId = model.DatabaseId
+
+	m.AdminPassword = model.AdminPassword
+
+	return
 }

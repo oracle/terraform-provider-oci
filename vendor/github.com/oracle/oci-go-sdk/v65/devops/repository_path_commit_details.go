@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -15,27 +15,29 @@ import (
 	"strings"
 )
 
-// PullRequestChangeSummaryMetrics Response object for obtaining summary metric of Pull Request changed files.
-type PullRequestChangeSummaryMetrics struct {
+// RepositoryPathCommitDetails Details about the last commit that modified a repository path.
+type RepositoryPathCommitDetails struct {
 
-	// The number of lines added in whole difference.
-	ChangedFilesCount *int `mandatory:"true" json:"changedFilesCount"`
+	// The commit hash of the last commit.
+	CommitId *string `mandatory:"false" json:"commitId"`
 
-	// The number of lines added in whole difference.
-	AddedLinesCount *int `mandatory:"true" json:"addedLinesCount"`
+	// The commit message of the last commit.
+	Message *string `mandatory:"false" json:"message"`
 
-	// The number of lines deleted in whole difference.
-	DeletedLinesCount *int `mandatory:"true" json:"deletedLinesCount"`
+	Author *PrincipalDetails `mandatory:"false" json:"author"`
+
+	// Timestamp when this commit was made.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
-func (m PullRequestChangeSummaryMetrics) String() string {
+func (m RepositoryPathCommitDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m PullRequestChangeSummaryMetrics) ValidateEnumValue() (bool, error) {
+func (m RepositoryPathCommitDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
