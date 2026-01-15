@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -140,7 +140,7 @@ func (client BatchComputingClient) cancelBatchJob(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/CancelBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CancelBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -198,7 +198,7 @@ func (client BatchComputingClient) changeBatchContextCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/ChangeBatchContextCompartment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ChangeBatchContextCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -256,7 +256,7 @@ func (client BatchComputingClient) changeBatchJobCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/ChangeBatchJobCompartment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ChangeBatchJobCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -314,7 +314,7 @@ func (client BatchComputingClient) changeBatchJobPoolCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/ChangeBatchJobPoolCompartment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ChangeBatchJobPoolCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -372,7 +372,7 @@ func (client BatchComputingClient) changeBatchTaskEnvironmentCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironment/ChangeBatchTaskEnvironmentCompartment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ChangeBatchTaskEnvironmentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -430,7 +430,7 @@ func (client BatchComputingClient) changeBatchTaskProfileCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfile/ChangeBatchTaskProfileCompartment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ChangeBatchTaskProfileCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -493,7 +493,7 @@ func (client BatchComputingClient) createBatchContext(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/CreateBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CreateBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -556,7 +556,7 @@ func (client BatchComputingClient) createBatchJob(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/CreateBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CreateBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -619,7 +619,7 @@ func (client BatchComputingClient) createBatchJobPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/CreateBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CreateBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -682,7 +682,7 @@ func (client BatchComputingClient) createBatchTaskEnvironment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironment/CreateBatchTaskEnvironment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CreateBatchTaskEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -745,7 +745,7 @@ func (client BatchComputingClient) createBatchTaskProfile(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfile/CreateBatchTaskProfile"
 		err = common.PostProcessServiceError(err, "BatchComputing", "CreateBatchTaskProfile", apiReferenceLink)
 		return response, err
 	}
@@ -803,7 +803,7 @@ func (client BatchComputingClient) deleteBatchContext(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/DeleteBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "DeleteBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -861,7 +861,7 @@ func (client BatchComputingClient) deleteBatchJobPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/DeleteBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "DeleteBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -919,7 +919,7 @@ func (client BatchComputingClient) deleteBatchTaskEnvironment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironment/DeleteBatchTaskEnvironment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "DeleteBatchTaskEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -977,7 +977,7 @@ func (client BatchComputingClient) deleteBatchTaskProfile(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfile/DeleteBatchTaskProfile"
 		err = common.PostProcessServiceError(err, "BatchComputing", "DeleteBatchTaskProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1035,7 +1035,7 @@ func (client BatchComputingClient) getBatchContext(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/GetBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -1093,7 +1093,7 @@ func (client BatchComputingClient) getBatchJob(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/GetBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -1151,7 +1151,7 @@ func (client BatchComputingClient) getBatchJobPool(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/GetBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -1209,7 +1209,7 @@ func (client BatchComputingClient) getBatchTask(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTask/GetBatchTask"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchTask", apiReferenceLink)
 		return response, err
 	}
@@ -1267,7 +1267,7 @@ func (client BatchComputingClient) getBatchTaskEnvironment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironment/GetBatchTaskEnvironment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchTaskEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -1325,7 +1325,7 @@ func (client BatchComputingClient) getBatchTaskProfile(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfile/GetBatchTaskProfile"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetBatchTaskProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1383,7 +1383,7 @@ func (client BatchComputingClient) getWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "BatchComputing", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1441,7 +1441,7 @@ func (client BatchComputingClient) listBatchContextShapes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContextShapeCollection/ListBatchContextShapes"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchContextShapes", apiReferenceLink)
 		return response, err
 	}
@@ -1499,7 +1499,7 @@ func (client BatchComputingClient) listBatchContexts(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContextCollection/ListBatchContexts"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchContexts", apiReferenceLink)
 		return response, err
 	}
@@ -1557,7 +1557,7 @@ func (client BatchComputingClient) listBatchJobPools(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPoolCollection/ListBatchJobPools"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchJobPools", apiReferenceLink)
 		return response, err
 	}
@@ -1616,7 +1616,7 @@ func (client BatchComputingClient) listBatchJobTasks(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskCollection/ListBatchJobTasks"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchJobTasks", apiReferenceLink)
 		return response, err
 	}
@@ -1674,7 +1674,7 @@ func (client BatchComputingClient) listBatchJobs(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobCollection/ListBatchJobs"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchJobs", apiReferenceLink)
 		return response, err
 	}
@@ -1732,7 +1732,7 @@ func (client BatchComputingClient) listBatchTaskEnvironments(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironmentCollection/ListBatchTaskEnvironments"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchTaskEnvironments", apiReferenceLink)
 		return response, err
 	}
@@ -1790,7 +1790,7 @@ func (client BatchComputingClient) listBatchTaskProfiles(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfileCollection/ListBatchTaskProfiles"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchTaskProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -1848,7 +1848,7 @@ func (client BatchComputingClient) listBatchTasks(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskCollection/ListBatchTasks"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListBatchTasks", apiReferenceLink)
 		return response, err
 	}
@@ -1906,7 +1906,7 @@ func (client BatchComputingClient) listWorkRequestErrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1964,7 +1964,7 @@ func (client BatchComputingClient) listWorkRequestLogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2022,7 +2022,7 @@ func (client BatchComputingClient) listWorkRequests(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "BatchComputing", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2080,7 +2080,7 @@ func (client BatchComputingClient) pauseBatchJob(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/PauseBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "PauseBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -2138,7 +2138,7 @@ func (client BatchComputingClient) startBatchContext(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/StartBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "StartBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -2196,7 +2196,7 @@ func (client BatchComputingClient) startBatchJobPool(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/StartBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "StartBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -2254,7 +2254,7 @@ func (client BatchComputingClient) stopBatchContext(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/StopBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "StopBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -2312,7 +2312,7 @@ func (client BatchComputingClient) stopBatchJobPool(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/StopBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "StopBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -2370,7 +2370,7 @@ func (client BatchComputingClient) unpauseBatchJob(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/UnpauseBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UnpauseBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -2428,7 +2428,7 @@ func (client BatchComputingClient) updateBatchContext(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchContext/UpdateBatchContext"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UpdateBatchContext", apiReferenceLink)
 		return response, err
 	}
@@ -2486,7 +2486,7 @@ func (client BatchComputingClient) updateBatchJob(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJob/UpdateBatchJob"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UpdateBatchJob", apiReferenceLink)
 		return response, err
 	}
@@ -2544,7 +2544,7 @@ func (client BatchComputingClient) updateBatchJobPool(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchJobPool/UpdateBatchJobPool"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UpdateBatchJobPool", apiReferenceLink)
 		return response, err
 	}
@@ -2602,7 +2602,7 @@ func (client BatchComputingClient) updateBatchTaskEnvironment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskEnvironment/UpdateBatchTaskEnvironment"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UpdateBatchTaskEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -2660,7 +2660,7 @@ func (client BatchComputingClient) updateBatchTaskProfile(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/batch/20251031/BatchTaskProfile/UpdateBatchTaskProfile"
 		err = common.PostProcessServiceError(err, "BatchComputing", "UpdateBatchTaskProfile", apiReferenceLink)
 		return response, err
 	}

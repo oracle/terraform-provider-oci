@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -33,6 +33,11 @@ type CreateDeployEnvironmentDetails interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
 }
 
 type createdeployenvironmentdetails struct {
@@ -41,6 +46,7 @@ type createdeployenvironmentdetails struct {
 	DisplayName           *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags          map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SecurityAttributes    map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 	ProjectId             *string                           `mandatory:"true" json:"projectId"`
 	DeployEnvironmentType string                            `json:"deployEnvironmentType"`
 }
@@ -61,6 +67,7 @@ func (m *createdeployenvironmentdetails) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.DeployEnvironmentType = s.Model.DeployEnvironmentType
 
 	return err
@@ -111,6 +118,11 @@ func (m createdeployenvironmentdetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createdeployenvironmentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m createdeployenvironmentdetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetProjectId returns ProjectId
