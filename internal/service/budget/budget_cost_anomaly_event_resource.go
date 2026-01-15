@@ -347,7 +347,7 @@ func CostAnomalyEventSummaryToMap(obj oci_budget.CostAnomalyEventSummary) map[st
 		result["cost_monitor_name"] = string(*obj.CostMonitorName)
 	}
 
-	result["cost_monitor_type"] = string(*obj.CostMonitorType)
+	//result["cost_monitor_type"] = string(*obj.CostMonitorType)
 
 	if obj.CostVariancePercentage != nil {
 		result["cost_variance_percentage"] = float64(*obj.CostVariancePercentage)
