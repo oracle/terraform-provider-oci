@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -32,6 +32,8 @@ const (
 	ExadataReleaseVersionsExaOl7221 ExadataReleaseVersionsEnum = "EXA_OL_7_22_1"
 	ExadataReleaseVersionsExaOl8231 ExadataReleaseVersionsEnum = "EXA_OL_8_23_1"
 	ExadataReleaseVersionsExaOl8241 ExadataReleaseVersionsEnum = "EXA_OL_8_24_1"
+	ExadataReleaseVersionsExaOl8251 ExadataReleaseVersionsEnum = "EXA_OL_8_25_1"
+	ExadataReleaseVersionsExaOl8252 ExadataReleaseVersionsEnum = "EXA_OL_8_25_2"
 )
 
 var mappingExadataReleaseVersionsEnum = map[string]ExadataReleaseVersionsEnum{
@@ -48,6 +50,8 @@ var mappingExadataReleaseVersionsEnum = map[string]ExadataReleaseVersionsEnum{
 	"EXA_OL_7_22_1": ExadataReleaseVersionsExaOl7221,
 	"EXA_OL_8_23_1": ExadataReleaseVersionsExaOl8231,
 	"EXA_OL_8_24_1": ExadataReleaseVersionsExaOl8241,
+	"EXA_OL_8_25_1": ExadataReleaseVersionsExaOl8251,
+	"EXA_OL_8_25_2": ExadataReleaseVersionsExaOl8252,
 }
 
 var mappingExadataReleaseVersionsEnumLowerCase = map[string]ExadataReleaseVersionsEnum{
@@ -64,6 +68,8 @@ var mappingExadataReleaseVersionsEnumLowerCase = map[string]ExadataReleaseVersio
 	"exa_ol_7_22_1": ExadataReleaseVersionsExaOl7221,
 	"exa_ol_8_23_1": ExadataReleaseVersionsExaOl8231,
 	"exa_ol_8_24_1": ExadataReleaseVersionsExaOl8241,
+	"exa_ol_8_25_1": ExadataReleaseVersionsExaOl8251,
+	"exa_ol_8_25_2": ExadataReleaseVersionsExaOl8252,
 }
 
 // GetExadataReleaseVersionsEnumValues Enumerates the set of values for ExadataReleaseVersionsEnum
@@ -91,6 +97,8 @@ func GetExadataReleaseVersionsEnumStringValues() []string {
 		"EXA_OL_7_22_1",
 		"EXA_OL_8_23_1",
 		"EXA_OL_8_24_1",
+		"EXA_OL_8_25_1",
+		"EXA_OL_8_25_2",
 	}
 }
 

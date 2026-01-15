@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -210,18 +210,21 @@ type ListRefsSortByEnum string
 
 // Set of constants representing the allowable values for ListRefsSortByEnum
 const (
-	ListRefsSortByReftype ListRefsSortByEnum = "refType"
-	ListRefsSortByRefname ListRefsSortByEnum = "refName"
+	ListRefsSortByReftype     ListRefsSortByEnum = "refType"
+	ListRefsSortByRefname     ListRefsSortByEnum = "refName"
+	ListRefsSortByTimeupdated ListRefsSortByEnum = "timeUpdated"
 )
 
 var mappingListRefsSortByEnum = map[string]ListRefsSortByEnum{
-	"refType": ListRefsSortByReftype,
-	"refName": ListRefsSortByRefname,
+	"refType":     ListRefsSortByReftype,
+	"refName":     ListRefsSortByRefname,
+	"timeUpdated": ListRefsSortByTimeupdated,
 }
 
 var mappingListRefsSortByEnumLowerCase = map[string]ListRefsSortByEnum{
-	"reftype": ListRefsSortByReftype,
-	"refname": ListRefsSortByRefname,
+	"reftype":     ListRefsSortByReftype,
+	"refname":     ListRefsSortByRefname,
+	"timeupdated": ListRefsSortByTimeupdated,
 }
 
 // GetListRefsSortByEnumValues Enumerates the set of values for ListRefsSortByEnum
@@ -238,6 +241,7 @@ func GetListRefsSortByEnumStringValues() []string {
 	return []string{
 		"refType",
 		"refName",
+		"timeUpdated",
 	}
 }
 

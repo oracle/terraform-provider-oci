@@ -20,6 +20,7 @@ func init() {
 	exportLogAnalyticsNamespaceStorageArchivalConfigHints.GetIdFn = getLogAnalyticsNamespaceStorageArchivalConfigId
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.FindResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.ProcessDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
+	exportLogAnalyticsNamespaceAssociationHints.GetIdFn = getLogAnalyticsNamespaceAssociationId
 	tf_export.RegisterCompartmentGraphs("log_analytics", logAnalyticsResourceGraph)
 }
 
@@ -155,6 +156,31 @@ func getLogAnalyticsNamespaceLookupId(resource *tf_export.OCIResource) (string, 
 	return GetNamespaceLookupCompositeId(lookupName, namespace), nil
 }
 
+func getLogAnalyticsNamespaceAssociationId(resource *tf_export.OCIResource) (string, error) {
+
+	namespace, ok := resource.SourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics NamespaceAssociation")
+	}
+
+	compartmentId, ok := resource.SourceAttributes["compartmentId"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find compartmentId for LogAnalytics NamespaceAssociation")
+	}
+
+	entityId, ok := resource.SourceAttributes["entityId"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find entityId for LogAnalytics NamespaceAssociation")
+	}
+
+	sourceName, ok := resource.SourceAttributes["sourceName"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find sourceName for LogAnalytics NamespaceAssociation")
+	}
+
+	return GetNamespaceAssociationCompositeId(namespace, compartmentId, entityId, sourceName), nil
+}
+
 func getLogAnalyticsNamespaceStorageArchivalConfigId(resource *tf_export.OCIResource) (string, error) {
 
 	namespace, ok := resource.SourceAttributes["namespace"].(string)
@@ -241,6 +267,11 @@ var exportLogAnalyticsNamespaceStorageArchivalConfigHints = &tf_export.Terraform
 	ResourceClass:        "oci_log_analytics_namespace_storage_archival_config",
 	DatasourceClass:      "oci_log_analytics_namespace_storage_archival_config",
 	ResourceAbbreviation: "namespace_storage_archival_config",
+}
+
+var exportLogAnalyticsNamespaceAssociationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_log_analytics_namespace_association",
+	ResourceAbbreviation: "namespace_association",
 }
 
 var logAnalyticsResourceGraph = tf_export.TerraformResourceGraph{

@@ -4262,7 +4262,7 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		request.UpdateOperationConstraint = oci_core.UpdateInstanceDetailsUpdateOperationConstraintEnum(updateOperationConstraint.(string))
 	}
 
-	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil && request.PlatformConfig == nil && request.SourceDetails == nil {
+	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil && request.PlatformConfig == nil && request.SourceDetails == nil && request.CapacityReservationId == nil {
 		// no-op
 		return nil
 	}

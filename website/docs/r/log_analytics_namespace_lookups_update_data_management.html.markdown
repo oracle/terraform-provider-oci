@@ -21,7 +21,7 @@ Updates the lookup content. The csv file containing the content to be updated is
 ```hcl
 resource "oci_log_analytics_namespace_lookups_update_data_management" "test_namespace_lookups_update_data_management" {
 	#Required
-	update_lookup_file_body = var.namespace_lookups_update_data_management_update_lookup_file_body
+	update_lookup_file = var.namespace_lookups_update_data_management_update_lookup_file
 	lookup_name = var.namespace_lookups_update_data_management_lookup_name
 	namespace = var.namespace_lookups_update_data_management_namespace
 
@@ -36,12 +36,12 @@ resource "oci_log_analytics_namespace_lookups_update_data_management" "test_name
 
 The following arguments are supported:
 
-* `update_lookup_file_body` - (Required) The file to use for the lookup update.
+* `update_lookup_file` - (Required) Path to the file containing data for the lookup update.
 * `char_encoding` - (Optional) The character encoding of the uploaded file.
-* `expect` - (Optional) A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent. If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body. The only allowed value for this parameter is "100-Continue" (case-insensitive). 
+* `expect` - (Optional) A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent. If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body. The only allowed value for this parameter is "100-Continue" (case-insensitive).
 * `is_force` - (Optional) is force
 * `lookup_name` - (Required) The name of the lookup to operate on.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Logging Analytics namespace used for the request.
 
 
 ** IMPORTANT **

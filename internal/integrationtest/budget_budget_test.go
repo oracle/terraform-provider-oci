@@ -95,10 +95,11 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagChange},
 	}
 
-	timeNow           = time.Date(2050, 8, 15, 14, 30, 45, 100, time.UTC)
-	timeNowTruncated  = time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 0, 0, 0, 0, time.UTC)
-	endDate           = timeNow.AddDate(0, 2, 0).Format(time.RFC3339Nano)
-	expectedEndDate   = timeNowTruncated.AddDate(0, 2, 0).Format(time.RFC3339Nano)
+	timeNow          = time.Date(2050, 8, 15, 14, 30, 45, 100, time.UTC)
+	timeNowTruncated = time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 0, 0, 0, 0, time.UTC)
+	endDate          = timeNow.AddDate(0, 2, 0).Format(time.RFC3339Nano)
+	//expectedEndDate   = timeNowTruncated.AddDate(0, 2, 0).Format(time.RFC3339Nano)
+	expectedEndDate   = time.Date(timeNowTruncated.Year(), timeNowTruncated.Month()+2, timeNowTruncated.Day(), 23, 59, 59, 999000000, time.UTC).Format(time.RFC3339Nano)
 	startDate         = timeNow.AddDate(0, 1, 0).Format(time.RFC3339Nano)
 	expectedStartDate = timeNowTruncated.AddDate(0, 1, 0).Format(time.RFC3339Nano)
 

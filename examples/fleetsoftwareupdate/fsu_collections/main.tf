@@ -38,7 +38,7 @@ resource "oci_fleet_software_update_fsu_collection" "test_fsu_collection_db23" {
 
 // Fsu Collection resource for database version 26
 resource "oci_fleet_software_update_fsu_collection" "test_fsu_collection_db26" {
-  display_name   = "tf-test-db23-collection"
+  display_name   = "tf-test-db26-collection"
   compartment_id = var.compartment_id
   fleet_discovery {
     strategy = "TARGET_LIST"

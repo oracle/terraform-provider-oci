@@ -171,6 +171,10 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 
 		budget["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			budget["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TargetCompartmentId != nil {
 			budget["target_compartment_id"] = *r.TargetCompartmentId
 		}

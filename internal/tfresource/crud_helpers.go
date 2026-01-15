@@ -530,10 +530,22 @@ func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
+func SuppressMajorVersionTransitionFrom23To26(old, new string) bool {
+	oldVersion := strings.Split(old, ".")
+	newVersion := strings.Split(new, ".")
+	return len(oldVersion) > 0 && len(newVersion) > 0 && newVersion[0] == "26" && oldVersion[0] == "23"
+}
+
 func DbVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false
 	}
+
+	// Edge case: State major version is 23 and Config major version is 26
+	if SuppressMajorVersionTransitionFrom23To26(old, new) {
+		return true
+	}
+
 	if new == "18.0.0.0" || new == "19.0.0.0" || new == "23.0.0.0" || new == "23.0.0" || new == "23.0.0.0.0" {
 		oldVersion := strings.Split(old, ".")
 		newVersion := strings.Split(new, ".")
@@ -565,6 +577,24 @@ func AdDiffSuppress(key string, old string, new string, d *schema.ResourceData) 
 	return math.Abs(oldf-newf) <= float64EqualityThreshold
 }
 
+func normalizeVersion(v string) []string {
+	segments := strings.Split(v, ".")
+	// Trim trailing zeros for minor version comparison
+	for len(segments) > 1 && segments[len(segments)-1] == "0" {
+		segments = segments[:len(segments)-1]
+	}
+	return segments
+}
+
+func isMinorOrMoreNonZero(segments []string) bool {
+	for i := 1; i < len(segments); i++ {
+		if segments[i] != "0" {
+			return true
+		}
+	}
+	return false
+}
+
 func GiVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false
@@ -572,6 +602,31 @@ func GiVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	oldVersion := strings.Split(old, ".")
 	newVersion := strings.Split(new, ".")
 
+	// Edge case: State major version is 23 and Config major version is 26
+	if SuppressMajorVersionTransitionFrom23To26(old, new) {
+		return true
+	}
+
+	// If config has a non-zero minor or further version, require exact normalized match
+	if isMinorOrMoreNonZero(newVersion) {
+		oldNorm := normalizeVersion(old)
+		newNorm := normalizeVersion(new)
+		if len(oldNorm) == len(newNorm) {
+			equal := true
+			for i := range oldNorm {
+				if oldNorm[i] != newNorm[i] {
+					equal = false
+					break
+				}
+			}
+			if equal {
+				return true
+			}
+		}
+		return false // minor is nonzero, but no match, so don't suppress
+	}
+
+	// Existing logic: suppress if major version matches
 	if oldVersion[0] == newVersion[0] {
 		return true
 	}
@@ -1707,4 +1762,40 @@ func WaitForResourceConditionWithContext(ctx context.Context, s ResourceFetcherW
 	}
 
 	return nil
+}
+
+func DisableAutoBackupSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
+	if autoBackupEnabled, ok := d.GetOkExists("database.0.db_backup_config.0.auto_backup_enabled"); ok {
+		if !autoBackupEnabled.(bool) {
+			return true
+		}
+	}
+	return false
+}
+
+func DisableAutoBackupDbSystemSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
+	if autoBackupEnabled, ok := d.GetOkExists("db_home.0.database.0.db_backup_config.0.auto_backup_enabled"); ok {
+		if !autoBackupEnabled.(bool) {
+			return true
+		}
+	}
+	return false
+}
+
+func DbHomeNestedDbSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	oldRaw, newRaw := d.GetChange("database")
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+	enableDbDelete, ok := d.GetOkExists("enable_database_delete")
+	// if key is database and database exists in state but not config
+	// check if enable_database_delete is not set or enable_database_delete is set to false then skip diff
+	if k == "database" && len(oldList) > len(newList) {
+		if !ok || !enableDbDelete.(bool) {
+			log.Printf("[DEBUG] SKIPPING DELETE")
+			return true
+		}
+	}
+	return false
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -445,6 +445,11 @@ type AutonomousDwDatabase struct {
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType AutonomousDwDatabaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 
+	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
+
+	// The date until which maintenance of Autonomous AI Database is temporarily paused.
+	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -499,6 +504,9 @@ type AutonomousDwDatabase struct {
 	// Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace.
 	// Example: `{ "gcpAccountName": "gcpName" }`
 	AdditionalAttributes map[string]string `mandatory:"false" json:"additionalAttributes"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous AI Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
+	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
 }
 
 func (m AutonomousDwDatabase) String() string {
@@ -692,6 +700,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		IsReconnectCloneEnabled                 *bool                                                     `json:"isReconnectCloneEnabled"`
 		TimeUntilReconnectCloneEnabled          *common.SDKTime                                           `json:"timeUntilReconnectCloneEnabled"`
 		AutonomousMaintenanceScheduleType       AutonomousDwDatabaseAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		AutonomousDatabaseMaintenanceWindow     *AutonomousDatabaseMaintenanceWindowSummary               `json:"autonomousDatabaseMaintenanceWindow"`
+		TimeMaintenancePauseUntil               *common.SDKTime                                           `json:"timeMaintenancePauseUntil"`
 		ScheduledOperations                     []ScheduledOperationDetails                               `json:"scheduledOperations"`
 		IsAutoScalingForStorageEnabled          *bool                                                     `json:"isAutoScalingForStorageEnabled"`
 		AllocatedStorageSizeInTBs               *float64                                                  `json:"allocatedStorageSizeInTBs"`
@@ -709,6 +719,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		CloneTableSpaceList                     []int                                                     `json:"cloneTableSpaceList"`
 		CloneType                               AutonomousDwDatabaseCloneTypeEnum                         `json:"cloneType"`
 		AdditionalAttributes                    map[string]string                                         `json:"additionalAttributes"`
+		LocalAdgResourcePoolLeaderId            *string                                                   `json:"localAdgResourcePoolLeaderId"`
 		Id                                      *string                                                   `json:"id"`
 		CompartmentId                           *string                                                   `json:"compartmentId"`
 		LifecycleState                          AutonomousDwDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -953,6 +964,10 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
 
+	m.AutonomousDatabaseMaintenanceWindow = model.AutonomousDatabaseMaintenanceWindow
+
+	m.TimeMaintenancePauseUntil = model.TimeMaintenancePauseUntil
+
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)
 	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
@@ -986,6 +1001,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.CloneType = model.CloneType
 
 	m.AdditionalAttributes = model.AdditionalAttributes
+
+	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
 
 	m.Id = model.Id
 

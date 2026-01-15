@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -31,6 +31,12 @@ type RepositoryTagSummary struct {
 	// SHA-1 hash value of the object pointed to by the tag.
 	ObjectId *string `mandatory:"true" json:"objectId"`
 
+	// Creation timestamp. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The time the ref was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -54,6 +60,16 @@ func (m RepositoryTagSummary) GetFullRefName() *string {
 // GetRepositoryId returns RepositoryId
 func (m RepositoryTagSummary) GetRepositoryId() *string {
 	return m.RepositoryId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m RepositoryTagSummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m RepositoryTagSummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 // GetFreeformTags returns FreeformTags
