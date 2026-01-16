@@ -60,6 +60,12 @@ func IotIotDomainGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"data_host": {
@@ -198,6 +204,10 @@ func (s *IotIotDomainGroupResourceCrud) CreateWithContext(ctx context.Context) e
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_iot.CreateIotDomainGroupDetailsTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "iot")
@@ -463,6 +473,8 @@ func (s *IotIotDomainGroupResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	s.D.Set("type", s.Res.Type)
+
 	return nil
 }
 
@@ -504,6 +516,8 @@ func IotDomainGroupSummaryToMap(obj oci_iot.IotDomainGroupSummary) map[string]in
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	result["type"] = string(obj.Type)
 
 	return result
 }
