@@ -28,7 +28,10 @@ variable "iot_domain_group_state" {
   default = "ACTIVE"
 }
 
-
+variable "iot_domain_group_type" {
+  # STANDARD or LIGHTWEIGHT (default)
+  default = "STANDARD"
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -47,6 +50,7 @@ resource "oci_iot_iot_domain_group" "test_iot_domain_group" {
   description   = var.iot_domain_group_description
   display_name  = var.iot_domain_group_display_name
   freeform_tags = var.iot_domain_group_freeform_tags
+  type          = var.iot_domain_group_type
 }
 
 data "oci_iot_iot_domain_groups" "test_iot_domain_groups" {
@@ -55,7 +59,8 @@ data "oci_iot_iot_domain_groups" "test_iot_domain_groups" {
 
   #Optional
   display_name        = var.iot_domain_group_display_name
-  iot_domain_group_id = oci_iot_iot_domain_group.test_iot_domain_group.id
+  id                  = oci_iot_iot_domain_group.test_iot_domain_group.id
   state               = var.iot_domain_group_state
+  type                = var.iot_domain_group_type
 }
 
