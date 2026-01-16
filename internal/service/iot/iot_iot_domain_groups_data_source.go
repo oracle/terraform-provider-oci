@@ -35,6 +35,10 @@ func IotIotDomainGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"iot_domain_group_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -91,6 +95,10 @@ func (s *IotIotDomainGroupsDataSourceCrud) GetWithContext(ctx context.Context) e
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_iot.IotDomainGroupLifecycleStateEnum(state.(string))
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_iot.IotDomainGroupTypeEnum(type_.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "iot")

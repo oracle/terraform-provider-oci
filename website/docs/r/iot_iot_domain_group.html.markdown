@@ -28,6 +28,7 @@ resource "oci_iot_iot_domain_group" "test_iot_domain_group" {
 	description = var.iot_domain_group_description
 	display_name = var.iot_domain_group_display_name
 	freeform_tags = {"Department"= "Finance"}
+	type = var.iot_domain_group_type
 }
 ```
 
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) A short description of the resource. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `type` - (Optional) Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),  making it suitable for development and testing. STANDARD is recommended for production. 
 
 
 ** IMPORTANT **
@@ -63,6 +65,7 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time when the resource was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time when the resource was last updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
+* `type` - Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),  making it suitable for development and testing. STANDARD is recommended for production. 
 
 ## Timeouts
 

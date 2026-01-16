@@ -24,6 +24,7 @@ data "oci_iot_iot_domain_groups" "test_iot_domain_groups" {
 	display_name = var.iot_domain_group_display_name
 	id = var.iot_domain_group_id
 	state = var.iot_domain_group_state
+	type = var.iot_domain_group_type
 }
 ```
 
@@ -35,6 +36,7 @@ The following arguments are supported:
 * `display_name` - (Optional) Filter resources whose display name matches the specified value. 
 * `id` - (Optional) Filter resources by [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be a valid OCID of the resource type. 
 * `state` - (Optional) Filter resources whose lifecycleState matches the specified value.
+* `type` - (Optional) Filter resources by type. Valid values are LIGHTWEIGHT or STANDARD.
 
 
 ## Attributes Reference
@@ -61,4 +63,5 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time when the resource was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time when the resource was last updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
+* `type` - Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),  making it suitable for development and testing. STANDARD is recommended for production. 
 
