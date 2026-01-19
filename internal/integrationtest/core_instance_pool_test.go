@@ -121,6 +121,7 @@ var (
 
 	CoreInstancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compute_cluster_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_cluster.test_compute_cluster.id}`},
 		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
@@ -261,7 +262,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 			acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, CoreInstancePoolConfigurationPoolRepresentation))
 
-	CoreInstancePoolResourceDependencies = utils.OciImageIdsVariable +
+	CoreInstancePoolResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation) +
+		utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
@@ -372,6 +374,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.compute_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
@@ -426,6 +429,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.compute_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
@@ -475,6 +479,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.compute_cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),

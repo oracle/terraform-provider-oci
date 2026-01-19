@@ -159,7 +159,8 @@ The following attributes are exported:
 		* `state` - The status of the interaction between the instance pool and the load balancer.
 		* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 	* `placement_configurations` - The placement configurations for the instance pool.
-		* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1`
+		* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
+		* `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 		* `fault_domains` - The fault domains to place instances.
 
 		  If you don't provide any values, the system makes a best effort to distribute instances across all fault domains based on capacity.
