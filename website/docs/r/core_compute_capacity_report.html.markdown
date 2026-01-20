@@ -37,6 +37,7 @@ resource "oci_core_compute_capacity_report" "test_compute_capacity_report" {
 		instance_shape_config {
 
 			#Optional
+			baseline_ocpu_utilization = var.compute_capacity_report_shape_availabilities_instance_shape_config_baseline_ocpu_utilization
 			memory_in_gbs = var.compute_capacity_report_shape_availabilities_instance_shape_config_memory_in_gbs
 			nvmes = var.compute_capacity_report_shape_availabilities_instance_shape_config_nvmes
 			ocpus = var.compute_capacity_report_shape_availabilities_instance_shape_config_ocpus
@@ -57,6 +58,12 @@ The following arguments are supported:
 		If you do not specify a fault domain, the capacity report includes information about all fault domains. 
 	* `instance_shape` - (Required) The shape that you want to request a capacity report for. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 	* `instance_shape_config` - (Optional) The shape configuration for a shape in a capacity report. 
+		* `baseline_ocpu_utilization` - (Optional) The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+			The following values are supported:
+			* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+			* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+			* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Optional) The total amount of memory available to the instance, in gigabytes. 
 		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. 
 		* `ocpus` - (Optional) The total number of OCPUs available to the instance. 
@@ -79,6 +86,12 @@ The following attributes are exported:
 		If you do not specify the fault domain, the capacity report includes information about all fault domains. 
 	* `instance_shape` - The shape that the capacity report was requested for. 
 	* `instance_shape_config` - The shape configuration for a shape in a capacity report. 
+		* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+			The following values are supported:
+			* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+			* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+			* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 		* `nvmes` - The number of NVMe drives to be used for storage. 
 		* `ocpus` - The total number of OCPUs available to the instance. 
