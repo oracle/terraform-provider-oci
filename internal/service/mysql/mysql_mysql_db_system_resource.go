@@ -4,12 +4,15 @@
 package mysql
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -608,6 +611,70 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Optional:  true,
 							ForceNew:  true,
 							Sensitive: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"telemetry_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 0,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"logs": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MinItems: 0,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"destination": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"destination_configurations": {
+										Type:     schema.TypeSet,
+										Required: true,
+										Set:      destinationConfigurationsHashCodeForSets,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"key": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"log_types": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -1383,6 +1450,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
+	if telemetryConfiguration, ok := s.D.GetOkExists("telemetry_configuration"); ok {
+		if tmpList := telemetryConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "telemetry_configuration", 0)
+			tmp, err := s.mapToCreateTelemetryConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TelemetryConfiguration = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateDbSystem(context.Background(), request)
@@ -1618,6 +1696,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.ShapeName = &tmp
 	}
 
+	if telemetryConfiguration, ok := s.D.GetOkExists("telemetry_configuration"); ok && s.D.HasChange("telemetry_configuration") {
+		if tmpList := telemetryConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "telemetry_configuration", 0)
+			tmp, err := s.mapToUpdateTelemetryConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TelemetryConfiguration = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateDbSystem(context.Background(), request)
@@ -1839,6 +1928,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TelemetryConfiguration != nil {
+		s.D.Set("telemetry_configuration", []interface{}{TelemetryConfigurationDetailsToMap(s.Res.TelemetryConfiguration, false)})
+	} else {
+		s.D.Set("telemetry_configuration", nil)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -2619,6 +2714,67 @@ func RestDetailsToMap(obj *oci_mysql.RestDetails) map[string]interface{} {
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateTelemetryConfigurationDetails(fieldKeyFormat string) (oci_mysql.CreateTelemetryConfigurationDetails, error) {
+	result := oci_mysql.CreateTelemetryConfigurationDetails{}
+
+	if logs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logs")); ok {
+		interfaces := logs.([]interface{})
+		tmp := make([]oci_mysql.LoggingDestinationConfiguration, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "logs"), stateDataIndex)
+			converted, err := s.mapToLoggingDestinationConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "logs")) {
+			result.Logs = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateTelemetryConfigurationDetails(fieldKeyFormat string) (oci_mysql.UpdateTelemetryConfigurationDetails, error) {
+	result := oci_mysql.UpdateTelemetryConfigurationDetails{}
+
+	if logs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logs")); ok {
+		interfaces := logs.([]interface{})
+		tmp := make([]oci_mysql.LoggingDestinationConfiguration, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "logs"), stateDataIndex)
+			converted, err := s.mapToLoggingDestinationConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "logs")) {
+			result.Logs = tmp
+		}
+		if len(tmp) == 0 {
+			result.Logs = nil
+		}
+	}
+
+	return result, nil
+}
+
+func TelemetryConfigurationDetailsToMap(obj *oci_mysql.TelemetryConfigurationDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	logs := []interface{}{}
+	for _, item := range obj.Logs {
+		logs = append(logs, LoggingDestinationConfigurationToMap(item, datasource))
+	}
+	result["logs"] = logs
+
+	return result
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCustomerContact(fieldKeyFormat string) (oci_mysql.CustomerContact, error) {
 	result := oci_mysql.CustomerContact{}
 
@@ -2649,6 +2805,36 @@ func DbSystemPlacementToMap(obj *oci_mysql.DbSystemPlacement) map[string]interfa
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToDestinationConfiguration(fieldKeyFormat string) (oci_mysql.DestinationConfiguration, error) {
+	result := oci_mysql.DestinationConfiguration{}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func DestinationConfigurationToMap(obj oci_mysql.DestinationConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
 	}
 
 	return result
@@ -2705,6 +2891,67 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToLoggingDestinationConfiguration(fieldKeyFormat string) (oci_mysql.LoggingDestinationConfiguration, error) {
+	result := oci_mysql.LoggingDestinationConfiguration{}
+
+	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok {
+		result.Destination = oci_mysql.LoggingDestinationConfigurationDestinationEnum(destination.(string))
+	}
+
+	if destinationConfigurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_configurations")); ok {
+		set := destinationConfigurations.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_mysql.DestinationConfiguration, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := destinationConfigurationsHashCodeForSets(interfaces[i])
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_configurations"), stateDataIndex)
+			converted, err := s.mapToDestinationConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "destination_configurations")) {
+			result.DestinationConfigurations = tmp
+		}
+	}
+
+	if logTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_types")); ok {
+		interfaces := logTypes.([]interface{})
+		tmp := make([]oci_mysql.LoggingDestinationConfigurationLogTypesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_mysql.LoggingDestinationConfigurationLogTypesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "log_types")) {
+			result.LogTypes = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func LoggingDestinationConfigurationToMap(obj oci_mysql.LoggingDestinationConfiguration, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["destination"] = string(obj.Destination)
+
+	destinationConfigurations := []interface{}{}
+	for _, item := range obj.DestinationConfigurations {
+		destinationConfigurations = append(destinationConfigurations, DestinationConfigurationToMap(item))
+	}
+	if datasource {
+		result["destination_configurations"] = destinationConfigurations
+	} else {
+		result["destination_configurations"] = schema.NewSet(destinationConfigurationsHashCodeForSets, destinationConfigurations)
+	}
+
+	result["log_types"] = obj.LogTypes
 
 	return result
 }
@@ -2791,6 +3038,18 @@ func SecureConnectionDetailsToMap(obj *oci_mysql.SecureConnectionDetails) map[st
 	}
 
 	return result
+}
+
+func destinationConfigurationsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKeyFormat string) (oci_mysql.UpdateBackupPolicyDetails, error) {
