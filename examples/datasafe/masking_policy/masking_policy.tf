@@ -8,6 +8,7 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "data_safe_target_ocid" {}
+variable "masking_policy_ocid" {}
 
 variable "masking_policy_access_level" {
   default = "ACCESSIBLE"
@@ -101,3 +102,11 @@ data "oci_data_safe_masking_policies" "test_masking_policies" {
   time_created_less_than                = var.masking_policy_time_created_less_than
 }
 
+resource "oci_data_safe_mask_data" "test_mask_data" {
+  masking_policy_id = var.masking_policy_ocid
+  target_id         = var.data_safe_target_ocid
+}
+
+data "oci_data_safe_masking_policy" "test_policy_data" {
+  masking_policy_id = var.masking_policy_ocid
+}

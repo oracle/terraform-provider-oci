@@ -139,6 +139,10 @@ func DataSafeMaskingPolicyResource() *schema.Resource {
 			},
 
 			// Computed
+			"are_target_credentials_required": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -627,6 +631,10 @@ func (s *DataSafeMaskingPolicyResourceCrud) Delete() error {
 }
 
 func (s *DataSafeMaskingPolicyResourceCrud) SetData() error {
+	if s.Res.AreTargetCredentialsRequired != nil {
+		s.D.Set("are_target_credentials_required", *s.Res.AreTargetCredentialsRequired)
+	}
+
 	if s.Res.ColumnSource != nil {
 		columnSourceArray := []interface{}{}
 		if columnSourceMap := ColumnSourceDetailsToMap(&s.Res.ColumnSource); columnSourceMap != nil {
@@ -728,6 +736,17 @@ func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport() error {
 	if tablespace, ok := s.D.GetOkExists("tablespace"); ok {
 		tmp := tablespace.(string)
 		request.Tablespace = &tmp
+	}
+
+	if targetCredentials, ok := s.D.GetOkExists("target_credentials"); ok {
+		if tmpList := targetCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_credentials", 0)
+			tmp, err := s.mapToCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetCredentials = &tmp
+		}
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
@@ -928,4 +947,20 @@ func (s *DataSafeMaskingPolicyResourceCrud) updateCompartment(compartment interf
 	}
 
 	return nil
+}
+
+func (s *DataSafeMaskingPolicyResourceCrud) mapToCredentials(fieldKeyFormat string) (oci_data_safe.Credentials, error) {
+	result := oci_data_safe.Credentials{}
+
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		tmp := password.(string)
+		result.Password = &tmp
+	}
+
+	if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
+		tmp := userName.(string)
+		result.UserName = &tmp
+	}
+
+	return result, nil
 }
