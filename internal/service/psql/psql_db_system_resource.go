@@ -532,6 +532,16 @@ func PsqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_psql.DbSystemLifecycleStateInactive),
+					string(oci_psql.DbSystemLifecycleStateActive),
+				}, true),
+			},
 			"system_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -593,10 +603,6 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -618,8 +624,26 @@ func createPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, 
 	sync := &PsqlDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_psql.DbSystemLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_psql.DbSystemLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
+	}
+
+	if powerOff {
+		if err := sync.StopDbSystem(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		sync.D.Set("state", oci_psql.DbSystemLifecycleStateInactive)
+	}
+	return nil
+
 }
 
 func readPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -635,7 +659,36 @@ func updatePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, 
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PostgresqlClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_psql.DbSystemLifecycleStateActive == oci_psql.DbSystemLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_psql.DbSystemLifecycleStateInactive == oci_psql.DbSystemLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartDbSystem(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		sync.D.Set("state", oci_psql.DbSystemLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
+	}
+
+	if powerOff {
+		if err := sync.StopDbSystem(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		sync.D.Set("state", oci_psql.DbSystemLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deletePsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -1068,7 +1121,7 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -1086,7 +1139,7 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 		request.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
@@ -1351,6 +1404,60 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *PsqlDbSystemResourceCrud) StartDbSystem(ctx context.Context) error {
+	request := oci_psql.StartDbSystemRequest{}
+
+	if configId, ok := s.D.GetOkExists("config_id"); ok {
+		tmp := configId.(string)
+		request.ConfigId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.DbSystemId = &idTmp
+
+	if instanceMemorySizeInGBs, ok := s.D.GetOkExists("instance_memory_size_in_gbs"); ok {
+		tmp := instanceMemorySizeInGBs.(int)
+		request.InstanceMemorySizeInGBs = &tmp
+	}
+
+	if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok {
+		tmp := instanceOcpuCount.(int)
+		request.InstanceOcpuCount = &tmp
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+
+	_, err := s.Client.StartDbSystem(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_psql.DbSystemLifecycleStateActive }
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *PsqlDbSystemResourceCrud) StopDbSystem(ctx context.Context) error {
+	request := oci_psql.StopDbSystemRequest{}
+
+	idTmp := s.D.Id()
+	request.DbSystemId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+
+	_, err := s.Client.StopDbSystem(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_psql.DbSystemLifecycleStateInactive }
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword(ctx context.Context) error {
