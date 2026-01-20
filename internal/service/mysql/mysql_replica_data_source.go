@@ -153,6 +153,12 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.TelemetryConfiguration != nil {
+		s.D.Set("telemetry_configuration", []interface{}{TelemetryConfigurationDetailsToMap(s.Res.TelemetryConfiguration, true)})
+	} else {
+		s.D.Set("telemetry_configuration", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

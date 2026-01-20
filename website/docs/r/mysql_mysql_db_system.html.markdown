@@ -143,6 +143,20 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		# source_url = var.mysql_db_system_source_source_url
 		backup_id = oci_mysql_mysql_backup.test_backup.id
 	}
+	telemetry_configuration {
+
+		#Optional
+		logs {
+			#Required
+			destination = var.mysql_db_system_telemetry_configuration_logs_destination
+			destination_configurations {
+				#Required
+				key = var.mysql_db_system_telemetry_configuration_logs_destination_configurations_key
+				value = var.mysql_db_system_telemetry_configuration_logs_destination_configurations_value
+			}
+			log_types = var.mysql_db_system_telemetry_configuration_logs_log_types
+		}
+	}
 }
 ```
 
@@ -280,6 +294,13 @@ The following arguments are supported:
 	* `source_type` - (Required) The specific source identifier. Use `BACKUP` for creating a new database by restoring from a backup. Use `IMPORTURL` for creating a new database from a URL Object Storage PAR.
 	* `source_url` - (Required when source_type=IMPORTURL) The Pre-Authenticated Request (PAR) of a bucket/prefix or PAR of a @.manifest.json object from the Object Storage. Check [Using Pre-Authenticated Requests](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm) for information related to PAR creation. Please create PAR with "Permit object reads" access type and "Enable Object Listing" permission when using a bucket/prefix PAR. Please create PAR with "Permit object reads" access type when using a @.manifest.json object PAR. 
 * `subnet_id` - (Required) The OCID of the subnet the DB System is associated with. 
+* `telemetry_configuration` - (Optional) (Updatable) Details required to configure how MySQL telemetry should be exposed. 
+	* `logs` - (Optional) (Updatable) Telemetry configuration details for logging.
+		* `destination` - (Required) (Updatable) Type of destination where MySQL telemetry is exposed to. Use `LOG_ANALYTICS` to send logs to OCI Log Analytics.
+		* `destination_configurations` - (Required) (Updatable) List of configuration variables for a given destination type.
+		  	* `key` - (Required) (Updatable) Name of the destination configuration variable. Use `log-group-id` to  specify Log Analytics Log Group OCID. Also specify `log-set` when using the Log Partitioning feature of Log Analytics.
+			* `value` - (Required) (Updatable) Value of the destination configuration variable.
+		* `log_types` - (Required) (Updatable) List of MySQL telemetry types that can be exposed on a telemetry destination
 * `state` - (Optional) (Updatable) The target state for the DB System. Could be set to `ACTIVE` or `INACTIVE`. 
 * `shutdown_type` - (Optional) It is applicable only for stopping a DB System. Could be set to `FAST`, `SLOW` or `IMMEDIATE`. Default value is `FAST`.
 
@@ -491,6 +512,13 @@ The following attributes are exported:
 * `state` - The current state of the DB System.
 * `subnet_id` - The OCID of the subnet the DB System is associated with. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `telemetry_configuration` - Telemetry configuration details of a DB System or a read replica. 
+	* `logs` - Telemetry configuration details for logging.
+		* `destination` - Type of destination where MySQL telemetry is exposed to.
+		* `destination_configurations` - List of configuration variables for a given destination type.
+			* `key` - Name of the destination configuration variable.
+			* `value` - Value of the destination configuration variable.
+		* `log_types` - List of MySQL telemetry types that can be exposed on a telemetry destination
 * `time_created` - The date and time the DB System was created.
 * `time_updated` - The time the DB System was last updated.
 

@@ -195,6 +195,13 @@ The following attributes are exported:
 	* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 	* `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
 	* `subnet_id` - The OCID of the subnet the DB System is associated with. 
+	* `telemetry_configuration` - Telemetry configuration details of a DB System or a read replica. 
+		* `logs` - Telemetry configuration details for logging.
+			* `destination` - Type of destination where MySQL telemetry is exposed to.
+			* `destination_configurations` - List of configuration variables for a given destination type.
+				* `key` - Name of the destination configuration variable.
+				* `value` - Value of the destination configuration variable.
+			* `log_types` - List of MySQL telemetry types that can be exposed on a telemetry destination
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A user-supplied description for the backup.
 * `display_name` - A user-supplied display name for the backup.
