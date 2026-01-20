@@ -29,6 +29,7 @@ variable "compute_capacity_report_availability_domain" {
 
 variable "compute_capacity_report_shape_availabilities_fault_domain" {
   description = "FD in which to call API."
+  default = "FAULT-DOMAIN-1"
 }
 
 variable "compute_capacity_report_shape_availabilities_instance_shape_flex" {
@@ -48,4 +49,8 @@ variable "compute_capacity_report_shape_availabilities_instance_shape_config_nvm
 
 variable "compute_capacity_report_shape_availabilities_instance_shape_config_ocpus" {
   default = 1
+}
+
+variable "compute_capacity_report_shape_availabilities_instance_shape_config_baseline_ocpu_utilization" {
+  default = "BASELINE_1_8"
 }
