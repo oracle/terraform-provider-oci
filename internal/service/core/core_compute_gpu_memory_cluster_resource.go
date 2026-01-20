@@ -68,6 +68,38 @@ func CoreComputeGpuMemoryClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"gpu_memory_cluster_scale_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_upsize_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
+						"is_downsize_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"target_size": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"gpu_memory_fabric_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -219,6 +251,17 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if gpuMemoryClusterScaleConfig, ok := s.D.GetOkExists("gpu_memory_cluster_scale_config"); ok {
+		if tmpList := gpuMemoryClusterScaleConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "gpu_memory_cluster_scale_config", 0)
+			tmp, err := s.mapToCreateComputeGpuMemoryClusterScaleConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GpuMemoryClusterScaleConfig = &tmp
+		}
+	}
+
 	if gpuMemoryFabricId, ok := s.D.GetOkExists("gpu_memory_fabric_id"); ok {
 		tmp := gpuMemoryFabricId.(string)
 		request.GpuMemoryFabricId = &tmp
@@ -316,6 +359,17 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if gpuMemoryClusterScaleConfig, ok := s.D.GetOkExists("gpu_memory_cluster_scale_config"); ok {
+		if tmpList := gpuMemoryClusterScaleConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "gpu_memory_cluster_scale_config", 0)
+			tmp, err := s.mapToUpdateComputeGpuMemoryClusterScaleConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GpuMemoryClusterScaleConfig = &tmp
+		}
+	}
+
 	if instanceConfigurationId, ok := s.D.GetOkExists("instance_configuration_id"); ok {
 		tmp := instanceConfigurationId.(string)
 		request.InstanceConfigurationId = &tmp
@@ -394,6 +448,12 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GpuMemoryClusterScaleConfig != nil {
+		s.D.Set("gpu_memory_cluster_scale_config", []interface{}{ComputeGpuMemoryClusterScaleConfigToMap(s.Res.GpuMemoryClusterScaleConfig)})
+	} else {
+		s.D.Set("gpu_memory_cluster_scale_config", nil)
+	}
+
 	if s.Res.GpuMemoryFabricId != nil {
 		s.D.Set("gpu_memory_fabric_id", *s.Res.GpuMemoryFabricId)
 	}
@@ -452,6 +512,74 @@ func ComputeGpuMemoryClusterSummaryToMap(obj oci_core.ComputeGpuMemoryClusterSum
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func (s *CoreComputeGpuMemoryClusterResourceCrud) mapToCreateComputeGpuMemoryClusterScaleConfig(fieldKeyFormat string) (oci_core.CreateComputeGpuMemoryClusterScaleConfig, error) {
+	result := oci_core.CreateComputeGpuMemoryClusterScaleConfig{}
+
+	if isDownsizeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_downsize_enabled")); ok {
+		tmp := isDownsizeEnabled.(bool)
+		result.IsDownsizeEnabled = &tmp
+	}
+
+	if isUpsizeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_upsize_enabled")); ok {
+		tmp := isUpsizeEnabled.(bool)
+		result.IsUpsizeEnabled = &tmp
+	}
+
+	if targetSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_size")); ok {
+		tmp := targetSize.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert targetSize string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.TargetSize = &tmpInt64
+	}
+
+	return result, nil
+}
+
+func (s *CoreComputeGpuMemoryClusterResourceCrud) mapToUpdateComputeGpuMemoryClusterScaleConfig(fieldKeyFormat string) (oci_core.UpdateComputeGpuMemoryClusterScaleConfig, error) {
+	result := oci_core.UpdateComputeGpuMemoryClusterScaleConfig{}
+
+	if isDownsizeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_downsize_enabled")); ok {
+		tmp := isDownsizeEnabled.(bool)
+		result.IsDownsizeEnabled = &tmp
+	}
+
+	if isUpsizeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_upsize_enabled")); ok {
+		tmp := isUpsizeEnabled.(bool)
+		result.IsUpsizeEnabled = &tmp
+	}
+
+	if targetSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_size")); ok {
+		tmp := targetSize.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert targetSize string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.TargetSize = &tmpInt64
+	}
+
+	return result, nil
+}
+
+func ComputeGpuMemoryClusterScaleConfigToMap(obj *oci_core.ComputeGpuMemoryClusterScaleConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDownsizeEnabled != nil {
+		result["is_downsize_enabled"] = bool(*obj.IsDownsizeEnabled)
+	}
+
+	if obj.IsUpsizeEnabled != nil {
+		result["is_upsize_enabled"] = bool(*obj.IsUpsizeEnabled)
+	}
+
+	if obj.TargetSize != nil {
+		result["target_size"] = strconv.FormatInt(*obj.TargetSize, 10)
 	}
 
 	return result
