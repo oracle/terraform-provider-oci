@@ -193,6 +193,7 @@ The following arguments are supported:
 	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
 	* `system_type` - (Required) Type of the database system.
 * `system_type` - (Optional) Type of the database system.
+* `state` - (Optional) (Updatable) The target state for the Db System. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
 ** IMPORTANT **

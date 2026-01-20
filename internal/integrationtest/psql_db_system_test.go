@@ -78,7 +78,8 @@ var (
 		"management_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyRepresentation},
 		"odsp_insight_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemOdspInsightDetailsRepresentation},
 		"source":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemSourceRepresentation},
-		"system_type":                 acctest.Representation{RepType: acctest.Required, Create: `OCI_OPTIMIZED_STORAGE`},
+		"system_type":                 acctest.Representation{RepType: acctest.Optional, Create: `OCI_OPTIMIZED_STORAGE`},
+		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignorePsqlDefinedTagsChangesRepresentation},
 	}
 	ignorePsqlDefinedTagsChangesRepresentation = map[string]interface{}{
@@ -668,6 +669,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.0.odsp_insight_list.0.retention_period_in_days", "7"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard.E5.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_details.0.iops", "300000"),
