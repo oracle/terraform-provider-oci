@@ -662,6 +662,70 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"telemetry_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 0,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"logs": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MinItems: 0,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"destination": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"destination_configurations": {
+													Type:     schema.TypeSet,
+													Required: true,
+													Set:      destinationConfigurationsHashCodeForSets,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"key": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"log_types": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 					},
 				},
 			},
@@ -1483,6 +1547,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.TelemetryConfiguration != nil {
+		result["telemetry_configuration"] = []interface{}{TelemetryConfigurationDetailsToMap(obj.TelemetryConfiguration, datasource)}
 	}
 
 	return result

@@ -36,6 +36,20 @@ resource "oci_mysql_replica" "test_replica" {
 		nsg_ids = var.replica_replica_overrides_nsg_ids
 		security_attributes = var.replica_replica_overrides_security_attributes
 		shape_name = oci_mysql_shape.test_shape.name
+		telemetry_configuration {
+
+			#Optional
+			logs {
+				#Required
+				destination = var.replica_replica_overrides_telemetry_configuration_logs_destination
+				destination_configurations {
+					#Required
+					key = var.replica_replica_overrides_telemetry_configuration_logs_destination_configurations_key
+					value = var.replica_replica_overrides_telemetry_configuration_logs_destination_configurations_value
+				}
+				log_types = var.replica_replica_overrides_telemetry_configuration_logs_log_types
+			}
+		}
 	}
 }
 ```
@@ -56,6 +70,13 @@ The following arguments are supported:
 	* `nsg_ids` - (Optional) (Updatable) Network Security Group OCIDs used for the VNIC attachment.
 	* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 	* `shape_name` - (Optional) (Updatable) The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
+	* `telemetry_configuration` - (Optional) (Updatable) Telemetry configuration details of a DB System or a read replica. 
+		* `logs` - (Optional) (Updatable) Telemetry configuration details for logging.
+		* `destination` - (Required) (Updatable) Type of destination where MySQL telemetry is exposed to. Use `LOG_ANALYTICS` to send logs to Log Analytics.
+			* `destination_configurations` - (Required) (Updatable) List of configuration variables for a given destination type.
+				* `key` - (Required) (Updatable) Name of the destination configuration variable. Use `log-group-id` to  specify Log Analytics Log Group OCID. Also specify `log-set` when using the Log Partitioning feature of Log Analytics. 
+				* `value` - (Required) (Updatable) Value of the destination configuration variable.
+			* `log_types` - (Required) (Updatable) List of MySQL telemetry types that can be exposed on a telemetry destination
 
 
 ** IMPORTANT **
@@ -91,12 +112,26 @@ The following attributes are exported:
 	* `nsg_ids` - Network Security Group OCIDs used for the VNIC attachment.
 	* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 	* `shape_name` - The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
+	* `telemetry_configuration` - Telemetry configuration details of a DB System or a read replica. 
+		* `logs` - Telemetry configuration details for logging.
+			* `destination` - Type of destination where MySQL telemetry is exposed to.
+			* `destination_configurations` - List of configuration variables for a given destination type.
+				* `key` - Name of the destination configuration variable.
+				* `value` - Value of the destination configuration variable.
+			* `log_types` - List of MySQL telemetry types that can be exposed on a telemetry destination
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [ZPR Artifacts](https://docs.oracle.com/en-us/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape_name` - The shape currently in use by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `state` - The state of the read replica.
+* `telemetry_configuration` - Telemetry configuration details of a DB System or a read replica. 
+	* `logs` - Telemetry configuration details for logging.
+		* `destination` - Type of destination where MySQL telemetry is exposed to.
+		* `destination_configurations` - List of configuration variables for a given destination type.
+			* `key` - Name of the destination configuration variable.
+			* `value` - Value of the destination configuration variable.
+		* `log_types` - List of MySQL telemetry types that can be exposed on a telemetry destination
 * `time_created` - The date and time the read replica was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The time the read replica was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 
