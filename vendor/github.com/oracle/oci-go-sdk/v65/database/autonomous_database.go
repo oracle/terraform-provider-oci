@@ -57,6 +57,8 @@ type AutonomousDatabase struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
+
 	// The character set for the Autonomous AI Database.  The default is AL32UTF8. Allowed values are:
 	// AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS
 	CharacterSet *string `mandatory:"false" json:"characterSet"`
@@ -245,6 +247,9 @@ type AutonomousDatabase struct {
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
+	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
+	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
+	// For new databases, it is recommended to use either 19c or 26ai.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// Indicates if the Autonomous AI Database version is a preview version.
@@ -447,7 +452,7 @@ type AutonomousDatabase struct {
 
 	AutonomousDatabaseMaintenanceWindow *AutonomousDatabaseMaintenanceWindowSummary `mandatory:"false" json:"autonomousDatabaseMaintenanceWindow"`
 
-	// The date until which maintenance of Autonomous AI Database is temporarily paused.
+	// The date until which Autonomous AI Database maintenance is temporarily paused.
 	TimeMaintenancePauseUntil *common.SDKTime `mandatory:"false" json:"timeMaintenancePauseUntil"`
 
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -595,6 +600,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		KmsKeyLifecycleDetails                  *string                                                 `json:"kmsKeyLifecycleDetails"`
 		EncryptionKey                           autonomousdatabaseencryptionkeydetails                  `json:"encryptionKey"`
 		KmsKeyVersionId                         *string                                                 `json:"kmsKeyVersionId"`
+		EncryptionKeyLocationDetails            encryptionkeylocationdetails                            `json:"encryptionKeyLocationDetails"`
 		CharacterSet                            *string                                                 `json:"characterSet"`
 		NcharacterSet                           *string                                                 `json:"ncharacterSet"`
 		InMemoryPercentage                      *int                                                    `json:"inMemoryPercentage"`
@@ -753,6 +759,16 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
 
 	m.CharacterSet = model.CharacterSet
 
@@ -1043,6 +1059,7 @@ const (
 	AutonomousDatabaseLifecycleStateUpgrading               AutonomousDatabaseLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseLifecycleStateInaccessible            AutonomousDatabaseLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseLifecycleStateStandby                 AutonomousDatabaseLifecycleStateEnum = "STANDBY"
+	AutonomousDatabaseLifecycleStateTransporting            AutonomousDatabaseLifecycleStateEnum = "TRANSPORTING"
 )
 
 var mappingAutonomousDatabaseLifecycleStateEnum = map[string]AutonomousDatabaseLifecycleStateEnum{
@@ -1067,6 +1084,7 @@ var mappingAutonomousDatabaseLifecycleStateEnum = map[string]AutonomousDatabaseL
 	"UPGRADING":                 AutonomousDatabaseLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseLifecycleStateStandby,
+	"TRANSPORTING":              AutonomousDatabaseLifecycleStateTransporting,
 }
 
 var mappingAutonomousDatabaseLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseLifecycleStateEnum{
@@ -1091,6 +1109,7 @@ var mappingAutonomousDatabaseLifecycleStateEnumLowerCase = map[string]Autonomous
 	"upgrading":                 AutonomousDatabaseLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseLifecycleStateStandby,
+	"transporting":              AutonomousDatabaseLifecycleStateTransporting,
 }
 
 // GetAutonomousDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseLifecycleStateEnum
@@ -1126,6 +1145,7 @@ func GetAutonomousDatabaseLifecycleStateEnumStringValues() []string {
 		"UPGRADING",
 		"INACCESSIBLE",
 		"STANDBY",
+		"TRANSPORTING",
 	}
 }
 

@@ -125,6 +125,8 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	GetKeyStoreId() *string
 
+	GetEncryptionKeyLocationDetails() EncryptionKeyLocationDetails
+
 	// The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	GetDbSplitThreshold() *int
 
@@ -172,6 +174,7 @@ type createautonomouscontainerdatabasebase struct {
 	KmsKeyVersionId                              *string                                                            `mandatory:"false" json:"kmsKeyVersionId"`
 	VaultId                                      *string                                                            `mandatory:"false" json:"vaultId"`
 	KeyStoreId                                   *string                                                            `mandatory:"false" json:"keyStoreId"`
+	EncryptionKeyLocationDetails                 encryptionkeylocationdetails                                       `mandatory:"false" json:"encryptionKeyLocationDetails"`
 	DbSplitThreshold                             *int                                                               `mandatory:"false" json:"dbSplitThreshold"`
 	VmFailoverReservation                        *int                                                               `mandatory:"false" json:"vmFailoverReservation"`
 	DistributionAffinity                         CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum      `mandatory:"false" json:"distributionAffinity,omitempty"`
@@ -226,6 +229,7 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalJSON(data []byte) error
 	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
 	m.VaultId = s.Model.VaultId
 	m.KeyStoreId = s.Model.KeyStoreId
+	m.EncryptionKeyLocationDetails = s.Model.EncryptionKeyLocationDetails
 	m.DbSplitThreshold = s.Model.DbSplitThreshold
 	m.VmFailoverReservation = s.Model.VmFailoverReservation
 	m.DistributionAffinity = s.Model.DistributionAffinity
@@ -416,6 +420,11 @@ func (m createautonomouscontainerdatabasebase) GetVaultId() *string {
 // GetKeyStoreId returns KeyStoreId
 func (m createautonomouscontainerdatabasebase) GetKeyStoreId() *string {
 	return m.KeyStoreId
+}
+
+// GetEncryptionKeyLocationDetails returns EncryptionKeyLocationDetails
+func (m createautonomouscontainerdatabasebase) GetEncryptionKeyLocationDetails() encryptionkeylocationdetails {
+	return m.EncryptionKeyLocationDetails
 }
 
 // GetDbSplitThreshold returns DbSplitThreshold
