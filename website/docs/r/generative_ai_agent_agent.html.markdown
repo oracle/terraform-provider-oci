@@ -36,7 +36,17 @@ resource "oci_generative_ai_agent_agent" "test_agent" {
 
 			#Optional
 			instruction = var.agent_llm_config_routing_llm_customization_instruction
+			llm_hyper_parameters = var.agent_llm_config_routing_llm_customization_llm_hyper_parameters
+			llm_selection {
+				#Required
+				llm_selection_type = var.agent_llm_config_routing_llm_customization_llm_selection_llm_selection_type
+
+				#Optional
+				endpoint_id = oci_ai_language_endpoint.test_endpoint.id
+				model_id = oci_ai_document_model.test_model.id
+			}
 		}
+		runtime_version = var.agent_llm_config_runtime_version
 	}
 	welcome_message = var.agent_welcome_message
 }
@@ -55,6 +65,12 @@ The following arguments are supported:
 * `llm_config` - (Optional) (Updatable) Configuration to Agent LLM. 
 	* `routing_llm_customization` - (Optional) (Updatable) Configuration to customize LLM. 
 		* `instruction` - (Optional) (Updatable) If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - (Optional) (Updatable) Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - (Optional) (Updatable) LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_ENDPOINT) (Updatable) The OCID of the GenAI endpoint
+			* `llm_selection_type` - (Required) (Updatable) Type of LLM selection
+			* `model_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_MODEL) (Updatable) The OCID of the GenAI model
+	* `runtime_version` - (Optional) (Updatable) The runtimeVersion of the system prompt.
 * `welcome_message` - (Optional) (Updatable) Details about purpose and responsibility of the agent
 
 
@@ -76,6 +92,12 @@ The following attributes are exported:
 * `llm_config` - Configuration to Agent LLM. 
 	* `routing_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `runtime_version` - The runtimeVersion of the system prompt.
 * `state` - The current state of the agent.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the agent was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

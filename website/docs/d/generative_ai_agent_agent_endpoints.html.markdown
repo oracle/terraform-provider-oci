@@ -76,6 +76,14 @@ The following attributes are exported:
 		* `output_location_type` - Type of OutputLocation.
 		* `prefix` - The prefix of the object storage.
 	* `retention_period_in_minutes` - Retention duration of the output data.
+* `provisioned_capacity_config` - The configuration includes the provisioned capacity id and component runtime (tool versions, and other relevant information). 
+	* `platform_runtime_config` - Configuration for agent platform component.
+		* `platform_runtime_config_type` - The type of Platform runtime config. 
+		* `version` - The version of the Core. The latest version will be displayed as default.
+	* `provisioned_capacity_id` - An OCID that uniquely identifies an Provisioned Capacity.
+	* `tool_runtime_configs` - RAG and SQL will be tools.
+		* `tool_runtime_config_type` - The type of the tool.
+		* `version` - The version of the components.
 * `session_config` - Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - The session will become inactive after this timeout.
 * `should_enable_citation` - Whether to show citations in the chat result.
