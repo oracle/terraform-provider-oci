@@ -91,6 +91,7 @@ const (
 	AutonomousDatabaseStandbySummaryLifecycleStateUpgrading               AutonomousDatabaseStandbySummaryLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseStandbySummaryLifecycleStateInaccessible            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseStandbySummaryLifecycleStateStandby                 AutonomousDatabaseStandbySummaryLifecycleStateEnum = "STANDBY"
+	AutonomousDatabaseStandbySummaryLifecycleStateTransporting            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "TRANSPORTING"
 )
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -115,6 +116,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]Auton
 	"UPGRADING":                 AutonomousDatabaseStandbySummaryLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
+	"TRANSPORTING":              AutonomousDatabaseStandbySummaryLifecycleStateTransporting,
 }
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -139,6 +141,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[str
 	"upgrading":                 AutonomousDatabaseStandbySummaryLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
+	"transporting":              AutonomousDatabaseStandbySummaryLifecycleStateTransporting,
 }
 
 // GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseStandbySummaryLifecycleStateEnum
@@ -174,6 +177,7 @@ func GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues() []strin
 		"UPGRADING",
 		"INACCESSIBLE",
 		"STANDBY",
+		"TRANSPORTING",
 	}
 }
 

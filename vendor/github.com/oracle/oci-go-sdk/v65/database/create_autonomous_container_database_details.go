@@ -111,6 +111,8 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
+
 	// The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	DbSplitThreshold *int `mandatory:"false" json:"dbSplitThreshold"`
 
@@ -308,6 +310,11 @@ func (m CreateAutonomousContainerDatabaseDetails) GetKeyStoreId() *string {
 	return m.KeyStoreId
 }
 
+// GetEncryptionKeyLocationDetails returns EncryptionKeyLocationDetails
+func (m CreateAutonomousContainerDatabaseDetails) GetEncryptionKeyLocationDetails() EncryptionKeyLocationDetails {
+	return m.EncryptionKeyLocationDetails
+}
+
 // GetDbSplitThreshold returns DbSplitThreshold
 func (m CreateAutonomousContainerDatabaseDetails) GetDbSplitThreshold() *int {
 	return m.DbSplitThreshold
@@ -374,4 +381,142 @@ func (m CreateAutonomousContainerDatabaseDetails) MarshalJSON() (buff []byte, e 
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateAutonomousContainerDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CustomerContacts                             []CustomerContact                                                  `json:"customerContacts"`
+		OkvEndPointGroupName                         *string                                                            `json:"okvEndPointGroupName"`
+		DbUniqueName                                 *string                                                            `json:"dbUniqueName"`
+		DbName                                       *string                                                            `json:"dbName"`
+		ServiceLevelAgreementType                    CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum `json:"serviceLevelAgreementType"`
+		AutonomousExadataInfrastructureId            *string                                                            `json:"autonomousExadataInfrastructureId"`
+		DbVersion                                    *string                                                            `json:"dbVersion"`
+		DatabaseSoftwareImageId                      *string                                                            `json:"databaseSoftwareImageId"`
+		PeerAutonomousExadataInfrastructureId        *string                                                            `json:"peerAutonomousExadataInfrastructureId"`
+		PeerAutonomousContainerDatabaseDisplayName   *string                                                            `json:"peerAutonomousContainerDatabaseDisplayName"`
+		ProtectionMode                               CreateAutonomousContainerDatabaseBaseProtectionModeEnum            `json:"protectionMode"`
+		FastStartFailOverLagLimitInSeconds           *int                                                               `json:"fastStartFailOverLagLimitInSeconds"`
+		IsAutomaticFailoverEnabled                   *bool                                                              `json:"isAutomaticFailoverEnabled"`
+		PeerCloudAutonomousVmClusterId               *string                                                            `json:"peerCloudAutonomousVmClusterId"`
+		PeerAutonomousVmClusterId                    *string                                                            `json:"peerAutonomousVmClusterId"`
+		PeerAutonomousContainerDatabaseCompartmentId *string                                                            `json:"peerAutonomousContainerDatabaseCompartmentId"`
+		PeerAutonomousContainerDatabaseBackupConfig  *PeerAutonomousContainerDatabaseBackupConfig                       `json:"peerAutonomousContainerDatabaseBackupConfig"`
+		PeerDbUniqueName                             *string                                                            `json:"peerDbUniqueName"`
+		AutonomousVmClusterId                        *string                                                            `json:"autonomousVmClusterId"`
+		CloudAutonomousVmClusterId                   *string                                                            `json:"cloudAutonomousVmClusterId"`
+		CompartmentId                                *string                                                            `json:"compartmentId"`
+		MaintenanceWindowDetails                     *MaintenanceWindow                                                 `json:"maintenanceWindowDetails"`
+		StandbyMaintenanceBufferInDays               *int                                                               `json:"standbyMaintenanceBufferInDays"`
+		VersionPreference                            CreateAutonomousContainerDatabaseBaseVersionPreferenceEnum         `json:"versionPreference"`
+		IsDstFileUpdateEnabled                       *bool                                                              `json:"isDstFileUpdateEnabled"`
+		FreeformTags                                 map[string]string                                                  `json:"freeformTags"`
+		DefinedTags                                  map[string]map[string]interface{}                                  `json:"definedTags"`
+		BackupConfig                                 *AutonomousContainerDatabaseBackupConfig                           `json:"backupConfig"`
+		KmsKeyId                                     *string                                                            `json:"kmsKeyId"`
+		KmsKeyVersionId                              *string                                                            `json:"kmsKeyVersionId"`
+		VaultId                                      *string                                                            `json:"vaultId"`
+		KeyStoreId                                   *string                                                            `json:"keyStoreId"`
+		EncryptionKeyLocationDetails                 encryptionkeylocationdetails                                       `json:"encryptionKeyLocationDetails"`
+		DbSplitThreshold                             *int                                                               `json:"dbSplitThreshold"`
+		VmFailoverReservation                        *int                                                               `json:"vmFailoverReservation"`
+		DistributionAffinity                         CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum      `json:"distributionAffinity"`
+		NetServicesArchitecture                      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum   `json:"netServicesArchitecture"`
+		DisplayName                                  *string                                                            `json:"displayName"`
+		PatchModel                                   CreateAutonomousContainerDatabaseBasePatchModelEnum                `json:"patchModel"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
+	m.OkvEndPointGroupName = model.OkvEndPointGroupName
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DbName = model.DbName
+
+	m.ServiceLevelAgreementType = model.ServiceLevelAgreementType
+
+	m.AutonomousExadataInfrastructureId = model.AutonomousExadataInfrastructureId
+
+	m.DbVersion = model.DbVersion
+
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.PeerAutonomousExadataInfrastructureId = model.PeerAutonomousExadataInfrastructureId
+
+	m.PeerAutonomousContainerDatabaseDisplayName = model.PeerAutonomousContainerDatabaseDisplayName
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.FastStartFailOverLagLimitInSeconds = model.FastStartFailOverLagLimitInSeconds
+
+	m.IsAutomaticFailoverEnabled = model.IsAutomaticFailoverEnabled
+
+	m.PeerCloudAutonomousVmClusterId = model.PeerCloudAutonomousVmClusterId
+
+	m.PeerAutonomousVmClusterId = model.PeerAutonomousVmClusterId
+
+	m.PeerAutonomousContainerDatabaseCompartmentId = model.PeerAutonomousContainerDatabaseCompartmentId
+
+	m.PeerAutonomousContainerDatabaseBackupConfig = model.PeerAutonomousContainerDatabaseBackupConfig
+
+	m.PeerDbUniqueName = model.PeerDbUniqueName
+
+	m.AutonomousVmClusterId = model.AutonomousVmClusterId
+
+	m.CloudAutonomousVmClusterId = model.CloudAutonomousVmClusterId
+
+	m.CompartmentId = model.CompartmentId
+
+	m.MaintenanceWindowDetails = model.MaintenanceWindowDetails
+
+	m.StandbyMaintenanceBufferInDays = model.StandbyMaintenanceBufferInDays
+
+	m.VersionPreference = model.VersionPreference
+
+	m.IsDstFileUpdateEnabled = model.IsDstFileUpdateEnabled
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.BackupConfig = model.BackupConfig
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.KeyStoreId = model.KeyStoreId
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.DbSplitThreshold = model.DbSplitThreshold
+
+	m.VmFailoverReservation = model.VmFailoverReservation
+
+	m.DistributionAffinity = model.DistributionAffinity
+
+	m.NetServicesArchitecture = model.NetServicesArchitecture
+
+	m.DisplayName = model.DisplayName
+
+	m.PatchModel = model.PatchModel
+
+	return
 }
