@@ -729,6 +729,22 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
+			"transportable_tablespace": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"tts_bundle_url": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+					},
+				},
+			},
 			"use_latest_available_backup_time_stamp": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1097,6 +1113,35 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							},
 						},
 						"time_activated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"encryption_key_location_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"aws_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"azure_encryption_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"hsm_password": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"provider_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1861,6 +1906,14 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	if _, ok := sync.D.GetOkExists("transportable_tablespace"); ok && sync.D.HasChange("transportable_tablespace") {
+		err := sync.ImportTransportableTablespace()
+
+		if err != nil {
+			return err
+		}
+	}
+
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
 	}
@@ -1936,6 +1989,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 		string(oci_database.AutonomousDatabaseLifecycleStateMaintenanceInProgress),
 		string(oci_database.AutonomousDatabaseLifecycleStateRestarting),
 		string(oci_database.AutonomousDatabaseLifecycleStateUpgrading),
+		string(oci_database.AutonomousDatabaseLifecycleStateTransporting),
 	}
 }
 
@@ -2732,6 +2786,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
+	//todo check the reason for why this change was commented out.
 	s.D.Set("dataguard_region_type", s.Res.DataguardRegionType)
 
 	if s.Res.DbName != nil {
@@ -2775,6 +2830,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		encryptionKeyHistoryEntry = append(encryptionKeyHistoryEntry, AutonomousDatabaseEncryptionKeyHistoryEntryToMap(item))
 	}
 	s.D.Set("encryption_key_history_entry", encryptionKeyHistoryEntry)
+
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		encryptionKeyLocationDetailsArray := []interface{}{}
+		if encryptionKeyLocationDetailsMap := AdbdEncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+			encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+		}
+		s.D.Set("encryption_key_location_details", encryptionKeyLocationDetailsArray)
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
+	}
 
 	if s.Res.FailedDataRecoveryInSeconds != nil {
 		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
@@ -3168,6 +3233,36 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	s.D.Set("whitelisted_ips", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, whitelistedIps))
 
 	s.D.Set("clone_type", s.Res.CloneType)
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) ImportTransportableTablespace() error {
+	request := oci_database.ImportTransportableTablespaceRequest{}
+
+	idTmp := s.D.Id()
+	request.AutonomousDatabaseId = &idTmp
+
+	if v, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+		ttsList := v.([]interface{})
+		if len(ttsList) > 0 && ttsList[0] != nil {
+			ttsMap := ttsList[0].(map[string]interface{})
+			ttsBundleURL := ttsMap["tts_bundle_url"].(string)
+			request.TtsBundleUrl = &ttsBundleURL
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.ImportTransportableTablespace(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	s.Res = &response.AutonomousDatabase
 	return nil
 }
 
@@ -3721,6 +3816,55 @@ func DisasterRecoveryConfigurationToMap(obj *oci_database.DisasterRecoveryConfig
 	return result
 }
 
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToImportTransportableTablespaceDetails(fieldKeyFormat string) (oci_database.ImportTransportableTablespaceDetails, error) {
+	result := oci_database.ImportTransportableTablespaceDetails{}
+
+	if ttsBundleUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tts_bundle_url")); ok {
+		tmp := ttsBundleUrl.(string)
+		result.TtsBundleUrl = &tmp
+	}
+
+	return result, nil
+}
+
+func ImportTransportableTablespaceDetailsToMap(obj *oci_database.ImportTransportableTablespaceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TtsBundleUrl != nil {
+		result["tts_bundle_url"] = string(*obj.TtsBundleUrl)
+	}
+
+	return result
+}
+
+func AdbdEncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database.AwsEncryptionKeyDetails:
+		result["provider_type"] = "AWS"
+
+		if v.AwsEncryptionKeyId != nil {
+			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
+	case oci_database.AzureEncryptionKeyDetails:
+		result["provider_type"] = "AZURE"
+
+		if v.AzureEncryptionKeyId != nil {
+			result["azure_encryption_key_id"] = string(*v.AzureEncryptionKeyId)
+		}
+	case oci_database.ExternalHsmEncryptionDetails:
+		result["provider_type"] = "EXTERNAL"
+
+		if v.HsmPassword != nil {
+			result["hsm_password"] = string(*v.HsmPassword)
+		}
+	default:
+		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
+		return nil
+	}
+	return result
+}
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDetails(fieldKeyFormat string) (oci_database.LongTermBackUpScheduleDetails, error) {
 	result := oci_database.LongTermBackUpScheduleDetails{}
 
@@ -4212,6 +4356,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4540,6 +4694,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4866,6 +5030,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 			details.TimeOfAutoRefreshStart = &oci_common.SDKTime{Time: tmp}
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5142,6 +5316,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
+		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5426,6 +5610,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5695,6 +5889,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
+		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6005,6 +6209,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6304,6 +6518,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6575,6 +6799,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if transportableTablespace, ok := s.D.GetOkExists("transportable_tablespace"); ok {
+			if tmpList := transportableTablespace.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "transportable_tablespace", 0)
+				tmp, err := s.mapToImportTransportableTablespaceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.TransportableTablespace = &tmp
+			}
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
