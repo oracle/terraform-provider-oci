@@ -1544,7 +1544,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) updateCompartment(compartment int
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
 		return waitErr
 	}
 
