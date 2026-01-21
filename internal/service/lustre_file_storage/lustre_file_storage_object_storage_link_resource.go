@@ -650,7 +650,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartExportToObject() e
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -674,7 +674,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StartImportFromObject()
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -698,7 +698,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopExportToObject() er
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -722,7 +722,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) StopImportFromObject() 
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -819,7 +819,7 @@ func (s *LustreFileStorageObjectStorageLinkResourceCrud) updateCompartment(ctx c
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
