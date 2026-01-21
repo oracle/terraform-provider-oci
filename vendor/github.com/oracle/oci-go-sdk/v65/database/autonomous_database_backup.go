@@ -76,6 +76,9 @@ type AutonomousDatabaseBackup struct {
 	TimeAvailableTill *common.SDKTime `mandatory:"false" json:"timeAvailableTill"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
+	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
+	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
+	// For new databases, it is recommended to use either 19c or 26ai.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// The backup size in terrabytes (TB).

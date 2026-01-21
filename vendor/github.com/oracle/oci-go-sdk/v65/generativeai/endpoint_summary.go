@@ -63,6 +63,10 @@ type EndpointSummary struct {
 
 	ContentModerationConfig *ContentModerationConfig `mandatory:"false" json:"contentModerationConfig"`
 
+	PromptInjectionConfig *PromptInjectionConfig `mandatory:"false" json:"promptInjectionConfig"`
+
+	PiiDetectionConfig *PiiDetectionConfig `mandatory:"false" json:"piiDetectionConfig"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

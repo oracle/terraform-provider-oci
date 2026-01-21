@@ -673,7 +673,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan(ctx context.Context) 
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -699,12 +699,12 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.VerifyDrPlan(context.Background(), request)
+	response, err := s.Client.VerifyDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

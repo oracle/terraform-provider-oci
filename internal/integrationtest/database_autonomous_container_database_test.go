@@ -288,6 +288,9 @@ var (
 			"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
 			"failover_trigger": acctest.Representation{RepType: acctest.Required, Create: `1`},
 		}))
+	autonomousDatabaseRepresentationForDbVersion = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationDeveloper, map[string]interface{}{
+		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `23ai`},
+	})
 )
 
 // multi standby test

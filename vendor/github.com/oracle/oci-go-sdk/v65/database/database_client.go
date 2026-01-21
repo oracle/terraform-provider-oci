@@ -6022,7 +6022,7 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 
 // DbNodeAction Performs one of the following power actions on the specified DB node:
 // - start - power on
-// - stop - power off
+// - stop - power off gracefully
 // - softreset - ACPI shutdown and power on
 // - reset - power off and power on
 // **Note:** Stopping a node affects billing differently, depending on the type of DB system:
@@ -8884,6 +8884,68 @@ func (client DatabaseClient) disablePluggableDatabaseManagement(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/DisablePluggableDatabaseManagement"
 		err = common.PostProcessServiceError(err, "Database", "DisablePluggableDatabaseManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadDbConnectionBundle Downloads the specified database connection bundle content.
+// The bundle is returned as a binary file containing the connection details.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadDbConnectionBundle.go.html to see an example of how to use DownloadDbConnectionBundle API.
+func (client DatabaseClient) DownloadDbConnectionBundle(ctx context.Context, request DownloadDbConnectionBundleRequest) (response DownloadDbConnectionBundleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.downloadDbConnectionBundle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadDbConnectionBundleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadDbConnectionBundleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadDbConnectionBundleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadDbConnectionBundleResponse")
+	}
+	return
+}
+
+// downloadDbConnectionBundle implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) downloadDbConnectionBundle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbConnectionBundles/{dbConnectionBundleId}/actions/download", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadDbConnectionBundleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/DownloadDbConnectionBundle"
+		err = common.PostProcessServiceError(err, "Database", "DownloadDbConnectionBundle", apiReferenceLink)
 		return response, err
 	}
 
@@ -12195,6 +12257,63 @@ func (client DatabaseClient) getDatabaseUpgradeHistoryEntry(ctx context.Context,
 	return response, err
 }
 
+// GetDbConnectionBundle Gets information about the specified database connection bundle.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbConnectionBundle.go.html to see an example of how to use GetDbConnectionBundle API.
+func (client DatabaseClient) GetDbConnectionBundle(ctx context.Context, request GetDbConnectionBundleRequest) (response GetDbConnectionBundleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbConnectionBundle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbConnectionBundleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbConnectionBundleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbConnectionBundleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbConnectionBundleResponse")
+	}
+	return
+}
+
+// getDbConnectionBundle implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDbConnectionBundle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbConnectionBundles/{dbConnectionBundleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbConnectionBundleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/GetDbConnectionBundle"
+		err = common.PostProcessServiceError(err, "Database", "GetDbConnectionBundle", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDbHome Gets information about the specified Database Home.
 //
 // # See also
@@ -14658,6 +14777,68 @@ func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context,
 	return response, err
 }
 
+// ImportTransportableTablespace Imports transportable tablespace for the specified Autonomous AI Database.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ImportTransportableTablespace.go.html to see an example of how to use ImportTransportableTablespace API.
+func (client DatabaseClient) ImportTransportableTablespace(ctx context.Context, request ImportTransportableTablespaceRequest) (response ImportTransportableTablespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importTransportableTablespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportTransportableTablespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportTransportableTablespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportTransportableTablespaceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportTransportableTablespaceResponse")
+	}
+	return
+}
+
+// importTransportableTablespace implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) importTransportableTablespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/importTransportableTablespace", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportTransportableTablespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ImportTransportableTablespace"
+		err = common.PostProcessServiceError(err, "Database", "ImportTransportableTablespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LaunchAutonomousExadataInfrastructure **Deprecated** To create a new Autonomous AI Database system on dedicated Exadata Infrastructure, use the CreateCloudExadataInfrastructure and CreateCloudAutonomousVmCluster operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
 //
 // # See also
@@ -16778,6 +16959,63 @@ func (client DatabaseClient) listDatabases(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListDatabases"
 		err = common.PostProcessServiceError(err, "Database", "ListDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbConnectionBundles Lists all database connection bundles that match the query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbConnectionBundles.go.html to see an example of how to use ListDbConnectionBundles API.
+func (client DatabaseClient) ListDbConnectionBundles(ctx context.Context, request ListDbConnectionBundlesRequest) (response ListDbConnectionBundlesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbConnectionBundles, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbConnectionBundlesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbConnectionBundlesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbConnectionBundlesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbConnectionBundlesResponse")
+	}
+	return
+}
+
+// listDbConnectionBundles implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbConnectionBundles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbConnectionBundles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbConnectionBundlesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbConnectionBundle/ListDbConnectionBundles"
+		err = common.PostProcessServiceError(err, "Database", "ListDbConnectionBundles", apiReferenceLink)
 		return response, err
 	}
 
@@ -20507,6 +20745,68 @@ func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Cont
 	return response, err
 }
 
+// RegisterCloudAutonomousVmClusterPkcs Install the PKCS11 driver for given keystore type
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RegisterCloudAutonomousVmClusterPkcs.go.html to see an example of how to use RegisterCloudAutonomousVmClusterPkcs API.
+func (client DatabaseClient) RegisterCloudAutonomousVmClusterPkcs(ctx context.Context, request RegisterCloudAutonomousVmClusterPkcsRequest) (response RegisterCloudAutonomousVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerCloudAutonomousVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterCloudAutonomousVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterCloudAutonomousVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterCloudAutonomousVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterCloudAutonomousVmClusterPkcsResponse")
+	}
+	return
+}
+
+// registerCloudAutonomousVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) registerCloudAutonomousVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/registerPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterCloudAutonomousVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/RegisterCloudAutonomousVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "RegisterCloudAutonomousVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RegisterCloudVmClusterPkcs Install the PKCS11 driver for given keystore type
 //
 // # See also
@@ -22151,6 +22451,68 @@ func (client DatabaseClient) rotateVaultKey(ctx context.Context, request common.
 	return response, err
 }
 
+// RunDataPatch Run datapatch on the specified Oracle Database and optionally on the specified Pluggable databases.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RunDataPatch.go.html to see an example of how to use RunDataPatch API.
+func (client DatabaseClient) RunDataPatch(ctx context.Context, request RunDataPatchRequest) (response RunDataPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.runDataPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RunDataPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RunDataPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RunDataPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RunDataPatchResponse")
+	}
+	return
+}
+
+// runDataPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) runDataPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/runDatapatch", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RunDataPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/RunDataPatch"
+		err = common.PostProcessServiceError(err, "Database", "RunDataPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SaasAdminUserStatus This operation gets SaaS administrative user status of the Autonomous AI Database.
 //
 // # See also
@@ -23225,6 +23587,68 @@ func (client DatabaseClient) unmountDbnodeSnapshot(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbnodeSnapshot/UnmountDbnodeSnapshot"
 		err = common.PostProcessServiceError(err, "Database", "UnmountDbnodeSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnregisterCloudAutonomousVmClusterPkcs Uninstall the PKCS11 driver for given keystore type
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UnregisterCloudAutonomousVmClusterPkcs.go.html to see an example of how to use UnregisterCloudAutonomousVmClusterPkcs API.
+func (client DatabaseClient) UnregisterCloudAutonomousVmClusterPkcs(ctx context.Context, request UnregisterCloudAutonomousVmClusterPkcsRequest) (response UnregisterCloudAutonomousVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unregisterCloudAutonomousVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnregisterCloudAutonomousVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnregisterCloudAutonomousVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnregisterCloudAutonomousVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnregisterCloudAutonomousVmClusterPkcsResponse")
+	}
+	return
+}
+
+// unregisterCloudAutonomousVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unregisterCloudAutonomousVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/unregisterPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnregisterCloudAutonomousVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/UnregisterCloudAutonomousVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "UnregisterCloudAutonomousVmClusterPkcs", apiReferenceLink)
 		return response, err
 	}
 
