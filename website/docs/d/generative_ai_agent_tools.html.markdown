@@ -81,12 +81,24 @@ The following attributes are exported:
 		* `namespace` - The namespace name of an object.
 		* `prefix` - The prefix of file object(s) or folder prefix.
 	* `dialect` - Dialect to be used for SQL generation.
+	* `embedding_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
 	* `function` - Details of Function for Function calling tool.
 		* `description` - A description of the function.
 		* `name` - The name of the function to invoke.
 		* `parameters` - The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
 	* `http_endpoint_auth_config` - Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
 		* `http_endpoint_auth_sources` - A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
 			* `http_endpoint_auth_scope` - Specifies the level from which credentials should be resolved.
@@ -109,6 +121,21 @@ The following attributes are exported:
 	* `knowledge_base_configs` - The KnowledgeBase configurations that this RAG Tool uses
 		* `knowledge_base_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBase this RAG Tool uses
 	* `model_size` - Size of the model.
+	* `reasoning_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `reranking_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `runtime_version` - The runtimeVersion of the system prompt.
 	* `should_enable_self_correction` - To enable/disable self correction.
 	* `should_enable_sql_execution` - To enable/disable SQL execution.
 	* `subnet_id` - The subnet ID from agent developer tenancy through which the egress is going to be routed.

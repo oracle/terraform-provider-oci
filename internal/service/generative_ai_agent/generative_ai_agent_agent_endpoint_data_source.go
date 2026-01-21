@@ -118,6 +118,12 @@ func (s *GenerativeAiAgentAgentEndpointDataSourceCrud) SetData() error {
 		s.D.Set("output_config", nil)
 	}
 
+	if s.Res.ProvisionedCapacityConfig != nil {
+		s.D.Set("provisioned_capacity_config", []interface{}{ProvisionedCapacityConfigToMap(s.Res.ProvisionedCapacityConfig)})
+	} else {
+		s.D.Set("provisioned_capacity_config", nil)
+	}
+
 	if s.Res.SessionConfig != nil {
 		s.D.Set("session_config", []interface{}{SessionConfigToMap(s.Res.SessionConfig)})
 	} else {
