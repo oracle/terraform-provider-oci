@@ -188,7 +188,7 @@ func GetRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNo
 	if response.Response != nil && response.Response.HTTPResponse() != nil {
 		statusCode := response.Response.HTTPResponse().StatusCode
 		switch statusCode {
-		case 429, 503:
+		case 409, 429, 503:
 			utils.Logf("[DEGUG] Handling Retry Timeout for API Response Error Code %d", statusCode)
 			rawResponse := response.Response.HTTPResponse()
 			retryAfterVal := rawResponse.Header.Get("Retry-After")

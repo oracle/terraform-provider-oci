@@ -62,10 +62,12 @@ var (
 	convertResFieldsToDSFields             = convertResourceFieldsToDatasourceFields
 	jsonMarshal                            = json.Marshal
 	waitForStateRefreshVar                 = WaitForStateRefresh
+	waitForStateRefreshVarWithContext      = WaitForStateRefreshWithContext
 	WaitForWorkRequestVar                  = WaitForWorkRequest
 	getWorkRequestErrorsVar                = getWorkRequestErrors
 	waitForStateRefreshForHybridPollingVar = waitForStateRefreshForHybridPolling
 	stateRefreshFuncVar                    = stateRefreshFunc
+	stateRefreshFuncVarWithContext         = stateRefreshFuncWithContext
 	HandleErrorVar                         = HandleError
 	ShouldRetryVar                         = ShouldRetry
 	reflectValueOf                         = reflect.ValueOf
@@ -444,6 +446,20 @@ func stateRefreshFunc(sync StatefulResource) retry.StateRefreshFunc {
 	}
 }
 
+func stateRefreshFuncWithContext(ctx context.Context, sync StatefulResourceWithContext) retry.StateRefreshFunc {
+	return func() (res interface{}, s string, e error) {
+		if e = sync.GetWithContext(ctx); e != nil {
+			return nil, "", e
+		}
+		// We don't set all the state here, because not found errors are handled elsewhere.
+		// But we do need the new state for the default State() function
+		if e = sync.setState(sync); e != nil {
+			return nil, "", e
+		}
+		return sync, sync.State(), e
+	}
+}
+
 // Helper function to wait for Update to reach terminal state before doing another Update
 // Useful in situations where more than one Update is needed and prior Update needs to complete
 func WaitForUpdatedState(d schemaResourceData, sync ResourceUpdater) error {
@@ -505,6 +521,120 @@ func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 	}
 
 	if sync.State() == FAILED {
+		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
+	}
+
+	return nil
+}
+
+func WaitForStateRefreshWithContext(ctx context.Context, sync StatefulResourceWithContext, timeout time.Duration, operationName string, pending, target []string) error {
+	// TODO: try to move this onto sync
+	stateConf := &retry.StateChangeConf{
+		Pending: pending,
+		Target:  target,
+		Refresh: stateRefreshFuncVarWithContext(ctx, sync),
+		Timeout: timeout,
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		handleMissingResourceError(sync, &e)
+		if _, ok := e.(*retry.UnexpectedStateError); ok {
+			if len(target) > 0 {
+				e = fmt.Errorf("During %s, Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.", operationName, strings.Join(target, ","), sync.State())
+			} else {
+				e = fmt.Errorf("During %s, service reported unexpected state: %s.", operationName, sync.State())
+			}
+			return e
+		}
+
+		if _, ok := e.(*retry.TimeoutError); ok {
+			e = fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
+		}
+		return e
+	}
+
+	if sync.State() == FAILED {
+		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
+	}
+
+	return nil
+}
+
+// Lightweight, reflection-based state extraction that doesn't depend on setState(StatefulResourceWithContext).
+// It inspects Res/Resource/WorkRequest and returns LifecycleState or State if present.
+func getLifecycleStateReflect(sync interface{}) (string, error) {
+	v := reflectValueOf(sync)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+	for _, key := range []string{"Res", "Resource", "WorkRequest"} {
+		if field := v.FieldByName(key); field.IsValid() {
+			rv := field
+			if rv.Kind() == reflect.Ptr || rv.Kind() == reflect.Interface {
+				if rv.IsNil() {
+					continue
+				}
+				rv = rv.Elem()
+			}
+			if rv.IsValid() && rv.Kind() == reflect.Struct {
+				if stateField := rv.FieldByName("LifecycleState"); stateField.IsValid() && stateField.Kind() == reflect.String {
+					return stateField.String(), nil
+				}
+				if stateField := rv.FieldByName("State"); stateField.IsValid() && stateField.Kind() == reflect.String {
+					return stateField.String(), nil
+				}
+			}
+		}
+	}
+	return "", fmt.Errorf("could not infer resource state via reflection")
+}
+
+// Fallback waiter that only requires GetWithContext and the resource's Res/Resource to expose LifecycleState/State.
+// This avoids relying on Statefully*ResourceWithContext when setState signatures differ.
+func waitForStateRefreshWithContextLite(ctx context.Context, sync interface {
+	GetWithContext(context.Context) error
+}, timeout time.Duration, operationName string, pending, target []string) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: pending,
+		Target:  target,
+		Refresh: func() (interface{}, string, error) {
+			if e := sync.GetWithContext(ctx); e != nil {
+				return nil, "", e
+			}
+			st, e := getLifecycleStateReflect(sync)
+			if e != nil {
+				return nil, "", e
+			}
+			return sync, st, nil
+		},
+		Timeout: timeout,
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		if _, ok := e.(*retry.UnexpectedStateError); ok {
+			st, _ := getLifecycleStateReflect(sync)
+			if len(target) > 0 {
+				return fmt.Errorf("During %s, Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.", operationName, strings.Join(target, ","), st)
+			}
+			return fmt.Errorf("During %s, service reported unexpected state: %s.", operationName, st)
+		}
+		if _, ok := e.(*retry.TimeoutError); ok {
+			return fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
+		}
+		return e
+	}
+
+	if st, _ := getLifecycleStateReflect(sync); st == FAILED {
 		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
 	}
 
@@ -1563,8 +1693,8 @@ func CreateResourceWithContext(ctx context.Context, d schemaResourceData, sync R
 	// ID is required for state refresh
 	d.SetId(sync.ID())
 
-	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+	if stateful, ok := sync.(StatefullyCreatedResourceWithContext); ok {
+		if e := waitForStateRefreshVarWithContext(ctx, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
 			if stateful.State() == FAILED {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
@@ -1577,6 +1707,24 @@ func CreateResourceWithContext(ctx context.Context, d schemaResourceData, sync R
 			}
 
 			return e
+		}
+	} else if cs, ok := interface{}(sync).(interface {
+		CreatedPending() []string
+		CreatedTarget() []string
+	}); ok {
+		if fetcher, ok2 := interface{}(sync).(ResourceFetcherWithContext); ok2 {
+			if e := waitForStateRefreshWithContextLite(ctx, fetcher, d.Timeout(schema.TimeoutCreate), "creation", cs.CreatedPending(), cs.CreatedTarget()); e != nil {
+				// Mirror FAILED handling
+				if st, _ := getLifecycleStateReflect(sync); st == FAILED {
+					sync.VoidState()
+				}
+
+				// Preserve state to avoid dangling resources
+				if setDataErr := sync.SetData(); setDataErr != nil {
+					log.Printf("[ERROR] error setting data after WaitForStateRefresh() error: %v", setDataErr)
+				}
+				return e
+			}
 		}
 	}
 
@@ -1606,10 +1754,19 @@ func UpdateResourceWithContext(ctx context.Context, d schemaResourceData, sync R
 	}
 	d.Partial(false)
 
-	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+	if stateful, ok := sync.(StatefullyUpdatedResourceWithContext); ok {
+		if e := waitForStateRefreshVarWithContext(ctx, stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 
 			return e
+		}
+	} else if us, ok := interface{}(sync).(interface {
+		UpdatedPending() []string
+		UpdatedTarget() []string
+	}); ok {
+		if fetcher, ok2 := interface{}(sync).(ResourceFetcherWithContext); ok2 {
+			if e := waitForStateRefreshWithContextLite(ctx, fetcher, d.Timeout(schema.TimeoutUpdate), "update", us.UpdatedPending(), us.UpdatedTarget()); e != nil {
+				return e
+			}
 		}
 	}
 
@@ -1636,10 +1793,20 @@ func DeleteResourceWithContext(ctx context.Context, d schemaResourceData, sync R
 		return HandleError(sync, e)
 	}
 
-	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+	if stateful, ok := sync.(StatefullyDeletedResourceWithContext); ok {
+		if e := waitForStateRefreshVarWithContext(ctx, stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
 			handleMissingResourceError(sync, &e)
 			return e
+		}
+	} else if ds, ok := interface{}(sync).(interface {
+		DeletedPending() []string
+		DeletedTarget() []string
+	}); ok {
+		if fetcher, ok2 := interface{}(sync).(ResourceFetcherWithContext); ok2 {
+			if e := waitForStateRefreshWithContextLite(ctx, fetcher, d.Timeout(schema.TimeoutDelete), "deletion", ds.DeletedPending(), ds.DeletedTarget()); e != nil {
+				handleMissingResourceError(sync, &e)
+				return e
+			}
 		}
 	}
 
@@ -1705,7 +1872,14 @@ func ReadResourceWithContext(ctx context.Context, sync ResourceReaderWithContext
 	}
 
 	// Remove resource from state if it has been terminated so that it is recreated on next apply
-	if dr, ok := sync.(StatefullyDeletedResource); ok {
+	// Use a lightweight interface to avoid strict coupling to StatefullyDeletedResourceWithContext,
+	// which may not be satisfied due to setState signature differences.
+	type deletedState interface {
+		DeletedTarget() []string
+		State() string
+		VoidState()
+	}
+	if dr, ok := interface{}(sync).(deletedState); ok {
 		for _, target := range dr.DeletedTarget() {
 			if dr.State() == target && dr.State() != string(oci_load_balancer.WorkRequestLifecycleStateSucceeded) {
 				dr.VoidState()
@@ -1713,14 +1887,22 @@ func ReadResourceWithContext(ctx context.Context, sync ResourceReaderWithContext
 			}
 		}
 	}
-
 	return nil
 }
 
-func WaitForUpdatedStateWithContext(d schemaResourceData, sync ResourceUpdaterWithContext) error {
-	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefreshVar(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+func WaitForUpdatedStateWithContext(ctx context.Context, d schemaResourceData, sync ResourceUpdaterWithContext) error {
+	if stateful, ok := sync.(StatefullyUpdatedResourceWithContext); ok {
+		if e := waitForStateRefreshVarWithContext(ctx, stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 			return e
+		}
+	} else if us, ok := interface{}(sync).(interface {
+		UpdatedPending() []string
+		UpdatedTarget() []string
+	}); ok {
+		if fetcher, ok2 := interface{}(sync).(ResourceFetcherWithContext); ok2 {
+			if e := waitForStateRefreshWithContextLite(ctx, fetcher, d.Timeout(schema.TimeoutUpdate), "update", us.UpdatedPending(), us.UpdatedTarget()); e != nil {
+				return e
+			}
 		}
 	}
 

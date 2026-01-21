@@ -113,5 +113,7 @@ func (s *IotIotDomainGroupDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	s.D.Set("type", s.Res.Type)
+
 	return nil
 }

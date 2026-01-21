@@ -28,6 +28,8 @@ type PatchDetails struct {
 
 	// The action to perform on the patch.
 	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
+
+	PatchOptions *PatchOptions `mandatory:"false" json:"patchOptions"`
 }
 
 func (m PatchDetails) String() string {

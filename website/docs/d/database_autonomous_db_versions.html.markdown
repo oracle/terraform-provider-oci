@@ -56,5 +56,5 @@ The following attributes are exported:
 * `is_default_for_paid` - True if this version of the Oracle AI Database software's default is paid.
 * `is_free_tier_enabled` - True if this version of the Oracle AI Database software can be used for Always-Free Autonomous AI Databases.
 * `is_paid_enabled` - True if this version of the Oracle AI Database software has payments enabled.
-* `version` - A valid Oracle AI Database version for Autonomous AI Database.
+* `version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. 
 
