@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -71,6 +72,8 @@ type AutonomousContainerDatabase struct {
 
 	// Key History Entry.
 	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -244,6 +247,213 @@ func (m AutonomousContainerDatabase) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutonomousContainerDatabase) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CustomerContacts                             []CustomerContact                                        `json:"customerContacts"`
+		OkvEndPointGroupName                         *string                                                  `json:"okvEndPointGroupName"`
+		DbUniqueName                                 *string                                                  `json:"dbUniqueName"`
+		DbName                                       *string                                                  `json:"dbName"`
+		AutonomousExadataInfrastructureId            *string                                                  `json:"autonomousExadataInfrastructureId"`
+		AutonomousVmClusterId                        *string                                                  `json:"autonomousVmClusterId"`
+		InfrastructureType                           AutonomousContainerDatabaseInfrastructureTypeEnum        `json:"infrastructureType"`
+		CloudAutonomousVmClusterId                   *string                                                  `json:"cloudAutonomousVmClusterId"`
+		KmsKeyId                                     *string                                                  `json:"kmsKeyId"`
+		VaultId                                      *string                                                  `json:"vaultId"`
+		KmsKeyVersionId                              *string                                                  `json:"kmsKeyVersionId"`
+		KeyHistoryEntry                              []AutonomousDatabaseKeyHistoryEntry                      `json:"keyHistoryEntry"`
+		EncryptionKeyLocationDetails                 encryptionkeylocationdetails                             `json:"encryptionKeyLocationDetails"`
+		LifecycleDetails                             *string                                                  `json:"lifecycleDetails"`
+		TimeCreated                                  *common.SDKTime                                          `json:"timeCreated"`
+		TimeSnapshotStandbyRevert                    *common.SDKTime                                          `json:"timeSnapshotStandbyRevert"`
+		PatchId                                      *string                                                  `json:"patchId"`
+		LastMaintenanceRunId                         *string                                                  `json:"lastMaintenanceRunId"`
+		NextMaintenanceRunId                         *string                                                  `json:"nextMaintenanceRunId"`
+		MaintenanceWindow                            *MaintenanceWindow                                       `json:"maintenanceWindow"`
+		StandbyMaintenanceBufferInDays               *int                                                     `json:"standbyMaintenanceBufferInDays"`
+		VersionPreference                            AutonomousContainerDatabaseVersionPreferenceEnum         `json:"versionPreference"`
+		IsDstFileUpdateEnabled                       *bool                                                    `json:"isDstFileUpdateEnabled"`
+		DstFileVersion                               *string                                                  `json:"dstFileVersion"`
+		FreeformTags                                 map[string]string                                        `json:"freeformTags"`
+		DefinedTags                                  map[string]map[string]interface{}                        `json:"definedTags"`
+		SystemTags                                   map[string]map[string]interface{}                        `json:"systemTags"`
+		Role                                         AutonomousContainerDatabaseRoleEnum                      `json:"role"`
+		AvailabilityDomain                           *string                                                  `json:"availabilityDomain"`
+		DbVersion                                    *string                                                  `json:"dbVersion"`
+		BackupConfig                                 *AutonomousContainerDatabaseBackupConfig                 `json:"backupConfig"`
+		BackupDestinationPropertiesList              []BackupDestinationProperties                            `json:"backupDestinationPropertiesList"`
+		AssociatedBackupConfigurationDetails         []BackupDestinationConfigurationSummary                  `json:"associatedBackupConfigurationDetails"`
+		RecoveryApplianceDetails                     *RecoveryApplianceDetails                                `json:"recoveryApplianceDetails"`
+		KeyStoreId                                   *string                                                  `json:"keyStoreId"`
+		KeyStoreWalletName                           *string                                                  `json:"keyStoreWalletName"`
+		MemoryPerOracleComputeUnitInGBs              *int                                                     `json:"memoryPerOracleComputeUnitInGBs"`
+		MemoryPerComputeUnitInGBs                    *float32                                                 `json:"memoryPerComputeUnitInGBs"`
+		AvailableCpus                                *float32                                                 `json:"availableCpus"`
+		TotalCpus                                    *int                                                     `json:"totalCpus"`
+		ReclaimableCpus                              *float32                                                 `json:"reclaimableCpus"`
+		ProvisionableCpus                            []float32                                                `json:"provisionableCpus"`
+		ListOneOffPatches                            []string                                                 `json:"listOneOffPatches"`
+		ComputeModel                                 AutonomousContainerDatabaseComputeModelEnum              `json:"computeModel"`
+		ProvisionedCpus                              *float32                                                 `json:"provisionedCpus"`
+		ReservedCpus                                 *float32                                                 `json:"reservedCpus"`
+		LargestProvisionableAutonomousDatabaseInCpus *float32                                                 `json:"largestProvisionableAutonomousDatabaseInCpus"`
+		TimeOfLastBackup                             *common.SDKTime                                          `json:"timeOfLastBackup"`
+		DbSplitThreshold                             *int                                                     `json:"dbSplitThreshold"`
+		VmFailoverReservation                        *int                                                     `json:"vmFailoverReservation"`
+		DistributionAffinity                         AutonomousContainerDatabaseDistributionAffinityEnum      `json:"distributionAffinity"`
+		NetServicesArchitecture                      AutonomousContainerDatabaseNetServicesArchitectureEnum   `json:"netServicesArchitecture"`
+		IsMultipleStandby                            *bool                                                    `json:"isMultipleStandby"`
+		IsDataGuardEnabled                           *bool                                                    `json:"isDataGuardEnabled"`
+		Dataguard                                    *AutonomousContainerDatabaseDataguard                    `json:"dataguard"`
+		DataguardGroupMembers                        []AutonomousContainerDatabaseDataguard                   `json:"dataguardGroupMembers"`
+		Id                                           *string                                                  `json:"id"`
+		CompartmentId                                *string                                                  `json:"compartmentId"`
+		DisplayName                                  *string                                                  `json:"displayName"`
+		ServiceLevelAgreementType                    AutonomousContainerDatabaseServiceLevelAgreementTypeEnum `json:"serviceLevelAgreementType"`
+		LifecycleState                               AutonomousContainerDatabaseLifecycleStateEnum            `json:"lifecycleState"`
+		PatchModel                                   AutonomousContainerDatabasePatchModelEnum                `json:"patchModel"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
+	m.OkvEndPointGroupName = model.OkvEndPointGroupName
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DbName = model.DbName
+
+	m.AutonomousExadataInfrastructureId = model.AutonomousExadataInfrastructureId
+
+	m.AutonomousVmClusterId = model.AutonomousVmClusterId
+
+	m.InfrastructureType = model.InfrastructureType
+
+	m.CloudAutonomousVmClusterId = model.CloudAutonomousVmClusterId
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.VaultId = model.VaultId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.KeyHistoryEntry = make([]AutonomousDatabaseKeyHistoryEntry, len(model.KeyHistoryEntry))
+	copy(m.KeyHistoryEntry, model.KeyHistoryEntry)
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeSnapshotStandbyRevert = model.TimeSnapshotStandbyRevert
+
+	m.PatchId = model.PatchId
+
+	m.LastMaintenanceRunId = model.LastMaintenanceRunId
+
+	m.NextMaintenanceRunId = model.NextMaintenanceRunId
+
+	m.MaintenanceWindow = model.MaintenanceWindow
+
+	m.StandbyMaintenanceBufferInDays = model.StandbyMaintenanceBufferInDays
+
+	m.VersionPreference = model.VersionPreference
+
+	m.IsDstFileUpdateEnabled = model.IsDstFileUpdateEnabled
+
+	m.DstFileVersion = model.DstFileVersion
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Role = model.Role
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.DbVersion = model.DbVersion
+
+	m.BackupConfig = model.BackupConfig
+
+	m.BackupDestinationPropertiesList = make([]BackupDestinationProperties, len(model.BackupDestinationPropertiesList))
+	copy(m.BackupDestinationPropertiesList, model.BackupDestinationPropertiesList)
+	m.AssociatedBackupConfigurationDetails = make([]BackupDestinationConfigurationSummary, len(model.AssociatedBackupConfigurationDetails))
+	copy(m.AssociatedBackupConfigurationDetails, model.AssociatedBackupConfigurationDetails)
+	m.RecoveryApplianceDetails = model.RecoveryApplianceDetails
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.MemoryPerOracleComputeUnitInGBs = model.MemoryPerOracleComputeUnitInGBs
+
+	m.MemoryPerComputeUnitInGBs = model.MemoryPerComputeUnitInGBs
+
+	m.AvailableCpus = model.AvailableCpus
+
+	m.TotalCpus = model.TotalCpus
+
+	m.ReclaimableCpus = model.ReclaimableCpus
+
+	m.ProvisionableCpus = make([]float32, len(model.ProvisionableCpus))
+	copy(m.ProvisionableCpus, model.ProvisionableCpus)
+	m.ListOneOffPatches = make([]string, len(model.ListOneOffPatches))
+	copy(m.ListOneOffPatches, model.ListOneOffPatches)
+	m.ComputeModel = model.ComputeModel
+
+	m.ProvisionedCpus = model.ProvisionedCpus
+
+	m.ReservedCpus = model.ReservedCpus
+
+	m.LargestProvisionableAutonomousDatabaseInCpus = model.LargestProvisionableAutonomousDatabaseInCpus
+
+	m.TimeOfLastBackup = model.TimeOfLastBackup
+
+	m.DbSplitThreshold = model.DbSplitThreshold
+
+	m.VmFailoverReservation = model.VmFailoverReservation
+
+	m.DistributionAffinity = model.DistributionAffinity
+
+	m.NetServicesArchitecture = model.NetServicesArchitecture
+
+	m.IsMultipleStandby = model.IsMultipleStandby
+
+	m.IsDataGuardEnabled = model.IsDataGuardEnabled
+
+	m.Dataguard = model.Dataguard
+
+	m.DataguardGroupMembers = make([]AutonomousContainerDatabaseDataguard, len(model.DataguardGroupMembers))
+	copy(m.DataguardGroupMembers, model.DataguardGroupMembers)
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
+
+	m.ServiceLevelAgreementType = model.ServiceLevelAgreementType
+
+	m.LifecycleState = model.LifecycleState
+
+	m.PatchModel = model.PatchModel
+
+	return
 }
 
 // AutonomousContainerDatabaseServiceLevelAgreementTypeEnum Enum with underlying type: string

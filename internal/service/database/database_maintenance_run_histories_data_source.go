@@ -247,6 +247,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"deferred_execution_window_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"defined_tags": {
 													Type:     schema.TypeMap,
 													Computed: true,
@@ -777,6 +781,10 @@ func ExecutionWindowToMap(obj *oci_database.ExecutionWindow) map[string]interfac
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DeferredExecutionWindowId != nil {
+		result["deferred_execution_window_id"] = string(*obj.DeferredExecutionWindowId)
 	}
 
 	if obj.DefinedTags != nil {

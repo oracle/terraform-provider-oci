@@ -124,6 +124,9 @@ type Database struct {
 	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 
 	StorageSizeDetails *DatabaseStorageSizeResponseDetails `mandatory:"false" json:"storageSizeDetails"`
+
+	// The patch version of the database.
+	PatchVersion *string `mandatory:"false" json:"patchVersion"`
 }
 
 func (m Database) String() string {
@@ -178,6 +181,7 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 		DataGuardGroup                             *DataGuardGroup                     `json:"dataGuardGroup"`
 		EncryptionKeyLocationDetails               encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
 		StorageSizeDetails                         *DatabaseStorageSizeResponseDetails `json:"storageSizeDetails"`
+		PatchVersion                               *string                             `json:"patchVersion"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -257,6 +261,8 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.PatchVersion = model.PatchVersion
 
 	m.Id = model.Id
 
