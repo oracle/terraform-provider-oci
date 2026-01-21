@@ -76,6 +76,25 @@ resource "oci_generative_ai_agent_agent_endpoint" "test_agent_endpoint" {
 		#Optional
 		retention_period_in_minutes = var.agent_endpoint_output_config_retention_period_in_minutes
 	}
+	provisioned_capacity_config {
+		#Required
+		provisioned_capacity_id = oci_generative_ai_agent_provisioned_capacity.test_provisioned_capacity.id
+
+		#Optional
+		platform_runtime_config {
+
+			#Optional
+			platform_runtime_config_type = var.agent_endpoint_provisioned_capacity_config_platform_runtime_config_platform_runtime_config_type
+			version = var.agent_endpoint_provisioned_capacity_config_platform_runtime_config_version
+		}
+		tool_runtime_configs {
+			#Required
+			tool_runtime_config_type = var.agent_endpoint_provisioned_capacity_config_tool_runtime_configs_tool_runtime_config_type
+
+			#Optional
+			version = var.agent_endpoint_provisioned_capacity_config_tool_runtime_configs_version
+		}
+	}
 	session_config {
 
 		#Optional
@@ -120,6 +139,14 @@ The following arguments are supported:
 		* `output_location_type` - (Required) (Updatable) Type of OutputLocation.
 		* `prefix` - (Optional) (Updatable) The prefix of the object storage.
 	* `retention_period_in_minutes` - (Optional) (Updatable) Retention duration of the output data.
+* `provisioned_capacity_config` - (Optional) (Updatable) The configuration includes the provisioned capacity id and component runtime (tool versions, and other relevant information). 
+	* `platform_runtime_config` - (Optional) (Updatable) Configuration for agent platform component.
+		* `platform_runtime_config_type` - (Optional) (Updatable) The type of Platform runtime config. 
+		* `version` - (Optional) (Updatable) The version of the Core. The latest version will be displayed as default.
+	* `provisioned_capacity_id` - (Required) (Updatable) An OCID that uniquely identifies an Provisioned Capacity.
+	* `tool_runtime_configs` - (Optional) (Updatable) RAG and SQL will be tools.
+		* `tool_runtime_config_type` - (Required) (Updatable) The type of the tool.
+		* `version` - (Optional) (Updatable) The version of the components.
 * `session_config` - (Optional) (Updatable) Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - (Optional) (Updatable) The session will become inactive after this timeout.
 * `should_enable_citation` - (Optional) (Updatable) Whether to show citations in the chat result.
@@ -165,6 +192,14 @@ The following attributes are exported:
 		* `output_location_type` - Type of OutputLocation.
 		* `prefix` - The prefix of the object storage.
 	* `retention_period_in_minutes` - Retention duration of the output data.
+* `provisioned_capacity_config` - The configuration includes the provisioned capacity id and component runtime (tool versions, and other relevant information). 
+	* `platform_runtime_config` - Configuration for agent platform component.
+		* `platform_runtime_config_type` - The type of Platform runtime config. 
+		* `version` - The version of the Core. The latest version will be displayed as default.
+	* `provisioned_capacity_id` - An OCID that uniquely identifies an Provisioned Capacity.
+	* `tool_runtime_configs` - RAG and SQL will be tools.
+		* `tool_runtime_config_type` - The type of the tool.
+		* `version` - The version of the components.
 * `session_config` - Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - The session will become inactive after this timeout.
 * `should_enable_citation` - Whether to show citations in the chat result.

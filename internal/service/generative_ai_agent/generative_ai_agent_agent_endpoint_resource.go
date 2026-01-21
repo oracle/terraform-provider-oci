@@ -265,6 +265,75 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 					},
 				},
 			},
+			"provisioned_capacity_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"provisioned_capacity_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"platform_runtime_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"platform_runtime_config_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"tool_runtime_configs": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"tool_runtime_config_type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"session_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -482,6 +551,17 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) CreateWithContext(ctx conte
 				return err
 			}
 			request.OutputConfig = &tmp
+		}
+	}
+
+	if provisionedCapacityConfig, ok := s.D.GetOkExists("provisioned_capacity_config"); ok {
+		if tmpList := provisionedCapacityConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "provisioned_capacity_config", 0)
+			tmp, err := s.mapToProvisionedCapacityConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ProvisionedCapacityConfig = &tmp
 		}
 	}
 
@@ -761,6 +841,17 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) UpdateWithContext(ctx conte
 		}
 	}
 
+	if provisionedCapacityConfig, ok := s.D.GetOkExists("provisioned_capacity_config"); ok {
+		if tmpList := provisionedCapacityConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "provisioned_capacity_config", 0)
+			tmp, err := s.mapToProvisionedCapacityConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ProvisionedCapacityConfig = &tmp
+		}
+	}
+
 	if sessionConfig, ok := s.D.GetOkExists("session_config"); ok {
 		if tmpList := sessionConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_config", 0)
@@ -871,6 +962,12 @@ func (s *GenerativeAiAgentAgentEndpointResourceCrud) SetData() error {
 		s.D.Set("output_config", nil)
 	}
 
+	if s.Res.ProvisionedCapacityConfig != nil {
+		s.D.Set("provisioned_capacity_config", []interface{}{ProvisionedCapacityConfigToMap(s.Res.ProvisionedCapacityConfig)})
+	} else {
+		s.D.Set("provisioned_capacity_config", nil)
+	}
+
 	if s.Res.SessionConfig != nil {
 		s.D.Set("session_config", []interface{}{SessionConfigToMap(s.Res.SessionConfig)})
 	} else {
@@ -959,6 +1056,10 @@ func AgentEndpointSummaryToMap(obj oci_generative_ai_agent.AgentEndpointSummary)
 
 	if obj.OutputConfig != nil {
 		result["output_config"] = []interface{}{OutputConfigToMap(obj.OutputConfig)}
+	}
+
+	if obj.ProvisionedCapacityConfig != nil {
+		result["provisioned_capacity_config"] = []interface{}{ProvisionedCapacityConfigToMap(obj.ProvisionedCapacityConfig)}
 	}
 
 	if obj.SessionConfig != nil {
@@ -1251,6 +1352,33 @@ func PersonallyIdentifiableInformationGuardrailConfigToMap(obj *oci_generative_a
 	return result
 }
 
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToPlatformRuntimeConfig(fieldKeyFormat string) (oci_generative_ai_agent.PlatformRuntimeConfig, error) {
+	result := oci_generative_ai_agent.PlatformRuntimeConfig{}
+
+	if platformRuntimeConfigType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_runtime_config_type")); ok {
+		result.PlatformRuntimeConfigType = oci_generative_ai_agent.PlatformRuntimeConfigPlatformRuntimeConfigTypeEnum(platformRuntimeConfigType.(string))
+	}
+
+	if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+		tmp := version.(string)
+		result.Version = &tmp
+	}
+
+	return result, nil
+}
+
+func PlatformRuntimeConfigToMap(obj *oci_generative_ai_agent.PlatformRuntimeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["platform_runtime_config_type"] = string(obj.PlatformRuntimeConfigType)
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
 func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToPromptInjectionGuardrailConfig(fieldKeyFormat string) (oci_generative_ai_agent.PromptInjectionGuardrailConfig, error) {
 	result := oci_generative_ai_agent.PromptInjectionGuardrailConfig{}
 
@@ -1265,6 +1393,65 @@ func PromptInjectionGuardrailConfigToMap(obj *oci_generative_ai_agent.PromptInje
 	result := map[string]interface{}{}
 
 	result["input_guardrail_mode"] = string(obj.InputGuardrailMode)
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToProvisionedCapacityConfig(fieldKeyFormat string) (oci_generative_ai_agent.ProvisionedCapacityConfig, error) {
+	result := oci_generative_ai_agent.ProvisionedCapacityConfig{}
+
+	if platformRuntimeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_runtime_config")); ok {
+		if tmpList := platformRuntimeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "platform_runtime_config"), 0)
+			tmp, err := s.mapToPlatformRuntimeConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert platform_runtime_config, encountered error: %v", err)
+			}
+			result.PlatformRuntimeConfig = &tmp
+		}
+	}
+
+	if provisionedCapacityId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provisioned_capacity_id")); ok {
+		tmp := provisionedCapacityId.(string)
+		result.ProvisionedCapacityId = &tmp
+	}
+
+	if toolRuntimeConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tool_runtime_configs")); ok {
+		interfaces := toolRuntimeConfigs.([]interface{})
+		tmp := make([]oci_generative_ai_agent.ToolRuntimeConfig, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tool_runtime_configs"), stateDataIndex)
+			converted, err := s.mapToToolRuntimeConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tool_runtime_configs")) {
+			result.ToolRuntimeConfigs = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ProvisionedCapacityConfigToMap(obj *oci_generative_ai_agent.ProvisionedCapacityConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PlatformRuntimeConfig != nil {
+		result["platform_runtime_config"] = []interface{}{PlatformRuntimeConfigToMap(obj.PlatformRuntimeConfig)}
+	}
+
+	if obj.ProvisionedCapacityId != nil {
+		result["provisioned_capacity_id"] = string(*obj.ProvisionedCapacityId)
+	}
+
+	toolRuntimeConfigs := []interface{}{}
+	for _, item := range obj.ToolRuntimeConfigs {
+		toolRuntimeConfigs = append(toolRuntimeConfigs, ToolRuntimeConfigToMap(item))
+	}
+	result["tool_runtime_configs"] = toolRuntimeConfigs
 
 	return result
 }
@@ -1285,6 +1472,33 @@ func SessionConfigToMap(obj *oci_generative_ai_agent.SessionConfig) map[string]i
 
 	if obj.IdleTimeoutInSeconds != nil {
 		result["idle_timeout_in_seconds"] = int(*obj.IdleTimeoutInSeconds)
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentEndpointResourceCrud) mapToToolRuntimeConfig(fieldKeyFormat string) (oci_generative_ai_agent.ToolRuntimeConfig, error) {
+	result := oci_generative_ai_agent.ToolRuntimeConfig{}
+
+	if toolRuntimeConfigType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tool_runtime_config_type")); ok {
+		result.ToolRuntimeConfigType = oci_generative_ai_agent.ToolRuntimeConfigToolRuntimeConfigTypeEnum(toolRuntimeConfigType.(string))
+	}
+
+	if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+		tmp := version.(string)
+		result.Version = &tmp
+	}
+
+	return result, nil
+}
+
+func ToolRuntimeConfigToMap(obj oci_generative_ai_agent.ToolRuntimeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["tool_runtime_config_type"] = string(obj.ToolRuntimeConfigType)
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
 	}
 
 	return result

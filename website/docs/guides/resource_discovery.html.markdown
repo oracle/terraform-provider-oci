@@ -886,6 +886,7 @@ generative_ai_agent
 * oci\_generative\_ai\_agent\_knowledge\_base
 * oci\_generative\_ai\_agent\_agent\_endpoint
 * oci\_generative\_ai\_agent\_tool
+* oci\_generative\_ai\_agent\_provisioned\_capacity
 
 globally_distributed_database
 

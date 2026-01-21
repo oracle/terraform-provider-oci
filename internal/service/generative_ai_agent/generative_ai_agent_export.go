@@ -85,6 +85,18 @@ var exportGenerativeAiAgentToolHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGenerativeAiAgentProvisionedCapacityHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_agent_provisioned_capacity",
+	DatasourceClass:        "oci_generative_ai_agent_provisioned_capacities",
+	DatasourceItemsAttr:    "provisioned_capacity_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "provisioned_capacity",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai_agent.ProvisionedCapacityLifecycleStateActive),
+	},
+}
+
 var generativeAiAgentResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiAgentDataSourceHints},
@@ -93,5 +105,6 @@ var generativeAiAgentResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiAgentKnowledgeBaseHints},
 		{TerraformResourceHints: exportGenerativeAiAgentAgentEndpointHints},
 		{TerraformResourceHints: exportGenerativeAiAgentToolHints},
+		{TerraformResourceHints: exportGenerativeAiAgentProvisionedCapacityHints},
 	},
 }

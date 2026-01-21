@@ -56,6 +56,20 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 			prefix = var.tool_tool_config_database_schema_prefix
 		}
 		dialect = var.tool_tool_config_dialect
+		embedding_llm_customization {
+
+			#Optional
+			instruction = var.tool_tool_config_embedding_llm_customization_instruction
+			llm_hyper_parameters = var.tool_tool_config_embedding_llm_customization_llm_hyper_parameters
+			llm_selection {
+				#Required
+				llm_selection_type = var.tool_tool_config_embedding_llm_customization_llm_selection_llm_selection_type
+
+				#Optional
+				endpoint_id = oci_ai_language_endpoint.test_endpoint.id
+				model_id = oci_ai_document_model.test_model.id
+			}
+		}
 		function {
 
 			#Optional
@@ -67,6 +81,15 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 
 			#Optional
 			instruction = var.tool_tool_config_generation_llm_customization_instruction
+			llm_hyper_parameters = var.tool_tool_config_generation_llm_customization_llm_hyper_parameters
+			llm_selection {
+				#Required
+				llm_selection_type = var.tool_tool_config_generation_llm_customization_llm_selection_llm_selection_type
+
+				#Optional
+				endpoint_id = oci_ai_language_endpoint.test_endpoint.id
+				model_id = oci_ai_document_model.test_model.id
+			}
 		}
 		http_endpoint_auth_config {
 
@@ -105,6 +128,35 @@ resource "oci_generative_ai_agent_tool" "test_tool" {
 			knowledge_base_id = oci_generative_ai_agent_knowledge_base.test_knowledge_base.id
 		}
 		model_size = var.tool_tool_config_model_size
+		reasoning_llm_customization {
+
+			#Optional
+			instruction = var.tool_tool_config_reasoning_llm_customization_instruction
+			llm_hyper_parameters = var.tool_tool_config_reasoning_llm_customization_llm_hyper_parameters
+			llm_selection {
+				#Required
+				llm_selection_type = var.tool_tool_config_reasoning_llm_customization_llm_selection_llm_selection_type
+
+				#Optional
+				endpoint_id = oci_ai_language_endpoint.test_endpoint.id
+				model_id = oci_ai_document_model.test_model.id
+			}
+		}
+		reranking_llm_customization {
+
+			#Optional
+			instruction = var.tool_tool_config_reranking_llm_customization_instruction
+			llm_hyper_parameters = var.tool_tool_config_reranking_llm_customization_llm_hyper_parameters
+			llm_selection {
+				#Required
+				llm_selection_type = var.tool_tool_config_reranking_llm_customization_llm_selection_llm_selection_type
+
+				#Optional
+				endpoint_id = oci_ai_language_endpoint.test_endpoint.id
+				model_id = oci_ai_document_model.test_model.id
+			}
+		}
+		runtime_version = var.tool_tool_config_runtime_version
 		should_enable_self_correction = var.tool_tool_config_should_enable_self_correction
 		should_enable_sql_execution = var.tool_tool_config_should_enable_sql_execution
 		subnet_id = oci_core_subnet.test_subnet.id
@@ -162,12 +214,24 @@ The following arguments are supported:
 		* `namespace` - (Required when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The namespace name of an object.
 		* `prefix` - (Applicable when input_location_type=OBJECT_STORAGE_PREFIX) (Updatable) The prefix of file object(s) or folder prefix.
 	* `dialect` - (Required when tool_config_type=SQL_TOOL_CONFIG) (Updatable) Dialect to be used for SQL generation.
+	* `embedding_llm_customization` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Configuration to customize LLM. 
+		* `instruction` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_ENDPOINT) (Updatable) The OCID of the GenAI endpoint
+			* `llm_selection_type` - (Required) (Updatable) Type of LLM selection
+			* `model_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_MODEL) (Updatable) The OCID of the GenAI model
 	* `function` - (Required when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) Details of Function for Function calling tool.
 		* `description` - (Applicable when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) A description of the function.
 		* `name` - (Required when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) The name of the function to invoke.
 		* `parameters` - (Applicable when tool_config_type=FUNCTION_CALLING_TOOL_CONFIG) (Updatable) The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) Configuration to customize LLM. 
 		* `instruction` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_ENDPOINT) (Updatable) The OCID of the GenAI endpoint
+			* `llm_selection_type` - (Required) (Updatable) Type of LLM selection
+			* `model_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_MODEL) (Updatable) The OCID of the GenAI model
 	* `http_endpoint_auth_config` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
 		* `http_endpoint_auth_sources` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
 			* `http_endpoint_auth_scope` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) Specifies the level from which credentials should be resolved.
@@ -190,6 +254,21 @@ The following arguments are supported:
 	* `knowledge_base_configs` - (Required when tool_config_type=RAG_TOOL_CONFIG) (Updatable) The KnowledgeBase configurations that this RAG Tool uses
 		* `knowledge_base_id` - (Required when tool_config_type=RAG_TOOL_CONFIG) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBase this RAG Tool uses
 	* `model_size` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) Size of the model.
+	* `reasoning_llm_customization` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Configuration to customize LLM. 
+		* `instruction` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_ENDPOINT) (Updatable) The OCID of the GenAI endpoint
+			* `llm_selection_type` - (Required) (Updatable) Type of LLM selection
+			* `model_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_MODEL) (Updatable) The OCID of the GenAI model
+	* `reranking_llm_customization` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Configuration to customize LLM. 
+		* `instruction` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - (Applicable when tool_config_type=RAG_TOOL_CONFIG) (Updatable) LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_ENDPOINT) (Updatable) The OCID of the GenAI endpoint
+			* `llm_selection_type` - (Required) (Updatable) Type of LLM selection
+			* `model_id` - (Required when llm_selection_type=CUSTOM_GEN_AI_MODEL) (Updatable) The OCID of the GenAI model
+	* `runtime_version` - (Applicable when tool_config_type=RAG_TOOL_CONFIG | SQL_TOOL_CONFIG) (Updatable) The runtimeVersion of the system prompt.
 	* `should_enable_self_correction` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable self correction.
 	* `should_enable_sql_execution` - (Applicable when tool_config_type=SQL_TOOL_CONFIG) (Updatable) To enable/disable SQL execution.
 	* `subnet_id` - (Required when tool_config_type=HTTP_ENDPOINT_TOOL_CONFIG) (Updatable) The subnet ID from agent developer tenancy through which the egress is going to be routed.
@@ -249,12 +328,24 @@ The following attributes are exported:
 		* `namespace` - The namespace name of an object.
 		* `prefix` - The prefix of file object(s) or folder prefix.
 	* `dialect` - Dialect to be used for SQL generation.
+	* `embedding_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
 	* `function` - Details of Function for Function calling tool.
 		* `description` - A description of the function.
 		* `name` - The name of the function to invoke.
 		* `parameters` - The parameters the function accepts, defined using a JSON Schema object.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
 	* `generation_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
 	* `http_endpoint_auth_config` - Authentication configuration used for HTTP Endpoint tools. Defines the type of authentication and the source of credentials. 
 		* `http_endpoint_auth_sources` - A list of credential sources from which authentication credentials can be resolved. Only AGENT is supported for HTTP Endpoint Tool. 
 			* `http_endpoint_auth_scope` - Specifies the level from which credentials should be resolved.
@@ -277,6 +368,21 @@ The following attributes are exported:
 	* `knowledge_base_configs` - The KnowledgeBase configurations that this RAG Tool uses
 		* `knowledge_base_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBase this RAG Tool uses
 	* `model_size` - Size of the model.
+	* `reasoning_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `reranking_llm_customization` - Configuration to customize LLM. 
+		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `runtime_version` - The runtimeVersion of the system prompt.
 	* `should_enable_self_correction` - To enable/disable self correction.
 	* `should_enable_sql_execution` - To enable/disable SQL execution.
 	* `subnet_id` - The subnet ID from agent developer tenancy through which the egress is going to be routed.

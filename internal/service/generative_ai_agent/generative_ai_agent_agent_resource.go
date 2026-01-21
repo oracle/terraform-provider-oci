@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -96,10 +97,57 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
 							},
+						},
+						"runtime_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -644,6 +692,11 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmConfig(fieldKeyFormat strin
 		}
 	}
 
+	if runtimeVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "runtime_version")); ok {
+		tmp := runtimeVersion.(string)
+		result.RuntimeVersion = &tmp
+	}
+
 	return result, nil
 }
 
@@ -652,6 +705,10 @@ func LlmConfigToMap(obj *oci_generative_ai_agent.LlmConfig) map[string]interface
 
 	if obj.RoutingLlmCustomization != nil {
 		result["routing_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.RoutingLlmCustomization)}
+	}
+
+	if obj.RuntimeVersion != nil {
+		result["runtime_version"] = string(*obj.RuntimeVersion)
 	}
 
 	return result
@@ -665,6 +722,21 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyForma
 		result.Instruction = &tmp
 	}
 
+	if llmHyperParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_hyper_parameters")); ok {
+		result.LlmHyperParameters = llmHyperParameters.(map[string]interface{})
+	}
+
+	if llmSelection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection")); ok {
+		if tmpList := llmSelection.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "llm_selection"), 0)
+			tmp, err := s.mapToLlmSelection(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert llm_selection, encountered error: %v", err)
+			}
+			result.LlmSelection = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -673,6 +745,75 @@ func LlmCustomizationToMap(obj *oci_generative_ai_agent.LlmCustomization) map[st
 
 	if obj.Instruction != nil {
 		result["instruction"] = string(*obj.Instruction)
+	}
+
+	result["llm_hyper_parameters"] = obj.LlmHyperParameters
+
+	if obj.LlmSelection != nil {
+		llmSelectionArray := []interface{}{}
+		if llmSelectionMap := LlmSelectionToMap(&obj.LlmSelection); llmSelectionMap != nil {
+			llmSelectionArray = append(llmSelectionArray, llmSelectionMap)
+		}
+		result["llm_selection"] = llmSelectionArray
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmSelection(fieldKeyFormat string) (oci_generative_ai_agent.LlmSelection, error) {
+	var baseObject oci_generative_ai_agent.LlmSelection
+	//discriminator
+	llmSelectionTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection_type"))
+	var llmSelectionType string
+	if ok {
+		llmSelectionType = llmSelectionTypeRaw.(string)
+	} else {
+		llmSelectionType = "" // default value
+	}
+	switch strings.ToLower(llmSelectionType) {
+	case strings.ToLower("CUSTOM_GEN_AI_ENDPOINT"):
+		details := oci_generative_ai_agent.CustomGenAiEndpointLlmSelection{}
+		if endpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_id")); ok {
+			tmp := endpointId.(string)
+			details.EndpointId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_GEN_AI_MODEL"):
+		details := oci_generative_ai_agent.CustomGenAiModelLlmSelection{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT"):
+		details := oci_generative_ai_agent.DefaultLlmSelection{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown llm_selection_type '%v' was specified", llmSelectionType)
+	}
+	return baseObject, nil
+}
+
+func LlmSelectionToMap(obj *oci_generative_ai_agent.LlmSelection) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.CustomGenAiEndpointLlmSelection:
+		result["llm_selection_type"] = "CUSTOM_GEN_AI_ENDPOINT"
+
+		if v.EndpointId != nil {
+			result["endpoint_id"] = string(*v.EndpointId)
+		}
+	case oci_generative_ai_agent.CustomGenAiModelLlmSelection:
+		result["llm_selection_type"] = "CUSTOM_GEN_AI_MODEL"
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
+	case oci_generative_ai_agent.DefaultLlmSelection:
+		result["llm_selection_type"] = "DEFAULT"
+	default:
+		log.Printf("[WARN] Received 'llm_selection_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
