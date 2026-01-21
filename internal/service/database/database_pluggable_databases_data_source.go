@@ -151,6 +151,10 @@ func (s *DatabasePluggableDatabasesDataSourceCrud) SetData() error {
 
 		pluggableDatabase["open_mode"] = r.OpenMode
 
+		if r.PatchVersion != nil {
+			pluggableDatabase["patch_version"] = *r.PatchVersion
+		}
+
 		if r.PdbName != nil {
 			pluggableDatabase["pdb_name"] = *r.PdbName
 		}

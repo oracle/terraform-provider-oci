@@ -112,6 +112,7 @@ The following attributes are exported:
 * `last_failed_backup_timestamp` - The date and time when the latest database backup failed.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `ncharacter_set` - The national character set for the database.
+* `patch_version` - The patch version of the  database.
 * `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 * `sid_prefix` - Specifies a prefix for the `Oracle SID` of the database to be created. 
 * `source_database_point_in_time_recovery_timestamp` - Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339)
@@ -124,4 +125,7 @@ The following attributes are exported:
 * `time_created` - The date and time the database was created.
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
+* `patch_options` - Options for DB Home and Database patching
+  * `should_skip_closed_pdbs` - Skip running datapatch on PDBs in closed state
+  * `should_skip_data_patch` - Skip running datapatch on database(s)
 

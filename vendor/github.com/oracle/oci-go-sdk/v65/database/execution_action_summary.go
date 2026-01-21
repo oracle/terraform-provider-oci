@@ -182,6 +182,7 @@ const (
 	ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress ExecutionActionSummaryLifecycleSubstateEnum = "MAINTENANCE_IN_PROGRESS"
 	ExecutionActionSummaryLifecycleSubstateWaiting               ExecutionActionSummaryLifecycleSubstateEnum = "WAITING"
 	ExecutionActionSummaryLifecycleSubstateRescheduled           ExecutionActionSummaryLifecycleSubstateEnum = "RESCHEDULED"
+	ExecutionActionSummaryLifecycleSubstateCanceledByOps         ExecutionActionSummaryLifecycleSubstateEnum = "CANCELED_BY_OPS"
 )
 
 var mappingExecutionActionSummaryLifecycleSubstateEnum = map[string]ExecutionActionSummaryLifecycleSubstateEnum{
@@ -189,6 +190,7 @@ var mappingExecutionActionSummaryLifecycleSubstateEnum = map[string]ExecutionAct
 	"MAINTENANCE_IN_PROGRESS": ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress,
 	"WAITING":                 ExecutionActionSummaryLifecycleSubstateWaiting,
 	"RESCHEDULED":             ExecutionActionSummaryLifecycleSubstateRescheduled,
+	"CANCELED_BY_OPS":         ExecutionActionSummaryLifecycleSubstateCanceledByOps,
 }
 
 var mappingExecutionActionSummaryLifecycleSubstateEnumLowerCase = map[string]ExecutionActionSummaryLifecycleSubstateEnum{
@@ -196,6 +198,7 @@ var mappingExecutionActionSummaryLifecycleSubstateEnumLowerCase = map[string]Exe
 	"maintenance_in_progress": ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress,
 	"waiting":                 ExecutionActionSummaryLifecycleSubstateWaiting,
 	"rescheduled":             ExecutionActionSummaryLifecycleSubstateRescheduled,
+	"canceled_by_ops":         ExecutionActionSummaryLifecycleSubstateCanceledByOps,
 }
 
 // GetExecutionActionSummaryLifecycleSubstateEnumValues Enumerates the set of values for ExecutionActionSummaryLifecycleSubstateEnum
@@ -214,6 +217,7 @@ func GetExecutionActionSummaryLifecycleSubstateEnumStringValues() []string {
 		"MAINTENANCE_IN_PROGRESS",
 		"WAITING",
 		"RESCHEDULED",
+		"CANCELED_BY_OPS",
 	}
 }
 

@@ -216,6 +216,9 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
+	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
+	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
+	// For new databases, it is recommended to use either 19c or 26ai.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// Customer Contacts.
@@ -259,6 +262,8 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
+
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
 	// If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
@@ -566,6 +571,11 @@ func (m CreateCrossRegionDisasterRecoveryDetails) GetSecretVersionNumber() *int 
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateCrossRegionDisasterRecoveryDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateCrossRegionDisasterRecoveryDetails) String() string {
 	return common.PointerString(m)
 }
@@ -670,6 +680,7 @@ func (m *CreateCrossRegionDisasterRecoveryDetails) UnmarshalJSON(data []byte) (e
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		IsReplicateAutomaticBackups              *bool                                                             `json:"isReplicateAutomaticBackups"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
@@ -794,6 +805,8 @@ func (m *CreateCrossRegionDisasterRecoveryDetails) UnmarshalJSON(data []byte) (e
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.IsReplicateAutomaticBackups = model.IsReplicateAutomaticBackups
 

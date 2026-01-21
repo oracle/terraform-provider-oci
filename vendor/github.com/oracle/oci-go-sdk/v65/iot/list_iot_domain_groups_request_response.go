@@ -30,6 +30,9 @@ type ListIotDomainGroupsRequest struct {
 	// Filter resources whose lifecycleState matches the specified value.
 	LifecycleState IotDomainGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// Filter resources by type. Valid values are LIGHTWEIGHT or STANDARD.
+	Type IotDomainGroupTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -89,6 +92,9 @@ func (request ListIotDomainGroupsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingIotDomainGroupLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetIotDomainGroupLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingIotDomainGroupTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetIotDomainGroupTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListIotDomainGroupsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListIotDomainGroupsSortOrderEnumStringValues(), ",")))

@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_iot_digital_twin_instance_content
 This data source provides details about a specific Digital Twin Instance Content resource in Oracle Cloud Infrastructure Iot service.
 
-Retrieves the latest snapshot data of digital twin instance identified by the specified OCID.
+Retrieves the content associated with a digital twin instance identified by the specified OCID.
+The content can be retrieved only when a model is associated with the digital twin instance.
 
 
 ## Example Usage

@@ -216,6 +216,12 @@ type CloudAutonomousVmCluster struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// Details of the multi cloud identity connectors of the VM cluster.
+	MultiCloudIdentityConnectorConfigs []IdentityConnectorDetails `mandatory:"false" json:"multiCloudIdentityConnectorConfigs"`
+
+	// TDE keystore type
+	TdeKeyStoreType CloudAutonomousVmClusterTdeKeyStoreTypeEnum `mandatory:"false" json:"tdeKeyStoreType,omitempty"`
 }
 
 func (m CloudAutonomousVmCluster) String() string {
@@ -236,6 +242,9 @@ func (m CloudAutonomousVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudAutonomousVmClusterLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCloudAutonomousVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum(string(m.TdeKeyStoreType)); !ok && m.TdeKeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TdeKeyStoreType: %s. Supported values are: %s.", m.TdeKeyStoreType, strings.Join(GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -386,5 +395,55 @@ func GetCloudAutonomousVmClusterLicenseModelEnumStringValues() []string {
 // GetMappingCloudAutonomousVmClusterLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudAutonomousVmClusterLicenseModelEnum(val string) (CloudAutonomousVmClusterLicenseModelEnum, bool) {
 	enum, ok := mappingCloudAutonomousVmClusterLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudAutonomousVmClusterTdeKeyStoreTypeEnum Enum with underlying type: string
+type CloudAutonomousVmClusterTdeKeyStoreTypeEnum string
+
+// Set of constants representing the allowable values for CloudAutonomousVmClusterTdeKeyStoreTypeEnum
+const (
+	CloudAutonomousVmClusterTdeKeyStoreTypeAzure CloudAutonomousVmClusterTdeKeyStoreTypeEnum = "AZURE"
+	CloudAutonomousVmClusterTdeKeyStoreTypeOci   CloudAutonomousVmClusterTdeKeyStoreTypeEnum = "OCI"
+	CloudAutonomousVmClusterTdeKeyStoreTypeGcp   CloudAutonomousVmClusterTdeKeyStoreTypeEnum = "GCP"
+	CloudAutonomousVmClusterTdeKeyStoreTypeAws   CloudAutonomousVmClusterTdeKeyStoreTypeEnum = "AWS"
+)
+
+var mappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum = map[string]CloudAutonomousVmClusterTdeKeyStoreTypeEnum{
+	"AZURE": CloudAutonomousVmClusterTdeKeyStoreTypeAzure,
+	"OCI":   CloudAutonomousVmClusterTdeKeyStoreTypeOci,
+	"GCP":   CloudAutonomousVmClusterTdeKeyStoreTypeGcp,
+	"AWS":   CloudAutonomousVmClusterTdeKeyStoreTypeAws,
+}
+
+var mappingCloudAutonomousVmClusterTdeKeyStoreTypeEnumLowerCase = map[string]CloudAutonomousVmClusterTdeKeyStoreTypeEnum{
+	"azure": CloudAutonomousVmClusterTdeKeyStoreTypeAzure,
+	"oci":   CloudAutonomousVmClusterTdeKeyStoreTypeOci,
+	"gcp":   CloudAutonomousVmClusterTdeKeyStoreTypeGcp,
+	"aws":   CloudAutonomousVmClusterTdeKeyStoreTypeAws,
+}
+
+// GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumValues Enumerates the set of values for CloudAutonomousVmClusterTdeKeyStoreTypeEnum
+func GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumValues() []CloudAutonomousVmClusterTdeKeyStoreTypeEnum {
+	values := make([]CloudAutonomousVmClusterTdeKeyStoreTypeEnum, 0)
+	for _, v := range mappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterTdeKeyStoreTypeEnum
+func GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"AZURE",
+		"OCI",
+		"GCP",
+		"AWS",
+	}
+}
+
+// GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum(val string) (CloudAutonomousVmClusterTdeKeyStoreTypeEnum, bool) {
+	enum, ok := mappingCloudAutonomousVmClusterTdeKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

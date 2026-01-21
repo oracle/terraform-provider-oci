@@ -22,6 +22,10 @@ type CreateIotDomainGroupDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment corresponding to the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),
+	// making it suitable for development and testing. STANDARD is recommended for production.
+	Type CreateIotDomainGroupDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -49,8 +53,53 @@ func (m CreateIotDomainGroupDetails) String() string {
 func (m CreateIotDomainGroupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateIotDomainGroupDetailsTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCreateIotDomainGroupDetailsTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateIotDomainGroupDetailsTypeEnum Enum with underlying type: string
+type CreateIotDomainGroupDetailsTypeEnum string
+
+// Set of constants representing the allowable values for CreateIotDomainGroupDetailsTypeEnum
+const (
+	CreateIotDomainGroupDetailsTypeStandard    CreateIotDomainGroupDetailsTypeEnum = "STANDARD"
+	CreateIotDomainGroupDetailsTypeLightweight CreateIotDomainGroupDetailsTypeEnum = "LIGHTWEIGHT"
+)
+
+var mappingCreateIotDomainGroupDetailsTypeEnum = map[string]CreateIotDomainGroupDetailsTypeEnum{
+	"STANDARD":    CreateIotDomainGroupDetailsTypeStandard,
+	"LIGHTWEIGHT": CreateIotDomainGroupDetailsTypeLightweight,
+}
+
+var mappingCreateIotDomainGroupDetailsTypeEnumLowerCase = map[string]CreateIotDomainGroupDetailsTypeEnum{
+	"standard":    CreateIotDomainGroupDetailsTypeStandard,
+	"lightweight": CreateIotDomainGroupDetailsTypeLightweight,
+}
+
+// GetCreateIotDomainGroupDetailsTypeEnumValues Enumerates the set of values for CreateIotDomainGroupDetailsTypeEnum
+func GetCreateIotDomainGroupDetailsTypeEnumValues() []CreateIotDomainGroupDetailsTypeEnum {
+	values := make([]CreateIotDomainGroupDetailsTypeEnum, 0)
+	for _, v := range mappingCreateIotDomainGroupDetailsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateIotDomainGroupDetailsTypeEnumStringValues Enumerates the set of values in String for CreateIotDomainGroupDetailsTypeEnum
+func GetCreateIotDomainGroupDetailsTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"LIGHTWEIGHT",
+	}
+}
+
+// GetMappingCreateIotDomainGroupDetailsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateIotDomainGroupDetailsTypeEnum(val string) (CreateIotDomainGroupDetailsTypeEnum, bool) {
+	enum, ok := mappingCreateIotDomainGroupDetailsTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

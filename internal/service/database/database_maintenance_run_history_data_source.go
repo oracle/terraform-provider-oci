@@ -217,6 +217,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"deferred_execution_window_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
