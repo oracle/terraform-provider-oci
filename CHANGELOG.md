@@ -1,3 +1,16 @@
+## 7.31.0 (January 21, 2026)
+
+### Added
+- Support for OCI IoT service: Flexible Domain Group Resourcing
+- Support for SDK/CLI ExaDB-C@C Granular Scheduling & Infra Patching Improvements/Fixes
+- Support for Allow skipDatapatch, skipClosedPDBs and applyDatapatch options in console UI | ExaCS&ExaCC
+- Support for [DBaaS] DbConnectionBundle and Service-Owned Certificates DB Cloud Databases
+- Support for ADB-S: Support Transportable Tablespaces
+- Support for ADBS: Extend Wallet Rotation Grace Period to 72 hours
+- fix for stateful resource for context aware resources (SIGINT propagation)
+- Support to use retry-after header for 409 errors in retries
+
+
 ## 7.30.0 (January 14, 2026)
 
 ### Added
