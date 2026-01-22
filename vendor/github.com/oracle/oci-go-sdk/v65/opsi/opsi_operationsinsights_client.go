@@ -501,7 +501,8 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 	return response, err
 }
 
-// ChangeExternalMysqlDatabaseInsightConnection Change the connection details of an External MySQL database insight. When provided, If-Match is checked against ETag values of the resource.
+// ChangeExternalMysqlDatabaseInsightConnection MySQL support within the OCI Ops Insights service has been deprecated as of January 29, 2026.
+// Change the connection details of an External MySQL database insight. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeExternalMysqlDatabaseInsightConnection()
 func (client OperationsInsightsClient) ChangeExternalMysqlDatabaseInsightConnection(ctx context.Context, request ChangeExternalMysqlDatabaseInsightConnectionRequest) (response ChangeExternalMysqlDatabaseInsightConnectionResponse, err error) {
 	var ociResponse common.OCIResponse

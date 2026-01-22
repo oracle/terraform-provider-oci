@@ -419,7 +419,7 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 // digests are always included in the response.
 // This internal API allows Object Storage tooling to verify the
 // correctness of stored data.  Any tenancy's objects can be
-// verified with this API, so it must only protected by BOAT AAA.
+// verified with this API, so it must only be protected by BOAT AAA.
 // A default retry strategy applies to this operation CheckObject()
 func (client ObjectStorageClient) CheckObject(ctx context.Context, request CheckObjectRequest) (response CheckObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -494,8 +494,8 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 // ensure that large streams complete without timing out as long as
 // the client awaits the chunked body.
 // This internal API allows Object Storage tooling to verify the
-// correctness of stored data.  Any tenancy's objects can be
-// verified with this API, so it must only protected by BOAT AAA.
+// correctness of stored data. Any tenancy's objects can be
+// verified with this API, so it must only be protected by BOAT AAA.
 // A default retry strategy applies to this operation CheckObjectV2()
 func (client ObjectStorageClient) CheckObjectV2(ctx context.Context, request CheckObjectV2Request) (response CheckObjectV2Response, err error) {
 	var ociResponse common.OCIResponse

@@ -31,6 +31,8 @@ const (
 	WorkRequestOperationTypeStopHeatwaveCluster                   WorkRequestOperationTypeEnum = "STOP_HEATWAVE_CLUSTER"
 	WorkRequestOperationTypeRestartHeatwaveCluster                WorkRequestOperationTypeEnum = "RESTART_HEATWAVE_CLUSTER"
 	WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate WorkRequestOperationTypeEnum = "GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE"
+	WorkRequestOperationTypeGenerateDbsystemStatus                WorkRequestOperationTypeEnum = "GENERATE_DBSYSTEM_STATUS"
+	WorkRequestOperationTypeGenerateChannelStatus                 WorkRequestOperationTypeEnum = "GENERATE_CHANNEL_STATUS"
 	WorkRequestOperationTypeCreateReplica                         WorkRequestOperationTypeEnum = "CREATE_REPLICA"
 	WorkRequestOperationTypeUpdateReplica                         WorkRequestOperationTypeEnum = "UPDATE_REPLICA"
 	WorkRequestOperationTypeDeleteReplica                         WorkRequestOperationTypeEnum = "DELETE_REPLICA"
@@ -60,6 +62,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"STOP_HEATWAVE_CLUSTER":                     WorkRequestOperationTypeStopHeatwaveCluster,
 	"RESTART_HEATWAVE_CLUSTER":                  WorkRequestOperationTypeRestartHeatwaveCluster,
 	"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE": WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate,
+	"GENERATE_DBSYSTEM_STATUS":                  WorkRequestOperationTypeGenerateDbsystemStatus,
+	"GENERATE_CHANNEL_STATUS":                   WorkRequestOperationTypeGenerateChannelStatus,
 	"CREATE_REPLICA":                            WorkRequestOperationTypeCreateReplica,
 	"UPDATE_REPLICA":                            WorkRequestOperationTypeUpdateReplica,
 	"DELETE_REPLICA":                            WorkRequestOperationTypeDeleteReplica,
@@ -89,6 +93,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"stop_heatwave_cluster":                     WorkRequestOperationTypeStopHeatwaveCluster,
 	"restart_heatwave_cluster":                  WorkRequestOperationTypeRestartHeatwaveCluster,
 	"generate_heatwave_cluster_memory_estimate": WorkRequestOperationTypeGenerateHeatwaveClusterMemoryEstimate,
+	"generate_dbsystem_status":                  WorkRequestOperationTypeGenerateDbsystemStatus,
+	"generate_channel_status":                   WorkRequestOperationTypeGenerateChannelStatus,
 	"create_replica":                            WorkRequestOperationTypeCreateReplica,
 	"update_replica":                            WorkRequestOperationTypeUpdateReplica,
 	"delete_replica":                            WorkRequestOperationTypeDeleteReplica,
@@ -129,6 +135,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"STOP_HEATWAVE_CLUSTER",
 		"RESTART_HEATWAVE_CLUSTER",
 		"GENERATE_HEATWAVE_CLUSTER_MEMORY_ESTIMATE",
+		"GENERATE_DBSYSTEM_STATUS",
+		"GENERATE_CHANNEL_STATUS",
 		"CREATE_REPLICA",
 		"UPDATE_REPLICA",
 		"DELETE_REPLICA",

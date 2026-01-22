@@ -46,6 +46,11 @@ type UpdateNetworkConfigurationDetails struct {
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m UpdateNetworkConfigurationDetails) String() string {

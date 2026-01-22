@@ -22,6 +22,9 @@ type CheckObjectV2Result struct {
 
 	// A flag to indicate if the Object's digest matched the digest from when it was uploaded
 	IsCheckObjectOk *bool `mandatory:"true" json:"isCheckObjectOk"`
+
+	// An optional check object specific error code to indicate the fail reason of the request
+	ErrorCode *int `mandatory:"false" json:"errorCode"`
 }
 
 func (m CheckObjectV2Result) String() string {

@@ -118,6 +118,13 @@ type Bucket struct {
 
 	// The ID of the ACL Group that contains the network restriction rules applied to this bucket.
 	AclGroupId *string `mandatory:"false" json:"aclGroupId"`
+
+	// Scope in which the bucket is unique. Default value is NAMESPACE.
+	// Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+	// tenancies can have a bucket with same name in their namespace.
+	// Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+	// same name and scope REGION.
+	BucketScope BucketBucketScopeEnum `mandatory:"false" json:"bucketScope,omitempty"`
 }
 
 func (m Bucket) String() string {
@@ -144,6 +151,9 @@ func (m Bucket) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingBucketAutoTieringEnum(string(m.AutoTiering)); !ok && m.AutoTiering != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBucketBucketScopeEnum(string(m.BucketScope)); !ok && m.BucketScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BucketScope: %s. Supported values are: %s.", m.BucketScope, strings.Join(GetBucketBucketScopeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -370,5 +380,47 @@ func GetBucketAutoTieringEnumStringValues() []string {
 // GetMappingBucketAutoTieringEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBucketAutoTieringEnum(val string) (BucketAutoTieringEnum, bool) {
 	enum, ok := mappingBucketAutoTieringEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BucketBucketScopeEnum Enum with underlying type: string
+type BucketBucketScopeEnum string
+
+// Set of constants representing the allowable values for BucketBucketScopeEnum
+const (
+	BucketBucketScopeNamespace BucketBucketScopeEnum = "NAMESPACE"
+	BucketBucketScopeRegion    BucketBucketScopeEnum = "REGION"
+)
+
+var mappingBucketBucketScopeEnum = map[string]BucketBucketScopeEnum{
+	"NAMESPACE": BucketBucketScopeNamespace,
+	"REGION":    BucketBucketScopeRegion,
+}
+
+var mappingBucketBucketScopeEnumLowerCase = map[string]BucketBucketScopeEnum{
+	"namespace": BucketBucketScopeNamespace,
+	"region":    BucketBucketScopeRegion,
+}
+
+// GetBucketBucketScopeEnumValues Enumerates the set of values for BucketBucketScopeEnum
+func GetBucketBucketScopeEnumValues() []BucketBucketScopeEnum {
+	values := make([]BucketBucketScopeEnum, 0)
+	for _, v := range mappingBucketBucketScopeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBucketBucketScopeEnumStringValues Enumerates the set of values in String for BucketBucketScopeEnum
+func GetBucketBucketScopeEnumStringValues() []string {
+	return []string{
+		"NAMESPACE",
+		"REGION",
+	}
+}
+
+// GetMappingBucketBucketScopeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBucketBucketScopeEnum(val string) (BucketBucketScopeEnum, bool) {
+	enum, ok := mappingBucketBucketScopeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

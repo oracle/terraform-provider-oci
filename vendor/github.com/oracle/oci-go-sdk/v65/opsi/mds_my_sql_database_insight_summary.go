@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// MdsMySqlDatabaseInsightSummary Summary of a database insight resource.
+// MdsMySqlDatabaseInsightSummary MySQL support within the OCI Ops Insights service has been deprecated as of January 29, 2026.
+// Summary of a database insight resource.
 type MdsMySqlDatabaseInsightSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
