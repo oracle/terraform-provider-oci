@@ -508,11 +508,22 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
+									"maintenance_disabled_windows": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"time_end": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_start": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"maintenance_schedule_type": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1497,6 +1508,12 @@ func DbSystemSnapshotSummaryToMap(obj *oci_mysql.DbSystemSnapshotSummary) map[st
 
 func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	maintenanceDisabledWindows := []interface{}{}
+	for _, item := range obj.MaintenanceDisabledWindows {
+		maintenanceDisabledWindows = append(maintenanceDisabledWindows, MaintenanceDisabledWindowToMap(item))
+	}
+	result["maintenance_disabled_windows"] = maintenanceDisabledWindows
 
 	result["maintenance_schedule_type"] = string(obj.MaintenanceScheduleType)
 

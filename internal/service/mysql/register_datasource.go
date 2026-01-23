@@ -8,6 +8,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_mysql_channel", MysqlChannelDataSource())
 	tfresource.RegisterDatasource("oci_mysql_channels", MysqlChannelsDataSource())
+	tfresource.RegisterDatasource("oci_mysql_db_system_maintenance_events", MysqlDbSystemMaintenanceEventsDataSource())
 	tfresource.RegisterDatasource("oci_mysql_heat_wave_cluster", MysqlHeatWaveClusterDataSource())
 	tfresource.RegisterDatasource("oci_mysql_mysql_backup", MysqlMysqlBackupDataSource())
 	tfresource.RegisterDatasource("oci_mysql_mysql_backups", MysqlMysqlBackupsDataSource())
