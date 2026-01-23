@@ -112,11 +112,21 @@ var (
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 	}
 
+	mysqlDbSystemMaintenanceEventDataSourceRepresentation = map[string]interface{}{
+		"db_system_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"maintenance_action": acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
+		"maintenance_status": acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
+		"maintenance_type":   acctest.Representation{RepType: acctest.Optional, Create: `SHAPE`},
+	}
+
 	MysqlDbSystemSourceBackupResourceDependencies = MysqlMysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 
 	MysqlDbSystemSourcePitrResourceDependencies = MysqlMysqlDbSystemResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_pitr_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation)
+
+	MysqlDbSystemMaintenanceEventResourceDependencies = MysqlMysqlDbSystemResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 
 	MysqlMysqlDbSystemSecureConnectionsWithBYOCRepresentation = map[string]interface{}{
 		"certificate_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`, Update: `BYOC`},
@@ -743,6 +753,7 @@ func TestMysqlMysqlDbSystemResource_updateConfigurationIdAndShape(t *testing.T) 
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+	datasourceName := "data.oci_mysql_db_system_maintenance_events.test_db_system_maintenance_events"
 
 	var resId, resId2 string
 
@@ -790,6 +801,22 @@ func TestMysqlMysqlDbSystemResource_updateConfigurationIdAndShape(t *testing.T) 
 					}
 					return err
 				},
+			),
+		},
+		// keep same config and shape, but verify maintenance event
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, mysqlDbSystemRepresentationShapeAndConfigUpdate) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_db_system_maintenance_events", "test_db_system_maintenance_events", acctest.Required, acctest.Update, mysqlDbSystemMaintenanceEventDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configuration_id", mysqlConfigurationE3_2_32_OCIDVal),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.2.32GB"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_events.#"),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_events.0.maintenance_action", `DATABASE`),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_events.0.maintenance_status", `SUCCEEDED`),
+				resource.TestCheckResourceAttr(datasourceName, "maintenance_events.0.maintenance_type", `SHAPE`),
 			),
 		},
 	})
