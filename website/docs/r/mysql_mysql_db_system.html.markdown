@@ -100,6 +100,11 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		window_start_time = var.mysql_db_system_maintenance_window_start_time
 
 		#Optional
+		maintenance_disabled_windows {
+			#Required
+			time_end = var.mysql_db_system_maintenance_maintenance_disabled_windows_time_end
+			time_start = var.mysql_db_system_maintenance_maintenance_disabled_windows_time_start
+		}
 		maintenance_schedule_type = var.mysql_db_system_maintenance_maintenance_schedule_type
 		version_preference = var.mysql_db_system_maintenance_version_preference
 		version_track_preference = var.mysql_db_system_maintenance_version_track_preference
@@ -229,6 +234,9 @@ The following arguments are supported:
 
 	When creating a DB System with High Availability, three instances are created and placed according to your region- and subnet-type. The secondaries are placed automatically in the other two availability or fault domains.  You can choose the preferred location of your primary instance, only. 
 * `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System or Read Replica that this model is included in. `maintenance` and `backup_policy` cannot be updated in the same request.
+	* `maintenance_disabled_windows` - (Optional) (Updatable) Time window during which downtime-inducing maintenance shall not be performed. Downtime-free maintenance may be performed to apply required security patches. At most one configured window is supported. 
+		* `time_end` - (Required) (Updatable) The time until when maintenance is disabled. Must be set together with timeStart and must be after timeStart. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
+		* `time_start` - (Required) (Updatable) The time from when maintenance is disabled. Must be set together with timeEnd and must be before timeEnd. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `maintenance_schedule_type` - (Optional) (Updatable) The maintenance schedule type of the DB system. Defaults to REGULAR. EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated. REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable. 
 	* `version_preference` - (Optional) (Updatable) The preferred version to target when performing an automatic MySQL upgrade. Defaults to OLDEST.
 
@@ -432,6 +440,9 @@ The following attributes are exported:
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
+	* `maintenance_disabled_windows` - Time window during which downtime-inducing maintenance shall not be performed. Downtime-free maintenance may be performed to apply required security patches. At most one configured window is supported. 
+		* `time_end` - The time until when maintenance is disabled. Must be set together with timeStart and must be after timeStart. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
+		* `time_start` - The time from when maintenance is disabled. Must be set together with timeEnd and must be before timeEnd. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `maintenance_schedule_type` - The maintenance schedule type of the DB system. EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated. REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable. 
 	* `target_version` - The version that is expected to be targeted during the next scheduled maintenance run. 
 	* `time_scheduled` - The time the scheduled maintenance is expected to start, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

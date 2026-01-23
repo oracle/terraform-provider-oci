@@ -206,6 +206,9 @@ The following attributes are exported:
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
+	* `maintenance_disabled_windows` - Time window during which downtime-inducing maintenance shall not be performed. Downtime-free maintenance may be performed to apply required security patches. At most one configured window is supported. 
+		* `time_end` - The time until when maintenance is disabled. Must be set together with timeStart and must be after timeStart. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
+		* `time_start` - The time from when maintenance is disabled. Must be set together with timeEnd and must be before timeEnd. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 	* `maintenance_schedule_type` - The maintenance schedule type of the DB system. EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated. REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable. 
 	* `target_version` - The version that is expected to be targeted during the next scheduled maintenance run. 
 	* `time_scheduled` - The time the scheduled maintenance is expected to start, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

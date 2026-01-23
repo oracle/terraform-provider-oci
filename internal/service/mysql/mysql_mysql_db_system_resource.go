@@ -390,6 +390,25 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"maintenance_disabled_windows": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"time_end": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+									},
+									"time_start": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+									},
+								},
+							},
+						},
 						"maintenance_schedule_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -2379,6 +2398,23 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateDeletionPolicyDetails(fieldK
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_mysql.CreateMaintenanceDetails, error) {
 	result := oci_mysql.CreateMaintenanceDetails{}
 
+	if maintenanceDisabledWindows, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows")); ok {
+		interfaces := maintenanceDisabledWindows.([]interface{})
+		tmp := make([]oci_mysql.MaintenanceDisabledWindow, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows"), stateDataIndex)
+			converted, err := s.mapToMaintenanceDisabledWindow(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows")) {
+			result.MaintenanceDisabledWindows = tmp
+		}
+	}
+
 	if maintenanceScheduleType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_schedule_type")); ok {
 		result.MaintenanceScheduleType = oci_mysql.MaintenanceScheduleTypeEnum(maintenanceScheduleType.(string))
 	}
@@ -2673,6 +2709,28 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 	return result
 }
 
+func (s *MysqlMysqlDbSystemResourceCrud) mapToMaintenanceDisabledWindow(fieldKeyFormat string) (oci_mysql.MaintenanceDisabledWindow, error) {
+	result := oci_mysql.MaintenanceDisabledWindow{}
+
+	if timeEnd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_end")); ok {
+		tmp, err := time.Parse(time.RFC3339Nano, timeEnd.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeEnd = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeStart, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_start")); ok {
+		tmp, err := time.Parse(time.RFC3339Nano, timeStart.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeStart = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
 func (s *MysqlMysqlDbSystemResourceCrud) mapToPitrPolicy(fieldKeyFormat string) (oci_mysql.PitrPolicy, error) {
 	result := oci_mysql.PitrPolicy{}
 
@@ -2803,6 +2861,23 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateMaintenanceDetails(fieldKeyFormat string) (oci_mysql.UpdateMaintenanceDetails, error) {
 	result := oci_mysql.UpdateMaintenanceDetails{}
 
+	if maintenanceDisabledWindows, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows")); ok {
+		interfaces := maintenanceDisabledWindows.([]interface{})
+		tmp := make([]oci_mysql.MaintenanceDisabledWindow, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows"), stateDataIndex)
+			converted, err := s.mapToMaintenanceDisabledWindow(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "maintenance_disabled_windows")) {
+			result.MaintenanceDisabledWindows = tmp
+		}
+	}
+
 	if maintenanceScheduleType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maintenance_schedule_type")); ok {
 		result.MaintenanceScheduleType = oci_mysql.MaintenanceScheduleTypeEnum(maintenanceScheduleType.(string))
 	}
@@ -2821,6 +2896,20 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
+}
+
+func MaintenanceDisabledWindowToMap(obj oci_mysql.MaintenanceDisabledWindow) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeEnd != nil {
+		result["time_end"] = obj.TimeEnd.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeStart != nil {
+		result["time_start"] = obj.TimeStart.Format(time.RFC3339Nano)
+	}
+
+	return result
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) StartMysqlDbInstance() error {
