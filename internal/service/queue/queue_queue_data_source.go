@@ -126,5 +126,13 @@ func (s *QueueQueueDataSourceCrud) SetData() error {
 		s.D.Set("visibility_in_seconds", *s.Res.VisibilityInSeconds)
 	}
 
+	if s.Res.Capabilities != nil {
+		capabilities := []interface{}{}
+		for _, item := range s.Res.Capabilities {
+			capabilities = append(capabilities, QueueCapabilityToMap(item))
+		}
+		s.D.Set("capabilities", capabilities)
+	}
+
 	return nil
 }
