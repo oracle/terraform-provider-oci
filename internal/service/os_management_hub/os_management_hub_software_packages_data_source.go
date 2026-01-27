@@ -383,6 +383,10 @@ func SoftwarePackageSummaryToMap(obj oci_os_management_hub.SoftwarePackageSummar
 		result["is_latest"] = bool(*obj.IsLatest)
 	}
 
+	if obj.LastModifiedDate != nil {
+		result["last_modified_date"] = string(*obj.LastModifiedDate)
+	}
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}

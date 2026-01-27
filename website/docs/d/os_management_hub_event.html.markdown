@@ -58,6 +58,7 @@ The following attributes are exported:
 			* `EXPLOIT_ATTEMPT` - Used to identify a known exploit detection content 
 	* `error_cause` - The commands executed by the agent that caused the error.
 	* `error_log` - The output log of the error.
+	* `error_summary` - Brief description on how this error is categorized.
 	* `event_fingerprint` - Fingerprint of the event.
 	* `event_count` - Number of times the event has occurred.
 	* `health_state` - Health state of the management station

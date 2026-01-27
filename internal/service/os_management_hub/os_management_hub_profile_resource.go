@@ -48,6 +48,7 @@ func OsManagementHubProfileResource() *schema.Resource {
 					"LIFECYCLE",
 					"SOFTWARESOURCE",
 					"STATION",
+					"UBUNTU_STANDALONE",
 					"WINDOWS_STANDALONE",
 				}, true),
 			},
@@ -707,6 +708,68 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
+	case oci_os_management_hub.UbuntuStandaloneProfile:
+		s.D.Set("profile_type", "UBUNTU_STANDALONE")
+
+		s.D.Set("arch_type", v.ArchType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
+		if v.ManagementStationId != nil {
+			s.D.Set("management_station_id", *v.ManagementStationId)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
+		s.D.Set("registration_type", v.RegistrationType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
+		}
+
+		s.D.Set("vendor_name", v.VendorName)
 	case oci_os_management_hub.WindowsStandaloneProfile:
 		s.D.Set("profile_type", "WINDOWS_STANDALONE")
 
@@ -1139,6 +1202,60 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 		request.CreateProfileDetails = details
 	case strings.ToLower("STATION"):
 		details := oci_os_management_hub.CreateStationProfileDetails{}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if vendorName, ok := s.D.GetOkExists("vendor_name"); ok {
+			details.VendorName = oci_os_management_hub.VendorNameEnum(vendorName.(string))
+		}
+		if archType, ok := s.D.GetOkExists("arch_type"); ok {
+			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+			tmp := isDefaultProfile.(bool)
+			details.IsDefaultProfile = &tmp
+		}
+		if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
+			tmp := managementStationId.(string)
+			details.ManagementStationId = &tmp
+		}
+		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+			details.RegistrationType = oci_os_management_hub.ProfileRegistrationTypeEnum(registrationType.(string))
+		}
+		if vendorName, ok := s.D.GetOkExists("vendor_name"); ok {
+			details.VendorName = oci_os_management_hub.VendorNameEnum(vendorName.(string))
+		}
+		request.CreateProfileDetails = details
+	case strings.ToLower("UBUNTU_STANDALONE"):
+		details := oci_os_management_hub.CreateUbuntuStandAloneProfileDetails{}
 		if archType, ok := s.D.GetOkExists("arch_type"); ok {
 			details.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
 		}

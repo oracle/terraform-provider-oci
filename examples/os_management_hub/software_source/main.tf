@@ -45,6 +45,18 @@ data "oci_os_management_hub_software_sources" "ol8_appstream_x86_64" {
   vendor_name          = "ORACLE"
 }
 
+data "oci_os_management_hub_software_sources" "ol8_addons_x86_64" {
+  #Optional
+  arch_type            = ["X86_64"]
+  availability         = ["SELECTED"]
+  compartment_id       = var.compartment_ocid
+  display_name         = "ol8_addons-x86_64"
+  os_family            = ["ORACLE_LINUX_8"]
+  software_source_type = ["VENDOR"]
+  state                = ["ACTIVE"]
+  vendor_name          = "ORACLE"
+}
+
 # Custom Software Sources
 resource "oci_os_management_hub_software_source" "test_software_source_filter" {
   #Required
@@ -151,6 +163,32 @@ resource "oci_os_management_hub_software_source" "test_software_source_private" 
   }
 }
 
+resource "oci_os_management_hub_software_source" "test_software_source_custom" {
+  compartment_id               = var.compartment_ocid
+  display_name                 = "tf-custom-vcss"
+  is_auto_resolve_dependencies = "true"
+  is_automatically_updated     = "false"
+  is_created_from_package_list = "true"
+  is_latest_content_only       = "true"
+  lifecycle {
+    ignore_changes = [vendor_software_sources]
+  }
+  software_source_sub_type = "MANIFEST"
+  software_source_type     = "CUSTOM"
+  vendor_software_sources {
+    display_name = "ol8_baseos_latest-x86_64"
+    id           = "${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}"
+  }
+  vendor_software_sources {
+    display_name = "ol8_appstream-x86_64"
+    id           = "${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}"
+  }
+  vendor_software_sources {
+    display_name = "ol8_addons-x86_64"
+    id           = "${data.oci_os_management_hub_software_sources.ol8_addons_x86_64.software_source_collection[0].items[0].id}"
+  }
+}
+
 resource "oci_os_management_hub_software_source" "test_software_source_third_party" {
   #Required
   compartment_id       = var.compartment_ocid
@@ -233,27 +271,39 @@ data "oci_os_management_hub_software_packages" "test_software_packages" {
 }
 
 # List software sources for a given package
-# Uncomment the following block after this ticket is resolved: https://jira.oci.oraclecorp.com/browse/OSMH-6895
-# data "oci_os_management_hub_software_package_software_source" "test_software_package_software_source" {
-#   #Required
-#   compartment_id        = var.compartment_ocid
-#   software_package_name = "ModemManager-glib-devel-1.10.4-1.el8.x86_64.rpm"
+data "oci_os_management_hub_software_package_software_source" "test_software_package_software_source" {
+  #Required
+  compartment_id        = var.compartment_ocid
+  software_package_name = "ModemManager-glib-devel-1.10.4-1.el8.x86_64.rpm"
 
-#   #Optional
-#   arch_type             = ["X86_64"]
-#   availability          = ["SELECTED"]
-#   availability_anywhere = ["SELECTED"]
-#   availability_at_oci   = ["SELECTED"]
-#   display_name          = "ol8_codeready_builder-x86_64"
-#   display_name_contains = "ol8_codeready_builder-x86_64"
-#   os_family             = ["ORACLE_LINUX_8"]
-#   software_source_type  = ["VENDOR"]
-#   state                 = ["ACTIVE"]
-# }
+  #Optional
+  arch_type             = ["X86_64"]
+  availability          = ["SELECTED"]
+  availability_anywhere = ["SELECTED"]
+  availability_at_oci   = ["SELECTED"]
+  display_name          = "ol8_codeready_builder-x86_64"
+  display_name_contains = "ol8_codeready_builder-x86_64"
+  os_family             = ["ORACLE_LINUX_8"]
+  software_source_type  = ["VENDOR"]
+  state                 = ["ACTIVE"]
+}
 
 # Add software package
 resource "oci_os_management_hub_software_source_add_packages_management" "test_software_source_add_packages_management" {
-  packages           = ["ModemManager-glib-1.10.4-1.el8.x86_64"]
+  packages           = ["R-core-4.0.5-1.0.1.el8.x86_64", "NetworkManager-adsl-1:1.30.0-13.0.1.el8_4.x86_64"]
+  software_source_id = oci_os_management_hub_software_source.test_software_source_custom.id
+}
+
+# Remove Software package
+resource "oci_os_management_hub_software_source_remove_packages_management" "test_software_source_remove_packages_management" {
+  depends_on         = [oci_os_management_hub_software_source_add_packages_management.test_software_source_add_packages_management, oci_os_management_hub_software_source.test_software_source_custom]
+  packages           = ["R-core-4.0.5-1.0.1.el8.x86_64"]
+  software_source_id = oci_os_management_hub_software_source.test_software_source_custom.id
+}
+
+# Replace Software package
+resource "oci_os_management_hub_software_source_replace_packages_management" "test_software_source_replace_packages_management" {
+  packages           = ["NetworkManager-adsl-1:1.30.0-13.0.1.el8_4.x86_64"]
   software_source_id = oci_os_management_hub_software_source.test_software_source_list.id
 }
 
@@ -344,7 +394,7 @@ data "oci_os_management_hub_software_source_module_stream_profiles" "test_softwa
 
 data "oci_os_management_hub_software_sources" "test_software_sources_change_availability" {
   compartment_id       = var.compartment_ocid
-  display_name         = "ol8_baseos_developer-x86_64"
+  display_name         = "ol8_baseos_latest-x86_64"
   software_source_type = ["VENDOR"]
 }
 
@@ -356,29 +406,29 @@ resource "oci_os_management_hub_software_source_change_availability_management" 
   }
 }
 
-resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_onprem_selected" {
-  software_source_availabilities {
-    availability        = "SELECTED"
-    availability_at_oci = "AVAILABLE"
-    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
-  }
-}
+#resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_onprem_selected" {
+#  software_source_availabilities {
+#    availability        = "SELECTED"
+#    availability_at_oci = "AVAILABLE"
+#    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
+#  }
+#}
 
-resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_oci_selected" {
-  software_source_availabilities {
-    availability        = "AVAILABLE"
-    availability_at_oci = "SELECTED"
-    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
-  }
-}
+#resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_oci_selected" {
+#  software_source_availabilities {
+#    availability        = "AVAILABLE"
+#    availability_at_oci = "SELECTED"
+#    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
+#  }
+#}
 
-resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_available" {
-  software_source_availabilities {
-    availability        = "AVAILABLE"
-    availability_at_oci = "AVAILABLE"
-    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
-  }
-}
+#resource "oci_os_management_hub_software_source_change_availability_management" "test_software_source_change_availability_management_available" {
+#  software_source_availabilities {
+#    availability        = "AVAILABLE"
+#    availability_at_oci = "AVAILABLE"
+#    software_source_id  = data.oci_os_management_hub_software_sources.test_software_sources_change_availability.software_source_collection[0].items[0].id
+#  }
+#}
 
 
 #############################################

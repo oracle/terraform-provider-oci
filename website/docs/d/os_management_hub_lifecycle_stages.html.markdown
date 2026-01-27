@@ -27,7 +27,8 @@ data "oci_os_management_hub_lifecycle_stages" "test_lifecycle_stages" {
 	location = var.lifecycle_stage_location
 	location_not_equal_to = var.lifecycle_stage_location_not_equal_to
 	os_family = var.lifecycle_stage_os_family
-	software_source_id = var.lifecycle_stage_software_source_id
+	software_source_id {
+	}
 	state = var.lifecycle_stage_state
 }
 ```
@@ -65,9 +66,10 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 * `lifecycle_environment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment that contains the lifecycle stage.
-* `lifecycle_environment_display_name` - The user-friendly name for the lifecycle environment. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `location` - The location of managed instances associated with the lifecycle stage.
-* `managed_instances` - The number of managed instances associated with the lifecycle stage.
+* `managed_instance_ids` - The list of managed instances associated with the lifecycle stage.
+	* `display_name` - Managed instance name.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 * `os_family` - The operating system of the managed instances in the lifecycle stage.
 * `rank` - User-specified rank for the lifecycle stage. Rank determines the hierarchy of the lifecycle stages within the lifecycle environment. 
 * `software_source_id` - Provides identifying information for the specified software source.

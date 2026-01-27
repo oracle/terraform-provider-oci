@@ -34,7 +34,7 @@ func TestOsManagementHubManagementStationMirrorResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managementStationId := utils.GetEnvSettingWithBlankDefault("management_station_ocid")
+	managementStationId := utils.GetEnvSettingWithBlankDefault("osmh_management_station_ocid")
 	managementStationIdVariableStr := fmt.Sprintf("variable \"management_station_id\" { default = \"%s\" }\n", managementStationId)
 
 	datasourceName := "data.oci_os_management_hub_management_station_mirrors.test_management_station_mirrors"

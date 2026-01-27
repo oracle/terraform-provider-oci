@@ -323,6 +323,64 @@ func (s *OsManagementHubProfileDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("vendor_name", v.VendorName)
+	case oci_os_management_hub.UbuntuStandaloneProfile:
+		s.D.Set("profile_type", "UBUNTU_STANDALONE")
+
+		s.D.Set("arch_type", v.ArchType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
+		if v.ManagementStationId != nil {
+			s.D.Set("management_station_id", *v.ManagementStationId)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		if v.ProfileVersion != nil {
+			s.D.Set("profile_version", *v.ProfileVersion)
+		}
+
+		s.D.Set("registration_type", v.RegistrationType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeModified != nil {
+			s.D.Set("time_modified", v.TimeModified.String())
+		}
+
+		s.D.Set("vendor_name", v.VendorName)
 	case oci_os_management_hub.WindowsStandaloneProfile:
 		s.D.Set("profile_type", "WINDOWS_STANDALONE")
 

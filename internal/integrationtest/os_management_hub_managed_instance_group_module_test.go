@@ -17,7 +17,7 @@ import (
 
 var (
 	OsManagementHubManagedInstanceGroupModuleDataSourceRepresentation = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `php`},
 		"name_contains":             acctest.Representation{RepType: acctest.Optional, Create: `php`},
@@ -43,6 +43,7 @@ func TestOsManagementHubManagedInstanceGroupModuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_modules", "test_managed_instance_group_modules", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupModuleDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

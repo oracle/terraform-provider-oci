@@ -1366,6 +1366,16 @@ optimizer
 os_management_hub
 
 * oci\_os\_management\_hub\_managed\_instance
+* oci\_os\_management\_hub\_managed\_instance\_install\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_remove\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_install\_snaps\_management
+* oci\_os\_management\_hub\_managed\_instance\_remove\_snaps\_management
+* oci\_os\_management\_hub\_managed\_instance\_switch\_snap\_channel\_management
+* oci\_os\_management\_hub\_managed\_instance\_attach\_software\_sources\_management
+* oci\_os\_management\_hub\_managed\_instance\_detach\_software\_sources\_management
+* oci\_os\_management\_hub\_managed\_instances\_update\_packages\_management
+* oci\_os\_management\_hub\_managed\_instances\_install\_windows\_updates\_management
+* oci\_os\_management\_hub\_managed\_instance\_refresh\_software\_management
 * oci\_os\_management\_hub\_managed\_instance\_update\_packages\_management
 * oci\_os\_management\_hub\_managed\_instance\_install\_windows\_updates\_management
 * oci\_os\_management\_hub\_managed\_instance\_attach\_profile\_management
@@ -1375,6 +1385,7 @@ os_management_hub
 * oci\_os\_management\_hub\_profile\_attach\_lifecycle\_stage\_management
 * oci\_os\_management\_hub\_profile\_attach\_managed\_instance\_group\_management
 * oci\_os\_management\_hub\_profile\_attach\_management\_station\_management
+* oci\_os\_management\_hub\_profile\_detach\_management\_station\_management
 * oci\_os\_management\_hub\_profile\_attach\_software\_sources\_management
 * oci\_os\_management\_hub\_profile\_detach\_software\_sources\_management
 * oci\_os\_management\_hub\_scheduled\_job
@@ -1408,6 +1419,11 @@ os_management_hub
 * oci\_os\_management\_hub\_software\_source\_manifest
 * oci\_os\_management\_hub\_event
 * oci\_os\_management\_hub\_work\_request\_rerun\_management
+* oci\_os\_management\_hub\_dynamic\_set
+* oci\_os\_management\_hub\_dynamic\_set\_update\_packages\_management
+* oci\_os\_management\_hub\_dynamic\_set\_install\_packages\_management
+* oci\_os\_management\_hub\_dynamic\_set\_remove\_packages\_management
+* oci\_os\_management\_hub\_dynamic\_set\_reboot\_management
 
 osp_gateway
 

@@ -22,6 +22,7 @@ data "oci_os_management_hub_managed_instance_updatable_packages" "test_managed_i
 
 	#Optional
 	advisory_name = var.managed_instance_updatable_package_advisory_name
+	advisory_severity = var.managed_instance_updatable_package_advisory_severity
 	classification_type = var.managed_instance_updatable_package_classification_type
 	compartment_id = var.compartment_id
 	display_name = var.managed_instance_updatable_package_display_name
@@ -34,6 +35,7 @@ data "oci_os_management_hub_managed_instance_updatable_packages" "test_managed_i
 The following arguments are supported:
 
 * `advisory_name` - (Optional) The assigned erratum name. It's unique and not changeable.  Example: `ELSA-2020-5804` 
+* `advisory_severity` - (Optional) The advisory severity. 
 * `classification_type` - (Optional) A filter to return only packages that match the given update classification type.
 * `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
@@ -52,6 +54,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of updatable packages.
+	* `advisory_severity` - The severity level of the security update. Only applicable when updateType is SECURITY.
 	* `architecture` - The architecture for which this package was built.
 	* `display_name` - Package name.
 	* `errata` - List of errata applicable to this update.

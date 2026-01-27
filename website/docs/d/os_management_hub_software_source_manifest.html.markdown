@@ -33,5 +33,4 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `content` - Provides the manifest content used to update the package list of the software source.
-* `software_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+

@@ -83,6 +83,8 @@ func (s *OsManagementHubScheduledJobDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("dynamic_set_ids", s.Res.DynamicSetIds)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsManagedByAutonomousLinux != nil {

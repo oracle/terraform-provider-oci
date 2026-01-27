@@ -36,6 +36,10 @@ func OsManagementHubScheduledJobsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"dynamic_set_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -155,6 +159,11 @@ func (s *OsManagementHubScheduledJobsDataSourceCrud) Get() error {
 	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
 		tmp := displayNameContains.(string)
 		request.DisplayNameContains = &tmp
+	}
+
+	if dynamicSetId, ok := s.D.GetOkExists("dynamic_set_id"); ok {
+		tmp := dynamicSetId.(string)
+		request.DynamicSetId = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

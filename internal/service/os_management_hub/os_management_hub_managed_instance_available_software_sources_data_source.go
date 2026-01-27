@@ -61,11 +61,19 @@ func OsManagementHubManagedInstanceAvailableSoftwareSourcesDataSource() *schema.
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"software_source_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -186,6 +194,10 @@ func AvailableSoftwareSourceSummaryToMap(obj oci_os_management_hub.AvailableSoft
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -193,6 +205,8 @@ func AvailableSoftwareSourceSummaryToMap(obj oci_os_management_hub.AvailableSoft
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
+
+	result["software_source_type"] = string(obj.SoftwareSourceType)
 
 	return result
 }

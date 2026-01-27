@@ -65,6 +65,7 @@ resource "oci_os_management_hub_software_source" "test_software_source" {
 	is_latest_content_only = var.software_source_is_latest_content_only
 	is_mirror_sync_allowed = var.software_source_is_mirror_sync_allowed
 	is_ssl_verify_enabled = var.software_source_is_ssl_verify_enabled
+	origin_display_name = var.software_source_origin_display_name
 	origin_software_source_id = oci_os_management_hub_software_source.test_software_source.id
 	os_family = var.software_source_os_family
 	packages = var.software_source_packages
@@ -118,7 +119,8 @@ The following arguments are supported:
 	* For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored). 
 * `is_mirror_sync_allowed` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Whether this software source can be synced to a management station
 * `is_ssl_verify_enabled` - (Applicable when software_source_type=PRIVATE | THIRD_PARTY) (Updatable) Whether SSL validation needs to be turned on
-* `origin_software_source_id` - (Required when software_source_type=VENDOR) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
+* `origin_display_name` - (Applicable when software_source_type=VENDOR) The display name of the software source to be replicated
+* `origin_software_source_id` - (Applicable when software_source_type=VENDOR) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
 * `os_family` - (Required when software_source_type=PRIVATE | THIRD_PARTY) The OS family for the third-party software source.
 * `packages` - (Applicable when software_source_type=CUSTOM | VERSIONED) A property used for compatibility only. It doesn't provide a complete list of packages. See [AddPackagesToSoftwareSourceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/osmh/latest/datatypes/AddPackagesToSoftwareSourceDetails) for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
 * `software_source_sub_type` - (Applicable when software_source_type=CUSTOM | VERSIONED) The creation type of a software source.

@@ -67,6 +67,8 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("arch_type", s.Res.ArchType)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -140,6 +142,8 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 	if s.Res.MirrorUniquePackageCount != nil {
 		s.D.Set("mirror_unique_package_count", *s.Res.MirrorUniquePackageCount)
 	}
+
+	s.D.Set("os_family", s.Res.OsFamily)
 
 	if s.Res.OverallPercentage != nil {
 		s.D.Set("overall_percentage", *s.Res.OverallPercentage)

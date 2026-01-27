@@ -9,6 +9,7 @@ variable "compartment_ocid" {}
 variable "osmh_managed_instance_ocid" {}
 variable "osmh_managed_instance_unregistered_ocid" {}
 variable "osmh_managed_instance_windows_ocid" {}
+variable "osmh_managed_instance_ubuntu_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -40,6 +41,17 @@ data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
   availability         = ["SELECTED"]
   compartment_id       = var.compartment_ocid
   display_name         = "ol8_baseos_latest-x86_64"
+  os_family            = ["ORACLE_LINUX_8"]
+  software_source_type = ["VENDOR"]
+  state                = ["ACTIVE"]
+  vendor_name          = "ORACLE"
+}
+
+data "oci_os_management_hub_software_sources" "ol8_appstream_x86_64" {
+  arch_type            = ["X86_64"]
+  availability         = ["SELECTED"]
+  compartment_id       = var.compartment_ocid
+  display_name         = "ol8_appstream-x86_64"
   os_family            = ["ORACLE_LINUX_8"]
   software_source_type = ["VENDOR"]
   state                = ["ACTIVE"]
@@ -126,12 +138,58 @@ data "oci_os_management_hub_managed_instance_available_software_sources" "test_m
   compartment_id = var.compartment_ocid
 }
 
-# 9. test reboot
+# 9. Install packages
+resource "oci_os_management_hub_managed_instance_install_packages_management" "test_managed_instance_install_packages_management" {
+  managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+  package_names       = ["ModemManager-1.20.2-1.el8.x86_64"]
+}
+
+# 10. Remove packages
+resource "oci_os_management_hub_managed_instance_remove_packages_management" "test_managed_instance_remove_packages_management" {
+  depends_on          = [oci_os_management_hub_managed_instance_install_packages_management.test_managed_instance_install_packages_management]
+  managed_instance_id = oci_os_management_hub_managed_instance.test_managed_instance.id
+  package_names       = ["ModemManager-1.20.2-1.el8.x86_64"]
+  # Optional
+  work_request_details {
+    description  = "description"
+    display_name = "displayName"
+  }
+}
+
+# 11. test reboot
 resource "oci_os_management_hub_managed_instance_reboot_management" "test_managed_instance_reboot_management" {
   managed_instance_id = var.osmh_managed_instance_ocid
 
   #optional
-  reboot_timeout_in_mins = "5"
+  reboot_timeout_in_mins = "15"
+  depends_on             = [oci_os_management_hub_managed_instance_remove_packages_management.test_managed_instance_remove_packages_management, oci_os_management_hub_managed_instance_detach_software_sources_management.test_managed_instance_detach_software_sources_management]
+}
+
+# 12. Attach / Detach Software Sources
+resource "oci_os_management_hub_managed_instance_detach_software_sources_management" "test_managed_instance_detach_software_sources_management" {
+  depends_on          = [oci_os_management_hub_managed_instance_attach_software_sources_management.test_managed_instance_attach_software_sources_management]
+  managed_instance_id = var.osmh_managed_instance_ocid
+  software_sources    = ["${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}"]
+  # Optional
+  work_request_details {
+    description  = "Detach SS"
+    display_name = "displayName"
+  }
+}
+
+resource "oci_os_management_hub_managed_instance_attach_software_sources_management" "test_managed_instance_attach_software_sources_management" {
+  managed_instance_id = var.osmh_managed_instance_ocid
+  software_sources    = ["${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}"]
+  # Optional
+  work_request_details {
+    description  = "Attach SS"
+    display_name = "displayName"
+  }
+}
+
+# 13. Refresh Software
+resource "oci_os_management_hub_managed_instance_refresh_software_management" "test_managed_instance_refresh_software_management" {
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
 }
 
 ################################
@@ -174,4 +232,78 @@ resource "oci_os_management_hub_managed_instance_install_windows_updates_managem
     description  = "description"
     display_name = "displayName"
   }
+}
+
+################################
+# Ubuntu instances
+################################
+
+# Install Snaps on Ubuntu
+
+resource "oci_os_management_hub_managed_instance_install_snaps_management" "test_managed_instance_install_snaps_management_1" {
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+  snap_details {
+    channel = "stable"
+    name    = "speedtest-cli"
+  }
+}
+
+resource "oci_os_management_hub_managed_instance_install_snaps_management" "test_managed_instance_install_snaps_management" {
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+  snap_details {
+    name    = "hello-world"
+    channel = "stable"
+    # Optional
+    is_signed = "false"
+    mode      = "CLASSIC"
+    revision  = "27"
+  }
+  # Optional
+  work_request_details {
+    description  = "description"
+    display_name = "displayName"
+  }
+}
+
+# Remove Snaps on Ubuntu
+resource "oci_os_management_hub_managed_instance_remove_snaps_management" "test_managed_instance_remove_snaps_management" {
+  depends_on          = [oci_os_management_hub_managed_instance_install_snaps_management.test_managed_instance_install_snaps_management]
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+  snap_details {
+    name     = "hello-world"
+    revision = "27"
+  }
+  # Optional
+  work_request_details {
+    description  = "description"
+    display_name = "displayName"
+  }
+}
+
+# Switch Snap Channel on Ubuntu
+resource "oci_os_management_hub_managed_instance_switch_snap_channel_management" "test_managed_instance_switch_snap_channel_management" {
+  depends_on          = [oci_os_management_hub_managed_instance_install_snaps_management.test_managed_instance_install_snaps_management_1]
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+  snap_details {
+    channel = "beta"
+    name    = "speedtest-cli"
+  }
+  # Optional
+  work_request_details {
+    description  = "description"
+    display_name = "displayName"
+  }
+}
+
+# Installed snaps
+
+data "oci_os_management_hub_managed_instance_snaps" "test_managed_instance_snaps" {
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+}
+
+data "oci_os_management_hub_managed_instance_snaps" "test_managed_instance_snaps_with__name_filters" {
+  managed_instance_id = var.osmh_managed_instance_ubuntu_ocid
+  # Optional
+  name          = "oracle-cloud-agent"
+  name_contains = "oracle-cloud-agent"
 }

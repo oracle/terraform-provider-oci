@@ -30,6 +30,10 @@ func OsManagementHubManagementStationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"health_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -113,11 +117,19 @@ func OsManagementHubManagementStationsDataSource() *schema.Resource {
 									},
 
 									// Computed
+									"arch_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"managed_instance_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"os_family": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -197,6 +209,10 @@ func (s *OsManagementHubManagementStationsDataSourceCrud) Get() error {
 	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
 		tmp := displayNameContains.(string)
 		request.DisplayNameContains = &tmp
+	}
+
+	if healthState, ok := s.D.GetOkExists("health_state"); ok {
+		request.HealthState = oci_os_management_hub.ListManagementStationsHealthStateEnum(healthState.(string))
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

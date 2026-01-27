@@ -61,11 +61,19 @@ func OsManagementHubProfileAvailableSoftwareSourcesDataSource() *schema.Resource
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"software_source_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

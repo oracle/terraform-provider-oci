@@ -25,6 +25,13 @@ func OsManagementHubManagedInstanceUpdatablePackagesDataSource() *schema.Resourc
 					Type: schema.TypeString,
 				},
 			},
+			"advisory_severity": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"classification_type": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -71,6 +78,10 @@ func OsManagementHubManagedInstanceUpdatablePackagesDataSource() *schema.Resourc
 									// Optional
 
 									// Computed
+									"advisory_severity": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"architecture": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -194,6 +205,19 @@ func (s *OsManagementHubManagedInstanceUpdatablePackagesDataSourceCrud) Get() er
 		}
 	}
 
+	if advisorySeverity, ok := s.D.GetOkExists("advisory_severity"); ok {
+		interfaces := advisorySeverity.([]interface{})
+		tmp := make([]oci_os_management_hub.AdvisorySeverityEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.AdvisorySeverityEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("advisory_severity") {
+			request.AdvisorySeverity = tmp
+		}
+	}
+
 	if classificationType, ok := s.D.GetOkExists("classification_type"); ok {
 		interfaces := classificationType.([]interface{})
 		tmp := make([]oci_os_management_hub.ClassificationTypesEnum, len(interfaces))
@@ -289,6 +313,8 @@ func (s *OsManagementHubManagedInstanceUpdatablePackagesDataSourceCrud) SetData(
 func UpdatablePackageSummaryToMap(obj oci_os_management_hub.UpdatablePackageSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["advisory_severity"] = string(obj.AdvisorySeverity)
+
 	result["architecture"] = string(obj.Architecture)
 
 	if obj.DisplayName != nil {
@@ -305,8 +331,7 @@ func UpdatablePackageSummaryToMap(obj oci_os_management_hub.UpdatablePackageSumm
 		result["name"] = string(*obj.Name)
 	}
 
-	// FIXME
-	//result["package_classification"] = string(obj.PackageClassification)
+	result["package_classification"] = string(oci_os_management_hub.PackageSummaryPackageClassificationUpdatable)
 
 	result["related_cves"] = obj.RelatedCves
 

@@ -45,6 +45,46 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 						},
 
 						// Optional
+						"install_snap_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"channel": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"is_signed": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"revision": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"manage_module_streams_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -190,6 +230,31 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"remove_snap_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"revision": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"software_source_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -218,6 +283,31 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 
 									// Optional
 									"software_source_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"switch_snap_channel_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"channel": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -267,6 +357,15 @@ func OsManagementHubScheduledJobResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"dynamic_set_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -480,6 +579,19 @@ func (s *OsManagementHubScheduledJobResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if dynamicSetIds, ok := s.D.GetOkExists("dynamic_set_ids"); ok {
+		interfaces := dynamicSetIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("dynamic_set_ids") {
+			request.DynamicSetIds = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -772,6 +884,8 @@ func (s *OsManagementHubScheduledJobResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("dynamic_set_ids", s.Res.DynamicSetIds)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsManagedByAutonomousLinux != nil {
@@ -864,6 +978,36 @@ func (s *OsManagementHubScheduledJobResourceCrud) ChangeScheduledJobCompartment(
 	}
 
 	return nil
+}
+
+func (s *OsManagementHubScheduledJobResourceCrud) mapToInstallSnapDetails(fieldKeyFormat string) (oci_os_management_hub.InstallSnapDetails, error) {
+	result := oci_os_management_hub.InstallSnapDetails{}
+
+	if channel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel")); ok {
+		tmp := channel.(string)
+		result.Channel = &tmp
+	}
+
+	if isSigned, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_signed")); ok {
+		tmp := isSigned.(bool)
+		result.IsSigned = &tmp
+	}
+
+	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+		result.Mode = oci_os_management_hub.SnapModesEnum(mode.(string))
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if revision, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "revision")); ok {
+		tmp := revision.(string)
+		result.Revision = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *OsManagementHubScheduledJobResourceCrud) mapToManageModuleStreamsInScheduledJobDetails(fieldKeyFormat string) (oci_os_management_hub.ManageModuleStreamsInScheduledJobDetails, error) {
@@ -1017,8 +1161,35 @@ func (s *OsManagementHubScheduledJobResourceCrud) mapToModuleStreamProfileDetail
 	return result, nil
 }
 
+func (s *OsManagementHubScheduledJobResourceCrud) mapToRemoveSnapDetails(fieldKeyFormat string) (oci_os_management_hub.RemoveSnapDetails, error) {
+	result := oci_os_management_hub.RemoveSnapDetails{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if revision, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "revision")); ok {
+		tmp := revision.(string)
+		result.Revision = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *OsManagementHubScheduledJobResourceCrud) mapToScheduledJobOperation(fieldKeyFormat string) (oci_os_management_hub.ScheduledJobOperation, error) {
 	result := oci_os_management_hub.ScheduledJobOperation{}
+
+	if installSnapDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "install_snap_details")); ok {
+		if tmpList := installSnapDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "install_snap_details"), 0)
+			tmp, err := s.mapToInstallSnapDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert install_snap_details, encountered error: %v", err)
+			}
+			result.InstallSnapDetails = &tmp
+		}
+	}
 
 	if manageModuleStreamsDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "manage_module_streams_details")); ok {
 		if tmpList := manageModuleStreamsDetails.([]interface{}); len(tmpList) > 0 {
@@ -1051,13 +1222,27 @@ func (s *OsManagementHubScheduledJobResourceCrud) mapToScheduledJobOperation(fie
 		}
 	}
 
-	if rebootTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reboot_timeout_in_mins")); ok {
-		tmp := rebootTimeoutInMins.(int)
-		result.RebootTimeoutInMins = &tmp
+	//if rebootTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reboot_timeout_in_mins")); ok {
+	//	tmp := rebootTimeoutInMins.(int)
+	//	result.RebootTimeoutInMins = &tmp
+	//}
+
+	if result.OperationType == oci_os_management_hub.OperationTypesReboot {
+		if rebootTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reboot_timeout_in_mins")); ok {
+			tmp := rebootTimeoutInMins.(int)
+			result.RebootTimeoutInMins = &tmp
+		}
 	}
 
-	if result.RebootTimeoutInMins != nil && *result.RebootTimeoutInMins == 0 {
-		result.RebootTimeoutInMins = nil
+	if removeSnapDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remove_snap_details")); ok {
+		if tmpList := removeSnapDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "remove_snap_details"), 0)
+			tmp, err := s.mapToRemoveSnapDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert remove_snap_details, encountered error: %v", err)
+			}
+			result.RemoveSnapDetails = &tmp
+		}
 	}
 
 	if softwareSourceIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "software_source_ids")); ok {
@@ -1087,6 +1272,17 @@ func (s *OsManagementHubScheduledJobResourceCrud) mapToScheduledJobOperation(fie
 		}
 	}
 
+	if switchSnapChannelDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "switch_snap_channel_details")); ok {
+		if tmpList := switchSnapChannelDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "switch_snap_channel_details"), 0)
+			tmp, err := s.mapToSwitchSnapChannelDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert switch_snap_channel_details, encountered error: %v", err)
+			}
+			result.SwitchSnapChannelDetails = &tmp
+		}
+	}
+
 	if windowsUpdateNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "windows_update_names")); ok {
 		interfaces := windowsUpdateNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1106,6 +1302,10 @@ func (s *OsManagementHubScheduledJobResourceCrud) mapToScheduledJobOperation(fie
 func ScheduledJobOperationToMap(obj oci_os_management_hub.ScheduledJobOperation) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.InstallSnapDetails != nil {
+		result["install_snap_details"] = []interface{}{InstallSnapDetailsToMap(obj.InstallSnapDetails)}
+	}
+
 	if obj.ManageModuleStreamsDetails != nil {
 		result["manage_module_streams_details"] = []interface{}{ManageModuleStreamsInScheduledJobDetailsToMap(obj.ManageModuleStreamsDetails)}
 	}
@@ -1118,10 +1318,19 @@ func ScheduledJobOperationToMap(obj oci_os_management_hub.ScheduledJobOperation)
 		result["reboot_timeout_in_mins"] = int(*obj.RebootTimeoutInMins)
 	}
 
+	if obj.RemoveSnapDetails != nil {
+		result["remove_snap_details"] = []interface{}{RemoveSnapDetailsToMap(obj.RemoveSnapDetails)}
+	}
+
 	result["software_source_ids"] = obj.SoftwareSourceIds
 
 	if obj.SwitchModuleStreamsDetails != nil {
 		result["switch_module_streams_details"] = []interface{}{ModuleStreamDetailsToMap(*obj.SwitchModuleStreamsDetails)}
+	}
+
+	if obj.SwitchSnapChannelDetails != nil {
+		// TODO: revert after adding new resources
+		// result["switch_snap_channel_details"] = []interface{}{SwitchSnapChannelDetailsToMap(obj.SwitchSnapChannelDetails)}
 	}
 
 	result["windows_update_names"] = obj.WindowsUpdateNames
@@ -1143,6 +1352,8 @@ func ScheduledJobSummaryToMap(obj oci_os_management_hub.ScheduledJobSummary) map
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["dynamic_set_ids"] = obj.DynamicSetIds
 
 	result["freeform_tags"] = obj.FreeformTags
 
@@ -1205,6 +1416,22 @@ func ScheduledJobSummaryToMap(obj oci_os_management_hub.ScheduledJobSummary) map
 	}
 
 	return result
+}
+
+func (s *OsManagementHubScheduledJobResourceCrud) mapToSwitchSnapChannelDetails(fieldKeyFormat string) (oci_os_management_hub.SwitchSnapChannelDetails, error) {
+	result := oci_os_management_hub.SwitchSnapChannelDetails{}
+
+	if channel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel")); ok {
+		tmp := channel.(string)
+		result.Channel = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *OsManagementHubScheduledJobResourceCrud) updateCompartment(compartment interface{}) error {

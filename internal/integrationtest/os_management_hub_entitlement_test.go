@@ -47,7 +47,6 @@ func TestOsManagementHubEntitlementResource_basic(t *testing.T) {
 				compartmentIdVariableStr + OsManagementHubEntitlementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "entitlement_collection.#"),
 			),
 		},

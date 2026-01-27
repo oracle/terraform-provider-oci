@@ -27,6 +27,16 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 		operation_type = var.scheduled_job_operations_operation_type
 
 		#Optional
+		install_snap_details {
+			#Required
+			name = var.scheduled_job_operations_install_snap_details_name
+
+			#Optional
+			channel = var.scheduled_job_operations_install_snap_details_channel
+			is_signed = var.scheduled_job_operations_install_snap_details_is_signed
+			mode = var.scheduled_job_operations_install_snap_details_mode
+			revision = var.scheduled_job_operations_install_snap_details_revision
+		}
 		manage_module_streams_details {
 
 			#Optional
@@ -67,6 +77,13 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 		}
 		package_names = var.scheduled_job_operations_package_names
 		reboot_timeout_in_mins = var.scheduled_job_operations_reboot_timeout_in_mins
+		remove_snap_details {
+			#Required
+			name = var.scheduled_job_operations_remove_snap_details_name
+
+			#Optional
+			revision = var.scheduled_job_operations_remove_snap_details_revision
+		}
 		software_source_ids = var.scheduled_job_operations_software_source_ids
 		switch_module_streams_details {
 			#Required
@@ -75,6 +92,13 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 
 			#Optional
 			software_source_id = oci_os_management_hub_software_source.test_software_source.id
+		}
+		switch_snap_channel_details {
+			#Required
+			name = var.scheduled_job_operations_switch_snap_channel_details_name
+
+			#Optional
+			channel = var.scheduled_job_operations_switch_snap_channel_details_channel
 		}
 		windows_update_names = var.scheduled_job_operations_windows_update_names
 	}
@@ -85,6 +109,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.scheduled_job_description
 	display_name = var.scheduled_job_display_name
+	dynamic_set_ids = var.scheduled_job_dynamic_set_ids
 	freeform_tags = {"Department"= "Finance"}
 	is_managed_by_autonomous_linux = var.scheduled_job_is_managed_by_autonomous_linux
 	is_subcompartment_included = var.scheduled_job_is_subcompartment_included
@@ -107,14 +132,15 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) User-specified description of the scheduled job. Avoid entering confidential information.
 * `display_name` - (Optional) (Updatable) User-friendly name for the scheduled job. Does not have to be unique and you can change the name later. Avoid entering confidential information.
+* `dynamic_set_ids` - (Optional) The dynamic set [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with  managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_managed_by_autonomous_linux` - (Optional) Indicates whether this scheduled job is managed by the Autonomous Linux service.
 * `is_subcompartment_included` - (Optional) Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies  the tenancy [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment). 
-* `lifecycle_stage_ids` - (Optional) The lifecycle stage [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,  or managedInstanceGroupIds, or managedCompartmentIds. 
+* `lifecycle_stage_ids` - (Optional) The lifecycle stage [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,  or managedInstanceGroupIds, or managedCompartmentIds, or dynamicSetIds. 
 * `locations` - (Optional) The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
-* `managed_compartment_ids` - (Optional) The compartment [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  To apply the job to all compartments in the tenancy, set this to the tenancy OCID (root compartment) and set  isSubcompartmentIncluded to true. A scheduled job can only operate on one type of target, therefore you must  supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds. 
-* `managed_instance_group_ids` - (Optional) The managed instance group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds, or managedCompartmentIds, or lifecycleStageIds. 
-* `managed_instance_ids` - (Optional) The managed instance [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or  managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds. 
+* `managed_compartment_ids` - (Optional) The compartment [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  To apply the job to all compartments in the tenancy, set this to the tenancy OCID (root compartment) and set  isSubcompartmentIncluded to true. A scheduled job can only operate on one type of target, therefore you must  supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds, or dynamicSetIds. 
+* `managed_instance_group_ids` - (Optional) The managed instance group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds, or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds. 
+* `managed_instance_ids` - (Optional) The managed instance [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore you must supply either this or  managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds. 
 * `operations` - (Required) (Updatable) The list of operations this scheduled job needs to perform. A scheduled job supports only one operation type, unless it is one of the following:
 	* UPDATE_PACKAGES
 	* UPDATE_ALL
@@ -124,6 +150,12 @@ The following arguments are supported:
 	* UPDATE_OTHER
 	* UPDATE_KSPLICE_USERSPACE
 	* UPDATE_KSPLICE_KERNEL 
+	* `install_snap_details` - (Optional) (Updatable) Provides the information used to install a snap.
+		* `channel` - (Optional) (Updatable) The snap channel to install from (e.g. stable, 1.2/edge, beta, candidate, or a custom channel). 
+		* `is_signed` - (Optional) (Updatable) If false, allows installing snaps not signed by the Snap Store. E.g., snaps from local file. Use with caution. 
+		* `mode` - (Optional) (Updatable) The confinement mode for the snap. 
+		* `name` - (Required) (Updatable) The name of the snap to install. 
+		* `revision` - (Optional) (Updatable) The snap revision to install. 
 	* `manage_module_streams_details` - (Optional) (Updatable) The set of changes to make to the state of the modules, streams, and profiles on the managed target.
 		* `disable` - (Optional) (Updatable) The set of module streams to disable.
 			* `module_name` - (Required) (Updatable) The name of a module.
@@ -146,13 +178,19 @@ The following arguments are supported:
 	* `operation_type` - (Required) (Updatable) The type of operation this scheduled job performs.
 	* `package_names` - (Optional) (Updatable) The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
 	* `reboot_timeout_in_mins` - (Optional) (Updatable) The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the  timeout, the service marks the reboot job as failed. 
+	* `remove_snap_details` - (Optional) (Updatable) Provides the information used to remove a snap.
+		* `name` - (Required) (Updatable) The name of the snap to remove. 
+		* `revision` - (Optional) (Updatable) The revision to remove. Note: This option cannot be used when removing multiple snaps. 
 	* `software_source_ids` - (Optional) (Updatable) The software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).  This parameter only applies when the scheduled job is for attaching or detaching software sources. 
 	* `switch_module_streams_details` - (Optional) (Updatable) Provides the information used to update a module stream.
 		* `module_name` - (Required) (Updatable) The name of a module.
 		* `software_source_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that contains the module stream. 
 		* `stream_name` - (Required) (Updatable) The name of a stream of the specified module.
+	* `switch_snap_channel_details` - (Optional) (Updatable) Provides the information used to switch a snap channel.
+		* `channel` - (Optional) (Updatable) The channel to switch to (e.g. stable, edge, beta, candidate, or a custom channel).
+		* `name` - (Required) (Updatable) The name of the snap.
 	* `windows_update_names` - (Optional) (Updatable) Unique identifier for the Windows update. This parameter only applies if the scheduled job is for installing Windows updates. Note that this is not an OCID, but is a unique identifier assigned by Microsoft. For example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'. 
-* `recurring_rule` - (Optional) (Updatable) The frequency schedule for a recurring scheduled job.
+* `recurring_rule` - (Optional) (Updatable) The frequency schedule for a recurring scheduled job in the [RFC5535](https://www.rfc-editor.org/rfc/rfc5535) format. Note: Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported. In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY", HOURLY are supported. 
 * `retry_intervals` - (Optional) (Updatable) The amount of time in minutes to wait until retrying the scheduled job. If set, the service will automatically  retry a failed scheduled job after the interval. For example, you could set the interval to [2,5,10]. If the initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service  waits 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries. 
 * `schedule_type` - (Required) (Updatable) The type of scheduling frequency for the scheduled job.
 * `time_next_execution` - (Required) (Updatable) The desired time of the next execution of this scheduled job (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
@@ -170,12 +208,13 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - User-specified description for the scheduled job.
 * `display_name` - User-friendly name for the scheduled job.
+* `dynamic_set_ids` - The dynamic set [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with  managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 * `is_managed_by_autonomous_linux` - Indicates whether this scheduled job is managed by the Autonomous Linux service.
 * `is_restricted` - Indicates if the schedule job has restricted update and deletion capabilities. For restricted scheduled jobs,  you can update only the timeNextExecution, recurringRule, and tags. 
 * `is_subcompartment_included` - Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies the tenancy [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment). 
-* `lifecycle_stage_ids` - The lifecycle stage [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with  managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds. 
+* `lifecycle_stage_ids` - The lifecycle stage [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.  A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with  managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and dynamicSetIds. 
 * `locations` - The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
 * `managed_compartment_ids` - The compartment [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedInstanceGroupIds, and lifecycleStageIds.
 * `managed_instance_group_ids` - The managed instance group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on. A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with managedInstanceIds, managedCompartmentIds, and lifecycleStageIds.
@@ -189,6 +228,12 @@ The following attributes are exported:
 	* UPDATE_OTHER
 	* UPDATE_KSPLICE_USERSPACE
 	* UPDATE_KSPLICE_KERNEL 
+	* `install_snap_details` - Provides the information used to install a snap.
+		* `channel` - The snap channel to install from (e.g. stable, 1.2/edge, beta, candidate, or a custom channel). 
+		* `is_signed` - If false, allows installing snaps not signed by the Snap Store. E.g., snaps from local file. Use with caution. 
+		* `mode` - The confinement mode for the snap. 
+		* `name` - The name of the snap to install. 
+		* `revision` - The snap revision to install. 
 	* `manage_module_streams_details` - The set of changes to make to the state of the modules, streams, and profiles on the managed target.
 		* `disable` - The set of module streams to disable.
 			* `module_name` - The name of a module.
@@ -211,13 +256,19 @@ The following attributes are exported:
 	* `operation_type` - The type of operation this scheduled job performs.
 	* `package_names` - The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
 	* `reboot_timeout_in_mins` - The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the  timeout, the service marks the reboot job as failed. 
+	* `remove_snap_details` - Provides the information used to remove a snap.
+		* `name` - The name of the snap to remove. 
+		* `revision` - The revision to remove. Note: This option cannot be used when removing multiple snaps. 
 	* `software_source_ids` - The software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).  This parameter only applies when the scheduled job is for attaching or detaching software sources. 
 	* `switch_module_streams_details` - Provides the information used to update a module stream.
 		* `module_name` - The name of a module.
 		* `software_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that contains the module stream. 
 		* `stream_name` - The name of a stream of the specified module.
+	* `switch_snap_channel_details` - Provides the information used to switch a snap channel.
+		* `channel` - The channel to switch to (e.g. stable, edge, beta, candidate, or a custom channel).
+		* `name` - The name of the snap.
 	* `windows_update_names` - Unique identifier for the Windows update. This parameter only applies if the scheduled job is for installing Windows updates. Note that this is not an OCID, but is a unique identifier assigned by Microsoft. For example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'. 
-* `recurring_rule` - The frequency schedule for a recurring scheduled job.
+* `recurring_rule` - The frequency schedule for a recurring scheduled job in the [RFC5535](https://www.rfc-editor.org/rfc/rfc5535) format. Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported. In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY", HOURLY are supported. 
 * `retry_intervals` - The amount of time in minutes to wait until retrying the scheduled job. If set, the service will automatically retry  a failed scheduled job after the interval. For example, you could set the interval to [2,5,10]. If the initial  execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service waits 5 minutes  and then retries. If that fails, the service waits 10 minutes and then retries. 
 * `schedule_type` - The type of scheduling frequency for the job.
 * `state` - The current state of the scheduled job.

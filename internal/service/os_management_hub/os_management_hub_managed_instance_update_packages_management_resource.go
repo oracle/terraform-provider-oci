@@ -326,17 +326,3 @@ func (s *OsManagementHubManagedInstanceUpdatePackagesManagementResourceCrud) map
 
 	return result, nil
 }
-
-func WorkRequestDetailsToMap(obj *oci_os_management_hub.WorkRequestDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	return result
-}

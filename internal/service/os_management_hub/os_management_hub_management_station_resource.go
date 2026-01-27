@@ -52,10 +52,6 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"port": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"sslport": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -64,6 +60,11 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 						// Optional
 						"is_sslverify_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -116,6 +117,11 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 			},
 
 			// Optional
+			"arch_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -136,6 +142,11 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 			},
 			"is_auto_config_enabled": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"os_family": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -387,6 +398,10 @@ func (s *OsManagementHubManagementStationResourceCrud) DeletedTarget() []string 
 func (s *OsManagementHubManagementStationResourceCrud) Create() error {
 	request := oci_os_management_hub.CreateManagementStationRequest{}
 
+	if archType, ok := s.D.GetOkExists("arch_type"); ok {
+		request.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -433,6 +448,10 @@ func (s *OsManagementHubManagementStationResourceCrud) Create() error {
 			}
 			request.Mirror = &tmp
 		}
+	}
+
+	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+		request.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
 	}
 
 	if proxy, ok := s.D.GetOkExists("proxy"); ok {
@@ -493,6 +512,10 @@ func (s *OsManagementHubManagementStationResourceCrud) Update() error {
 	}
 	request := oci_os_management_hub.UpdateManagementStationRequest{}
 
+	if archType, ok := s.D.GetOkExists("arch_type"); ok {
+		request.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -539,6 +562,10 @@ func (s *OsManagementHubManagementStationResourceCrud) Update() error {
 		}
 	}
 
+	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
+		request.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+	}
+
 	if proxy, ok := s.D.GetOkExists("proxy"); ok {
 		if tmpList := proxy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "proxy", 0)
@@ -574,6 +601,8 @@ func (s *OsManagementHubManagementStationResourceCrud) Delete() error {
 }
 
 func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
+	s.D.Set("arch_type", s.Res.ArchType)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -647,6 +676,8 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 	if s.Res.MirrorUniquePackageCount != nil {
 		s.D.Set("mirror_unique_package_count", *s.Res.MirrorUniquePackageCount)
 	}
+
+	s.D.Set("os_family", s.Res.OsFamily)
 
 	if s.Res.OverallPercentage != nil {
 		s.D.Set("overall_percentage", *s.Res.OverallPercentage)
@@ -914,6 +945,8 @@ func ProxyConfigurationToMap(obj *oci_os_management_hub.ProxyConfiguration) map[
 func ManagementStationSummaryToMap(obj oci_os_management_hub.ManagementStationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["arch_type"] = string(obj.ArchType)
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -952,6 +985,8 @@ func ManagementStationSummaryToMap(obj oci_os_management_hub.ManagementStationSu
 		result["mirror_capacity"] = int(*obj.MirrorCapacity)
 	}
 
+	result["os_family"] = string(obj.OsFamily)
+
 	if obj.OverallPercentage != nil {
 		result["overall_percentage"] = int(*obj.OverallPercentage)
 	}
@@ -971,10 +1006,6 @@ func ManagementStationSummaryToMap(obj oci_os_management_hub.ManagementStationSu
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
-
-	//if obj.TimeNextExecution != nil {
-	//	result["time_next_execution"] = obj.TimeNextExecution.String()
-	//}
 
 	return result
 }

@@ -271,8 +271,7 @@ func InstalledPackageSummaryToMap(obj oci_os_management_hub.InstalledPackageSumm
 		result["name"] = string(*obj.Name)
 	}
 
-	// FIXME
-	//result["package_classification"] = string(obj.PackageClassification)
+	result["package_classification"] = string(oci_os_management_hub.PackageSummaryPackageClassificationInstalled)
 
 	softwareSources := []interface{}{}
 	for _, item := range obj.SoftwareSources {

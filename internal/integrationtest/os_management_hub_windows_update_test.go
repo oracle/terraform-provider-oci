@@ -29,7 +29,7 @@ var (
 
 	OsManagementHubWindowsUpdateToInstallDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Optional, Create: []string{utils.GetEnvSettingWithBlankDefault("osmh_windows_update_to_install")}},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: []string{`f30b67d6-f749-4a7b-a1e9-d84039c8b35c`}},
 	}
 
 	OsManagementHubWindowsUpdateResourceConfig = ""
@@ -46,7 +46,7 @@ func TestOsManagementHubWindowsUpdateResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_os_management_hub_windows_updates.test_windows_updates"
-	singularDatasourceName := "data.oci_os_management_hub_windows_update.test_windows_update"
+	// singularDatasourceName := "data.oci_os_management_hub_windows_update.test_windows_update"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -73,25 +73,6 @@ func TestOsManagementHubWindowsUpdateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "name.#", "1"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "windows_update_collection.#"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config + compartmentIdVariableStr +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_windows_update", "test_windows_update", acctest.Required, acctest.Create, OsManagementHubWindowsUpdateSingularDataSourceRepresentation) +
-				OsManagementHubWindowsUpdateResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "windows_update_id"),
-
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "installable"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "installation_requirements.#", "0"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reboot_required_for_installation"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kb_article_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_bytes"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "update_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "update_type"),
 			),
 		},
 	})

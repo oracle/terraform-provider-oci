@@ -40,7 +40,7 @@ resource "oci_os_management_hub_managed_instance" "test_managed_instance" {
 
 The following arguments are supported:
 
-* `autonomous_settings` - (Optional) (Updatable) Updatable settings for the Autonomous Linux service.
+* `autonomous_settings` - (Optional) (Updatable) Updatable settings for the Autonomous Linux service. This is required when creating an Autonomous Linux Managed Instance Group. Do not include it when creating a standard (non-Autonomous) Managed Instance Group.
 	* `is_data_collection_authorized` - (Optional) (Updatable) Indicates whether Autonomous Linux will collect crash files.
 * `description` - (Optional) (Updatable) User-specified description of the managed instance. Avoid entering confidential information.
 * `managed_instance_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
@@ -58,6 +58,7 @@ The following attributes are exported:
 
 * `agent_version` - The version of osmh-agent running on the managed instance
 * `architecture` - The CPU architecture type of the managed instance.
+* `are_sources_managed` - Controls whether OSMH manages software sources for this instance. This defaults to false for Ubuntu and Windows instances. 
 * `autonomous_settings` - Settings for the Autonomous Linux service.
 	* `is_data_collection_authorized` - Indicates whether Autonomous Linux will collect crash files. This setting can be changed by the user.
 	* `scheduled_job_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the restricted scheduled job associated with this instance. This value cannot be deleted by the user.
@@ -106,6 +107,7 @@ The following attributes are exported:
 * `time_created` - The date and time the instance was created (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
 * `time_last_boot` - Time that the instance last booted (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
 * `time_last_checkin` - Time that the instance last checked in with the service (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
+* `time_last_software_refresh` - The date and time the instance's software information was last refreshed (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
 * `time_updated` - The date and time the instance was last updated (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format). 
 * `updates_available` - Number of updates available for installation.
 * `work_request_count` - Number of work requests associated with this instance.

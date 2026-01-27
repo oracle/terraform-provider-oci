@@ -49,6 +49,8 @@ The following attributes are exported:
 
 * `items` - List of available software sources.
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
+	* `description` - Software source description.
 	* `display_name` - User-friendly name for the software source.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	* `software_source_type` - Type of the software source.
 

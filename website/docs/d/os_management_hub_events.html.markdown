@@ -25,7 +25,7 @@ data "oci_os_management_hub_events" "test_events" {
 	event_summary_contains = var.event_event_summary_contains
 	id = var.event_id
 	is_managed_by_autonomous_linux = var.event_is_managed_by_autonomous_linux
-	resource_id = oci_usage_proxy_resource.test_resource.id
+	resource_id = oci_cloud_guard_resource.test_resource.id
 	state = var.event_state
 	time_created_greater_than_or_equal_to = var.event_time_created_greater_than_or_equal_to
 	time_created_less_than = var.event_time_created_less_than
@@ -86,6 +86,7 @@ The following attributes are exported:
 			* `EXPLOIT_ATTEMPT` - Used to identify a known exploit detection content 
 	* `error_cause` - The commands executed by the agent that caused the error.
 	* `error_log` - The output log of the error.
+	* `error_summary` - Brief description on how this error is categorized.
 	* `event_fingerprint` - Fingerprint of the event.
 	* `event_count` - Number of times the event has occurred.
 	* `health_state` - Health state of the management station

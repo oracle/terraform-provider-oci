@@ -26,6 +26,10 @@ import (
 )
 
 var (
+	OsManagementHubDefinedTagsRepresentation = map[string]interface{}{
+		"Operations.CostCenter": acctest.Representation{RepType: acctest.Required, Create: `42`},
+	}
+
 	OsManagementHubIgnoreDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
@@ -126,12 +130,24 @@ var (
 		"vendor_name":          acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
 	}
 
+	OsManagementHubVendorSoftwareSourceOl8AddOns8664Representation = map[string]interface{}{
+		"arch_type":            acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
+		"availability":         acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"compartment_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `ol8_addons-x86_64`},
+		"os_family":            acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
+		"software_source_type": acctest.Representation{RepType: acctest.Optional, Create: []string{`VENDOR`}},
+		"state":                acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
+		"vendor_name":          acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+	}
+
 	OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config = acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "ol8_baseos_latest_x86_64", acctest.Optional, acctest.Create, OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Representation)
 	OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config    = acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "ol8_appstream_x86_64", acctest.Optional, acctest.Create, OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Representation)
+	OsManagementHubVendorSoftwareSourceOl8AddsOnX8664Config       = acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_sources", "ol8_addons_x86_64", acctest.Optional, acctest.Create, OsManagementHubVendorSoftwareSourceOl8AddOns8664Representation)
 
 	OsManagementHubSoftwareSourceRepresentation = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubDefinedTagsRepresentation},
 		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"software_source_type":          acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
@@ -146,7 +162,7 @@ var (
 
 	OsManagementHubSoftwareSourceCustomRepresentation = map[string]interface{}{
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubDefinedTagsRepresentation},
 		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
 		"software_source_type":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
@@ -159,7 +175,7 @@ var (
 
 	OsManagementHubPrivateSoftwareSourceRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubDefinedTagsRepresentation},
 		"description":            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"software_source_type":   acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
@@ -198,6 +214,10 @@ var (
 	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2 = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_appstream-x86_64`},
 		"id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}`},
+	}
+	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation3 = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_addons-x86_64`},
+		"id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_addons_x86_64.software_source_collection[0].items[0].id}`},
 	}
 	OsManagementHubSoftwareSourceCustomSoftwareSourceFilterRepresentation = map[string]interface{}{
 		"module_stream_profile_filters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubSoftwareSourceCustomSoftwareSourceFilterModuleStreamProfileFiltersRepresentation},
@@ -422,7 +442,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"state", "package_count", "size"},
+			ImportStateVerifyIgnore: []string{"state", "package_count", "size", "time_metadata_updated"},
 			ResourceName:            resourceName,
 		},
 		// verify datasource for custom software source
@@ -520,6 +540,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "software_source_type", "VENDOR"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
@@ -665,7 +686,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			Config:                  config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubPrivateSoftwareSourceRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"state", "package_count"},
+			ImportStateVerifyIgnore: []string{"state", "package_count", "time_metadata_updated"},
 			ResourceName:            resourceName,
 		},
 
@@ -862,7 +883,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			Config:                  config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Required, acctest.Create, OsManagementHubThirdPartySoftwareSourceRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"state", "package_count"},
+			ImportStateVerifyIgnore: []string{"state", "package_count", "time_metadata_updated"},
 			ResourceName:            resourceName,
 		},
 

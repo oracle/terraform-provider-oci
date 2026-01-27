@@ -72,6 +72,10 @@ func (s *OsManagementHubManagedInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("architecture", s.Res.Architecture)
 
+	if s.Res.AreSourcesManaged != nil {
+		s.D.Set("are_sources_managed", *s.Res.AreSourcesManaged)
+	}
+
 	if s.Res.AutonomousSettings != nil {
 		s.D.Set("autonomous_settings", []interface{}{AutonomousSettingsToMap(s.Res.AutonomousSettings)})
 	} else {
@@ -210,6 +214,10 @@ func (s *OsManagementHubManagedInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.TimeLastCheckin != nil {
 		s.D.Set("time_last_checkin", s.Res.TimeLastCheckin.String())
+	}
+
+	if s.Res.TimeLastSoftwareRefresh != nil {
+		s.D.Set("time_last_software_refresh", s.Res.TimeLastSoftwareRefresh.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

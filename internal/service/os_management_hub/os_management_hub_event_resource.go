@@ -172,6 +172,10 @@ func OsManagementHubEventResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"error_summary": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"event_fingerprint": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -308,7 +312,7 @@ func OsManagementHubEventResource() *schema.Resource {
 func createOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).OsmhEventClient()
+	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 	return tfresource.CreateResource(d, sync)
 }
@@ -316,7 +320,7 @@ func createOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 func readOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).OsmhEventClient()
+	sync.Client = m.(*client.OracleClients).EventClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -324,7 +328,7 @@ func readOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 func updateOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).OsmhEventClient()
+	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
 	return tfresource.UpdateResource(d, sync)
@@ -333,7 +337,7 @@ func updateOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 func deleteOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).OsmhEventClient()
+	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
@@ -643,7 +647,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -775,7 +779,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -841,7 +845,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -907,7 +911,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -973,7 +977,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -1039,7 +1043,73 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
+		}
+
+		if v.IsManagedByAutonomousLinux != nil {
+			s.D.Set("is_managed_by_autonomous_linux", *v.IsManagedByAutonomousLinux)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemDetails != nil {
+			s.D.Set("system_details", []interface{}{SystemDetailsToMap(v.SystemDetails)})
+		} else {
+			s.D.Set("system_details", nil)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeOccurred != nil {
+			s.D.Set("time_occurred", v.TimeOccurred.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_os_management_hub.SnapUpdateEvent:
+		s.D.Set("type", "SNAP_UPDATE")
+
+		if v.Data != nil {
+			s.D.Set("data", []interface{}{SnapUpdateEventDataToMap(v.Data)})
+		} else {
+			s.D.Set("data", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EventDetails != nil {
+			s.D.Set("event_details", *v.EventDetails)
+		}
+
+		if v.EventSummary != nil {
+			s.D.Set("event_summary", *v.EventSummary)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -1105,7 +1175,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -1171,7 +1241,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.Set("event_id", *v.Id)
 		}
 
 		if v.IsManagedByAutonomousLinux != nil {
@@ -1785,6 +1855,45 @@ func RebootEventDataToMap(obj *oci_os_management_hub.RebootEventData) map[string
 	return result
 }
 
+func (s *OsManagementHubEventResourceCrud) mapToSnapUpdateEventData(fieldKeyFormat string) (oci_os_management_hub.SnapUpdateEventData, error) {
+	result := oci_os_management_hub.SnapUpdateEventData{}
+
+	if additionalDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_details")); ok {
+		if tmpList := additionalDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_details"), 0)
+			tmp, err := s.mapToWorkRequestEventDataAdditionalDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert additional_details, encountered error: %v", err)
+			}
+			result.AdditionalDetails = &tmp
+		}
+	}
+
+	if operationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operation_type")); ok {
+		result.OperationType = oci_os_management_hub.SnapUpdateEventDataOperationTypeEnum(operationType.(string))
+	}
+
+	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
+		result.Status = oci_os_management_hub.EventStatusEnum(status.(string))
+	}
+
+	return result, nil
+}
+
+func SnapUpdateEventDataToMap(obj *oci_os_management_hub.SnapUpdateEventData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdditionalDetails != nil {
+		result["additional_details"] = []interface{}{WorkRequestEventDataAdditionalDetailsToMap(obj.AdditionalDetails)}
+	}
+
+	result["operation_type"] = string(obj.OperationType)
+
+	result["status"] = string(obj.Status)
+
+	return result
+}
+
 func (s *OsManagementHubEventResourceCrud) mapToSoftwareSourceEventData(fieldKeyFormat string) (oci_os_management_hub.SoftwareSourceEventData, error) {
 	result := oci_os_management_hub.SoftwareSourceEventData{}
 
@@ -1900,6 +2009,11 @@ func (s *OsManagementHubEventResourceCrud) mapToSysadminEventData(fieldKeyFormat
 		result.ErrorLog = &tmp
 	}
 
+	if errorSummary, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "error_summary")); ok {
+		tmp := errorSummary.(string)
+		result.ErrorSummary = &tmp
+	}
+
 	if resolutionLog, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resolution_log")); ok {
 		tmp := resolutionLog.(string)
 		result.ResolutionLog = &tmp
@@ -1927,6 +2041,10 @@ func SysadminEventDataToMap(obj *oci_os_management_hub.SysadminEventData) map[st
 
 	if obj.ErrorLog != nil {
 		result["error_log"] = string(*obj.ErrorLog)
+	}
+
+	if obj.ErrorSummary != nil {
+		result["error_summary"] = string(*obj.ErrorSummary)
 	}
 
 	if obj.ResolutionLog != nil {

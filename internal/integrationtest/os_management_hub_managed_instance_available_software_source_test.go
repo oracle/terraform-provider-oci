@@ -47,12 +47,19 @@ func TestOsManagementHubManagedInstanceAvailableSoftwareSourceResource_basic(t *
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_available_software_sources", "test_managed_instance_available_software_sources", acctest.Required, acctest.Create, OsManagementHubManagedInstanceAvailableSoftwareSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + OsManagementHubManagedInstanceAvailableSoftwareSourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
-				//resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNameContains"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),
+			),
+		},
 
-				resource.TestCheckResourceAttrSet(datasourceName, "available_software_source_collection.#"),
+		// verify datasource optional
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_available_software_sources", "test_managed_instance_available_software_sources", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceAvailableSoftwareSourceDataSourceRepresentation) +
+				compartmentIdVariableStr + OsManagementHubManagedInstanceAvailableSoftwareSourceResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNameContains"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),
 			),
 		},
 	})

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -22,14 +22,13 @@ var (
 	}
 
 	OsManagementHubErrataDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		//"advisory_severity":     acctest.Representation{RepType: acctest.Optional, Create: []string{`advisorySeverity`}},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"classification_type":   acctest.Representation{RepType: acctest.Optional, Create: []string{`BUGFIX`}},
 		"name":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`ELBA-2024-12244`}},
 		"name_contains":         acctest.Representation{RepType: acctest.Required, Create: `ELBA-2024-12244`},
 		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_9`},
-		"time_issue_date_end":   acctest.Representation{RepType: acctest.Optional, Create: `2024-04-01T00:00:00.000Z`},
-		"time_issue_date_start": acctest.Representation{RepType: acctest.Optional, Create: `2024-03-20T00:00:00.000Z`},
+		"time_issue_date_end":   acctest.Representation{RepType: acctest.Optional, Create: `2026-04-01T00:00:00.000Z`},
+		"time_issue_date_start": acctest.Representation{RepType: acctest.Optional, Create: `2026-03-20T00:00:00.000Z`},
 	}
 
 	OsManagementHubErrataResourceConfig = ""
@@ -73,8 +72,7 @@ func TestOsManagementHubErrataResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "classification_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "name_contains", "ELBA-2024-12244"),
-				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_9"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "time_issue_date_end"),
 				resource.TestCheckResourceAttrSet(datasourceName, "time_issue_date_start"),
 

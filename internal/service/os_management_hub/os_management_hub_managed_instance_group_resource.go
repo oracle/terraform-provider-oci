@@ -115,9 +115,10 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 				Computed: true,
 			},
 			"software_source_ids": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.ListEqualIgnoreOrderSuppressDiff,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},

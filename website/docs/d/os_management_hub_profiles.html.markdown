@@ -42,7 +42,7 @@ data "oci_os_management_hub_profiles" "test_profiles" {
 
 The following arguments are supported:
 
-* `arch_type` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only profiles that match the given archType.
+* `arch_type` - (Applicable when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) A filter to return only profiles that match the given archType.
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
@@ -50,13 +50,13 @@ The following arguments are supported:
 * `is_service_provided_profile` - (Optional) A filter to return only service-provided profiles. 
 * `management_station` - (Optional) A filter to return resources that are associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `management_station_not_equal_to` - (Optional) A filter to return resources that aren't associated with the specified management  station [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
-* `os_family` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only resources that match the given operating system family.
+* `os_family` - (Applicable when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) A filter to return only resources that match the given operating system family.
 * `profile_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
 * `profile_type` - (Optional) A filter to return registration profiles that match the given profile type.
 * `profile_version` - (Optional) The version of the registration profile.
 * `registration_type` - (Optional) A filter to return profiles that match the given instance type.
 * `state` - (Optional) A filter to return only registration profiles in the given state.
-* `vendor_name` - (Applicable when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) A filter to return only resources that match the given vendor name.
+* `vendor_name` - (Applicable when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) A filter to return only resources that match the given vendor name.
 
 
 ## Attributes Reference

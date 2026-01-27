@@ -74,6 +74,10 @@ func OsManagementHubSoftwareSourceAvailableSoftwarePackagesDataSource() *schema.
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"last_modified_date": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Computed: true,

@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
@@ -21,31 +20,31 @@ import (
 
 var (
 	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRepresentationDisableDryRun = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"disable":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementDisableRepresentation},
 		"is_dry_run":                acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRepresentationDisable = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"disable":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementDisableRepresentation},
 		"is_dry_run":                acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRepresentationEnable = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"enable":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementEnableRepresentation},
 		"is_dry_run":                acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRepresentationInstall = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"install":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementInstallRepresentation},
 		"is_dry_run":                acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRepresentationRemove = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"remove":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementRemoveRepresentation},
 		"is_dry_run":                acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupManageModuleStreamsManagementWorkRequestDetailsRepresentation},
@@ -77,7 +76,7 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 
-	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementResourceDependencies = OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config
+	OsManagementHubManagedInstanceGroupManageModuleStreamsManagementResourceDependencies = OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config
 )
 
 // issue-routing-tag: os_management_hub/default

@@ -23,8 +23,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation)
 
 	OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
-		"managed_instances":         acctest.Representation{RepType: acctest.Required, Create: []string{utils.GetEnvSettingWithBlankDefault("managed_instance_for_mig_ocid")}},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
+		"managed_instances":         acctest.Representation{RepType: acctest.Required, Create: []string{utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")}},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequestDetailsRepresentation = map[string]interface{}{
@@ -33,6 +33,8 @@ var (
 	}
 
 	OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies = ""
+
+	OsManagementHubManagedInstanceGroupManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config
 )
 
 // issue-routing-tag: os_management_hub/default
@@ -46,18 +48,18 @@ func TestOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_os_management_hub_managed_instance_group_attach_managed_instances_management.test_managed_instance_group_attach_managed_instances_management"
-	resourceNameDetach := "oci_os_management_hub_managed_instance_group_detach_managed_instances_management.test_managed_instance_group_detach_managed_instances_management"
 
 	var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation), "osmanagementhub", "managedInstanceGroupAttachManagedInstancesManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation),
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies + OsManagementHubManagedInstanceGroupManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_managed_instances_management", "test_managed_instance_group_detach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_instances.#", "1"),
@@ -67,19 +69,12 @@ func TestOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies,
 		},
-		// Detach managed instance
-		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_managed_instances_management", "test_managed_instance_group_detach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceNameDetach, "managed_instance_group_id"),
-				resource.TestCheckResourceAttr(resourceNameDetach, "managed_instances.#", "1"),
-			),
-		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation),
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies + OsManagementHubManagedInstanceGroupManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_managed_instances_management", "test_managed_instance_group_attach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_managed_instances_management", "test_managed_instance_group_detach_managed_instances_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementRepresentation),
+
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_instances.#", "1"),
@@ -101,15 +96,6 @@ func TestOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceDependencies,
-		},
-		// Detach managed instance
-		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_managed_instances_management", "test_managed_instance_group_detach_managed_instances_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupDetachManagedInstancesManagementRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceNameDetach, "managed_instance_group_id"),
-				resource.TestCheckResourceAttr(resourceNameDetach, "managed_instances.#", "1"),
-			),
 		},
 	})
 }

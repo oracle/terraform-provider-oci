@@ -27,17 +27,8 @@ resource "oci_os_management_hub_lifecycle_environment" "test_lifecycle_environme
 	os_family = var.lifecycle_environment_os_family
 	stages {
 		#Required
-		display_name = var.lifecycle_environment_stages_display_name_1
-		rank = var.lifecycle_environment_stages_rank_1
-
-		#Optional
-		defined_tags = {"Operations.CostCenter"= "42"}
-		freeform_tags = {"Department"= "Finance"}
-	}
-	stages {
-		#Required
-		display_name = var.lifecycle_environment_stages_display_name_2
-		rank = var.lifecycle_environment_stages_rank_2
+		display_name = var.lifecycle_environment_stages_display_name
+		rank = var.lifecycle_environment_stages_rank
 
 		#Optional
 		defined_tags = {"Operations.CostCenter"= "42"}

@@ -6,6 +6,9 @@ package os_management_hub
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_os_management_hub_dynamic_set", OsManagementHubDynamicSetDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_dynamic_set_managed_instances", OsManagementHubDynamicSetManagedInstancesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_dynamic_sets", OsManagementHubDynamicSetsDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_entitlements", OsManagementHubEntitlementsDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_errata", OsManagementHubErrataDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_erratum", OsManagementHubErratumDataSource())
@@ -25,11 +28,13 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_available_packages", OsManagementHubManagedInstanceGroupAvailablePackagesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_available_software_sources", OsManagementHubManagedInstanceGroupAvailableSoftwareSourcesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_installed_packages", OsManagementHubManagedInstanceGroupInstalledPackagesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_managed_instances", OsManagementHubManagedInstanceGroupManagedInstancesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_modules", OsManagementHubManagedInstanceGroupModulesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_groups", OsManagementHubManagedInstanceGroupsDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_installed_packages", OsManagementHubManagedInstanceInstalledPackagesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_installed_windows_updates", OsManagementHubManagedInstanceInstalledWindowsUpdatesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_modules", OsManagementHubManagedInstanceModulesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_snaps", OsManagementHubManagedInstanceSnapsDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_updatable_packages", OsManagementHubManagedInstanceUpdatablePackagesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_managed_instances", OsManagementHubManagedInstancesDataSource())
 	tfresource.RegisterDatasource("oci_os_management_hub_management_station", OsManagementHubManagementStationDataSource())
