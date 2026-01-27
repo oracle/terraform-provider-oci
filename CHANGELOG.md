@@ -1,3 +1,19 @@
+## 7.32.0 (January 27, 2026)
+
+### Added
+- Support for KMS on AWS
+- Support for message fanout with filtering using Consumer Groups in Queue Service
+- Support for Enable more processor families in cluster selection - Managed Kafka
+- Support for IPA - Add Compute Cluster support to Instance Pools
+- Support for BYOCA and CA Issuance Rules in OCI Certificates
+- Support for OCVS Customer Operation Improvements
+- Support for DIF - Addition of OCI Services
+- Support for OCI OpenSearch Service LBaaS to NLB migration
+
+### Bug Fix
+- refactor computeHost to computeHosts
+- Bugfix for UpdateLog in Logging provider
+
 ## 7.31.0 (January 21, 2026)
 
 ### Added

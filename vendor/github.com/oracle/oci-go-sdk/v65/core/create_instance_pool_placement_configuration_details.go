@@ -28,6 +28,12 @@ type CreateInstancePoolPlacementConfigurationDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
+	// compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
+	// Make sure the compute cluster belongs to the same availability domain as specified in placement configuration otherwise the request will be rejected with 400.
+	// Once this field is set, it cannot be updated. Also any update to the availability domain in placement configuration will be blocked.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
+
 	// The fault domains to place instances.
 	// If you don't provide any values, the system makes a best effort to distribute
 	// instances across all fault domains based on capacity.

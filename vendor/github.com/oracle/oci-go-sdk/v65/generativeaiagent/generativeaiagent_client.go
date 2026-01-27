@@ -345,6 +345,70 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 	return response, err
 }
 
+// ChangeProvisionedCapacityCompartment Moves a provisioned capacity into a different compartment within the same tenancy. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ChangeProvisionedCapacityCompartment.go.html to see an example of how to use ChangeProvisionedCapacityCompartment API.
+// A default retry strategy applies to this operation ChangeProvisionedCapacityCompartment()
+func (client GenerativeAiAgentClient) ChangeProvisionedCapacityCompartment(ctx context.Context, request ChangeProvisionedCapacityCompartmentRequest) (response ChangeProvisionedCapacityCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeProvisionedCapacityCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeProvisionedCapacityCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeProvisionedCapacityCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeProvisionedCapacityCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeProvisionedCapacityCompartmentResponse")
+	}
+	return
+}
+
+// changeProvisionedCapacityCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) changeProvisionedCapacityCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/provisionedCapacities/{provisionedCapacityId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeProvisionedCapacityCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/ChangeProvisionedCapacityCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ChangeProvisionedCapacityCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAgent Creates an agent.
 //
 // # See also
@@ -653,6 +717,69 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/CreateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateKnowledgeBase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateProvisionedCapacity Creates a provisioned capacity.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/CreateProvisionedCapacity.go.html to see an example of how to use CreateProvisionedCapacity API.
+// A default retry strategy applies to this operation CreateProvisionedCapacity()
+func (client GenerativeAiAgentClient) CreateProvisionedCapacity(ctx context.Context, request CreateProvisionedCapacityRequest) (response CreateProvisionedCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createProvisionedCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateProvisionedCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateProvisionedCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateProvisionedCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateProvisionedCapacityResponse")
+	}
+	return
+}
+
+// createProvisionedCapacity implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) createProvisionedCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/provisionedCapacities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateProvisionedCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/CreateProvisionedCapacity"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1006,6 +1133,64 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/DeleteKnowledgeBase"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteKnowledgeBase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteProvisionedCapacity Deletes a provisioned capacity.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/DeleteProvisionedCapacity.go.html to see an example of how to use DeleteProvisionedCapacity API.
+// A default retry strategy applies to this operation DeleteProvisionedCapacity()
+func (client GenerativeAiAgentClient) DeleteProvisionedCapacity(ctx context.Context, request DeleteProvisionedCapacityRequest) (response DeleteProvisionedCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteProvisionedCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteProvisionedCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteProvisionedCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteProvisionedCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteProvisionedCapacityResponse")
+	}
+	return
+}
+
+// deleteProvisionedCapacity implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) deleteProvisionedCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/provisionedCapacities/{provisionedCapacityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteProvisionedCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/DeleteProvisionedCapacity"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
 
@@ -1418,6 +1603,64 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 	return response, err
 }
 
+// GetProvisionedCapacity Gets information about a provisioned capacity.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/GetProvisionedCapacity.go.html to see an example of how to use GetProvisionedCapacity API.
+// A default retry strategy applies to this operation GetProvisionedCapacity()
+func (client GenerativeAiAgentClient) GetProvisionedCapacity(ctx context.Context, request GetProvisionedCapacityRequest) (response GetProvisionedCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getProvisionedCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetProvisionedCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetProvisionedCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetProvisionedCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetProvisionedCapacityResponse")
+	}
+	return
+}
+
+// getProvisionedCapacity implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) getProvisionedCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/provisionedCapacities/{provisionedCapacityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetProvisionedCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/GetProvisionedCapacity"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetProvisionedCapacity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetTool Gets information about a tool.
 //
 // # See also
@@ -1817,6 +2060,64 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/ListKnowledgeBases"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListKnowledgeBases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListProvisionedCapacities Gets a list of provisioned capacities.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/ListProvisionedCapacities.go.html to see an example of how to use ListProvisionedCapacities API.
+// A default retry strategy applies to this operation ListProvisionedCapacities()
+func (client GenerativeAiAgentClient) ListProvisionedCapacities(ctx context.Context, request ListProvisionedCapacitiesRequest) (response ListProvisionedCapacitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProvisionedCapacities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProvisionedCapacitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProvisionedCapacitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProvisionedCapacitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProvisionedCapacitiesResponse")
+	}
+	return
+}
+
+// listProvisionedCapacities implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) listProvisionedCapacities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/provisionedCapacities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProvisionedCapacitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/ListProvisionedCapacities"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListProvisionedCapacities", apiReferenceLink)
 		return response, err
 	}
 
@@ -2281,6 +2582,64 @@ func (client GenerativeAiAgentClient) updateKnowledgeBase(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/UpdateKnowledgeBase"
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateKnowledgeBase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateProvisionedCapacity Updates a provisioned capacity.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeaiagent/UpdateProvisionedCapacity.go.html to see an example of how to use UpdateProvisionedCapacity API.
+// A default retry strategy applies to this operation UpdateProvisionedCapacity()
+func (client GenerativeAiAgentClient) UpdateProvisionedCapacity(ctx context.Context, request UpdateProvisionedCapacityRequest) (response UpdateProvisionedCapacityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateProvisionedCapacity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateProvisionedCapacityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateProvisionedCapacityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateProvisionedCapacityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateProvisionedCapacityResponse")
+	}
+	return
+}
+
+// updateProvisionedCapacity implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiAgentClient) updateProvisionedCapacity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/provisionedCapacities/{provisionedCapacityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateProvisionedCapacityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/UpdateProvisionedCapacity"
+		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
 

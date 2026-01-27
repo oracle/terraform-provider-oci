@@ -51,6 +51,9 @@ type CertificateAuthorityVersion struct {
 	Validity *Validity `mandatory:"false" json:"validity"`
 
 	RevocationStatus *RevocationStatus `mandatory:"false" json:"revocationStatus"`
+
+	// The certificate signing request (in PEM format).
+	CsrPem *string `mandatory:"false" json:"csrPem"`
 }
 
 func (m CertificateAuthorityVersion) String() string {

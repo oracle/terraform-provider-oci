@@ -35,6 +35,12 @@ type AdditionalDetails struct {
 
 	// OCID of model
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	// OCID of cluster assigned to OMK cluster-namespace.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
+
+	// Kubernetes namespace-name of omk cluster-namespace.
+	NamespaceName *string `mandatory:"false" json:"namespaceName"`
 }
 
 func (m AdditionalDetails) String() string {

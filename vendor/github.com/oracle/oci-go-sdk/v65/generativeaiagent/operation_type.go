@@ -46,6 +46,9 @@ const (
 	OperationTypeUpdateProvisionedCapacity OperationTypeEnum = "UPDATE_PROVISIONED_CAPACITY"
 	OperationTypeDeleteProvisionedCapacity OperationTypeEnum = "DELETE_PROVISIONED_CAPACITY"
 	OperationTypeMoveProvisionedCapacity   OperationTypeEnum = "MOVE_PROVISIONED_CAPACITY"
+	OperationTypeCreateFlow                OperationTypeEnum = "CREATE_FLOW"
+	OperationTypeUpdateFlow                OperationTypeEnum = "UPDATE_FLOW"
+	OperationTypeDeleteFlow                OperationTypeEnum = "DELETE_FLOW"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -73,6 +76,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_PROVISIONED_CAPACITY": OperationTypeUpdateProvisionedCapacity,
 	"DELETE_PROVISIONED_CAPACITY": OperationTypeDeleteProvisionedCapacity,
 	"MOVE_PROVISIONED_CAPACITY":   OperationTypeMoveProvisionedCapacity,
+	"CREATE_FLOW":                 OperationTypeCreateFlow,
+	"UPDATE_FLOW":                 OperationTypeUpdateFlow,
+	"DELETE_FLOW":                 OperationTypeDeleteFlow,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -100,6 +106,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_provisioned_capacity": OperationTypeUpdateProvisionedCapacity,
 	"delete_provisioned_capacity": OperationTypeDeleteProvisionedCapacity,
 	"move_provisioned_capacity":   OperationTypeMoveProvisionedCapacity,
+	"create_flow":                 OperationTypeCreateFlow,
+	"update_flow":                 OperationTypeUpdateFlow,
+	"delete_flow":                 OperationTypeDeleteFlow,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -138,6 +147,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_PROVISIONED_CAPACITY",
 		"DELETE_PROVISIONED_CAPACITY",
 		"MOVE_PROVISIONED_CAPACITY",
+		"CREATE_FLOW",
+		"UPDATE_FLOW",
+		"DELETE_FLOW",
 	}
 }
 

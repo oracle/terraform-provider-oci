@@ -63,6 +63,14 @@ func (m *createcertificateauthorityconfigdetails) UnmarshalPolymorphicJSON(data 
 		mm := CreateSubordinateCaIssuedByInternalCaConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ROOT_CA_MANAGED_EXTERNALLY":
+		mm := CreateRootCaManagedExternallyConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SUBORDINATE_CA_MANAGED_INTERNALLY_ISSUED_BY_EXTERNAL_CA":
+		mm := CreateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CreateCertificateAuthorityConfigDetails: %s.", m.ConfigType)
 		return *m, nil

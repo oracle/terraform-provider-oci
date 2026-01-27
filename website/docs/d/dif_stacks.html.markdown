@@ -57,6 +57,9 @@ The following attributes are exported:
 	* `is_public` - If true then subnetId should not be provided.
 	* `subnet_id` - The OCID of the subnet the Autonomous Database is associated with.
 	* `tools_public_access` - This is an array of CIDR (classless inter-domain routing) notations for a subnet or VCN OCID (virtual cloud network Oracle Cloud ID). Allowed only when subnetId is provided (private ADB).
+* `aidataplatform` - AI Data Platform Details if aidataplatform is included in services.
+	* `default_workspace_name` - A default workspace will be created with this name.
+	* `instance_id` - Identifier for AIDP instance to be provisioned.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `dataflow` - DATAFLOW details if dataflow is included in the services.
 	* `connections` - Details for connections to other services from Dataflow.
@@ -89,7 +92,7 @@ The following attributes are exported:
 	* `endpoints` - List of endpoints to provision for the GENAI cluster.
 		* `endpoint_name` - Identifier for each endpoint.
 		* `is_content_moderation_enabled` - Helps remove toxic and biased content from responses.
-	* `instance_id` - Id for the GGCS instance to be provisioned.
+	* `instance_id` - Id for the GenAi instance to be provisioned.
 	* `oci_region` - Region on which the cluster end endpoint will be provisioned.
 	* `unit_count` - No of replicas of base model to be used for hosting.
 * `ggcs` - GGCS details if ggcs is included in the services.
@@ -114,17 +117,28 @@ The following attributes are exported:
 	* `instance_id` - Id for Object Storage instance to be provisioned.
 	* `object_versioning` - Mentions whether the object versioning to be enabled or not,Allowed values are "ENABLED" / "DISABLED"/"SUSPENDED"
 	* `storage_tier` - Mentions which storage tier to use for the bucket,Allowed values are "STANDARD" / "ARCHIVE"
+* `oke` - OKE Details if oke is included in services.
+	* `cluster_id` - OCID of existing OKE cluster.
+	* `instance_id` - Unique identifier for an oke instance.
+	* `namespace` - Kubernetes namespace-name of OKE cluster.
+* `omk` - OMK Details if omk is included in services.
+	* `cluster_id` - OCID of cluster assigned to OMK cluster-namespace.
+	* `cluster_namespace_id` - OCID of existing OMK cluster-namespace.
+	* `instance_id` - Unique identifier for an omk instance.
+	* `namespace` - Kubernetes namespace-name of OMK cluster-namespace.
 * `service_details` - Details of the service onboarded for the data intelligence stack.
 	* `additional_details` - Additional details about the provisioned services
 		* `assigned_connections` - connections assigned to Golden Gate deployment
 			* `connection_id` - OCID of the connection.
 			* `connection_name` - Name of the connection.
 			* `requested_by` - Specifies who has made this connection.
+		* `cluster_id` - OCID of cluster assigned to OMK cluster-namespace.
 		* `endpoint_details` - details of all endpoints assigned to cluster
 			* `endpoint_id` - OCID of the endpoint.
 			* `endpoint_name` - Identifier for each endpoint.
 		* `model_id` - OCID of model
 		* `model_version` - version of model
+		* `namespace` - Kubernetes namespace-name of omk cluster-namespace.
 		* `oci_region` - region of cluster
 		* `private_endpoint_id` - OCID of model
 	* `current_artifact_path` - name of the service

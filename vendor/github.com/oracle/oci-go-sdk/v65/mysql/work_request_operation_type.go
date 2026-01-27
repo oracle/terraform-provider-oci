@@ -43,6 +43,7 @@ const (
 	WorkRequestOperationTypeCreateBackup                          WorkRequestOperationTypeEnum = "CREATE_BACKUP"
 	WorkRequestOperationTypeDeleteBackup                          WorkRequestOperationTypeEnum = "DELETE_BACKUP"
 	WorkRequestOperationTypeUpdateBackup                          WorkRequestOperationTypeEnum = "UPDATE_BACKUP"
+	WorkRequestOperationTypeExportBackup                          WorkRequestOperationTypeEnum = "EXPORT_BACKUP"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -71,6 +72,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CREATE_BACKUP":                             WorkRequestOperationTypeCreateBackup,
 	"DELETE_BACKUP":                             WorkRequestOperationTypeDeleteBackup,
 	"UPDATE_BACKUP":                             WorkRequestOperationTypeUpdateBackup,
+	"EXPORT_BACKUP":                             WorkRequestOperationTypeExportBackup,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -99,6 +101,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"create_backup":                             WorkRequestOperationTypeCreateBackup,
 	"delete_backup":                             WorkRequestOperationTypeDeleteBackup,
 	"update_backup":                             WorkRequestOperationTypeUpdateBackup,
+	"export_backup":                             WorkRequestOperationTypeExportBackup,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -138,6 +141,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CREATE_BACKUP",
 		"DELETE_BACKUP",
 		"UPDATE_BACKUP",
+		"EXPORT_BACKUP",
 	}
 }
 

@@ -66,6 +66,12 @@ func (s *QueueQueueDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	capabilities := []interface{}{}
+	for _, item := range s.Res.Capabilities {
+		capabilities = append(capabilities, CapabilityDetailsToMap(item))
+	}
+	s.D.Set("capabilities", capabilities)
+
 	if s.Res.ChannelConsumptionLimit != nil {
 		s.D.Set("channel_consumption_limit", *s.Res.ChannelConsumptionLimit)
 	}

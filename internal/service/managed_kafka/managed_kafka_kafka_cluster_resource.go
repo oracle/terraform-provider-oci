@@ -71,6 +71,11 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 						},
 
 						// Optional
+						"node_shape": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"storage_size_in_gbs": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -703,6 +708,11 @@ func (s *ManagedKafkaKafkaClusterResourceCrud) mapToBrokerShape(fieldKeyFormat s
 		result.NodeCount = &tmp
 	}
 
+	if nodeShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_shape")); ok {
+		tmp := nodeShape.(string)
+		result.NodeShape = &tmp
+	}
+
 	if ocpuCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpu_count")); ok {
 		tmp := ocpuCount.(int)
 		result.OcpuCount = &tmp
@@ -721,6 +731,10 @@ func BrokerShapeToMap(obj *oci_managed_kafka.BrokerShape) map[string]interface{}
 
 	if obj.NodeCount != nil {
 		result["node_count"] = int(*obj.NodeCount)
+	}
+
+	if obj.NodeShape != nil {
+		result["node_shape"] = string(*obj.NodeShape)
 	}
 
 	if obj.OcpuCount != nil {

@@ -27,6 +27,7 @@ const (
 	CertificateAuthorityLifecycleStatePendingDeletion    CertificateAuthorityLifecycleStateEnum = "PENDING_DELETION"
 	CertificateAuthorityLifecycleStateCancellingDeletion CertificateAuthorityLifecycleStateEnum = "CANCELLING_DELETION"
 	CertificateAuthorityLifecycleStateFailed             CertificateAuthorityLifecycleStateEnum = "FAILED"
+	CertificateAuthorityLifecycleStatePendingActivation  CertificateAuthorityLifecycleStateEnum = "PENDING_ACTIVATION"
 )
 
 var mappingCertificateAuthorityLifecycleStateEnum = map[string]CertificateAuthorityLifecycleStateEnum{
@@ -39,6 +40,7 @@ var mappingCertificateAuthorityLifecycleStateEnum = map[string]CertificateAuthor
 	"PENDING_DELETION":    CertificateAuthorityLifecycleStatePendingDeletion,
 	"CANCELLING_DELETION": CertificateAuthorityLifecycleStateCancellingDeletion,
 	"FAILED":              CertificateAuthorityLifecycleStateFailed,
+	"PENDING_ACTIVATION":  CertificateAuthorityLifecycleStatePendingActivation,
 }
 
 var mappingCertificateAuthorityLifecycleStateEnumLowerCase = map[string]CertificateAuthorityLifecycleStateEnum{
@@ -51,6 +53,7 @@ var mappingCertificateAuthorityLifecycleStateEnumLowerCase = map[string]Certific
 	"pending_deletion":    CertificateAuthorityLifecycleStatePendingDeletion,
 	"cancelling_deletion": CertificateAuthorityLifecycleStateCancellingDeletion,
 	"failed":              CertificateAuthorityLifecycleStateFailed,
+	"pending_activation":  CertificateAuthorityLifecycleStatePendingActivation,
 }
 
 // GetCertificateAuthorityLifecycleStateEnumValues Enumerates the set of values for CertificateAuthorityLifecycleStateEnum
@@ -74,6 +77,7 @@ func GetCertificateAuthorityLifecycleStateEnumStringValues() []string {
 		"PENDING_DELETION",
 		"CANCELLING_DELETION",
 		"FAILED",
+		"PENDING_ACTIVATION",
 	}
 }
 

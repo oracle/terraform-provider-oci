@@ -44,6 +44,9 @@ type CertificateAuthority struct {
 	// A brief description of the CA.
 	Description *string `mandatory:"false" json:"description"`
 
+	// For externally managed CAs, a description of the externally managed key. Avoid entering confidential information.
+	ExternalKeyDescription *string `mandatory:"false" json:"externalKeyDescription"`
+
 	// An optional property indicating when to delete the CA version, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
@@ -105,6 +108,7 @@ func (m *CertificateAuthority) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		IssuerCertificateAuthorityId     *string                                `json:"issuerCertificateAuthorityId"`
 		Description                      *string                                `json:"description"`
+		ExternalKeyDescription           *string                                `json:"externalKeyDescription"`
 		TimeOfDeletion                   *common.SDKTime                        `json:"timeOfDeletion"`
 		KmsKeyId                         *string                                `json:"kmsKeyId"`
 		LifecycleDetails                 *string                                `json:"lifecycleDetails"`
@@ -131,6 +135,8 @@ func (m *CertificateAuthority) UnmarshalJSON(data []byte) (e error) {
 	m.IssuerCertificateAuthorityId = model.IssuerCertificateAuthorityId
 
 	m.Description = model.Description
+
+	m.ExternalKeyDescription = model.ExternalKeyDescription
 
 	m.TimeOfDeletion = model.TimeOfDeletion
 
