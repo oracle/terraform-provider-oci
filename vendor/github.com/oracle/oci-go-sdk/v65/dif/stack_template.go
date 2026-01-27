@@ -22,6 +22,7 @@ const (
 	StackTemplateDatapipeline       StackTemplateEnum = "DATAPIPELINE"
 	StackTemplateAiservices         StackTemplateEnum = "AISERVICES"
 	StackTemplateDatatransformation StackTemplateEnum = "DATATRANSFORMATION"
+	StackTemplateDevopstoolkit      StackTemplateEnum = "DEVOPSTOOLKIT"
 )
 
 var mappingStackTemplateEnum = map[string]StackTemplateEnum{
@@ -29,6 +30,7 @@ var mappingStackTemplateEnum = map[string]StackTemplateEnum{
 	"DATAPIPELINE":       StackTemplateDatapipeline,
 	"AISERVICES":         StackTemplateAiservices,
 	"DATATRANSFORMATION": StackTemplateDatatransformation,
+	"DEVOPSTOOLKIT":      StackTemplateDevopstoolkit,
 }
 
 var mappingStackTemplateEnumLowerCase = map[string]StackTemplateEnum{
@@ -36,6 +38,7 @@ var mappingStackTemplateEnumLowerCase = map[string]StackTemplateEnum{
 	"datapipeline":       StackTemplateDatapipeline,
 	"aiservices":         StackTemplateAiservices,
 	"datatransformation": StackTemplateDatatransformation,
+	"devopstoolkit":      StackTemplateDevopstoolkit,
 }
 
 // GetStackTemplateEnumValues Enumerates the set of values for StackTemplateEnum
@@ -54,6 +57,7 @@ func GetStackTemplateEnumStringValues() []string {
 		"DATAPIPELINE",
 		"AISERVICES",
 		"DATATRANSFORMATION",
+		"DEVOPSTOOLKIT",
 	}
 }
 

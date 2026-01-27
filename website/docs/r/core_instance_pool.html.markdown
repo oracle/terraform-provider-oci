@@ -32,6 +32,7 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 		availability_domain = var.instance_pool_placement_configurations_availability_domain
 
 		#Optional
+		compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 		fault_domains = var.instance_pool_placement_configurations_fault_domains
 		primary_subnet_id = oci_core_subnet.test_subnet.id
 		primary_vnic_subnets {
@@ -121,8 +122,11 @@ The following arguments are supported:
 	* `vnic_selection` - (Required) Indicates which VNIC on each instance in the pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool. 
 * `placement_configurations` - (Required) (Updatable) The placement configurations for the instance pool. Provide one placement configuration for each availability domain.
 
-	To use the instance pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
+	To use the instance pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. To use compute cluster with instance pool, provide a single placement configuration. 
 	* `availability_domain` - (Required) (Updatable) The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
+	* `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
+
+		Make sure the compute cluster belongs to the same availability domain as specified in placement configuration otherwise the request will be rejected with 400. Once this field is set, it cannot be updated. Also any update to the availability domain in placement configuration will be blocked. 
 	* `fault_domains` - (Optional) (Updatable) The fault domains to place instances.
 
 		If you don't provide any values, the system makes a best effort to distribute instances across all fault domains based on capacity.
@@ -181,6 +185,7 @@ The following attributes are exported:
 	* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool. 
 * `placement_configurations` - The placement configurations for the instance pool.
 	* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
+	* `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 	* `fault_domains` - The fault domains to place instances.
 
 		If you don't provide any values, the system makes a best effort to distribute instances across all fault domains based on capacity.

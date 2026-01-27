@@ -71,6 +71,15 @@ type Stack struct {
 	// GenAI Details if genai is included in services.
 	Genai []GenAiDetail `mandatory:"false" json:"genai"`
 
+	// AI Data Platform Details if aidataplatform is included in services.
+	Aidataplatform []AiDataPlatformDetail `mandatory:"false" json:"aidataplatform"`
+
+	// OMK Details if omk is included in services.
+	Omk []OmkDetail `mandatory:"false" json:"omk"`
+
+	// OKE Details if oke is included in services.
+	Oke []OkeDetail `mandatory:"false" json:"oke"`
+
 	// Details of the service onboarded for the data intelligence stack.
 	ServiceDetails []ServiceDetailResponse `mandatory:"false" json:"serviceDetails"`
 

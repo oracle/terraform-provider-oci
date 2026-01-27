@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -234,6 +235,53 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"encryption_key_location_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"provider_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AWS",
+								"AZURE",
+								"EXTERNAL",
+							}, true),
+						},
+
+						// Optional
+						"aws_encryption_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"azure_encryption_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"hsm_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"fast_start_fail_over_lag_limit_in_seconds": {
 				Type:     schema.TypeInt,
@@ -1578,6 +1626,16 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
 	}
 
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		encryptionKeyLocationDetailsArray := []interface{}{}
+		if encryptionKeyLocationDetailsMap := ACDEncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+			encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+		}
+		s.D.Set("encryption_key_location_details", encryptionKeyLocationDetailsArray)
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
@@ -2199,6 +2257,73 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToDayOfWeek(fieldKe
 	return result, nil
 }
 
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyFormat string) (oci_database.EncryptionKeyLocationDetails, error) {
+	var baseObject oci_database.EncryptionKeyLocationDetails
+	//discriminator
+	providerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provider_type"))
+	var providerType string
+	if ok {
+		providerType = providerTypeRaw.(string)
+	} else {
+		providerType = "" // default value
+	}
+	switch strings.ToLower(providerType) {
+	case strings.ToLower("AWS"):
+		details := oci_database.AwsEncryptionKeyDetails{}
+		if awsEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_id")); ok {
+			tmp := awsEncryptionKeyId.(string)
+			details.AwsEncryptionKeyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("AZURE"):
+		details := oci_database.AzureEncryptionKeyDetails{}
+		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
+			tmp := azureEncryptionKeyId.(string)
+			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("EXTERNAL"):
+		details := oci_database.ExternalHsmEncryptionDetails{}
+		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
+			tmp := hsmPassword.(string)
+			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
+	}
+	return baseObject, nil
+}
+
+func ACDEncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database.AwsEncryptionKeyDetails:
+		result["provider_type"] = "AWS"
+
+		if v.AwsEncryptionKeyId != nil {
+			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
+	case oci_database.AzureEncryptionKeyDetails:
+		result["provider_type"] = "AZURE"
+
+		if v.AzureEncryptionKeyId != nil {
+			result["azure_encryption_key_id"] = string(*v.AzureEncryptionKeyId)
+		}
+	case oci_database.ExternalHsmEncryptionDetails:
+		result["provider_type"] = "EXTERNAL"
+
+		if v.HsmPassword != nil {
+			result["hsm_password"] = string(*v.HsmPassword)
+		}
+	default:
+		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
 
@@ -2481,6 +2606,16 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
 			details.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum(distributionAffinity.(string))
 		}
+		if encryptionKeyLocationDetails, ok := s.D.GetOkExists("encryption_key_location_details"); ok {
+			if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_key_location_details", 0)
+				tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.EncryptionKeyLocationDetails = tmp
+			}
+		}
 		if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok {
 			tmp := fastStartFailOverLagLimitInSeconds.(int)
 			details.FastStartFailOverLagLimitInSeconds = &tmp
@@ -2661,6 +2796,16 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		}
 		if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
 			details.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum(distributionAffinity.(string))
+		}
+		if encryptionKeyLocationDetails, ok := s.D.GetOkExists("encryption_key_location_details"); ok {
+			if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_key_location_details", 0)
+				tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.EncryptionKeyLocationDetails = tmp
+			}
 		}
 		if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok {
 			tmp := fastStartFailOverLagLimitInSeconds.(int)

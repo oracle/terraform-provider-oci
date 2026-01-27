@@ -209,7 +209,7 @@ func readSingularCoreComputeHost(d *schema.ResourceData, m interface{}) error {
 type CoreComputeHostDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
-	Res    *oci_core.GetComputeHostResponse
+	Res    *oci_core.GetComputeHostsResponse
 }
 
 func (s *CoreComputeHostDataSourceCrud) VoidState() {
@@ -217,7 +217,7 @@ func (s *CoreComputeHostDataSourceCrud) VoidState() {
 }
 
 func (s *CoreComputeHostDataSourceCrud) Get() error {
-	request := oci_core.GetComputeHostRequest{}
+	request := oci_core.GetComputeHostsRequest{}
 
 	if computeHostId, ok := s.D.GetOkExists("compute_host_id"); ok {
 		tmp := computeHostId.(string)
@@ -226,7 +226,7 @@ func (s *CoreComputeHostDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetComputeHost(context.Background(), request)
+	response, err := s.Client.GetComputeHosts(context.Background(), request)
 	if err != nil {
 		return err
 	}

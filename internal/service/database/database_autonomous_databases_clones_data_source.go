@@ -626,6 +626,35 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"aws_encryption_key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"hsm_password": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"provider_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"failed_data_recovery_in_seconds": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -1606,6 +1635,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			encryptionKeyHistoryEntry = append(encryptionKeyHistoryEntry, AutonomousDatabaseEncryptionKeyHistoryEntryToMap(item))
 		}
 		autonomousDatabasesClone["encryption_key_history_entry"] = encryptionKeyHistoryEntry
+
+		if r.EncryptionKeyLocationDetails != nil {
+			encryptionKeyLocationDetailsArray := []interface{}{}
+			if encryptionKeyLocationDetailsMap := AdbdEncryptionKeyLocationDetailsToMap(&r.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+				encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+			}
+			autonomousDatabasesClone["encryption_key_location_details"] = encryptionKeyLocationDetailsArray
+		} else {
+			autonomousDatabasesClone["encryption_key_location_details"] = nil
+		}
 
 		if r.FailedDataRecoveryInSeconds != nil {
 			autonomousDatabasesClone["failed_data_recovery_in_seconds"] = *r.FailedDataRecoveryInSeconds

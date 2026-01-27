@@ -364,3 +364,23 @@ func GetSDKServiceName(clientServiceName string) string {
 	snakeCase := strings.Replace(strings.Split(clientServiceName, ".")[0], "oci_", "", 1)
 	return strings.Replace(snakeCase, "_", "", -1)
 }
+
+// RandomDatabaseName generates a random valid database name for OCI dedicated databases.
+// It starts with an uppercase letter and is followed by 1-7 uppercase letters, digits, or underscores, totaling 2-8 chars.
+func RandomDatabaseName(length int) string {
+	const dbFirstChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	const dbRestChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+	if length < 2 {
+		length = 2
+	}
+	if length > 8 {
+		length = 8
+	}
+	name := make([]byte, length)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	name[0] = dbFirstChars[r.Intn(len(dbFirstChars))]
+	for i := 1; i < length; i++ {
+		name[i] = dbRestChars[r.Intn(len(dbRestChars))]
+	}
+	return string(name)
+}

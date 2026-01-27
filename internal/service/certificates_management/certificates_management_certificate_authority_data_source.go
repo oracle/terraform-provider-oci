@@ -98,6 +98,10 @@ func (s *CertificatesManagementCertificateAuthorityDataSourceCrud) SetData() err
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.ExternalKeyDescription != nil {
+		s.D.Set("external_key_description", *s.Res.ExternalKeyDescription)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IssuerCertificateAuthorityId != nil {

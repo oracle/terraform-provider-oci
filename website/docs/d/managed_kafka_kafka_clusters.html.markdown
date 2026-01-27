@@ -50,6 +50,7 @@ The following attributes are exported:
 	* `subnets` - Subnets OCIDs
 * `broker_shape` - Configuration of the broker node.
 	* `node_count` - Number of Kafka broker nodes
+	* `node_shape` - Node shape for broker is passed as part of cluster creation, similar to VM.Standard.A1.Flex
 	* `ocpu_count` - Number of OCPUs per nodes
 	* `storage_size_in_gbs` - Size of the storage per nodes.
 * `client_certificate_bundle` - CA certificate bundle for mTLS broker authentication.
