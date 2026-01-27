@@ -81,6 +81,10 @@ The following attributes are exported:
 * `id` - The OCID of the cluster.
 * `inbound_cluster_ids` - List of inbound clusters for which this cluster is an outbound cluster
 * `lifecycle_details` - Additional information about the current lifecycle state of the cluster.
+* `load_balancer_config` - This config is used to choose the load balancer service and bandwidth for OpenSearch and OpenDashboard load balancers. 
+	* `load_balancer_max_bandwidth_in_mbps` - Maximum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_min_bandwidth_in_mbps` - Minimum bandwidth (Mbps) of OpenSearch load balancer. Not applicable for network load balancer service.
+	* `load_balancer_service_type` - Load balancer service for OpenSearch and OpenDashboard load balancer. Default value is LOAD_BALANCER.
 * `maintenance_details` - Details for the maintenance activity.
 	* `end_time` - End time of the maintenance activity
 	* `notification_email_ids` - The Email Ids given the by customer to get notified about maintenance activities

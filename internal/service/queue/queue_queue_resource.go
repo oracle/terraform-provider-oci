@@ -6,11 +6,14 @@ package queue
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
@@ -41,6 +44,50 @@ func QueueQueueResource() *schema.Resource {
 			},
 
 			// Optional
+			"capabilities": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_primary_consumer_group_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"primary_consumer_group_dead_letter_queue_delivery_count": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"primary_consumer_group_display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"primary_consumer_group_filter": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"type": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CONSUMER_GROUPS",
+								"LARGE_MESSAGES",
+							}, true),
+						},
+
+						// Computed
+					},
+				},
+			},
 			"channel_consumption_limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -230,6 +277,23 @@ func (s *QueueQueueResourceCrud) DeletedTarget() []string {
 func (s *QueueQueueResourceCrud) Create() error {
 	request := oci_queue.CreateQueueRequest{}
 
+	if capabilities, ok := s.D.GetOkExists("capabilities"); ok {
+		interfaces := capabilities.([]interface{})
+		tmp := make([]oci_queue.CapabilityDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "capabilities", stateDataIndex)
+			converted, err := s.mapToCapabilityDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 {
+			request.Capabilities = tmp
+		}
+	}
+
 	if channelConsumptionLimit, ok := s.D.GetOkExists("channel_consumption_limit"); ok {
 		tmp := channelConsumptionLimit.(int)
 		request.ChannelConsumptionLimit = &tmp
@@ -354,7 +418,7 @@ func queueWaitForWorkRequest(wId *string, entityType string, action oci_queue.Ac
 	retryPolicy.ShouldRetryOperation = queueWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_queue.GetWorkRequestResponse{}
-	stateConf := &retry.StateChangeConf{
+	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_queue.OperationStatusInProgress),
 			string(oci_queue.OperationStatusAccepted),
@@ -454,6 +518,23 @@ func (s *QueueQueueResourceCrud) Update() error {
 	}
 	request := oci_queue.UpdateQueueRequest{}
 
+	if capabilities, ok := s.D.GetOkExists("capabilities"); ok {
+		interfaces := capabilities.([]interface{})
+		tmp := make([]oci_queue.CapabilityDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "capabilities", stateDataIndex)
+			converted, err := s.mapToCapabilityDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("capabilities") {
+			request.Capabilities = tmp
+		}
+	}
+
 	if channelConsumptionLimit, ok := s.D.GetOkExists("channel_consumption_limit"); ok {
 		tmp := channelConsumptionLimit.(int)
 		request.ChannelConsumptionLimit = &tmp
@@ -531,6 +612,12 @@ func (s *QueueQueueResourceCrud) Delete() error {
 }
 
 func (s *QueueQueueResourceCrud) SetData() error {
+	capabilities := []interface{}{}
+	for _, item := range s.Res.Capabilities {
+		capabilities = append(capabilities, CapabilityDetailsToMap(item))
+	}
+	s.D.Set("capabilities", capabilities)
+
 	if s.Res.ChannelConsumptionLimit != nil {
 		s.D.Set("channel_consumption_limit", *s.Res.ChannelConsumptionLimit)
 	}
@@ -611,6 +698,11 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 		}
 	}
 
+	if consumerGroupId, ok := s.D.GetOkExists("consumer_group_id"); ok {
+		tmp := consumerGroupId.(string)
+		request.ConsumerGroupId = &tmp
+	}
+
 	if purgeType, ok := s.D.GetOkExists("purge_type"); ok {
 		request.PurgeType, _ = oci_queue.GetMappingPurgeQueueDetailsPurgeTypeEnum(purgeType.(string))
 	}
@@ -640,8 +732,80 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *QueueQueueResourceCrud) mapToCapabilityDetails(fieldKeyFormat string) (oci_queue.CapabilityDetails, error) {
+	var baseObject oci_queue.CapabilityDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("CONSUMER_GROUPS"):
+		details := oci_queue.ConsumerGroupsCapabilityDetails{}
+		if isPrimaryConsumerGroupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_primary_consumer_group_enabled")); ok {
+			tmp := isPrimaryConsumerGroupEnabled.(bool)
+			details.IsPrimaryConsumerGroupEnabled = &tmp
+		}
+		if primaryConsumerGroupDeadLetterQueueDeliveryCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_consumer_group_dead_letter_queue_delivery_count")); ok {
+			tmp := primaryConsumerGroupDeadLetterQueueDeliveryCount.(int)
+			details.PrimaryConsumerGroupDeadLetterQueueDeliveryCount = &tmp
+		}
+		if primaryConsumerGroupDisplayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_consumer_group_display_name")); ok {
+			tmp := primaryConsumerGroupDisplayName.(string)
+			details.PrimaryConsumerGroupDisplayName = &tmp
+		}
+		if primaryConsumerGroupFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_consumer_group_filter")); ok {
+			tmp := primaryConsumerGroupFilter.(string)
+			details.PrimaryConsumerGroupFilter = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("LARGE_MESSAGES"):
+		details := oci_queue.LargeMessagesCapabilityDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func CapabilityDetailsToMap(obj oci_queue.CapabilityDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_queue.ConsumerGroupsCapabilityDetails:
+		result["type"] = "CONSUMER_GROUPS"
+
+		if v.IsPrimaryConsumerGroupEnabled != nil {
+			result["is_primary_consumer_group_enabled"] = bool(*v.IsPrimaryConsumerGroupEnabled)
+		}
+
+		if v.PrimaryConsumerGroupDeadLetterQueueDeliveryCount != nil {
+			result["primary_consumer_group_dead_letter_queue_delivery_count"] = int(*v.PrimaryConsumerGroupDeadLetterQueueDeliveryCount)
+		}
+
+		if v.PrimaryConsumerGroupDisplayName != nil {
+			result["primary_consumer_group_display_name"] = string(*v.PrimaryConsumerGroupDisplayName)
+		}
+
+		if v.PrimaryConsumerGroupFilter != nil {
+			result["primary_consumer_group_filter"] = string(*v.PrimaryConsumerGroupFilter)
+		}
+	case oci_queue.LargeMessagesCapabilityDetails:
+		result["type"] = "LARGE_MESSAGES"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func QueueSummaryToMap(obj oci_queue.QueueSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["capabilities"] = obj.Capabilities
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)

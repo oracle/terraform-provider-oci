@@ -12,4 +12,5 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_config_versions", ManagedKafkaKafkaClusterConfigVersionsDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_configs", ManagedKafkaKafkaClusterConfigsDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_clusters", ManagedKafkaKafkaClustersDataSource())
+	tfresource.RegisterDatasource("oci_managed_kafka_node_shapes", ManagedKafkaNodeShapesDataSource())
 }

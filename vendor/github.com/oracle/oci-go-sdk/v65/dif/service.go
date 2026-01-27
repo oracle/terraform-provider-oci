@@ -18,27 +18,36 @@ type ServiceEnum string
 
 // Set of constants representing the allowable values for ServiceEnum
 const (
-	ServiceAdb           ServiceEnum = "ADB"
-	ServiceGgcs          ServiceEnum = "GGCS"
-	ServiceObjectstorage ServiceEnum = "OBJECTSTORAGE"
-	ServiceGenai         ServiceEnum = "GENAI"
-	ServiceDataflow      ServiceEnum = "DATAFLOW"
+	ServiceAdb            ServiceEnum = "ADB"
+	ServiceGgcs           ServiceEnum = "GGCS"
+	ServiceObjectstorage  ServiceEnum = "OBJECTSTORAGE"
+	ServiceGenai          ServiceEnum = "GENAI"
+	ServiceDataflow       ServiceEnum = "DATAFLOW"
+	ServiceAidataplatform ServiceEnum = "AIDATAPLATFORM"
+	ServiceOmk            ServiceEnum = "OMK"
+	ServiceOke            ServiceEnum = "OKE"
 )
 
 var mappingServiceEnum = map[string]ServiceEnum{
-	"ADB":           ServiceAdb,
-	"GGCS":          ServiceGgcs,
-	"OBJECTSTORAGE": ServiceObjectstorage,
-	"GENAI":         ServiceGenai,
-	"DATAFLOW":      ServiceDataflow,
+	"ADB":            ServiceAdb,
+	"GGCS":           ServiceGgcs,
+	"OBJECTSTORAGE":  ServiceObjectstorage,
+	"GENAI":          ServiceGenai,
+	"DATAFLOW":       ServiceDataflow,
+	"AIDATAPLATFORM": ServiceAidataplatform,
+	"OMK":            ServiceOmk,
+	"OKE":            ServiceOke,
 }
 
 var mappingServiceEnumLowerCase = map[string]ServiceEnum{
-	"adb":           ServiceAdb,
-	"ggcs":          ServiceGgcs,
-	"objectstorage": ServiceObjectstorage,
-	"genai":         ServiceGenai,
-	"dataflow":      ServiceDataflow,
+	"adb":            ServiceAdb,
+	"ggcs":           ServiceGgcs,
+	"objectstorage":  ServiceObjectstorage,
+	"genai":          ServiceGenai,
+	"dataflow":       ServiceDataflow,
+	"aidataplatform": ServiceAidataplatform,
+	"omk":            ServiceOmk,
+	"oke":            ServiceOke,
 }
 
 // GetServiceEnumValues Enumerates the set of values for ServiceEnum
@@ -58,6 +67,9 @@ func GetServiceEnumStringValues() []string {
 		"OBJECTSTORAGE",
 		"GENAI",
 		"DATAFLOW",
+		"AIDATAPLATFORM",
+		"OMK",
+		"OKE",
 	}
 }
 

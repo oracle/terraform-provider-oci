@@ -6,6 +6,8 @@ package queue
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_queue_consumer_group", QueueConsumerGroupDataSource())
+	tfresource.RegisterDatasource("oci_queue_consumer_groups", QueueConsumerGroupsDataSource())
 	tfresource.RegisterDatasource("oci_queue_queue", QueueQueueDataSource())
 	tfresource.RegisterDatasource("oci_queue_queues", QueueQueuesDataSource())
 }

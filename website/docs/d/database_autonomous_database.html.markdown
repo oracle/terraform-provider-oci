@@ -168,6 +168,9 @@ The following attributes are exported:
 		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 		* `vault_uri` - Azure vault URI
 	* `time_activated` - The date and time the encryption key was activated.
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
+	* `provider_type` - Use 'AWS' for creating a new database. 
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.

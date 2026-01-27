@@ -31,6 +31,7 @@ resource "oci_managed_kafka_kafka_cluster" "test_kafka_cluster" {
 		ocpu_count = var.kafka_cluster_broker_shape_ocpu_count
 
 		#Optional
+		node_shape = var.kafka_cluster_broker_shape_node_shape
 		storage_size_in_gbs = var.kafka_cluster_broker_shape_storage_size_in_gbs
 	}
 	cluster_config_id = oci_apm_config_config.test_config.id
@@ -56,6 +57,7 @@ The following arguments are supported:
 	* `subnets` - (Required) (Updatable) Subnets OCIDs
 * `broker_shape` - (Required) (Updatable) Configuration of the broker node.
 	* `node_count` - (Required) (Updatable) Number of Kafka broker nodes
+	* `node_shape` - (Optional) (Updatable) Node shape for broker is passed as part of cluster creation, similar to VM.Standard.A1.Flex
 	* `ocpu_count` - (Required) (Updatable) Number of OCPUs per nodes
 	* `storage_size_in_gbs` - (Optional) (Updatable) Size of the storage per nodes.
 * `client_certificate_bundle` - (Optional) (Updatable) CA certificate bundle for mTLS broker authentication.
@@ -81,6 +83,7 @@ The following attributes are exported:
 	* `subnets` - Subnets OCIDs
 * `broker_shape` - Configuration of the broker node.
 	* `node_count` - Number of Kafka broker nodes
+	* `node_shape` - Node shape for broker is passed as part of cluster creation, similar to VM.Standard.A1.Flex
 	* `ocpu_count` - Number of OCPUs per nodes
 	* `storage_size_in_gbs` - Size of the storage per nodes.
 * `client_certificate_bundle` - CA certificate bundle for mTLS broker authentication.

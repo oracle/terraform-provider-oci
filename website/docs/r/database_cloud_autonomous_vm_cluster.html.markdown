@@ -116,6 +116,8 @@ The following arguments are supported:
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
+* `register_pkcs_trigger` - (Optional) (Updatable) An optional property when incremented triggers Register Pkcs. Could be set to any integer value.
+* `unregister_pkcs_trigger` - (Optional) (Updatable) An optional property when incremented triggers Unregister Pkcs. Could be set to any integer value.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -177,6 +179,9 @@ The following attributes are exported:
 * `memory_per_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU. 
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs, rounded off to nearest integer value) enabled per ECPU or OCPU. This is deprecated. Please refer to memoryPerComputeUnitInGBs for accurate value.
 * `memory_size_in_gbs` - The memory allocated in GBs.
+* `multi_cloud_identity_connector_configs` - Details of the multi cloud identity connectors of the VM cluster.
+	* `cloud_provider` - Cloud provider
+	* `id` - The OCID of the identity connector
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `node_count` - The number of database servers in the cloud VM cluster. 
 * `non_provisionable_autonomous_container_databases` - The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
@@ -199,7 +204,8 @@ The following attributes are exported:
   **Subnet Restrictions:**
 	* For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20. These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.
 * `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `tde_key_store_type` - TDE keystore type
 * `time_created` - The date and time that the cloud Autonomous VM cluster was created.
 * `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
 * `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.

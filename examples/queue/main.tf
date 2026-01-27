@@ -1,67 +1,65 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-// Licensed under the Mozilla Public License v2.0
-
-// Creating tag namespace and tag for defined tag
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = var.tag_namespace_description
-  name           = var.tag_namespace_name
-}
-
-resource "oci_identity_tag" "tag1" {
-  #Required
-  description      = "tf example tag"
-  name             = "tf-example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-}
-
-# Creating the queue with all the optional parameters
-resource "oci_queue_queue" "test_queue1" {
+# Creating the queue required parameters and consumer groups capability
+resource "oci_queue_queue" "test_queue" {
   #Required
   compartment_id = var.compartment_id
   display_name   = var.queue_display_name
 
   #Optional
-  custom_encryption_key_id         = var.queue_custom_encryption_key_id # We can have dependency on the oci_kms_key and get the key id from that
-  dead_letter_queue_delivery_count = var.queue_dead_letter_queue_delivery_count
-  purge_trigger                    = var.purge_trigger
-  purge_type                       = var.purge_type
-  freeform_tags                    = var.queue_freeform_tags
-  retention_in_seconds             = var.queue_retention_in_seconds
-  timeout_in_seconds               = var.queue_timeout_in_seconds
-  visibility_in_seconds            = var.queue_visibility_in_seconds
-  channel_consumption_limit        = var.queue_channel_consumption_limit
+  capabilities {
+    type                                                    = "CONSUMER_GROUPS"
+    is_primary_consumer_group_enabled                       = var.is_primary_consumer_group_enabled
+    primary_consumer_group_display_name                     = var.primary_consumer_group_display_name
+    primary_consumer_group_dead_letter_queue_delivery_count = var.primary_consumer_group_dead_letter_queue_delivery_count
+    primary_consumer_group_filter                           = var.primary_consumer_group_filter
+  }
 }
 
-# Purging the queue immediately after create if required. Queue is purged if purge trigger is set to any integer value. We are using the purge trigger and purge type optional parameter.
-# We are purging the queue immediately after create.
+# create a consumer group
+resource "oci_queue_consumer_group" "test_consumer_group" {
+  #Required
+  queue_id     = oci_queue_queue.test_queue.id
+  display_name = var.cg_display_name
+}
+
+# create a consumer group
+resource "oci_queue_consumer_group" "test_consumer_group2" {
+  #Required
+  queue_id     = oci_queue_queue.test_queue.id
+  display_name = var.cg_display_name2
+}
+
+data "oci_queue_consumer_groups" "test_consumer_groups" {
+  #Optional
+  queue_id = oci_queue_queue.test_queue.id
+}
+
+# create a queue with LARGE_MESSAGES capability
 resource "oci_queue_queue" "test_queue2" {
   #Required
   compartment_id = var.compartment_id
-  display_name   = var.queue_display_name
+  display_name   = var.queue_display_name2
 
   #Optional
-  purge_trigger = 1
-  purge_type = "normal"
-
+  capabilities {
+    type = "LARGE_MESSAGES"
+  }
 }
 
-# Normal queue creation if purge trigger parameter is unset. This will not trigger the purge queue operation. In addition, presence of purge type if purge trigger is unset is a no-op.
+# create a queue with both CONSUMER_GROUPS and LARGE_MESSAGES capability
 resource "oci_queue_queue" "test_queue3" {
   #Required
   compartment_id = var.compartment_id
-  display_name   = var.queue_display_name
+  display_name   = var.queue_display_name3
 
   #Optional
-  purge_type = "normal"
-}
-
-data "oci_queue_queues" "test_queues" {
-
-  #Optional
-  compartment_id = var.compartment_id
-  display_name   = oci_queue_queue.test_queue1.display_name
-  id             = oci_queue_queue.test_queue1.id
-  state          = var.queue_state
+  capabilities {
+    type                                                    = "CONSUMER_GROUPS"
+    is_primary_consumer_group_enabled                       = var.is_primary_consumer_group_enabled
+    primary_consumer_group_display_name                     = var.primary_consumer_group_display_name
+    primary_consumer_group_dead_letter_queue_delivery_count = var.primary_consumer_group_dead_letter_queue_delivery_count
+    primary_consumer_group_filter                           = var.primary_consumer_group_filter
+  }
+  capabilities {
+    type = "LARGE_MESSAGES"
+  }
 }

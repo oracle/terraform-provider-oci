@@ -44,6 +44,8 @@ type UpdateOpensearchClusterDetails struct {
 
 	MaintenanceDetails *UpdateMaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
 
+	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
+
 	CertificateConfig *CertificateConfig `mandatory:"false" json:"certificateConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

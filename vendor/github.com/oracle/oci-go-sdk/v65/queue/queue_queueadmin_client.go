@@ -149,6 +149,69 @@ func (client QueueAdminClient) changeQueueCompartment(ctx context.Context, reque
 	return response, err
 }
 
+// CreateConsumerGroup Creates a new consumer group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/CreateConsumerGroup.go.html to see an example of how to use CreateConsumerGroup API.
+// A default retry strategy applies to this operation CreateConsumerGroup()
+func (client QueueAdminClient) CreateConsumerGroup(ctx context.Context, request CreateConsumerGroupRequest) (response CreateConsumerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createConsumerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateConsumerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateConsumerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateConsumerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateConsumerGroupResponse")
+	}
+	return
+}
+
+// createConsumerGroup implements the OCIOperation interface (enables retrying operations)
+func (client QueueAdminClient) createConsumerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/consumerGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateConsumerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ConsumerGroup/CreateConsumerGroup"
+		err = common.PostProcessServiceError(err, "QueueAdmin", "CreateConsumerGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateQueue Creates a new queue.
 //
 // # See also
@@ -212,6 +275,64 @@ func (client QueueAdminClient) createQueue(ctx context.Context, request common.O
 	return response, err
 }
 
+// DeleteConsumerGroup Deletes a consumer group resource by identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteConsumerGroup.go.html to see an example of how to use DeleteConsumerGroup API.
+// A default retry strategy applies to this operation DeleteConsumerGroup()
+func (client QueueAdminClient) DeleteConsumerGroup(ctx context.Context, request DeleteConsumerGroupRequest) (response DeleteConsumerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteConsumerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteConsumerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteConsumerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteConsumerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteConsumerGroupResponse")
+	}
+	return
+}
+
+// deleteConsumerGroup implements the OCIOperation interface (enables retrying operations)
+func (client QueueAdminClient) deleteConsumerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/consumerGroups/{consumerGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteConsumerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ConsumerGroup/DeleteConsumerGroup"
+		err = common.PostProcessServiceError(err, "QueueAdmin", "DeleteConsumerGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteQueue Deletes a queue resource by identifier.
 //
 // # See also
@@ -263,6 +384,64 @@ func (client QueueAdminClient) deleteQueue(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/DeleteQueue"
 		err = common.PostProcessServiceError(err, "QueueAdmin", "DeleteQueue", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConsumerGroup Gets a consumer group by identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetConsumerGroup.go.html to see an example of how to use GetConsumerGroup API.
+// A default retry strategy applies to this operation GetConsumerGroup()
+func (client QueueAdminClient) GetConsumerGroup(ctx context.Context, request GetConsumerGroupRequest) (response GetConsumerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConsumerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConsumerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConsumerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConsumerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConsumerGroupResponse")
+	}
+	return
+}
+
+// getConsumerGroup implements the OCIOperation interface (enables retrying operations)
+func (client QueueAdminClient) getConsumerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/consumerGroups/{consumerGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConsumerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ConsumerGroup/GetConsumerGroup"
+		err = common.PostProcessServiceError(err, "QueueAdmin", "GetConsumerGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -379,6 +558,64 @@ func (client QueueAdminClient) getWorkRequest(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "QueueAdmin", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConsumerGroups Returns a list of consumer groups.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListConsumerGroups.go.html to see an example of how to use ListConsumerGroups API.
+// A default retry strategy applies to this operation ListConsumerGroups()
+func (client QueueAdminClient) ListConsumerGroups(ctx context.Context, request ListConsumerGroupsRequest) (response ListConsumerGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listConsumerGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListConsumerGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListConsumerGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListConsumerGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListConsumerGroupsResponse")
+	}
+	return
+}
+
+// listConsumerGroups implements the OCIOperation interface (enables retrying operations)
+func (client QueueAdminClient) listConsumerGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/consumerGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListConsumerGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ConsumerGroupCollection/ListConsumerGroups"
+		err = common.PostProcessServiceError(err, "QueueAdmin", "ListConsumerGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -618,9 +855,12 @@ func (client QueueAdminClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
-// PurgeQueue Deletes all messages present in the queue, or deletes all the messages in the specific channel at the time of invocation. Only one concurrent purge operation is supported for any given queue.
+// PurgeQueue Deletes all messages present in the queue or in the specified consumer group, or deletes all the messages in the specific channel at the time of invocation.
+// Only one concurrent purge operation is supported for any given queue.
 // However multiple concurrent purge operations are supported for different queues.
 // Purge request without specification of target channels will clean up all messages in the queue and in the child channels.
+// Purge request without specification of consumer group will either clean up all messages in the queue or in the primary consumer group, depending on the presence of the CONSUMER_GROUPS capability on the queue.
+// To purge all consumer groups, the special value 'all' can be used.
 //
 // # See also
 //
@@ -671,6 +911,64 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/PurgeQueue"
 		err = common.PostProcessServiceError(err, "QueueAdmin", "PurgeQueue", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateConsumerGroup Updates the specified consumer group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateConsumerGroup.go.html to see an example of how to use UpdateConsumerGroup API.
+// A default retry strategy applies to this operation UpdateConsumerGroup()
+func (client QueueAdminClient) UpdateConsumerGroup(ctx context.Context, request UpdateConsumerGroupRequest) (response UpdateConsumerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConsumerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConsumerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConsumerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateConsumerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConsumerGroupResponse")
+	}
+	return
+}
+
+// updateConsumerGroup implements the OCIOperation interface (enables retrying operations)
+func (client QueueAdminClient) updateConsumerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/consumerGroups/{consumerGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConsumerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ConsumerGroup/UpdateConsumerGroup"
+		err = common.PostProcessServiceError(err, "QueueAdmin", "UpdateConsumerGroup", apiReferenceLink)
 		return response, err
 	}
 
