@@ -145,7 +145,7 @@ func (client DemandSignalClient) bulkCreateOccmDemandSignalItem(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/BulkCreateOccmDemandSignalItem"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/BulkCreateOccmDemandSignalItem"
 		err = common.PostProcessServiceError(err, "DemandSignal", "BulkCreateOccmDemandSignalItem", apiReferenceLink)
 		return response, err
 	}
@@ -208,7 +208,7 @@ func (client DemandSignalClient) createOccmDemandSignal(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignal/CreateOccmDemandSignal"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignal/CreateOccmDemandSignal"
 		err = common.PostProcessServiceError(err, "DemandSignal", "CreateOccmDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -271,7 +271,7 @@ func (client DemandSignalClient) createOccmDemandSignalItem(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/CreateOccmDemandSignalItem"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/CreateOccmDemandSignalItem"
 		err = common.PostProcessServiceError(err, "DemandSignal", "CreateOccmDemandSignalItem", apiReferenceLink)
 		return response, err
 	}
@@ -329,7 +329,7 @@ func (client DemandSignalClient) deleteOccmDemandSignal(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignal/DeleteOccmDemandSignal"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignal/DeleteOccmDemandSignal"
 		err = common.PostProcessServiceError(err, "DemandSignal", "DeleteOccmDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -387,7 +387,7 @@ func (client DemandSignalClient) deleteOccmDemandSignalItem(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/DeleteOccmDemandSignalItem"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/DeleteOccmDemandSignalItem"
 		err = common.PostProcessServiceError(err, "DemandSignal", "DeleteOccmDemandSignalItem", apiReferenceLink)
 		return response, err
 	}
@@ -445,7 +445,7 @@ func (client DemandSignalClient) getOccmDemandSignal(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignal/GetOccmDemandSignal"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignal/GetOccmDemandSignal"
 		err = common.PostProcessServiceError(err, "DemandSignal", "GetOccmDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -503,7 +503,7 @@ func (client DemandSignalClient) getOccmDemandSignalItem(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/GetOccmDemandSignalItem"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/GetOccmDemandSignalItem"
 		err = common.PostProcessServiceError(err, "DemandSignal", "GetOccmDemandSignalItem", apiReferenceLink)
 		return response, err
 	}
@@ -561,7 +561,7 @@ func (client DemandSignalClient) listOccmDemandSignalCatalogResources(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalCatalogResource/ListOccmDemandSignalCatalogResources"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalCatalogResource/ListOccmDemandSignalCatalogResources"
 		err = common.PostProcessServiceError(err, "DemandSignal", "ListOccmDemandSignalCatalogResources", apiReferenceLink)
 		return response, err
 	}
@@ -619,7 +619,7 @@ func (client DemandSignalClient) listOccmDemandSignalDeliveries(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalDeliveryCollection/ListOccmDemandSignalDeliveries"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalDeliveryCollection/ListOccmDemandSignalDeliveries"
 		err = common.PostProcessServiceError(err, "DemandSignal", "ListOccmDemandSignalDeliveries", apiReferenceLink)
 		return response, err
 	}
@@ -677,7 +677,7 @@ func (client DemandSignalClient) listOccmDemandSignalItems(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/ListOccmDemandSignalItems"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/ListOccmDemandSignalItems"
 		err = common.PostProcessServiceError(err, "DemandSignal", "ListOccmDemandSignalItems", apiReferenceLink)
 		return response, err
 	}
@@ -735,7 +735,7 @@ func (client DemandSignalClient) listOccmDemandSignals(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignal/ListOccmDemandSignals"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignal/ListOccmDemandSignals"
 		err = common.PostProcessServiceError(err, "DemandSignal", "ListOccmDemandSignals", apiReferenceLink)
 		return response, err
 	}
@@ -793,7 +793,7 @@ func (client DemandSignalClient) updateOccmDemandSignal(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignal/UpdateOccmDemandSignal"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignal/UpdateOccmDemandSignal"
 		err = common.PostProcessServiceError(err, "DemandSignal", "UpdateOccmDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -851,7 +851,7 @@ func (client DemandSignalClient) updateOccmDemandSignalItem(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccmDemandSignalItem/UpdateOccmDemandSignalItem"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccmDemandSignalItem/UpdateOccmDemandSignalItem"
 		err = common.PostProcessServiceError(err, "DemandSignal", "UpdateOccmDemandSignalItem", apiReferenceLink)
 		return response, err
 	}

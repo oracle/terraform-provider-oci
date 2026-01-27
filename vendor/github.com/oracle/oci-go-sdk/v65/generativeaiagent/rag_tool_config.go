@@ -27,6 +27,15 @@ type RagToolConfig struct {
 	KnowledgeBaseConfigs []KnowledgeBaseConfig `mandatory:"true" json:"knowledgeBaseConfigs"`
 
 	GenerationLlmCustomization *LlmCustomization `mandatory:"false" json:"generationLlmCustomization"`
+
+	// The runtimeVersion of the system prompt.
+	RuntimeVersion *string `mandatory:"false" json:"runtimeVersion"`
+
+	EmbeddingLlmCustomization *LlmCustomization `mandatory:"false" json:"embeddingLlmCustomization"`
+
+	RerankingLlmCustomization *LlmCustomization `mandatory:"false" json:"rerankingLlmCustomization"`
+
+	ReasoningLlmCustomization *LlmCustomization `mandatory:"false" json:"reasoningLlmCustomization"`
 }
 
 func (m RagToolConfig) String() string {

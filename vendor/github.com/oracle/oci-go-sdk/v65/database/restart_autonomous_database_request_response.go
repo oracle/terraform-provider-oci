@@ -26,6 +26,9 @@ type RestartAutonomousDatabaseRequest struct {
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// If provided, an online restart will be triggered.
+	IsOnlineRestart *bool `mandatory:"false" contributesTo:"query" name:"isOnlineRestart"`
+
 	// Indicates that the request is a dry run, if set to "true". A dry run request does not actually
 	// creating or updating a resource and is used only to perform validation on the submitted data.
 	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`

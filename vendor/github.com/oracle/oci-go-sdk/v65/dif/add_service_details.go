@@ -38,6 +38,15 @@ type AddServiceDetails struct {
 
 	// GenAI Details if genai is included in services to be added.
 	Genai []GenAiDetail `mandatory:"false" json:"genai"`
+
+	// AI Data Platform Details if aidataplatform is included in services to be added.
+	Aidataplatform []AiDataPlatformDetail `mandatory:"false" json:"aidataplatform"`
+
+	// OMK Details if omk is included in services to be added.
+	Omk []OmkDetail `mandatory:"false" json:"omk"`
+
+	// OKE Details if oke is included in services to be added.
+	Oke []OkeDetail `mandatory:"false" json:"oke"`
 }
 
 func (m AddServiceDetails) String() string {

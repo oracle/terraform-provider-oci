@@ -14,6 +14,7 @@
 package generativeaiagent
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,6 +22,11 @@ import (
 
 // LlmCustomization Configuration to customize LLM.
 type LlmCustomization struct {
+	LlmSelection LlmSelection `mandatory:"false" json:"llmSelection"`
+
+	// Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.
+	// Refer to the guide for examples and the JSON Schema documentation for details on the format.
+	LlmHyperParameters map[string]interface{} `mandatory:"false" json:"llmHyperParameters"`
 
 	// If specified, the default instruction is replaced with provided instruction.
 	Instruction *string `mandatory:"false" json:"instruction"`
@@ -40,4 +46,34 @@ func (m LlmCustomization) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *LlmCustomization) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		LlmSelection       llmselection           `json:"llmSelection"`
+		LlmHyperParameters map[string]interface{} `json:"llmHyperParameters"`
+		Instruction        *string                `json:"instruction"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.LlmSelection.UnmarshalPolymorphicJSON(model.LlmSelection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.LlmSelection = nn.(LlmSelection)
+	} else {
+		m.LlmSelection = nil
+	}
+
+	m.LlmHyperParameters = model.LlmHyperParameters
+
+	m.Instruction = model.Instruction
+
+	return
 }
