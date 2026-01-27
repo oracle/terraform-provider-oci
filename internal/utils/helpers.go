@@ -384,3 +384,13 @@ func RandomDatabaseName(length int) string {
 	}
 	return string(name)
 }
+
+// GenerateIPv6Cidrs returns a slice of IPv6 cidr strings of the form "fc00:<n>::"
+// where <n> starts at 1000 and increments up to 1014 (inclusive).
+func GenerateIPv6Cidrs(postfix int) []string {
+	var ipv6Cidrs []string
+	for i := 1000; i <= 1014; i++ {
+		ipv6Cidrs = append(ipv6Cidrs, fmt.Sprintf("fc00:%d::/%d", i, postfix))
+	}
+	return ipv6Cidrs
+}
