@@ -594,13 +594,13 @@ func (s *CoreComputeHostResourceCrud) waitForUpdateWorkRequest(opcWorkRequestId 
 }
 
 func (s *CoreComputeHostResourceCrud) getComputeHost(computeHostId string) (*oci_core.ComputeHost, error) {
-	request := oci_core.GetComputeHostRequest{}
+	request := oci_core.GetComputeHostsRequest{}
 
 	request.ComputeHostId = &computeHostId
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetComputeHost(context.Background(), request)
+	response, err := s.Client.GetComputeHosts(context.Background(), request)
 	if err != nil {
 		return nil, err
 	}
