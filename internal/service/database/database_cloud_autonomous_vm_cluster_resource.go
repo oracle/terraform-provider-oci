@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -266,6 +267,14 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"register_pkcs_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"unregister_pkcs_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"autonomous_data_storage_percentage": {
@@ -436,6 +445,27 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"multi_cloud_identity_connector_configs": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cloud_provider": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"next_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -489,6 +519,14 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"tde_key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"AWS",
+				}, true),
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -527,6 +565,20 @@ func createDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 		return e
 	}
 
+	if _, ok := sync.D.GetOkExists("register_pkcs_trigger"); ok {
+		err := sync.RegisterCloudAutonomousVmClusterPkcs()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("unregister_pkcs_trigger"); ok {
+		err := sync.UnregisterCloudAutonomousVmClusterPkcs()
+		if err != nil {
+			return err
+		}
+	}
+
 	if rotateOrdsCertsTrigger, ok := sync.D.GetOkExists("rotate_ords_certs_trigger"); ok {
 		tmp := rotateOrdsCertsTrigger.(bool)
 		if tmp {
@@ -563,6 +615,44 @@ func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	if _, ok := sync.D.GetOkExists("register_pkcs_trigger"); ok && sync.D.HasChange("register_pkcs_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("register_pkcs_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RegisterCloudAutonomousVmClusterPkcs()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("register_pkcs_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("unregister_pkcs_trigger"); ok && sync.D.HasChange("unregister_pkcs_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("unregister_pkcs_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.UnregisterCloudAutonomousVmClusterPkcs()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("unregister_pkcs_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	// 	if err := tfresource.UpdateResource(d, sync); err != nil {
+	// 		return err
+	// 	}
+	//
+	// 	return nil
 
 	if rotateOrdsCertsTrigger, ok := sync.D.GetOkExists("rotate_ords_certs_trigger"); ok && sync.D.HasChange("rotate_ords_certs_trigger") {
 		tmp := rotateOrdsCertsTrigger.(bool)
@@ -1083,6 +1173,12 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, AdbdIdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -1159,6 +1255,8 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -1190,6 +1288,78 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RegisterCloudAutonomousVmClusterPkcs() error {
+	request := oci_database.RegisterCloudAutonomousVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.CloudAutonomousVmClusterId = &idTmp
+
+	if tdeKeyStoreType, ok := s.D.GetOkExists("tde_key_store_type"); ok {
+		request.TdeKeyStoreType = oci_database.RegisterCloudAutonomousVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType.(string))
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.RegisterCloudAutonomousVmClusterPkcs(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("register_pkcs_trigger")
+	s.D.Set("register_pkcs_trigger", val)
+
+	//s.Res = &response.CloudAutonomousVmCluster
+	return nil
+}
+
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) UnregisterCloudAutonomousVmClusterPkcs() error {
+	request := oci_database.UnregisterCloudAutonomousVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.CloudAutonomousVmClusterId = &idTmp
+
+	if tdeKeyStoreType, ok := s.D.GetOkExists("tde_key_store_type"); ok {
+		request.TdeKeyStoreType = oci_database.UnregisterCloudAutonomousVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType.(string))
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UnregisterCloudAutonomousVmClusterPkcs(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("unregister_pkcs_trigger")
+	s.D.Set("unregister_pkcs_trigger", val)
+
+	//s.Res = &response.CloudAutonomousVmCluster
+	return nil
+}
+
 func (s *DatabaseCloudAutonomousVmClusterResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
 	result := oci_database.DayOfWeek{}
 
@@ -1204,6 +1374,18 @@ func DayOfWeekToMap(obj oci_database.DayOfWeek) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)
+
+	return result
+}
+
+func AdbdIdentityConnectorDetailsToMap(obj oci_database.IdentityConnectorDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["cloud_provider"] = string(obj.CloudProvider)
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
 
 	return result
 }

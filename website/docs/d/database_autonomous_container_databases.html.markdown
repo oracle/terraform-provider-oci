@@ -142,6 +142,9 @@ The following attributes are exported:
 * `display_name` - The user-provided name for the Autonomous Container Database.
 * `distribution_affinity` - Determines whether an Autonomous AI Database must be opened across the maximum number of nodes or the least number of nodes. By default, Minimum nodes is selected.
 * `dst_file_version` - DST Time-Zone File version of the Autonomous Container Database.
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
+	* `provider_type` - Use 'AWS' for creating a new database. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.

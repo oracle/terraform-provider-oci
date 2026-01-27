@@ -43,7 +43,7 @@ func QueueQueuesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(QueueQueueResource()),
+							Elem:     queueListDataSourceSchema(),
 						},
 					},
 				},
@@ -141,4 +141,22 @@ func (s *QueueQueuesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func queueListDataSourceSchema() *schema.Resource {
+
+	var listQueueDataSourceSchema *schema.Resource = tfresource.GetDataSourceItemSchema(QueueQueueResource())
+
+	// Queue list operation returns capabilties with just name
+	// whereas getQueue returns details of the capability.
+	// So overriding capabiltiies schema .
+	listQueueDataSourceSchema.Schema["capabilities"] = &schema.Schema{
+		Type:     schema.TypeSet,
+		Computed: true,
+		Elem: &schema.Schema{
+			Type: schema.TypeString,
+		},
+	}
+
+	return listQueueDataSourceSchema
 }

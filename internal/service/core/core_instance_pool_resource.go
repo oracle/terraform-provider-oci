@@ -62,6 +62,11 @@ func CoreInstancePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"compute_cluster_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 						"fault_domains": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -864,6 +869,11 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 		result.AvailabilityDomain = &tmp
 	}
 
+	if computeClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_cluster_id")); ok {
+		tmp := computeClusterId.(string)
+		result.ComputeClusterId = &tmp
+	}
+
 	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
 		interfaces := faultDomains.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -975,6 +985,10 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.ComputeClusterId != nil {
+		result["compute_cluster_id"] = string(*obj.ComputeClusterId)
 	}
 
 	result["fault_domains"] = obj.FaultDomains

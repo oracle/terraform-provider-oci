@@ -158,6 +158,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
 	}
 
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		encryptionKeyLocationDetailsArray := []interface{}{}
+		if encryptionKeyLocationDetailsMap := AdbdEncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+			encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+		}
+		s.D.Set("encryption_key_location_details", encryptionKeyLocationDetailsArray)
+	} else {
+		s.D.Set("encryption_key_location_details", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)

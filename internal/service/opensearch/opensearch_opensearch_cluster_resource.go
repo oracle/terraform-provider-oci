@@ -190,6 +190,36 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"load_balancer_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"load_balancer_service_type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"load_balancer_max_bandwidth_in_mbps": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"load_balancer_min_bandwidth_in_mbps": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"maintenance_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -703,6 +733,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		}
 	}
 
+	if loadBalancerConfig, ok := s.D.GetOkExists("load_balancer_config"); ok {
+		if tmpList := loadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "load_balancer_config", 0)
+			tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LoadBalancerConfig = &tmp
+		}
+	}
+
 	if maintenanceDetails, ok := s.D.GetOkExists("maintenance_details"); ok {
 		if tmpList := maintenanceDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_details", 0)
@@ -1138,6 +1179,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if loadBalancerConfig, ok := s.D.GetOkExists("load_balancer_config"); ok {
+		if tmpList := loadBalancerConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "load_balancer_config", 0)
+			tmp, err := s.mapToLoadBalancerConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LoadBalancerConfig = &tmp
+		}
+	}
+
 	if maintenanceDetails, ok := s.D.GetOkExists("maintenance_details"); ok {
 		if tmpList := maintenanceDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_details", 0)
@@ -1300,6 +1352,12 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LoadBalancerConfig != nil {
+		s.D.Set("load_balancer_config", []interface{}{LoadBalancerConfigToMap(s.Res.LoadBalancerConfig)})
+	} else {
+		s.D.Set("load_balancer_config", nil)
 	}
 
 	if s.Res.MaintenanceDetails != nil {
@@ -1783,6 +1841,46 @@ func MaintenanceDetailsToMap(obj *oci_opensearch.MaintenanceDetails) map[string]
 	return result
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) mapToLoadBalancerConfig(fieldKeyFormat string) (oci_opensearch.LoadBalancerConfig, error) {
+	result := oci_opensearch.LoadBalancerConfig{}
+
+	if loadBalancerMaxBandwidthInMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_max_bandwidth_in_mbps")); ok {
+		tmp := loadBalancerMaxBandwidthInMbps.(int)
+		if tmp > 0 {
+			result.LoadBalancerMaxBandwidthInMbps = &tmp
+		}
+	}
+
+	if loadBalancerMinBandwidthInMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_min_bandwidth_in_mbps")); ok {
+		tmp := loadBalancerMinBandwidthInMbps.(int)
+		if tmp > 0 {
+			result.LoadBalancerMinBandwidthInMbps = &tmp
+		}
+	}
+
+	if loadBalancerServiceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_service_type")); ok {
+		result.LoadBalancerServiceType = oci_opensearch.LoadBalancerConfigLoadBalancerServiceTypeEnum(loadBalancerServiceType.(string))
+	}
+
+	return result, nil
+}
+
+func LoadBalancerConfigToMap(obj *oci_opensearch.LoadBalancerConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LoadBalancerMaxBandwidthInMbps != nil {
+		result["load_balancer_max_bandwidth_in_mbps"] = int(*obj.LoadBalancerMaxBandwidthInMbps)
+	}
+
+	if obj.LoadBalancerMinBandwidthInMbps != nil {
+		result["load_balancer_min_bandwidth_in_mbps"] = int(*obj.LoadBalancerMinBandwidthInMbps)
+	}
+
+	result["load_balancer_service_type"] = string(obj.LoadBalancerServiceType)
+
+	return result
+}
+
 func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1808,6 +1906,10 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.LoadBalancerConfig != nil {
+		result["load_balancer_config"] = []interface{}{LoadBalancerConfigToMap(obj.LoadBalancerConfig)}
 	}
 
 	if obj.OutboundClusterConfig != nil {

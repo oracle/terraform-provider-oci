@@ -251,6 +251,16 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["dst_file_version"] = *r.DstFileVersion
 		}
 
+		if r.EncryptionKeyLocationDetails != nil {
+			encryptionKeyLocationDetailsArray := []interface{}{}
+			if encryptionKeyLocationDetailsMap := AdbdEncryptionKeyLocationDetailsToMap(&r.EncryptionKeyLocationDetails); encryptionKeyLocationDetailsMap != nil {
+				encryptionKeyLocationDetailsArray = append(encryptionKeyLocationDetailsArray, encryptionKeyLocationDetailsMap)
+			}
+			autonomousContainerDatabase["encryption_key_location_details"] = encryptionKeyLocationDetailsArray
+		} else {
+			autonomousContainerDatabase["encryption_key_location_details"] = nil
+		}
+
 		autonomousContainerDatabase["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

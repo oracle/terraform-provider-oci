@@ -90,15 +90,11 @@ resource "oci_certificates_management_certificate" "test_certificate" {
 The following arguments are supported:
 
 * `certificate_config` - (Required) (Updatable) The details of the contents of the certificate and certificate metadata.
-	* `cert_chain_pem` - (Required when config_type=IMPORTED) (Updatable) The certificate chain (in PEM format) for the imported certificate.
-	* `certificate_pem` - (Required when config_type=IMPORTED) (Updatable) The certificate (in PEM format) for the imported certificate.
 	* `certificate_profile_type` - (Required when config_type=ISSUED_BY_INTERNAL_CA) The name of the profile used to create the certificate, which depends on the type of certificate you need.
-	* `config_type` - (Required) (Updatable) The origin of the certificate.
+	* `config_type` - (Required) (Updatable) The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA or ISSUED_BY_INTERNAL_CA.
 	* `csr_pem` - (Required when config_type=MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) (Updatable) The certificate signing request (in PEM format).
 	* `issuer_certificate_authority_id` - (Required when config_type=ISSUED_BY_INTERNAL_CA | MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) The OCID of the private CA.
 	* `key_algorithm` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA) The algorithm to use to create key pairs.
-	* `private_key_pem` - (Required when config_type=IMPORTED) (Updatable) The private key (in PEM format) for the imported certificate.
-	* `private_key_pem_passphrase` - (Applicable when config_type=IMPORTED) (Updatable) An optional passphrase for the private key.
 	* `signature_algorithm` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA) The algorithm to use to sign the public key certificate.
 	* `subject` - (Required when config_type=ISSUED_BY_INTERNAL_CA) The subject of the certificate, which is a distinguished name that identifies the entity that owns the public key in the certificate. 
 		* `common_name` - (Required when config_type=ISSUED_BY_INTERNAL_CA) Common name or fully-qualified domain name (RDN CN).
@@ -155,7 +151,7 @@ The following attributes are exported:
 	* `renewal_interval` - A property specifying how often, in days, a certificate should be renewed. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `rule_type` - The type of rule.
 * `compartment_id` - The OCID of the compartment where you want to create the certificate.
-* `config_type` - The origin of the certificate.
+* `config_type` - The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA or ISSUED_BY_INTERNAL_CA.
 * `current_version` - The details of the certificate version. This object does not contain the certificate contents.
 	* `certificate_id` - The OCID of the certificate.
 	* `issuer_ca_version_number` - The version number of the issuing certificate authority (CA).
