@@ -18,27 +18,36 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateQueue OperationTypeEnum = "CREATE_QUEUE"
-	OperationTypeUpdateQueue OperationTypeEnum = "UPDATE_QUEUE"
-	OperationTypeDeleteQueue OperationTypeEnum = "DELETE_QUEUE"
-	OperationTypeMoveQueue   OperationTypeEnum = "MOVE_QUEUE"
-	OperationTypePurgeQueue  OperationTypeEnum = "PURGE_QUEUE"
+	OperationTypeCreateQueue         OperationTypeEnum = "CREATE_QUEUE"
+	OperationTypeUpdateQueue         OperationTypeEnum = "UPDATE_QUEUE"
+	OperationTypeDeleteQueue         OperationTypeEnum = "DELETE_QUEUE"
+	OperationTypeMoveQueue           OperationTypeEnum = "MOVE_QUEUE"
+	OperationTypePurgeQueue          OperationTypeEnum = "PURGE_QUEUE"
+	OperationTypeCreateConsumerGroup OperationTypeEnum = "CREATE_CONSUMER_GROUP"
+	OperationTypeUpdateConsumerGroup OperationTypeEnum = "UPDATE_CONSUMER_GROUP"
+	OperationTypeDeleteConsumerGroup OperationTypeEnum = "DELETE_CONSUMER_GROUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_QUEUE": OperationTypeCreateQueue,
-	"UPDATE_QUEUE": OperationTypeUpdateQueue,
-	"DELETE_QUEUE": OperationTypeDeleteQueue,
-	"MOVE_QUEUE":   OperationTypeMoveQueue,
-	"PURGE_QUEUE":  OperationTypePurgeQueue,
+	"CREATE_QUEUE":          OperationTypeCreateQueue,
+	"UPDATE_QUEUE":          OperationTypeUpdateQueue,
+	"DELETE_QUEUE":          OperationTypeDeleteQueue,
+	"MOVE_QUEUE":            OperationTypeMoveQueue,
+	"PURGE_QUEUE":           OperationTypePurgeQueue,
+	"CREATE_CONSUMER_GROUP": OperationTypeCreateConsumerGroup,
+	"UPDATE_CONSUMER_GROUP": OperationTypeUpdateConsumerGroup,
+	"DELETE_CONSUMER_GROUP": OperationTypeDeleteConsumerGroup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_queue": OperationTypeCreateQueue,
-	"update_queue": OperationTypeUpdateQueue,
-	"delete_queue": OperationTypeDeleteQueue,
-	"move_queue":   OperationTypeMoveQueue,
-	"purge_queue":  OperationTypePurgeQueue,
+	"create_queue":          OperationTypeCreateQueue,
+	"update_queue":          OperationTypeUpdateQueue,
+	"delete_queue":          OperationTypeDeleteQueue,
+	"move_queue":            OperationTypeMoveQueue,
+	"purge_queue":           OperationTypePurgeQueue,
+	"create_consumer_group": OperationTypeCreateConsumerGroup,
+	"update_consumer_group": OperationTypeUpdateConsumerGroup,
+	"delete_consumer_group": OperationTypeDeleteConsumerGroup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -58,6 +67,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_QUEUE",
 		"MOVE_QUEUE",
 		"PURGE_QUEUE",
+		"CREATE_CONSUMER_GROUP",
+		"UPDATE_CONSUMER_GROUP",
+		"DELETE_CONSUMER_GROUP",
 	}
 }
 

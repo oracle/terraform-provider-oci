@@ -48,6 +48,15 @@ type CreateStackDetails struct {
 	// GenAi Details if genai is included in services.
 	Genai []GenAiDetail `mandatory:"false" json:"genai"`
 
+	// AI Data Platform Details if aidataplatform is included in services.
+	Aidataplatform []AiDataPlatformDetail `mandatory:"false" json:"aidataplatform"`
+
+	// OMK Details if omk is included in services.
+	Omk []OmkDetail `mandatory:"false" json:"omk"`
+
+	// OKE Details if oke is included in services.
+	Oke []OkeDetail `mandatory:"false" json:"oke"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

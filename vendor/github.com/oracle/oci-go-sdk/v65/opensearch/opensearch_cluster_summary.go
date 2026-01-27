@@ -73,6 +73,8 @@ type OpensearchClusterSummary struct {
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
 	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
+
+	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
 }
 
 func (m OpensearchClusterSummary) String() string {

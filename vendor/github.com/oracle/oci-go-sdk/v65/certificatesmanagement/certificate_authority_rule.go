@@ -54,6 +54,10 @@ func (m *certificateauthorityrule) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := CertificateAuthorityIssuanceExpiryRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CERTIFICATE_AUTHORITY_ISSUANCE_RULE":
+		mm := CertificateAuthorityIssuanceRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CertificateAuthorityRule: %s.", m.RuleType)
 		return *m, nil
@@ -81,15 +85,18 @@ type CertificateAuthorityRuleRuleTypeEnum string
 
 // Set of constants representing the allowable values for CertificateAuthorityRuleRuleTypeEnum
 const (
-	CertificateAuthorityRuleRuleTypeCertificateAuthorityIssuanceExpiryRule CertificateAuthorityRuleRuleTypeEnum = "CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE"
+	CertificateAuthorityRuleRuleTypeExpiryRule CertificateAuthorityRuleRuleTypeEnum = "CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE"
+	CertificateAuthorityRuleRuleTypeRule       CertificateAuthorityRuleRuleTypeEnum = "CERTIFICATE_AUTHORITY_ISSUANCE_RULE"
 )
 
 var mappingCertificateAuthorityRuleRuleTypeEnum = map[string]CertificateAuthorityRuleRuleTypeEnum{
-	"CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE": CertificateAuthorityRuleRuleTypeCertificateAuthorityIssuanceExpiryRule,
+	"CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE": CertificateAuthorityRuleRuleTypeExpiryRule,
+	"CERTIFICATE_AUTHORITY_ISSUANCE_RULE":        CertificateAuthorityRuleRuleTypeRule,
 }
 
 var mappingCertificateAuthorityRuleRuleTypeEnumLowerCase = map[string]CertificateAuthorityRuleRuleTypeEnum{
-	"certificate_authority_issuance_expiry_rule": CertificateAuthorityRuleRuleTypeCertificateAuthorityIssuanceExpiryRule,
+	"certificate_authority_issuance_expiry_rule": CertificateAuthorityRuleRuleTypeExpiryRule,
+	"certificate_authority_issuance_rule":        CertificateAuthorityRuleRuleTypeRule,
 }
 
 // GetCertificateAuthorityRuleRuleTypeEnumValues Enumerates the set of values for CertificateAuthorityRuleRuleTypeEnum
@@ -105,6 +112,7 @@ func GetCertificateAuthorityRuleRuleTypeEnumValues() []CertificateAuthorityRuleR
 func GetCertificateAuthorityRuleRuleTypeEnumStringValues() []string {
 	return []string{
 		"CERTIFICATE_AUTHORITY_ISSUANCE_EXPIRY_RULE",
+		"CERTIFICATE_AUTHORITY_ISSUANCE_RULE",
 	}
 }
 
