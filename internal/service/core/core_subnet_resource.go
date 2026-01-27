@@ -670,9 +670,9 @@ func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, 
 					found = true
 					break
 				}
-				if !found {
-					newBlocksDiff = append(newBlocksDiff, elementToFind)
-				}
+			}
+			if !found {
+				newBlocksDiff = append(newBlocksDiff, elementToFind)
 			}
 		}
 
@@ -694,9 +694,9 @@ func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, 
 					found = true
 					break
 				}
-				if !found {
-					oldBlocksDiff = append(oldBlocksDiff, elementToFind)
-				}
+			}
+			if !found {
+				oldBlocksDiff = append(oldBlocksDiff, elementToFind)
 			}
 		}
 

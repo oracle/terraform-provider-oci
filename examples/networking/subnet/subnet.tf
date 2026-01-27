@@ -24,6 +24,8 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+  config_file_profile = "terraform-federation-test"
+  auth = "SecurityToken"
   region           = var.region
 }
 
