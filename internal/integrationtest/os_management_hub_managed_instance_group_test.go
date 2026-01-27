@@ -44,9 +44,11 @@ var (
 		"location_not_equal_to":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ON_PREMISE`}},
 		"managed_instance_group_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"os_family":                      acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
+		"state":                          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"software_source_id":             acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
 		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceGroupDataSourceFilterRepresentation},
 	}
+
 	OsManagementHubManagedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`}},
@@ -230,6 +232,7 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "is_managed_by_autonomous_linux", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_8"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 			),
 		},

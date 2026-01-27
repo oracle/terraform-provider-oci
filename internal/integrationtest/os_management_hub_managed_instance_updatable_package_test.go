@@ -19,7 +19,8 @@ var (
 	OsManagementHubManagedInstanceUpdatablePackageDataSourceRepresentation = map[string]interface{}{
 		"managed_instance_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance.test_managed_instance.id}`},
 		"advisory_name":         acctest.Representation{RepType: acctest.Optional, Create: []string{`advisoryName`}},
-		"classification_type":   acctest.Representation{RepType: acctest.Optional, Create: []string{`classificationType`}},
+		"advisory_severity":     acctest.Representation{RepType: acctest.Optional, Create: []string{`CRITICAL`}},
+		"classification_type":   acctest.Representation{RepType: acctest.Optional, Create: []string{`SECURITY`}},
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}},
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayNameContains`},
@@ -46,9 +47,15 @@ func TestOsManagementHubManagedInstanceUpdatablePackageResource_basic(t *testing
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_updatable_packages", "test_managed_instance_updatable_packages", acctest.Required, acctest.Create, OsManagementHubManagedInstanceUpdatablePackageDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_updatable_packages", "test_managed_instance_updatable_packages", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceUpdatablePackageDataSourceRepresentation) +
 				compartmentIdVariableStr + OsManagementHubManagedInstanceUpdatablePackageResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "advisory_name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "advisory_severity.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "classification_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNameContains"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "updatable_package_collection.#"),
 			),

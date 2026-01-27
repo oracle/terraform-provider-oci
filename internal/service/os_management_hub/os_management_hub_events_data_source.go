@@ -88,7 +88,7 @@ func OsManagementHubEventsDataSource() *schema.Resource {
 func readOsManagementHubEvents(d *schema.ResourceData, m interface{}) error {
 	sync := &OsManagementHubEventsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).OsmhEventClient()
+	sync.Client = m.(*client.OracleClients).EventClient()
 
 	return tfresource.ReadResource(sync)
 }

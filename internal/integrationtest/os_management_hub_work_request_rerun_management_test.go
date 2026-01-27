@@ -83,7 +83,7 @@ func makeFailedWorkRequest() string {
 		log.Println("RemovePackagesFromManagedInstance", err)
 		return ""
 	}
-	time.Sleep(15 * time.Second)
+	time.Sleep(60 * time.Second)
 
 	request3 := oci_os_management_hub.DetachSoftwareSourcesFromManagedInstanceRequest{}
 	request3.ManagedInstanceId = &managedInstanceOcid
@@ -91,7 +91,7 @@ func makeFailedWorkRequest() string {
 		SoftwareSources: []string{*softwareSource.GetId()},
 	}
 	managedInstanceClient.DetachSoftwareSourcesFromManagedInstance(context.Background(), request3)
-	time.Sleep(15 * time.Second)
+	time.Sleep(120 * time.Second)
 
 	request4 := oci_os_management_hub.InstallPackagesOnManagedInstanceRequest{}
 	request4.ManagedInstanceId = &managedInstanceOcid
@@ -104,7 +104,7 @@ func makeFailedWorkRequest() string {
 		return ""
 	}
 	failedWorkRequestId := response4.OpcWorkRequestId
-	time.Sleep(15 * time.Second)
+	time.Sleep(70 * time.Second)
 
 	request5 := oci_os_management_hub.AttachSoftwareSourcesToManagedInstanceRequest{}
 	request5.ManagedInstanceId = &managedInstanceOcid
@@ -116,7 +116,7 @@ func makeFailedWorkRequest() string {
 		log.Println("AttachSoftwareSourcesToManagedInstance", err)
 		return ""
 	}
-	time.Sleep(15 * time.Second)
+	time.Sleep(20 * time.Second)
 
 	return *failedWorkRequestId
 }

@@ -41,8 +41,7 @@ var (
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
-	OsManagementHubProfileAttachManagementStationManagementResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_lifecycle_stages", "test_lifecycle_stages", acctest.Required, acctest.Create, OsManagementHubLifecycleStageDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) +
+	OsManagementHubProfileAttachManagementStationManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_profile", "test_profile", acctest.Required, acctest.Create, OsManagementHubStationProfileRepresentation)
 )
@@ -68,8 +67,7 @@ func TestOsManagementHubProfileAttachManagementStationManagementResource_basic(t
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubProfileAttachManagementStationManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_profile_attach_management_station_management", "test_profile_attach_management_station_management", acctest.Required, acctest.Create, OsManagementHubProfileAttachManagementStationManagementRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Optional, acctest.Create, OsManagementHubLifecycleEnvironmentRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_profile_attach_management_station_management", "test_profile_attach_management_station_management", acctest.Required, acctest.Create, OsManagementHubProfileAttachManagementStationManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "management_station_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "profile_id"),

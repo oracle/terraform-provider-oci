@@ -95,6 +95,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"are_sources_managed": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"bug_updates_available": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -288,6 +292,10 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_last_checkin": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_last_software_refresh": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -602,6 +610,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
 
 	s.D.Set("architecture", s.Res.Architecture)
 
+	if s.Res.AreSourcesManaged != nil {
+		s.D.Set("are_sources_managed", *s.Res.AreSourcesManaged)
+	}
+
 	if s.Res.AutonomousSettings != nil {
 		s.D.Set("autonomous_settings", []interface{}{AutonomousSettingsToMap(s.Res.AutonomousSettings)})
 	} else {
@@ -742,6 +754,10 @@ func (s *OsManagementHubManagedInstanceResourceCrud) SetData() error {
 		s.D.Set("time_last_checkin", s.Res.TimeLastCheckin.String())
 	}
 
+	if s.Res.TimeLastSoftwareRefresh != nil {
+		s.D.Set("time_last_software_refresh", s.Res.TimeLastSoftwareRefresh.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
@@ -850,6 +866,10 @@ func ManagedInstanceSummaryToMap(obj oci_os_management_hub.ManagedInstanceSummar
 
 	if obj.TenancyId != nil {
 		result["tenancy_id"] = string(*obj.TenancyId)
+	}
+
+	if obj.TimeLastBoot != nil {
+		result["time_last_boot"] = obj.TimeLastBoot.String()
 	}
 
 	if obj.UpdatesAvailable != nil {

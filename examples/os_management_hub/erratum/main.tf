@@ -35,8 +35,8 @@ data "oci_os_management_hub_errata" "test_errata_2" {
   name                  = ["ELBA-2024-12244"]
   name_contains         = "ELBA-2024-12244"
   os_family             = "ORACLE_LINUX_9"
-  time_issue_date_end   = "2024-04-01T00:00:00.000Z"
-  time_issue_date_start = "2024-03-20T00:00:00.000Z"
+  time_issue_date_end   = "2026-04-01T00:00:00.000Z"
+  time_issue_date_start = "2026-03-20T00:00:00.000Z"
 }
 
 

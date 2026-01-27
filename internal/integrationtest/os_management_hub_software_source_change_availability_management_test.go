@@ -64,7 +64,7 @@ var (
 
 	OsManagementHubSoftwareSourceChangeAvailbalityRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `${var.software_source_name}`, Update: `${var.software_source_name}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `ol8_u10_baseos_patch-x86_64`},
 		"software_source_type": acctest.Representation{RepType: acctest.Required, Create: []string{`VENDOR`}},
 	}
 
@@ -81,19 +81,16 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	softwareSourceName := utils.GetEnvSettingWithBlankDefault("software_source_name")
-	softwareSourceNameVariableStr := fmt.Sprintf("variable \"software_source_name\" { default = \"%s\" }\n", softwareSourceName)
-
 	resourceName := "oci_os_management_hub_software_source_change_availability_management.test_software_source_change_availability_management"
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+softwareSourceNameVariableStr+OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation), "osmanagementhub", "softwareSourceChangeAvailabilityManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.0.availability", "AVAILABLE"),
@@ -103,11 +100,11 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
@@ -118,7 +115,7 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 		},
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Required, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
@@ -130,11 +127,11 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation3),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
@@ -145,11 +142,11 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation4),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
@@ -160,14 +157,15 @@ func TestOsManagementHubSoftwareSourceChangeAvailabilityManagementResource_basic
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + softwareSourceNameVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubSoftwareSourceChangeAvailabilityManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source_change_availability_management", "test_software_source_change_availability_management", acctest.Optional, acctest.Create, OsManagementHubSoftwareSourceChangeAvailabilityManagementRepresentation5),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.#", "1"),
+
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.0.availability", "AVAILABLE"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_availabilities.0.availability_at_oci", "AVAILABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "software_source_availabilities.0.software_source_id"),

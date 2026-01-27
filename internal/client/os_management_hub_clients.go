@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_os_management_hub.DynamicSetClient", &OracleClient{InitClientFn: initOsmanagementhubDynamicSetClient})
 	RegisterOracleClient("oci_os_management_hub.EventClient", &OracleClient{InitClientFn: initOsmanagementhubEventClient})
 	RegisterOracleClient("oci_os_management_hub.LifecycleEnvironmentClient", &OracleClient{InitClientFn: initOsmanagementhubLifecycleEnvironmentClient})
 	RegisterOracleClient("oci_os_management_hub.ManagedInstanceClient", &OracleClient{InitClientFn: initOsmanagementhubManagedInstanceClient})
@@ -20,6 +21,26 @@ func init() {
 	RegisterOracleClient("oci_os_management_hub.WorkRequestClient", &OracleClient{InitClientFn: initOsmanagementhubWorkRequestClient})
 	RegisterOracleClient("oci_os_management_hub.ScheduledJobClient", &OracleClient{InitClientFn: initOsmanagementhubScheduledJobClient})
 	RegisterOracleClient("oci_os_management_hub.SoftwareSourceClient", &OracleClient{InitClientFn: initOsmanagementhubSoftwareSourceClient})
+}
+
+func initOsmanagementhubDynamicSetClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_os_management_hub.NewDynamicSetClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) DynamicSetClient() *oci_os_management_hub.DynamicSetClient {
+	return m.GetClient("oci_os_management_hub.DynamicSetClient").(*oci_os_management_hub.DynamicSetClient)
 }
 
 func initOsmanagementhubEventClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -38,7 +59,7 @@ func initOsmanagementhubEventClient(configProvider oci_common.ConfigurationProvi
 	return &client, nil
 }
 
-func (m *OracleClients) OsmhEventClient() *oci_os_management_hub.EventClient {
+func (m *OracleClients) EventClient() *oci_os_management_hub.EventClient {
 	return m.GetClient("oci_os_management_hub.EventClient").(*oci_os_management_hub.EventClient)
 }
 
