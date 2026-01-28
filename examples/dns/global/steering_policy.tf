@@ -156,7 +156,7 @@ variable "steering_policy_ttl" {
 resource "oci_health_checks_http_monitor" "test_http_monitor" {
   #Required
   compartment_id      = var.compartment_ocid
-  display_name        = var.http_monitor_display_name
+  display_name        = "${var.http_monitor_display_name}-${random_string.random_prefix.result}"
   interval_in_seconds = var.http_monitor_interval_in_seconds
   protocol            = var.http_monitor_protocol
   targets             = var.http_monitor_targets
@@ -165,7 +165,7 @@ resource "oci_health_checks_http_monitor" "test_http_monitor" {
   freeform_tags       = var.http_monitor_freeform_tags
   is_enabled          = var.http_monitor_is_enabled
   method              = var.http_monitor_method
-  path                = var.http_monitor_path
+  path                = "${var.http_monitor_path}?tf=${random_string.random_prefix.result}"
   port                = var.http_monitor_port
   timeout_in_seconds  = var.http_monitor_timeout_in_seconds
   vantage_point_names = var.http_monitor_vantage_point_names
@@ -303,4 +303,3 @@ data "oci_dns_steering_policies" "test_steering_policies" {
   time_created_greater_than_or_equal_to = var.steering_policy_time_created_greater_than_or_equal_to
   time_created_less_than                = var.steering_policy_time_created_less_than
 }
-

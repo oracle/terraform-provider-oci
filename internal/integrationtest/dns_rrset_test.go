@@ -34,8 +34,6 @@ var (
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
-		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
@@ -43,7 +41,6 @@ var (
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
-		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
@@ -53,9 +50,7 @@ var (
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
 		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
-		"compartment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"items":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsRrsetItemsRepresentation},
-		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 	DnsRrsetItemsRepresentation = map[string]interface{}{
@@ -118,7 +113,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Create, DnsRrsetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -129,7 +123,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
@@ -151,7 +144,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DnsRrsetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, DnsRrsetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -162,7 +154,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
@@ -208,7 +199,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),
 
@@ -233,8 +223,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateIdFunc: getRrSetImportId(resourceName),
 			ImportStateVerifyIgnore: []string{
-				"compartment_id",
-				"scope",
 				"view_id",
 			},
 			ResourceName: resourceName,
@@ -248,7 +236,10 @@ func getRrSetImportId(resourceName string) resource.ImportStateIdFunc {
 		if !ok {
 			return "", fmt.Errorf("not found: %s", resourceName)
 		}
-		return fmt.Sprintf("zoneNameOrId/%s/domain/%s/rtype/%s/scope/%s/viewId/%s", rs.Primary.Attributes["zone_name_or_id"], rs.Primary.Attributes["domain"], rs.Primary.Attributes["rtype"], rs.Primary.Attributes["scope"], rs.Primary.Attributes["view_id"]), nil
+		return fmt.Sprintf("zoneNameOrId/%s/domain/%s/rtype/%s",
+			rs.Primary.Attributes["zone_name_or_id"],
+			rs.Primary.Attributes["domain"],
+			rs.Primary.Attributes["rtype"]), nil
 	}
 }
 
@@ -260,24 +251,12 @@ func testAccCheckDnsRrsetDestroy(s *terraform.State) error {
 			noResourceFound = false
 			request := oci_dns.GetRRSetRequest{}
 
-			if value, ok := rs.Primary.Attributes["compartment_id"]; ok {
-				request.CompartmentId = &value
-			}
-
 			if value, ok := rs.Primary.Attributes["domain"]; ok {
 				request.Domain = &value
 			}
 
 			if value, ok := rs.Primary.Attributes["rtype"]; ok {
 				request.Rtype = &value
-			}
-
-			if value, ok := rs.Primary.Attributes["scope"]; ok {
-				request.Scope = oci_dns.GetRRSetScopeEnum(value)
-			}
-
-			if value, ok := rs.Primary.Attributes["view_id"]; ok {
-				request.ViewId = &value
 			}
 
 			if value, ok := rs.Primary.Attributes["zone_name_or_id"]; ok {
