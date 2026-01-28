@@ -5,6 +5,12 @@ Fix unpinning of addon version
 - Check OIDC is enabled in state to prevent drift
 - fixed backup type issue
 
+### Bug fix
+- dns_rrset: On create, return HTTP 409 (Conflict) if the RRSet already contains records; update and delete behavior unchanged.
+- dns_rrset: Removed deprecated arguments `compartment_id` and `scope` from the resource schema and docs.
+- dns_rrset data sources: Removed `compartment_id` and `scope`; clarified that `view_id` is required when accessing a private zone by name.
+- Examples: Updated private DNS RRSet examples to omit `scope` and rely on `view_id` only.
+
 ## 7.9.0 (Unreleased)
 
 ### Added

@@ -8,10 +8,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
@@ -48,13 +50,6 @@ func DnsRrsetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
-			},
-
-			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 			"items": {
 				Type:     schema.TypeSet,
@@ -104,10 +99,15 @@ func DnsRrsetResource() *schema.Resource {
 					},
 				},
 			},
+			"compartment_id": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: "Deprecated; compartment is inferred from the zone and this argument is ignored. Will be removed in a future release.",
+			},
 			"scope": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: "Deprecated; scope is inferred from the zone and this argument is ignored. Will be removed in a future release.",
 			},
 			"view_id": {
 				Type:     schema.TypeString,
@@ -165,44 +165,16 @@ func (s *DnsRrsetResourceCrud) ID() string {
 }
 
 func (s *DnsRrsetResourceCrud) Create() error {
-	request := oci_dns.UpdateRRSetRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
+	request := oci_dns.PatchRRSetRequest{}
 
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)
 		request.Domain = &tmp
 	}
 
-	request.Items = make([]oci_dns.RecordDetails, 0)
-	if items, ok := s.D.GetOkExists("items"); ok {
-		set := items.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]oci_dns.RecordDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := rrsetItemsHashCodeForSets(interfaces[i])
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "items", stateDataIndex)
-			converted, err := s.mapToRecordDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("items") {
-			request.Items = tmp
-		}
-	}
-
 	if rtype, ok := s.D.GetOkExists("rtype"); ok {
 		tmp := rtype.(string)
 		request.Rtype = &tmp
-	}
-
-	if scope, ok := s.D.GetOkExists("scope"); ok {
-		request.Scope = oci_dns.UpdateRRSetScopeEnum(scope.(string))
 	}
 
 	if viewId, ok := s.D.GetOkExists("view_id"); ok {
@@ -215,16 +187,59 @@ func (s *DnsRrsetResourceCrud) Create() error {
 		request.ZoneNameOrId = &tmp
 	}
 
+	// Precondition: RRSet must be empty (no records exist yet).
+	pre := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationProhibit}
+	if request.Domain != nil {
+		pre.Domain = request.Domain
+	}
+	if request.Rtype != nil {
+		pre.Rtype = request.Rtype
+	}
+
+	var ops []oci_dns.RecordOperation
+
+	// Add requested records.
+	if items, ok := s.D.GetOkExists("items"); ok {
+		set, ok := items.(*schema.Set)
+		if !ok || set == nil {
+			return fmt.Errorf("expected items to be *schema.Set, got %T", items)
+		}
+		list := set.List()
+		// Pre-allocate capacity to avoid growth re-allocations.
+		ops = make([]oci_dns.RecordOperation, 0, len(list)+1)
+		ops = append(ops, pre)
+		for _, v := range list {
+			m := v.(map[string]interface{})
+			add := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationAdd}
+			if d, ok := m["domain"].(string); ok && d != "" {
+				add.Domain = &d
+			}
+			if rt, ok := m["rtype"].(string); ok && rt != "" {
+				add.Rtype = &rt
+			}
+			if rd, ok := m["rdata"].(string); ok && rd != "" {
+				add.Rdata = &rd
+			}
+			if ttl, ok := m["ttl"].(int); ok && ttl != 0 {
+				add.Ttl = &ttl
+			}
+			ops = append(ops, add)
+		}
+	}
+	request.Items = ops
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
-	response, err := s.Client.UpdateRRSet(context.Background(), request)
+	response, err := s.Client.PatchRRSet(context.Background(), request)
 	if err != nil {
+		// Map PreconditionFailed (412) to Conflict (409) to align with Terraform typical create conflict behavior.
+		if failure, is := oci_common.IsServiceError(err); is && failure.GetHTTPStatusCode() == http.StatusPreconditionFailed {
+			return fmt.Errorf("409-Conflict, %s", failure.GetMessage())
+		}
 		return err
 	}
 
-	rrSet := oci_dns.RrSet{}
-	rrSet.Items = response.Items
-	s.Res = &rrSet
+	s.Res = &oci_dns.RrSet{Items: response.Items}
 
 	return nil
 }
@@ -302,7 +317,10 @@ func (s *DnsRrsetResourceCrud) Update() error {
 
 	request.Items = make([]oci_dns.RecordDetails, 0)
 	if items, ok := s.D.GetOkExists("items"); ok {
-		set := items.(*schema.Set)
+		set, ok := items.(*schema.Set)
+		if !ok || set == nil {
+			return fmt.Errorf("expected items to be *schema.Set, got %T", items)
+		}
 		interfaces := set.List()
 		tmp := make([]oci_dns.RecordDetails, len(interfaces))
 		for i := range interfaces {
@@ -345,9 +363,7 @@ func (s *DnsRrsetResourceCrud) Update() error {
 		return err
 	}
 
-	rrSet := oci_dns.RrSet{}
-	rrSet.Items = response.Items
-	s.Res = &rrSet
+	s.Res = &oci_dns.RrSet{Items: response.Items}
 
 	return nil
 }
@@ -363,7 +379,10 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 	allProtected := true
 	allNonProtected := true
 	if items, ok := s.D.GetOkExists("items"); ok {
-		set := items.(*schema.Set)
+		set, ok := items.(*schema.Set)
+		if !ok || set == nil {
+			return fmt.Errorf("expected items to be *schema.Set, got %T", items)
+		}
 		interfaces := set.List()
 		for _, rrInterface := range interfaces {
 			rr := rrInterface.(map[string]interface{})
@@ -441,7 +460,10 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 
 	request.Items = make([]oci_dns.RecordDetails, 0)
 	if items, ok := s.D.GetOkExists("items"); ok {
-		set := items.(*schema.Set)
+		set, ok := items.(*schema.Set)
+		if !ok || set == nil {
+			return fmt.Errorf("expected items to be *schema.Set, got %T", items)
+		}
 		interfaces := set.List()
 		tmp := make([]oci_dns.RecordDetails, 0)
 		for i := range interfaces {
@@ -492,9 +514,7 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 		return err
 	}
 
-	rrSet := oci_dns.RrSet{}
-	rrSet.Items = response.Items
-	s.Res = &rrSet
+	s.Res = &oci_dns.RrSet{Items: response.Items}
 
 	return nil
 }
