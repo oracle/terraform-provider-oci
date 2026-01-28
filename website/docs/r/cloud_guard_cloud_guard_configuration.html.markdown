@@ -28,13 +28,6 @@ resource "oci_cloud_guard_cloud_guard_configuration" "test_cloud_guard_configura
 
 	#Optional
 	self_manage_resources = var.cloud_guard_configuration_self_manage_resources
-	service_configurations {
-		#Required
-		service_configuration_type = var.cloud_guard_configuration_service_configurations_service_configuration_type
-
-		#Optional
-		status = var.cloud_guard_configuration_service_configurations_status
-	}
 }
 ```
 
@@ -45,9 +38,6 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment in which to list resources.
 * `reporting_region` - (Required) (Updatable) The reporting region
 * `self_manage_resources` - (Optional) (Updatable) Identifies if Oracle managed resources will be created by customers. If no value is specified false is the default. 
-* `service_configurations` - (Optional) (Updatable) List of service configurations for tenant
-	* `service_configuration_type` - (Required) (Updatable) Type of service configuration
-	* `status` - (Optional) (Updatable) Partner service status
 * `status` - (Required) (Updatable) Status of Cloud Guard tenant
 
 
@@ -60,9 +50,6 @@ The following attributes are exported:
 
 * `reporting_region` - The reporting region
 * `self_manage_resources` - Were Oracle-managed resources created by customer? 
-* `service_configurations` - List of service configurations for this tenant
-	* `service_configuration_type` - Type of service configuration
-	* `status` - Partner service status
 * `status` - Status of the Cloud Guard tenant
 
 ## Timeouts
