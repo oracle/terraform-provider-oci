@@ -416,6 +416,8 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	} else {
+		s.D.Set("system_tags", make(map[string]interface{}))
 	}
 
 	if s.Res.TenancyId != nil {
