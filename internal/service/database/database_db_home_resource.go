@@ -172,6 +172,35 @@ func DatabaseDbHomeResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"tde_wallet_backup_destination": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"backup_destination_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"backup_destination_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"type": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -312,6 +341,13 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"recovery_appliance_vpc_password": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							// ForceNew:  true,
+							Sensitive: true,
 						},
 						"storage_size_details": {
 							Type:     schema.TypeList,
@@ -1177,6 +1213,17 @@ func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyForma
 		result.RemoteRegion = &tmp
 	}
 
+	if tdeWalletBackupDestination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_backup_destination")); ok {
+		if tmpList := tdeWalletBackupDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tde_wallet_backup_destination"), 0)
+			tmp, err := s.mapToTdeWalletBackupDestination(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert tde_wallet_backup_destination, encountered error: %v", err)
+			}
+			result.TdeWalletBackupDestination = &tmp
+		}
+	}
+
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
 	}
@@ -1376,6 +1423,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetai
 		}
 	}
 
+	if recoveryApplianceVpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_appliance_vpc_password")); ok {
+		tmp := recoveryApplianceVpcPassword.(string)
+		result.RecoveryApplianceVpcPassword = &tmp
+	}
+
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_stamp_for_point_in_time_recovery")); ok {
 		tmp, err := time.Parse(time.RFC3339, timeStampForPointInTimeRecovery.(string))
 		if err != nil {
@@ -1443,6 +1495,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldK
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")) {
 			result.PluggableDatabases = tmp
 		}
+	}
+
+	if recoveryApplianceVpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_appliance_vpc_password")); ok {
+		tmp := recoveryApplianceVpcPassword.(string)
+		result.RecoveryApplianceVpcPassword = &tmp
 	}
 
 	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
@@ -1586,6 +1643,33 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
 	}
 	return baseObject, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToTdeWalletBackupDestination(fieldKeyFormat string) (oci_database.TdeWalletBackupDestination, error) {
+	result := oci_database.TdeWalletBackupDestination{}
+
+	if backupDestinationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_id")); ok {
+		tmp := backupDestinationId.(string)
+		result.BackupDestinationId = &tmp
+	}
+
+	if backupDestinationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_type")); ok {
+		result.BackupDestinationType = oci_database.TdeWalletBackupDestinationBackupDestinationTypeEnum(backupDestinationType.(string))
+	}
+
+	return result, nil
+}
+
+func TdeWalletBackupDestinationToMap(obj *oci_database.TdeWalletBackupDestination) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackupDestinationId != nil {
+		result["backup_destination_id"] = string(*obj.BackupDestinationId)
+	}
+
+	result["backup_destination_type"] = string(obj.BackupDestinationType)
+
+	return result
 }
 
 func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) error {
@@ -2125,6 +2209,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		} else {
 			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&obj.EncryptionKeyLocationDetails, "")}
 		}
+	}
+
+	if raVpcPassword, ok := s.D.GetOkExists("database.0.recovery_appliance_vpc_password"); ok && raVpcPassword != nil {
+		result["recovery_appliance_vpc_password"] = raVpcPassword.(string)
 	}
 
 	return result

@@ -100,7 +100,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 						"backup_tde_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
-							ForceNew:  true,
 							Sensitive: true,
 						},
 						"character_set": {
@@ -223,6 +222,32 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"tde_wallet_backup_destination": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"backup_destination_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"backup_destination_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"type": {
 													Type:             schema.TypeString,
@@ -499,6 +524,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							DiffSuppressFunc: protectionModeDiffSuppress,
+						},
+						"recovery_appliance_vpc_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 						"sid_prefix": {
 							Type:     schema.TypeString,
@@ -892,6 +923,27 @@ func DatabaseDatabaseResource() *schema.Resource {
 									"remote_region": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"tde_wallet_backup_destination": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"backup_destination_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"backup_destination_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"type": {
 										Type:     schema.TypeString,
@@ -1561,6 +1613,18 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 		result.VpcUser = &tmp
 	}
 
+	// Map nested tde_wallet_backup_destination under backup_destination_details
+	if tdeWalletBackupDestination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_backup_destination")); ok {
+		if tmpList := tdeWalletBackupDestination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tde_wallet_backup_destination"), 0)
+			tmp, err := s.mapToTdeWalletBackupDestination(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.TdeWalletBackupDestination = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1650,6 +1714,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDet
 			return result, err
 		}
 		result.TimeStampForPointInTimeRecovery = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if recoveryApplianceVpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_appliance_vpc_password")); ok {
+		tmp := recoveryApplianceVpcPassword.(string)
+		result.RecoveryApplianceVpcPassword = &tmp
 	}
 
 	if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
@@ -1795,6 +1864,11 @@ func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_dat
 		result["remote_region"] = string(*obj.RemoteRegion)
 	}
 
+	// Include nested TDE wallet backup destination when present
+	if obj.TdeWalletBackupDestination != nil {
+		result["tde_wallet_backup_destination"] = []interface{}{TdeWalletBackupDestinationToMap(obj.TdeWalletBackupDestination)}
+	}
+
 	result["type"] = string(obj.Type)
 
 	if vpcPassword, ok := s.D.GetOkExists("database.0.db_backup_config.0.backup_destination_details.0.vpc_password"); ok && vpcPassword != nil {
@@ -1839,6 +1913,10 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 
 	if obj.RemoteRegion != nil {
 		result["remote_region"] = string(*obj.RemoteRegion)
+	}
+
+	if obj.TdeWalletBackupDestination != nil {
+		result["tde_wallet_backup_destination"] = []interface{}{TdeWalletBackupDestinationToMap(obj.TdeWalletBackupDestination)}
 	}
 
 	result["type"] = string(obj.Type)
@@ -2260,6 +2338,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 		}
 	}
 
+	if recoveryApplianceVpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_appliance_vpc_password")); ok {
+		tmp := recoveryApplianceVpcPassword.(string)
+		result.RecoveryApplianceVpcPassword = &tmp
+	}
+
 	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
 		tmp := sidPrefix.(string)
 		result.SidPrefix = &tmp
@@ -2608,6 +2691,21 @@ func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDe
 	}
 
 	return result
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToTdeWalletBackupDestination(fieldKeyFormat string) (oci_database.TdeWalletBackupDestination, error) {
+	result := oci_database.TdeWalletBackupDestination{}
+
+	if backupDestinationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_id")); ok {
+		tmp := backupDestinationId.(string)
+		result.BackupDestinationId = &tmp
+	}
+
+	if backupDestinationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_type")); ok {
+		result.BackupDestinationType = oci_database.TdeWalletBackupDestinationBackupDestinationTypeEnum(backupDestinationType.(string))
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabaseRequest(request *oci_database.CreateDatabaseRequest) error {
@@ -3134,6 +3232,18 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 				result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")}
 			}
 		}
+	}
+
+	if raVpcPassword, ok := s.D.GetOkExists("database.0.recovery_appliance_vpc_password"); ok && raVpcPassword != nil {
+		result["recovery_appliance_vpc_password"] = raVpcPassword.(string)
+	}
+
+	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("database.0.time_stamp_for_point_in_time_recovery")); ok {
+		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
+	}
+
+	if databaseId, ok := s.D.GetOkExists("database.0.database_id"); ok && databaseId != nil {
+		result["database_id"] = databaseId.(string)
 	}
 
 	if obj.VmClusterId != nil {
