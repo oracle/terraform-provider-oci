@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -66,12 +67,27 @@ var (
 	MysqlMysqlConfigurationInitVariablesRepresentation = map[string]interface{}{
 		"lower_case_table_names": acctest.Representation{RepType: acctest.Optional, Create: `CASE_SENSITIVE`},
 	}
+	MysqlMysqlConfigurationOptionsBinlogRepresentation = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `binlog_expire_logs_seconds`},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: `3601`},
+	}
+	MysqlMysqlConfigurationOptionsOnlyRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		"parent_configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"options":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlConfigurationOptionsBinlogRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlConfigBasic},
+	}
 	MysqlMysqlConfigurationVariablesRepresentation = map[string]interface{}{
 		"auto_increment_increment":                    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"auto_increment_offset":                       acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"autocommit":                                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"big_tables":                                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"binlog_expire_logs_seconds":                  acctest.Representation{RepType: acctest.Optional, Create: `3600`},
+		"binlog_expire_logs_seconds":                  acctest.Representation{RepType: acctest.Optional, Create: `3601`},
 		"binlog_group_commit_sync_delay":              acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"binlog_group_commit_sync_no_delay_count":     acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"binlog_row_metadata":                         acctest.Representation{RepType: acctest.Optional, Create: `FULL`},
@@ -89,7 +105,6 @@ var (
 		"explain_format":                              acctest.Representation{RepType: acctest.Optional, Create: `TRADITIONAL`},
 		"explicit_defaults_for_timestamp":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"foreign_key_checks":                          acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"generated_random_password_length":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"global_connection_memory_limit":              acctest.Representation{RepType: acctest.Optional, Create: `2097152`},
 		"global_connection_memory_tracking":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"group_concat_max_len":                        acctest.Representation{RepType: acctest.Optional, Create: `1024`},
@@ -106,7 +121,7 @@ var (
 		"innodb_ft_enable_stopword":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"innodb_ft_max_token_size":                    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"innodb_ft_min_token_size":                    acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"innodb_ft_num_word_optimize":                 acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"innodb_ft_num_word_optimize":                 acctest.Representation{RepType: acctest.Optional, Create: `1000`},
 		"innodb_ft_result_cache_limit":                acctest.Representation{RepType: acctest.Optional, Create: `33554432`},
 		"innodb_ft_server_stopword_table":             acctest.Representation{RepType: acctest.Optional, Create: `innodbFtServerStopwordTable`},
 		"innodb_lock_wait_timeout":                    acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -137,18 +152,13 @@ var (
 		"max_seeks_for_key":                           acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"max_user_connections":                        acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysql_firewall_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"mysql_zstd_default_compression_level":        acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_connect_timeout":                      acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_deflate_default_compression_level":    acctest.Representation{RepType: acctest.Optional, Create: `9`},
 		"mysqlx_deflate_max_client_compression_level": acctest.Representation{RepType: acctest.Optional, Create: `9`},
-		"mysqlx_document_id_unique_prefix":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"mysqlx_enable_hello_notice":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"mysqlx_idle_worker_thread_timeout":           acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_interactive_timeout":                  acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_lz4default_compression_level":         acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_lz4max_client_compression_level":      acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_max_allowed_packet":                   acctest.Representation{RepType: acctest.Optional, Create: `67108864`},
-		"mysqlx_min_worker_threads":                   acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_read_timeout":                         acctest.Representation{RepType: acctest.Optional, Create: `30`},
 		"mysqlx_wait_timeout":                         acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mysqlx_write_timeout":                        acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -158,8 +168,6 @@ var (
 		"net_write_timeout":                           acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"optimizer_switch":                            acctest.Representation{RepType: acctest.Optional, Create: `batched_key_access=off`},
 		"parser_max_mem_size":                         acctest.Representation{RepType: acctest.Optional, Create: `10000000`},
-		"query_alloc_block_size":                      acctest.Representation{RepType: acctest.Optional, Create: `1024`},
-		"query_prealloc_size":                         acctest.Representation{RepType: acctest.Optional, Create: `8192`},
 		"range_optimizer_max_mem_size":                acctest.Representation{RepType: acctest.Optional, Create: `8388608`},
 		"regexp_time_limit":                           acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"relay_log_space_limit":                       acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -170,7 +178,7 @@ var (
 		"skip_name_resolve":                           acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"sort_buffer_size":                            acctest.Representation{RepType: acctest.Optional, Create: `32768`},
 		"sql_generate_invisible_primary_key":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"sql_mode":                                    acctest.Representation{RepType: acctest.Optional, Create: `sqlMode`},
+		"sql_mode":                                    acctest.Representation{RepType: acctest.Optional, Create: `ONLY_FULL_GROUP_BY`},
 		"sql_require_primary_key":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"sql_warnings":                                acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"table_definition_cache":                      acctest.Representation{RepType: acctest.Optional, Create: `400`},
@@ -191,6 +199,26 @@ var (
 		utils.MysqlConfigurationIdVariableE3_2_32_OCID +
 		DefinedTagsDependencies
 )
+
+// Helper check: assert options contain a specific name/value pair
+func testCheckOptionsContain(resourceName, optName, optValue string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("resource %s not found in state", resourceName)
+		}
+		attrs := rs.Primary.Attributes
+		for k, v := range attrs {
+			if strings.HasPrefix(k, "options.") && strings.HasSuffix(k, ".name") && v == optName {
+				prefix := k[:len(k)-len(".name")]
+				if attrs[prefix+".value"] == optValue {
+					return nil
+				}
+			}
+		}
+		return fmt.Errorf("options does not contain %s=%s", optName, optValue)
+	}
+}
 
 // issue-routing-tag: mysql/default
 func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
@@ -219,6 +247,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -254,7 +283,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.auto_increment_offset", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.autocommit", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.big_tables", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3600"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3601"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_group_commit_sync_delay", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_group_commit_sync_no_delay_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_row_metadata", "FULL"),
@@ -272,7 +301,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.explain_format", "TRADITIONAL"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.explicit_defaults_for_timestamp", "true"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.foreign_key_checks", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.generated_random_password_length", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.global_connection_memory_limit", "2097152"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.global_connection_memory_tracking", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.group_concat_max_len", "1024"),
@@ -289,7 +317,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_enable_stopword", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_max_token_size", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_min_token_size", "10"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_num_word_optimize", "10"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_num_word_optimize", "1000"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_result_cache_limit", "33554432"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_server_stopword_table", "innodbFtServerStopwordTable"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_lock_wait_timeout", "10"),
@@ -320,18 +348,13 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.max_seeks_for_key", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.max_user_connections", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysql_firewall_mode", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysql_zstd_default_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_connect_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_deflate_default_compression_level", "9"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_deflate_max_client_compression_level", "9"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_document_id_unique_prefix", "10"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_enable_hello_notice", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_idle_worker_thread_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_interactive_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_lz4default_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_lz4max_client_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_max_allowed_packet", "67108864"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_min_worker_threads", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_read_timeout", "30"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_wait_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_write_timeout", "10"),
@@ -341,8 +364,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.net_write_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.optimizer_switch", "batched_key_access=off"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.parser_max_mem_size", "10000000"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.query_alloc_block_size", "1024"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.query_prealloc_size", "8192"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.range_optimizer_max_mem_size", "8388608"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.regexp_time_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.relay_log_space_limit", "10"),
@@ -353,7 +374,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.skip_name_resolve", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sort_buffer_size", "32768"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_generate_invisible_primary_key", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_mode", "sqlMode"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_mode", "ONLY_FULL_GROUP_BY"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_require_primary_key", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_warnings", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.table_definition_cache", "400"),
@@ -405,7 +426,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.auto_increment_offset", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.autocommit", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.big_tables", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3600"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3601"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_group_commit_sync_delay", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_group_commit_sync_no_delay_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_row_metadata", "FULL"),
@@ -423,7 +444,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.explain_format", "TRADITIONAL"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.explicit_defaults_for_timestamp", "true"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.foreign_key_checks", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.generated_random_password_length", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.global_connection_memory_limit", "2097152"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.global_connection_memory_tracking", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.group_concat_max_len", "1024"),
@@ -440,7 +460,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_enable_stopword", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_max_token_size", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_min_token_size", "10"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_num_word_optimize", "10"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_num_word_optimize", "1000"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_result_cache_limit", "33554432"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_ft_server_stopword_table", "innodbFtServerStopwordTable"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.innodb_lock_wait_timeout", "10"),
@@ -471,18 +491,13 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.max_seeks_for_key", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.max_user_connections", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysql_firewall_mode", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysql_zstd_default_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_connect_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_deflate_default_compression_level", "9"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_deflate_max_client_compression_level", "9"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_document_id_unique_prefix", "10"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_enable_hello_notice", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_idle_worker_thread_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_interactive_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_lz4default_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_lz4max_client_compression_level", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_max_allowed_packet", "67108864"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_min_worker_threads", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_read_timeout", "30"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_wait_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.mysqlx_write_timeout", "10"),
@@ -492,8 +507,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.net_write_timeout", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.optimizer_switch", "batched_key_access=off"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.parser_max_mem_size", "10000000"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.query_alloc_block_size", "1024"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.query_prealloc_size", "8192"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.range_optimizer_max_mem_size", "8388608"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.regexp_time_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.relay_log_space_limit", "10"),
@@ -504,7 +517,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.0.skip_name_resolve", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sort_buffer_size", "32768"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_generate_invisible_primary_key", "false"),
-				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_mode", "sqlMode"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_mode", "ONLY_FULL_GROUP_BY"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_require_primary_key", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.sql_warnings", "false"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.table_definition_cache", "400"),
@@ -527,6 +540,23 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 					}
 					return err
 				},
+			),
+		},
+		// delete before Create with options-only
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies,
+		},
+		// verify Create with options-only (no variables)
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", acctest.Optional, acctest.Create, MysqlMysqlConfigurationOptionsOnlyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3601"),
+				testCheckOptionsContain(resourceName, "binlog_expire_logs_seconds", "3601"),
 			),
 		},
 		// verify datasource
@@ -594,7 +624,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_dump_pct", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_instances", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "2147483648"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_change_buffering", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_change_buffering", "NONE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ddl_buffer_size", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ddl_threads", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_enable_stopword", "false"),
@@ -609,7 +639,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag_delay", "300000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_numa_interleave", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_online_alter_log_max_size", ""),
-				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_redo_log_capacity", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_redo_log_capacity", "2147483648"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_rollback_on_timeout", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_sort_buffer_size", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_stats_persistent_sample_pages", ""),
