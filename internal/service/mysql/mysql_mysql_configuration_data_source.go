@@ -90,6 +90,12 @@ func (s *MysqlMysqlConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("init_variables", nil)
 	}
 
+	options := []interface{}{}
+	for _, item := range s.Res.Options {
+		options = append(options, OptionToMap(item))
+	}
+	s.D.Set("options", options)
+
 	if s.Res.ParentConfigurationId != nil {
 		s.D.Set("parent_configuration_id", *s.Res.ParentConfigurationId)
 	}
