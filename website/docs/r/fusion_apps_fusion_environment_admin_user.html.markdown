@@ -25,9 +25,6 @@ resource "oci_fusion_apps_fusion_environment_admin_user" "test_fusion_environmen
 	fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
 	last_name = var.fusion_environment_admin_user_last_name
 	username = var.fusion_environment_admin_user_username
-
-	#Optional
-	password = var.fusion_environment_admin_user_password
 }
 ```
 
@@ -39,7 +36,6 @@ The following arguments are supported:
 * `first_name` - (Required) The administrator's first name.
 * `fusion_environment_id` - (Required) unique FusionEnvironment identifier
 * `last_name` - (Required) The administrator's last name.
-* `password` - (Optional) The password for the administrator.
 * `username` - (Required) The username for the administrator.
 
 
