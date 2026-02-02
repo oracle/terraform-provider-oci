@@ -107,7 +107,6 @@ var (
 		"first_name":    acctest.Representation{RepType: acctest.Required, Create: `firstName`},
 		"last_name":     acctest.Representation{RepType: acctest.Required, Create: `lastName`},
 		"username":      acctest.Representation{RepType: acctest.Required, Create: `terraformTestCreate`},
-		"password":      acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
 	}
 	FusionAppsFusionEnvironmentMaintenancePolicyRepresentation = map[string]interface{}{
 		"environment_maintenance_override": acctest.Representation{RepType: acctest.Optional, Create: `PROD`, Update: `NON_PROD`},
@@ -193,7 +192,6 @@ func TestFusionAppsFusionEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.email_address", "JohnSmith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.first_name", "firstName"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.last_name", "lastName"),
-				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.username", "terraformTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_prefix", "dnsPrefix"),
@@ -239,7 +237,6 @@ func TestFusionAppsFusionEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.email_address", "JohnSmith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.first_name", "firstName"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.last_name", "lastName"),
-				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.username", "terraformTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_prefix", "dnsPrefix"),
@@ -280,7 +277,6 @@ func TestFusionAppsFusionEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.email_address", "JohnSmith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.first_name", "firstName"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.last_name", "lastName"),
-				//resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "create_fusion_environment_admin_user_details.0.username", "terraformTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "dns_prefix", "dnsPrefix"),

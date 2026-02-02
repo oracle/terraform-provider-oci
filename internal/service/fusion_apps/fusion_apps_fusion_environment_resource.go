@@ -74,14 +74,6 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 						},
 
 						// Optional
-						"password": {
-							Type:       schema.TypeString,
-							Optional:   true,
-							Computed:   true,
-							ForceNew:   true,
-							Sensitive:  true,
-							Deprecated: "The 'password' field is deprecated. Please use the OCI Console or email link to reset the password.",
-						},
 
 						// Computed
 					},
@@ -950,11 +942,6 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) mapToCreateFusionEnvironmentAd
 		result.LastName = &tmp
 	}
 
-	//if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
-	//	tmp := password.(string)
-	//	result.Password = &tmp
-	//}
-
 	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
 		tmp := username.(string)
 		result.Username = &tmp
@@ -977,10 +964,6 @@ func CreateFusionEnvironmentAdminUserDetailsToMap(obj *oci_fusion_apps.CreateFus
 	if obj.LastName != nil {
 		result["last_name"] = string(*obj.LastName)
 	}
-
-	//if obj.Password != nil {
-	//	result["password"] = string(*obj.Password)
-	//}
 
 	if obj.Username != nil {
 		result["username"] = string(*obj.Username)
