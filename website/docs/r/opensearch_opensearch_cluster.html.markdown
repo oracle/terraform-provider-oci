@@ -83,6 +83,12 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	}
 	master_node_host_bare_metal_shape = var.opensearch_cluster_master_node_host_bare_metal_shape
 	master_node_host_shape = var.opensearch_cluster_master_node_host_shape
+	ml_node_count = var.opensearch_cluster_ml_node_count
+	ml_node_host_memory_gb = var.opensearch_cluster_ml_node_host_memory_gb
+	ml_node_host_ocpu_count = var.opensearch_cluster_ml_node_host_ocpu_count
+	ml_node_host_shape = var.opensearch_cluster_ml_node_host_shape
+	ml_node_host_type = var.opensearch_cluster_ml_node_host_type
+	ml_node_storage_gb = var.opensearch_cluster_ml_node_storage_gb
 	nsg_id = oci_opensearch_nsg.test_nsg.id
 	opendashboard_node_host_shape = var.opensearch_cluster_opendashboard_node_host_shape
 	outbound_cluster_config {
@@ -147,6 +153,12 @@ The following arguments are supported:
 * `master_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluser's master nodes.
 * `master_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's master nodes.
 * `master_node_host_type` - (Required) The instance type for the cluster's master nodes.
+* `ml_node_count` - (Optional) (Updatable) The number of ML nodes configured for the cluster.
+* `ml_node_host_memory_gb` - (Optional) (Updatable) The amount of memory in GB, for the cluster's ML nodes.
+* `ml_node_host_ocpu_count` - (Optional) (Updatable) The number of OCPUs configured for the cluster's ML nodes.
+* `ml_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's ML nodes.
+* `ml_node_host_type` - (Optional) The instance type for the cluster's ML nodes.
+* `ml_node_storage_gb` - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster's ML nodes.
 * `nsg_id` - (Optional) The OCID of the NSG where the private endpoint vnic will be attached.
 * `opendashboard_node_count` - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.
 * `opendashboard_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
@@ -224,6 +236,12 @@ The following attributes are exported:
 * `master_node_host_ocpu_count` - The number of OCPUs configured for cluster's master nodes.
 * `master_node_host_shape` - The node shape for the cluster's master nodes.
 * `master_node_host_type` - The instance type for the cluster's master nodes.
+* `ml_node_count` - The number of ML nodes configured for the cluster.
+* `ml_node_host_memory_gb` - The amount of memory in GB, for the cluster's ML nodes.
+* `ml_node_host_ocpu_count` - The number of OCPUs configured for the cluster's ML nodes.
+* `ml_node_host_shape` - The node shape for the cluster's ML nodes.
+* `ml_node_host_type` - The instance type for the cluster's ML nodes.
+* `ml_node_storage_gb` - The amount of storage in GB, to configure per node for the cluster's ML nodes.
 * `nsg_id` - The OCID of the NSG where the private endpoint vnic will be attached.
 * `opendashboard_fqdn` - The fully qualified domain name (FQDN) for the cluster's OpenSearch Dashboard API endpoint.
 * `opendashboard_node_count` - The number of OpenSearch Dashboard nodes configured for the cluster.
