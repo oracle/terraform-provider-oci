@@ -57,6 +57,8 @@ type BackupDestinationDetails struct {
 	// For information about valid region names, see
 	// Regions and Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 	RemoteRegion *string `mandatory:"false" json:"remoteRegion"`
+
+	TdeWalletBackupDestination *TdeWalletBackupDestination `mandatory:"false" json:"tdeWalletBackupDestination"`
 }
 
 func (m BackupDestinationDetails) String() string {

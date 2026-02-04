@@ -124,6 +124,7 @@ const (
 	DbServerSummaryLifecycleStateDeleting              DbServerSummaryLifecycleStateEnum = "DELETING"
 	DbServerSummaryLifecycleStateDeleted               DbServerSummaryLifecycleStateEnum = "DELETED"
 	DbServerSummaryLifecycleStateMaintenanceInProgress DbServerSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	DbServerSummaryLifecycleStateFailed                DbServerSummaryLifecycleStateEnum = "FAILED"
 )
 
 var mappingDbServerSummaryLifecycleStateEnum = map[string]DbServerSummaryLifecycleStateEnum{
@@ -133,6 +134,7 @@ var mappingDbServerSummaryLifecycleStateEnum = map[string]DbServerSummaryLifecyc
 	"DELETING":                DbServerSummaryLifecycleStateDeleting,
 	"DELETED":                 DbServerSummaryLifecycleStateDeleted,
 	"MAINTENANCE_IN_PROGRESS": DbServerSummaryLifecycleStateMaintenanceInProgress,
+	"FAILED":                  DbServerSummaryLifecycleStateFailed,
 }
 
 var mappingDbServerSummaryLifecycleStateEnumLowerCase = map[string]DbServerSummaryLifecycleStateEnum{
@@ -142,6 +144,7 @@ var mappingDbServerSummaryLifecycleStateEnumLowerCase = map[string]DbServerSumma
 	"deleting":                DbServerSummaryLifecycleStateDeleting,
 	"deleted":                 DbServerSummaryLifecycleStateDeleted,
 	"maintenance_in_progress": DbServerSummaryLifecycleStateMaintenanceInProgress,
+	"failed":                  DbServerSummaryLifecycleStateFailed,
 }
 
 // GetDbServerSummaryLifecycleStateEnumValues Enumerates the set of values for DbServerSummaryLifecycleStateEnum
@@ -162,6 +165,7 @@ func GetDbServerSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"MAINTENANCE_IN_PROGRESS",
+		"FAILED",
 	}
 }
 

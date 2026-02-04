@@ -32,8 +32,8 @@ type DeploymentBackupSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Possible lifecycle states.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	// Possible lifecycle states for a Deployment Backup.
+	LifecycleState DeploymentBackupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Version of OGG
 	OggVersion *string `mandatory:"true" json:"oggVersion"`
@@ -116,8 +116,8 @@ func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDeploymentBackupLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentBackupLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingDeploymentBackupSummaryBackupSourceTypeEnum(string(m.BackupSourceType)); !ok && m.BackupSourceType != "" {

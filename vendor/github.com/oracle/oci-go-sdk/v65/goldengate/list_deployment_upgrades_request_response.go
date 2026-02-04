@@ -23,8 +23,8 @@ type ListDeploymentUpgradesRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources.
 	DeploymentId *string `mandatory:"false" contributesTo:"query" name:"deploymentId"`
 
-	// A filter to return only the resources that match the 'lifecycleState' given.
-	LifecycleState ListDeploymentUpgradesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	// A filter to return only the deployment upgrades having the 'lifecycleState' given.
+	LifecycleState DeploymentUpgradeLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only the resources that match the entire 'displayName' given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -83,8 +83,8 @@ func (request ListDeploymentUpgradesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListDeploymentUpgradesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListDeploymentUpgradesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDeploymentUpgradesLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDeploymentUpgradeLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDeploymentUpgradeLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListDeploymentUpgradesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeploymentUpgradesSortOrderEnumStringValues(), ",")))
@@ -123,92 +123,6 @@ func (response ListDeploymentUpgradesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDeploymentUpgradesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListDeploymentUpgradesLifecycleStateEnum Enum with underlying type: string
-type ListDeploymentUpgradesLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ListDeploymentUpgradesLifecycleStateEnum
-const (
-	ListDeploymentUpgradesLifecycleStateCreating       ListDeploymentUpgradesLifecycleStateEnum = "CREATING"
-	ListDeploymentUpgradesLifecycleStateUpdating       ListDeploymentUpgradesLifecycleStateEnum = "UPDATING"
-	ListDeploymentUpgradesLifecycleStateActive         ListDeploymentUpgradesLifecycleStateEnum = "ACTIVE"
-	ListDeploymentUpgradesLifecycleStateInactive       ListDeploymentUpgradesLifecycleStateEnum = "INACTIVE"
-	ListDeploymentUpgradesLifecycleStateDeleting       ListDeploymentUpgradesLifecycleStateEnum = "DELETING"
-	ListDeploymentUpgradesLifecycleStateDeleted        ListDeploymentUpgradesLifecycleStateEnum = "DELETED"
-	ListDeploymentUpgradesLifecycleStateFailed         ListDeploymentUpgradesLifecycleStateEnum = "FAILED"
-	ListDeploymentUpgradesLifecycleStateNeedsAttention ListDeploymentUpgradesLifecycleStateEnum = "NEEDS_ATTENTION"
-	ListDeploymentUpgradesLifecycleStateInProgress     ListDeploymentUpgradesLifecycleStateEnum = "IN_PROGRESS"
-	ListDeploymentUpgradesLifecycleStateCanceling      ListDeploymentUpgradesLifecycleStateEnum = "CANCELING"
-	ListDeploymentUpgradesLifecycleStateCanceled       ListDeploymentUpgradesLifecycleStateEnum = "CANCELED"
-	ListDeploymentUpgradesLifecycleStateSucceeded      ListDeploymentUpgradesLifecycleStateEnum = "SUCCEEDED"
-	ListDeploymentUpgradesLifecycleStateWaiting        ListDeploymentUpgradesLifecycleStateEnum = "WAITING"
-)
-
-var mappingListDeploymentUpgradesLifecycleStateEnum = map[string]ListDeploymentUpgradesLifecycleStateEnum{
-	"CREATING":        ListDeploymentUpgradesLifecycleStateCreating,
-	"UPDATING":        ListDeploymentUpgradesLifecycleStateUpdating,
-	"ACTIVE":          ListDeploymentUpgradesLifecycleStateActive,
-	"INACTIVE":        ListDeploymentUpgradesLifecycleStateInactive,
-	"DELETING":        ListDeploymentUpgradesLifecycleStateDeleting,
-	"DELETED":         ListDeploymentUpgradesLifecycleStateDeleted,
-	"FAILED":          ListDeploymentUpgradesLifecycleStateFailed,
-	"NEEDS_ATTENTION": ListDeploymentUpgradesLifecycleStateNeedsAttention,
-	"IN_PROGRESS":     ListDeploymentUpgradesLifecycleStateInProgress,
-	"CANCELING":       ListDeploymentUpgradesLifecycleStateCanceling,
-	"CANCELED":        ListDeploymentUpgradesLifecycleStateCanceled,
-	"SUCCEEDED":       ListDeploymentUpgradesLifecycleStateSucceeded,
-	"WAITING":         ListDeploymentUpgradesLifecycleStateWaiting,
-}
-
-var mappingListDeploymentUpgradesLifecycleStateEnumLowerCase = map[string]ListDeploymentUpgradesLifecycleStateEnum{
-	"creating":        ListDeploymentUpgradesLifecycleStateCreating,
-	"updating":        ListDeploymentUpgradesLifecycleStateUpdating,
-	"active":          ListDeploymentUpgradesLifecycleStateActive,
-	"inactive":        ListDeploymentUpgradesLifecycleStateInactive,
-	"deleting":        ListDeploymentUpgradesLifecycleStateDeleting,
-	"deleted":         ListDeploymentUpgradesLifecycleStateDeleted,
-	"failed":          ListDeploymentUpgradesLifecycleStateFailed,
-	"needs_attention": ListDeploymentUpgradesLifecycleStateNeedsAttention,
-	"in_progress":     ListDeploymentUpgradesLifecycleStateInProgress,
-	"canceling":       ListDeploymentUpgradesLifecycleStateCanceling,
-	"canceled":        ListDeploymentUpgradesLifecycleStateCanceled,
-	"succeeded":       ListDeploymentUpgradesLifecycleStateSucceeded,
-	"waiting":         ListDeploymentUpgradesLifecycleStateWaiting,
-}
-
-// GetListDeploymentUpgradesLifecycleStateEnumValues Enumerates the set of values for ListDeploymentUpgradesLifecycleStateEnum
-func GetListDeploymentUpgradesLifecycleStateEnumValues() []ListDeploymentUpgradesLifecycleStateEnum {
-	values := make([]ListDeploymentUpgradesLifecycleStateEnum, 0)
-	for _, v := range mappingListDeploymentUpgradesLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListDeploymentUpgradesLifecycleStateEnumStringValues Enumerates the set of values in String for ListDeploymentUpgradesLifecycleStateEnum
-func GetListDeploymentUpgradesLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"INACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-		"NEEDS_ATTENTION",
-		"IN_PROGRESS",
-		"CANCELING",
-		"CANCELED",
-		"SUCCEEDED",
-		"WAITING",
-	}
-}
-
-// GetMappingListDeploymentUpgradesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDeploymentUpgradesLifecycleStateEnum(val string) (ListDeploymentUpgradesLifecycleStateEnum, bool) {
-	enum, ok := mappingListDeploymentUpgradesLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListDeploymentUpgradesSortOrderEnum Enum with underlying type: string

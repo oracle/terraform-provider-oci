@@ -70,6 +70,10 @@ type ContinuousQuerySummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Whether or not this resource is currently enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
@@ -120,6 +124,7 @@ func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 		QueryStartTime     continuousquerystartpolicy        `json:"queryStartTime"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		IsEnabled          *bool                             `json:"isEnabled"`
 		Description        *string                           `json:"description"`
 		RecommendationText *string                           `json:"recommendationText"`
@@ -157,6 +162,8 @@ func (m *ContinuousQuerySummary) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.IsEnabled = model.IsEnabled
 

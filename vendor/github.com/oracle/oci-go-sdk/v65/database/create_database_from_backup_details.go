@@ -57,6 +57,9 @@ type CreateDatabaseFromBackupDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The password for the VPC user that is used to access the Recovery Appliance, if the given backup is from a backup destination of type RECOVERY_APPLIANCE.
+	RecoveryApplianceVpcPassword *string `mandatory:"false" json:"recoveryApplianceVpcPassword"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -89,6 +92,7 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 		VmClusterId                        *string                            `json:"vmClusterId"`
 		FreeformTags                       map[string]string                  `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
+		RecoveryApplianceVpcPassword       *string                            `json:"recoveryApplianceVpcPassword"`
 		BackupId                           *string                            `json:"backupId"`
 		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
@@ -127,6 +131,8 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.RecoveryApplianceVpcPassword = model.RecoveryApplianceVpcPassword
 
 	m.BackupId = model.BackupId
 

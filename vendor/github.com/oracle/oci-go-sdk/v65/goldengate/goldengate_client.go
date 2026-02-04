@@ -3905,6 +3905,60 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
+// MigrateConnection Migrate Connection attributes.
+// A default retry strategy applies to this operation MigrateConnection()
+func (client GoldenGateClient) MigrateConnection(ctx context.Context, request MigrateConnectionRequest) (response MigrateConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.migrateConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MigrateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MigrateConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MigrateConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MigrateConnectionResponse")
+	}
+	return
+}
+
+// migrateConnection implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) migrateConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connections/{connectionId}/actions/migrate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MigrateConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Connection/MigrateConnection"
+		err = common.PostProcessServiceError(err, "GoldenGate", "MigrateConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PausePipeline Pauses the pipeline.
 // A default retry strategy applies to this operation PausePipeline()
 func (client GoldenGateClient) PausePipeline(ctx context.Context, request PausePipelineRequest) (response PausePipelineResponse, err error) {

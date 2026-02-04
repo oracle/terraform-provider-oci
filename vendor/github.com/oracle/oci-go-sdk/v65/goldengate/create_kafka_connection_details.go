@@ -82,7 +82,7 @@ type CreateKafkaConnectionDetails struct {
 	// list of KafkaBootstrapServer objects specified by host/port.
 	// Used for establishing the initial connection to the Kafka cluster.
 	// Example: `"server1.example.com:9092,server2.example.com:9092"`
-	BootstrapServers []KafkaBootstrapServer `mandatory:"false" json:"bootstrapServers"`
+	BootstrapServers []CreateKafkaBootstrapServer `mandatory:"false" json:"bootstrapServers"`
 
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to

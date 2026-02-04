@@ -60,6 +60,9 @@ type CreateDatabaseFromAnotherDatabaseDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
+
+	// The password for the VPC user that is used to access the Recovery Appliance, if the given backup is from a backup destination of type RECOVERY_APPLIANCE.
+	RecoveryApplianceVpcPassword *string `mandatory:"false" json:"recoveryApplianceVpcPassword"`
 }
 
 func (m CreateDatabaseFromAnotherDatabaseDetails) String() string {
@@ -93,6 +96,7 @@ func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e
 		StorageSizeDetails                 *DatabaseStorageSizeDetails        `json:"storageSizeDetails"`
 		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
 		VmClusterId                        *string                            `json:"vmClusterId"`
+		RecoveryApplianceVpcPassword       *string                            `json:"recoveryApplianceVpcPassword"`
 		DatabaseId                         *string                            `json:"databaseId"`
 		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
@@ -133,6 +137,8 @@ func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e
 	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
 
 	m.VmClusterId = model.VmClusterId
+
+	m.RecoveryApplianceVpcPassword = model.RecoveryApplianceVpcPassword
 
 	m.DatabaseId = model.DatabaseId
 

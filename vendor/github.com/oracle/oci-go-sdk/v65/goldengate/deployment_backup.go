@@ -32,8 +32,8 @@ type DeploymentBackup struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Possible lifecycle states.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	// Possible lifecycle states for a Deployment Backup.
+	LifecycleState DeploymentBackupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Version of OGG
 	OggVersion *string `mandatory:"true" json:"oggVersion"`
@@ -116,8 +116,8 @@ func (m DeploymentBackup) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDeploymentBackupLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentBackupLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingDeploymentBackupBackupSourceTypeEnum(string(m.BackupSourceType)); !ok && m.BackupSourceType != "" {
@@ -175,5 +175,67 @@ func GetDeploymentBackupBackupSourceTypeEnumStringValues() []string {
 // GetMappingDeploymentBackupBackupSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDeploymentBackupBackupSourceTypeEnum(val string) (DeploymentBackupBackupSourceTypeEnum, bool) {
 	enum, ok := mappingDeploymentBackupBackupSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DeploymentBackupLifecycleStateEnum Enum with underlying type: string
+type DeploymentBackupLifecycleStateEnum string
+
+// Set of constants representing the allowable values for DeploymentBackupLifecycleStateEnum
+const (
+	DeploymentBackupLifecycleStateCreating  DeploymentBackupLifecycleStateEnum = "CREATING"
+	DeploymentBackupLifecycleStateActive    DeploymentBackupLifecycleStateEnum = "ACTIVE"
+	DeploymentBackupLifecycleStateDeleting  DeploymentBackupLifecycleStateEnum = "DELETING"
+	DeploymentBackupLifecycleStateDeleted   DeploymentBackupLifecycleStateEnum = "DELETED"
+	DeploymentBackupLifecycleStateFailed    DeploymentBackupLifecycleStateEnum = "FAILED"
+	DeploymentBackupLifecycleStateCanceling DeploymentBackupLifecycleStateEnum = "CANCELING"
+	DeploymentBackupLifecycleStateCanceled  DeploymentBackupLifecycleStateEnum = "CANCELED"
+)
+
+var mappingDeploymentBackupLifecycleStateEnum = map[string]DeploymentBackupLifecycleStateEnum{
+	"CREATING":  DeploymentBackupLifecycleStateCreating,
+	"ACTIVE":    DeploymentBackupLifecycleStateActive,
+	"DELETING":  DeploymentBackupLifecycleStateDeleting,
+	"DELETED":   DeploymentBackupLifecycleStateDeleted,
+	"FAILED":    DeploymentBackupLifecycleStateFailed,
+	"CANCELING": DeploymentBackupLifecycleStateCanceling,
+	"CANCELED":  DeploymentBackupLifecycleStateCanceled,
+}
+
+var mappingDeploymentBackupLifecycleStateEnumLowerCase = map[string]DeploymentBackupLifecycleStateEnum{
+	"creating":  DeploymentBackupLifecycleStateCreating,
+	"active":    DeploymentBackupLifecycleStateActive,
+	"deleting":  DeploymentBackupLifecycleStateDeleting,
+	"deleted":   DeploymentBackupLifecycleStateDeleted,
+	"failed":    DeploymentBackupLifecycleStateFailed,
+	"canceling": DeploymentBackupLifecycleStateCanceling,
+	"canceled":  DeploymentBackupLifecycleStateCanceled,
+}
+
+// GetDeploymentBackupLifecycleStateEnumValues Enumerates the set of values for DeploymentBackupLifecycleStateEnum
+func GetDeploymentBackupLifecycleStateEnumValues() []DeploymentBackupLifecycleStateEnum {
+	values := make([]DeploymentBackupLifecycleStateEnum, 0)
+	for _, v := range mappingDeploymentBackupLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeploymentBackupLifecycleStateEnumStringValues Enumerates the set of values in String for DeploymentBackupLifecycleStateEnum
+func GetDeploymentBackupLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"CANCELING",
+		"CANCELED",
+	}
+}
+
+// GetMappingDeploymentBackupLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeploymentBackupLifecycleStateEnum(val string) (DeploymentBackupLifecycleStateEnum, bool) {
+	enum, ok := mappingDeploymentBackupLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

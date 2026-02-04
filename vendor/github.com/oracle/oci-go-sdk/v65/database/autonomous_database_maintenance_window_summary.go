@@ -27,6 +27,9 @@ type AutonomousDatabaseMaintenanceWindowSummary struct {
 
 	// The AD in which the maintenance will occur.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	IsMaintenanceWindowChangeScheduled *bool `mandatory:"false" json:"isMaintenanceWindowChangeScheduled"`
 }
 
 func (m AutonomousDatabaseMaintenanceWindowSummary) String() string {

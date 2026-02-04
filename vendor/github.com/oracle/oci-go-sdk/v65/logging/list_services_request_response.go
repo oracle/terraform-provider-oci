@@ -14,6 +14,10 @@ import (
 // ListServicesRequest wrapper for the ListServices operation
 type ListServicesRequest struct {
 
+	// Compartment OCID to list resources in. Please see compartmentIdInSubtree
+	//      for nested compartments traversal.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -42,11 +46,6 @@ func (request ListServicesRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 
 	return nil, false
 
-}
-
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request ListServicesRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

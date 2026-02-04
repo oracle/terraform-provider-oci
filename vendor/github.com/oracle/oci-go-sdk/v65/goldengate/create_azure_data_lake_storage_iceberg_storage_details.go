@@ -26,7 +26,12 @@ type CreateAzureDataLakeStorageIcebergStorageDetails struct {
 	Container *string `mandatory:"true" json:"container"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
-	AccountKeySecretId *string `mandatory:"true" json:"accountKeySecretId"`
+	AccountKeySecretId *string `mandatory:"false" json:"accountKeySecretId"`
+
+	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
+	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
+	// Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
+	AccountKey *string `mandatory:"false" json:"accountKey"`
 
 	// The Azure Blob Storage endpoint where Iceberg data is stored.
 	// e.g.: 'https://my-azure-storage-account.blob.core.windows.net'

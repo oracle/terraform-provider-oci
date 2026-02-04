@@ -114,8 +114,10 @@ type HeadDataFileResponse struct {
 	// Example: `2020-02-19T22:47:12.613Z`
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
 
-	// General metadata key and value related to the file.
-	Metadata map[string]string `presentIn:"header-collection" prefix:"metadata-"`
+	// A string containing a JSON-encoded object with metadata related to the uploaded file or resource.
+	// Example:
+	//   {"fileName":"report.pdf","uploader":"jane.doe","category":"financial"}
+	Metadata *string `presentIn:"header" name:"metadata"`
 }
 
 func (response HeadDataFileResponse) String() string {

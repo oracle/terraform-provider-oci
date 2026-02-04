@@ -17,18 +17,18 @@ type ListDataFilesRequest struct {
 	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// An optional version of the param 'DataFileTypeQueryParam'.
+	// The type of the data file.
 	ApmType *string `mandatory:"false" contributesTo:"query" name:"apmType"`
 
 	// A filter to return resources that match the specified name. Supports regular expressions to filter data files.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// Return data files with time 'timeLastModified' before `timeLastModifiedBefore`, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// Return data files with time 'timeLastModified' before the specified time, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2020-02-19T22:47:12.613Z`
 	TimeLastModifiedBefore *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeLastModifiedBefore"`
 
-	// Return data files with the 'timeLastModified' after `timeLastModifiedAfter`, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// Return data files with the 'timeLastModified' after the specified time, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2020-02-19T22:47:12.613Z`
 	TimeLastModifiedAfter *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeLastModifiedAfter"`
@@ -49,8 +49,10 @@ type ListDataFilesRequest struct {
 	// and timeUpdated is ascending. The displayName sort by is case-sensitive.
 	SortBy ListDataFilesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// General metadata key and value related to the file.
-	Metadata map[string]string `mandatory:"false" contributesTo:"header-collection" prefix:"metadata-"`
+	// A string containing a JSON-encoded object with metadata related to the uploaded file or resource.
+	// Example:
+	//   {"fileName":"report.pdf","uploader":"jane.doe","category":"financial"}
+	Metadata *string `mandatory:"false" contributesTo:"header" name:"metadata"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

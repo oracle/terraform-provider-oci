@@ -97,6 +97,10 @@ type GoogleCloudStorageConnectionSummary struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// A legal URL to connect to Google Cloud Storage including scheme, server name and port (if not the default port).
+	// Default: https://storage.googleapis.com
+	Endpoint *string `mandatory:"false" json:"endpoint"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
 	// which contains the credentials required to use Google Cloud Storage.
 	// Note: When provided, 'serviceAccountKeyFile' field must not be provided.

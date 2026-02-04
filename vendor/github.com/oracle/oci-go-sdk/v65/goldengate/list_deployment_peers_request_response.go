@@ -17,8 +17,8 @@ type ListDeploymentPeersRequest struct {
 	// A unique Deployment identifier.
 	DeploymentId *string `mandatory:"true" contributesTo:"path" name:"deploymentId"`
 
-	// A filter to return only the resources that match the 'lifecycleState' given.
-	LifecycleState ListDeploymentPeersLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	// A filter to return only the deployment peers having the 'lifecycleState' given.
+	LifecycleState DeploymentPeerSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only the resources that match the entire 'displayName' given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -77,8 +77,8 @@ func (request ListDeploymentPeersRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListDeploymentPeersRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListDeploymentPeersLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDeploymentPeersLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDeploymentPeerSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDeploymentPeerSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListDeploymentPeersSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDeploymentPeersSortOrderEnumStringValues(), ",")))
@@ -117,92 +117,6 @@ func (response ListDeploymentPeersResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDeploymentPeersResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListDeploymentPeersLifecycleStateEnum Enum with underlying type: string
-type ListDeploymentPeersLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ListDeploymentPeersLifecycleStateEnum
-const (
-	ListDeploymentPeersLifecycleStateCreating       ListDeploymentPeersLifecycleStateEnum = "CREATING"
-	ListDeploymentPeersLifecycleStateUpdating       ListDeploymentPeersLifecycleStateEnum = "UPDATING"
-	ListDeploymentPeersLifecycleStateActive         ListDeploymentPeersLifecycleStateEnum = "ACTIVE"
-	ListDeploymentPeersLifecycleStateInactive       ListDeploymentPeersLifecycleStateEnum = "INACTIVE"
-	ListDeploymentPeersLifecycleStateDeleting       ListDeploymentPeersLifecycleStateEnum = "DELETING"
-	ListDeploymentPeersLifecycleStateDeleted        ListDeploymentPeersLifecycleStateEnum = "DELETED"
-	ListDeploymentPeersLifecycleStateFailed         ListDeploymentPeersLifecycleStateEnum = "FAILED"
-	ListDeploymentPeersLifecycleStateNeedsAttention ListDeploymentPeersLifecycleStateEnum = "NEEDS_ATTENTION"
-	ListDeploymentPeersLifecycleStateInProgress     ListDeploymentPeersLifecycleStateEnum = "IN_PROGRESS"
-	ListDeploymentPeersLifecycleStateCanceling      ListDeploymentPeersLifecycleStateEnum = "CANCELING"
-	ListDeploymentPeersLifecycleStateCanceled       ListDeploymentPeersLifecycleStateEnum = "CANCELED"
-	ListDeploymentPeersLifecycleStateSucceeded      ListDeploymentPeersLifecycleStateEnum = "SUCCEEDED"
-	ListDeploymentPeersLifecycleStateWaiting        ListDeploymentPeersLifecycleStateEnum = "WAITING"
-)
-
-var mappingListDeploymentPeersLifecycleStateEnum = map[string]ListDeploymentPeersLifecycleStateEnum{
-	"CREATING":        ListDeploymentPeersLifecycleStateCreating,
-	"UPDATING":        ListDeploymentPeersLifecycleStateUpdating,
-	"ACTIVE":          ListDeploymentPeersLifecycleStateActive,
-	"INACTIVE":        ListDeploymentPeersLifecycleStateInactive,
-	"DELETING":        ListDeploymentPeersLifecycleStateDeleting,
-	"DELETED":         ListDeploymentPeersLifecycleStateDeleted,
-	"FAILED":          ListDeploymentPeersLifecycleStateFailed,
-	"NEEDS_ATTENTION": ListDeploymentPeersLifecycleStateNeedsAttention,
-	"IN_PROGRESS":     ListDeploymentPeersLifecycleStateInProgress,
-	"CANCELING":       ListDeploymentPeersLifecycleStateCanceling,
-	"CANCELED":        ListDeploymentPeersLifecycleStateCanceled,
-	"SUCCEEDED":       ListDeploymentPeersLifecycleStateSucceeded,
-	"WAITING":         ListDeploymentPeersLifecycleStateWaiting,
-}
-
-var mappingListDeploymentPeersLifecycleStateEnumLowerCase = map[string]ListDeploymentPeersLifecycleStateEnum{
-	"creating":        ListDeploymentPeersLifecycleStateCreating,
-	"updating":        ListDeploymentPeersLifecycleStateUpdating,
-	"active":          ListDeploymentPeersLifecycleStateActive,
-	"inactive":        ListDeploymentPeersLifecycleStateInactive,
-	"deleting":        ListDeploymentPeersLifecycleStateDeleting,
-	"deleted":         ListDeploymentPeersLifecycleStateDeleted,
-	"failed":          ListDeploymentPeersLifecycleStateFailed,
-	"needs_attention": ListDeploymentPeersLifecycleStateNeedsAttention,
-	"in_progress":     ListDeploymentPeersLifecycleStateInProgress,
-	"canceling":       ListDeploymentPeersLifecycleStateCanceling,
-	"canceled":        ListDeploymentPeersLifecycleStateCanceled,
-	"succeeded":       ListDeploymentPeersLifecycleStateSucceeded,
-	"waiting":         ListDeploymentPeersLifecycleStateWaiting,
-}
-
-// GetListDeploymentPeersLifecycleStateEnumValues Enumerates the set of values for ListDeploymentPeersLifecycleStateEnum
-func GetListDeploymentPeersLifecycleStateEnumValues() []ListDeploymentPeersLifecycleStateEnum {
-	values := make([]ListDeploymentPeersLifecycleStateEnum, 0)
-	for _, v := range mappingListDeploymentPeersLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListDeploymentPeersLifecycleStateEnumStringValues Enumerates the set of values in String for ListDeploymentPeersLifecycleStateEnum
-func GetListDeploymentPeersLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"INACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-		"NEEDS_ATTENTION",
-		"IN_PROGRESS",
-		"CANCELING",
-		"CANCELED",
-		"SUCCEEDED",
-		"WAITING",
-	}
-}
-
-// GetMappingListDeploymentPeersLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDeploymentPeersLifecycleStateEnum(val string) (ListDeploymentPeersLifecycleStateEnum, bool) {
-	enum, ok := mappingListDeploymentPeersLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListDeploymentPeersSortOrderEnum Enum with underlying type: string

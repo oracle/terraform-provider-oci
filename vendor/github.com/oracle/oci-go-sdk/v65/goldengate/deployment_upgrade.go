@@ -55,8 +55,8 @@ type DeploymentUpgrade struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Possible lifecycle states.
-	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	// Possible lifecycle states for a Deployment Upgrade.
+	LifecycleState DeploymentUpgradeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Possible GGS lifecycle sub-states.
 	LifecycleSubState LifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
@@ -138,8 +138,8 @@ func (m DeploymentUpgrade) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentUpgradeType: %s. Supported values are: %s.", m.DeploymentUpgradeType, strings.Join(GetDeploymentUpgradeTypeEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDeploymentUpgradeLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentUpgradeLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetLifecycleSubStateEnumStringValues(), ",")))
@@ -151,4 +151,58 @@ func (m DeploymentUpgrade) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DeploymentUpgradeLifecycleStateEnum Enum with underlying type: string
+type DeploymentUpgradeLifecycleStateEnum string
+
+// Set of constants representing the allowable values for DeploymentUpgradeLifecycleStateEnum
+const (
+	DeploymentUpgradeLifecycleStateWaiting    DeploymentUpgradeLifecycleStateEnum = "WAITING"
+	DeploymentUpgradeLifecycleStateInProgress DeploymentUpgradeLifecycleStateEnum = "IN_PROGRESS"
+	DeploymentUpgradeLifecycleStateFailed     DeploymentUpgradeLifecycleStateEnum = "FAILED"
+	DeploymentUpgradeLifecycleStateSucceeded  DeploymentUpgradeLifecycleStateEnum = "SUCCEEDED"
+	DeploymentUpgradeLifecycleStateCanceled   DeploymentUpgradeLifecycleStateEnum = "CANCELED"
+)
+
+var mappingDeploymentUpgradeLifecycleStateEnum = map[string]DeploymentUpgradeLifecycleStateEnum{
+	"WAITING":     DeploymentUpgradeLifecycleStateWaiting,
+	"IN_PROGRESS": DeploymentUpgradeLifecycleStateInProgress,
+	"FAILED":      DeploymentUpgradeLifecycleStateFailed,
+	"SUCCEEDED":   DeploymentUpgradeLifecycleStateSucceeded,
+	"CANCELED":    DeploymentUpgradeLifecycleStateCanceled,
+}
+
+var mappingDeploymentUpgradeLifecycleStateEnumLowerCase = map[string]DeploymentUpgradeLifecycleStateEnum{
+	"waiting":     DeploymentUpgradeLifecycleStateWaiting,
+	"in_progress": DeploymentUpgradeLifecycleStateInProgress,
+	"failed":      DeploymentUpgradeLifecycleStateFailed,
+	"succeeded":   DeploymentUpgradeLifecycleStateSucceeded,
+	"canceled":    DeploymentUpgradeLifecycleStateCanceled,
+}
+
+// GetDeploymentUpgradeLifecycleStateEnumValues Enumerates the set of values for DeploymentUpgradeLifecycleStateEnum
+func GetDeploymentUpgradeLifecycleStateEnumValues() []DeploymentUpgradeLifecycleStateEnum {
+	values := make([]DeploymentUpgradeLifecycleStateEnum, 0)
+	for _, v := range mappingDeploymentUpgradeLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeploymentUpgradeLifecycleStateEnumStringValues Enumerates the set of values in String for DeploymentUpgradeLifecycleStateEnum
+func GetDeploymentUpgradeLifecycleStateEnumStringValues() []string {
+	return []string{
+		"WAITING",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELED",
+	}
+}
+
+// GetMappingDeploymentUpgradeLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeploymentUpgradeLifecycleStateEnum(val string) (DeploymentUpgradeLifecycleStateEnum, bool) {
+	enum, ok := mappingDeploymentUpgradeLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

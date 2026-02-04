@@ -57,6 +57,10 @@ type UpdateGoogleBigQueryConnectionDetails struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// A legal URL to connect to BigQuery including scheme, server name and port (if not the default port).
+	// Default: https://bigquery.googleapis.com
+	Endpoint *string `mandatory:"false" json:"endpoint"`
+
 	// The base64 encoded content of the service account key file containing
 	// the credentials required to use Google BigQuery.
 	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026.

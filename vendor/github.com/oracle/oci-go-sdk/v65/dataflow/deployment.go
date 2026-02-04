@@ -45,6 +45,8 @@ type Deployment struct {
 	// Additional configuration passed to the running process.
 	// Example: { "agentFlowKey" : "AF1, "endpointKey" : "EK1" }
 	Configuration *string `mandatory:"false" json:"configuration"`
+
+	OauthConfiguration *OAuthConfiguration `mandatory:"false" json:"oauthConfiguration"`
 }
 
 func (m Deployment) String() string {

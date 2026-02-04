@@ -29,8 +29,11 @@ type UpdatePolarisIcebergCatalogDetails struct {
 	// The OAuth client ID used for authentication.
 	ClientId *string `mandatory:"false" json:"clientId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Polaris.
 	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
+
+	// Client secret required to connect to Polaris.
+	ClientSecret *string `mandatory:"false" json:"clientSecret"`
 
 	// The Snowflake role used to access Polaris.
 	PrincipalRole *string `mandatory:"false" json:"principalRole"`

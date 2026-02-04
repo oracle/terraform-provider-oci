@@ -22,9 +22,6 @@ type AmazonS3IcebergStorage struct {
 	// Access key ID to access the Amazon S3 bucket.
 	AccessKeyId *string `mandatory:"true" json:"accessKeyId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
-	SecretAccessKeySecretId *string `mandatory:"true" json:"secretAccessKeySecretId"`
-
 	// The AMAZON region where the S3 bucket is hosted.
 	// e.g.: 'us-east-2'
 	Region *string `mandatory:"true" json:"region"`
@@ -35,6 +32,9 @@ type AmazonS3IcebergStorage struct {
 	// The endpoint URL of the Amazon S3 storage service.
 	// e.g.: 'https://s3.amazonaws.com'
 	Endpoint *string `mandatory:"false" json:"endpoint"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
+	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
 
 	// The scheme of the storage.
 	SchemeType AmazonS3IcebergStorageSchemeTypeEnum `mandatory:"true" json:"schemeType"`

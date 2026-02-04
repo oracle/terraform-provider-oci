@@ -115,13 +115,8 @@ type PostgresqlConnection struct {
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
 
-	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
-	// field, or make sure the host name is resolvable in the target VCN.
-	// The private IP address of the connection's endpoint in the customer's VCN, typically a
-	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
-	// In case the privateIp is provided, the subnetId must also be provided.
-	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
-	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
+	// This property is not available when creating connections. For existing deprecated connections having this value set, the value cannot be updated; set it to empty.
+	// For deprecated connections created with this field in the past, either the private IP had to be specified in the connectionString or host field, or the host name had to be resolvable in the target VCN.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system being referenced.
@@ -336,8 +331,10 @@ const (
 	PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql        PostgresqlConnectionTechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
 	PostgresqlConnectionTechnologyTypeAzurePostgresql            PostgresqlConnectionTechnologyTypeEnum = "AZURE_POSTGRESQL"
 	PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql PostgresqlConnectionTechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeEdbPostgresAdvancedServer  PostgresqlConnectionTechnologyTypeEnum = "EDB_POSTGRES_ADVANCED_SERVER"
 	PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql   PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
 	PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_ALLOY_DB_FOR_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeYugabyteDb                 PostgresqlConnectionTechnologyTypeEnum = "YUGABYTE_DB"
 )
 
 var mappingPostgresqlConnectionTechnologyTypeEnum = map[string]PostgresqlConnectionTechnologyTypeEnum{
@@ -347,8 +344,10 @@ var mappingPostgresqlConnectionTechnologyTypeEnum = map[string]PostgresqlConnect
 	"AMAZON_RDS_POSTGRESQL":          PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
 	"AZURE_POSTGRESQL":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
 	"AZURE_COSMOS_DB_FOR_POSTGRESQL": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
+	"EDB_POSTGRES_ADVANCED_SERVER":   PostgresqlConnectionTechnologyTypeEdbPostgresAdvancedServer,
 	"GOOGLE_CLOUD_SQL_POSTGRESQL":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
 	"GOOGLE_ALLOY_DB_FOR_POSTGRESQL": PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql,
+	"YUGABYTE_DB":                    PostgresqlConnectionTechnologyTypeYugabyteDb,
 }
 
 var mappingPostgresqlConnectionTechnologyTypeEnumLowerCase = map[string]PostgresqlConnectionTechnologyTypeEnum{
@@ -358,8 +357,10 @@ var mappingPostgresqlConnectionTechnologyTypeEnumLowerCase = map[string]Postgres
 	"amazon_rds_postgresql":          PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
 	"azure_postgresql":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
 	"azure_cosmos_db_for_postgresql": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
+	"edb_postgres_advanced_server":   PostgresqlConnectionTechnologyTypeEdbPostgresAdvancedServer,
 	"google_cloud_sql_postgresql":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
 	"google_alloy_db_for_postgresql": PostgresqlConnectionTechnologyTypeGoogleAlloyDbForPostgresql,
+	"yugabyte_db":                    PostgresqlConnectionTechnologyTypeYugabyteDb,
 }
 
 // GetPostgresqlConnectionTechnologyTypeEnumValues Enumerates the set of values for PostgresqlConnectionTechnologyTypeEnum
@@ -380,8 +381,10 @@ func GetPostgresqlConnectionTechnologyTypeEnumStringValues() []string {
 		"AMAZON_RDS_POSTGRESQL",
 		"AZURE_POSTGRESQL",
 		"AZURE_COSMOS_DB_FOR_POSTGRESQL",
+		"EDB_POSTGRES_ADVANCED_SERVER",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
 		"GOOGLE_ALLOY_DB_FOR_POSTGRESQL",
+		"YUGABYTE_DB",
 	}
 }
 

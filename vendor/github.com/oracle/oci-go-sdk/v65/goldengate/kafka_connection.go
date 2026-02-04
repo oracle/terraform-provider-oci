@@ -331,6 +331,7 @@ const (
 	KafkaConnectionTechnologyTypeApacheKafka                 KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
 	KafkaConnectionTechnologyTypeAzureEventHubs              KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
 	KafkaConnectionTechnologyTypeConfluentKafka              KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
+	KafkaConnectionTechnologyTypeMicrosoftFabricEventstream  KafkaConnectionTechnologyTypeEnum = "MICROSOFT_FABRIC_EVENTSTREAM"
 	KafkaConnectionTechnologyTypeOciStreaming                KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
 	KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 )
@@ -339,6 +340,7 @@ var mappingKafkaConnectionTechnologyTypeEnum = map[string]KafkaConnectionTechnol
 	"APACHE_KAFKA":                    KafkaConnectionTechnologyTypeApacheKafka,
 	"AZURE_EVENT_HUBS":                KafkaConnectionTechnologyTypeAzureEventHubs,
 	"CONFLUENT_KAFKA":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"MICROSOFT_FABRIC_EVENTSTREAM":    KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
 	"OCI_STREAMING":                   KafkaConnectionTechnologyTypeOciStreaming,
 	"OCI_STREAMING_WITH_APACHE_KAFKA": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
@@ -347,6 +349,7 @@ var mappingKafkaConnectionTechnologyTypeEnumLowerCase = map[string]KafkaConnecti
 	"apache_kafka":                    KafkaConnectionTechnologyTypeApacheKafka,
 	"azure_event_hubs":                KafkaConnectionTechnologyTypeAzureEventHubs,
 	"confluent_kafka":                 KafkaConnectionTechnologyTypeConfluentKafka,
+	"microsoft_fabric_eventstream":    KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
 	"oci_streaming":                   KafkaConnectionTechnologyTypeOciStreaming,
 	"oci_streaming_with_apache_kafka": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
@@ -366,6 +369,7 @@ func GetKafkaConnectionTechnologyTypeEnumStringValues() []string {
 		"APACHE_KAFKA",
 		"AZURE_EVENT_HUBS",
 		"CONFLUENT_KAFKA",
+		"MICROSOFT_FABRIC_EVENTSTREAM",
 		"OCI_STREAMING",
 		"OCI_STREAMING_WITH_APACHE_KAFKA",
 	}

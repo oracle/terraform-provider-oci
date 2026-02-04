@@ -73,6 +73,10 @@ type LogRuleSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// 1. *ENABLED*    Log Rule is enabled
 	// 2. *DISABLED*   Log Rule is disabled
 	LogRuleStatus LogRuleSummaryLogRuleStatusEnum `mandatory:"false" json:"logRuleStatus,omitempty"`
@@ -127,6 +131,7 @@ func (m *LogRuleSummary) UnmarshalJSON(data []byte) (e error) {
 		QueryStartPolicy   logrulestartpolicy                `json:"queryStartPolicy"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		LogRuleStatus      LogRuleSummaryLogRuleStatusEnum   `json:"logRuleStatus"`
 		Description        *string                           `json:"description"`
 		RecommendationText *string                           `json:"recommendationText"`
@@ -164,6 +169,8 @@ func (m *LogRuleSummary) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.LogRuleStatus = model.LogRuleStatus
 

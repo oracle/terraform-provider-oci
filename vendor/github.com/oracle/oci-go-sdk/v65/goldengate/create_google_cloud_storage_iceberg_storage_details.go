@@ -27,7 +27,16 @@ type CreateGoogleCloudStorageIcebergStorageDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
 	// which contains the credentials required to use Google Cloud Storage.
-	ServiceAccountKeyFileSecretId *string `mandatory:"true" json:"serviceAccountKeyFileSecretId"`
+	ServiceAccountKeyFileSecretId *string `mandatory:"false" json:"serviceAccountKeyFileSecretId"`
+
+	// The base64 encoded content of the service account key file containing
+	// the credentials required to use Google Cloud Storage.
+	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026.
+	ServiceAccountKeyFile *string `mandatory:"false" json:"serviceAccountKeyFile"`
+
+	// A legal URL to connect to Google Cloud Storage including scheme, server name and port (if not the default port).
+	// Default: https://storage.googleapis.com
+	Endpoint *string `mandatory:"false" json:"endpoint"`
 }
 
 func (m CreateGoogleCloudStorageIcebergStorageDetails) String() string {

@@ -17,15 +17,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
-
-	"regexp"
 )
 
 // LoggingManagementClient a client for LoggingManagement
 type LoggingManagementClient struct {
 	common.BaseClient
-	config                   *common.ConfigurationProvider
-	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
+	config *common.ConfigurationProvider
 }
 
 // NewLoggingManagementClientWithConfigurationProvider Creates a new default LoggingManagement client with the given configuration provider.
@@ -72,8 +69,7 @@ func newLoggingManagementClientFromBaseClient(baseClient common.BaseClient, conf
 
 // SetRegion overrides the region of this client.
 func (client *LoggingManagementClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("logging", client.getEndpointTemplatePerRealm(region), "logging")
-	client.parseEndpointTemplatePerRealm()
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("logging", "https://logging.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "logging")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -101,58 +97,6 @@ func (client *LoggingManagementClient) ConfigurationProvider() *common.Configura
 // Default value is false
 func (client *LoggingManagementClient) EnableDualStackEndpoints(enableDualStack bool) {
 	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
-}
-
-// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
-func (client *LoggingManagementClient) getEndpointTemplatePerRealm(region string) string {
-	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
-		realm, _ := common.StringToRegion(region).RealmID()
-		templatePerRealmDict := map[string]string{
-			"oc1":  "https://{dualStack?ds.:}logging.{region}.oci.{secondLevelDomain}",
-			"oc16": "https://{dualStack?ds.:}logging.{region}.oci.{secondLevelDomain}",
-		}
-		if template, ok := templatePerRealmDict[realm]; ok {
-			return template
-		}
-	}
-	return "https://logging.{region}.oci.{secondLevelDomain}"
-}
-
-// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
-// This function will build a map of template params to their values, this map is used when building the API endpoint
-func (client *LoggingManagementClient) parseEndpointTemplatePerRealm() {
-	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
-	templateRegex := regexp.MustCompile(`{.*?}`)
-	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
-	templates := templateRegex.FindAllString(client.Host, -1)
-	for _, template := range templates {
-		templateParam := templateSubRegex.FindStringSubmatch(template)
-		if len(templateParam) > 1 {
-			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
-				Template:    templateParam[0],
-				EndsWithDot: true,
-			})
-		} else {
-			templateParam := template[1 : len(template)-1]
-			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
-				Template:    template,
-				EndsWithDot: false,
-			})
-		}
-	}
-}
-
-// SetCustomClientConfiguration sets client with retry and other custom configurations
-func (client *LoggingManagementClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
-	client.Configuration = config
-	client.refreshRegion()
-}
-
-// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
-func (client *LoggingManagementClient) refreshRegion() {
-	configProvider := *client.config
-	region, _ := configProvider.Region()
-	client.SetRegion(region)
 }
 
 // ChangeContinuousQueryCompartment Moves a continuous query into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
@@ -200,7 +144,6 @@ func (client LoggingManagementClient) changeContinuousQueryCompartment(ctx conte
 	}
 
 	host := client.Host
-	request.(ChangeContinuousQueryCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -261,7 +204,6 @@ func (client LoggingManagementClient) changeLogDataModelCompartment(ctx context.
 	}
 
 	host := client.Host
-	request.(ChangeLogDataModelCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -323,7 +265,6 @@ func (client LoggingManagementClient) changeLogGroupCompartment(ctx context.Cont
 	}
 
 	host := client.Host
-	request.(ChangeLogGroupCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -384,7 +325,6 @@ func (client LoggingManagementClient) changeLogLogGroup(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(ChangeLogLogGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -451,7 +391,6 @@ func (client LoggingManagementClient) changeLogPipelineCompartment(ctx context.C
 	}
 
 	host := client.Host
-	request.(ChangeLogPipelineCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -518,7 +457,6 @@ func (client LoggingManagementClient) changeLogRuleCompartment(ctx context.Conte
 	}
 
 	host := client.Host
-	request.(ChangeLogRuleCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -585,7 +523,6 @@ func (client LoggingManagementClient) changeLogSavedSearchCompartment(ctx contex
 	}
 
 	host := client.Host
-	request.(ChangeLogSavedSearchCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -652,7 +589,6 @@ func (client LoggingManagementClient) changeUnifiedAgentConfigurationCompartment
 	}
 
 	host := client.Host
-	request.(ChangeUnifiedAgentConfigurationCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -718,7 +654,6 @@ func (client LoggingManagementClient) createContinuousQuery(ctx context.Context,
 	}
 
 	host := client.Host
-	request.(CreateContinuousQueryRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -785,7 +720,6 @@ func (client LoggingManagementClient) createLog(ctx context.Context, request com
 	}
 
 	host := client.Host
-	request.(CreateLogRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -851,7 +785,6 @@ func (client LoggingManagementClient) createLogDataModel(ctx context.Context, re
 	}
 
 	host := client.Host
-	request.(CreateLogDataModelRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -918,7 +851,6 @@ func (client LoggingManagementClient) createLogGroup(ctx context.Context, reques
 	}
 
 	host := client.Host
-	request.(CreateLogGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -984,7 +916,6 @@ func (client LoggingManagementClient) createLogPipeline(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(CreateLogPipelineRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1050,7 +981,6 @@ func (client LoggingManagementClient) createLogRule(ctx context.Context, request
 	}
 
 	host := client.Host
-	request.(CreateLogRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1116,7 +1046,6 @@ func (client LoggingManagementClient) createLogSavedSearch(ctx context.Context, 
 	}
 
 	host := client.Host
-	request.(CreateLogSavedSearchRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1182,7 +1111,6 @@ func (client LoggingManagementClient) createUnifiedAgentConfiguration(ctx contex
 	}
 
 	host := client.Host
-	request.(CreateUnifiedAgentConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1243,7 +1171,6 @@ func (client LoggingManagementClient) deleteContinuousQuery(ctx context.Context,
 	}
 
 	host := client.Host
-	request.(DeleteContinuousQueryRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1304,7 +1231,6 @@ func (client LoggingManagementClient) deleteLog(ctx context.Context, request com
 	}
 
 	host := client.Host
-	request.(DeleteLogRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1365,7 +1291,6 @@ func (client LoggingManagementClient) deleteLogDataModel(ctx context.Context, re
 	}
 
 	host := client.Host
-	request.(DeleteLogDataModelRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1426,7 +1351,6 @@ func (client LoggingManagementClient) deleteLogGroup(ctx context.Context, reques
 	}
 
 	host := client.Host
-	request.(DeleteLogGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1487,7 +1411,6 @@ func (client LoggingManagementClient) deleteLogPipeline(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(DeleteLogPipelineRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1548,7 +1471,6 @@ func (client LoggingManagementClient) deleteLogRule(ctx context.Context, request
 	}
 
 	host := client.Host
-	request.(DeleteLogRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1609,7 +1531,6 @@ func (client LoggingManagementClient) deleteLogSavedSearch(ctx context.Context, 
 	}
 
 	host := client.Host
-	request.(DeleteLogSavedSearchRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1670,7 +1591,6 @@ func (client LoggingManagementClient) deleteUnifiedAgentConfiguration(ctx contex
 	}
 
 	host := client.Host
-	request.(DeleteUnifiedAgentConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1731,7 +1651,6 @@ func (client LoggingManagementClient) deleteWorkRequest(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(DeleteWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1797,7 +1716,6 @@ func (client LoggingManagementClient) getContinuousQuery(ctx context.Context, re
 	}
 
 	host := client.Host
-	request.(GetContinuousQueryRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1858,7 +1776,6 @@ func (client LoggingManagementClient) getLog(ctx context.Context, request common
 	}
 
 	host := client.Host
-	request.(GetLogRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1919,7 +1836,6 @@ func (client LoggingManagementClient) getLogDataModel(ctx context.Context, reque
 	}
 
 	host := client.Host
-	request.(GetLogDataModelRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -1980,7 +1896,6 @@ func (client LoggingManagementClient) getLogGroup(ctx context.Context, request c
 	}
 
 	host := client.Host
-	request.(GetLogGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2046,7 +1961,6 @@ func (client LoggingManagementClient) getLogPipeline(ctx context.Context, reques
 	}
 
 	host := client.Host
-	request.(GetLogPipelineRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2112,7 +2026,6 @@ func (client LoggingManagementClient) getLogRule(ctx context.Context, request co
 	}
 
 	host := client.Host
-	request.(GetLogRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2173,7 +2086,6 @@ func (client LoggingManagementClient) getLogSavedSearch(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(GetLogSavedSearchRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2234,7 +2146,6 @@ func (client LoggingManagementClient) getUnifiedAgentConfiguration(ctx context.C
 	}
 
 	host := client.Host
-	request.(GetUnifiedAgentConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2295,7 +2206,6 @@ func (client LoggingManagementClient) getWorkRequest(ctx context.Context, reques
 	}
 
 	host := client.Host
-	request.(GetWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2356,7 +2266,6 @@ func (client LoggingManagementClient) listContinuousQuery(ctx context.Context, r
 	}
 
 	host := client.Host
-	request.(ListContinuousQueryRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2417,7 +2326,6 @@ func (client LoggingManagementClient) listLogDataModels(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(ListLogDataModelsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2478,7 +2386,6 @@ func (client LoggingManagementClient) listLogGroups(ctx context.Context, request
 	}
 
 	host := client.Host
-	request.(ListLogGroupsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2539,7 +2446,6 @@ func (client LoggingManagementClient) listLogPipelines(ctx context.Context, requ
 	}
 
 	host := client.Host
-	request.(ListLogPipelinesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2600,7 +2506,6 @@ func (client LoggingManagementClient) listLogRules(ctx context.Context, request 
 	}
 
 	host := client.Host
-	request.(ListLogRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2661,7 +2566,6 @@ func (client LoggingManagementClient) listLogSavedSearches(ctx context.Context, 
 	}
 
 	host := client.Host
-	request.(ListLogSavedSearchesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2722,7 +2626,6 @@ func (client LoggingManagementClient) listLogs(ctx context.Context, request comm
 	}
 
 	host := client.Host
-	request.(ListLogsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2783,7 +2686,6 @@ func (client LoggingManagementClient) listServices(ctx context.Context, request 
 	}
 
 	host := client.Host
-	request.(ListServicesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2844,7 +2746,6 @@ func (client LoggingManagementClient) listUnifiedAgentConfigurations(ctx context
 	}
 
 	host := client.Host
-	request.(ListUnifiedAgentConfigurationsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2905,7 +2806,6 @@ func (client LoggingManagementClient) listWorkRequestErrors(ctx context.Context,
 	}
 
 	host := client.Host
-	request.(ListWorkRequestErrorsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -2966,7 +2866,6 @@ func (client LoggingManagementClient) listWorkRequestLogs(ctx context.Context, r
 	}
 
 	host := client.Host
-	request.(ListWorkRequestLogsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3027,7 +2926,6 @@ func (client LoggingManagementClient) listWorkRequests(ctx context.Context, requ
 	}
 
 	host := client.Host
-	request.(ListWorkRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3088,7 +2986,6 @@ func (client LoggingManagementClient) updateContinuousQuery(ctx context.Context,
 	}
 
 	host := client.Host
-	request.(UpdateContinuousQueryRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3151,7 +3048,6 @@ func (client LoggingManagementClient) updateLog(ctx context.Context, request com
 	}
 
 	host := client.Host
-	request.(UpdateLogRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3212,7 +3108,6 @@ func (client LoggingManagementClient) updateLogDataModel(ctx context.Context, re
 	}
 
 	host := client.Host
-	request.(UpdateLogDataModelRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3275,7 +3170,6 @@ func (client LoggingManagementClient) updateLogGroup(ctx context.Context, reques
 	}
 
 	host := client.Host
-	request.(UpdateLogGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3336,7 +3230,6 @@ func (client LoggingManagementClient) updateLogPipeline(ctx context.Context, req
 	}
 
 	host := client.Host
-	request.(UpdateLogPipelineRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3397,7 +3290,6 @@ func (client LoggingManagementClient) updateLogRule(ctx context.Context, request
 	}
 
 	host := client.Host
-	request.(UpdateLogRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3458,7 +3350,6 @@ func (client LoggingManagementClient) updateLogSavedSearch(ctx context.Context, 
 	}
 
 	host := client.Host
-	request.(UpdateLogSavedSearchRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3521,7 +3412,6 @@ func (client LoggingManagementClient) updateUnifiedAgentConfiguration(ctx contex
 	}
 
 	host := client.Host
-	request.(UpdateUnifiedAgentConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
@@ -3582,7 +3472,6 @@ func (client LoggingManagementClient) validateLogDataMappingRules(ctx context.Co
 	}
 
 	host := client.Host
-	request.(ValidateLogDataMappingRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
 	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {

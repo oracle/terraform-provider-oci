@@ -3956,6 +3956,61 @@ func (client DataFlowClient) updateComputeCluster(ctx context.Context, request c
 	return response, err
 }
 
+// UpdateDeploymentMetadata Updates the OAuth metadata configuration for an existing Deployment.
+// All fields are optional - only provided fields will be updated.
+// A default retry strategy applies to this operation UpdateDeploymentMetadata()
+func (client DataFlowClient) UpdateDeploymentMetadata(ctx context.Context, request UpdateDeploymentMetadataRequest) (response UpdateDeploymentMetadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDeploymentMetadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDeploymentMetadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDeploymentMetadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDeploymentMetadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDeploymentMetadataResponse")
+	}
+	return
+}
+
+// updateDeploymentMetadata implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) updateDeploymentMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeClusters/{computeClusterId}/deployments/{deploymentId}/actions/updateMetadata", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDeploymentMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Deployment/UpdateDeploymentMetadata"
+		err = common.PostProcessServiceError(err, "DataFlow", "UpdateDeploymentMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateNetworkConfiguration Updates a networkConfiguration by id.
 func (client DataFlowClient) UpdateNetworkConfiguration(ctx context.Context, request UpdateNetworkConfigurationRequest) (response UpdateNetworkConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

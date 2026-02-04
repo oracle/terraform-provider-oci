@@ -26,7 +26,7 @@ type RestIcebergCatalogSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content
 	// of the configuration file containing additional properties for the REST catalog.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
-	PropertiesSecretId *string `mandatory:"true" json:"propertiesSecretId"`
+	PropertiesSecretId *string `mandatory:"false" json:"propertiesSecretId"`
 }
 
 func (m RestIcebergCatalogSummary) String() string {

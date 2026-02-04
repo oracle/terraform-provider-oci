@@ -29,6 +29,11 @@ type UpdateAmazonS3IcebergStorageDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
 	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
 
+	// Secret access key to access the Amazon S3 bucket.
+	// e.g.: "this-is-not-the-secret"
+	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026.
+	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+
 	// The AMAZON region where the S3 bucket is hosted.
 	// e.g.: 'us-east-2'
 	Region *string `mandatory:"false" json:"region"`

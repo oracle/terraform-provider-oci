@@ -420,21 +420,27 @@ type BackupSummaryBackupDestinationTypeEnum string
 
 // Set of constants representing the allowable values for BackupSummaryBackupDestinationTypeEnum
 const (
-	BackupSummaryBackupDestinationTypeObjectStore BackupSummaryBackupDestinationTypeEnum = "OBJECT_STORE"
-	BackupSummaryBackupDestinationTypeDbrs        BackupSummaryBackupDestinationTypeEnum = "DBRS"
-	BackupSummaryBackupDestinationTypeAwsS3       BackupSummaryBackupDestinationTypeEnum = "AWS_S3"
+	BackupSummaryBackupDestinationTypeObjectStore       BackupSummaryBackupDestinationTypeEnum = "OBJECT_STORE"
+	BackupSummaryBackupDestinationTypeDbrs              BackupSummaryBackupDestinationTypeEnum = "DBRS"
+	BackupSummaryBackupDestinationTypeAwsS3             BackupSummaryBackupDestinationTypeEnum = "AWS_S3"
+	BackupSummaryBackupDestinationTypeNfs               BackupSummaryBackupDestinationTypeEnum = "NFS"
+	BackupSummaryBackupDestinationTypeRecoveryAppliance BackupSummaryBackupDestinationTypeEnum = "RECOVERY_APPLIANCE"
 )
 
 var mappingBackupSummaryBackupDestinationTypeEnum = map[string]BackupSummaryBackupDestinationTypeEnum{
-	"OBJECT_STORE": BackupSummaryBackupDestinationTypeObjectStore,
-	"DBRS":         BackupSummaryBackupDestinationTypeDbrs,
-	"AWS_S3":       BackupSummaryBackupDestinationTypeAwsS3,
+	"OBJECT_STORE":       BackupSummaryBackupDestinationTypeObjectStore,
+	"DBRS":               BackupSummaryBackupDestinationTypeDbrs,
+	"AWS_S3":             BackupSummaryBackupDestinationTypeAwsS3,
+	"NFS":                BackupSummaryBackupDestinationTypeNfs,
+	"RECOVERY_APPLIANCE": BackupSummaryBackupDestinationTypeRecoveryAppliance,
 }
 
 var mappingBackupSummaryBackupDestinationTypeEnumLowerCase = map[string]BackupSummaryBackupDestinationTypeEnum{
-	"object_store": BackupSummaryBackupDestinationTypeObjectStore,
-	"dbrs":         BackupSummaryBackupDestinationTypeDbrs,
-	"aws_s3":       BackupSummaryBackupDestinationTypeAwsS3,
+	"object_store":       BackupSummaryBackupDestinationTypeObjectStore,
+	"dbrs":               BackupSummaryBackupDestinationTypeDbrs,
+	"aws_s3":             BackupSummaryBackupDestinationTypeAwsS3,
+	"nfs":                BackupSummaryBackupDestinationTypeNfs,
+	"recovery_appliance": BackupSummaryBackupDestinationTypeRecoveryAppliance,
 }
 
 // GetBackupSummaryBackupDestinationTypeEnumValues Enumerates the set of values for BackupSummaryBackupDestinationTypeEnum
@@ -452,6 +458,8 @@ func GetBackupSummaryBackupDestinationTypeEnumStringValues() []string {
 		"OBJECT_STORE",
 		"DBRS",
 		"AWS_S3",
+		"NFS",
+		"RECOVERY_APPLIANCE",
 	}
 }
 

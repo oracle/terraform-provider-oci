@@ -69,6 +69,7 @@ const (
 	TechnologyTypeDb2I                                  TechnologyTypeEnum = "DB2_I"
 	TechnologyTypeDb2Zos                                TechnologyTypeEnum = "DB2_ZOS"
 	TechnologyTypeElasticsearch                         TechnologyTypeEnum = "ELASTICSEARCH"
+	TechnologyTypeEdbPostgresAdvancedServer             TechnologyTypeEnum = "EDB_POSTGRES_ADVANCED_SERVER"
 	TechnologyTypeGoogleAlloyDbForPostgresql            TechnologyTypeEnum = "GOOGLE_ALLOY_DB_FOR_POSTGRESQL"
 	TechnologyTypeGoogleBigquery                        TechnologyTypeEnum = "GOOGLE_BIGQUERY"
 	TechnologyTypeGoogleCloudStorage                    TechnologyTypeEnum = "GOOGLE_CLOUD_STORAGE"
@@ -79,6 +80,7 @@ const (
 	TechnologyTypeHdfs                                  TechnologyTypeEnum = "HDFS"
 	TechnologyTypeMariadb                               TechnologyTypeEnum = "MARIADB"
 	TechnologyTypeMicrosoftSqlserver                    TechnologyTypeEnum = "MICROSOFT_SQLSERVER"
+	TechnologyTypeMicrosoftFabricEventstream            TechnologyTypeEnum = "MICROSOFT_FABRIC_EVENTSTREAM"
 	TechnologyTypeMicrosoftFabricLakehouse              TechnologyTypeEnum = "MICROSOFT_FABRIC_LAKEHOUSE"
 	TechnologyTypeMicrosoftFabricMirror                 TechnologyTypeEnum = "MICROSOFT_FABRIC_MIRROR"
 	TechnologyTypeMongodb                               TechnologyTypeEnum = "MONGODB"
@@ -90,6 +92,7 @@ const (
 	TechnologyTypeSinglestoredb                         TechnologyTypeEnum = "SINGLESTOREDB"
 	TechnologyTypeSinglestoredbCloud                    TechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 	TechnologyTypeSnowflake                             TechnologyTypeEnum = "SNOWFLAKE"
+	TechnologyTypeYugabyteDb                            TechnologyTypeEnum = "YUGABYTE_DB"
 )
 
 var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
@@ -144,6 +147,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"DB2_I":                                      TechnologyTypeDb2I,
 	"DB2_ZOS":                                    TechnologyTypeDb2Zos,
 	"ELASTICSEARCH":                              TechnologyTypeElasticsearch,
+	"EDB_POSTGRES_ADVANCED_SERVER":               TechnologyTypeEdbPostgresAdvancedServer,
 	"GOOGLE_ALLOY_DB_FOR_POSTGRESQL":             TechnologyTypeGoogleAlloyDbForPostgresql,
 	"GOOGLE_BIGQUERY":                            TechnologyTypeGoogleBigquery,
 	"GOOGLE_CLOUD_STORAGE":                       TechnologyTypeGoogleCloudStorage,
@@ -154,6 +158,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"HDFS":                                       TechnologyTypeHdfs,
 	"MARIADB":                                    TechnologyTypeMariadb,
 	"MICROSOFT_SQLSERVER":                        TechnologyTypeMicrosoftSqlserver,
+	"MICROSOFT_FABRIC_EVENTSTREAM":               TechnologyTypeMicrosoftFabricEventstream,
 	"MICROSOFT_FABRIC_LAKEHOUSE":                 TechnologyTypeMicrosoftFabricLakehouse,
 	"MICROSOFT_FABRIC_MIRROR":                    TechnologyTypeMicrosoftFabricMirror,
 	"MONGODB":                                    TechnologyTypeMongodb,
@@ -165,6 +170,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"SINGLESTOREDB":                              TechnologyTypeSinglestoredb,
 	"SINGLESTOREDB_CLOUD":                        TechnologyTypeSinglestoredbCloud,
 	"SNOWFLAKE":                                  TechnologyTypeSnowflake,
+	"YUGABYTE_DB":                                TechnologyTypeYugabyteDb,
 }
 
 var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
@@ -219,6 +225,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"db2_i":                                      TechnologyTypeDb2I,
 	"db2_zos":                                    TechnologyTypeDb2Zos,
 	"elasticsearch":                              TechnologyTypeElasticsearch,
+	"edb_postgres_advanced_server":               TechnologyTypeEdbPostgresAdvancedServer,
 	"google_alloy_db_for_postgresql":             TechnologyTypeGoogleAlloyDbForPostgresql,
 	"google_bigquery":                            TechnologyTypeGoogleBigquery,
 	"google_cloud_storage":                       TechnologyTypeGoogleCloudStorage,
@@ -229,6 +236,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"hdfs":                                       TechnologyTypeHdfs,
 	"mariadb":                                    TechnologyTypeMariadb,
 	"microsoft_sqlserver":                        TechnologyTypeMicrosoftSqlserver,
+	"microsoft_fabric_eventstream":               TechnologyTypeMicrosoftFabricEventstream,
 	"microsoft_fabric_lakehouse":                 TechnologyTypeMicrosoftFabricLakehouse,
 	"microsoft_fabric_mirror":                    TechnologyTypeMicrosoftFabricMirror,
 	"mongodb":                                    TechnologyTypeMongodb,
@@ -240,6 +248,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"singlestoredb":                              TechnologyTypeSinglestoredb,
 	"singlestoredb_cloud":                        TechnologyTypeSinglestoredbCloud,
 	"snowflake":                                  TechnologyTypeSnowflake,
+	"yugabyte_db":                                TechnologyTypeYugabyteDb,
 }
 
 // GetTechnologyTypeEnumValues Enumerates the set of values for TechnologyTypeEnum
@@ -305,6 +314,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"DB2_I",
 		"DB2_ZOS",
 		"ELASTICSEARCH",
+		"EDB_POSTGRES_ADVANCED_SERVER",
 		"GOOGLE_ALLOY_DB_FOR_POSTGRESQL",
 		"GOOGLE_BIGQUERY",
 		"GOOGLE_CLOUD_STORAGE",
@@ -315,6 +325,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"HDFS",
 		"MARIADB",
 		"MICROSOFT_SQLSERVER",
+		"MICROSOFT_FABRIC_EVENTSTREAM",
 		"MICROSOFT_FABRIC_LAKEHOUSE",
 		"MICROSOFT_FABRIC_MIRROR",
 		"MONGODB",
@@ -326,6 +337,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"SINGLESTOREDB",
 		"SINGLESTOREDB_CLOUD",
 		"SNOWFLAKE",
+		"YUGABYTE_DB",
 	}
 }
 

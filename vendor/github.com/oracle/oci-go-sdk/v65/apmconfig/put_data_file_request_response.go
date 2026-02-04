@@ -27,33 +27,35 @@ type PutDataFileRequest struct {
 	// The type of the data file.
 	ApmType *string `mandatory:"true" contributesTo:"query" name:"apmType"`
 
-	// Optional base64-encoded MD5 hash of the request body. If provided, the server may perform
+	// Optional base64-encoded MD5 hash of the request body. If provided, the server will perform
 	// a data integrity check by computing the MD5 of the received content and comparing it to the
 	// supplied value.
-	// If the values do not match, the request may be rejected with an HTTP 400 error and a message such as:
+	// If the values do not match, the request will be rejected with an HTTP 400 error and a message such as:
 	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
-	// Optional header specifying the media type (MIME type) of the request or response body.
-	// If not specified, the default is typically `application/octet-stream`.
+	// Optional parameter specifying the media type (MIME type) of the request or response body.
+	// If not specified, the default is `application/octet-stream`.
 	// This value can be used by recipients to determine how to interpret or render the content.
 	ContentType *string `mandatory:"false" contributesTo:"header" name:"Content-Type"`
 
-	// Optional header that indicates the natural language of the content.
+	// Optional parameter that indicates the natural language of the content.
 	// This value can be used by clients or intermediaries to select or display content based on language preferences.
 	ContentLanguage *string `mandatory:"false" contributesTo:"header" name:"Content-Language"`
 
-	// Optional header indicating the content encodings applied to the request body (e.g., gzip, deflate).
+	// Optional parameter indicating the content encodings applied to the request body (e.g., gzip, deflate).
 	// This value can be used by recipients to determine how to decode the content.
 	ContentEncoding *string `mandatory:"false" contributesTo:"header" name:"Content-Encoding"`
 
-	// Optional header that provides presentation information for how the content should be displayed or handled by the recipient.
+	// Optional parameter that provides presentation information for how the content should be displayed or handled by the recipient.
 	// For example, to prompt a file download with a custom filename:
 	// `attachment; filename="example.txt"`
 	ContentDisposition *string `mandatory:"false" contributesTo:"header" name:"Content-Disposition"`
 
-	// General metadata key and value related to the file.
-	Metadata map[string]string `mandatory:"false" contributesTo:"header-collection" prefix:"metadata-"`
+	// A string containing a JSON-encoded object with metadata related to the uploaded file or resource.
+	// Example:
+	//   {"fileName":"report.pdf","uploader":"jane.doe","category":"financial"}
+	Metadata *string `mandatory:"false" contributesTo:"header" name:"metadata"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

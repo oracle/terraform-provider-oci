@@ -26,7 +26,7 @@ type AzureDataLakeStorageIcebergStorage struct {
 	Container *string `mandatory:"true" json:"container"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
-	AccountKeySecretId *string `mandatory:"true" json:"accountKeySecretId"`
+	AccountKeySecretId *string `mandatory:"false" json:"accountKeySecretId"`
 
 	// The Azure Blob Storage endpoint where Iceberg data is stored.
 	// e.g.: 'https://my-azure-storage-account.blob.core.windows.net'

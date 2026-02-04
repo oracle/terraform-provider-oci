@@ -65,21 +65,6 @@ func (request ChangeContinuousQueryCompartmentRequest) BinaryRequestBody() (*com
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request ChangeContinuousQueryCompartmentRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["continuousQueryId"] != nil {
-		templateParam := mandatoryParamMap["continuousQueryId"]
-		for _, template := range templateParam {
-			replacementParam := *request.ContinuousQueryId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ChangeContinuousQueryCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

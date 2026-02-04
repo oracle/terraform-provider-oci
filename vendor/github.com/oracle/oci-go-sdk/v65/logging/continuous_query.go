@@ -75,6 +75,10 @@ type ContinuousQuery struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Recommendations to act in case of a notification produced by the query.
 	// For example,
 	// when this event happens,
@@ -130,6 +134,7 @@ func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		RecommendationText *string                           `json:"recommendationText"`
 		Description        *string                           `json:"description"`
 		IsEnabled          *bool                             `json:"isEnabled"`
@@ -158,6 +163,8 @@ func (m *ContinuousQuery) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.RecommendationText = model.RecommendationText
 

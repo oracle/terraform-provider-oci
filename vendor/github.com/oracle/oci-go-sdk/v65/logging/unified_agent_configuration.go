@@ -57,6 +57,10 @@ type UnifiedAgentConfiguration struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Time the resource was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -92,6 +96,7 @@ func (m *UnifiedAgentConfiguration) UnmarshalJSON(data []byte) (e error) {
 		Description          *string                                    `json:"description"`
 		DefinedTags          map[string]map[string]interface{}          `json:"definedTags"`
 		FreeformTags         map[string]string                          `json:"freeformTags"`
+		SystemTags           map[string]map[string]interface{}          `json:"systemTags"`
 		TimeCreated          *common.SDKTime                            `json:"timeCreated"`
 		TimeLastModified     *common.SDKTime                            `json:"timeLastModified"`
 		Id                   *string                                    `json:"id"`
@@ -114,6 +119,8 @@ func (m *UnifiedAgentConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.TimeCreated = model.TimeCreated
 

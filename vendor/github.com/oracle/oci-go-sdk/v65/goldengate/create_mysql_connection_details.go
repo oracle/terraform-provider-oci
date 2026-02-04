@@ -121,15 +121,6 @@ type CreateMysqlConnectionDetails struct {
 	// Note: When provided, 'sslKey' field must not be provided.
 	SslKeySecretId *string `mandatory:"false" json:"sslKeySecretId"`
 
-	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
-	// field, or make sure the host name is resolvable in the target VCN.
-	// The private IP address of the connection's endpoint in the customer's VCN, typically a
-	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
-	// In case the privateIp is provided, the subnetId must also be provided.
-	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
-	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
-	PrivateIp *string `mandatory:"false" json:"privateIp"`
-
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`

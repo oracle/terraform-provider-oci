@@ -1,0 +1,53 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// API Gateway API
+//
+// API for the API Gateway service. Use this API to manage gateways, deployments, and related items.
+// For more information, see
+// Overview of API Gateway (https://docs.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
+//
+
+package apigateway
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// OAuth2LoginBackend Backend which completes OAuth2/OIDC flow post redirection from Idp.
+type OAuth2LoginBackend struct {
+}
+
+func (m OAuth2LoginBackend) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m OAuth2LoginBackend) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m OAuth2LoginBackend) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOAuth2LoginBackend OAuth2LoginBackend
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeOAuth2LoginBackend
+	}{
+		"OAUTH2_LOGIN_BACKEND",
+		(MarshalTypeOAuth2LoginBackend)(m),
+	}
+
+	return json.Marshal(&s)
+}

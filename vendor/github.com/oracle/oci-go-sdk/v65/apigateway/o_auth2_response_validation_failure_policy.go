@@ -46,6 +46,11 @@ type OAuth2ResponseValidationFailurePolicy struct {
 	// The path to be used as logout.
 	LogoutPath *string `mandatory:"false" json:"logoutPath"`
 
+	// The path (relative to the deployment) where the Identity Provider
+	// will redirect the user after authentication. This path must match
+	// a route in the specification that uses the OAUTH2_LOGIN_BACKEND.
+	LoginPath *string `mandatory:"false" json:"loginPath"`
+
 	// Response Type.
 	ResponseType OAuth2ResponseValidationFailurePolicyResponseTypeEnum `mandatory:"true" json:"responseType"`
 }
@@ -92,6 +97,7 @@ func (m *OAuth2ResponseValidationFailurePolicy) UnmarshalJSON(data []byte) (e er
 		UsePkce                        *bool                                                 `json:"usePkce"`
 		FallbackRedirectPath           *string                                               `json:"fallbackRedirectPath"`
 		LogoutPath                     *string                                               `json:"logoutPath"`
+		LoginPath                      *string                                               `json:"loginPath"`
 		ClientDetails                  clientappdetails                                      `json:"clientDetails"`
 		SourceUriDetails               sourceuridetails                                      `json:"sourceUriDetails"`
 		Scopes                         []string                                              `json:"scopes"`
@@ -114,6 +120,8 @@ func (m *OAuth2ResponseValidationFailurePolicy) UnmarshalJSON(data []byte) (e er
 	m.FallbackRedirectPath = model.FallbackRedirectPath
 
 	m.LogoutPath = model.LogoutPath
+
+	m.LoginPath = model.LoginPath
 
 	nn, e = model.ClientDetails.UnmarshalPolymorphicJSON(model.ClientDetails.JsonData)
 	if e != nil {

@@ -114,6 +114,10 @@ type DatabaseRegistration struct {
 	// If provided, it references a key that customers will be required to ensure the policies are established
 	// to permit GoldenGate to use this Secret.
 	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being
+	// referenced as the successor resource of the deprecated database registration.
+	ConnectionId *string `mandatory:"false" json:"connectionId"`
 }
 
 func (m DatabaseRegistration) String() string {
