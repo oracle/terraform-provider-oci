@@ -9,7 +9,6 @@ resource "oci_dns_rrset" "rrset-a" {
   zone_name_or_id = oci_dns_zone.zone3.name
   domain          = oci_dns_zone.zone3.name
   rtype           = "A"
-  scope           = "PRIVATE"
   view_id         = oci_dns_view.test_view.id
 
   items {
@@ -31,7 +30,6 @@ resource "oci_dns_rrset" "rrset-aaaa" {
   zone_name_or_id = oci_dns_zone.zone3.name
   domain          = oci_dns_zone.zone3.name
   rtype           = "AAAA"
-  scope           = "PRIVATE"
   view_id         = oci_dns_view.test_view.id
 
   items {
@@ -46,7 +44,6 @@ resource "oci_dns_rrset" "rrset-cname" {
   zone_name_or_id = oci_dns_zone.zone3.name
   domain          = "el.${oci_dns_zone.zone3.name}"
   rtype           = "CNAME"
-  scope           = "PRIVATE"
   view_id         = oci_dns_view.test_view.id
 
   items {
@@ -61,7 +58,6 @@ data "oci_dns_rrset" "test_rrset" {
   domain          = "el.${oci_dns_zone.zone3.name}"
   rtype           = "CNAME"
   zone_name_or_id = oci_dns_zone.zone3.id
-  scope           = "PRIVATE"
   view_id         = oci_dns_view.test_view.id
 }
 
@@ -69,6 +65,5 @@ data "oci_dns_rrsets" "test_rrsets" {
   domain          = "el.${oci_dns_zone.zone3.name}"
   rtype           = "CNAME"
   zone_name_or_id = oci_dns_zone.zone3.id
-  scope           = "PRIVATE"
   view_id         = oci_dns_view.test_view.id
 }

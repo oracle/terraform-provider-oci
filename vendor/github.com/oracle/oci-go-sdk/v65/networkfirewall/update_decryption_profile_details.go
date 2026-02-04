@@ -18,11 +18,15 @@ import (
 
 // UpdateDecryptionProfileDetails Update Request for Decryption Profile used on the firewall policy rules.
 type UpdateDecryptionProfileDetails interface {
+
+	// The description of the decryption profile. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type updatedecryptionprofiledetails struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData    []byte
+	Description *string `mandatory:"false" json:"description"`
+	Type        string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +40,7 @@ func (m *updatedecryptionprofiledetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Description = s.Model.Description
 	m.Type = s.Model.Type
 
 	return err
@@ -62,6 +67,11 @@ func (m *updatedecryptionprofiledetails) UnmarshalPolymorphicJSON(data []byte) (
 		common.Logf("Received unsupported enum value for UpdateDecryptionProfileDetails: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m updatedecryptionprofiledetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m updatedecryptionprofiledetails) String() string {

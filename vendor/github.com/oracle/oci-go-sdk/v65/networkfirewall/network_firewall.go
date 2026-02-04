@@ -67,6 +67,9 @@ type NetworkFirewall struct {
 
 	NatConfiguration *NatConfigurationResponse `mandatory:"false" json:"natConfiguration"`
 
+	// The shape of a firewall to determine the bandwidth that the firewall allows.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// An array of network security groups OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 

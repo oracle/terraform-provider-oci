@@ -1,10 +1,10 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
+#variable "user_ocid" {}
+#variable "fingerprint" {}
+#variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -45,15 +45,20 @@ variable "desktop_pool_device_policy_is_display_enabled" {
 
 variable "desktop_pool_device_policy_is_keyboard_enabled" {
   description = ""
-  default = false
+  default = true
 }
 
 variable "desktop_pool_device_policy_is_pointer_enabled" {
   description = ""
-  default = false
+  default = true
 }
 
 variable "desktop_pool_device_policy_is_printing_enabled" {
+  description = ""
+  default = false
+}
+
+variable "desktop_pool_device_policy_is_video_input_enabled" {
   description = ""
   default = false
 }
@@ -108,6 +113,11 @@ variable "desktop_pool_are_volumes_preserved" {
   default = false
 }
 
+variable "desktop_pool_boot_volume_size_in_gbs" {
+  description = ""
+  default = null
+}
+
 variable "desktop_pool_vcn_id" {
   description = ""
 }
@@ -149,17 +159,17 @@ variable "desktop_pool_stop_schedule_timezone" {
   default = "MST"
 }
 
-variable "desktop_pool_private_access_details_subnet_id" {
-}
-
-variable "desktop_pool_private_access_details_nsg_ids" {
-  type    = list(string)
-  default = []
-}
-
-variable "desktop_pool_private_access_details_private_ip" {
-  description = ""
-}
+#variable "desktop_pool_private_access_details_subnet_id" {
+#}
+#
+#variable "desktop_pool_private_access_details_nsg_ids" {
+#  type    = list(string)
+#  default = []
+#}
+#
+#variable "desktop_pool_private_access_details_private_ip" {
+#  description = ""
+#}
 
 variable "desktop_pool_state" {
   description = ""

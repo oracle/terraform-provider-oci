@@ -42,6 +42,9 @@ type StandardTask struct {
 	// The date and time the scheduled task was last updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// Description for this resource.
+	Description *string `mandatory:"false" json:"description"`
+
 	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
@@ -87,6 +90,11 @@ func (m StandardTask) GetId() *string {
 // GetDisplayName returns DisplayName
 func (m StandardTask) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetDescription returns Description
+func (m StandardTask) GetDescription() *string {
+	return m.Description
 }
 
 // GetTaskType returns TaskType
@@ -207,6 +215,7 @@ func (m StandardTask) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Description         *string                             `json:"description"`
 		TaskStatus          ScheduledTaskTaskStatusEnum         `json:"taskStatus"`
 		PauseReason         ScheduledTaskPauseReasonEnum        `json:"pauseReason"`
 		WorkRequestId       *string                             `json:"workRequestId"`
@@ -232,6 +241,8 @@ func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Description = model.Description
+
 	m.TaskStatus = model.TaskStatus
 
 	m.PauseReason = model.PauseReason

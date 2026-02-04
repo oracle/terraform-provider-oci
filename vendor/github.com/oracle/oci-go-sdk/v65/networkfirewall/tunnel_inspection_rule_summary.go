@@ -34,11 +34,15 @@ type TunnelInspectionRuleSummary interface {
 	//   * INSPECT - Inspect the traffic.
 	//   * INSPECT_AND_CAPTURE_LOG - Inspect and capture logs for the traffic.
 	GetAction() InspectActionTypeEnum
+
+	// The description of the tunnel inspect rule. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type tunnelinspectionrulesummary struct {
 	JsonData         []byte
 	Action           InspectActionTypeEnum `mandatory:"false" json:"action,omitempty"`
+	Description      *string               `mandatory:"false" json:"description"`
 	Name             *string               `mandatory:"true" json:"name"`
 	PriorityOrder    *int64                `mandatory:"true" json:"priorityOrder"`
 	ParentResourceId *string               `mandatory:"true" json:"parentResourceId"`
@@ -60,6 +64,7 @@ func (m *tunnelinspectionrulesummary) UnmarshalJSON(data []byte) error {
 	m.PriorityOrder = s.Model.PriorityOrder
 	m.ParentResourceId = s.Model.ParentResourceId
 	m.Action = s.Model.Action
+	m.Description = s.Model.Description
 	m.Protocol = s.Model.Protocol
 
 	return err
@@ -87,6 +92,11 @@ func (m *tunnelinspectionrulesummary) UnmarshalPolymorphicJSON(data []byte) (int
 // GetAction returns Action
 func (m tunnelinspectionrulesummary) GetAction() InspectActionTypeEnum {
 	return m.Action
+}
+
+// GetDescription returns Description
+func (m tunnelinspectionrulesummary) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

@@ -424,7 +424,15 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_vm_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"total_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_vm_storage_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -1313,8 +1321,16 @@ func ExascaleConfigDetailsToMap(obj *oci_database.ExascaleConfigDetails) map[str
 		result["available_storage_in_gbs"] = int(*obj.AvailableStorageInGBs)
 	}
 
+	if obj.AvailableVmStorageInGBs != nil {
+		result["available_vm_storage_in_gbs"] = int(*obj.AvailableVmStorageInGBs)
+	}
+
 	if obj.TotalStorageInGBs != nil {
 		result["total_storage_in_gbs"] = int(*obj.TotalStorageInGBs)
+	}
+
+	if obj.TotalVmStorageInGBs != nil {
+		result["total_vm_storage_in_gbs"] = int(*obj.TotalVmStorageInGBs)
 	}
 
 	return result

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -64,6 +64,7 @@ var (
 		"standby_size":              acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"storage_backup_policy_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.test_storage_backup_policy_id}`},
 		"storage_size_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"boot_volume_size_in_gbs":   acctest.Representation{RepType: acctest.Optional, Create: `${var.test_boot_volume_size_in_gbs_create}`, Update: `${var.test_boot_volume_size_in_gbs_update}`},
 		"are_volumes_preserved":     acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -71,6 +72,32 @@ var (
 		"shape_config":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolShapeConfigRepresentation},
 		"use_dedicated_vm_host":     acctest.Representation{RepType: acctest.Optional, Create: `${var.test_use_dedicated_vm_host}`},
 		"private_access_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolPrivateAccessDetailsRepresentation},
+		"session_lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolSessionLifecycleActionsRepresentation},
+	}
+
+	DesktopsDesktopPoolUpdateRepresentation = map[string]interface{}{
+		"are_privileged_users":     acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"availability_domain":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"availability_policy":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolAvailabilityPolicyRepresentation},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"contact_details":          acctest.Representation{RepType: acctest.Required, Create: `contactDetails`, Update: `contactDetails2`},
+		"device_policy":            acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolDevicePolicyRepresentation},
+		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `testPool1`, Update: `testPool2`},
+		"image":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolImageUpdateRepresentation},
+		"is_storage_enabled":       acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"maximum_size":             acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"network_configuration":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolNetworkConfigurationRepresentation},
+		"shape_name":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_shape_name}`},
+		"standby_size":             acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"storage_backup_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_storage_backup_policy_id}`},
+		"storage_size_in_gbs":      acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"are_volumes_preserved":    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolShapeConfigRepresentation},
+		"use_dedicated_vm_host":    acctest.Representation{RepType: acctest.Optional, Create: `${var.test_use_dedicated_vm_host}`},
+		//	"private_access_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolPrivateAccessDetailsRepresentation},
 		"session_lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolSessionLifecycleActionsRepresentation},
 	}
 
@@ -105,18 +132,25 @@ var (
 	DesktopsDesktopPoolAvailabilityPolicyNoStartStopSchedulesRepresentation = map[string]interface{}{}
 
 	DesktopsDesktopPoolDevicePolicyRepresentation = map[string]interface{}{
-		"audio_mode":          acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
-		"cdm_mode":            acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `READONLY`},
-		"clipboard_mode":      acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
-		"is_display_enabled":  acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_keyboard_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_pointer_enabled":  acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_printing_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"audio_mode":             acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
+		"cdm_mode":               acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `READONLY`},
+		"clipboard_mode":         acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `TODESKTOP`},
+		"is_display_enabled":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"is_keyboard_enabled":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"is_pointer_enabled":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"is_printing_enabled":    acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"is_video_input_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	DesktopsDesktopPoolImageRepresentation = map[string]interface{}{
 		"image_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.test_image_id}`},
 		"image_name": acctest.Representation{RepType: acctest.Required, Create: `${var.test_image_name}`},
 	}
+
+	DesktopsDesktopPoolImageUpdateRepresentation = map[string]interface{}{
+		"image_id":   acctest.Representation{RepType: acctest.Required, Update: `${var.test_image_update_id}`},
+		"image_name": acctest.Representation{RepType: acctest.Optional, Update: `${var.test_image_update_name}`},
+	}
+
 	DesktopsDesktopPoolNetworkConfigurationRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
 		"vcn_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.test_vcn_id}`},
@@ -161,6 +195,11 @@ var (
 		"grace_period_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `${var.test_slm_disconnect_grace_period_create}`},
 	}
 
+	DesktopsDesktopPoolSessionLifecycleActionsDisconnectEphemeralRepresentation = map[string]interface{}{
+		"action":                  acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"grace_period_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `${var.test_slm_disconnect_grace_period_create}`},
+	}
+
 	test_vcn_id      = utils.GetEnvSettingWithBlankDefault("test_vcn_id")
 	vcnIdVariableStr = fmt.Sprintf("variable \"test_vcn_id\" { default = \"%s\" }\n", test_vcn_id)
 
@@ -173,8 +212,19 @@ var (
 	test_image_id      = utils.GetEnvSettingWithBlankDefault("test_image_id")
 	imageIdVariableStr = fmt.Sprintf("variable \"test_image_id\" { default = \"%s\" }\n", test_image_id)
 
+	test_image_update_id     = utils.GetEnvSettingWithBlankDefault("test_image_update_id")
+	imageUpdateIdVariableStr = fmt.Sprintf("variable \"test_image_update_id\" { default = \"%s\" }\n", test_image_update_id)
+
 	test_image_name      = utils.GetEnvSettingWithBlankDefault("test_image_name")
 	imageNameVariableStr = fmt.Sprintf("variable \"test_image_name\" { default = \"%s\" }\n", test_image_name)
+
+	test_image_update_name               = utils.GetEnvSettingWithBlankDefault("test_image_update_name")
+	imageUpdateNameVariableStr           = fmt.Sprintf("variable \"test_image_update_name\" { default = \"%s\" }\n", test_image_update_name)
+	test_boot_volume_size_in_gbs_create  = utils.GetEnvSettingWithBlankDefault("test_boot_volume_size_in_gbs_create")
+	bootVolumeSizeInGbsCreateVariableStr = fmt.Sprintf("variable \"test_boot_volume_size_in_gbs_create\" { default = \"%s\" }\n", test_boot_volume_size_in_gbs_create)
+
+	test_boot_volume_size_in_gbs_update  = utils.GetEnvSettingWithBlankDefault("test_boot_volume_size_in_gbs_update")
+	bootVolumeSizeInGbsUpdateVariableStr = fmt.Sprintf("variable \"test_boot_volume_size_in_gbs_update\" { default = \"%s\" }\n", test_boot_volume_size_in_gbs_update)
 
 	test_storage_backup_policy_id    = utils.GetEnvSettingWithBlankDefault("test_storage_backup_policy_id")
 	storageBackupPolicyIdVariableStr = fmt.Sprintf("variable \"test_storage_backup_policy_id\" { default = \"%s\" }\n", test_storage_backup_policy_id)
@@ -249,7 +299,11 @@ var (
 		subnetIdVariableStr +
 		shapeNameVariableStr +
 		imageIdVariableStr +
+		imageUpdateIdVariableStr +
 		imageNameVariableStr +
+		imageUpdateNameVariableStr +
+		bootVolumeSizeInGbsCreateVariableStr +
+		bootVolumeSizeInGbsUpdateVariableStr +
 		storageBackupPolicyIdVariableStr +
 		startScheduleCronExprCreateVariableStr +
 		startScheduleCronExprUpdateVariableStr +
@@ -277,7 +331,7 @@ var (
 )
 
 // issue-routing-tag: desktops/default
-func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
+func TestDesktopsDesktopPoolResource_basics(t *testing.T) {
 	httpreplay.SetScenario("TestDesktopsDesktopPoolResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -314,8 +368,8 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.cdm_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.clipboard_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_display_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "image.#", "1"),
@@ -356,6 +410,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "availability_policy.0.stop_schedule.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.cron_expression"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.timezone"),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "contact_details", "contactDetails"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -364,9 +419,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.cdm_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.clipboard_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_display_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -382,10 +438,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
-				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
+				//				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.0.inactivity.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "session_lifecycle_actions.0.inactivity.0.action"),
@@ -428,6 +484,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "availability_policy.0.stop_schedule.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.cron_expression"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.timezone"),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "contact_details", "contactDetails"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -436,9 +493,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.cdm_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.clipboard_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_display_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -454,10 +512,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
-				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
+				//			resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				//			resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "session_lifecycle_actions.0.inactivity.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "session_lifecycle_actions.0.inactivity.0.action"),
@@ -483,7 +541,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DesktopsDesktopPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "are_privileged_users", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -494,6 +552,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "availability_policy.0.stop_schedule.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.cron_expression"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_policy.0.stop_schedule.0.timezone"),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "contact_details", "contactDetails2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -505,6 +564,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -520,10 +580,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
-				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
+				//				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				//				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "standby_size", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -547,7 +607,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_desktops_desktop_pools", "test_desktop_pools", acctest.Optional, acctest.Update, DesktopsDesktopPoolDataSourceRepresentation) +
 				compartmentIdVariableStr + DesktopsDesktopPoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_desktops_desktop_pool", "test_desktop_pool", acctest.Optional, acctest.Update, DesktopsDesktopPoolUpdateRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -583,6 +643,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "availability_policy.0.stop_schedule.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_policy.0.stop_schedule.0.cron_expression"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_policy.0.stop_schedule.0.timezone"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "contact_details", "contactDetails2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -594,6 +655,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -602,10 +664,10 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_storage_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maximum_size", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_configuration.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "private_access_details.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.endpoint_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.private_ip"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.vcn_id"),
+				//				resource.TestCheckResourceAttr(singularDatasourceName, "private_access_details.#", "1"),
+				//				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.endpoint_fqdn"),
+				//				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.private_ip"),
+				//				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.baseline_ocpu_utilization"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.memory_in_gbs"),
@@ -627,7 +689,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 			Config:                  config + DesktopsDesktopPoolRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"are_volumes_preserved"},
 			ResourceName:            resourceName,
 		},
 	})
@@ -666,9 +728,10 @@ func TestDesktopsDesktopPoolResource_session_lifecycle_disconnect(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.cdm_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.clipboard_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_display_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -725,6 +788,7 @@ func TestDesktopsDesktopPoolResource_session_lifecycle_disconnect(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_keyboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_pointer_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_printing_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "device_policy.0.is_video_input_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testPool2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),

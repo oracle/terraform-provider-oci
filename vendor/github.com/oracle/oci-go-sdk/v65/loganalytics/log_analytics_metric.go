@@ -42,7 +42,7 @@ type LogAnalyticsMetric struct {
 	// The grouping fields.
 	GroupingField *string `mandatory:"false" json:"groupingField"`
 
-	// A flag inidcating whether or not the metric is enabled.
+	// A flag indicating whether or not the metric is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The system flag.  A value of false denotes a custom, or user
@@ -58,7 +58,7 @@ type LogAnalyticsMetric struct {
 	// The metric name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The metric type, specifying the type of aggreation to perform.  Default value
+	// The metric type, specifying the type of aggregation to perform. Default value
 	// is COUNT.
 	MetricType LogAnalyticsMetricMetricTypeEnum `mandatory:"false" json:"metricType,omitempty"`
 

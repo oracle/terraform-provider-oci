@@ -49,6 +49,7 @@ var (
 		"action":                     acctest.Representation{RepType: acctest.Optional, Create: `INSPECT`, Update: `INSPECT_AND_CAPTURE_LOG`},
 		"position":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: tunnelInspectionRulePositionRepresentation},
 		"profile":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: tunnelInspectionRuleProfileRepresentation},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 	tunnelInspectionRuleConditionRepresentation = map[string]interface{}{
 		"destination_address": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list.name}`}, Update: []string{}},
@@ -122,6 +123,7 @@ func TestNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResource_basic(
 				resource.TestCheckResourceAttr(resourceName, "condition.0.source_address.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", "tunnel_rule_1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "position.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "profile.#", "1"),
@@ -150,6 +152,7 @@ func TestNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResource_basic(
 				resource.TestCheckResourceAttr(resourceName, "condition.0.destination_address.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "condition.0.source_address.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "name", "tunnel_rule_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "position.#", "1"),
@@ -190,6 +193,7 @@ func TestNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResource_basic(
 				resource.TestCheckResourceAttr(singularDatasourceName, "action", "INSPECT_AND_CAPTURE_LOG"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "tunnel_rule_1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "position.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "priority_order"),

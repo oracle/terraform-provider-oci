@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RuleSummaryCollection A collection of Logging Analytics rules.
+// RuleSummaryCollection A collection of Log Analytics rules.
 type RuleSummaryCollection struct {
 
 	// An array of rule summary objects.

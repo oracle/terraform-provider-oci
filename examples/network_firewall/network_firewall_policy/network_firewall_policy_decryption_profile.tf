@@ -73,6 +73,7 @@ resource "oci_network_firewall_network_firewall_policy_decryption_profile" "test
   is_unsupported_cipher_blocked         = var.network_firewall_policy_decryption_profile_is_unsupported_cipher_blocked
   is_unsupported_version_blocked        = var.network_firewall_policy_decryption_profile_is_unsupported_version_blocked
   is_untrusted_issuer_blocked           = var.network_firewall_policy_decryption_profile_is_untrusted_issuer_blocked
+  description                           = "A forward proxy decryption profile"
 }
 
 resource "oci_network_firewall_network_firewall_policy_decryption_profile" "test_network_firewall_policy_decryption_profile_inbound_inspection" {

@@ -53,8 +53,24 @@ The following attributes are exported:
 
 * `items` - A list of desktops.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+	* `desktop_connection` - Provides information about a connection to a desktop, including connect and disconnect time, and client properties.
+		* `client_platform` - The platform on which the Secure Desktops client runs.
+		* `client_type` - The type of Secure Desktops client connected to a desktop.
+		* `client_version` - The version of the Secure Desktops client connected to a desktop, applicable only to the installed client type.
+		* `last_action` - Provides information about actions performed on a desktop, including type and time.
+			* `action` - An action performed on a desktop.
+			* `time_applied` - The time of an action performed on a desktop.
+		* `next_action` - Provides information about actions performed on a desktop, including type and time.
+			* `action` - An action performed on a desktop.
+			* `time_applied` - The time of an action performed on a desktop.
+		* `time_connected` - The time when the last connection to a desktop started.
+		* `time_disconnected` - The time when the last connection to a desktop ended.
 	* `desktop_id` - The OCID of the desktop.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+	* `image` - Provides information about the desktop image.
+		* `image_id` - The OCID of the desktop image.
+		* `image_name` - The name of the desktop image.
+		* `operating_system` - The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
 	* `instance_id` - The OCID of the compute resource used by this desktop.
 	* `is_assigned` - Indicates whether the desktop is assigned to a user.
 	* `state` - The state of the desktop.

@@ -62,6 +62,11 @@ func NetworkFirewallNetworkFirewallPolicyServiceResource() *schema.Resource {
 					},
 				},
 			},
+			// Optional
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"type": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -249,6 +254,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) SetData() erro
 		}
 		s.D.Set("port_ranges", portRanges)
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -264,6 +273,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) SetData() erro
 			portRanges = append(portRanges, PortRangeToMap(item))
 		}
 		s.D.Set("port_ranges", portRanges)
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
@@ -312,6 +325,10 @@ func PortRangeToMap(obj oci_network_firewall.PortRange) map[string]interface{} {
 func ServiceSummaryToMap(obj oci_network_firewall.ServiceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
@@ -353,6 +370,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) populateTopLev
 				details.PortRanges = tmp
 			}
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
 			details.Name = &tmp
@@ -375,6 +396,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) populateTopLev
 			if len(tmp) != 0 || s.D.HasChange("port_ranges") {
 				details.PortRanges = tmp
 			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
@@ -415,6 +440,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) populateTopLev
 				details.PortRanges = tmp
 			}
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		request.UpdateServiceDetails = details
 	case strings.ToLower("UDP_SERVICE"):
 		details := oci_network_firewall.UpdateUdpServiceDetails{}
@@ -433,6 +462,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceResourceCrud) populateTopLev
 			if len(tmp) != 0 || s.D.HasChange("port_ranges") {
 				details.PortRanges = tmp
 			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		request.UpdateServiceDetails = details
 	default:

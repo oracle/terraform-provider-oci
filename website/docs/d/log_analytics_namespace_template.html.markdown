@@ -27,7 +27,7 @@ data "oci_log_analytics_namespace_template" "test_namespace_template" {
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `template_id` - (Required) Unique ocid of the template. 
 
 

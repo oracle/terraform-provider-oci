@@ -30,16 +30,16 @@ resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_ne
 		destination_address = var.network_firewall_policy_decryption_rule_condition_destination_address
 		source_address = var.network_firewall_policy_decryption_rule_condition_source_address
 	}
+	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+	#Optional
+	description = var.network_firewall_policy_decryption_rule_description
+	decryption_profile = var.network_firewall_policy_decryption_rule_decryption_profile
+	secret = var.network_firewall_policy_decryption_rule_secret
 	position {
 		#Optional
 		after_rule = var.network_firewall_policy_decryption_rule_position_after_rule
 		before_rule = var.network_firewall_policy_decryption_rule_position_before_rule
 	}
-	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
-
-	#Optional
-	decryption_profile = var.network_firewall_policy_decryption_rule_decryption_profile
-	secret = var.network_firewall_policy_decryption_rule_secret
 }
 ```
 
@@ -49,12 +49,13 @@ The following arguments are supported:
 
 * `action` - (Required) (Updatable) Action:
 	* NO_DECRYPT - Matching traffic is not decrypted.
-	* DECRYPT - Matching traffic is decrypted with the specified `secret` according to the specified `decryptionProfile`. 
-* `condition` - (Required) (Updatable) Match criteria used in Decryption Rule used on the firewall policy rules. The resources mentioned must already be present in the policy before being referenced in the rule.
-	* `destination_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic destination address.
-	* `source_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic source address.
+	* DECRYPT - Matching traffic is decrypted with the specified `secret` according to the specified `decryptionProfile`.
+* `condition` - (Required) (Updatable) Match criteria used in Decryption Rule used on the firewall policy rules.
+	* `destination_address` - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic destination address.
+	* `source_address` - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic source address.
 * `decryption_profile` - (Required only when action is `DECRYPT`) (Updatable) The name of the decryption profile to use.
 * `secret` - (Required only when action is `DECRYPT`) (Updatable) The name of a mapped secret. Its `type` must match that of the specified decryption profile.
+* `description` - (Optional) (Updatable) The description of the decryption rule. This field can be used to add additional info.
 * `name` - (Required) Name for the decryption rule, must be unique within the policy.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `position` - (Optional) (Updatable) An object which defines the position of the rule. Only one of `after_rule` or `before_rule` should be provided.
@@ -76,6 +77,7 @@ The following attributes are exported:
 	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `source_address` - An array of address list names to be evaluated against the traffic source address.
 * `decryption_profile` - The name of the decryption profile to use.
+* `description` - The description of the decryption rule. This field can be used to add additional info.
 * `secret` - The name of a mapped secret. Its `type` must match that of the specified decryption profile.
 * `name` - Name for the decryption rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this decryption rule belongs to.

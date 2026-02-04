@@ -18,7 +18,7 @@ import (
 // ScopeFilter Scope filter to reduce the scope of the query.
 type ScopeFilter struct {
 
-	// Field must be a valid logging-analytics out-of-the-box field.
+	// Field must be a valid log analytics out-of-the-box field.
 	FieldName *string `mandatory:"true" json:"fieldName"`
 
 	// Field values that will be used to filter the query scope. Please note all values should reflect the fields data type otherwise the query is subject to fail.

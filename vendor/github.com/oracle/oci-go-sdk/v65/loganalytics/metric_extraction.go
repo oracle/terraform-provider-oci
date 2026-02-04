@@ -36,6 +36,9 @@ type MetricExtraction struct {
 	// A valid value starts with an alphabetical character and includes only
 	// alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
+	// Details for the metrics to be collected.
+	MetricCollections []MetricCollection `mandatory:"false" json:"metricCollections"`
 }
 
 func (m MetricExtraction) String() string {

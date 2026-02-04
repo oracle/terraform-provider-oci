@@ -26,6 +26,7 @@ resource "oci_network_firewall_network_firewall_policy_decryption_profile" "test
 	type = var.network_firewall_policy_decryption_profile_type
 
 	#Optional
+	description = var.network_firewall_policy_decryption_profile_description
 	are_certificate_extensions_restricted = var.network_firewall_policy_decryption_profile_are_certificate_extensions_restricted
 	is_auto_include_alt_name = var.network_firewall_policy_decryption_profile_is_auto_include_alt_name
 	is_expired_certificate_blocked = var.network_firewall_policy_decryption_profile_is_expired_certificate_blocked
@@ -44,12 +45,13 @@ The following arguments are supported:
 
 * `name` - (Required) Name of the decryption profile.
 * `type` - (Required) Describes the type of decryption profile. The accepted values are - * SSL_FORWARD_PROXY * SSL_INBOUND_INSPECTION
+* `description` - (Optional) (Updatable) The description of the decryption profile. This field can be used to add additional info.
+* `are_certificate_extensions_restricted` - (Applicable when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
+* `is_auto_include_alt_name` - (Applicable when type=SSL_FORWARD_PROXY) (Updatable) Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
+* `is_expired_certificate_blocked` - (Applicable when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if server's certificate is expired.
 * `is_out_of_capacity_blocked` - (Optional) (Updatable) Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
 * `is_unsupported_cipher_blocked` - (Optional) (Updatable) Whether to block sessions if SSL cipher suite is not supported.
 * `is_unsupported_version_blocked` - (Optional) (Updatable) Whether to block sessions if SSL version is not supported.
-* `are_certificate_extensions_restricted` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
-* `is_auto_include_alt_name` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
-* `is_expired_certificate_blocked` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if server's certificate is expired.
 * `is_revocation_status_timeout_blocked` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if the revocation status check for server's certificate does not succeed within the maximum allowed time (defaulting to 5 seconds). 
 * `is_unknown_revocation_status_blocked` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if the revocation status check for server's certificate results in "unknown".
 * `is_untrusted_issuer_blocked` - (Applicable only when type=SSL_FORWARD_PROXY) (Updatable) Whether to block sessions if server's certificate is issued by an untrusted certificate authority (CA).
@@ -67,6 +69,7 @@ The following attributes are exported:
 * `type` - Describes the type of decryption profile.
 * `parent_resource_id` - OCID of the Network Firewall Policy this decryption profile belongs to.
 * `are_certificate_extensions_restricted` - Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
+* `description` - The description of the decryption profile. This field can be used to add additional info.
 * `is_auto_include_alt_name` - Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
 * `is_expired_certificate_blocked` - Whether to block sessions if server's certificate is expired.
 * `is_out_of_capacity_blocked` - Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.

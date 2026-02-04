@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// NatRuleCollection Collection of Nat Rule Summaries in the network firewall policy
+// NatRuleCollection Collection of NAT rule summaries in the network firewall policy.
 type NatRuleCollection struct {
 
 	// Collection of Nat Rule Summaries.

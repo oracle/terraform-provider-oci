@@ -45,7 +45,11 @@ func NetworkFirewallNetworkFirewallPolicyApplicationGroupResource() *schema.Reso
 				Required: true,
 				ForceNew: true,
 			},
-
+			// Optional
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"parent_resource_id": {
 				Type:     schema.TypeString,
@@ -115,6 +119,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationGroupResourceCrud) Creat
 			}
 		}
 		request.Apps = tmp
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -190,6 +199,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationGroupResourceCrud) Updat
 
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if networkFirewallPolicyId, ok := s.D.GetOkExists("network_firewall_policy_id"); ok {
 		tmp := networkFirewallPolicyId.(string)
 		request.NetworkFirewallPolicyId = &tmp
@@ -237,6 +251,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationGroupResourceCrud) SetDa
 
 	s.D.Set("apps", s.Res.Apps)
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -254,6 +272,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationGroupResourceCrud) SetDa
 
 func ApplicationGroupSummaryToMap(obj oci_network_firewall.ApplicationGroupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)

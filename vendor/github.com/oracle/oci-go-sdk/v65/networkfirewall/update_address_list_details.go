@@ -18,11 +18,15 @@ import (
 
 // UpdateAddressListDetails The request details to be updated in the address List for the policy.
 type UpdateAddressListDetails interface {
+
+	// The description of the address list. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type updateaddresslistdetails struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData    []byte
+	Description *string `mandatory:"false" json:"description"`
+	Type        string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +40,7 @@ func (m *updateaddresslistdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Description = s.Model.Description
 	m.Type = s.Model.Type
 
 	return err
@@ -62,6 +67,11 @@ func (m *updateaddresslistdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		common.Logf("Received unsupported enum value for UpdateAddressListDetails: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m updateaddresslistdetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m updateaddresslistdetails) String() string {

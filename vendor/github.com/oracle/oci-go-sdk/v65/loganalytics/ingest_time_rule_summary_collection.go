@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// IngestTimeRuleSummaryCollection A collection of Logging Analytics ingest time rules.
+// IngestTimeRuleSummaryCollection A collection of Log Analytics ingest time rules.
 type IngestTimeRuleSummaryCollection struct {
 
 	// An array of ingest time rule summary objects.

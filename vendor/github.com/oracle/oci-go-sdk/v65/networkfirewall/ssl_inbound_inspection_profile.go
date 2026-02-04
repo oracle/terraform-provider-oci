@@ -25,6 +25,9 @@ type SslInboundInspectionProfile struct {
 	// OCID of the Network Firewall Policy this decryption profile belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 
+	// The description of the decryption profile. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Whether to block sessions if SSL version is not supported.
 	IsUnsupportedVersionBlocked *bool `mandatory:"false" json:"isUnsupportedVersionBlocked"`
 
@@ -43,6 +46,11 @@ func (m SslInboundInspectionProfile) GetName() *string {
 // GetParentResourceId returns ParentResourceId
 func (m SslInboundInspectionProfile) GetParentResourceId() *string {
 	return m.ParentResourceId
+}
+
+// GetDescription returns Description
+func (m SslInboundInspectionProfile) GetDescription() *string {
+	return m.Description
 }
 
 func (m SslInboundInspectionProfile) String() string {

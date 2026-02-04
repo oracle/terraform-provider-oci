@@ -22,7 +22,7 @@ type QueryDetails struct {
 	// Compartment Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Query to perform. Must conform to logging analytic querylanguage syntax. Syntax errors will be returned if present.
+	// Query to perform. Must conform to log analytics querylanguage syntax. Syntax errors will be returned if present.
 	QueryString *string `mandatory:"true" json:"queryString"`
 
 	// Default subsystem to qualify fields with in the queryString if not specified.
@@ -41,6 +41,9 @@ type QueryDetails struct {
 
 	// List of filters to be applied when the query executes. More than one filter per field is not permitted.
 	ScopeFilters []ScopeFilter `mandatory:"false" json:"scopeFilters"`
+
+	// List of variables to be prepended to the query string.
+	Variables []string `mandatory:"false" json:"variables"`
 
 	// Amount of time, in seconds, allowed for a query to execute. If this time expires before the query is complete, any partial results will be returned.
 	QueryTimeoutInSeconds *int `mandatory:"false" json:"queryTimeoutInSeconds"`

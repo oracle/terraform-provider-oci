@@ -62,6 +62,9 @@ type UpdateVmClusterDetails struct {
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
+
+	// Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. Storage Type can only be changed once from LOCAL to EXASCALE. EXASCALE to LOCAL is not permitted.
+	VmBackupStorageType UpdateVmClusterDetailsVmBackupStorageTypeEnum `mandatory:"false" json:"vmBackupStorageType,omitempty"`
 }
 
 func (m UpdateVmClusterDetails) String() string {
@@ -76,6 +79,9 @@ func (m UpdateVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateVmClusterDetailsVmBackupStorageTypeEnum(string(m.VmBackupStorageType)); !ok && m.VmBackupStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmBackupStorageType: %s. Supported values are: %s.", m.VmBackupStorageType, strings.Join(GetUpdateVmClusterDetailsVmBackupStorageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -122,5 +128,47 @@ func GetUpdateVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingUpdateVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateVmClusterDetailsLicenseModelEnum(val string) (UpdateVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateVmClusterDetailsVmBackupStorageTypeEnum Enum with underlying type: string
+type UpdateVmClusterDetailsVmBackupStorageTypeEnum string
+
+// Set of constants representing the allowable values for UpdateVmClusterDetailsVmBackupStorageTypeEnum
+const (
+	UpdateVmClusterDetailsVmBackupStorageTypeLocal    UpdateVmClusterDetailsVmBackupStorageTypeEnum = "LOCAL"
+	UpdateVmClusterDetailsVmBackupStorageTypeExascale UpdateVmClusterDetailsVmBackupStorageTypeEnum = "EXASCALE"
+)
+
+var mappingUpdateVmClusterDetailsVmBackupStorageTypeEnum = map[string]UpdateVmClusterDetailsVmBackupStorageTypeEnum{
+	"LOCAL":    UpdateVmClusterDetailsVmBackupStorageTypeLocal,
+	"EXASCALE": UpdateVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+var mappingUpdateVmClusterDetailsVmBackupStorageTypeEnumLowerCase = map[string]UpdateVmClusterDetailsVmBackupStorageTypeEnum{
+	"local":    UpdateVmClusterDetailsVmBackupStorageTypeLocal,
+	"exascale": UpdateVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+// GetUpdateVmClusterDetailsVmBackupStorageTypeEnumValues Enumerates the set of values for UpdateVmClusterDetailsVmBackupStorageTypeEnum
+func GetUpdateVmClusterDetailsVmBackupStorageTypeEnumValues() []UpdateVmClusterDetailsVmBackupStorageTypeEnum {
+	values := make([]UpdateVmClusterDetailsVmBackupStorageTypeEnum, 0)
+	for _, v := range mappingUpdateVmClusterDetailsVmBackupStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateVmClusterDetailsVmBackupStorageTypeEnumStringValues Enumerates the set of values in String for UpdateVmClusterDetailsVmBackupStorageTypeEnum
+func GetUpdateVmClusterDetailsVmBackupStorageTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"EXASCALE",
+	}
+}
+
+// GetMappingUpdateVmClusterDetailsVmBackupStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateVmClusterDetailsVmBackupStorageTypeEnum(val string) (UpdateVmClusterDetailsVmBackupStorageTypeEnum, bool) {
+	enum, ok := mappingUpdateVmClusterDetailsVmBackupStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -26,6 +26,9 @@ type ServiceListSummary struct {
 
 	// OCID of the Network Firewall Policy this application belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
+	// The description of the service list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m ServiceListSummary) String() string {

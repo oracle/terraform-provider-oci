@@ -27,6 +27,7 @@ const (
 	StorageOperationTypeCleanupArchivalStorageData StorageOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 	StorageOperationTypeEncryptActiveData          StorageOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
 	StorageOperationTypeEncryptArchivalData        StorageOperationTypeEnum = "ENCRYPT_ARCHIVAL_DATA"
+	StorageOperationTypeEncryptAllData             StorageOperationTypeEnum = "ENCRYPT_ALL_DATA"
 )
 
 var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
@@ -39,6 +40,7 @@ var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": StorageOperationTypeCleanupArchivalStorageData,
 	"ENCRYPT_ACTIVE_DATA":           StorageOperationTypeEncryptActiveData,
 	"ENCRYPT_ARCHIVAL_DATA":         StorageOperationTypeEncryptArchivalData,
+	"ENCRYPT_ALL_DATA":              StorageOperationTypeEncryptAllData,
 }
 
 var mappingStorageOperationTypeEnumLowerCase = map[string]StorageOperationTypeEnum{
@@ -51,6 +53,7 @@ var mappingStorageOperationTypeEnumLowerCase = map[string]StorageOperationTypeEn
 	"cleanup_archival_storage_data": StorageOperationTypeCleanupArchivalStorageData,
 	"encrypt_active_data":           StorageOperationTypeEncryptActiveData,
 	"encrypt_archival_data":         StorageOperationTypeEncryptArchivalData,
+	"encrypt_all_data":              StorageOperationTypeEncryptAllData,
 }
 
 // GetStorageOperationTypeEnumValues Enumerates the set of values for StorageOperationTypeEnum
@@ -74,6 +77,7 @@ func GetStorageOperationTypeEnumStringValues() []string {
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
 		"ENCRYPT_ACTIVE_DATA",
 		"ENCRYPT_ARCHIVAL_DATA",
+		"ENCRYPT_ALL_DATA",
 	}
 }
 

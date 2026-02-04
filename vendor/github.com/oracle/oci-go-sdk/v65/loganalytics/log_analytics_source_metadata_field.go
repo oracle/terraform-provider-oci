@@ -21,7 +21,7 @@ type LogAnalyticsSourceMetadataField struct {
 	// The field internal name.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
-	// A flag inidcating whether or not the source metadata field is enabled.
+	// A flag indicating whether or not the source metadata field is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The system flag.  A value of false denotes a custom, or user
