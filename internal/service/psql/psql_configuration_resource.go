@@ -418,7 +418,7 @@ func (s *PsqlConfigurationResourceCrud) Update() error {
 	}
 	request := oci_psql.UpdateConfigurationRequest{}
 
-	if compatibleShapes, ok := s.D.GetOkExists("compatible_shapes"); ok {
+	if compatibleShapes, ok := s.D.GetOkExists("compatible_shapes"); ok && s.D.HasChange("compatible_shapes") {
 		interfaces := compatibleShapes.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
@@ -442,12 +442,12 @@ func (s *PsqlConfigurationResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if description, ok := s.D.GetOkExists("description"); ok {
+	if description, ok := s.D.GetOkExists("description"); ok && s.D.HasChange("description") {
 		tmp := description.(string)
 		request.Description = &tmp
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
