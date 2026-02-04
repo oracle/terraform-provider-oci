@@ -26,6 +26,9 @@ type CreateVxlanInspectionRuleDetails struct {
 
 	Position *RulePosition `mandatory:"false" json:"position"`
 
+	// The description of the tunnel inspect rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	Profile *VxlanInspectionRuleProfile `mandatory:"false" json:"profile"`
 
 	// Types of Inspect Action on the traffic flow.
@@ -47,6 +50,11 @@ func (m CreateVxlanInspectionRuleDetails) GetAction() InspectActionTypeEnum {
 // GetPosition returns Position
 func (m CreateVxlanInspectionRuleDetails) GetPosition() *RulePosition {
 	return m.Position
+}
+
+// GetDescription returns Description
+func (m CreateVxlanInspectionRuleDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m CreateVxlanInspectionRuleDetails) String() string {

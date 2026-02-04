@@ -49,6 +49,9 @@ type DesktopDevicePolicy struct {
 
 	// Indicates whether the display is enabled.
 	IsDisplayEnabled *bool `mandatory:"true" json:"isDisplayEnabled"`
+
+	// Indicates whether video input is enabled.
+	IsVideoInputEnabled *bool `mandatory:"false" json:"isVideoInputEnabled"`
 }
 
 func (m DesktopDevicePolicy) String() string {

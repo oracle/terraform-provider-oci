@@ -21,6 +21,14 @@ type UpdateUdpServiceDetails struct {
 
 	// List of port-ranges to be used.
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
+
+	// The description of the service. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+}
+
+// GetDescription returns Description
+func (m UpdateUdpServiceDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateUdpServiceDetails) String() string {

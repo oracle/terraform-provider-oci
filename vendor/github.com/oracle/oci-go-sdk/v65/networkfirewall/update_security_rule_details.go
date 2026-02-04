@@ -34,6 +34,9 @@ type UpdateSecurityRuleDetails struct {
 	Inspection TrafficInspectionTypeEnum `mandatory:"false" json:"inspection,omitempty"`
 
 	Position *RulePosition `mandatory:"false" json:"position"`
+
+	// The description of the security rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m UpdateSecurityRuleDetails) String() string {

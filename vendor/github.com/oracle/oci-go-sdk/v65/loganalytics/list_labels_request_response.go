@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabels.go.html to see an example of how to use ListLabelsRequest.
 type ListLabelsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The label name used for filtering.  Only items with, or associated with, the
@@ -291,18 +291,21 @@ const (
 	ListLabelsLabelSortByName        ListLabelsLabelSortByEnum = "name"
 	ListLabelsLabelSortByPriority    ListLabelsLabelSortByEnum = "priority"
 	ListLabelsLabelSortBySourceusing ListLabelsLabelSortByEnum = "sourceUsing"
+	ListLabelsLabelSortByTimeupdated ListLabelsLabelSortByEnum = "timeUpdated"
 )
 
 var mappingListLabelsLabelSortByEnum = map[string]ListLabelsLabelSortByEnum{
 	"name":        ListLabelsLabelSortByName,
 	"priority":    ListLabelsLabelSortByPriority,
 	"sourceUsing": ListLabelsLabelSortBySourceusing,
+	"timeUpdated": ListLabelsLabelSortByTimeupdated,
 }
 
 var mappingListLabelsLabelSortByEnumLowerCase = map[string]ListLabelsLabelSortByEnum{
 	"name":        ListLabelsLabelSortByName,
 	"priority":    ListLabelsLabelSortByPriority,
 	"sourceusing": ListLabelsLabelSortBySourceusing,
+	"timeupdated": ListLabelsLabelSortByTimeupdated,
 }
 
 // GetListLabelsLabelSortByEnumValues Enumerates the set of values for ListLabelsLabelSortByEnum
@@ -320,6 +323,7 @@ func GetListLabelsLabelSortByEnumStringValues() []string {
 		"name",
 		"priority",
 		"sourceUsing",
+		"timeUpdated",
 	}
 }
 

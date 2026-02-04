@@ -27,7 +27,7 @@ type LogAnalyticsSourceDataFilter struct {
 	// The filter edit version.
 	EditVersion *int64 `mandatory:"false" json:"editVersion"`
 
-	// A flag inidcating whether or not the filter is enabled.
+	// A flag indicating whether or not the filter is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The field internal name.

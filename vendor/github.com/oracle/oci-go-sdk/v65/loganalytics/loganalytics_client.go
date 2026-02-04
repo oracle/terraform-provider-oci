@@ -1967,7 +1967,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // DeleteLogAnalyticsObjectCollectionRule Deletes the configured object storage bucket based collection rule and stop the log collection.
-// It will not delete the existing processed data associated with this bucket from logging analytics storage.
+// It will not delete the existing processed data associated with this bucket from Log Analytics Storage.
 //
 // # See also
 //
@@ -4656,7 +4656,7 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 	return response, err
 }
 
-// GetNamespace This API gets the namespace details of a tenancy already onboarded in Logging Analytics Application
+// GetNamespace This API gets the namespace details of a tenancy already onboarded in Log Analytics Application
 //
 // # See also
 //
@@ -7155,7 +7155,7 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 }
 
 // ListNamespaces Given a tenancy OCID, this API returns the namespace of the tenancy if it is valid and subscribed to the region.  The
-// result also indicates if the tenancy is onboarded with Logging Analytics.
+// result also indicates if the tenancy is onboarded with Log Analytics.
 //
 // # See also
 //
@@ -9010,7 +9010,7 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// OffboardNamespace Off-boards a tenant from Logging Analytics
+// OffboardNamespace Off-boards a tenant from Log Analytics
 //
 // # See also
 //
@@ -9072,7 +9072,7 @@ func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request 
 	return response, err
 }
 
-// OnboardNamespace On-boards a tenant to Logging Analytics.
+// OnboardNamespace On-boards a tenant to Log Analytics.
 //
 // # See also
 //
@@ -11049,7 +11049,7 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	return response, err
 }
 
-// UploadDiscoveryData Accepts discovery data for processing by Logging Analytics.
+// UploadDiscoveryData Accepts discovery data for processing by Log Analytics.
 //
 // # See also
 //
@@ -11124,7 +11124,7 @@ func (client LogAnalyticsClient) uploadDiscoveryData(ctx context.Context, reques
 	return response, err
 }
 
-// UploadLogEventsFile Accepts log events for processing by Logging Analytics.
+// UploadLogEventsFile Accepts log events for processing by Log Analytics.
 //
 // # See also
 //
@@ -11199,7 +11199,7 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 	return response, err
 }
 
-// UploadLogFile Accepts log data for processing by Logging Analytics.
+// UploadLogFile Accepts log data for processing by Log Analytics.
 //
 // # See also
 //

@@ -39,7 +39,7 @@ type ListNatRulesRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Unique priority order for NAT Rules in the network firewall policy.
+	// Unique priority order for NAT rules in the Network Firewall policy.
 	NatRulePriorityOrder *int `mandatory:"false" contributesTo:"query" name:"natRulePriorityOrder"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

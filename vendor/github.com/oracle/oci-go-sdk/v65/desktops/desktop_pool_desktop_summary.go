@@ -36,6 +36,8 @@ type DesktopPoolDesktopSummary struct {
 	// The owner of the desktop.
 	UserName *string `mandatory:"false" json:"userName"`
 
+	Image *DesktopImage `mandatory:"false" json:"image"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -44,6 +46,8 @@ type DesktopPoolDesktopSummary struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	Connection *DesktopConnection `mandatory:"false" json:"connection"`
 }
 
 func (m DesktopPoolDesktopSummary) String() string {

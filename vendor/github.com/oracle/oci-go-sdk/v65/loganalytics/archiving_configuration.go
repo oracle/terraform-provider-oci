@@ -27,6 +27,9 @@ type ArchivingConfiguration struct {
 	// https://en.wikipedia.org/wiki/ISO_8601#Durations
 	// The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).
 	ArchivalStorageDuration *string `mandatory:"false" json:"archivalStorageDuration"`
+
+	// end time of the oldest active CoreGroup
+	TimeOldestActiveBucketEnded *common.SDKTime `mandatory:"false" json:"timeOldestActiveBucketEnded"`
 }
 
 func (m ArchivingConfiguration) String() string {

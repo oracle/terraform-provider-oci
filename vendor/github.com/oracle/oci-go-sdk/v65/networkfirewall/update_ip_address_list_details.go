@@ -21,6 +21,14 @@ type UpdateIpAddressListDetails struct {
 
 	// List of IP addresses which could be IPv4 or IPv6 addresses or CIDR blocks.
 	Addresses []string `mandatory:"true" json:"addresses"`
+
+	// The description of the address list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+}
+
+// GetDescription returns Description
+func (m UpdateIpAddressListDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateIpAddressListDetails) String() string {

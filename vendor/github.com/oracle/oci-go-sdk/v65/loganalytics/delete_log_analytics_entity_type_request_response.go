@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEntityType.go.html to see an example of how to use DeleteLogAnalyticsEntityTypeRequest.
 type DeleteLogAnalyticsEntityTypeRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Log analytics entity type name.
+	// Log analytics entity type name. Entity type name can be obtained by running 'oci log-analytics entity-type list --namespace-name <namespacename> --all'. The json output 'internal-name' parameter value contains the entity type name.
 	EntityTypeName *string `mandatory:"true" contributesTo:"path" name:"entityTypeName"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

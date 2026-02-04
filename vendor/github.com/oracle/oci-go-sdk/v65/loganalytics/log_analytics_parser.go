@@ -84,7 +84,7 @@ type LogAnalyticsParser struct {
 
 	ParserFilter *LogAnalyticsParserFilter `mandatory:"false" json:"parserFilter"`
 
-	// A flag indicating whther or not the parser is write once.
+	// A flag indicating whether or not the parser is write once.
 	IsParserWrittenOnce *bool `mandatory:"false" json:"isParserWrittenOnce"`
 
 	// The parser function list.

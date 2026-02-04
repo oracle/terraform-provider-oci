@@ -25,6 +25,7 @@ const (
 	ImportedModelCapabilityImageTextToText ImportedModelCapabilityEnum = "IMAGE_TEXT_TO_TEXT"
 	ImportedModelCapabilityEmbedding       ImportedModelCapabilityEnum = "EMBEDDING"
 	ImportedModelCapabilityRerank          ImportedModelCapabilityEnum = "RERANK"
+	ImportedModelCapabilityTextToImage     ImportedModelCapabilityEnum = "TEXT_TO_IMAGE"
 )
 
 var mappingImportedModelCapabilityEnum = map[string]ImportedModelCapabilityEnum{
@@ -32,6 +33,7 @@ var mappingImportedModelCapabilityEnum = map[string]ImportedModelCapabilityEnum{
 	"IMAGE_TEXT_TO_TEXT": ImportedModelCapabilityImageTextToText,
 	"EMBEDDING":          ImportedModelCapabilityEmbedding,
 	"RERANK":             ImportedModelCapabilityRerank,
+	"TEXT_TO_IMAGE":      ImportedModelCapabilityTextToImage,
 }
 
 var mappingImportedModelCapabilityEnumLowerCase = map[string]ImportedModelCapabilityEnum{
@@ -39,6 +41,7 @@ var mappingImportedModelCapabilityEnumLowerCase = map[string]ImportedModelCapabi
 	"image_text_to_text": ImportedModelCapabilityImageTextToText,
 	"embedding":          ImportedModelCapabilityEmbedding,
 	"rerank":             ImportedModelCapabilityRerank,
+	"text_to_image":      ImportedModelCapabilityTextToImage,
 }
 
 // GetImportedModelCapabilityEnumValues Enumerates the set of values for ImportedModelCapabilityEnum
@@ -57,6 +60,7 @@ func GetImportedModelCapabilityEnumStringValues() []string {
 		"IMAGE_TEXT_TO_TEXT",
 		"EMBEDDING",
 		"RERANK",
+		"TEXT_TO_IMAGE",
 	}
 }
 

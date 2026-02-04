@@ -25,10 +25,14 @@ type Application interface {
 
 	// OCID of the Network Firewall Policy this application belongs to.
 	GetParentResourceId() *string
+
+	// The description of the application. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type application struct {
 	JsonData         []byte
+	Description      *string `mandatory:"false" json:"description"`
 	Name             *string `mandatory:"true" json:"name"`
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 	Type             string  `json:"type"`
@@ -47,6 +51,7 @@ func (m *application) UnmarshalJSON(data []byte) error {
 	}
 	m.Name = s.Model.Name
 	m.ParentResourceId = s.Model.ParentResourceId
+	m.Description = s.Model.Description
 	m.Type = s.Model.Type
 
 	return err
@@ -73,6 +78,11 @@ func (m *application) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		common.Logf("Received unsupported enum value for Application: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m application) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

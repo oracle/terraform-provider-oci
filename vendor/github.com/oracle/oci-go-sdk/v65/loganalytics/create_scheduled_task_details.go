@@ -28,6 +28,9 @@ type CreateScheduledTaskDetails interface {
 	// No trailing spaces allowed.
 	GetDisplayName() *string
 
+	// Description for this resource.
+	GetDescription() *string
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
@@ -40,6 +43,7 @@ type CreateScheduledTaskDetails interface {
 type createscheduledtaskdetails struct {
 	JsonData      []byte
 	DisplayName   *string                           `mandatory:"false" json:"displayName"`
+	Description   *string                           `mandatory:"false" json:"description"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
@@ -59,6 +63,7 @@ func (m *createscheduledtaskdetails) UnmarshalJSON(data []byte) error {
 	}
 	m.CompartmentId = s.Model.CompartmentId
 	m.DisplayName = s.Model.DisplayName
+	m.Description = s.Model.Description
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Kind = s.Model.Kind
@@ -92,6 +97,11 @@ func (m *createscheduledtaskdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 // GetDisplayName returns DisplayName
 func (m createscheduledtaskdetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetDescription returns Description
+func (m createscheduledtaskdetails) GetDescription() *string {
+	return m.Description
 }
 
 // GetFreeformTags returns FreeformTags

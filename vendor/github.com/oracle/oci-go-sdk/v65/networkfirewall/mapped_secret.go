@@ -29,10 +29,14 @@ type MappedSecret interface {
 
 	// OCID of the Network Firewall Policy this Mapped Secret belongs to.
 	GetParentResourceId() *string
+
+	// The description of the mapped secret. This field can be used to add additional info.
+	GetDescription() *string
 }
 
 type mappedsecret struct {
 	JsonData         []byte
+	Description      *string            `mandatory:"false" json:"description"`
 	Name             *string            `mandatory:"true" json:"name"`
 	Type             InspectionTypeEnum `mandatory:"true" json:"type"`
 	ParentResourceId *string            `mandatory:"true" json:"parentResourceId"`
@@ -53,6 +57,7 @@ func (m *mappedsecret) UnmarshalJSON(data []byte) error {
 	m.Name = s.Model.Name
 	m.Type = s.Model.Type
 	m.ParentResourceId = s.Model.ParentResourceId
+	m.Description = s.Model.Description
 	m.Source = s.Model.Source
 
 	return err
@@ -75,6 +80,11 @@ func (m *mappedsecret) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		common.Logf("Received unsupported enum value for MappedSecret: %s.", m.Source)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m mappedsecret) GetDescription() *string {
+	return m.Description
 }
 
 // GetName returns Name

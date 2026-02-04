@@ -47,6 +47,10 @@ type UpdateLogAnalyticsEntityDetails struct {
 	TimeLastDiscovered *common.SDKTime `mandatory:"false" json:"timeLastDiscovered"`
 
 	Metadata *LogAnalyticsMetadataDetails `mandatory:"false" json:"metadata"`
+
+	// The OCID of the Cloud resource which this entity is a representation of. This may be blank when the entity
+	// represents a non-cloud resource that the customer may have on their premises.
+	CloudResourceId *string `mandatory:"false" json:"cloudResourceId"`
 }
 
 func (m UpdateLogAnalyticsEntityDetails) String() string {
