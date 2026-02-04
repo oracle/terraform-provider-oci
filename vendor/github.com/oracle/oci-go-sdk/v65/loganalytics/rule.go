@@ -48,7 +48,7 @@ type Rule struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The current state of the logging analytics rule.
+	// The current state of the Log Analytics rule.
 	LifecycleState ConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The target service.

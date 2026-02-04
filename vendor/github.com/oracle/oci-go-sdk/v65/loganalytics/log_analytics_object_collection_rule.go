@@ -41,10 +41,10 @@ type LogAnalyticsObjectCollectionRule struct {
 	// Use this for HISTORIC or HISTORIC_LIVE collection types. When collectionType is LIVE, specifying pollSince value other than CURRENT_TIME will result in error.
 	PollSince *string `mandatory:"true" json:"pollSince"`
 
-	// Logging Analytics Log group OCID to associate the processed logs with.
+	// Log Analytics Log group OCID to associate the processed logs with.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// Name of the Logging Analytics Source to use for the processing.
+	// Name of the Log Analytics Source to use for the processing.
 	LogSourceName *string `mandatory:"true" json:"logSourceName"`
 
 	// The current state of the rule.
@@ -68,7 +68,7 @@ type LogAnalyticsObjectCollectionRule struct {
 	// Use this for HISTORIC collection type. When collectionType is LIVE or HISTORIC_LIVE, specifying pollTill will result in error.
 	PollTill *string `mandatory:"false" json:"pollTill"`
 
-	// Logging Analytics entity OCID to associate the processed logs with.
+	// Log Analytics entity OCID to associate the processed logs with.
 	EntityId *string `mandatory:"false" json:"entityId"`
 
 	// An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing.
@@ -113,7 +113,7 @@ type LogAnalyticsObjectCollectionRule struct {
 	// Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule
 	IsForceHistoricCollection *bool `mandatory:"false" json:"isForceHistoricCollection"`
 
-	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Logging Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
+	// A Stream OCID is required for Object Collection rules of type LIVE or HISTORIC_LIVE, which will be used by Log Analytics while creating Event Rule and consume the event notifications created by the Object Storage.
 	StreamId *string `mandatory:"false" json:"streamId"`
 
 	// Cursor type used to fetch messages from stream.

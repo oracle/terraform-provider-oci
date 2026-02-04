@@ -36,7 +36,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return rules whose displayName matches in whole or in part the specified value. The match is case-insensitive. 
 * `kind` - (Optional) The rule kind used for filtering. Only rules of the specified kind will be returned. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `state` - (Optional) The rule lifecycle state used for filtering. Currently supported values are ACTIVE and DELETED. 
 * `target_service` - (Optional) The target service to use for filtering. 
 
@@ -61,8 +61,9 @@ The following attributes are exported:
 	* `is_enabled` - A flag indicating whether or not the ingest time rule or scheduled task is enabled.
 	* `kind` - The kind of rule - either an ingest time rule or a scheduled task. 
 	* `last_execution_status` - The most recent task execution status.
-	* `state` - The current state of the logging analytics rule. 
+	* `state` - The current state of the Log Analytics rule. 
 	* `target_service` - The target service.
+	* `task_status` - The task status of the rule.
 	* `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
 	* `time_last_executed` - The date and time the scheduled task last executed, in the format defined by RFC3339.
 	* `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 

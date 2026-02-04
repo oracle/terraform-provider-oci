@@ -41,6 +41,39 @@ type AbstractParserTestResultLogEntry struct {
 
 	// The match status description.
 	MatchStatusDescription *string `mandatory:"false" json:"matchStatusDescription"`
+
+	// Additional properties on the field map.
+	FieldMapping []ParserTestResultFieldValue `mandatory:"false" json:"fieldMapping"`
+
+	// Additional properties on the field map if sub parser with actions defined.
+	Metadata []ParserTestResultFieldValue `mandatory:"false" json:"metadata"`
+
+	// The parser action.
+	Action *string `mandatory:"false" json:"action"`
+
+	// The timezone corresponding to the timestamp detected in the log entry (e.g. GMT).
+	TimestampZone *string `mandatory:"false" json:"timestampZone"`
+
+	// In case of regex parser, if there is any timestamp identified in the log entry,
+	// this value signifies the index in the log entry from which timestamp starts.
+	TimestampStartIndex *int `mandatory:"false" json:"timestampStartIndex"`
+
+	// In case of regex parser, if there is any timestamp identified in the log entry,
+	// this value signifies the index in the log entry at which timestamp ends.
+	TimestampEndIndex *int `mandatory:"false" json:"timestampEndIndex"`
+
+	// The timestamp epoch in milliseconds.
+	TimestampEpochMillisec *int64 `mandatory:"false" json:"timestampEpochMillisec"`
+
+	TextMatchInfo *AbstractParserTestResultLogLine `mandatory:"false" json:"textMatchInfo"`
+
+	MatchResult *RegexMatchResult `mandatory:"false" json:"matchResult"`
+
+	// Test result log lines.
+	Loglines []AbstractParserTestResultLogLine `mandatory:"false" json:"loglines"`
+
+	// The parser function names.
+	FunctionNames []string `mandatory:"false" json:"functionNames"`
 }
 
 func (m AbstractParserTestResultLogEntry) String() string {

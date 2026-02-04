@@ -21,6 +21,9 @@ type UpdateUrlListDetails struct {
 
 	// List of urls.
 	Urls []UrlPattern `mandatory:"true" json:"urls"`
+
+	// The description of the Url list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m UpdateUrlListDetails) String() string {
@@ -42,7 +45,8 @@ func (m UpdateUrlListDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateUrlListDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Urls []urlpattern `json:"urls"`
+		Description *string      `json:"description"`
+		Urls        []urlpattern `json:"urls"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -50,6 +54,8 @@ func (m *UpdateUrlListDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Description = model.Description
+
 	m.Urls = make([]UrlPattern, len(model.Urls))
 	for i, n := range model.Urls {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only log analytics log groups whose displayName matches the entire display name given. The match is case-insensitive. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

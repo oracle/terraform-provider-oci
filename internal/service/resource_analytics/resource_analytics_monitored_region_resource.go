@@ -362,6 +362,8 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	} else {
+		s.D.Set("system_tags", make(map[string]interface{}))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -398,6 +400,8 @@ func MonitoredRegionSummaryToMap(obj oci_resource_analytics.MonitoredRegionSumma
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	} else {
+		result["system_tags"] = make(map[string]interface{})
 	}
 
 	if obj.TimeCreated != nil {

@@ -15,8 +15,7 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
   Updates records in the specified RRSet.
 
-When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
-parameter then the viewId query parameter is required.
+When accessing a private zone by name, the view_id query parameter is required.
 
 ## Example Usage
 
@@ -35,27 +34,26 @@ resource "oci_dns_rrset" "test_rrset" {
 		rtype = var.rrset_items_rtype
 		ttl = var.rrset_items_ttl
 	}
-	scope = var.rrset_scope
 	view_id = oci_dns_view.test_view.id
 }
 ```
+
+## Behavior
+
+- Create returns HTTP 409 (Conflict) if the target RRSet already contains records. Use Update to modify an existing RRSet, or Delete to remove records.
 
 ## Argument Reference
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment the zone belongs to.
 
-	This parameter is deprecated and should be omitted. 
 * `domain` - (Required) The target fully-qualified domain name (FQDN) within the target zone.
 * `items` - (Optional) (Updatable) 
-    **NOTE** Omitting `items` at time of create will delete any existing records in the RRSet
 	* `domain` - (Required) The fully qualified domain name where the record can be located. 
 	* `rdata` - (Required) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)  
 	* `rtype` - (Required) The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 	* `ttl` - (Required) (Updatable) The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended. 
 * `rtype` - (Required) The type of the target RRSet within the target zone.
-* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
 * `view_id` - (Optional) The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 
@@ -92,10 +90,4 @@ For legacy Rrsets that were created without using `scope`, these Rrsets can be i
 $ terraform import oci_dns_rrset.test_rrset "zoneNameOrId/{zoneNameOrId}/domain/{domain}/rtype/{rtype}" 
 ```
 
-For Rrsets created using `scope` and `view_id`, these Rrsets can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_rrset.test_rrset "zoneNameOrId/{zoneNameOrId}/domain/{domain}/rtype/{rtype}/scope/{scope}/viewId/{viewId}"
-```
-
-skip adding `{view_id}` at the end if Rrset was created without `view_id`.
+Note: Legacy RRSet IDs that include scope/viewId remain accepted for import for backward compatibility; however, scope is no longer a supported argument on this resource.

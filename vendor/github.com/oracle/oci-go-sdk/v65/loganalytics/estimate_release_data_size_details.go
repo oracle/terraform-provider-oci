@@ -23,6 +23,10 @@ type EstimateReleaseDataSizeDetails struct {
 
 	// This is the end of the time range for the data to be released
 	TimeDataEnded *common.SDKTime `mandatory:"true" json:"timeDataEnded"`
+
+	// This is the id for the recalled data collection to be released.
+	// If specified, only this collection will be released
+	CollectionId *int64 `mandatory:"false" json:"collectionId"`
 }
 
 func (m EstimateReleaseDataSizeDetails) String() string {

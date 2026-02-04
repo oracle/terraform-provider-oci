@@ -33,6 +33,7 @@ resource "oci_network_firewall_network_firewall_policy_tunnel_inspection_rule" "
 
 	#Optional
 	action = var.network_firewall_policy_tunnel_inspection_rule_action
+	description = var.network_firewall_policy_tunnel_inspection_rule_description
 	position {
 
 		#Optional
@@ -57,6 +58,7 @@ The following arguments are supported:
 * `condition` - (Required) (Updatable) Criteria to evaluate against incoming network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. 
 	* `destination_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic destination address.
 	* `source_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic source address.
+* `description` - (Optional) (Updatable) The description of the tunnel inspect rule. This field can be used to add additional info.
 * `name` - (Required) Name for the Tunnel Inspection Rule, must be unique within the policy.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
 * `position` - (Optional) (Updatable) An object which defines the position of the rule.
@@ -81,6 +83,7 @@ The following attributes are exported:
 * `condition` - Criteria to evaluate against incoming network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. 
 	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `source_address` - An array of address list names to be evaluated against the traffic source address.
+* `description` - The description of the tunnel inspect rule. This field can be used to add additional info.
 * `name` - Name for the Tunnel Inspection Rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Tunnel Inspection Rule belongs to.
 * `position` - An object which defines the position of the rule.

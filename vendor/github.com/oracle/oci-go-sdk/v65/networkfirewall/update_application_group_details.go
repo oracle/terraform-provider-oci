@@ -20,6 +20,9 @@ type UpdateApplicationGroupDetails struct {
 
 	// Collection of application names.
 	Apps []string `mandatory:"true" json:"apps"`
+
+	// The description of the application list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m UpdateApplicationGroupDetails) String() string {

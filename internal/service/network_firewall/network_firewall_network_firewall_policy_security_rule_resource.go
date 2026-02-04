@@ -93,6 +93,11 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 				Required: true,
 				ForceNew: true,
 			},
+			// Optional
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"position": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -194,6 +199,11 @@ func (s *NetworkFirewallNetworkFirewallPolicySecurityRuleResourceCrud) Create() 
 		}
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if inspection, ok := s.D.GetOkExists("inspection"); ok {
 		request.Inspection = oci_network_firewall.TrafficInspectionTypeEnum(inspection.(string))
 	}
@@ -280,6 +290,11 @@ func (s *NetworkFirewallNetworkFirewallPolicySecurityRuleResourceCrud) Update() 
 		}
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if inspection, ok := s.D.GetOkExists("inspection"); ok {
 		request.Inspection = oci_network_firewall.TrafficInspectionTypeEnum(inspection.(string))
 	}
@@ -350,6 +365,10 @@ func (s *NetworkFirewallNetworkFirewallPolicySecurityRuleResourceCrud) SetData()
 		s.D.Set("condition", []interface{}{SecurityRuleMatchCriteriaToMap(s.Res.Condition)})
 	} else {
 		s.D.Set("condition", nil)
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
 	}
 
 	s.D.Set("inspection", s.Res.Inspection)
@@ -541,6 +560,10 @@ func SecurityRuleSummaryToMap(obj oci_network_firewall.SecurityRuleSummary) map[
 	result := map[string]interface{}{}
 
 	result["action"] = string(obj.Action)
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	result["inspection"] = string(obj.Inspection)
 

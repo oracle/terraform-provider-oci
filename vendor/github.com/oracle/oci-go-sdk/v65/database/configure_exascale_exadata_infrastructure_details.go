@@ -20,6 +20,9 @@ type ConfigureExascaleExadataInfrastructureDetails struct {
 
 	// Storage size needed for Exascale in GBs.
 	TotalStorageInGBs *int `mandatory:"true" json:"totalStorageInGBs"`
+
+	// Storage size needed for VM storage on Exascale in GBs.
+	TotalVmStorageInGBs *int `mandatory:"false" json:"totalVmStorageInGBs"`
 }
 
 func (m ConfigureExascaleExadataInfrastructureDetails) String() string {

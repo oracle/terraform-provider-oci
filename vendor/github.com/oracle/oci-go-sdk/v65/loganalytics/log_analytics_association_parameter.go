@@ -48,7 +48,7 @@ type LogAnalyticsAssociationParameter struct {
 	// A list of missing properties.
 	MissingProperties []string `mandatory:"false" json:"missingProperties"`
 
-	// A list of requried properties.
+	// A list of required properties.
 	RequiredProperties []string `mandatory:"false" json:"requiredProperties"`
 }
 

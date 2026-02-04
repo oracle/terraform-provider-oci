@@ -26,7 +26,7 @@ data "oci_log_analytics_log_analytics_unprocessed_data_bucket" "test_log_analyti
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

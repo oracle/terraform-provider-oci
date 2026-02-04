@@ -41,7 +41,7 @@ The following arguments are supported:
 * `expect` - (Optional) A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent. If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body. The only allowed value for this parameter is "100-Continue" (case-insensitive).
 * `is_force` - (Optional) is force
 * `lookup_name` - (Required) The name of the lookup to operate on.
-* `namespace` - (Required) The Logging Analytics namespace used for the request.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ** IMPORTANT **

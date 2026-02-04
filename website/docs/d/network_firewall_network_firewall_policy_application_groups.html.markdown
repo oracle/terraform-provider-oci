@@ -44,6 +44,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `apps` - List of apps in the group.
+* `description` - The description of the application list. This field can be used to add additional info.
 * `name` - Name of the application Group.
 * `parent_resource_id` - OCID of the Network Firewall Policy this application group belongs to.
 * `total_apps` - Count of total applications in the given application group.

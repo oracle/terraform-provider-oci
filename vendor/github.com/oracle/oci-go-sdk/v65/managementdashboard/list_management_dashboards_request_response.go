@@ -39,6 +39,9 @@ type ListManagementDashboardsRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is the default.
 	SortBy ListManagementDashboardsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// This parameter applies only when compartmentId is root compartment. When set to true, all accessible resources will be returned. Default is false.
+	CompartmentIdInSubtree *string `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

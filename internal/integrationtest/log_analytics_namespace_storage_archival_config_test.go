@@ -108,10 +108,10 @@ func TestLogAnalyticsNamespaceStorageArchivalConfigResource_basic(t *testing.T) 
 				compartmentIdVariableStr + LogAnalyticsNamespaceStorageArchivalConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "archiving_configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "archiving_configuration.0.active_storage_duration", "P90D"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "archiving_configuration.0.archival_storage_duration", "-1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "archiving_configuration.0.time_oldest_active_bucket_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_archiving_enabled"),
 			),
 		},

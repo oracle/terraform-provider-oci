@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2025, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 
@@ -26,6 +26,9 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
     is_keyboard_enabled = var.desktop_pool_device_policy_is_keyboard_enabled
     is_pointer_enabled  = var.desktop_pool_device_policy_is_pointer_enabled
     is_printing_enabled = var.desktop_pool_device_policy_is_printing_enabled
+		
+    #Optional
+    is_video_input_enabled = var.desktop_pool_device_policy_is_video_input_enabled
   }
 
   image {
@@ -53,6 +56,9 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
   storage_size_in_gbs      = var.desktop_pool_storage_size_in_gbs
 
   are_volumes_preserved = var.desktop_pool_are_volumes_preserved
+
+  # Optional
+  boot_volume_size_in_gbs = var.desktop_pool_boot_volume_size_in_gbs
 
   shape_name   = var.desktop_pool_shape_name
   standby_size = var.desktop_pool_standby_size

@@ -85,7 +85,7 @@ The following arguments are supported:
 * `is_hidden` - (Optional) A flag indicating whether or not the new lookup should be hidden.
 * `lookup_name` - (Required) The name of the lookup to operate on.
 * `max_matches` - (Optional) (Updatable) The maximum number of matches.
-* `namespace` - (Required) The Logging Analytics namespace used for the request.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 * `register_lookup_file` - (Required) Path to the file containing data for lookup creation.
 * `type` - (Required) The lookup type. Valid values are Lookup, Dictionary or Module.
 

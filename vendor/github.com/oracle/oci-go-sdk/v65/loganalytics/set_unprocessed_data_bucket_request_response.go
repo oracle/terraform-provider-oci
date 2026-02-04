@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/SetUnprocessedDataBucket.go.html to see an example of how to use SetUnprocessedDataBucketRequest.
 type SetUnprocessedDataBucketRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Name of the Object Storage bucket.
+	// Name of the Object Storage bucket. Bucket name can be obtained by running 'oci os bucket list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'name' parameter value contains the bucket name.
 	BucketName *string `mandatory:"true" contributesTo:"query" name:"bucketName"`
 
 	// The enabled flag used for filtering.  Only items with the specified enabled value

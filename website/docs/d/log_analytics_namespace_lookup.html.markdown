@@ -28,7 +28,7 @@ data "oci_log_analytics_namespace_lookup" "test_namespace_lookup" {
 The following arguments are supported:
 
 * `lookup_name` - (Required) The name of the lookup to operate on.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

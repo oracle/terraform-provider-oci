@@ -34,6 +34,9 @@ type VxlanInspectionRule struct {
 
 	Position *RulePosition `mandatory:"false" json:"position"`
 
+	// The description of the tunnel inspect rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Types of Inspect Action on the Traffic flow.
 	//   * INSPECT - Inspect the traffic.
 	//   * INSPECT_AND_CAPTURE_LOG - Inspect and capture logs for the traffic.
@@ -63,6 +66,11 @@ func (m VxlanInspectionRule) GetPosition() *RulePosition {
 // GetParentResourceId returns ParentResourceId
 func (m VxlanInspectionRule) GetParentResourceId() *string {
 	return m.ParentResourceId
+}
+
+// GetDescription returns Description
+func (m VxlanInspectionRule) GetDescription() *string {
+	return m.Description
 }
 
 func (m VxlanInspectionRule) String() string {

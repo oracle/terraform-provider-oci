@@ -48,6 +48,9 @@ type ScheduledTask interface {
 	// The current state of the scheduled task.
 	GetLifecycleState() ScheduledTaskLifecycleStateEnum
 
+	// Description for this resource.
+	GetDescription() *string
+
 	// Status of the scheduled task.
 	GetTaskStatus() ScheduledTaskTaskStatusEnum
 
@@ -75,6 +78,7 @@ type ScheduledTask interface {
 
 type scheduledtask struct {
 	JsonData            []byte
+	Description         *string                           `mandatory:"false" json:"description"`
 	TaskStatus          ScheduledTaskTaskStatusEnum       `mandatory:"false" json:"taskStatus,omitempty"`
 	PauseReason         ScheduledTaskPauseReasonEnum      `mandatory:"false" json:"pauseReason,omitempty"`
 	WorkRequestId       *string                           `mandatory:"false" json:"workRequestId"`
@@ -114,6 +118,7 @@ func (m *scheduledtask) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
+	m.Description = s.Model.Description
 	m.TaskStatus = s.Model.TaskStatus
 	m.PauseReason = s.Model.PauseReason
 	m.WorkRequestId = s.Model.WorkRequestId
@@ -143,6 +148,11 @@ func (m *scheduledtask) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		common.Logf("Received unsupported enum value for ScheduledTask: %s.", m.Kind)
 		return *m, nil
 	}
+}
+
+// GetDescription returns Description
+func (m scheduledtask) GetDescription() *string {
+	return m.Description
 }
 
 // GetTaskStatus returns TaskStatus
@@ -315,6 +325,7 @@ const (
 	ScheduledTaskPauseReasonUserAction               ScheduledTaskPauseReasonEnum = "USER_ACTION"
 	ScheduledTaskPauseReasonTenancyLifecycle         ScheduledTaskPauseReasonEnum = "TENANCY_LIFECYCLE"
 	ScheduledTaskPauseReasonPurgeResourceNotFound    ScheduledTaskPauseReasonEnum = "PURGE_RESOURCE_NOT_FOUND"
+	ScheduledTaskPauseReasonLimitExceeded            ScheduledTaskPauseReasonEnum = "LIMIT_EXCEEDED"
 )
 
 var mappingScheduledTaskPauseReasonEnum = map[string]ScheduledTaskPauseReasonEnum{
@@ -325,6 +336,7 @@ var mappingScheduledTaskPauseReasonEnum = map[string]ScheduledTaskPauseReasonEnu
 	"USER_ACTION":                 ScheduledTaskPauseReasonUserAction,
 	"TENANCY_LIFECYCLE":           ScheduledTaskPauseReasonTenancyLifecycle,
 	"PURGE_RESOURCE_NOT_FOUND":    ScheduledTaskPauseReasonPurgeResourceNotFound,
+	"LIMIT_EXCEEDED":              ScheduledTaskPauseReasonLimitExceeded,
 }
 
 var mappingScheduledTaskPauseReasonEnumLowerCase = map[string]ScheduledTaskPauseReasonEnum{
@@ -335,6 +347,7 @@ var mappingScheduledTaskPauseReasonEnumLowerCase = map[string]ScheduledTaskPause
 	"user_action":                 ScheduledTaskPauseReasonUserAction,
 	"tenancy_lifecycle":           ScheduledTaskPauseReasonTenancyLifecycle,
 	"purge_resource_not_found":    ScheduledTaskPauseReasonPurgeResourceNotFound,
+	"limit_exceeded":              ScheduledTaskPauseReasonLimitExceeded,
 }
 
 // GetScheduledTaskPauseReasonEnumValues Enumerates the set of values for ScheduledTaskPauseReasonEnum
@@ -356,6 +369,7 @@ func GetScheduledTaskPauseReasonEnumStringValues() []string {
 		"USER_ACTION",
 		"TENANCY_LIFECYCLE",
 		"PURGE_RESOURCE_NOT_FOUND",
+		"LIMIT_EXCEEDED",
 	}
 }
 

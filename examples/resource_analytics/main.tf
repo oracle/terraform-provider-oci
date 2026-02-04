@@ -119,6 +119,13 @@ data "oci_identity_region_subscriptions" "test_region_subscriptions" {
 }
 
 resource "oci_resource_analytics_monitored_region" "test_monitored_regions" {
+  #Required
+  timeouts {
+    create = "1h"
+    update = "1h"
+    delete = "1h"
+  }
+
   depends_on = [oci_resource_analytics_tenancy_attachment.test_tenancy_attachment]
 
   for_each = toset([for region in data.oci_identity_region_subscriptions.test_region_subscriptions.region_subscriptions : region.region_name])
@@ -157,6 +164,7 @@ resource "oci_resource_analytics_resource_analytics_instance_oac_management" "te
   }
 
   #Required
+  depends_on                     = [oci_resource_analytics_monitored_region.test_monitored_regions]
   resource_analytics_instance_id = oci_resource_analytics_resource_analytics_instance.test_resource_analytics_instance.id
   attachment_type                = var.resource_analytics_instance_oac_management_attachment_type
   enable_oac                     = var.resource_analytics_instance_oac_management_enable_oac

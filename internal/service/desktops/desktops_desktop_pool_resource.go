@@ -151,6 +151,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_video_input_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -163,7 +168,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 			"image": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -172,12 +176,10 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						"image_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"image_name": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -185,7 +187,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -253,6 +254,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 			},
 
 			// Optional
+			"boot_volume_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -553,6 +559,11 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 			}
 			request.AvailabilityPolicy = &tmp
 		}
+	}
+
+	if bootVolumeSizeInGBs, ok := s.D.GetOkExists("boot_volume_size_in_gbs"); ok {
+		tmp := bootVolumeSizeInGBs.(int)
+		request.BootVolumeSizeInGBs = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -900,6 +911,11 @@ func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 		}
 	}
 
+	if bootVolumeSizeInGBs, ok := s.D.GetOkExists("boot_volume_size_in_gbs"); ok {
+		tmp := bootVolumeSizeInGBs.(int)
+		request.BootVolumeSizeInGBs = &tmp
+	}
+
 	if contactDetails, ok := s.D.GetOkExists("contact_details"); ok {
 		tmp := contactDetails.(string)
 		request.ContactDetails = &tmp
@@ -939,6 +955,17 @@ func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if image, ok := s.D.GetOkExists("image"); ok {
+		if tmpList := image.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image", 0)
+			tmp, err := s.mapToUpdateDesktopImage(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Image = &tmp
+		}
 	}
 
 	if maximumSize, ok := s.D.GetOkExists("maximum_size"); ok {
@@ -1017,6 +1044,10 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 		s.D.Set("availability_policy", []interface{}{DesktopAvailabilityPolicyToMap(s.Res.AvailabilityPolicy)})
 	} else {
 		s.D.Set("availability_policy", nil)
+	}
+
+	if s.Res.BootVolumeSizeInGBs != nil {
+		s.D.Set("boot_volume_size_in_gbs", *s.Res.BootVolumeSizeInGBs)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -1365,6 +1396,11 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopDevicePolicy(fieldKeyForma
 		result.IsPrintingEnabled = &tmp
 	}
 
+	if isVideoInputEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_video_input_enabled")); ok {
+		tmp := isVideoInputEnabled.(bool)
+		result.IsVideoInputEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1393,6 +1429,10 @@ func DesktopDevicePolicyToMap(obj *oci_desktops.DesktopDevicePolicy) map[string]
 		result["is_printing_enabled"] = bool(*obj.IsPrintingEnabled)
 	}
 
+	if obj.IsVideoInputEnabled != nil {
+		result["is_video_input_enabled"] = bool(*obj.IsVideoInputEnabled)
+	}
+
 	return result
 }
 
@@ -1412,6 +1452,17 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopImage(fieldKeyFormat strin
 	if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
 		tmp := operatingSystem.(string)
 		result.OperatingSystem = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DesktopsDesktopPoolResourceCrud) mapToUpdateDesktopImage(fieldKeyFormat string) (oci_desktops.UpdateDesktopImage, error) {
+	result := oci_desktops.UpdateDesktopImage{}
+
+	if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
+		tmp := imageId.(string)
+		result.ImageId = &tmp
 	}
 
 	return result, nil

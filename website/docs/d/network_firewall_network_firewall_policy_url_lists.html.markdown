@@ -43,6 +43,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `description` - The description of the Url list. This field can be used to add additional info.
 * `name` - Unique name identifier for the URL list.
 * `parent_resource_id` - OCID of the Network Firewall Policy this URL List belongs to.
 * `total_urls` - Total count of URLs in the URL List

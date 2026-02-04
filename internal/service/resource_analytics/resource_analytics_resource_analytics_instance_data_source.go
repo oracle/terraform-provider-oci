@@ -100,6 +100,8 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud) SetData() err
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	} else {
+		s.D.Set("system_tags", make(map[string]interface{}))
 	}
 
 	if s.Res.TimeCreated != nil {

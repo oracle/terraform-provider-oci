@@ -35,6 +35,8 @@ resource "oci_network_firewall_network_firewall_policy_address_list" "test_netwo
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
   type                       = var.network_firewall_policy_address_list_ip_type
   addresses                  = var.network_firewall_policy_address_list_ip_addresses
+  #Optional
+  description                = "An address list containing collection of IP addresses"
 }
 
 resource "oci_network_firewall_network_firewall_policy_address_list" "test_network_firewall_policy_address_list_fqdn" {

@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteIngestTimeRule.go.html to see an example of how to use DeleteIngestTimeRuleRequest.
 type DeleteIngestTimeRuleRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// Unique ocid of the ingest time rule.
+	// Unique ocid of the ingest time rule. Ingest time rule ID can be obtained by running 'oci log-analytics ingest-time-rule list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'id' parameter value contains the rule ID.
 	IngestTimeRuleId *string `mandatory:"true" contributesTo:"path" name:"ingestTimeRuleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

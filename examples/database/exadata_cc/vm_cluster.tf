@@ -485,6 +485,10 @@ variable "exadata_infrastructure_configure_exascale_management_total_storage_in_
   default = 4096
 }
 
+variable "exadata_infrastructure_configure_exascale_management_vm_storage_in_gbs" {
+  default = 2048
+}
+
 data "oci_database_backup_destinations" "test_database_backup_destinations" {
   #Required
   compartment_id = var.compartment_ocid
@@ -496,4 +500,33 @@ data "oci_database_backup_destinations" "test_database_backup_destinations" {
 data "oci_database_backup_destination" "test_database_backup_destination" {
   #Required
   backup_destination_id = oci_database_backup_destination.test_backup_destination_nfs.id
+}
+
+variable "advanced_cluster_file_system_name" {
+  default = "fileSystemName"
+}
+
+variable "advanced_cluster_file_system_storage_in_gbs" {
+  default = 10
+}
+
+data "oci_database_advanced_cluster_file_systems" "test_advanced_cluster_file_systems" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  name          = var.advanced_cluster_file_system_name
+
+  vm_cluster_id = oci_database_vm_cluster.test_exascale_vm_cluster_id
+}
+
+resource "oci_database_advanced_cluster_file_system" "test_advanced_cluster_file_system" {
+
+  #Required
+  name           = var.advanced_cluster_file_system_name
+  storage_in_gbs = var.advanced_cluster_file_system_storage_in_gbs
+  vm_cluster_id  = oci_database_vm_cluster.test_exascale_vm_cluster_id
+
+  #Optional
+  compartment_id = var.compartment_ocid
 }

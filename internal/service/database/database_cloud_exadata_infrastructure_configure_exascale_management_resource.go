@@ -38,6 +38,12 @@ func DatabaseCloudExadataInfrastructureConfigureExascaleManagementResource() *sc
 			},
 
 			// Optional
+			"total_vm_storage_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"activated_storage_count": {
@@ -153,7 +159,15 @@ func DatabaseCloudExadataInfrastructureConfigureExascaleManagementResource() *sc
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_vm_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"total_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_vm_storage_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -402,6 +416,11 @@ func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCr
 	if totalStorageInGBs, ok := s.D.GetOkExists("total_storage_in_gbs"); ok {
 		tmp := totalStorageInGBs.(int)
 		request.TotalStorageInGBs = &tmp
+	}
+
+	if totalVmStorageInGBs, ok := s.D.GetOkExists("total_vm_storage_in_gbs"); ok {
+		tmp := totalVmStorageInGBs.(int)
+		request.TotalVmStorageInGBs = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")

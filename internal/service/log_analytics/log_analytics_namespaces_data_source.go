@@ -22,6 +22,10 @@ func LogAnalyticsNamespacesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_compartment_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"namespace_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -50,6 +54,10 @@ func LogAnalyticsNamespacesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"namespace": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -95,6 +103,11 @@ func (s *LogAnalyticsNamespacesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if isCompartmentDelete, ok := s.D.GetOkExists("is_compartment_delete"); ok {
+		tmp := isCompartmentDelete.(bool)
+		request.IsCompartmentDelete = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
@@ -154,6 +167,8 @@ func NamespaceSummaryToMap(obj oci_log_analytics.NamespaceSummary) map[string]in
 	if obj.NamespaceName != nil {
 		result["namespace"] = string(*obj.NamespaceName)
 	}
+
+	result["state"] = string(obj.LifecycleState)
 
 	if obj.IsLogSetEnabled != nil {
 		result["is_logset_enabled"] = bool(*obj.IsLogSetEnabled)

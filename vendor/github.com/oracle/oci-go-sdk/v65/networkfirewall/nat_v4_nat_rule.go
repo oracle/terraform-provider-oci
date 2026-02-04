@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// NatV4NatRule A Nat Rule is used to define to which traffic NAT should be applied by the firewall.
+// NatV4NatRule A NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) defines which traffic NAT should be applied to by the firewall.
 type NatV4NatRule struct {
 
 	// Name for the NAT rule, must be unique within the policy.
 	Name *string `mandatory:"true" json:"name"`
 
-	// OCID of the Network Firewall Policy this decryption profile belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall policy this NAT rule belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 
 	Condition *NatRuleMatchCriteria `mandatory:"true" json:"condition"`

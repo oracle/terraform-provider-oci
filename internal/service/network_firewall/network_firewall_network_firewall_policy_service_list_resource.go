@@ -47,6 +47,10 @@ func NetworkFirewallNetworkFirewallPolicyServiceListResource() *schema.Resource 
 			},
 
 			// Optional
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"parent_resource_id": {
@@ -107,6 +111,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) ID() strin
 
 func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) Create() error {
 	request := oci_network_firewall.CreateServiceListRequest{}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
@@ -175,6 +184,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) Get() erro
 func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) Update() error {
 	request := oci_network_firewall.UpdateServiceListRequest{}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if networkFirewallPolicyId, ok := s.D.GetOkExists("network_firewall_policy_id"); ok {
 		tmp := networkFirewallPolicyId.(string)
 		request.NetworkFirewallPolicyId = &tmp
@@ -236,6 +250,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) SetData() 
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -255,6 +273,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyServiceListResourceCrud) SetData() 
 
 func ServiceListSummaryToMap(obj oci_network_firewall.ServiceListSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)

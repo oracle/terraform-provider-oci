@@ -14,6 +14,8 @@ resource "oci_network_firewall_network_firewall_policy_application_group" "test_
   apps                       = [oci_network_firewall_network_firewall_policy_application.test_network_firewall_policy_application_icmp.name]
   name                       = var.network_firewall_policy_application_group_name
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+  #Optional
+  description                = "An application group containing applications"
 }
 
 data "oci_network_firewall_network_firewall_policy_application_groups" "test_network_firewall_policy_application_groups" {

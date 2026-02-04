@@ -47,6 +47,7 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `IP`, Update: `IP`},
 		"addresses":                  acctest.Representation{RepType: acctest.Required, Create: []string{`1.1.1.1`, `10.1.10.0`}, Update: []string{`1.1.1.1`, `10.0.0.10`}},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	addressListResourceDependencies = acctest.GenerateResourceFromRepresentationMap(
@@ -121,6 +122,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 			Config: config + compartmentIdVariableStr + addressListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "address_list_1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "IP"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
@@ -170,6 +172,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "addresses.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "address_list_1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_addresses"),

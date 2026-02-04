@@ -1,3 +1,26 @@
+## 8.0.0 (February 4, 2026)
+
+### Added
+- Support Exascale for VM Storage
+- Support for Desktop as a Service: Video Input
+- Support for Compute API IPV6 Support
+- Support for Host API change - Adding a new field in listComputeHosts
+- Support for Exascale Phase 2 Exascale for VM Storage | ExaDB-C@C
+- Support for Desktop as a Service: Boot Volume Sizing
+- Support for Pool Image Update
+- Support for Desktop as a Service: Connection History and Status
+- Desktop as a Service: Ephemeral Desktops
+- Support for NGFW - Support for smaller Firewall (1Gbps) API ONLY Release
+- Support for Log Analytics JuniperBerry Release
+
+### Deprecation
+- Removed GlobabllyDistributedDatabase
+
+### Bug Fix
+- Ignore changes to system_tags for Resource Analytics resources
+- oci_dns_rrset behaviour changes
+- OCI Terraform blocks customers from adding more than 2 IPv6 prefixes to a subnet
+
 ## 7.32.0 (January 27, 2026)
 
 ### Added

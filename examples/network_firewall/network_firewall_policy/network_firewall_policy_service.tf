@@ -40,6 +40,8 @@ resource "oci_network_firewall_network_firewall_policy_service" "test_network_fi
     }
   }
   type = var.network_firewall_policy_service_type_tcp
+  #Optional
+  description = "A TCP service"
 }
 
 resource "oci_network_firewall_network_firewall_policy_service" "test_network_firewall_policy_service_udp" {

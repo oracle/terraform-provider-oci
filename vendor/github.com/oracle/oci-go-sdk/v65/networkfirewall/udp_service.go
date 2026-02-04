@@ -27,6 +27,9 @@ type UdpService struct {
 
 	// List of port-ranges used.
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
+
+	// The description of the service. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 // GetName returns Name
@@ -37,6 +40,11 @@ func (m UdpService) GetName() *string {
 // GetParentResourceId returns ParentResourceId
 func (m UdpService) GetParentResourceId() *string {
 	return m.ParentResourceId
+}
+
+// GetDescription returns Description
+func (m UdpService) GetDescription() *string {
+	return m.Description
 }
 
 func (m UdpService) String() string {

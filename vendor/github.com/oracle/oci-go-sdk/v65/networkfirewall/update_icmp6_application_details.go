@@ -22,8 +22,16 @@ type UpdateIcmp6ApplicationDetails struct {
 	// The value of the ICMP6 message Type field as defined by RFC 4443 (https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 	IcmpType *int `mandatory:"true" json:"icmpType"`
 
+	// The description of the application. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// The value of the ICMP6 message Code (subtype) field as defined by RFC 4443 (https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
+}
+
+// GetDescription returns Description
+func (m UpdateIcmp6ApplicationDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateIcmp6ApplicationDetails) String() string {
