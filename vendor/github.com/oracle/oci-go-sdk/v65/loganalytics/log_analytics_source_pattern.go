@@ -50,7 +50,7 @@ type LogAnalyticsSourcePattern struct {
 	// The source pattern description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A flag inidcating whether or not the source pattern is enabled.
+	// A flag indicating whether or not the source pattern is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The source pattern unique identifier.

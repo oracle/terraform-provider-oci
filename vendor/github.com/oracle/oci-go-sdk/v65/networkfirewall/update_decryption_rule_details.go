@@ -25,6 +25,9 @@ type UpdateDecryptionRuleDetails struct {
 	// * DECRYPT - Matching traffic is decrypted with the specified `secret` according to the specified `decryptionProfile`.
 	Action DecryptionActionTypeEnum `mandatory:"true" json:"action"`
 
+	// The description of the decryption rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// The name of the decryption profile to use.
 	DecryptionProfile *string `mandatory:"false" json:"decryptionProfile"`
 

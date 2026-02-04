@@ -27,6 +27,9 @@ type TcpService struct {
 
 	// List of port-ranges used.
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
+
+	// The description of the service. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 // GetName returns Name
@@ -37,6 +40,11 @@ func (m TcpService) GetName() *string {
 // GetParentResourceId returns ParentResourceId
 func (m TcpService) GetParentResourceId() *string {
 	return m.ParentResourceId
+}
+
+// GetDescription returns Description
+func (m TcpService) GetDescription() *string {
+	return m.Description
 }
 
 func (m TcpService) String() string {

@@ -48,7 +48,7 @@ type RuleSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The current state of the logging analytics rule.
+	// The current state of the Log Analytics rule.
 	LifecycleState ConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The target service.
@@ -62,6 +62,9 @@ type RuleSummary struct {
 
 	// The date and time the scheduled task last executed, in the format defined by RFC3339.
 	TimeLastExecuted *common.SDKTime `mandatory:"false" json:"timeLastExecuted"`
+
+	// The task status of the rule.
+	TaskStatus RuleSummaryTaskStatusEnum `mandatory:"false" json:"taskStatus,omitempty"`
 }
 
 func (m RuleSummary) String() string {
@@ -82,6 +85,9 @@ func (m RuleSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingRuleSummaryLastExecutionStatusEnum(string(m.LastExecutionStatus)); !ok && m.LastExecutionStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastExecutionStatus: %s. Supported values are: %s.", m.LastExecutionStatus, strings.Join(GetRuleSummaryLastExecutionStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuleSummaryTaskStatusEnum(string(m.TaskStatus)); !ok && m.TaskStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskStatus: %s. Supported values are: %s.", m.TaskStatus, strings.Join(GetRuleSummaryTaskStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -128,5 +134,55 @@ func GetRuleSummaryLastExecutionStatusEnumStringValues() []string {
 // GetMappingRuleSummaryLastExecutionStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRuleSummaryLastExecutionStatusEnum(val string) (RuleSummaryLastExecutionStatusEnum, bool) {
 	enum, ok := mappingRuleSummaryLastExecutionStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RuleSummaryTaskStatusEnum Enum with underlying type: string
+type RuleSummaryTaskStatusEnum string
+
+// Set of constants representing the allowable values for RuleSummaryTaskStatusEnum
+const (
+	RuleSummaryTaskStatusReady     RuleSummaryTaskStatusEnum = "READY"
+	RuleSummaryTaskStatusPaused    RuleSummaryTaskStatusEnum = "PAUSED"
+	RuleSummaryTaskStatusCompleted RuleSummaryTaskStatusEnum = "COMPLETED"
+	RuleSummaryTaskStatusBlocked   RuleSummaryTaskStatusEnum = "BLOCKED"
+)
+
+var mappingRuleSummaryTaskStatusEnum = map[string]RuleSummaryTaskStatusEnum{
+	"READY":     RuleSummaryTaskStatusReady,
+	"PAUSED":    RuleSummaryTaskStatusPaused,
+	"COMPLETED": RuleSummaryTaskStatusCompleted,
+	"BLOCKED":   RuleSummaryTaskStatusBlocked,
+}
+
+var mappingRuleSummaryTaskStatusEnumLowerCase = map[string]RuleSummaryTaskStatusEnum{
+	"ready":     RuleSummaryTaskStatusReady,
+	"paused":    RuleSummaryTaskStatusPaused,
+	"completed": RuleSummaryTaskStatusCompleted,
+	"blocked":   RuleSummaryTaskStatusBlocked,
+}
+
+// GetRuleSummaryTaskStatusEnumValues Enumerates the set of values for RuleSummaryTaskStatusEnum
+func GetRuleSummaryTaskStatusEnumValues() []RuleSummaryTaskStatusEnum {
+	values := make([]RuleSummaryTaskStatusEnum, 0)
+	for _, v := range mappingRuleSummaryTaskStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRuleSummaryTaskStatusEnumStringValues Enumerates the set of values in String for RuleSummaryTaskStatusEnum
+func GetRuleSummaryTaskStatusEnumStringValues() []string {
+	return []string{
+		"READY",
+		"PAUSED",
+		"COMPLETED",
+		"BLOCKED",
+	}
+}
+
+// GetMappingRuleSummaryTaskStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRuleSummaryTaskStatusEnum(val string) (RuleSummaryTaskStatusEnum, bool) {
+	enum, ok := mappingRuleSummaryTaskStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

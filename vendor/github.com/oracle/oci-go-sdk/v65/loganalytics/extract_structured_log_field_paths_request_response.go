@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExtractStructuredLogFieldPaths.go.html to see an example of how to use ExtractStructuredLogFieldPathsRequest.
 type ExtractStructuredLogFieldPathsRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// parser definition
@@ -112,18 +112,21 @@ const (
 	ExtractStructuredLogFieldPathsParserTypeXml       ExtractStructuredLogFieldPathsParserTypeEnum = "XML"
 	ExtractStructuredLogFieldPathsParserTypeJson      ExtractStructuredLogFieldPathsParserTypeEnum = "JSON"
 	ExtractStructuredLogFieldPathsParserTypeDelimited ExtractStructuredLogFieldPathsParserTypeEnum = "DELIMITED"
+	ExtractStructuredLogFieldPathsParserTypeRegex     ExtractStructuredLogFieldPathsParserTypeEnum = "REGEX"
 )
 
 var mappingExtractStructuredLogFieldPathsParserTypeEnum = map[string]ExtractStructuredLogFieldPathsParserTypeEnum{
 	"XML":       ExtractStructuredLogFieldPathsParserTypeXml,
 	"JSON":      ExtractStructuredLogFieldPathsParserTypeJson,
 	"DELIMITED": ExtractStructuredLogFieldPathsParserTypeDelimited,
+	"REGEX":     ExtractStructuredLogFieldPathsParserTypeRegex,
 }
 
 var mappingExtractStructuredLogFieldPathsParserTypeEnumLowerCase = map[string]ExtractStructuredLogFieldPathsParserTypeEnum{
 	"xml":       ExtractStructuredLogFieldPathsParserTypeXml,
 	"json":      ExtractStructuredLogFieldPathsParserTypeJson,
 	"delimited": ExtractStructuredLogFieldPathsParserTypeDelimited,
+	"regex":     ExtractStructuredLogFieldPathsParserTypeRegex,
 }
 
 // GetExtractStructuredLogFieldPathsParserTypeEnumValues Enumerates the set of values for ExtractStructuredLogFieldPathsParserTypeEnum
@@ -141,6 +144,7 @@ func GetExtractStructuredLogFieldPathsParserTypeEnumStringValues() []string {
 		"XML",
 		"JSON",
 		"DELIMITED",
+		"REGEX",
 	}
 }
 

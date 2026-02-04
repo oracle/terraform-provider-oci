@@ -18,13 +18,13 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsEntityType.go.html to see an example of how to use UpdateLogAnalyticsEntityTypeRequest.
 type UpdateLogAnalyticsEntityTypeRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Log analytics entity type update details.
 	UpdateLogAnalyticsEntityTypeDetails `contributesTo:"body"`
 
-	// Log analytics entity type name.
+	// Log analytics entity type name. Entity type name can be obtained by running 'oci log-analytics entity-type list --namespace-name <namespacename> --all'. The json output 'internal-name' parameter value contains the entity type name.
 	EntityTypeName *string `mandatory:"true" contributesTo:"path" name:"entityTypeName"`
 
 	// The client request ID for tracing.

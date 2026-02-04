@@ -21,6 +21,9 @@ type UpdateNetworkFirewallPolicyDetails struct {
 	// A user-friendly name for the firewall. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The description of the network firewall policy. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

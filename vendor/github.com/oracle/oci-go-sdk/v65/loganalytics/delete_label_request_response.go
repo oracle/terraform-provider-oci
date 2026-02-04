@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLabel.go.html to see an example of how to use DeleteLabelRequest.
 type DeleteLabelRequest struct {
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The label name.
+	// The label name. Label name can be obtained by running 'oci log-analytics label list-labels --namespace-name <namespace>'. The json output 'name' parameter value contains the label name.
 	LabelName *string `mandatory:"true" contributesTo:"path" name:"labelName"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

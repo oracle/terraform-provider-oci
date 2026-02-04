@@ -21,7 +21,7 @@ type ListStorageWorkRequestsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The Logging Analytics namespace used for the request.
+	// The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get'
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The client request ID for tracing.
@@ -246,6 +246,7 @@ const (
 	ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData ListStorageWorkRequestsOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeEncryptActiveData          ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
 	ListStorageWorkRequestsOperationTypeEncryptArchivalData        ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ARCHIVAL_DATA"
+	ListStorageWorkRequestsOperationTypeEncryptAllData             ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ALL_DATA"
 )
 
 var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWorkRequestsOperationTypeEnum{
@@ -258,6 +259,7 @@ var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWork
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
 	"ENCRYPT_ACTIVE_DATA":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
 	"ENCRYPT_ARCHIVAL_DATA":         ListStorageWorkRequestsOperationTypeEncryptArchivalData,
+	"ENCRYPT_ALL_DATA":              ListStorageWorkRequestsOperationTypeEncryptAllData,
 }
 
 var mappingListStorageWorkRequestsOperationTypeEnumLowerCase = map[string]ListStorageWorkRequestsOperationTypeEnum{
@@ -270,6 +272,7 @@ var mappingListStorageWorkRequestsOperationTypeEnumLowerCase = map[string]ListSt
 	"cleanup_archival_storage_data": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
 	"encrypt_active_data":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
 	"encrypt_archival_data":         ListStorageWorkRequestsOperationTypeEncryptArchivalData,
+	"encrypt_all_data":              ListStorageWorkRequestsOperationTypeEncryptAllData,
 }
 
 // GetListStorageWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListStorageWorkRequestsOperationTypeEnum
@@ -293,6 +296,7 @@ func GetListStorageWorkRequestsOperationTypeEnumStringValues() []string {
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
 		"ENCRYPT_ACTIVE_DATA",
 		"ENCRYPT_ARCHIVAL_DATA",
+		"ENCRYPT_ALL_DATA",
 	}
 }
 

@@ -19,6 +19,9 @@ import (
 // UpdateSslForwardProxyProfileDetails Update Request for SSLForwardProxy used on the firewall policy rules.
 type UpdateSslForwardProxyProfileDetails struct {
 
+	// The description of the decryption profile. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Whether to block sessions if server's certificate is expired.
 	IsExpiredCertificateBlocked *bool `mandatory:"false" json:"isExpiredCertificateBlocked"`
 
@@ -46,6 +49,11 @@ type UpdateSslForwardProxyProfileDetails struct {
 
 	// Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
 	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
+}
+
+// GetDescription returns Description
+func (m UpdateSslForwardProxyProfileDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m UpdateSslForwardProxyProfileDetails) String() string {

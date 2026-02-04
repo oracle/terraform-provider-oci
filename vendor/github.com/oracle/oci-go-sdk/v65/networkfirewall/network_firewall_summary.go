@@ -63,6 +63,9 @@ type NetworkFirewallSummary struct {
 
 	NatConfiguration *NatConfigurationResponse `mandatory:"false" json:"natConfiguration"`
 
+	// The shape of a firewall to determine the bandwidth that the firewall allows.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// The time instant at which the Network Firewall was updated in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`

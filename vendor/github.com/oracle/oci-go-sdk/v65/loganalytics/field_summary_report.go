@@ -24,7 +24,7 @@ type FieldSummaryReport struct {
 	// The count of built in fields.
 	OobCount *int `mandatory:"false" json:"oobCount"`
 
-	// Field usage detailss
+	// Field usage details
 	UsageDetails []UsageStatusItem `mandatory:"false" json:"usageDetails"`
 }
 
