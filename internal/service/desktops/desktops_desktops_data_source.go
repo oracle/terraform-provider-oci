@@ -62,6 +62,81 @@ func DesktopsDesktopsDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"desktop_connection": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"client_platform": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"client_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"client_version": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"last_action": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"action": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"time_applied": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"next_action": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"action": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"time_applied": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"time_connected": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_disconnected": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -204,8 +279,76 @@ func (s *DesktopsDesktopsDataSourceCrud) SetData() error {
 	return nil
 }
 
+func DesktopsDesktopActionToMap(obj *oci_desktops.DesktopAction) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["action"] = string(obj.Action)
+
+	if obj.TimeApplied != nil {
+		result["time_applied"] = obj.TimeApplied.String()
+	}
+
+	return result
+}
+
+func DesktopsDesktopConnectionToMap(obj *oci_desktops.DesktopConnection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClientPlatform != nil {
+		result["client_platform"] = string(*obj.ClientPlatform)
+	}
+
+	if obj.ClientType != nil {
+		result["client_type"] = string(*obj.ClientType)
+	}
+
+	if obj.ClientVersion != nil {
+		result["client_version"] = string(*obj.ClientVersion)
+	}
+
+	if obj.LastAction != nil {
+		result["last_action"] = []interface{}{DesktopsDesktopActionToMap(obj.LastAction)}
+	}
+
+	if obj.NextAction != nil {
+		result["next_action"] = []interface{}{DesktopsDesktopActionToMap(obj.NextAction)}
+	}
+
+	if obj.TimeConnected != nil {
+		result["time_connected"] = obj.TimeConnected.String()
+	}
+
+	if obj.TimeDisconnected != nil {
+		result["time_disconnected"] = obj.TimeDisconnected.String()
+	}
+
+	return result
+}
+
+func DesktopsDesktopImageToMap(obj *oci_desktops.DesktopImage) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ImageId != nil {
+		result["image_id"] = string(*obj.ImageId)
+	}
+
+	if obj.ImageName != nil {
+		result["image_name"] = string(*obj.ImageName)
+	}
+
+	if obj.OperatingSystem != nil {
+		result["operating_system"] = string(*obj.OperatingSystem)
+	}
+
+	return result
+}
+
 func DesktopSummaryToMap(obj oci_desktops.DesktopSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Connection != nil {
+		result["desktop_connection"] = []interface{}{DesktopsDesktopConnectionToMap(obj.Connection)}
+	}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -219,6 +362,10 @@ func DesktopSummaryToMap(obj oci_desktops.DesktopSummary) map[string]interface{}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Image != nil {
+		result["image"] = []interface{}{DesktopImageToMap(obj.Image)}
 	}
 
 	if obj.PoolId != nil {
@@ -246,7 +393,7 @@ func HostingOptionsToMap(obj *oci_desktops.HostingOptions) map[string]interface{
 	}
 
 	if obj.Image != nil {
-		result["image"] = []interface{}{DesktopImageToMap(obj.Image)}
+		result["image"] = []interface{}{DesktopsDesktopImageToMap(obj.Image)}
 	}
 
 	return result

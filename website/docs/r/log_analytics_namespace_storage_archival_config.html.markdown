@@ -26,6 +26,7 @@ resource "oci_log_analytics_namespace_storage_archival_config" "test_namespace_s
 		#Optional
 		active_storage_duration = var.namespace_storage_archival_config_archiving_configuration_active_storage_duration
 		archival_storage_duration = var.namespace_storage_archival_config_archiving_configuration_archival_storage_duration
+		time_oldest_active_bucket_ended = var.namespace_storage_archival_config_archiving_configuration_time_oldest_active_bucket_ended
 	}
 	namespace = var.namespace_storage_archival_config_namespace
 }
@@ -37,8 +38,10 @@ The following arguments are supported:
 
 * `archiving_configuration` - (Required) (Updatable) This is the configuration for data archiving in object storage
 	* `active_storage_duration` - (Optional) (Updatable) This is the duration data in active storage before data is archived, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
-	* `archival_storage_duration` - (Optional) (Updatable) This is the duration before archived data is deleted from object storage, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
-* `namespace` - (Required) The Logging Analytics namespace used for the request.
+	* `archival_storage_duration` - (Optional) (Updatable) This is the duration before archived data is deleted from object storage, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W).
+	* `time_oldest_active_bucket_ended` - (Optional) (Updatable) end time of the oldest active CoreGroup
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
+* `assign_encryption_key_trigger` - (Optional) (Updatable) An optional property when incremented triggers Assign Encryption Key. Could be set to any integer value.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -50,6 +53,7 @@ The following attributes are exported:
 * `archiving_configuration` - This is the configuration for data archiving in object storage
 	* `active_storage_duration` - This is the duration data in active storage before data is archived, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
 	* `archival_storage_duration` - This is the duration before archived data is deleted from object storage, as described in https://en.wikipedia.org/wiki/ISO_8601#Durations The largest supported unit is D, e.g. P365D (not P1Y) or P14D (not P2W). 
+	* `time_oldest_active_bucket_ended` - end time of the oldest active CoreGroup
 * `is_archiving_enabled` - This indicates if old data can be archived for a tenancy
 
 ## Timeouts

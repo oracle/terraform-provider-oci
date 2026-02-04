@@ -114,6 +114,10 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
 	}
 
+	if s.Res.GetDescription() != nil {
+		s.D.Set("description", *s.Res.GetDescription())
+	}
+
 	if s.Res.GetDisplayName() != nil {
 		s.D.Set("display_name", *s.Res.GetDisplayName())
 	}

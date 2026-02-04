@@ -22,7 +22,7 @@ type BulkUploadNatRulesRequest struct {
 	// Unique Network Firewall Policy identifier
 	NetworkFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallPolicyId"`
 
-	// Request Details to create the NAT Rule for the Network Firewall Policy Resource.
+	// Request details to create the NAT rule for the Network Firewall policy resource.
 	BulkUploadNatRulesDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

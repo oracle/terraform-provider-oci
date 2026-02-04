@@ -89,7 +89,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreIpv6VcnRepresentation, map[string]interface{}{
 			"dns_label":               acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 			"is_ipv6enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
-			"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: []string{`fc00:1000::/52`}},
+			"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: utils.GenerateIPv6Cidrs(52)},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -118,32 +118,29 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	// For example: VCN CIDR Block: 2607:9b80:9a0f:0100::/56, Subnet CIDR Block: 2607:9b80:9a0f:0100::/64
 	subnetCidrBlock := `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreSubnetResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation), "core", "subnet", t)
-	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
-		// verify Create
-		{
-			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
+	var testSteps []resource.TestStep
+	testSteps = append(testSteps, resource.TestStep{
+		// verify Create
+		Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
+			acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation),
+		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+			func(s *terraform.State) (err error) {
+				resId, err = acctest.FromInstanceState(s, resourceName, "id")
+				return err
+			},
+		),
+	},
 
 		// delete before next Create
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies,
 		},
 
 		// verify Create with optional ipv6cidr_blocks
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: []string{subnetCidrBlock}},
@@ -179,12 +176,12 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 		},
 
 		// delete before next Create
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies,
 		},
 
 		// verify Create with optionals ipv4cidr_blocks
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -217,13 +214,49 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			),
 		},
 
+		// Test to validate that an existing IPv4 only subnet can be appended with some ipv6 blocks via the field ipv6cidr_blocks
+		resource.TestStep{
+			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation2, map[string]interface{}{
+					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: []string{subnetCidrBlock}},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
 		// delete before next Create
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies,
 		},
 
 		// verify Create with optionals ipv6cidr_block
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 					"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: subnetCidrBlock},
@@ -257,13 +290,23 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					return err
 				},
 			),
-		},
+		})
 
-		// add one more ipv6cidr_block
-		{
+	var subnetIPv6CidrBlocks []string
+	var subnetIpV6CidrBlockAdded = ""
+	var addedCidrBlocksCount = 1
+	subnetIPv6CidrBlocks = append(subnetIPv6CidrBlocks, subnetCidrBlock)
+
+	// Add and validate 15 ipv6 cidr blocks one by one
+	for i := 1000; i <= 1014; i++ {
+		addedCidrBlocksCount += 1
+		subnetIpV6CidrBlockAdded = fmt.Sprintf("fc00:%d::/64", i)
+		subnetIPv6CidrBlocks = append(subnetIPv6CidrBlocks, subnetIpV6CidrBlockAdded)
+
+		testSteps = append(testSteps, resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
-					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: []string{subnetCidrBlock, "fc00:1000::/64"}},
+					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: subnetIPv6CidrBlocks},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -274,10 +317,8 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
-				//  check size of the list as 2
-				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "2"),
-				// check if the added value is there in the list
-				resource.TestCheckTypeSetElemAttr(resourceName, "ipv6cidr_blocks.*", convertToCanonical("fc00:1000::/64")),
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(addedCidrBlocksCount)),
+				resource.TestCheckTypeSetElemAttr(resourceName, "ipv6cidr_blocks.*", convertToCanonical(subnetIpV6CidrBlockAdded)),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
@@ -296,13 +337,16 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					return err
 				},
 			),
-		},
+		})
+	}
 
-		// remove the added ipv6cidr_block
-		{
+	// Remove and validate 15 ipv6 cidr blocks one by one
+	for i := 15; i > 0; i-- {
+		subnetIPv6CidrBlocks = subnetIPv6CidrBlocks[:len(subnetIPv6CidrBlocks)-1]
+		testSteps = append(testSteps, resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
-					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: []string{subnetCidrBlock}},
+					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: subnetIPv6CidrBlocks},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -313,8 +357,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
-				//  check size of the list as 1
-				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(i)),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
@@ -333,10 +376,13 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					return err
 				},
 			),
-		},
+		})
+	}
 
+	// Perform the final set of validations
+	testSteps = append(testSteps,
 		// verify Update to the compartment (the compartment will be switched back in the next step)
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
@@ -372,7 +418,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 		},
 
 		// verify updates to updatable parameters
-		{
+		resource.TestStep{
 			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 					"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Update: subnetCidrBlock},
@@ -406,7 +452,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			),
 		},
 		// verify datasource
-		{
+		resource.TestStep{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", acctest.Optional, acctest.Update, CoreCoreSubnetDataSourceRepresentation) +
 				compartmentIdVariableStr + CoreSubnetResourceDependencies +
@@ -441,7 +487,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			),
 		},
 		// verify singular datasource
-		{
+		resource.TestStep{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreCoreSubnetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CoreSubnetResourceConfig,
@@ -466,14 +512,18 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			),
 		},
 		// verify resource import
-		{
+		resource.TestStep{
 			Config:                  config + CoreSubnetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
-		},
-	})
+		})
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreSubnetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation), "core", "subnet", t)
+	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, testSteps)
 }
 
 func convertToCanonical(block string) string {

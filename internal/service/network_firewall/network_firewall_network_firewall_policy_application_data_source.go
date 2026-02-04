@@ -87,6 +87,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationDataSourceCrud) SetData(
 			s.D.Set("icmp_type", *v.IcmpType)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -103,6 +107,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyApplicationDataSourceCrud) SetData(
 
 		if v.IcmpType != nil {
 			s.D.Set("icmp_type", *v.IcmpType)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
 		}
 
 		if v.Name != nil {

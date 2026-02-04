@@ -52,6 +52,7 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"decryption_profile":         acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy_decryption_profile.test_network_firewall_policy_decryption_profile.name}`, Update: nil},
 		"secret":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy_mapped_secret.test_network_firewall_policy_mapped_secret.name}`, Update: nil},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	decryptionRuleRepresentation = map[string]interface{}{
@@ -59,6 +60,7 @@ var (
 		"condition":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: decryptionRuleConditionRepresentation},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `decryption_rule_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"position":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: decryptionRulePositionRepresentation},
 	}
 
@@ -118,6 +120,7 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic(t *tes
 				resource.TestCheckResourceAttr(resourceName, "name", "decryption_rule_1"),
 				resource.TestCheckResourceAttr(resourceName, "condition.0.destination_address.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "condition.0.source_address.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_profile", "decryption_profile_1"),
 				resource.TestCheckResourceAttr(resourceName, "secret", "mapped_secret_1"),
@@ -135,6 +138,7 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic(t *tes
 				resource.TestCheckResourceAttr(resourceName, "action", "NO_DECRYPT"),
 				resource.TestCheckResourceAttr(resourceName, "condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", "decryption_rule_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "position.#", "1"),
@@ -175,9 +179,9 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic(t *tes
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "action", "NO_DECRYPT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.destination_address.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.source_address.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "decryption_rule_1"),

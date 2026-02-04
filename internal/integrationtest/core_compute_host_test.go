@@ -346,3 +346,71 @@ func TestCoreComputeHostResource_listCompartments(t *testing.T) {
 		},
 	})
 }
+
+// Standalone list-only test to verify ListComputeHosts path without additional dependencies.
+func TestCoreComputeHost_ListOnly(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeHost_ListOnly")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_core_compute_hosts.test_compute_hosts"
+
+	// Use the "no filters" representation to avoid AD dependencies and resource creation.
+	localNoFilter := map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_hosts", "test_compute_hosts", acctest.Optional, acctest.Create, localNoFilter) +
+				compartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				// Ensure the list API call completed and returned collection structure.
+				resource.TestCheckResourceAttr(datasourceName, "compute_host_collection.#", "1"),
+				// If items are present, assert host_correlation_id is populated for the first item and print up to the first 5 items.
+				func(s *terraform.State) error {
+					rs, ok := s.RootModule().Resources[datasourceName]
+					if !ok {
+						return fmt.Errorf("datasource %s not found in state", datasourceName)
+					}
+					attrs := rs.Primary.Attributes
+					if n, ok := attrs["compute_host_collection.0.items.#"]; ok {
+						// Print total number of items returned
+						log.Printf("[INFO] ListComputeHosts total items=%s", n)
+
+						// Fail the test if nothing was returned
+						if n == "0" {
+							return fmt.Errorf("expected at least one compute host item, got 0")
+						}
+
+						// Assert host_correlation_id on first item
+						if v, vok := attrs["compute_host_collection.0.items.0.host_correlation_id"]; !vok || v == "" {
+							return fmt.Errorf("expected host_correlation_id to be set for first item")
+						}
+						// Print up to first 5 items (id, display_name, host_correlation_id)
+						for i := 0; i < 5; i++ {
+							idKey := fmt.Sprintf("compute_host_collection.0.items.%d.id", i)
+							if _, ok := attrs[idKey]; !ok {
+								break
+							}
+							displayKey := fmt.Sprintf("compute_host_collection.0.items.%d.display_name", i)
+							hcKey := fmt.Sprintf("compute_host_collection.0.items.%d.host_correlation_id", i)
+							idVal := attrs[idKey]
+							displayVal := attrs[displayKey]
+							hcVal := attrs[hcKey]
+							log.Printf("[INFO] ListComputeHosts item[%d]: id=%s display_name=%s host_correlation_id=%s", i, idVal, displayVal, hcVal)
+						}
+					}
+					return nil
+				},
+			),
+		},
+	})
+}

@@ -681,6 +681,18 @@ var exportDatabaseCloudExadataInfrastructureConfigureExascaleManagementHints = &
 	},
 }
 
+var exportDatabaseAdvancedClusterFileSystemHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_advanced_cluster_file_system",
+	DatasourceClass:        "oci_database_advanced_cluster_file_systems",
+	DatasourceItemsAttr:    "advanced_cluster_file_system_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "advanced_cluster_file_system",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AdvancedClusterFileSystemLifecycleStateAvailable),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	// DO NOT attempt to export these from compartment scope (would trigger export with missing parent ID and raise 400 errors)
 	// See: https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/ListExecutionActions etc.
@@ -723,6 +735,7 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseExecutionActionHints},
 		{TerraformResourceHints: exportDatabaseScheduledActionHints},
 		{TerraformResourceHints: exportDatabasePluggableDatabaseSnapshotHints},
+		{TerraformResourceHints: exportDatabaseAdvancedClusterFileSystemHints},
 	},
 	"oci_database_autonomous_container_database": {
 		{

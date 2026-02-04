@@ -59,6 +59,7 @@ The following attributes are exported:
 	* `stop_schedule` - Provides the schedule information for a desktop.
 		* `cron_expression` - A cron expression describing the desktop's schedule.
 		* `timezone` - The timezone of the desktop's schedule.
+* `boot_volume_size_in_gbs` - The size in GBs of the boot volume for the desktop pool.
 * `compartment_id` - The OCID of the compartment of the desktop pool.
 * `contact_details` - Contact information of the desktop pool administrator. Avoid entering confidential information. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
@@ -71,6 +72,7 @@ The following attributes are exported:
 	* `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
 	* `is_pointer_enabled` - Indicates whether the pointer is enabled.
 	* `is_printing_enabled` - Indicates whether printing is enabled.
+	* `is_video_input_enabled` - Indicates whether video input is enabled.
 * `display_name` - A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the desktop pool.

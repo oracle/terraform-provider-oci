@@ -15,10 +15,12 @@ import (
 	"strings"
 )
 
-// NatConfigurationRequest Nat Configuration request to use Nat feature on firewall.
+// NatConfigurationRequest Request to configure Network Address Translation (NAT) on a firewall.
+// To perform NAT on traffic passing the private NAT IPs to the firewall, the attached network firewall policy must also have NAT rules and NAT configuration must be enabled. If NAT configuration is enabled and the attached firewall policy does not contain NAT rule then NAT IPs will get allocated but NAT will not be performed on any traffic.
 type NatConfigurationRequest struct {
 
-	// To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall. The value of this field can not be false to release the NAT IPs given that the attached network firewall policy does not contains any NAT rules. The value of this field should be set to true if the network firewall policy being applied contains NAT rules.
+	// The value of this field must be set to true if the network firewall policy being applied contains NAT rules.
+	// The value of this field can be set to false if the network firewall policy being applied or the currently attached firewall policy doesn't contain NAT rules.
 	MustEnablePrivateNat *bool `mandatory:"true" json:"mustEnablePrivateNat"`
 }
 

@@ -46,7 +46,7 @@ type LogAnalyticsSourceExtendedFieldDefinition struct {
 	// The converted regular expression.
 	ConvertedRegularExpression *string `mandatory:"false" json:"convertedRegularExpression"`
 
-	// A flag inidcating whether or not the extended definition is enabled.
+	// A flag indicating whether or not the extended definition is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The extended field definition unique identifier.

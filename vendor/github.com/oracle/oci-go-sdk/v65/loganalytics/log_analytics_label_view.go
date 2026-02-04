@@ -18,7 +18,7 @@ import (
 // LogAnalyticsLabelView LogAnalyticsLabelView
 type LogAnalyticsLabelView struct {
 
-	// An arrya of label aliases.
+	// An array of label aliases.
 	Aliases []LogAnalyticsLabelAlias `mandatory:"false" json:"aliases"`
 
 	// The label alert rule usage count.

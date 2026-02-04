@@ -96,6 +96,9 @@ type UpdateCloudVmClusterDetails struct {
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
+
+	// Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. Storage Type can only be changed once from LOCAL to EXASCALE. EXASCALE to LOCAL is not permitted.
+	VmBackupStorageType UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum `mandatory:"false" json:"vmBackupStorageType,omitempty"`
 }
 
 func (m UpdateCloudVmClusterDetails) String() string {
@@ -110,6 +113,9 @@ func (m UpdateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateCloudVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum(string(m.VmBackupStorageType)); !ok && m.VmBackupStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmBackupStorageType: %s. Supported values are: %s.", m.VmBackupStorageType, strings.Join(GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -156,5 +162,47 @@ func GetUpdateCloudVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingUpdateCloudVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateCloudVmClusterDetailsLicenseModelEnum(val string) (UpdateCloudVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateCloudVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum Enum with underlying type: string
+type UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum string
+
+// Set of constants representing the allowable values for UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum
+const (
+	UpdateCloudVmClusterDetailsVmBackupStorageTypeLocal    UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum = "LOCAL"
+	UpdateCloudVmClusterDetailsVmBackupStorageTypeExascale UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum = "EXASCALE"
+)
+
+var mappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum = map[string]UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum{
+	"LOCAL":    UpdateCloudVmClusterDetailsVmBackupStorageTypeLocal,
+	"EXASCALE": UpdateCloudVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+var mappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumLowerCase = map[string]UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum{
+	"local":    UpdateCloudVmClusterDetailsVmBackupStorageTypeLocal,
+	"exascale": UpdateCloudVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+// GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumValues Enumerates the set of values for UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum
+func GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumValues() []UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum {
+	values := make([]UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum, 0)
+	for _, v := range mappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumStringValues Enumerates the set of values in String for UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum
+func GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"EXASCALE",
+	}
+}
+
+// GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum(val string) (UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum, bool) {
+	enum, ok := mappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

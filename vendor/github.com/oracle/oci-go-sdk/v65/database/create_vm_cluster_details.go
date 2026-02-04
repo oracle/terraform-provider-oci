@@ -94,6 +94,12 @@ type CreateVmClusterDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 	ExascaleDbStorageVaultId *string `mandatory:"false" json:"exascaleDbStorageVaultId"`
+
+	// Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
+	VmFileSystemStorageType CreateVmClusterDetailsVmFileSystemStorageTypeEnum `mandatory:"false" json:"vmFileSystemStorageType,omitempty"`
+
+	// Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
+	VmBackupStorageType CreateVmClusterDetailsVmBackupStorageTypeEnum `mandatory:"false" json:"vmBackupStorageType,omitempty"`
 }
 
 func (m CreateVmClusterDetails) String() string {
@@ -111,6 +117,12 @@ func (m CreateVmClusterDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreateVmClusterDetailsVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCreateVmClusterDetailsVmClusterTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateVmClusterDetailsVmFileSystemStorageTypeEnum(string(m.VmFileSystemStorageType)); !ok && m.VmFileSystemStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmFileSystemStorageType: %s. Supported values are: %s.", m.VmFileSystemStorageType, strings.Join(GetCreateVmClusterDetailsVmFileSystemStorageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateVmClusterDetailsVmBackupStorageTypeEnum(string(m.VmBackupStorageType)); !ok && m.VmBackupStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmBackupStorageType: %s. Supported values are: %s.", m.VmBackupStorageType, strings.Join(GetCreateVmClusterDetailsVmBackupStorageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -199,5 +211,89 @@ func GetCreateVmClusterDetailsVmClusterTypeEnumStringValues() []string {
 // GetMappingCreateVmClusterDetailsVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateVmClusterDetailsVmClusterTypeEnum(val string) (CreateVmClusterDetailsVmClusterTypeEnum, bool) {
 	enum, ok := mappingCreateVmClusterDetailsVmClusterTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateVmClusterDetailsVmFileSystemStorageTypeEnum Enum with underlying type: string
+type CreateVmClusterDetailsVmFileSystemStorageTypeEnum string
+
+// Set of constants representing the allowable values for CreateVmClusterDetailsVmFileSystemStorageTypeEnum
+const (
+	CreateVmClusterDetailsVmFileSystemStorageTypeLocal    CreateVmClusterDetailsVmFileSystemStorageTypeEnum = "LOCAL"
+	CreateVmClusterDetailsVmFileSystemStorageTypeExascale CreateVmClusterDetailsVmFileSystemStorageTypeEnum = "EXASCALE"
+)
+
+var mappingCreateVmClusterDetailsVmFileSystemStorageTypeEnum = map[string]CreateVmClusterDetailsVmFileSystemStorageTypeEnum{
+	"LOCAL":    CreateVmClusterDetailsVmFileSystemStorageTypeLocal,
+	"EXASCALE": CreateVmClusterDetailsVmFileSystemStorageTypeExascale,
+}
+
+var mappingCreateVmClusterDetailsVmFileSystemStorageTypeEnumLowerCase = map[string]CreateVmClusterDetailsVmFileSystemStorageTypeEnum{
+	"local":    CreateVmClusterDetailsVmFileSystemStorageTypeLocal,
+	"exascale": CreateVmClusterDetailsVmFileSystemStorageTypeExascale,
+}
+
+// GetCreateVmClusterDetailsVmFileSystemStorageTypeEnumValues Enumerates the set of values for CreateVmClusterDetailsVmFileSystemStorageTypeEnum
+func GetCreateVmClusterDetailsVmFileSystemStorageTypeEnumValues() []CreateVmClusterDetailsVmFileSystemStorageTypeEnum {
+	values := make([]CreateVmClusterDetailsVmFileSystemStorageTypeEnum, 0)
+	for _, v := range mappingCreateVmClusterDetailsVmFileSystemStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateVmClusterDetailsVmFileSystemStorageTypeEnumStringValues Enumerates the set of values in String for CreateVmClusterDetailsVmFileSystemStorageTypeEnum
+func GetCreateVmClusterDetailsVmFileSystemStorageTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"EXASCALE",
+	}
+}
+
+// GetMappingCreateVmClusterDetailsVmFileSystemStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateVmClusterDetailsVmFileSystemStorageTypeEnum(val string) (CreateVmClusterDetailsVmFileSystemStorageTypeEnum, bool) {
+	enum, ok := mappingCreateVmClusterDetailsVmFileSystemStorageTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateVmClusterDetailsVmBackupStorageTypeEnum Enum with underlying type: string
+type CreateVmClusterDetailsVmBackupStorageTypeEnum string
+
+// Set of constants representing the allowable values for CreateVmClusterDetailsVmBackupStorageTypeEnum
+const (
+	CreateVmClusterDetailsVmBackupStorageTypeLocal    CreateVmClusterDetailsVmBackupStorageTypeEnum = "LOCAL"
+	CreateVmClusterDetailsVmBackupStorageTypeExascale CreateVmClusterDetailsVmBackupStorageTypeEnum = "EXASCALE"
+)
+
+var mappingCreateVmClusterDetailsVmBackupStorageTypeEnum = map[string]CreateVmClusterDetailsVmBackupStorageTypeEnum{
+	"LOCAL":    CreateVmClusterDetailsVmBackupStorageTypeLocal,
+	"EXASCALE": CreateVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+var mappingCreateVmClusterDetailsVmBackupStorageTypeEnumLowerCase = map[string]CreateVmClusterDetailsVmBackupStorageTypeEnum{
+	"local":    CreateVmClusterDetailsVmBackupStorageTypeLocal,
+	"exascale": CreateVmClusterDetailsVmBackupStorageTypeExascale,
+}
+
+// GetCreateVmClusterDetailsVmBackupStorageTypeEnumValues Enumerates the set of values for CreateVmClusterDetailsVmBackupStorageTypeEnum
+func GetCreateVmClusterDetailsVmBackupStorageTypeEnumValues() []CreateVmClusterDetailsVmBackupStorageTypeEnum {
+	values := make([]CreateVmClusterDetailsVmBackupStorageTypeEnum, 0)
+	for _, v := range mappingCreateVmClusterDetailsVmBackupStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateVmClusterDetailsVmBackupStorageTypeEnumStringValues Enumerates the set of values in String for CreateVmClusterDetailsVmBackupStorageTypeEnum
+func GetCreateVmClusterDetailsVmBackupStorageTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"EXASCALE",
+	}
+}
+
+// GetMappingCreateVmClusterDetailsVmBackupStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateVmClusterDetailsVmBackupStorageTypeEnum(val string) (CreateVmClusterDetailsVmBackupStorageTypeEnum, bool) {
+	enum, ok := mappingCreateVmClusterDetailsVmBackupStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

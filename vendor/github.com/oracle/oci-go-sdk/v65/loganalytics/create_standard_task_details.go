@@ -32,6 +32,9 @@ type CreateStandardTaskDetails struct {
 	// No trailing spaces allowed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Description for this resource.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -56,6 +59,11 @@ func (m CreateStandardTaskDetails) GetCompartmentId() *string {
 // GetDisplayName returns DisplayName
 func (m CreateStandardTaskDetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetDescription returns Description
+func (m CreateStandardTaskDetails) GetDescription() *string {
+	return m.Description
 }
 
 // GetFreeformTags returns FreeformTags
@@ -105,6 +113,7 @@ func (m CreateStandardTaskDetails) MarshalJSON() (buff []byte, e error) {
 func (m *CreateStandardTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName   *string                           `json:"displayName"`
+		Description   *string                           `json:"description"`
 		FreeformTags  map[string]string                 `json:"freeformTags"`
 		DefinedTags   map[string]map[string]interface{} `json:"definedTags"`
 		Schedules     []schedule                        `json:"schedules"`
@@ -119,6 +128,8 @@ func (m *CreateStandardTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
 
 	m.FreeformTags = model.FreeformTags
 

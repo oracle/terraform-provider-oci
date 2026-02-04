@@ -33,6 +33,18 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `desktop_connection` - Provides information about a connection to a desktop, including connect and disconnect time, and client properties.
+	* `client_platform` - The platform on which the Secure Desktops client runs.
+	* `client_type` - The type of Secure Desktops client connected to a desktop.
+	* `client_version` - The version of the Secure Desktops client connected to a desktop, applicable only to the installed client type.
+	* `last_action` - Provides information about actions performed on a desktop, including type and time.
+		* `action` - An action performed on a desktop.
+		* `time_applied` - The time of an action performed on a desktop.
+	* `next_action` - Provides information about actions performed on a desktop, including type and time.
+		* `action` - An action performed on a desktop.
+		* `time_applied` - The time of an action performed on a desktop.
+	* `time_connected` - The time when the last connection to a desktop started.
+	* `time_disconnected` - The time when the last connection to a desktop ended.
 * `device_policy` - Provides the settings for desktop and client device options, such as audio in and out, client drive mapping, and clipboard access. 
 	* `audio_mode` - The audio mode. NONE: No access to the local audio devices is permitted. TODESKTOP: The user may record audio on their desktop.  FROMDESKTOP: The user may play audio on their desktop. FULL: The user may play and record audio on their desktop. 
 	* `cdm_mode` - The client local drive access mode. NONE: No access to local drives permitted. READONLY: The user may read from local drives on their desktop. FULL: The user may read from and write to their local drives on their desktop.  
@@ -41,6 +53,7 @@ The following attributes are exported:
 	* `is_keyboard_enabled` - Indicates whether the keyboard is enabled.
 	* `is_pointer_enabled` - Indicates whether the pointer is enabled.
 	* `is_printing_enabled` - Indicates whether printing is enabled.
+	* `is_video_input_enabled` - Indicates whether video input is enabled.
 * `display_name` - A user friendly display name. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `hosting_options` - Provides information about where a desktop is hosted.

@@ -28,7 +28,7 @@ data "oci_log_analytics_namespace_rules_summary" "test_namespace_rules_summary" 
 The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ## Attributes Reference

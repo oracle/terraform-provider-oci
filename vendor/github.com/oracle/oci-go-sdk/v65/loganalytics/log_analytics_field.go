@@ -43,41 +43,41 @@ type LogAnalyticsField struct {
 	// The field internal name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// A flag inidcating whether or not the facet is elibigle for use.
+	// A flag indicating whether or not the facet is eligible for use.
 	IsFacetEligible *bool `mandatory:"false" json:"isFacetEligible"`
 
-	// A flag inidcating whether or not the cardinality of the field is high.
+	// A flag indicating whether or not the cardinality of the field is high.
 	IsHighCardinality *bool `mandatory:"false" json:"isHighCardinality"`
 
-	// A flag inidcating whether or not the field is a large data field.
+	// A flag indicating whether or not the field is a large data field.
 	IsLargeData *bool `mandatory:"false" json:"isLargeData"`
 
 	// A flag indicating whether or not the field is multi-valued.
 	IsMultiValued *bool `mandatory:"false" json:"isMultiValued"`
 
-	// A flag inidcating whether or not this is a primary field.
+	// A flag indicating whether or not this is a primary field.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
 	// The system flag.  A value of false denotes a custom, or user
 	// defined object.  A value of true denotes a built in object.
 	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// A flag inidcating whether or not the field can be summarized.
+	// A flag indicating whether or not the field can be summarized.
 	IsSummarizable *bool `mandatory:"false" json:"isSummarizable"`
 
 	// The mapped value.
 	MappedValue *string `mandatory:"false" json:"mappedValue"`
 
-	// A flag inidcating whether or not the field is metric key eligible.
+	// A flag indicating whether or not the field is metric key eligible.
 	IsMetricKeyEligible *bool `mandatory:"false" json:"isMetricKeyEligible"`
 
-	// A flag inidcating whether or not the field is metric value eligible.
+	// A flag indicating whether or not the field is metric value eligible.
 	IsMetricValueEligible *bool `mandatory:"false" json:"isMetricValueEligible"`
 
-	// A flag inidcating whether or not the field is range facet eligible.
+	// A flag indicating whether or not the field is range facet eligible.
 	RangeFacetEligible *int64 `mandatory:"false" json:"rangeFacetEligible"`
 
-	// A flag inidcating whether or not the field is table eligible.
+	// A flag indicating whether or not the field is table eligible.
 	IsTableEligible *bool `mandatory:"false" json:"isTableEligible"`
 
 	// The field unit type.

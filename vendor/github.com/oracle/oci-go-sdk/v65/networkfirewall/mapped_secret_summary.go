@@ -31,6 +31,9 @@ type MappedSecretSummary struct {
 
 	// OCID of the Network Firewall Policy this mapped secret belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
+	// The description of the mapped secret. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m MappedSecretSummary) String() string {

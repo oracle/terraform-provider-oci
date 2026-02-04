@@ -43,6 +43,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `description` - The description of the mapped secret. This field can be used to add additional info.
 * `name` - Name of the secret.
 * `parent_resource_id` - OCID of the Network Firewall Policy this Mapped Secret belongs to.
 * `source` - Source of the secrets, where the secrets are stored.

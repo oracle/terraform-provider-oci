@@ -32,6 +32,9 @@ type UrlList struct {
 
 	// OCID of the Network Firewall Policy this URL List belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
+	// The description of the Url list. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m UrlList) String() string {
@@ -53,6 +56,7 @@ func (m UrlList) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UrlList) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Description      *string      `json:"description"`
 		Name             *string      `json:"name"`
 		Urls             []urlpattern `json:"urls"`
 		TotalUrls        *int         `json:"totalUrls"`
@@ -64,6 +68,8 @@ func (m *UrlList) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Description = model.Description
+
 	m.Name = model.Name
 
 	m.Urls = make([]UrlPattern, len(model.Urls))

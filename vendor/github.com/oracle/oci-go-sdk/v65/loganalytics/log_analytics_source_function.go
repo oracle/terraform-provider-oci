@@ -21,7 +21,7 @@ type LogAnalyticsSourceFunction struct {
 	// The function argument.
 	Arguments []LogAnalyticsMetaFunctionArgument `mandatory:"false" json:"arguments"`
 
-	// A flag inidcating whether or not the source function is enabled.
+	// A flag indicating whether or not the source function is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	Function *LogAnalyticsMetaFunction `mandatory:"false" json:"function"`

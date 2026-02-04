@@ -21,7 +21,7 @@ type CreateNatRuleRequest struct {
 	// Unique Network Firewall Policy identifier
 	NetworkFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallPolicyId"`
 
-	// Request Details to create NAT rule under a Network Firewall Policy Resource.
+	// Request details used to create NAT rule under a Network Firewall policy resource.
 	CreateNatRuleDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

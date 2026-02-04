@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// NatV4NatSummary Request for updating NATV4 type Nat Rule used in the firewall policy.
+// NatV4NatSummary Request for updating NATv4 type NAT rule used in the firewall policy.
 type NatV4NatSummary struct {
 
-	// Name for the nat rule, must be unique within the policy.
+	// Name for the NAT rule, must be unique within the policy.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The priority order in which this rule should be evaluated.
 	PriorityOrder *int64 `mandatory:"true" json:"priorityOrder"`
 
-	// OCID of the Network Firewall Policy this application belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall Policy this NAT rule belongs to.
 	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 
 	Condition *NatRuleMatchCriteria `mandatory:"true" json:"condition"`

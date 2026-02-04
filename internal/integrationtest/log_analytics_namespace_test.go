@@ -67,7 +67,6 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace_collection.#"),
 			),
 		},
@@ -89,7 +88,6 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				compartmentIdVariableStr + LogAnalyticsLogAnalyticsNameSpaceSingularDataSourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_archiving_enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_onboarded"),

@@ -25,7 +25,7 @@ type LogAnalyticsParserFunction struct {
 	// The parser function internal name.
 	ParserFunctionName *string `mandatory:"false" json:"parserFunctionName"`
 
-	// A flag inidcating whether or not the parser function is enabled.
+	// A flag indicating whether or not the parser function is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The system flag.  A value of false denotes a custom, or user

@@ -40,6 +40,9 @@ func DnsZoneResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+				ValidateFunc: validation.StringMatch(
+					regexp.MustCompile(`^(?i:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?i:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))*\.?$`),
+					"invalid DNS zone name: must be a valid FQDN (letters, digits, and hyphens per label; no braces or spaces; optional trailing dot)"),
 			},
 			"zone_type": {
 				Type:     schema.TypeString,

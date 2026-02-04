@@ -43,6 +43,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `description` - The description of the service. This field can be used to add additional info.
 * `name` - Name of the service.
 * `parent_resource_id` - OCID of the Network Firewall Policy this service belongs to.
 * `port_ranges` - List of port-ranges used.

@@ -40,6 +40,9 @@ type SecurityRuleSummary struct {
 	//   * INTRUSION_DETECTION - Intrusion Detection.
 	//   * INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in `type`.
 	Inspection TrafficInspectionTypeEnum `mandatory:"false" json:"inspection,omitempty"`
+
+	// The description of the security rule. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m SecurityRuleSummary) String() string {

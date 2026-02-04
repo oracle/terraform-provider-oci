@@ -3584,6 +3584,68 @@ func (client DatabaseClient) convertToStandalone(ctx context.Context, request co
 	return response, err
 }
 
+// CreateAdvancedClusterFileSystem Creates an advanced cluster file system resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAdvancedClusterFileSystem.go.html to see an example of how to use CreateAdvancedClusterFileSystem API.
+func (client DatabaseClient) CreateAdvancedClusterFileSystem(ctx context.Context, request CreateAdvancedClusterFileSystemRequest) (response CreateAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// createAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "CreateAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateApplicationVip Creates a new application virtual IP (VIP) address in the specified cloud VM cluster based on the request parameters you provide.
 //
 // # See also
@@ -6086,6 +6148,63 @@ func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNode/DbNodeAction"
 		err = common.PostProcessServiceError(err, "Database", "DbNodeAction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAdvancedClusterFileSystem Deletes the advanced cluster file system.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteAdvancedClusterFileSystem.go.html to see an example of how to use DeleteAdvancedClusterFileSystem API.
+func (client DatabaseClient) DeleteAdvancedClusterFileSystem(ctx context.Context, request DeleteAdvancedClusterFileSystemRequest) (response DeleteAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// deleteAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/DeleteAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "DeleteAdvancedClusterFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -10426,6 +10545,63 @@ func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/GenerateRecommendedVmClusterNetwork"
 		err = common.PostProcessServiceError(err, "Database", "GenerateRecommendedVmClusterNetwork", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAdvancedClusterFileSystem Gets information about the specified advanced cluster file systems.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAdvancedClusterFileSystem.go.html to see an example of how to use GetAdvancedClusterFileSystem API.
+func (client DatabaseClient) GetAdvancedClusterFileSystem(ctx context.Context, request GetAdvancedClusterFileSystemRequest) (response GetAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// getAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/GetAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "GetAdvancedClusterFileSystem", apiReferenceLink)
 		return response, err
 	}
 
@@ -14962,6 +15138,63 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/LaunchDbSystem"
 		err = common.PostProcessServiceError(err, "Database", "LaunchDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdvancedClusterFileSystems Lists the advanced cluster file system resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAdvancedClusterFileSystems.go.html to see an example of how to use ListAdvancedClusterFileSystems API.
+func (client DatabaseClient) ListAdvancedClusterFileSystems(ctx context.Context, request ListAdvancedClusterFileSystemsRequest) (response ListAdvancedClusterFileSystemsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdvancedClusterFileSystems, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdvancedClusterFileSystemsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdvancedClusterFileSystemsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdvancedClusterFileSystemsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdvancedClusterFileSystemsResponse")
+	}
+	return
+}
+
+// listAdvancedClusterFileSystems implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAdvancedClusterFileSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/advancedClusterFileSystems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdvancedClusterFileSystemsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/ListAdvancedClusterFileSystems"
+		err = common.PostProcessServiceError(err, "Database", "ListAdvancedClusterFileSystems", apiReferenceLink)
 		return response, err
 	}
 
@@ -20440,6 +20673,68 @@ func (client DatabaseClient) modifyPluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
+// MountAdvancedClusterFileSystem Mounts the advanced cluster file system to all the virtual machines within a vmcluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/MountAdvancedClusterFileSystem.go.html to see an example of how to use MountAdvancedClusterFileSystem API.
+func (client DatabaseClient) MountAdvancedClusterFileSystem(ctx context.Context, request MountAdvancedClusterFileSystemRequest) (response MountAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.mountAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MountAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MountAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MountAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MountAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// mountAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) mountAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems/{advancedClusterFileSystemId}/actions/mount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MountAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/MountAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "MountAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MountDbnodeSnapshot Mounts the snapshot for the provided dbNode.
 //
 // # See also
@@ -23532,6 +23827,68 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	return response, err
 }
 
+// UnmountAdvancedClusterFileSystem Unmounts the advanced cluster file system from all the virtual machines within a vmcluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UnmountAdvancedClusterFileSystem.go.html to see an example of how to use UnmountAdvancedClusterFileSystem API.
+func (client DatabaseClient) UnmountAdvancedClusterFileSystem(ctx context.Context, request UnmountAdvancedClusterFileSystemRequest) (response UnmountAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unmountAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnmountAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnmountAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnmountAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnmountAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// unmountAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unmountAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/advancedClusterFileSystems/{advancedClusterFileSystemId}/actions/unmount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnmountAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AdvancedClusterFileSystem/UnmountAdvancedClusterFileSystem"
+		err = common.PostProcessServiceError(err, "Database", "UnmountAdvancedClusterFileSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnmountDbnodeSnapshot Unmounts the snapshot for the provided dbNode.
 //
 // # See also
@@ -23711,6 +24068,63 @@ func (client DatabaseClient) unregisterCloudVmClusterPkcs(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/UnregisterCloudVmClusterPkcs"
 		err = common.PostProcessServiceError(err, "Database", "UnregisterCloudVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAdvancedClusterFileSystem Updates the advanced cluster file system resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAdvancedClusterFileSystem.go.html to see an example of how to use UpdateAdvancedClusterFileSystem API.
+func (client DatabaseClient) UpdateAdvancedClusterFileSystem(ctx context.Context, request UpdateAdvancedClusterFileSystemRequest) (response UpdateAdvancedClusterFileSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAdvancedClusterFileSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAdvancedClusterFileSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAdvancedClusterFileSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAdvancedClusterFileSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAdvancedClusterFileSystemResponse")
+	}
+	return
+}
+
+// updateAdvancedClusterFileSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAdvancedClusterFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/advancedClusterFileSystems/{advancedClusterFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAdvancedClusterFileSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "UpdateAdvancedClusterFileSystem", apiReferenceLink)
 		return response, err
 	}
 

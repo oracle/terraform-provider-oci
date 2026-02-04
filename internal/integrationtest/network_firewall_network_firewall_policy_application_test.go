@@ -57,12 +57,14 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"icmp_code":                  acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `ICMP`, Update: `ICMP`},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	applicationRepresentationRequiredOnly = map[string]interface{}{
 		"icmp_type":                  acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `application_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `ICMP`, Update: `ICMP`},
 	}
 
@@ -137,6 +139,7 @@ func TestNetworkFirewallNetworkFirewallPolicyApplicationResource_basic(t *testin
 		{
 			Config: config + compartmentIdVariableStr + createApplicationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "icmp_code", "10"),
 				resource.TestCheckResourceAttr(resourceName, "icmp_type", "10"),
 				resource.TestCheckResourceAttr(resourceName, "name", "application_1"),
@@ -161,6 +164,7 @@ func TestNetworkFirewallNetworkFirewallPolicyApplicationResource_basic(t *testin
 			Config: config + compartmentIdVariableStr + applicationResourceConfig,
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "icmp_code", "11"),
 				resource.TestCheckResourceAttr(resourceName, "icmp_type", "11"),
 				resource.TestCheckResourceAttr(resourceName, "name", "application_1"),
@@ -212,6 +216,7 @@ func TestNetworkFirewallNetworkFirewallPolicyApplicationResource_basic(t *testin
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "icmp_code", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "icmp_type", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "application_1"),
