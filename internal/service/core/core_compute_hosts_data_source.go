@@ -46,6 +46,10 @@ func CoreComputeHostsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"host_correlation_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"network_resource_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -130,6 +134,10 @@ func ComputeHostSummary() *schema.Resource {
 				Computed: true,
 			},
 			"health": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"host_correlation_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -265,9 +273,9 @@ func (s *CoreComputeHostsDataSourceCrud) SetData() error {
 	computeHost := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, ComputeHostSummaryToMap(item))
-	}
+	// 	for _, item := range s.Res.Items {
+	// 		items = append(items, ComputeHostSummaryToMap(item))
+	// 	}
 	computeHost["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {

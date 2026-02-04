@@ -32,8 +32,8 @@ resource "oci_log_analytics_log_analytics_unprocessed_data_bucket_management" "t
 
 The following arguments are supported:
 
-* `bucket` - (Required) Name of the Object Storage bucket.
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `bucket` - (Required) Name of the Object Storage bucket. Bucket name can be obtained by running 'oci os bucket list --namespace-name <namespace> --compartment-id <compartment>'. The json output 'name' parameter value contains the bucket name.
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ** IMPORTANT **

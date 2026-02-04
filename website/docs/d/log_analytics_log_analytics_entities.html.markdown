@@ -59,7 +59,7 @@ The following arguments are supported:
 * `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
 * `name` - (Optional) A filter to return only log analytics entities whose name matches the entire name given. The match is case-insensitive. 
 * `name_contains` - (Optional) A filter to return only log analytics entities whose name contains the name given. The match is case-insensitive. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `source_id` - (Optional) A filter to return only log analytics entities whose sourceId matches the sourceId given. 
 * `state` - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive. 
 

@@ -24,11 +24,19 @@ type CreateUdpServiceDetails struct {
 
 	// List of port-ranges to be used.
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
+
+	// The description of the service. This field can be used to add additional info.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 // GetName returns Name
 func (m CreateUdpServiceDetails) GetName() *string {
 	return m.Name
+}
+
+// GetDescription returns Description
+func (m CreateUdpServiceDetails) GetDescription() *string {
+	return m.Description
 }
 
 func (m CreateUdpServiceDetails) String() string {

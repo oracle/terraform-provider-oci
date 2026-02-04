@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateNatV4RuleDetails Request for creating NATV4 type Nat Rule used in the firewall policy.
+// CreateNatV4RuleDetails Request for creating NATv4 type NAT rule (https://docs.oracle.com/iaas/Content/network-firewall/policies.htm#network-firewall-policies__nat) used in the firewall policy.
 type CreateNatV4RuleDetails struct {
 
 	// Name for the NAT rule, must be unique within the policy.

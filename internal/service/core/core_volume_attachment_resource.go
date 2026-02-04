@@ -125,6 +125,10 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ipv6": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"iqn": { // iSCSI Qualified Name per RFC 3720
 				Type:     schema.TypeString,
 				Computed: true,
@@ -361,6 +365,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 
 		if v.Ipv4 != nil {
 			s.D.Set("ipv4", *v.Ipv4)
+		}
+
+		if v.Ipv6 != nil {
+			s.D.Set("ipv6", *v.Ipv6)
 		}
 
 		if v.Iqn != nil {

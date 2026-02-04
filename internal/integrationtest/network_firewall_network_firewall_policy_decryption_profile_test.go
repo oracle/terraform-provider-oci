@@ -60,6 +60,7 @@ var (
 
 	decryptionProfileRepresentation = map[string]interface{}{
 		"name":                           acctest.Representation{RepType: acctest.Required, Create: `decryption_profile_1`},
+		"description":                    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"network_firewall_policy_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"type":                           acctest.Representation{RepType: acctest.Required, Create: `SSL_INBOUND_INSPECTION`, Update: `SSL_INBOUND_INSPECTION`},
 		"is_out_of_capacity_blocked":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -123,6 +124,7 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionProfileResource_basic(t *
 		{
 			Config: config + compartmentIdVariableStr + createDecryptionProfileOptionalResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "is_out_of_capacity_blocked", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_unsupported_cipher_blocked", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_unsupported_version_blocked", "false"),
@@ -147,6 +149,7 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionProfileResource_basic(t *
 		{
 			Config: config + compartmentIdVariableStr + decryptionProfileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "is_out_of_capacity_blocked", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_unsupported_cipher_blocked", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_unsupported_version_blocked", "true"),
@@ -184,7 +187,7 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionProfileResource_basic(t *
 				compartmentIdVariableStr + decryptionProfileResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_out_of_capacity_blocked", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_unsupported_version_blocked", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_unsupported_cipher_blocked", "true"),

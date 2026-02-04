@@ -24,6 +24,9 @@ type ListNamespacesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// if true, the request is from compartment delete service.
+	IsCompartmentDelete *bool `mandatory:"false" contributesTo:"query" name:"isCompartmentDelete"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

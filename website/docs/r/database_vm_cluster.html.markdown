@@ -73,7 +73,9 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	memory_size_in_gbs = var.vm_cluster_memory_size_in_gbs
 	system_version = var.vm_cluster_system_version
 	time_zone = var.vm_cluster_time_zone
+	vm_backup_storage_type = var.vm_cluster_vm_backup_storage_type
 	vm_cluster_type = var.vm_cluster_vm_cluster_type
+	vm_file_system_storage_type = var.vm_cluster_vm_file_system_storage_type
 }
 ```
 
@@ -116,8 +118,10 @@ The following arguments are supported:
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the VM cluster.
 * `system_version` - (Optional) Operating system version of the image.
 * `time_zone` - (Optional) The time zone to use for the VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `vm_backup_storage_type` - (Optional) (Updatable) Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 * `vm_cluster_type` - (Optional) The vmcluster type for the VM cluster/Cloud VM cluster.
+* `vm_file_system_storage_type` - (Optional) Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
 
 
 ** IMPORTANT **
@@ -172,8 +176,10 @@ The following attributes are exported:
 * `system_version` - Operating system version of the image.
 * `time_created` - The date and time that the VM cluster was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `vm_backup_storage_type` - Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL.
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 * `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
+* `vm_file_system_storage_type` - Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
 
 ## Timeouts
 

@@ -61,6 +61,7 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"port_ranges":                acctest.RepresentationGroup{RepType: acctest.Required, Group: servicePortRangesRepresentation},
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `TCP_SERVICE`, Update: `TCP_SERVICE`},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 	}
 
 	servicePortRangesRepresentation = map[string]interface{}{
@@ -121,6 +122,7 @@ func TestNetworkFirewallNetworkFirewallPolicyServiceResource_basic(t *testing.T)
 			Config: config + compartmentIdVariableStr + createServiceResourceConfigOptional,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "service_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "port_ranges.#", "1"),
@@ -145,6 +147,7 @@ func TestNetworkFirewallNetworkFirewallPolicyServiceResource_basic(t *testing.T)
 			Config: config + compartmentIdVariableStr + serviceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "service_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "port_ranges.#", "1"),
@@ -188,8 +191,8 @@ func TestNetworkFirewallNetworkFirewallPolicyServiceResource_basic(t *testing.T)
 				compartmentIdVariableStr + serviceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "service_1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_ranges.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_ranges.0.maximum_port", "11"),

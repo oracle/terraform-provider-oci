@@ -37,6 +37,7 @@ resource "oci_network_firewall_network_firewall" "test_network_firewall" {
 		must_enable_private_nat = var.network_firewall_nat_configuration_must_enable_private_nat
 	}
 	network_security_group_ids = var.network_firewall_network_security_group_ids
+	shape = var.network_firewall_shape
 }
 ```
 
@@ -51,10 +52,11 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `ipv4address` - (Optional) IPv4 address for the Network Firewall.
 * `ipv6address` - (Optional) IPv6 address for the Network Firewall.
-* `nat_configuration` - (Optional) (Updatable) Nat Configuration request to use Nat feature on firewall.
-	* `must_enable_private_nat` - (Required) (Updatable) To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall. The value of this field can not be false to release the NAT IPs given that the attached network firewall policy does not contains any NAT rules. The value of this field should be set to true if the network firewall policy being applied contains NAT rules.
+* `nat_configuration` - (Optional) (Updatable) Request to configure Network Address Translation (NAT) on a firewall. To perform NAT on traffic passing the private NAT IPs to the firewall, the attached network firewall policy must also have NAT rules and NAT configuration must be enabled. If NAT configuration is enabled and the attached firewall policy does not contain NAT rule then NAT IPs will get allocated but NAT will not be performed on any traffic. 
+	* `must_enable_private_nat` - (Required) (Updatable) The value of this field must be set to true if the network firewall policy being applied contains NAT rules. The value of this field can be set to false if the network firewall policy being applied or the currently attached firewall policy doesn't contain NAT rules. 
 * `network_firewall_policy_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall Policy.
 * `network_security_group_ids` - (Optional) (Updatable) An array of network security groups [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
+* `shape` - (Optional) (Updatable) The shape of a firewall to determine the bandwidth that the firewall allows.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Network Firewall.
 
 
@@ -74,11 +76,12 @@ The following attributes are exported:
 * `ipv4address` - IPv4 address for the Network Firewall.
 * `ipv6address` - IPv6 address for the Network Firewall.
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'FAILED' state.
-* `nat_configuration` - Nat Configuration response.
-	* `must_enable_private_nat` - To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall.
-	* `nat_ip_address_list` - An array of NAT IP addresses that are associated with the Network Firewall. These IPs are reserved for NAT and shouldn't be used for any other purpose in the subnet.
+* `nat_configuration` - Response to a request to configure Network Address Translation (NAT) on a firewall. To perform NAT on traffic passing the private NAT IPs to the firewall, the attached network firewall policy must also have NAT rules and NAT configuration must be enabled. If NAT configuration is enabled and the attached firewall policy does not contain NAT rule then NAT IPs will get allocated but NAT will not be performed on any traffic. 
+	* `must_enable_private_nat` - True indicates that NAT configuration is enabled. False indicates NAT configuration is disabled. 
+	* `nat_ip_address_list` - An array of Private NAT IP addresses that are associated with the Network Firewall. These IP addresses are reserved for NAT and shouldn't be used for any other purpose in the subnet. This list contains IP  addresses when NAT configuration is enabled. This list is empty or null IP when NAT configuration is disabled. 
 * `network_firewall_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall Policy.
 * `network_security_group_ids` - An array of network security groups [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the Network Firewall.
+* `shape` - The shape of a firewall to determine the bandwidth that the firewall allows.
 * `state` - The current state of the Network Firewall.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Network Firewall.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

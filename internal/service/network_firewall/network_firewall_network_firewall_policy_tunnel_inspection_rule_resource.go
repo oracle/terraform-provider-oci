@@ -89,6 +89,10 @@ func NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResource() *schema.
 				Optional: true,
 				Computed: true,
 			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"position": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -311,6 +315,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResourceCrud) S
 		}
 
 		s.D.Set("action", v.Action)
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
@@ -578,6 +586,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResourceCrud) p
 		if action, ok := s.D.GetOkExists("action"); ok {
 			details.Action = oci_network_firewall.InspectActionTypeEnum(action.(string))
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
 			details.Name = &tmp
@@ -634,6 +646,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResourceCrud) p
 		}
 		if action, ok := s.D.GetOkExists("action"); ok {
 			details.Action = oci_network_firewall.InspectActionTypeEnum(action.(string))
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		if position, ok := s.D.GetOkExists("position"); ok {
 			if tmpList := position.([]interface{}); len(tmpList) > 0 {

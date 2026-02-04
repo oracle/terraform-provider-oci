@@ -30,7 +30,7 @@ data "oci_log_analytics_namespace_storage_recalled_data_size" "test_namespace_st
 
 The following arguments are supported:
 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 * `time_data_ended` - (Optional) This is the end of the time range for recalled data
 * `time_data_started` - (Optional) This is the start of the time range for recalled data
 

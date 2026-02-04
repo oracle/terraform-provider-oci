@@ -12,6 +12,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -20,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
 
@@ -108,6 +110,66 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"metric_collections": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"dimensions": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"dimension_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"query_field_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"metric_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"metric_query_field_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"query_table_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"metric_name": {
 										Type:     schema.TypeString,
@@ -247,6 +309,11 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"query_offset_secs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
 									"recurring_interval": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -254,6 +321,11 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 									},
 									"repeat_count": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"time_end": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -275,6 +347,11 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -478,6 +555,11 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Update() error {
 		log.Printf("[WARN] Update() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		details.Description = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		details.DisplayName = &tmp
@@ -562,6 +644,10 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) SetData() error {
 
 	if result.GetDefinedTags() != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(result.GetDefinedTags()))
+	}
+
+	if result.GetDescription() != nil {
+		s.D.Set("description", result.GetDescription())
 	}
 
 	if result.GetDisplayName() != nil {
@@ -753,12 +839,121 @@ func LAActionToMap(obj oci_log_analytics.Action) map[string]interface{} {
 	return result
 }
 
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToDimensionField(fieldKeyFormat string) (oci_log_analytics.DimensionField, error) {
+	result := oci_log_analytics.DimensionField{}
+
+	if dimensionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_name")); ok {
+		tmp := dimensionName.(string)
+		result.DimensionName = &tmp
+	}
+
+	if queryFieldName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_field_name")); ok {
+		tmp := queryFieldName.(string)
+		result.QueryFieldName = &tmp
+	}
+
+	return result, nil
+}
+
+func DimensionFieldToMap(obj oci_log_analytics.DimensionField) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DimensionName != nil {
+		result["dimension_name"] = string(*obj.DimensionName)
+	}
+
+	if obj.QueryFieldName != nil {
+		result["query_field_name"] = string(*obj.QueryFieldName)
+	}
+
+	return result
+}
+
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToMetricCollection(fieldKeyFormat string) (oci_log_analytics.MetricCollection, error) {
+	result := oci_log_analytics.MetricCollection{}
+
+	if dimensions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimensions")); ok {
+		interfaces := dimensions.([]interface{})
+		tmp := make([]oci_log_analytics.DimensionField, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dimensions"), stateDataIndex)
+			converted, err := s.mapToDimensionField(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dimensions")) {
+			result.Dimensions = tmp
+		}
+	}
+
+	if metricName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_name")); ok {
+		tmp := metricName.(string)
+		result.MetricName = &tmp
+	}
+
+	if metricQueryFieldName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_query_field_name")); ok {
+		tmp := metricQueryFieldName.(string)
+		result.MetricQueryFieldName = &tmp
+	}
+
+	if queryTableName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_table_name")); ok {
+		tmp := queryTableName.(string)
+		result.QueryTableName = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricCollectionToMap(obj oci_log_analytics.MetricCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	dimensions := []interface{}{}
+	for _, item := range obj.Dimensions {
+		dimensions = append(dimensions, DimensionFieldToMap(item))
+	}
+	result["dimensions"] = dimensions
+
+	if obj.MetricName != nil {
+		result["metric_name"] = string(*obj.MetricName)
+	}
+
+	if obj.MetricQueryFieldName != nil {
+		result["metric_query_field_name"] = string(*obj.MetricQueryFieldName)
+	}
+
+	if obj.QueryTableName != nil {
+		result["query_table_name"] = string(*obj.QueryTableName)
+	}
+
+	return result
+}
+
 func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToMetricExtraction(fieldKeyFormat string) (oci_log_analytics.MetricExtraction, error) {
 	result := oci_log_analytics.MetricExtraction{}
 
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
+	}
+
+	if metricCollections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_collections")); ok {
+		interfaces := metricCollections.([]interface{})
+		tmp := make([]oci_log_analytics.MetricCollection, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric_collections"), stateDataIndex)
+			converted, err := s.mapToMetricCollection(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "metric_collections")) {
+			result.MetricCollections = tmp
+		}
 	}
 
 	if metricName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_name")); ok {
@@ -785,6 +980,12 @@ func MetricExtractionToMap(obj *oci_log_analytics.MetricExtraction) map[string]i
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
+
+	metricCollections := []interface{}{}
+	for _, item := range obj.MetricCollections {
+		metricCollections = append(metricCollections, MetricCollectionToMap(item))
+	}
+	result["metric_collections"] = metricCollections
 
 	if obj.MetricName != nil {
 		result["metric_name"] = string(*obj.MetricName)
@@ -817,6 +1018,19 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToSchedule(fieldKeyF
 		if misfirePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "misfire_policy")); ok {
 			details.MisfirePolicy = oci_log_analytics.ScheduleMisfirePolicyEnum(misfirePolicy.(string))
 		}
+		if queryOffsetSecs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_offset_secs")); ok {
+			tmp := queryOffsetSecs.(int)
+			details.QueryOffsetSecs = &tmp
+		}
+		if timeEnd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_end")); ok {
+			if timeEnd != nil && timeEnd.(string) != "" {
+				tmp, err := time.Parse(time.RFC3339, timeEnd.(string))
+				if err != nil {
+					return details, err
+				}
+				details.TimeEnd = &oci_common.SDKTime{Time: tmp}
+			}
+		}
 		baseObject = details
 	case strings.ToLower("CRON"):
 		details := oci_log_analytics.CronSchedule{}
@@ -831,6 +1045,19 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToSchedule(fieldKeyF
 		if misfirePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "misfire_policy")); ok {
 			details.MisfirePolicy = oci_log_analytics.ScheduleMisfirePolicyEnum(misfirePolicy.(string))
 		}
+		if queryOffsetSecs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_offset_secs")); ok {
+			tmp := queryOffsetSecs.(int)
+			details.QueryOffsetSecs = &tmp
+		}
+		if timeEnd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_end")); ok {
+			if timeEnd != nil && timeEnd.(string) != "" {
+				tmp, err := time.Parse(time.RFC3339, timeEnd.(string))
+				if err != nil {
+					return details, err
+				}
+				details.TimeEnd = &oci_common.SDKTime{Time: tmp}
+			}
+		}
 		baseObject = details
 	case strings.ToLower("FIXED_FREQUENCY"):
 		details := oci_log_analytics.FixedFrequencySchedule{}
@@ -844,6 +1071,19 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToSchedule(fieldKeyF
 		}
 		if misfirePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "misfire_policy")); ok {
 			details.MisfirePolicy = oci_log_analytics.ScheduleMisfirePolicyEnum(misfirePolicy.(string))
+		}
+		if queryOffsetSecs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_offset_secs")); ok {
+			tmp := queryOffsetSecs.(int)
+			details.QueryOffsetSecs = &tmp
+		}
+		if timeEnd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_end")); ok {
+			if timeEnd != nil && timeEnd.(string) != "" {
+				tmp, err := time.Parse(time.RFC3339, timeEnd.(string))
+				if err != nil {
+					return details, err
+				}
+				details.TimeEnd = &oci_common.SDKTime{Time: tmp}
+			}
 		}
 		baseObject = details
 	default:
@@ -875,6 +1115,10 @@ func LoganScheduleToMap(obj oci_log_analytics.Schedule) map[string]interface{} {
 	switch v := (obj).(type) {
 	case oci_log_analytics.AutoSchedule:
 		result["type"] = "AUTO"
+
+		if v.TimeEnd != nil {
+			result["time_end"] = v.TimeEnd.Format(time.RFC3339)
+		}
 	case oci_log_analytics.CronSchedule:
 		result["type"] = "CRON"
 
@@ -884,6 +1128,10 @@ func LoganScheduleToMap(obj oci_log_analytics.Schedule) map[string]interface{} {
 
 		if v.TimeZone != nil {
 			result["time_zone"] = string(*v.TimeZone)
+		}
+
+		if v.TimeEnd != nil {
+			result["time_end"] = v.TimeEnd.Format(time.RFC3339)
 		}
 	case oci_log_analytics.FixedFrequencySchedule:
 		result["type"] = "FIXED_FREQUENCY"
@@ -895,6 +1143,15 @@ func LoganScheduleToMap(obj oci_log_analytics.Schedule) map[string]interface{} {
 		if v.RepeatCount != nil {
 			result["repeat_count"] = int(*v.RepeatCount)
 		}
+
+		if v.QueryOffsetSecs != nil {
+			result["query_offset_secs"] = int(*v.QueryOffsetSecs)
+		}
+
+		if v.TimeEnd != nil {
+			result["time_end"] = v.TimeEnd.Format(time.RFC3339)
+		}
+
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil
@@ -1050,6 +1307,19 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) populateTopLevelPolymor
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -1081,6 +1351,16 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) populateTopLevelPolymor
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
+
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
@@ -1137,6 +1417,12 @@ func scheduleHashCodeForSets(v interface{}) int {
 	}
 	if repeatCount, ok := m["repeat_count"]; ok && repeatCount != "" {
 		buf.WriteString(fmt.Sprintf("%v-", repeatCount))
+	}
+	if queryOffsetSecs, ok := m["query_offset_secs"]; ok && queryOffsetSecs != "" {
+		buf.WriteString(fmt.Sprintf("%v-", queryOffsetSecs))
+	}
+	if timeEnd, ok := m["time_end"]; ok && timeEnd != "" {
+		buf.WriteString(fmt.Sprintf("%v-", timeEnd))
 	}
 	if timeZone, ok := m["time_zone"]; ok && timeZone != "" {
 		buf.WriteString(fmt.Sprintf("%v-", timeZone))

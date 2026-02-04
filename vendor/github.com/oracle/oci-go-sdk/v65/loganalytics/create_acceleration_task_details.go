@@ -33,6 +33,9 @@ type CreateAccelerationTaskDetails struct {
 	// No trailing spaces allowed.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Description for this resource.
+	Description *string `mandatory:"false" json:"description"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -50,6 +53,11 @@ func (m CreateAccelerationTaskDetails) GetCompartmentId() *string {
 // GetDisplayName returns DisplayName
 func (m CreateAccelerationTaskDetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetDescription returns Description
+func (m CreateAccelerationTaskDetails) GetDescription() *string {
+	return m.Description
 }
 
 // GetFreeformTags returns FreeformTags

@@ -140,6 +140,8 @@ var (
 		"scan_listener_port_tcp_ssl":      acctest.Representation{RepType: acctest.Optional, Create: `2484`},
 		"security_attributes":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"vm_backup_storage_type":          acctest.Representation{RepType: acctest.Optional, Create: `LOCAL`, Update: `EXASCALE`},
+		"vm_file_system_storage_type":     acctest.Representation{RepType: acctest.Optional, Create: `LOCAL`},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
@@ -413,6 +415,9 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
 	DatabaseExascaleCloudVmClusterResourceDependencies = ad_subnet_security + DatabaseExascaleDbStorageExacsVaultResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageExacsVaultRepresentation)
+
+	DatabaseExascaleCloudVmClusterResourceDependenciesOptional = ad_subnet_security + DatabaseExascaleDbStorageExacsVaultResourceDependenciesOptional +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageExacsVaultRepresentation)
 
 	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep30
@@ -872,6 +877,7 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 
 	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 	var _ string
+	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExascaleCloudVmClusterResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseExascaleCloudVmClusterRepresentation), "database", "cloudVmCluster", t)
@@ -897,6 +903,140 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependencies,
+		},
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependenciesOptional +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
+					DatabaseExascaleCloudVmClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "06:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "00:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-02-15"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "26.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp", "1521"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp_ssl", "2484"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.maxegresscount.value", "42"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_count", "4"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "vm_backup_storage_type", "LOCAL"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "vm_file_system_storage_type", "LOCAL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependenciesOptional +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update,
+					DatabaseExascaleCloudVmClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "08:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "02:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-03-15"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-03-13"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_name", "clusterName"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "26.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp", "1521"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp_ssl", "2484"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.maxegresscount.value", "updatedValue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_count", "6"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "vm_backup_storage_type", "EXASCALE"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "vm_file_system_storage_type", "LOCAL"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
 					return err
 				},
 			),

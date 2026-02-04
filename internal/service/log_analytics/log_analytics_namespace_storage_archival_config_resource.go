@@ -10,9 +10,11 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -50,6 +52,12 @@ func LogAnalyticsNamespaceStorageArchivalConfigResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"time_oldest_active_bucket_ended": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -258,6 +266,14 @@ func (s *LogAnalyticsNamespaceStorageArchivalConfigResourceCrud) mapToArchivingC
 		result.ArchivalStorageDuration = &tmp
 	}
 
+	if timeOldestActiveBucketEnded, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_oldest_active_bucket_ended")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeOldestActiveBucketEnded.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeOldestActiveBucketEnded = &oci_common.SDKTime{Time: tmp}
+	}
+
 	return result, nil
 }
 
@@ -270,6 +286,10 @@ func ArchivingConfigurationToMap(obj *oci_log_analytics.ArchivingConfiguration) 
 
 	if obj.ArchivalStorageDuration != nil {
 		result["archival_storage_duration"] = string(*obj.ArchivalStorageDuration)
+	}
+
+	if obj.TimeOldestActiveBucketEnded != nil {
+		result["time_oldest_active_bucket_ended"] = obj.TimeOldestActiveBucketEnded.Format(time.RFC3339Nano)
 	}
 
 	return result

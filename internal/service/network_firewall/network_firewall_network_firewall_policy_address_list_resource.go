@@ -57,6 +57,10 @@ func NetworkFirewallNetworkFirewallPolicyAddressListResource() *schema.Resource 
 					Type: schema.TypeString,
 				},
 			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"parent_resource_id": {
@@ -129,6 +133,11 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListResourceCrud) Create() e
 		if len(tmp) != 0 || s.D.HasChange("addresses") {
 			request.Addresses = tmp
 		}
+	}
+
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -247,6 +256,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListResourceCrud) SetData() 
 
 	s.D.Set("addresses", s.Res.Addresses)
 
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
 	if s.Res.ParentResourceId != nil {
 		s.D.Set("parent_resource_id", *s.Res.ParentResourceId)
 	}
@@ -262,6 +275,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListResourceCrud) SetData() 
 
 func AddressListSummaryToMap(obj oci_network_firewall.AddressListSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
@@ -316,6 +333,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListResourceCrud) populateTo
 				details.Addresses = tmp
 			}
 		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
 		request.UpdateAddressListDetails = details
 	case strings.ToLower("IP"):
 		details := oci_network_firewall.UpdateIpAddressListDetails{}
@@ -342,6 +363,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyAddressListResourceCrud) populateTo
 			if len(tmp) != 0 || s.D.HasChange("addresses") {
 				details.Addresses = tmp
 			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
 		}
 		request.UpdateAddressListDetails = details
 	default:

@@ -248,11 +248,15 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["time_zone"] = *r.TimeZone
 		}
 
+		vmCluster["vm_backup_storage_type"] = r.VmBackupStorageType
+
 		if r.VmClusterNetworkId != nil {
 			vmCluster["vm_cluster_network_id"] = *r.VmClusterNetworkId
 		}
 
 		vmCluster["vm_cluster_type"] = r.VmClusterType
+
+		vmCluster["vm_file_system_storage_type"] = r.VmFileSystemStorageType
 
 		resources = append(resources, vmCluster)
 	}

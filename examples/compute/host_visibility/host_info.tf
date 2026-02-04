@@ -4,6 +4,7 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+  # version = "7.30.0"
 }
 
 variable "tenancy_ocid" {
@@ -49,7 +50,7 @@ data "oci_core_compute_host" "test_compute_host" {
 }
 
 resource "oci_core_compute_host_group" "best_compute_host_group" {
-  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name
+  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id = var.compartment_ocid
   display_name = "BestComputeHostGroup"
   is_targeted_placement_required = false
@@ -58,7 +59,7 @@ resource "oci_core_compute_host_group" "best_compute_host_group" {
 resource "oci_core_compute_host" "best_compute_host" {
   compute_host_id = var.bare_metal_ocid
   compute_host_group_id = oci_core_compute_host_group.best_compute_host_group.id
-  configuration_action_type = "check"
+  # configuration_action_type = "check"
 }
 
 output "compute_host_values" {

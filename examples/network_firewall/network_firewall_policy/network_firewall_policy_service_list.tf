@@ -14,6 +14,8 @@ resource "oci_network_firewall_network_firewall_policy_service_list" "test_netwo
   name                       = var.network_firewall_policy_service_list_name
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
   services                   = [oci_network_firewall_network_firewall_policy_service.test_network_firewall_policy_service_tcp.name]
+  #Optional
+  description                = "A service list with TCP services"
 }
 
 data "oci_network_firewall_network_firewall_policy_service_lists" "test_network_firewall_policy_service_lists" {

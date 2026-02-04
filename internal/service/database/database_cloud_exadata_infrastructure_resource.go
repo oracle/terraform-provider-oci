@@ -307,7 +307,15 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"available_vm_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"total_storage_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"total_vm_storage_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},

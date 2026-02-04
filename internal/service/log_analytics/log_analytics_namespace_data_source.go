@@ -34,6 +34,10 @@ func LogAnalyticsNamespaceDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_logset_enabled": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -101,6 +105,8 @@ func (s *LogAnalyticsNamespaceDataSourceCrud) SetData() error {
 	if s.Res.IsOnboarded != nil {
 		s.D.Set("is_onboarded", *s.Res.IsOnboarded)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.IsLogSetEnabled != nil {
 		s.D.Set("is_logset_enabled", *s.Res.IsLogSetEnabled)

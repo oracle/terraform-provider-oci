@@ -115,6 +115,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileDataSourceCrud) Se
 			s.D.Set("is_untrusted_issuer_blocked", *v.IsUntrustedIssuerBlocked)
 		}
 
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
 		}
@@ -135,6 +139,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionProfileDataSourceCrud) Se
 
 		if v.IsUnsupportedVersionBlocked != nil {
 			s.D.Set("is_unsupported_version_blocked", *v.IsUnsupportedVersionBlocked)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
 		}
 
 		if v.Name != nil {

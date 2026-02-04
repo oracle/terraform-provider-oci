@@ -7,7 +7,7 @@
 
 resource "random_string" "random_prefix" {
   length  = 4
-  number  = false
+  numeric = false
   special = false
 }
 
@@ -58,6 +58,10 @@ resource "oci_dns_zone_stage_dnssec_key_version" "stage_dnssec_key_version" {
   predecessor_dnssec_key_version_uuid = oci_dns_zone.zone4.dnssec_config[0].zsk_dnssec_key_versions[0].uuid
   zone_id                             = oci_dns_zone.zone4.id
   scope                               = "GLOBAL"
+
+  lifecycle {
+    ignore_changes = [predecessor_dnssec_key_version_uuid]
+  }
 }
 
 data "oci_dns_zones" "zs" {
@@ -76,4 +80,3 @@ data "oci_identity_tenancy" "tenancy" {
 output "zones" {
   value = data.oci_dns_zones.zs.zones
 }
-

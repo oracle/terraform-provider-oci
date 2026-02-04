@@ -21,7 +21,7 @@ type UpdateNatRuleRequest struct {
 	// Unique Network Firewall Policy identifier
 	NetworkFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"networkFirewallPolicyId"`
 
-	// Unique identifier for NAT Rules in the network firewall policy.
+	// Unique identifier for NAT rules in the Network Firewall policy.
 	NatRuleName *string `mandatory:"true" contributesTo:"path" name:"natRuleName"`
 
 	// The information to be updated.

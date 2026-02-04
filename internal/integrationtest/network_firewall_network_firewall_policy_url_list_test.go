@@ -61,6 +61,7 @@ var (
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `url_list_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"urls":                       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: urlsRepresentation1}, {RepType: acctest.Required, Group: urlsRepresentation2}},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 	urlsRepresentation1 = map[string]interface{}{
 		"pattern": acctest.Representation{RepType: acctest.Required, Create: `www.url1.com`},
@@ -126,6 +127,7 @@ func TestNetworkFirewallNetworkFirewallPolicyUrlListResource_basic(t *testing.T)
 			Config: config + compartmentIdVariableStr + updatedUrlListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "url_list_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "total_urls"),
@@ -172,8 +174,8 @@ func TestNetworkFirewallNetworkFirewallPolicyUrlListResource_basic(t *testing.T)
 				compartmentIdVariableStr + updatedUrlListResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "url_list_1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_urls"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urls.#", "2"),

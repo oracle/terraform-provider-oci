@@ -32,6 +32,9 @@ type ParserTestResult struct {
 
 	// The named capture groups.
 	NamedCaptureGroups []string `mandatory:"false" json:"namedCaptureGroups"`
+
+	// The test violations.
+	Violations []Violation `mandatory:"false" json:"violations"`
 }
 
 func (m ParserTestResult) String() string {

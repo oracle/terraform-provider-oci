@@ -6,6 +6,9 @@ package database
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_database_advanced_cluster_file_system", DatabaseAdvancedClusterFileSystemResource())
+	tfresource.RegisterResource("oci_database_advanced_cluster_file_system_mount", DatabaseAdvancedClusterFileSystemMountResource())
+	tfresource.RegisterResource("oci_database_advanced_cluster_file_system_unmount", DatabaseAdvancedClusterFileSystemUnmountResource())
 	tfresource.RegisterResource("oci_database_application_vip", DatabaseApplicationVipResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database", DatabaseAutonomousContainerDatabaseResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database_add_standby", DatabaseAutonomousContainerDatabaseAddStandbyResource())

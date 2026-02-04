@@ -83,7 +83,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Description for this resource. 
 * `display_name` - (Required) (Updatable) The ingest time rule display name.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Log Analytics namespace used for the request. The namespace can be obtained by running 'oci os ns get' 
 
 
 ** IMPORTANT **

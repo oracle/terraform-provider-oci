@@ -64,6 +64,9 @@ type ComputeHost struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island
 	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
 
+	// The ID that remains consistent when a host moves between capacity pools within the same tenancy.
+	HostCorrelationId *string `mandatory:"false" json:"hostCorrelationId"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique host group associated with the Compute Bare Metal Host.
 	ComputeHostGroupId *string `mandatory:"false" json:"computeHostGroupId"`
 
