@@ -8,4 +8,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_fleet_software_update_fsu_collection", FleetSoftwareUpdateFsuCollectionResource())
 	tfresource.RegisterResource("oci_fleet_software_update_fsu_cycle", FleetSoftwareUpdateFsuCycleResource())
+	tfresource.RegisterResource("oci_fleet_software_update_fsu_readiness_check", FleetSoftwareUpdateFsuReadinessCheckResource())
 }
