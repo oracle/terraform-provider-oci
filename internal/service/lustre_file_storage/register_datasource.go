@@ -6,6 +6,8 @@ package lustre_file_storage
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_lustre_file_storage_available_maintenance_schedule_start_times", LustreFileStorageAvailableMaintenanceScheduleStartTimesDataSource())
+	tfresource.RegisterDatasource("oci_lustre_file_storage_available_override_maintenance_start_times", LustreFileStorageAvailableOverrideMaintenanceStartTimesDataSource())
 	tfresource.RegisterDatasource("oci_lustre_file_storage_lustre_file_system", LustreFileStorageLustreFileSystemDataSource())
 	tfresource.RegisterDatasource("oci_lustre_file_storage_lustre_file_systems", LustreFileStorageLustreFileSystemsDataSource())
 	tfresource.RegisterDatasource("oci_lustre_file_storage_object_storage_link", LustreFileStorageObjectStorageLinkDataSource())
