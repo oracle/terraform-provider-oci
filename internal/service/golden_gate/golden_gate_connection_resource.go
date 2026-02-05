@@ -7807,10 +7807,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GoldenGateConnectionTechnologyTypeEnum(technologyType.(string))
 		}
@@ -8444,10 +8444,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.JavaMessageServiceConnectionSecurityProtocolEnum(securityProtocol.(string))
 
@@ -8583,9 +8583,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				}
 				tmp[i] = converted
 			}
-			if len(tmp) != 0 || s.D.HasChange("bootstrap_servers") {
-				details.BootstrapServers = tmp
-			}
+			// if len(tmp) != 0 || s.D.HasChange("bootstrap_servers") {
+			// 	details.BootstrapServers = tmp
+			// }
 		}
 		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 			tmp := clusterId.(string)
@@ -8776,10 +8776,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
 			details.SslKeyPassword = &tmp
@@ -9042,10 +9042,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MicrosoftSqlserverConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -9318,10 +9318,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -9581,10 +9581,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
 			details.SessionMode = oci_golden_gate.OracleConnectionSessionModeEnum(sessionMode.(string))
 		}
@@ -9972,10 +9972,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.PostgresqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -11199,10 +11199,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
 			details.Username = &tmp
@@ -11686,10 +11686,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.JavaMessageServiceConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -11967,10 +11967,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
 			details.SslKeyPassword = &tmp
@@ -12183,10 +12183,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MicrosoftSqlserverConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -12409,10 +12409,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -12622,10 +12622,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
 			details.SessionMode = oci_golden_gate.OracleConnectionSessionModeEnum(sessionMode.(string))
 		}
@@ -12935,10 +12935,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-			tmp := privateIp.(string)
-			details.PrivateIp = &tmp
-		}
+		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+		// 	tmp := privateIp.(string)
+		// 	details.PrivateIp = &tmp
+		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.PostgresqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}

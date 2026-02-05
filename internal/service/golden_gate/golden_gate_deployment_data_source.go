@@ -284,9 +284,9 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	if s.Res.TimeUpgradeRequired != nil {
-		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
-	}
+	// if s.Res.TimeUpgradeRequired != nil {
+	// 	s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
+	// }
 
 	return nil
 }

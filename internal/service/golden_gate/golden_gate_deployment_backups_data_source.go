@@ -89,9 +89,9 @@ func (s *GoldenGateDeploymentBackupsDataSourceCrud) GetWithContext(ctx context.C
 		request.DisplayName = &tmp
 	}
 
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_golden_gate.ListDeploymentBackupsLifecycleStateEnum(state.(string))
-	}
+	// if state, ok := s.D.GetOkExists("state"); ok {
+	// 	request.LifecycleState = oci_golden_gate.ListDeploymentBackupsLifecycleStateEnum(state.(string))
+	// }
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 

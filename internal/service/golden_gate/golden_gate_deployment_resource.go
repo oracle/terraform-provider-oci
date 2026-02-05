@@ -1561,9 +1561,9 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	if s.Res.TimeUpgradeRequired != nil {
-		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
-	}
+	// if s.Res.TimeUpgradeRequired != nil {
+	// 	s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
+	// }
 
 	return nil
 }
@@ -2191,9 +2191,9 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
-	if obj.TimeUpgradeRequired != nil {
-		result["time_upgrade_required"] = obj.TimeUpgradeRequired.String()
-	}
+	// if obj.TimeUpgradeRequired != nil {
+	// 	result["time_upgrade_required"] = obj.TimeUpgradeRequired.String()
+	// }
 
 	return result
 }
