@@ -854,6 +854,7 @@ fleet_software_update
 
 * oci\_fleet\_software\_update\_fsu\_cycle
 * oci\_fleet\_software\_update\_fsu\_collection
+* oci\_fleet\_software\_update\_fsu\_readiness\_check
 
 functions
 
