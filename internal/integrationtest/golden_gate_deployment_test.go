@@ -947,7 +947,7 @@ func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
 
 	listDeploymentsRequest := oci_golden_gate.ListDeploymentsRequest{}
 	listDeploymentsRequest.CompartmentId = &compartmentId
-	listDeploymentsRequest.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateActive
+	// listDeploymentsRequest.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateActive
 	listDeploymentsResponse, err := goldenGateClient.ListDeployments(context.Background(), listDeploymentsRequest)
 
 	if err != nil {
@@ -963,9 +963,9 @@ func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
 
 func goldenGateDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if deploymentResponse, ok := response.Response.(oci_golden_gate.GetDeploymentResponse); ok {
-		return deploymentResponse.LifecycleState != oci_golden_gate.LifecycleStateDeleted
-	}
+	// if deploymentResponse, ok := response.Response.(oci_golden_gate.GetDeploymentResponse); ok {
+	// 	return deploymentResponse.LifecycleState != oci_golden_gate.LifecycleStateDeleted
+	// }
 	return false
 }
 
