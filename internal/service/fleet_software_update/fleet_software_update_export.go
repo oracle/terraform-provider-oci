@@ -58,10 +58,24 @@ var exportFleetSoftwareUpdateFsuCollectionHints = &tf_export.TerraformResourceHi
 	},
 }
 
+var exportFleetSoftwareUpdateFsuReadinessCheckHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_software_update_fsu_readiness_check",
+	DatasourceClass:        "oci_fleet_software_update_fsu_readiness_checks",
+	DatasourceItemsAttr:    "fsu_readiness_check_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "fsu_readiness_check",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_software_update.FsuReadinessCheckLifecycleStateNeedsAttention),
+		string(oci_fleet_software_update.FsuReadinessCheckLifecycleStateSucceeded),
+	},
+}
+
 var fleetSoftwareUpdateResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFleetSoftwareUpdateFsuCycleHints},
 		{TerraformResourceHints: exportFleetSoftwareUpdateFsuCollectionHints},
+		{TerraformResourceHints: exportFleetSoftwareUpdateFsuReadinessCheckHints},
 	},
 	"oci_fleet_software_update_fsu_collection": {
 		{
