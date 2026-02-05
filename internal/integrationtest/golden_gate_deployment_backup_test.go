@@ -384,7 +384,7 @@ func getDeploymentBackupIds(compartment string) ([]string, error) {
 
 	listDeploymentBackupsRequest := oci_golden_gate.ListDeploymentBackupsRequest{}
 	listDeploymentBackupsRequest.CompartmentId = &compartmentId
-	listDeploymentBackupsRequest.LifecycleState = oci_golden_gate.ListDeploymentBackupsLifecycleStateActive
+	// listDeploymentBackupsRequest.LifecycleState = oci_golden_gate.ListDeploymentBackupsLifecycleStateActive
 	listDeploymentBackupsResponse, err := goldenGateClient.ListDeploymentBackups(context.Background(), listDeploymentBackupsRequest)
 
 	if err != nil {
