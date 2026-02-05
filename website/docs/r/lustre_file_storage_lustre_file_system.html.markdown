@@ -43,6 +43,12 @@ resource "oci_lustre_file_storage_lustre_file_system" "test_lustre_file_system" 
 	file_system_description = var.lustre_file_system_file_system_description
 	freeform_tags = {"Department"= "Finance"}
 	kms_key_id = oci_kms_key.test_key.id
+	maintenance_window {
+
+		#Optional
+		day_of_week = var.lustre_file_system_maintenance_window_day_of_week
+		time_start = var.lustre_file_system_maintenance_window_time_start
+	}
 	nsg_ids = var.lustre_file_system_nsg_ids
 }
 ```
@@ -61,6 +67,9 @@ The following arguments are supported:
 * `file_system_name` - (Required) The Lustre file system name. This is used in mount commands and other aspects of the client command line interface. The file system name is limited to 8 characters. Allowed characters are lower and upper case English letters, numbers, and '_'. If you have multiple Lustre file systems mounted on the same clients, this name can help distinguish them. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `kms_key_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KMS key used to encrypt the encryption keys associated with this file system. 
+* `maintenance_window` - (Optional) (Updatable) The preferred day and time to perform maintenance.
+	* `day_of_week` - (Optional) (Updatable) Day of the week when the maintainence window starts. 
+	* `time_start` - (Optional) (Updatable) The time to start the maintenance window. The format is 'HH:MM', 'HH:MM' represents the time in UTC.   Example: `22:00` 
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this lustre file system. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the lustre file system from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `performance_tier` - (Required) The Lustre file system performance tier. A value of `MBPS_PER_TB_125` represents 125 megabytes per second per terabyte.
 * `root_squash_configuration` - (Required) (Updatable) An administrative feature that allows you to restrict root level access from clients that try to access your Lustre file system as root.
@@ -69,6 +78,7 @@ The following arguments are supported:
 	* `squash_gid` - (Optional) (Updatable) The GID value to remap to when squashing a client GID. See `identitySquash` for more details. If unspecified, defaults to `65534`. 
 	* `squash_uid` - (Optional) (Updatable) The UID value to remap to when squashing a client UID. See `identitySquash` for more details. If unspecified, defaults to `65534`. 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the Lustre file system is in.
+* `override_maintenance_trigger` - (Optional) (Updatable) An optional property when incremented triggers Override Maintenance. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -94,6 +104,14 @@ The following attributes are exported:
 * `maintenance_window` - The preferred day and time to perform maintenance.
 	* `day_of_week` - Day of the week when the maintainence window starts. 
 	* `time_start` - The time to start the maintenance window. The format is 'HH:MM', 'HH:MM' represents the time in UTC.   Example: `22:00` 
+* `maintenance_window_metadata` - The meta-data for maintenance window.
+	* `active_or_next_planned_maintenance` - A generic object to show date and time in the below specified format
+		* `date` - A user-friendly date. Example: `2025-04-25` 
+		* `time` - A user-friendly time. The format is 'HH:MM', 'HH:MM' represents the time in UTC. Example: `22:00` 
+	* `finished_maintenance` - A generic object to show date and time in the below specified format
+		* `date` - A user-friendly date. Example: `2025-04-25` 
+		* `time` - A user-friendly time. The format is 'HH:MM', 'HH:MM' represents the time in UTC. Example: `22:00` 
+	* `is_maintenance_in_progress` - whether or not an active maintenance is going on for the LustreFileSystem
 * `major_version` - Major version of Lustre running in the Lustre file system.  Example: `2.15` 
 * `management_service_address` - The IPv4 address of MGS (Lustre Management Service) used by clients to mount the file system. For example '10.0.0.4'.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this lustre file system. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the lustre file system from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 

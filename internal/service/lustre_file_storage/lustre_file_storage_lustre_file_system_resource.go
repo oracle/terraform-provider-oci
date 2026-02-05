@@ -144,6 +144,32 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_window": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"day_of_week": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"time_start": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -153,7 +179,28 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
+			"override_maintenance_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"date_time_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"date": {
+							Type:     schema.TypeString,
+							Required: true, // YYYY-MM-DD
+						},
+						"time": {
+							Type:     schema.TypeString,
+							Required: true, // HH:MM
+						},
+					},
+				},
+			},
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -163,7 +210,7 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"maintenance_window": {
+			"maintenance_window_metadata": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -173,12 +220,50 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 						// Optional
 
 						// Computed
-						"day_of_week": {
-							Type:     schema.TypeString,
+						"active_or_next_planned_maintenance": {
+							Type:     schema.TypeList,
 							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"date": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
-						"time_start": {
-							Type:     schema.TypeString,
+						"finished_maintenance": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"date": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"is_maintenance_in_progress": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 					},
@@ -223,7 +308,16 @@ func createLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
+	}
+
+	if _, ok := sync.D.GetOkExists("override_maintenance_trigger"); ok {
+		if err := sync.OverrideMaintenance(); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+	return tfresource.HandleDiagError(m, nil)
 }
 
 func readLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -239,7 +333,26 @@ func updateLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LustreFileStorageClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	if _, ok := sync.D.GetOkExists("override_maintenance_trigger"); ok && sync.D.HasChange("override_maintenance_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("override_maintenance_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+
+		if oldValue < newValue {
+			if err := sync.OverrideMaintenance(); err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			_ = sync.D.Set("override_maintenance_trigger", oldRaw)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
+		}
+	}
+
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
+	}
+
+	return tfresource.HandleDiagError(m, nil)
 }
 
 func deleteLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -339,6 +452,17 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) CreateWithContext(ctx co
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
+	}
+
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -590,6 +714,17 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) UpdateWithContext(ctx co
 	tmp := s.D.Id()
 	request.LustreFileSystemId = &tmp
 
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -699,6 +834,12 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MaintenanceWindowMetadata != nil {
+		s.D.Set("maintenance_window_metadata", []interface{}{MaintenanceWindowMetadataDetailsToMap(s.Res.MaintenanceWindowMetadata)})
+	} else {
+		s.D.Set("maintenance_window_metadata", nil)
+	}
+
 	if s.Res.MajorVersion != nil {
 		s.D.Set("major_version", *s.Res.MajorVersion)
 	}
@@ -744,6 +885,66 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *LustreFileStorageLustreFileSystemResourceCrud) OverrideMaintenance() error {
+	request := oci_lustre_file_storage.OverrideMaintenanceRequest{}
+
+	if dateTimeDetails, ok := s.D.GetOkExists("date_time_details"); ok {
+		if tmpList := dateTimeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "date_time_details", 0)
+			tmp, err := s.mapToDateAndTime(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DateTimeDetails = &tmp
+		}
+	}
+
+	idTmp := s.D.Id()
+	request.LustreFileSystemId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
+
+	_, err := s.Client.OverrideMaintenance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	val := s.D.Get("override_maintenance_trigger")
+	s.D.Set("override_maintenance_trigger", val)
+
+	return nil
+}
+
+func (s *LustreFileStorageLustreFileSystemResourceCrud) mapToDateAndTime(fieldKeyFormat string) (oci_lustre_file_storage.DateAndTime, error) {
+	result := oci_lustre_file_storage.DateAndTime{}
+
+	if dateVal, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "date")); ok {
+		tmp := dateVal.(string)
+		result.Date = &tmp
+	}
+
+	if timeVal, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time")); ok {
+		tmp := timeVal.(string)
+		result.Time = &tmp
+	}
+
+	return result, nil
+}
+
+func DateAndTimeToMap(obj *oci_lustre_file_storage.DateAndTime) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Date != nil {
+		result["date"] = string(*obj.Date)
+	}
+
+	if obj.Time != nil {
+		result["time"] = string(*obj.Time)
+	}
+
+	return result
 }
 
 func LustreFileSystemSummaryToMap(obj oci_lustre_file_storage.LustreFileSystemSummary, datasource bool) map[string]interface{} {
@@ -848,6 +1049,21 @@ func LustreFileSystemSummaryToMap(obj oci_lustre_file_storage.LustreFileSystemSu
 	return result
 }
 
+func (s *LustreFileStorageLustreFileSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_lustre_file_storage.MaintenanceWindow, error) {
+	result := oci_lustre_file_storage.MaintenanceWindow{}
+
+	if dayOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day_of_week")); ok {
+		result.DayOfWeek = oci_lustre_file_storage.MaintenanceWindowDayOfWeekEnum(dayOfWeek.(string))
+	}
+
+	if timeStart, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_start")); ok {
+		tmp := timeStart.(string)
+		result.TimeStart = &tmp
+	}
+
+	return result, nil
+}
+
 func MaintenanceWindowToMap(obj *oci_lustre_file_storage.MaintenanceWindow) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -855,6 +1071,24 @@ func MaintenanceWindowToMap(obj *oci_lustre_file_storage.MaintenanceWindow) map[
 
 	if obj.TimeStart != nil {
 		result["time_start"] = string(*obj.TimeStart)
+	}
+
+	return result
+}
+
+func MaintenanceWindowMetadataDetailsToMap(obj *oci_lustre_file_storage.MaintenanceWindowMetadataDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ActiveOrNextPlannedMaintenance != nil {
+		result["active_or_next_planned_maintenance"] = []interface{}{DateAndTimeToMap(obj.ActiveOrNextPlannedMaintenance)}
+	}
+
+	if obj.FinishedMaintenance != nil {
+		result["finished_maintenance"] = []interface{}{DateAndTimeToMap(obj.FinishedMaintenance)}
+	}
+
+	if obj.IsMaintenanceInProgress != nil {
+		result["is_maintenance_in_progress"] = bool(*obj.IsMaintenanceInProgress)
 	}
 
 	return result
