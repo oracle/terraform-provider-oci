@@ -8,4 +8,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_apm_config_config", ApmConfigConfigDataSource())
 	tfresource.RegisterDatasource("oci_apm_config_configs", ApmConfigConfigsDataSource())
+	tfresource.RegisterDatasource("oci_apm_config_data_file", ApmConfigDataFileDataSource())
+	tfresource.RegisterDatasource("oci_apm_config_data_files", ApmConfigDataFilesDataSource())
 }
