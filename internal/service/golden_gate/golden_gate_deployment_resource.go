@@ -134,6 +134,14 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+				// OGG is deprecated in the service API; prefer DATABASE_ORACLE
+				ValidateFunc: func(i interface{}, k string) (ws []string, es []error) {
+					v, _ := i.(string)
+					if strings.EqualFold(v, "OGG") {
+						ws = append(ws, "The 'OGG' value for deployment_type is deprecated. Please use 'DATABASE_ORACLE' instead.")
+					}
+					return
+				},
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -316,10 +324,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 
 						// Optional
 						"admin_password": {
-							Type:      schema.TypeString,
-							Optional:  true,
-							Computed:  true,
-							Sensitive: true,
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Sensitive:  true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("admin_password", "password_secret_id"),
 						},
 						"admin_username": {
 							Type:     schema.TypeString,
@@ -518,8 +527,9 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"is_storage_utilization_limit_exceeded": {
-				Type:     schema.TypeBool,
-				Computed: true,
+				Type:       schema.TypeBool,
+				Computed:   true,
+				Deprecated: tfresource.FieldDeprecated("is_storage_utilization_limit_exceeded"),
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -593,10 +603,6 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_upgrade_required": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -755,28 +761,26 @@ func (s *GoldenGateDeploymentResourceCrud) ID() string {
 
 func (s *GoldenGateDeploymentResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateCreating),
-		string(oci_golden_gate.LifecycleStateInProgress),
+		string(oci_golden_gate.DeploymentLifecycleStateCreating),
 	}
 }
 
 func (s *GoldenGateDeploymentResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateActive),
-		string(oci_golden_gate.LifecycleStateNeedsAttention),
-		string(oci_golden_gate.LifecycleStateSucceeded),
+		string(oci_golden_gate.DeploymentLifecycleStateActive),
+		string(oci_golden_gate.DeploymentLifecycleStateNeedsAttention),
 	}
 }
 
 func (s *GoldenGateDeploymentResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateDeleting),
+		string(oci_golden_gate.DeploymentLifecycleStateDeleting),
 	}
 }
 
 func (s *GoldenGateDeploymentResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateDeleted),
+		string(oci_golden_gate.DeploymentLifecycleStateDeleted),
 	}
 }
 
@@ -1561,10 +1565,6 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	// if s.Res.TimeUpgradeRequired != nil {
-	// 	s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
-	// }
-
 	return nil
 }
 
@@ -2190,10 +2190,6 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
-
-	// if obj.TimeUpgradeRequired != nil {
-	// 	result["time_upgrade_required"] = obj.TimeUpgradeRequired.String()
-	// }
 
 	return result
 }

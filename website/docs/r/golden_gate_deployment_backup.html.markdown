@@ -88,7 +88,7 @@ The following attributes are exported:
 * `object` - Name of the object to be uploaded to object storage
 * `ogg_version` - Version of OGG 
 * `size_in_bytes` - The size of the backup stored in object storage (in bytes) 
-* `state` - Possible lifecycle states. 
+* `state` - Possible lifecycle states for a Deployment Backup. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_backup_finished` - The time of the resource backup finish. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

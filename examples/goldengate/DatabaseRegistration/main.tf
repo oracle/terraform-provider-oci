@@ -13,16 +13,8 @@ variable "database_registration_alias_name" {
   default = "aliasName"
 }
 
-variable "database_registration_connection_string" {
-  default = "fqdndb.ggs.com:1521/orcl.us.oracle.com"
-}
-
 variable "database_registration_session_mode" {
   default = "DIRECT"
-}
-
-variable "database_registration_defined_tags_value" {
-  default = "value"
 }
 
 variable "database_registration_description" {
@@ -57,10 +49,6 @@ variable "database_registration_username" {
   default = "username"
 }
 
-variable "database_registration_wallet" {
-  default = "wallet"
-}
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -79,10 +67,7 @@ resource "oci_golden_gate_database_registration" "test_database_registration" {
   username       = var.database_registration_username
 
   #Optional
-  connection_string     = var.database_registration_connection_string
   session_mode          = var.database_registration_session_mode
-  database_id           = var.test_db_id
-  #defined_tags          = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.database_registration_defined_tags_value)
   description           = var.database_registration_description
   freeform_tags         = var.database_registration_freeform_tags
   ip_address            = var.database_registration_ip_address
@@ -90,7 +75,10 @@ resource "oci_golden_gate_database_registration" "test_database_registration" {
   secret_compartment_id = var.compartment_id
   subnet_id             = var.test_subnet_id
   vault_id              = var.kms_vault_id
-  wallet                = var.database_registration_wallet
+
+  lifecycle {
+    ignore_changes = [freeform_tags]
+  }
 }
 
 data "oci_golden_gate_database_registrations" "test_database_registrations" {

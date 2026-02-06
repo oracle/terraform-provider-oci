@@ -20,7 +20,9 @@ func GoldenGateDatabaseRegistrationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistrationWithContext)
+	r := tfresource.GetSingularDataSourceItemSchemaWithContext(GoldenGateDatabaseRegistrationResource(), fieldMap, readSingularGoldenGateDatabaseRegistrationWithContext)
+	r.DeprecationMessage = tfresource.DatasourceDeprecatedForAnother("oci_golden_gate_database_registration", "oci_golden_gate_connection")
+	return r
 }
 
 func readSingularGoldenGateDatabaseRegistrationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -73,6 +75,10 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ConnectionId != nil {
+		s.D.Set("connection_id", *s.Res.ConnectionId)
 	}
 
 	if s.Res.ConnectionString != nil {

@@ -246,7 +246,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
 
 	var steps = []resource.TestStep{
-		//		verify Create
+		//	#0	verify Create
 		{
 			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation),
@@ -273,11 +273,11 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// #1 delete before next Create
 		{
 			Config: config,
 		},
-		// check groupToRolesMapping attribute set
+		// #2 check groupToRolesMapping attribute set
 		{
 			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
 				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
@@ -306,7 +306,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		//delete before next Create
+		// #3 delete before next Create
 		{
 			Config: config,
 		},
@@ -338,7 +338,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// optional step: verify Create with IAM credential store and identity domain id
+		// #4 optional step: verify Create with IAM credential store and identity domain id
 		{
 			PreConfig: func() {
 				fmt.Println("This step will run only if TF_VAR_identity_domain_id env variable is set.")
@@ -373,7 +373,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Create with GOLDENGATE credential store and password secret id
+		// #5 verify Create with GOLDENGATE credential store and password secret id
 		{
 			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
 				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
@@ -401,7 +401,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify parameter updates for the deployment including password secret id
+		// #6 verify parameter updates for the deployment including password secret id
 		{
 			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
 				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
@@ -434,12 +434,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// #7 delete before next Create
 		{
 			Config: config,
 		},
 
-		// verify Create with optionals
+		// #8 verify Create with optionals
 		{
 			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation),
@@ -498,7 +498,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// #9 verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
@@ -556,7 +556,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		// #10 verify updates to updatable parameters
 		{
 			Config: config + testDeploymentIdVariableStr + DeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -611,7 +611,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify datasource
+		// #11 verify datasource
 		{
 			Config: config + DeploymentResourceConfig + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", acctest.Required, acctest.Create,
@@ -644,7 +644,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify singular datasource
+		// #12 verify singular datasource
 		{
 			Config: config + DeploymentResourceConfig + testDeploymentIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentSingularDataSourceRepresentation),
@@ -701,7 +701,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// verify resource import
+		// #13 verify resource import
 		{
 			Config:            config + DeploymentResourceConfig,
 			ImportState:       true,
@@ -716,7 +716,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config,
 		},
 		// Start/stop/upgrade test
-		// 0. create a new and locked deployment and stop it right after the creation
+		// #14 0. create a new and locked deployment and stop it right after the creation
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
@@ -738,7 +738,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// 1. start the locked deployment and upgrade it at the same time
+		// #15 1. start the locked deployment and upgrade it at the same time
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
@@ -762,11 +762,11 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// 2. step clear
+		// #16 2. step clear
 		{
 			Config: config,
 		},
-		// 3. create a new deployment on an older version
+		// #17 3. create a new deployment on an older version
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
@@ -783,7 +783,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// 4. upgrade deployment based on var.upgraded_ogg_version and stop it
+		// #18 4. upgrade deployment based on var.upgraded_ogg_version and stop it
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
@@ -804,7 +804,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// 5. No upgraded is required, no start/stop is required, nothing should happen here.
+		// #19 5. No upgraded is required, no start/stop is required, nothing should happen here.
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
@@ -828,7 +828,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config,
 		},
-		// check multicloud attribute. It must be included in test only if multicloud is available in the environment.
+		// #20 check multicloud attribute. It must be included in test only if multicloud is available in the environment.
 		{
 			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
 				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
@@ -846,13 +846,14 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		//delete before next Create
+		// #21 delete before next Create
 		{
 			Config: config,
 		},
 	}
 	//acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{steps[0], steps[len(steps)-1]})
-	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps[len(steps)-2:]) // execute the last two added tests
+	//acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps[len(steps)-2:]) // execute the last two added tests
+	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{steps[0], steps[1]}) // execute the first two steps
 }
 
 func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {
@@ -947,7 +948,7 @@ func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
 
 	listDeploymentsRequest := oci_golden_gate.ListDeploymentsRequest{}
 	listDeploymentsRequest.CompartmentId = &compartmentId
-	// listDeploymentsRequest.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateActive
+	listDeploymentsRequest.LifecycleState = oci_golden_gate.DeploymentLifecycleStateActive
 	listDeploymentsResponse, err := goldenGateClient.ListDeployments(context.Background(), listDeploymentsRequest)
 
 	if err != nil {
@@ -963,9 +964,9 @@ func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
 
 func goldenGateDeploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	// if deploymentResponse, ok := response.Response.(oci_golden_gate.GetDeploymentResponse); ok {
-	// 	return deploymentResponse.LifecycleState != oci_golden_gate.LifecycleStateDeleted
-	// }
+	if deploymentResponse, ok := response.Response.(oci_golden_gate.GetDeploymentResponse); ok {
+		return deploymentResponse.LifecycleState != oci_golden_gate.DeploymentLifecycleStateDeleted
+	}
 	return false
 }
 

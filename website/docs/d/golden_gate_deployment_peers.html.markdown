@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `deployment_id` - (Required) A unique Deployment identifier. 
 * `display_name` - (Optional) A filter to return only the resources that match the entire 'displayName' given. 
-* `state` - (Optional) A filter to return only the resources that match the 'lifecycleState' given. 
+* `state` - (Optional) A filter to return only the deployment peers having the 'lifecycleState' given. 
 
 
 ## Attributes Reference

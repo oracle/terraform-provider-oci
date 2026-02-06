@@ -46,7 +46,6 @@ resource "oci_golden_gate_connection" "test_connection" {
 		#Optional
 		host = var.connection_bootstrap_servers_host
 		port = var.connection_bootstrap_servers_port
-		private_ip = var.connection_bootstrap_servers_private_ip
 	}
 	catalog {
 		#Required
@@ -55,10 +54,12 @@ resource "oci_golden_gate_connection" "test_connection" {
 		#Optional
 		branch = var.connection_catalog_branch
 		client_id = oci_golden_gate_client.test_client.id
+		client_secret = var.connection_catalog_client_secret
 		client_secret_secret_id = oci_vault_secret.test_secret.id
 		glue_id = oci_golden_gate_glue.test_glue.id
 		name = var.connection_catalog_name
 		principal_role = var.connection_catalog_principal_role
+		properties = var.connection_catalog_properties
 		properties_secret_id = oci_vault_secret.test_secret.id
 		uri = var.connection_catalog_uri
 	}
@@ -105,7 +106,6 @@ resource "oci_golden_gate_connection" "test_connection" {
 	password = var.connection_password
 	password_secret_id = oci_vault_secret.test_secret.id
 	port = var.connection_port
-	private_ip = var.connection_private_ip
 	private_key_file = var.connection_private_key_file
 	private_key_file_secret_id = oci_vault_secret.test_secret.id
 	private_key_passphrase = var.connection_private_key_passphrase
@@ -147,6 +147,7 @@ resource "oci_golden_gate_connection" "test_connection" {
 
 		#Optional
 		access_key_id = oci_kms_key.test_key.id
+		account_key = var.connection_storage_account_key
 		account_key_secret_id = oci_vault_secret.test_secret.id
 		account_name = var.connection_storage_account_name
 		bucket = var.connection_storage_bucket
@@ -155,7 +156,9 @@ resource "oci_golden_gate_connection" "test_connection" {
 		project_id = oci_ai_document_project.test_project.id
 		region = var.connection_storage_region
 		scheme_type = var.connection_storage_scheme_type
+		secret_access_key = var.connection_storage_secret_access_key
 		secret_access_key_secret_id = oci_vault_secret.test_secret.id
+		service_account_key_file = var.connection_storage_service_account_key_file
 		service_account_key_file_secret_id = oci_vault_secret.test_secret.id
 	}
 	storage_credential_name = var.connection_storage_credential_name
@@ -202,18 +205,17 @@ The following arguments are supported:
 * `bootstrap_servers` - (Applicable when connection_type=KAFKA) (Updatable) Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: `"server1.example.com:9092,server2.example.com:9092"` 
 	* `host` - (Required when connection_type=KAFKA) (Updatable) The name or address of a host. 
 	* `port` - (Applicable when connection_type=KAFKA) (Updatable) The port of an endpoint usually specified for a connection. 
-	* `private_ip` - (Applicable when connection_type=KAFKA) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
-
-		The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
 * `catalog` - (Required when connection_type=ICEBERG) (Updatable) The information about a new catalog of given type used in an Iceberg connection. 
 	* `branch` - (Required when catalog_type=NESSIE) (Updatable) The active branch of the Nessie catalog from which Iceberg reads and writes table metadata.
 	* `catalog_type` - (Required) (Updatable) The catalog type. 
 	* `client_id` - (Required when catalog_type=POLARIS) (Updatable) The OAuth client ID used for authentication.
-	* `client_secret_secret_id` - (Required when catalog_type=POLARIS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform. 
+	* `client_secret` - (Applicable when catalog_type=POLARIS) (Updatable) Client secret required to connect to Polaris. 
+	* `client_secret_secret_id` - (Applicable when catalog_type=POLARIS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Polaris. 
 	* `glue_id` - (Required when catalog_type=GLUE) (Updatable) The AWS Glue Catalog ID where Iceberg tables are registered.
 	* `name` - (Required when catalog_type=POLARIS) (Updatable) The catalog name within Polaris where Iceberg tables are registered.
 	* `principal_role` - (Required when catalog_type=POLARIS) (Updatable) The Snowflake role used to access Polaris.
-	* `properties_secret_id` - (Required when catalog_type=REST) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
+	* `properties` - (Applicable when catalog_type=REST) (Updatable) The base64 encoded content of the configuration file containing additional properties for the REST catalog. 
+	* `properties_secret_id` - (Applicable when catalog_type=REST) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
 	* `uri` - (Required when catalog_type=NESSIE | POLARIS | REST) (Updatable) The URL endpoint for the Polaris API. e.g.: 'https://<your-snowflake-account>.snowflakecomputing.com/polaris/api/catalog' 
 * `client_id` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | MICROSOFT_FABRIC) (Updatable) Azure client ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: 06ecaabf-8b80-4ec8-a0ec-20cbf463703d 
 * `client_secret` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | MICROSOFT_FABRIC) (Updatable) Azure client secret (aka application password) for authentication. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1 Deprecated: This field is deprecated and replaced by "clientSecretSecretId". This field will be removed after February 15 2026. 
@@ -235,7 +237,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
 * `does_use_secret_ids` - (Optional) (Updatable) Indicates that sensitive attributes are provided via Secrets. 
-* `endpoint` - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | MICROSOFT_FABRIC) (Updatable) The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to 'https://kinesis.<region>.amazonaws.com'. 
+* `endpoint` - (Applicable when connection_type=AMAZON_KINESIS | AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | GOOGLE_BIGQUERY | GOOGLE_CLOUD_STORAGE | MICROSOFT_FABRIC) (Updatable) The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, GoldenGate will default to 'https://kinesis.<region>.amazonaws.com'. 
 * `fingerprint` - (Applicable when connection_type=ELASTICSEARCH) (Updatable) Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `host` - (Required when connection_type=DB2 | GENERIC | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) Host and port separated by colon. Example: `"server.example.com:1234"`
@@ -259,9 +261,6 @@ The following arguments are supported:
 * `password` - (Applicable when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DATABRICKS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026. 
 * `password_secret_id` - (Applicable when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DATABRICKS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, 'password' field must not be provided. 
 * `port` - (Required when connection_type=DB2 | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The port of an endpoint usually specified for a connection. 
-* `private_ip` - (Applicable when connection_type=GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MYSQL | ORACLE | POSTGRESQL) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
-
-	The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
 * `private_key_file` - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The base64 encoded content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm Deprecated: This field is deprecated and replaced by "privateKeyFileSecretId". This field will be removed after February 15 2026. 
 * `private_key_file_secret_id` - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm Note: When provided, 'privateKeyFile' field must not be provided. 
 * `private_key_passphrase` - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) Password if the private key file is encrypted. Deprecated: This field is deprecated and replaced by "privateKeyPassphraseSecretId". This field will be removed after February 15 2026. 
@@ -280,7 +279,11 @@ The following arguments are supported:
 * `servers` - (Required when connection_type=ELASTICSEARCH | REDIS) (Updatable) Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional.  If port is not specified, it defaults to 9200. Used for establishing the initial connection to the Elasticsearch cluster. Example: `"server1.example.com:4000,server2.example.com:4000"` 
 * `service_account_key_file` - (Applicable when connection_type=GOOGLE_BIGQUERY | GOOGLE_CLOUD_STORAGE | GOOGLE_PUBSUB) (Updatable) The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026. 
 * `service_account_key_file_secret_id` - (Applicable when connection_type=GOOGLE_BIGQUERY | GOOGLE_CLOUD_STORAGE | GOOGLE_PUBSUB) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. Note: When provided, 'serviceAccountKeyFile' field must not be provided. 
-* `session_mode` - (Applicable when connection_type=ORACLE) (Updatable) The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT. 
+* `session_mode` - (Applicable when connection_type=ORACLE) (Updatable) Specifies the session mode for the database connection. Use REDIRECT only for RAC databases with SCAN listeners that return IP addresses. For RAC databases with SCAN listeners that return FQDNs, and for all other Oracle database technologies, use DIRECT. In RAC deployments, SCAN listeners redirects a connection to a specific database node, identified by either IP address or FQDN. It is recommended to configure RAC with FQDN-based SCAN listeners.
+
+	The default is DIRECT, except when databaseId is provided and the discovered database relies on the SCAN listener. In this case, the default is REDIRECT.
+
+	Deprecated: Defaulting to the REDIRECT session mode will be removed after March 1, 2027.               
 * `should_use_jndi` - (Required when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. 
 * `should_use_resource_principal` - (Applicable when connection_type=KAFKA | OCI_OBJECT_STORAGE | ORACLE_AI_DATA_PLATFORM | ORACLE_NOSQL) (Updatable) Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for Oracle Cloud Infrastructure Streaming connections. Only available from 23.9.0.0.0 GoldenGate versions. Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided. Default: false 
 * `should_validate_server_certificate` - (Applicable when connection_type=MICROSOFT_SQLSERVER) (Updatable) If set to true, the driver validates the certificate that is sent by the database server. 
@@ -308,16 +311,19 @@ The following arguments are supported:
 * `ssl_server_certificate` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate. It is not included in GET responses if the `view=COMPACT` query parameter is specified. 
 * `storage` - (Required when connection_type=ICEBERG) (Updatable) The information about a new storage of given type used in an Iceberg connection. 
 	* `access_key_id` - (Required when storage_type=AMAZON_S3) (Updatable) Access key ID to access the Amazon S3 bucket. 
-	* `account_key_secret_id` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. 
+	* `account_key` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026. 
+	* `account_key_secret_id` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. 
 	* `account_name` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name. 
 	* `bucket` - (Required when storage_type=AMAZON_S3 | GOOGLE_CLOUD_STORAGE) (Updatable) Google Cloud Storage bucket where Iceberg stores metadata and data files.
 	* `container` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The Azure Blob Storage container where Iceberg tables are stored.
-	* `endpoint` - (Applicable when storage_type=AMAZON_S3 | AZURE_DATA_LAKE_STORAGE) (Updatable) The Azure Blob Storage endpoint where Iceberg data is stored. e.g.: 'https://my-azure-storage-account.blob.core.windows.net' 
+	* `endpoint` - (Applicable when storage_type=AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | GOOGLE_CLOUD_STORAGE | GOOGLE_BIGQUERY) (Updatable) The Azure Blob Storage endpoint where Iceberg data is stored. e.g.: 'https://my-azure-storage-account.blob.core.windows.net' 
 	* `project_id` - (Required when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The Google Cloud Project where the bucket exists.
 	* `region` - (Required when storage_type=AMAZON_S3) (Updatable) The AMAZON region where the S3 bucket is hosted. e.g.: 'us-east-2' 
 	* `scheme_type` - (Required when storage_type=AMAZON_S3) (Updatable) The scheme of the storage. 
-	* `secret_access_key_secret_id` - (Required when storage_type=AMAZON_S3) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored. 
-	* `service_account_key_file_secret_id` - (Required when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. 
+	* `secret_access_key` - (Applicable when storage_type=AMAZON_S3) (Updatable) Secret access key to access the Amazon S3 bucket. e.g.: "this-is-not-the-secret" Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026. 
+	* `secret_access_key_secret_id` - (Applicable when storage_type=AMAZON_S3) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored. 
+	* `service_account_key_file` - (Applicable when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This field will be removed after February 15 2026. 
+	* `service_account_key_file_secret_id` - (Applicable when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. 
 	* `storage_type` - (Required) (Updatable) The storage type used in the Iceberg connection. 
 * `storage_credential_name` - (Applicable when connection_type=DATABRICKS) (Updatable) Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or GCS. 
 * `stream_pool_id` - (Applicable when connection_type=KAFKA) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced. 
@@ -368,14 +374,14 @@ The following attributes are exported:
 * `bootstrap_servers` - Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: `"server1.example.com:9092,server2.example.com:9092"` 
 	* `host` - The name or address of a host. 
 	* `port` - The port of an endpoint usually specified for a connection. 
-	* `private_ip` - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
+	* `private_ip` - This property is not available when creating connections. For existing deprecated connections having this value set, the value cannot be updated; set it to empty.
 
-		The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
+		For deprecated connections created with this field in the past, either the private IP had to be specified in the connectionString or host field, or the host name had to be resolvable in the target VCN. 
 * `catalog` - Represents the catalog of given type used in an Iceberg connection. 
 	* `branch` - The active branch of the Nessie catalog from which Iceberg reads and writes table metadata.
 	* `catalog_type` - The catalog type. 
 	* `client_id` - The OAuth client ID used for authentication.
-	* `client_secret_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform. 
+	* `client_secret_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Polaris. 
 	* `glue_id` - The AWS Glue Catalog ID where Iceberg tables are registered.
 	* `name` - The catalog name within Polaris where Iceberg tables are registered.
 	* `principal_role` - The Snowflake role used to access Polaris.
@@ -426,9 +432,9 @@ The following attributes are exported:
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, 'password' field must not be provided. 
 * `port` - The port of an endpoint usually specified for a connection. 
-* `private_ip` - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
+* `private_ip` - This property is not available when creating connections. For existing deprecated connections having this value set, the value cannot be updated; set it to empty.
 
-	The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
+	For deprecated connections created with this field in the past, either the private IP had to be specified in the connectionString or host field, or the host name had to be resolvable in the target VCN. 
 * `private_key_file_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm Note: When provided, 'privateKeyFile' field must not be provided. 
 * `private_key_passphrase_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the private key file. Note: When provided, 'privateKeyPassphrase' field must not be provided. 
 * `producer_properties` - The base64 encoded content of the producer.properties file. 
@@ -442,7 +448,11 @@ The following attributes are exported:
 * `security_protocol` - Security protocol for Java Message Service. If not provided, default is PLAIN. Optional until 2024-06-27, in the release after it will be made required. 
 * `servers` - Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional.  If port is not specified, it defaults to 9200. Used for establishing the initial connection to the Elasticsearch cluster. Example: `"server1.example.com:4000,server2.example.com:4000"` 
 * `service_account_key_file_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. Note: When provided, 'serviceAccountKeyFile' field must not be provided. 
-* `session_mode` - The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT. 
+* `session_mode` - Specifies the session mode for the database connection. Use REDIRECT only for RAC databases with SCAN listeners that return IP addresses. For RAC databases with SCAN listeners that return FQDNs, and for all other Oracle database technologies, use DIRECT. In RAC deployments, SCAN listeners redirects a connection to a specific database node, identified by either IP address or FQDN. It is recommended to configure RAC with FQDN-based SCAN listeners.
+
+	The default is DIRECT, except when databaseId is provided and the discovered database relies on the SCAN listener. In this case, the default is REDIRECT.
+
+	Deprecated: Defaulting to the REDIRECT session mode will be removed after March 1, 2027. 
 * `should_use_jndi` - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. 
 * `should_use_resource_principal` - Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for Oracle Cloud Infrastructure Streaming connections. Only available from 23.9.0.0.0 GoldenGate versions. Note: When specified, 'username'/'password'/'passwordSecretId' fields must not be provided. Default: false 
 * `should_validate_server_certificate` - If set to true, the driver validates the certificate that is sent by the database server. 
@@ -467,7 +477,7 @@ The following attributes are exported:
 	* `account_name` - Sets the Azure storage account name. 
 	* `bucket` - Google Cloud Storage bucket where Iceberg stores metadata and data files.
 	* `container` - The Azure Blob Storage container where Iceberg tables are stored.
-	* `endpoint` - The Azure Blob Storage endpoint where Iceberg data is stored. e.g.: 'https://my-azure-storage-account.blob.core.windows.net' 
+	* `endpoint` - A legal URL to connect to Google Cloud Storage including scheme, server name and port (if not the default port). Default: https://storage.googleapis.com 
 	* `project_id` - The Google Cloud Project where the bucket exists.
 	* `region` - The AMAZON region where the S3 bucket is hosted. e.g.: 'us-east-2' 
 	* `scheme_type` - The scheme of the storage.

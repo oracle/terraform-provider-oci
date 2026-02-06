@@ -93,9 +93,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"account_key": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("account_key", "account_key_secret_id"),
 			},
 			"account_key_secret_id": {
 				Type:     schema.TypeString,
@@ -170,13 +171,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-						"private_ip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 
 						// Computed
+						"private_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -213,6 +213,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"client_secret": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("client_secret", "client_secret_secret_id"),
+						},
 						"client_secret_secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -232,6 +238,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"properties": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("properties", "properties_secret_id"),
 						},
 						"properties_secret_id": {
 							Type:     schema.TypeString,
@@ -254,9 +266,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"client_secret": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("client_secret", "client_secret_secret_id"),
 			},
 			"client_secret_secret_id": {
 				Type:     schema.TypeString,
@@ -372,9 +385,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"jndi_security_credentials": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("jndi_security_credentials", "jndi_security_credentials_secret_id"),
 			},
 			"jndi_security_credentials_secret_id": {
 				Type:     schema.TypeString,
@@ -391,14 +405,16 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"key_store": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("key_store", "key_store_secret_id"),
 			},
 			"key_store_password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("key_store_password", "key_store_password_secret_id"),
 			},
 			"key_store_password_secret_id": {
 				Type:     schema.TypeString,
@@ -457,9 +473,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				},
 			},
 			"password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("password", "password_secret_id"),
 			},
 			"password_secret_id": {
 				Type:     schema.TypeString,
@@ -470,24 +487,21 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"private_ip": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
 			"private_key_file": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("private_key_file", "private_key_file_secret_id"),
 			},
 			"private_key_file_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"private_key_passphrase": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("private_key_passphrase", "private_key_passphrase_secret_id"),
 			},
 			"private_key_passphrase_secret_id": {
 				Type:     schema.TypeString,
@@ -519,18 +533,20 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"sas_token": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("sas_token", "sas_token_secret_id"),
 			},
 			"sas_token_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"secret_access_key": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("secret_access_key", "secret_access_key_secret_id"),
 			},
 			"secret_access_key_secret_id": {
 				Type:     schema.TypeString,
@@ -553,9 +569,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"service_account_key_file": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("service_account_key_file", "service_account_key_file_secret_id"),
 			},
 			"service_account_key_file_secret_id": {
 				Type:     schema.TypeString,
@@ -592,18 +609,20 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"ssl_client_keystash": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("ssl_client_keystash", "ssl_client_keystash_secret_id"),
 			},
 			"ssl_client_keystash_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"ssl_client_keystoredb": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("ssl_client_keystoredb", "ssl_client_keystoredb_secret_id"),
 			},
 			"ssl_client_keystoredb_secret_id": {
 				Type:     schema.TypeString,
@@ -615,14 +634,16 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"ssl_key": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("ssl_key", "ssl_key_secret_id"),
 			},
 			"ssl_key_password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("ssl_key_password", "ssl_key_password_secret_id"),
 			},
 			"ssl_key_password_secret_id": {
 				Type:     schema.TypeString,
@@ -668,6 +689,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"account_key": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("account_key", "account_key_secret_id"),
+						},
 						"account_key_secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -708,10 +735,22 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"secret_access_key": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("secret_access_key", "secret_access_key_secret_id"),
+						},
 						"secret_access_key_secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"service_account_key_file": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("service_account_key_file", "service_account_key_file_secret_id"),
 						},
 						"service_account_key_file_secret_id": {
 							Type:     schema.TypeString,
@@ -760,15 +799,17 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"tls_certificate_key_file": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("tls_certificate_key_file", "tls_certificate_key_file_secret_id"),
 			},
 			"tls_certificate_key_file_password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Computed:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("tls_certificate_key_file_password", "tls_certificate_key_file_password_secret_id"),
 			},
 			"tls_certificate_key_file_password_secret_id": {
 				Type:      schema.TypeString,
@@ -782,14 +823,16 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"trust_store": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("trust_store", "trust_store_secret_id"),
 			},
 			"trust_store_password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("trust_store_password", "trust_store_password_secret_id"),
 			},
 			"trust_store_password_secret_id": {
 				Type:     schema.TypeString,
@@ -820,9 +863,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"wallet": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Sensitive: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("wallet", "wallet_secret_id"),
 			},
 			"wallet_secret_id": {
 				Type:     schema.TypeString,
@@ -848,6 +892,10 @@ func GoldenGateConnectionResource() *schema.Resource {
 				},
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"private_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -2332,6 +2380,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	case oci_golden_gate.GoogleBigQueryConnection:
 		s.D.Set("connection_type", "GOOGLE_BIGQUERY")
 
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
 		if v.ServiceAccountKeyFileSecretId != nil {
 			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
 		}
@@ -2427,6 +2479,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 	case oci_golden_gate.GoogleCloudStorageConnection:
 		s.D.Set("connection_type", "GOOGLE_CLOUD_STORAGE")
+
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
 
 		if v.ServiceAccountKeyFileSecretId != nil {
 			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
@@ -4957,6 +5013,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 	case oci_golden_gate.GoogleBigQueryConnectionSummary:
 		result["connection_type"] = "GOOGLE_BIGQUERY"
 
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
 		}
@@ -4964,6 +5024,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		result["technology_type"] = string(v.TechnologyType)
 	case oci_golden_gate.GoogleCloudStorageConnectionSummary:
 		result["connection_type"] = "GOOGLE_CLOUD_STORAGE"
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
 
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
@@ -5598,6 +5662,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fiel
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
+		if clientSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
+			tmp := clientSecret.(string)
+			details.ClientSecret = &tmp
+		}
 		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
 			tmp := clientSecretSecretId.(string)
 			details.ClientSecretSecretId = &tmp
@@ -5617,6 +5685,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fiel
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.CreateRestIcebergCatalogDetails{}
+		if properties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := properties.(string)
+			details.Properties = &tmp
+		}
 		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
 			tmp := propertiesSecretId.(string)
 			details.PropertiesSecretId = &tmp
@@ -5660,6 +5732,10 @@ func CreateIcebergCatalogDetailsToMap(obj *oci_golden_gate.CreateIcebergCatalogD
 			result["client_id"] = string(*v.ClientId)
 		}
 
+		if v.ClientSecret != nil {
+			result["client_secret"] = string(*v.ClientSecret)
+		}
+
 		if v.ClientSecretSecretId != nil {
 			result["client_secret_secret_id"] = string(*v.ClientSecretSecretId)
 		}
@@ -5677,6 +5753,10 @@ func CreateIcebergCatalogDetailsToMap(obj *oci_golden_gate.CreateIcebergCatalogD
 		}
 	case oci_golden_gate.CreateRestIcebergCatalogDetails:
 		result["catalog_type"] = "REST"
+
+		if v.Properties != nil {
+			result["properties"] = string(*v.Properties)
+		}
 
 		if v.PropertiesSecretId != nil {
 			result["properties_secret_id"] = string(*v.PropertiesSecretId)
@@ -5725,6 +5805,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fiel
 		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
 		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
 			tmp := secretAccessKeySecretId.(string)
 			details.SecretAccessKeySecretId = &tmp
@@ -5732,6 +5816,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fiel
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.CreateAzureDataLakeStorageIcebergStorageDetails{}
+		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := accountKey.(string)
+			details.AccountKey = &tmp
+		}
 		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
 			tmp := accountKeySecretId.(string)
 			details.AccountKeySecretId = &tmp
@@ -5755,9 +5843,17 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fiel
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
+		}
+		if serviceAccountKeyFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
+			tmp := serviceAccountKeyFile.(string)
+			details.ServiceAccountKeyFile = &tmp
 		}
 		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
 			tmp := serviceAccountKeyFileSecretId.(string)
@@ -5794,11 +5890,19 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 
 		result["scheme_type"] = string(v.SchemeType)
 
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
 	case oci_golden_gate.CreateAzureDataLakeStorageIcebergStorageDetails:
 		result["storage_type"] = "AZURE_DATA_LAKE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
 
 		if v.AccountKeySecretId != nil {
 			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
@@ -5822,8 +5926,16 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 			result["bucket"] = string(*v.Bucket)
 		}
 
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
 		if v.ProjectId != nil {
 			result["project_id"] = string(*v.ProjectId)
+		}
+
+		if v.ServiceAccountKeyFile != nil {
+			result["service_account_key_file"] = string(*v.ServiceAccountKeyFile)
 		}
 
 		if v.ServiceAccountKeyFileSecretId != nil {
@@ -5832,6 +5944,36 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToCreateKafkaBootstrapServer(fieldKeyFormat string) (oci_golden_gate.CreateKafkaBootstrapServer, error) {
+	result := oci_golden_gate.CreateKafkaBootstrapServer{}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateKafkaBootstrapServerToMap(obj oci_golden_gate.CreateKafkaBootstrapServer) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Host != nil {
+		result["host"] = string(*obj.Host)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
 	}
 
 	return result
@@ -6165,6 +6307,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorage(fieldKeyFormat st
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
@@ -6230,6 +6376,10 @@ func IcebergStorageToMap(obj *oci_golden_gate.IcebergStorage) map[string]interfa
 
 		if v.Bucket != nil {
 			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
 		}
 
 		if v.ProjectId != nil {
@@ -6309,6 +6459,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorageSummary(fieldKeyFo
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
@@ -6374,6 +6528,10 @@ func IcebergStorageSummaryToMap(obj *oci_golden_gate.IcebergStorageSummary) map[
 
 		if v.Bucket != nil {
 			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
 		}
 
 		if v.ProjectId != nil {
@@ -6508,6 +6666,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fiel
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
+		if clientSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
+			tmp := clientSecret.(string)
+			details.ClientSecret = &tmp
+		}
 		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
 			tmp := clientSecretSecretId.(string)
 			details.ClientSecretSecretId = &tmp
@@ -6527,6 +6689,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fiel
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.UpdateRestIcebergCatalogDetails{}
+		if properties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := properties.(string)
+			details.Properties = &tmp
+		}
 		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
 			tmp := propertiesSecretId.(string)
 			details.PropertiesSecretId = &tmp
@@ -6570,6 +6736,10 @@ func UpdateIcebergCatalogDetailsToMap(obj *oci_golden_gate.UpdateIcebergCatalogD
 			result["client_id"] = string(*v.ClientId)
 		}
 
+		if v.ClientSecret != nil {
+			result["client_secret"] = string(*v.ClientSecret)
+		}
+
 		if v.ClientSecretSecretId != nil {
 			result["client_secret_secret_id"] = string(*v.ClientSecretSecretId)
 		}
@@ -6587,6 +6757,10 @@ func UpdateIcebergCatalogDetailsToMap(obj *oci_golden_gate.UpdateIcebergCatalogD
 		}
 	case oci_golden_gate.UpdateRestIcebergCatalogDetails:
 		result["catalog_type"] = "REST"
+
+		if v.Properties != nil {
+			result["properties"] = string(*v.Properties)
+		}
 
 		if v.PropertiesSecretId != nil {
 			result["properties_secret_id"] = string(*v.PropertiesSecretId)
@@ -6635,6 +6809,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fiel
 		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
 		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
 			tmp := secretAccessKeySecretId.(string)
 			details.SecretAccessKeySecretId = &tmp
@@ -6642,6 +6820,10 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fiel
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.UpdateAzureDataLakeStorageIcebergStorageDetails{}
+		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := accountKey.(string)
+			details.AccountKey = &tmp
+		}
 		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
 			tmp := accountKeySecretId.(string)
 			details.AccountKeySecretId = &tmp
@@ -6665,9 +6847,17 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fiel
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
+		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
+		}
+		if serviceAccountKeyFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
+			tmp := serviceAccountKeyFile.(string)
+			details.ServiceAccountKeyFile = &tmp
 		}
 		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
 			tmp := serviceAccountKeyFileSecretId.(string)
@@ -6704,11 +6894,19 @@ func UpdateIcebergStorageDetailsToMap(obj *oci_golden_gate.UpdateIcebergStorageD
 
 		result["scheme_type"] = string(v.SchemeType)
 
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
 	case oci_golden_gate.UpdateAzureDataLakeStorageIcebergStorageDetails:
 		result["storage_type"] = "AZURE_DATA_LAKE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
 
 		if v.AccountKeySecretId != nil {
 			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
@@ -6732,8 +6930,16 @@ func UpdateIcebergStorageDetailsToMap(obj *oci_golden_gate.UpdateIcebergStorageD
 			result["bucket"] = string(*v.Bucket)
 		}
 
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
 		if v.ProjectId != nil {
 			result["project_id"] = string(*v.ProjectId)
+		}
+
+		if v.ServiceAccountKeyFile != nil {
+			result["service_account_key_file"] = string(*v.ServiceAccountKeyFile)
 		}
 
 		if v.ServiceAccountKeyFileSecretId != nil {
@@ -7807,10 +8013,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.GoldenGateConnectionTechnologyTypeEnum(technologyType.(string))
 		}
@@ -7902,6 +8104,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("GOOGLE_BIGQUERY"):
 		details := oci_golden_gate.CreateGoogleBigQueryConnectionDetails{}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if serviceAccountKeyFile, ok := s.D.GetOkExists("service_account_key_file"); ok {
 			tmp := serviceAccountKeyFile.(string)
 			details.ServiceAccountKeyFile = &tmp
@@ -7997,6 +8203,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.CreateGoogleCloudStorageConnectionDetails{}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if serviceAccountKeyFile, ok := s.D.GetOkExists("service_account_key_file"); ok {
 			tmp := serviceAccountKeyFile.(string)
 			details.ServiceAccountKeyFile = &tmp
@@ -8444,10 +8654,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.JavaMessageServiceConnectionSecurityProtocolEnum(securityProtocol.(string))
 
@@ -8573,19 +8779,19 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		details := oci_golden_gate.CreateKafkaConnectionDetails{}
 		if bootstrapServers, ok := s.D.GetOkExists("bootstrap_servers"); ok {
 			interfaces := bootstrapServers.([]interface{})
-			tmp := make([]oci_golden_gate.KafkaBootstrapServer, len(interfaces))
+			tmp := make([]oci_golden_gate.CreateKafkaBootstrapServer, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bootstrap_servers", stateDataIndex)
-				converted, err := s.mapToKafkaBootstrapServer(fieldKeyFormat)
+				converted, err := s.mapToCreateKafkaBootstrapServer(fieldKeyFormat)
 				if err != nil {
 					return err
 				}
 				tmp[i] = converted
 			}
-			// if len(tmp) != 0 || s.D.HasChange("bootstrap_servers") {
-			// 	details.BootstrapServers = tmp
-			// }
+			if len(tmp) != 0 || s.D.HasChange("bootstrap_servers") {
+				details.BootstrapServers = tmp
+			}
 		}
 		if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
 			tmp := clusterId.(string)
@@ -8776,10 +8982,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
 			details.SslKeyPassword = &tmp
@@ -9042,10 +9244,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MicrosoftSqlserverConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -9318,10 +9516,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -9581,10 +9775,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
 			details.SessionMode = oci_golden_gate.OracleConnectionSessionModeEnum(sessionMode.(string))
 		}
@@ -9972,10 +10162,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.PostgresqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -11199,10 +11385,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
 			details.Username = &tmp
@@ -11269,6 +11451,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("GOOGLE_BIGQUERY"):
 		details := oci_golden_gate.UpdateGoogleBigQueryConnectionDetails{}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if serviceAccountKeyFile, ok := s.D.GetOkExists("service_account_key_file"); ok {
 			tmp := serviceAccountKeyFile.(string)
 			details.ServiceAccountKeyFile = &tmp
@@ -11339,6 +11525,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.UpdateGoogleCloudStorageConnectionDetails{}
+		if endpoint, ok := s.D.GetOkExists("endpoint"); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
 		if serviceAccountKeyFile, ok := s.D.GetOkExists("service_account_key_file"); ok {
 			tmp := serviceAccountKeyFile.(string)
 			details.ServiceAccountKeyFile = &tmp
@@ -11686,10 +11876,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.JavaMessageServiceConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -11967,10 +12153,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if sslKeyPassword, ok := s.D.GetOkExists("ssl_key_password"); ok {
 			tmp := sslKeyPassword.(string)
 			details.SslKeyPassword = &tmp
@@ -12183,10 +12365,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MicrosoftSqlserverConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -12409,10 +12587,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}
@@ -12622,10 +12796,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := passwordSecretId.(string)
 			details.PasswordSecretId = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
 			details.SessionMode = oci_golden_gate.OracleConnectionSessionModeEnum(sessionMode.(string))
 		}
@@ -12935,10 +13105,6 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := port.(int)
 			details.Port = &tmp
 		}
-		// if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
-		// 	tmp := privateIp.(string)
-		// 	details.PrivateIp = &tmp
-		// }
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.PostgresqlConnectionSecurityProtocolEnum(securityProtocol.(string))
 		}

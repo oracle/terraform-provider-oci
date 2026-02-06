@@ -1154,6 +1154,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 	case oci_golden_gate.GoogleBigQueryConnection:
 		s.D.Set("connection_type", "GOOGLE_BIGQUERY")
 
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
+
 		if v.ServiceAccountKeyFileSecretId != nil {
 			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)
 		}
@@ -1245,6 +1249,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 	case oci_golden_gate.GoogleCloudStorageConnection:
 		s.D.Set("connection_type", "GOOGLE_CLOUD_STORAGE")
+
+		if v.Endpoint != nil {
+			s.D.Set("endpoint", *v.Endpoint)
+		}
 
 		if v.ServiceAccountKeyFileSecretId != nil {
 			s.D.Set("service_account_key_file_secret_id", *v.ServiceAccountKeyFileSecretId)

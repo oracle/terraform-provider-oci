@@ -48,9 +48,8 @@ var exportGoldenGateDeploymentHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "deployment",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_golden_gate.LifecycleStateActive),
-		string(oci_golden_gate.LifecycleStateNeedsAttention),
-		string(oci_golden_gate.LifecycleStateSucceeded),
+		string(oci_golden_gate.DeploymentLifecycleStateActive),
+		string(oci_golden_gate.DeploymentLifecycleStateNeedsAttention),
 	},
 }
 
@@ -62,9 +61,7 @@ var exportGoldenGateDeploymentBackupHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "deployment_backup",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_golden_gate.LifecycleStateActive),
-		string(oci_golden_gate.LifecycleStateNeedsAttention),
-		string(oci_golden_gate.LifecycleStateSucceeded),
+		string(oci_golden_gate.DeploymentBackupLifecycleStateActive),
 	},
 }
 

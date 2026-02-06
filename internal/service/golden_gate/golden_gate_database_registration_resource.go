@@ -25,11 +25,12 @@ func GoldenGateDatabaseRegistrationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGoldenGateDatabaseRegistrationWithContext,
-		ReadContext:   readGoldenGateDatabaseRegistrationWithContext,
-		UpdateContext: updateGoldenGateDatabaseRegistrationWithContext,
-		DeleteContext: deleteGoldenGateDatabaseRegistrationWithContext,
+		DeprecationMessage: tfresource.ResourceDeprecatedForAnother("oci_golden_gate_database_registration", "oci_golden_gate_connection"),
+		Timeouts:           tfresource.DefaultTimeout,
+		CreateContext:      createGoldenGateDatabaseRegistrationWithContext,
+		ReadContext:        readGoldenGateDatabaseRegistrationWithContext,
+		UpdateContext:      updateGoldenGateDatabaseRegistrationWithContext,
+		DeleteContext:      deleteGoldenGateDatabaseRegistrationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"alias_name": {
@@ -130,6 +131,10 @@ func GoldenGateDatabaseRegistrationResource() *schema.Resource {
 			},
 
 			// Computed
+			"connection_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -586,6 +591,10 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ConnectionId != nil {
+		s.D.Set("connection_id", *s.Res.ConnectionId)
 	}
 
 	if s.Res.ConnectionString != nil {

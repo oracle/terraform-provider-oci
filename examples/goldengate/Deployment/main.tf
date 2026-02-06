@@ -11,6 +11,9 @@ variable password_secret_id {}
 variable identity_domain_id {}
 variable group_id {}
 
+variable "base_ogg_version" {}
+variable "upgraded_ogg_version" {}
+
 variable "deployment_cpu_core_count" {
   	default = 1
 }
@@ -103,7 +106,6 @@ variable "deployment_peer_state" {
 	default = "ACTIVE"
 }
 
-
 variable "security_attributes" {
 	default = {
 		"oracle-zpr.sensitivity.value" = "42"
@@ -112,11 +114,12 @@ variable "security_attributes" {
 }
 
 provider "oci" {
-  	tenancy_ocid     = var.tenancy_ocid
-  	user_ocid        = var.user_ocid
-  	fingerprint      = var.fingerprint
-  	private_key_path = var.private_key_path
-  	region           = var.region
+	tenancy_ocid     = var.tenancy_ocid
+	user_ocid        = var.user_ocid
+	fingerprint      = var.fingerprint
+	private_key_path = var.private_key_path
+	region           = var.region
+	# version          = "7.30.0"
 }
 
 resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
@@ -130,7 +133,6 @@ resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
   	lifecycle {
   		ignore_changes = [defined_tags, system_tags, freeform_tags]
   	}
-	locks {}
 }
 
 resource "oci_golden_gate_deployment" "test_deployment" {
@@ -158,10 +160,9 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		namespace                  = var.objectstorage_namespace
 		is_metadata_only		   = var.deployment_backup_schedule_is_metadata_only
 	}
-	locks {}
 }
 
-resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
+/*resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
 	compartment_id          			 = var.compartment_id
 	cpu_core_count          			 = var.deployment_cpu_core_count
 	deployment_type        				 = var.deployment_deployment_type
@@ -195,7 +196,7 @@ resource "oci_golden_gate_deployment" "test_deployment_IAM" {
 		identity_domain_id  = var.identity_domain_id
 	}
 }
-
+*/
 resource "oci_golden_gate_deployment" "test_deployment_from_backup" {
   	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
 
@@ -224,9 +225,32 @@ data "oci_golden_gate_deployments" "test_deployments" {
 
 data "oci_golden_gate_deployment_peers" "test_deployment_peers" {
 	#Required
-	deployment_id = oci_golden_gate_deployment.test_deployment_GOLDENGATE.id
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
 
 	#Optional
 	display_name = var.deployment_peer_display_name
 	state        = var.deployment_peer_state
+}
+
+# Singular Deployment data source to exercise golden_gate_deployment_data_source.go
+data "oci_golden_gate_deployment" "test_deployment_singular" {
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+}
+
+# Deployment Backups data source to exercise golden_gate_deployment_backups_data_source.go
+data "oci_golden_gate_deployment_backups" "test_deployment_backups" {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
+}
+
+# Deployment Upgrades data source to exercise golden_gate_deployment_upgrades_data_source.go
+data "oci_golden_gate_deployment_upgrades" "test_deployment_upgrades" {
+	#Required
+	compartment_id = var.compartment_id
+
+	#Optional
+	deployment_id = oci_golden_gate_deployment.test_deployment.id
 }

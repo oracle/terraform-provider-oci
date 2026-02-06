@@ -225,28 +225,25 @@ func (s *GoldenGateDeploymentBackupResourceCrud) ID() string {
 
 func (s *GoldenGateDeploymentBackupResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateCreating),
-		string(oci_golden_gate.LifecycleStateInProgress),
+		string(oci_golden_gate.DeploymentBackupLifecycleStateCreating),
 	}
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateActive),
-		string(oci_golden_gate.LifecycleStateNeedsAttention),
-		string(oci_golden_gate.LifecycleStateSucceeded),
+		string(oci_golden_gate.DeploymentBackupLifecycleStateActive),
 	}
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateDeleting),
+		string(oci_golden_gate.DeploymentBackupLifecycleStateDeleting),
 	}
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_golden_gate.LifecycleStateDeleted),
+		string(oci_golden_gate.DeploymentBackupLifecycleStateDeleted),
 	}
 }
 
