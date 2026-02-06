@@ -388,6 +388,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 															},
+															"login_path": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
 															"logout_path": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -1220,6 +1225,11 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																						Optional: true,
 																						Computed: true,
 																					},
+																					"login_path": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
 																					"logout_path": {
 																						Type:     schema.TypeString,
 																						Optional: true,
@@ -1916,6 +1926,7 @@ func ApigatewayDeploymentResource() *schema.Resource {
 													ValidateFunc: validation.StringInSlice([]string{
 														"DYNAMIC_ROUTING_BACKEND",
 														"HTTP_BACKEND",
+														"OAUTH2_LOGIN_BACKEND",
 														"OAUTH2_LOGOUT_BACKEND",
 														"ORACLE_FUNCTIONS_BACKEND",
 														"STOCK_RESPONSE_BACKEND",
@@ -3988,6 +3999,9 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteBackend(fie
 			details.Url = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OAUTH2_LOGIN_BACKEND"):
+		details := oci_apigateway.OAuth2LoginBackend{}
+		baseObject = details
 	case strings.ToLower("OAUTH2_LOGOUT_BACKEND"):
 		details := oci_apigateway.OAuth2LogoutBackend{}
 		if allowedPostLogoutUris, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_post_logout_uris")); ok {
@@ -4088,6 +4102,8 @@ func ApiSpecificationRouteBackendToMap(obj *oci_apigateway.ApiSpecificationRoute
 		if v.Url != nil {
 			result["url"] = string(*v.Url)
 		}
+	case oci_apigateway.OAuth2LoginBackend:
+		result["type"] = "OAUTH2_LOGIN_BACKEND"
 	case oci_apigateway.OAuth2LogoutBackend:
 		result["type"] = "OAUTH2_LOGOUT_BACKEND"
 
@@ -6714,6 +6730,12 @@ func (s *ApigatewayDeploymentResourceCrud) mapToValidationFailurePolicy(fieldKey
 				details.FallbackRedirectPath = &tmp
 			}
 		}
+		if loginPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "login_path")); ok {
+			tmp := loginPath.(string)
+			if len(tmp) != 0 {
+				details.LoginPath = &tmp
+			}
+		}
 		if logoutPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logout_path")); ok {
 			tmp := logoutPath.(string)
 			if len(tmp) != 0 {
@@ -6798,6 +6820,10 @@ func ValidationFailurePolicyToMap(obj *oci_apigateway.ValidationFailurePolicy) m
 
 		if v.FallbackRedirectPath != nil {
 			result["fallback_redirect_path"] = string(*v.FallbackRedirectPath)
+		}
+
+		if v.LoginPath != nil {
+			result["login_path"] = string(*v.LoginPath)
 		}
 
 		if v.LogoutPath != nil {

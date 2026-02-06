@@ -98,6 +98,7 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						client_secret_version_number = var.deployment_specification_request_policies_authentication_validation_failure_policy_client_details_client_secret_version_number
 					}
 					fallback_redirect_path = var.deployment_specification_request_policies_authentication_validation_failure_policy_fallback_redirect_path
+					login_path = var.deployment_specification_request_policies_authentication_validation_failure_policy_login_path
 					logout_path = var.deployment_specification_request_policies_authentication_validation_failure_policy_logout_path
 					max_expiry_duration_in_hours = var.deployment_specification_request_policies_authentication_validation_failure_policy_max_expiry_duration_in_hours
 					response_code = var.deployment_specification_request_policies_authentication_validation_failure_policy_response_code
@@ -276,6 +277,7 @@ resource "oci_apigateway_deployment" "test_deployment" {
 								client_secret_version_number = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_client_details_client_secret_version_number
 							}
 							fallback_redirect_path = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_fallback_redirect_path
+							login_path = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_login_path
 							logout_path = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_logout_path
 							max_expiry_duration_in_hours = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_max_expiry_duration_in_hours
 							response_code = var.deployment_specification_request_policies_dynamic_authentication_authentication_servers_authentication_server_detail_validation_failure_policy_response_code
@@ -726,7 +728,7 @@ The following arguments are supported:
 			* `public_keys` - (Required when type=JWT_AUTHENTICATION) (Updatable) A set of Public Keys that will be used to verify the JWT signature.
 				* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
 				* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
-					* `alg` - (Required when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
+					* `alg` - (Applicable when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
 					* `e` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded exponent of the RSA public key represented by this key. 
 					* `format` - (Required) (Updatable) The format of the public key.
 					* `key` - (Required when format=PEM) (Updatable) The content of the PEM-encoded public key.
@@ -749,6 +751,7 @@ The following arguments are supported:
 					* `client_secret_version_number` - (Required when type=CUSTOM) (Updatable) The version number of the client secret to use.
 					* `type` - (Required) (Updatable) To specify where the Client App details should be taken from.
 				* `fallback_redirect_path` - (Applicable when type=OAUTH2) (Updatable) The path to be used as fallback after OAuth2.
+				* `login_path` - (Applicable when type=OAUTH2) (Updatable) The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 				* `logout_path` - (Applicable when type=OAUTH2) (Updatable) The path to be used as logout.
 				* `max_expiry_duration_in_hours` - (Applicable when type=OAUTH2) (Updatable) The duration for which the OAuth2 success token should be cached before it is fetched again. 
 				* `response_code` - (Applicable when type=MODIFY_RESPONSE) (Updatable) HTTP response code, can include context variables.
@@ -791,7 +794,7 @@ The following arguments are supported:
 					* `type` - (Required) (Updatable) To specify where the Client App details should be taken from.
 				* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_DISCOVERY | REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
 				* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
-					* `alg` - (Required when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
+					* `alg` - (Applicable when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
 					* `e` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded exponent of the RSA public key represented by this key. 
 					* `format` - (Required) (Updatable) The format of the public key.
 					* `key` - (Required when format=PEM) (Updatable) The content of the PEM-encoded public key.
@@ -829,7 +832,7 @@ The following arguments are supported:
 					* `public_keys` - (Required when type=JWT_AUTHENTICATION) (Updatable) A set of Public Keys that will be used to verify the JWT signature.
 						* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
 						* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
-							* `alg` - (Required when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
+							* `alg` - (Applicable when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
 							* `e` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded exponent of the RSA public key represented by this key. 
 							* `format` - (Required) (Updatable) The format of the public key.
 							* `key` - (Required when format=PEM) (Updatable) The content of the PEM-encoded public key.
@@ -852,6 +855,7 @@ The following arguments are supported:
 							* `client_secret_version_number` - (Required when type=CUSTOM) (Updatable) The version number of the client secret to use.
 							* `type` - (Required) (Updatable) To specify where the Client App details should be taken from.
 						* `fallback_redirect_path` - (Applicable when type=OAUTH2) (Updatable) The path to be used as fallback after OAuth2.
+						* `login_path` - (Applicable when type=OAUTH2) (Updatable) The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 						* `logout_path` - (Applicable when type=OAUTH2) (Updatable) The path to be used as logout.
 						* `max_expiry_duration_in_hours` - (Applicable when type=OAUTH2) (Updatable) The duration for which the OAuth2 success token should be cached before it is fetched again. 
 						* `response_code` - (Applicable when type=MODIFY_RESPONSE) (Updatable) HTTP response code, can include context variables.
@@ -894,7 +898,7 @@ The following arguments are supported:
 							* `type` - (Required) (Updatable) To specify where the Client App details should be taken from.
 						* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_DISCOVERY | REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
 						* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
-							* `alg` - (Required when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
+							* `alg` - (Applicable when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
 							* `e` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded exponent of the RSA public key represented by this key. 
 							* `format` - (Required) (Updatable) The format of the public key.
 							* `key` - (Required when format=PEM) (Updatable) The content of the PEM-encoded public key.
@@ -1168,6 +1172,7 @@ The following attributes are exported:
 					* `client_secret_version_number` - The version number of the client secret to use.
 					* `type` - To specify where the Client App details should be taken from.
 				* `fallback_redirect_path` - The path to be used as fallback after OAuth2.
+				* `login_path` - The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 				* `logout_path` - The path to be used as logout.
 				* `max_expiry_duration_in_hours` - The duration for which the OAuth2 success token should be cached before it is fetched again. 
 				* `response_code` - HTTP response code, can include context variables.
@@ -1270,6 +1275,7 @@ The following attributes are exported:
 							* `client_secret_version_number` - The version number of the client secret to use.
 							* `type` - To specify where the Client App details should be taken from.
 						* `fallback_redirect_path` - The path to be used as fallback after OAuth2.
+						* `login_path` - The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 						* `logout_path` - The path to be used as logout.
 						* `max_expiry_duration_in_hours` - The duration for which the OAuth2 success token should be cached before it is fetched again. 
 						* `response_code` - HTTP response code, can include context variables.

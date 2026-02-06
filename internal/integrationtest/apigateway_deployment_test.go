@@ -94,10 +94,21 @@ var (
 		"request_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesRepresentation},
 		"routes":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRepresentation},
 	}
+
 	ApigatewayDeploymentSpecificationTokenAuthRepresentation = map[string]interface{}{
 		"logging_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationLoggingPoliciesRepresentation},
 		"request_policies": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesTokenAuthRepresentation},
-		"routes":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesRepresentation},
+		// "routes" now includes both HTTP and OAUTH2 login routes
+		"routes": []acctest.RepresentationGroup{
+			{
+				RepType: acctest.Required,
+				Group:   ApigatewayDeploymentSpecificationRoutesRepresentation,
+			},
+			{
+				RepType: acctest.Required,
+				Group:   ApigatewayDeploymentSpecificationOAuth2LoginRouteRepresentation,
+			},
+		},
 	}
 	ApigatewayDeploymentLocksRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
@@ -118,6 +129,16 @@ var (
 	ApigatewayDeploymentSpecificationRequestPoliciesTokenAuthRepresentation = map[string]interface{}{
 		"authentication": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApigatewayDeploymentSpecificationRequestPoliciesTokenAuthenticationRepresentation},
 	}
+	ApigatewayDeploymentSpecificationRoutesOAuth2LoginBackendRepresentation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `OAUTH2_LOGIN_BACKEND`, Update: `OAUTH2_LOGIN_BACKEND`},
+	}
+
+	ApigatewayDeploymentSpecificationOAuth2LoginRouteRepresentation = map[string]interface{}{
+		"backend": acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesOAuth2LoginBackendRepresentation},
+		"path":    acctest.Representation{RepType: acctest.Required, Create: `/loginPath1`, Update: `/loginPath2`},
+		"methods": acctest.Representation{RepType: acctest.Required, Create: []string{`GET`}, Update: []string{`GET`}},
+	}
+
 	ApigatewayDeploymentSpecificationRoutesRepresentation = map[string]interface{}{
 		"backend":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ApigatewayDeploymentSpecificationRoutesBackendRepresentation},
 		"path":              acctest.Representation{RepType: acctest.Required, Create: `/hello`, Update: `/world`},
@@ -264,6 +285,7 @@ var (
 		"use_cookies_for_session":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"use_pkce":                           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"fallback_redirect_path":             acctest.Representation{RepType: acctest.Optional, Create: `/fallbackRedirectPath`, Update: `/fallbackRedirectPath2`},
+		"login_path":                         acctest.Representation{RepType: acctest.Optional, Create: `/loginPath1`, Update: `/loginPath2`},
 		"response_type":                      acctest.Representation{RepType: acctest.Optional, Create: `CODE`},
 	}
 	ApigatewayDeploymentSpecificationRequestPoliciesAuthenticationValidationPolicyRepresentation = map[string]interface{}{
@@ -689,6 +711,7 @@ var (
 		"specification.request_policies.authentication.validation_failure_policy.client_details",
 		"specification.request_policies.authentication.validation_failure_policy.fallback_redirect_path",
 		"specification.request_policies.authentication.validation_failure_policy.logout_path",
+		"specification.request_policies.authentication.validation_failure_policy.login_path",
 		"specification.request_policies.authentication.validation_failure_policy.max_expiry_duration_in_hours",
 		"specification.request_policies.authentication.validation_failure_policy.scopes",
 		"specification.request_policies.authentication.validation_failure_policy.source_uri_details",
@@ -838,7 +861,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + clientSecretIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Create, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Create, deploymentRepresentationDynamicAuth) +
@@ -1066,12 +1089,18 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_intermediate_steps", "false"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_session", "false"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_pkce", "false"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.login_path", "/loginPath1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.fallback_redirect_path", "/fallbackRedirectPath"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_type", "CODE"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.0.type", "OAUTH2_LOGIN_BACKEND"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.path", "/loginPath1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.0", "GET"),
 				resource.TestCheckResourceAttr(resourceNameWithLocks, "display_name", "createLock"),
 				resource.TestCheckResourceAttr(resourceNameWithLocks, "locks.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithLocks, "locks.0.message", "message"),
@@ -1093,7 +1122,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + imageVariableStr + clientSecretIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuthWithTokenHeader, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -1336,12 +1365,18 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_intermediate_steps", "false"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_session", "false"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_pkce", "false"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.login_path", "/loginPath1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.fallback_redirect_path", "/fallbackRedirectPath"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_type", "CODE"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.0.type", "OAUTH2_LOGIN_BACKEND"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.path", "/loginPath1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.0", "GET"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1357,7 +1392,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + clientSecretIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_rba", acctest.Optional, acctest.Update, deploymentRepresentationRequestBasedAuthCustomAuth) +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Optional, acctest.Update, deploymentRepresentationDynamicAuth) +
@@ -1578,12 +1613,18 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_intermediate_steps", "true"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_session", "true"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_pkce", "true"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.login_path", "/loginPath2"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.fallback_redirect_path", "/fallbackRedirectPath2"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_type", "CODE"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.backend.0.type", "OAUTH2_LOGIN_BACKEND"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.path", "/loginPath2"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameWithOidc, "specification.0.routes.1.methods.0", "GET"),
 				resource.TestCheckResourceAttr(resourceNameWithLocks, "display_name", "updateLock"),
 
 				func(s *terraform.State) (err error) {
@@ -1599,7 +1640,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + imageVariableStr + clientSecretIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", acctest.Optional, acctest.Update, ApigatewayDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Optional, acctest.Update, deploymentRepresentationCustomAuthWithTokenHeader),
@@ -1619,7 +1660,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + imageVariableStr + clientSecretIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", acctest.Required, acctest.Create, ApigatewayDeploymentSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_dynamic_auth", acctest.Required, acctest.Create, ApigatewayDeploymentWithDynamicAuthenticationSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment_with_oidc", acctest.Required, acctest.Create, ApigatewayDeploymentWithOidcSingularDataSourceRepresentation) +
@@ -1812,12 +1853,18 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_intermediate_steps", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_cookies_for_session", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.use_pkce", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.login_path", "/loginPath2"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.fallback_redirect_path", "/fallbackRedirectPath2"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.response_type", "CODE"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.client_details.0.type", "VALIDATION_BLOCK"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.request_policies.0.authentication.0.validation_failure_policy.0.source_uri_details.0.type", "VALIDATION_BLOCK"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.routes.1.backend.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.routes.1.backend.0.type", "OAUTH2_LOGIN_BACKEND"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.routes.1.path", "/loginPath2"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.routes.1.methods.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceNameWithOidc, "specification.0.routes.1.methods.0", "GET"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "locks.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceNameWithLocks, "locks.0.message", "message"),
 				resource.TestCheckResourceAttrSet(singularDatasourceNameWithLocks, "locks.0.time_created"),

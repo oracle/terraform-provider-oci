@@ -80,6 +80,8 @@ resource "oci_apigateway_deployment" "openid_connect_deployment" {
           use_cookies_for_session = true
           use_pkce = true
           fallback_redirect_path = "/fallback"
+          // The IdP will redirect here after authentication; must match a route using OAUTH2_LOGIN_BACKEND
+          login_path = "/auth/callback"
           source_uri_details {
             // Use the same discovery URI as the validation policy above.
             type = "VALIDATION_BLOCK"
@@ -92,12 +94,20 @@ resource "oci_apigateway_deployment" "openid_connect_deployment" {
       }
     }
     routes {
-      path = "/"
+      path = "/p1"
       methods = ["GET", "HEAD"]
       backend {
         type = "STOCK_RESPONSE_BACKEND"
         status = 200
         body = "Hello World"
+      }
+    }
+    // Route to complete the OAuth2/OIDC login flow
+    routes {
+      path = "/auth/callback"
+      methods = ["GET"]
+      backend {
+        type = "OAUTH2_LOGIN_BACKEND"
       }
     }
   }

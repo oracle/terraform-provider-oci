@@ -81,6 +81,7 @@ The following attributes are exported:
 				* `client_secret_version_number` - The version number of the client secret to use.
 				* `type` - To specify where the Client App details should be taken from.
 			* `fallback_redirect_path` - The path to be used as fallback after OAuth2.
+			* `login_path` - The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 			* `logout_path` - The path to be used as logout.
 			* `max_expiry_duration_in_hours` - The duration for which the OAuth2 success token should be cached before it is fetched again. 
 			* `response_code` - HTTP response code, can include context variables.
@@ -183,6 +184,7 @@ The following attributes are exported:
 						* `client_secret_version_number` - The version number of the client secret to use.
 						* `type` - To specify where the Client App details should be taken from.
 					* `fallback_redirect_path` - The path to be used as fallback after OAuth2.
+					* `login_path` - The path (relative to the deployment) where the Identity Provider  will redirect the user after authentication. This path must match  a route in the specification that uses the OAUTH2_LOGIN_BACKEND. 
 					* `logout_path` - The path to be used as logout.
 					* `max_expiry_duration_in_hours` - The duration for which the OAuth2 success token should be cached before it is fetched again. 
 					* `response_code` - HTTP response code, can include context variables.
