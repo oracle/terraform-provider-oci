@@ -113,6 +113,22 @@ variable "snapshot_name_clone_1" {
   default = "snapshot_clone_1"
 }
 
+/* User needs to update the snapshot with empty lock details in order to remove the lock before the resource can be deleted
+Refer snapshot.tf and filesystem_snapshot_policy.tf to understand the usage
+Also, ensure that the snapshot lock duration is less than or equal to the expiration time/retention period*/
+
+/*variable "snapshot_lock_duration_details_cool_off_duration" {
+  default = 0
+}
+
+variable "snapshot_lock_duration_details_lock_duration" {
+  default = 1
+}
+
+variable "snapshot_lock_duration_details_lock_mode" {
+  default = "GOVERNANCE"
+}*/
+
 variable "export_set_name_1" {
   default = "export set for mount target 1"
 }
@@ -190,8 +206,21 @@ variable "filesystem_snapshot_policy_schedules_day_of_week" {
   default = "MONDAY"
 }
 
+variable "filesystem_snapshot_policy_schedules_lock_duration_details_cool_off_duration" {
+  default = 0
+}
+
+variable "filesystem_snapshot_policy_schedules_lock_duration_details_lock_duration" {
+  default = 1
+}
+
+variable "filesystem_snapshot_policy_schedules_lock_duration_details_lock_mode" {
+  default = "GOVERNANCE"
+}
+
 variable "filesystem_snapshot_policy_schedules_retention_duration_in_seconds" {
-  default = 7200
+  # The snapshot lock duration must be less than or equal to the retention duration
+  default = 86400 #2 days
 }
 
 variable "filesystem_snapshot_policy_schedules_schedule_prefix" {

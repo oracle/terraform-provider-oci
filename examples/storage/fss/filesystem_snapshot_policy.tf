@@ -23,7 +23,15 @@ resource "oci_file_storage_filesystem_snapshot_policy" "my_filesystem_snapshot_p
     schedule_prefix               = "yearly-schedule"
     # Commented out time_schedule_start as the date given should be a time in the future
     # time_schedule_start           = "2096-01-02T15:04:05Z"
-  }
+    lock_duration_details {
+      #Required
+      lock_duration = var.filesystem_snapshot_policy_schedules_lock_duration_details_lock_duration
+      lock_mode     = var.filesystem_snapshot_policy_schedules_lock_duration_details_lock_mode
+
+      #Optional
+      cool_off_duration = var.filesystem_snapshot_policy_schedules_lock_duration_details_cool_off_duration
+    }
+ }
   locks {
     #Required
     type = var.locks_type
