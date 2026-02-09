@@ -16,6 +16,14 @@ resource "oci_file_storage_snapshot" "my_snapshot" {
   # Commented out expiration_time as the date given should be a time in the future
   # expiration_time = "2096-01-02T15:04:05Z"
 
+  //User needs to update the snapshot with empty lock details in order to remove the lock before the resource can be deleted
+  /*lock_duration_details {
+      #Required
+      lock_duration = var.snapshot_lock_duration_details_lock_duration
+      lock_mode     = var.snapshot_lock_duration_details_lock_mode
+      #Optional
+      cool_off_duration = var.snapshot_lock_duration_details_cool_off_duration
+  }*/
 
   locks {
     #Required

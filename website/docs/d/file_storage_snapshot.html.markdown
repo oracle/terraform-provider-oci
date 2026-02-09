@@ -40,6 +40,10 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot.
 * `is_clone_source` - Specifies whether the snapshot has been cloned. See [Cloning a File System](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm). 
 * `lifecycle_details` - Additional information about the current `lifecycleState`.
+* `lock_duration_details` - Details for setting a retention date or legal hold.
+	* `cool_off_duration` - For snapshots in compliance mode, a cooling-off period (measured in days) begins. During this time, you can still edit or remove the lock. Once this period ends, the snapshot becomes immutable until the specified retention date expires, permanently preventing any deletion or modification. The cool off duration can be set for a minimum of 0 days and a maximum of 365. It defaults to 14 days if not set. 
+	* `lock_duration` - The retention period (measured in days) defines how long a snapshot remains locked, preventing user modifications or deletions. In governance mode this period can be adjusted, but in compliance mode it becomes permanent after a cool-off period. Snapshots can be locked for a minimum of 0 days and a maximum of 36,500 days. A value of 0 days stands for an indefinite retention period and it is used for a legal hold. 
+	* `lock_mode` - Can be GOVERNANCE or COMPLIANCE. GOVERNANCE MODE: locks snapshots based on either a retention period or a legal hold. COMPLIANCE MODE: the customer can only remove the snapshot during its cooling-off period. Once that time ends, the snapshot becomes immutable; customers cannot delete or modify it until its set retention date passes. After the snapshot is locked, customers can only increase its retention period. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
@@ -61,4 +65,5 @@ The following attributes are exported:
 * `state` - The current state of the snapshot.
 * `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the snapshot was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_locked` - The date and time as per [RFC 3339](https://tools.ietf.org/html/rfc3339) when this snapshot was locked. It is a read-only property because the user should not be able to set it, it is set by our service. 
 

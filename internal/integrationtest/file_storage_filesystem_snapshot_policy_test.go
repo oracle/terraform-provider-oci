@@ -100,10 +100,16 @@ var (
 		"day_of_month":                  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `0`},
 		"day_of_week":                   acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `TUESDAY`},
 		"hour_of_day":                   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"lock_duration_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFilesystemSnapshotPolicySchedulesLockDurationDetailsRepresentation},
 		"month":                         acctest.Representation{RepType: acctest.Optional, Create: `JANUARY`, Update: ``},
-		"retention_duration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `3600`, Update: `7200`},
+		"retention_duration_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `1296000`, Update: `1382400`}, // 1296000 = 15 days, 1382400 = 16 days
 		"schedule_prefix":               acctest.Representation{RepType: acctest.Optional, Create: `schedulePrefix`, Update: `schedulePrefix2`},
 		"time_schedule_start":           acctest.Representation{RepType: acctest.Optional, Create: TimeScheduleStartCreate, Update: TimeScheduleStartUpdate},
+	}
+	FileStorageFilesystemSnapshotPolicySchedulesLockDurationDetailsRepresentation = map[string]interface{}{
+		"lock_duration":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"lock_mode":         acctest.Representation{RepType: acctest.Required, Create: `GOVERNANCE`, Update: `COMPLIANCE`},
+		"cool_off_duration": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
 	TimeFormat              = "2006-01-02T15:04:05Z"
@@ -175,9 +181,13 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_month", "10"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_week", ``),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.hour_of_day", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.cool_off_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_mode", "GOVERNANCE"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.month", "JANUARY"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.period", "YEARLY"),
-				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "3600"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "1296000"), //1296000 = 15 days
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.schedule_prefix", "schedulePrefix"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_schedule_start", TimeScheduleStartCreate),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_zone", "UTC"),
@@ -213,9 +223,13 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_month", "10"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_week", ``),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.hour_of_day", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.cool_off_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_mode", "GOVERNANCE"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.month", "JANUARY"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.period", "YEARLY"),
-				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "3600"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "1296000"), //1296000 = 15 days
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.schedule_prefix", "schedulePrefix"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_schedule_start", TimeScheduleStartCreate),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_zone", "UTC"),
@@ -245,9 +259,13 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_week", "TUESDAY"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.hour_of_day", "11"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.cool_off_duration", "11"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_duration", "11"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.lock_duration_details.0.lock_mode", "COMPLIANCE"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.month", ``),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.period", "WEEKLY"),
-				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "7200"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.0.retention_duration_in_seconds", "1382400"), // 16 days
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.schedule_prefix", "schedulePrefix2"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_schedule_start", TimeScheduleStartUpdate),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.time_zone", "REGIONAL_DATA_CENTER_TIME"),
@@ -309,9 +327,13 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.day_of_week", "TUESDAY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.hour_of_day", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.lock_duration_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.lock_duration_details.0.cool_off_duration", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.lock_duration_details.0.lock_duration", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.lock_duration_details.0.lock_mode", "COMPLIANCE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.month", ``),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.period", "WEEKLY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.retention_duration_in_seconds", "7200"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.retention_duration_in_seconds", "1382400"), // 16 days
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.schedule_prefix", "schedulePrefix2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "schedules.0.time_schedule_start"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.time_zone", "REGIONAL_DATA_CENTER_TIME"),
