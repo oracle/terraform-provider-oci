@@ -33,6 +33,18 @@ type ListWorkRequestsRequest struct {
 	// how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
+	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
+	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending or descending order.
+	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// A filter to return only resources matching the given operation type.
+	OperationType ListWorkRequestsOperationTypeEnum `mandatory:"false" contributesTo:"query" name:"operationType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -69,6 +81,18 @@ func (request ListWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListWorkRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListWorkRequestsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsOperationTypeEnum(string(request.OperationType)); !ok && request.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", request.OperationType, strings.Join(GetListWorkRequestsOperationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -100,4 +124,332 @@ func (response ListWorkRequestsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestsStatusEnum Enum with underlying type: string
+type ListWorkRequestsStatusEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
+const (
+	ListWorkRequestsStatusAccepted       ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress     ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusWaiting        ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusNeedsAttention ListWorkRequestsStatusEnum = "NEEDS_ATTENTION"
+	ListWorkRequestsStatusFailed         ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded      ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling      ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled       ListWorkRequestsStatusEnum = "CANCELED"
+)
+
+var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
+	"ACCEPTED":        ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS":     ListWorkRequestsStatusInProgress,
+	"WAITING":         ListWorkRequestsStatusWaiting,
+	"NEEDS_ATTENTION": ListWorkRequestsStatusNeedsAttention,
+	"FAILED":          ListWorkRequestsStatusFailed,
+	"SUCCEEDED":       ListWorkRequestsStatusSucceeded,
+	"CANCELING":       ListWorkRequestsStatusCanceling,
+	"CANCELED":        ListWorkRequestsStatusCanceled,
+}
+
+var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
+	"accepted":        ListWorkRequestsStatusAccepted,
+	"in_progress":     ListWorkRequestsStatusInProgress,
+	"waiting":         ListWorkRequestsStatusWaiting,
+	"needs_attention": ListWorkRequestsStatusNeedsAttention,
+	"failed":          ListWorkRequestsStatusFailed,
+	"succeeded":       ListWorkRequestsStatusSucceeded,
+	"canceling":       ListWorkRequestsStatusCanceling,
+	"canceled":        ListWorkRequestsStatusCanceled,
+}
+
+// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
+	values := make([]ListWorkRequestsStatusEnum, 0)
+	for _, v := range mappingListWorkRequestsStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsStatusEnumStringValues Enumerates the set of values in String for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"WAITING",
+		"NEEDS_ATTENTION",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
+}
+
+// GetMappingListWorkRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsStatusEnum(val string) (ListWorkRequestsStatusEnum, bool) {
+	enum, ok := mappingListWorkRequestsStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsSortByEnum Enum with underlying type: string
+type ListWorkRequestsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortByEnum
+const (
+	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
+)
+
+var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
+	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
+}
+
+var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
+	"timeaccepted": ListWorkRequestsSortByTimeaccepted,
+}
+
+// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
+	values := make([]ListWorkRequestsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"timeAccepted",
+	}
+}
+
+// GetMappingListWorkRequestsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsSortByEnum(val string) (ListWorkRequestsSortByEnum, bool) {
+	enum, ok := mappingListWorkRequestsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortOrderEnum
+const (
+	ListWorkRequestsSortOrderAsc  ListWorkRequestsSortOrderEnum = "ASC"
+	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestsSortOrderEnum = map[string]ListWorkRequestsSortOrderEnum{
+	"ASC":  ListWorkRequestsSortOrderAsc,
+	"DESC": ListWorkRequestsSortOrderDesc,
+}
+
+var mappingListWorkRequestsSortOrderEnumLowerCase = map[string]ListWorkRequestsSortOrderEnum{
+	"asc":  ListWorkRequestsSortOrderAsc,
+	"desc": ListWorkRequestsSortOrderDesc,
+}
+
+// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
+	values := make([]ListWorkRequestsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListWorkRequestsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsSortOrderEnum(val string) (ListWorkRequestsSortOrderEnum, bool) {
+	enum, ok := mappingListWorkRequestsSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsOperationTypeEnum Enum with underlying type: string
+type ListWorkRequestsOperationTypeEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsOperationTypeEnum
+const (
+	ListWorkRequestsOperationTypeCreateDkim                             ListWorkRequestsOperationTypeEnum = "CREATE_DKIM"
+	ListWorkRequestsOperationTypeDeleteDkim                             ListWorkRequestsOperationTypeEnum = "DELETE_DKIM"
+	ListWorkRequestsOperationTypeMoveDkim                               ListWorkRequestsOperationTypeEnum = "MOVE_DKIM"
+	ListWorkRequestsOperationTypeUpdateDkim                             ListWorkRequestsOperationTypeEnum = "UPDATE_DKIM"
+	ListWorkRequestsOperationTypeCreateEmailDomain                      ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_DOMAIN"
+	ListWorkRequestsOperationTypeDeleteEmailDomain                      ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_DOMAIN"
+	ListWorkRequestsOperationTypeMoveEmailDomain                        ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_DOMAIN"
+	ListWorkRequestsOperationTypeUpdateEmailDomain                      ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_DOMAIN"
+	ListWorkRequestsOperationTypeCreatePrivateEndpoint                  ListWorkRequestsOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	ListWorkRequestsOperationTypeDeletePrivateEndpoint                  ListWorkRequestsOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	ListWorkRequestsOperationTypeMovePrivateEndpoint                    ListWorkRequestsOperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	ListWorkRequestsOperationTypeUpdatePrivateEndpoint                  ListWorkRequestsOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	ListWorkRequestsOperationTypeCreateEmailTrackConfig                 ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_TRACK_CONFIG"
+	ListWorkRequestsOperationTypeUpdateEmailTrackConfig                 ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_TRACK_CONFIG"
+	ListWorkRequestsOperationTypeDeleteEmailTrackConfig                 ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_TRACK_CONFIG"
+	ListWorkRequestsOperationTypeMoveEmailTrackConfig                   ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_TRACK_CONFIG"
+	ListWorkRequestsOperationTypeCreateReturnPath                       ListWorkRequestsOperationTypeEnum = "CREATE_RETURN_PATH"
+	ListWorkRequestsOperationTypeDeleteReturnPath                       ListWorkRequestsOperationTypeEnum = "DELETE_RETURN_PATH"
+	ListWorkRequestsOperationTypeUpdateReturnPath                       ListWorkRequestsOperationTypeEnum = "UPDATE_RETURN_PATH"
+	ListWorkRequestsOperationTypeCreateIpPool                           ListWorkRequestsOperationTypeEnum = "CREATE_IP_POOL"
+	ListWorkRequestsOperationTypeUpdateIpPool                           ListWorkRequestsOperationTypeEnum = "UPDATE_IP_POOL"
+	ListWorkRequestsOperationTypeDeleteIpPool                           ListWorkRequestsOperationTypeEnum = "DELETE_IP_POOL"
+	ListWorkRequestsOperationTypeMoveIpPool                             ListWorkRequestsOperationTypeEnum = "MOVE_IP_POOL"
+	ListWorkRequestsOperationTypeCreateEmailDeliveryConfig              ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_DELIVERY_CONFIG"
+	ListWorkRequestsOperationTypeUpdateEmailDeliveryConfig              ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_DELIVERY_CONFIG"
+	ListWorkRequestsOperationTypeDeleteEmailDeliveryConfig              ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_DELIVERY_CONFIG"
+	ListWorkRequestsOperationTypeMoveEmailDeliveryConfig                ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_DELIVERY_CONFIG"
+	ListWorkRequestsOperationTypePatchEmailDeliveryConfig               ListWorkRequestsOperationTypeEnum = "PATCH_EMAIL_DELIVERY_CONFIG"
+	ListWorkRequestsOperationTypeCreateEmailRecipientDomain             ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_RECIPIENT_DOMAIN"
+	ListWorkRequestsOperationTypeUpdateEmailRecipientDomain             ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_RECIPIENT_DOMAIN"
+	ListWorkRequestsOperationTypeDeleteEmailRecipientDomain             ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_RECIPIENT_DOMAIN"
+	ListWorkRequestsOperationTypeMoveEmailRecipientDomain               ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_RECIPIENT_DOMAIN"
+	ListWorkRequestsOperationTypeCreateEmailDeliveryConfigIpAssociation ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
+	ListWorkRequestsOperationTypeUpdateEmailDeliveryConfigIpAssociation ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
+	ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
+	ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation   ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
+	ListWorkRequestsOperationTypeUpdateEmailConfiguration               ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_CONFIGURATION"
+)
+
+var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
+	"CREATE_DKIM":                                 ListWorkRequestsOperationTypeCreateDkim,
+	"DELETE_DKIM":                                 ListWorkRequestsOperationTypeDeleteDkim,
+	"MOVE_DKIM":                                   ListWorkRequestsOperationTypeMoveDkim,
+	"UPDATE_DKIM":                                 ListWorkRequestsOperationTypeUpdateDkim,
+	"CREATE_EMAIL_DOMAIN":                         ListWorkRequestsOperationTypeCreateEmailDomain,
+	"DELETE_EMAIL_DOMAIN":                         ListWorkRequestsOperationTypeDeleteEmailDomain,
+	"MOVE_EMAIL_DOMAIN":                           ListWorkRequestsOperationTypeMoveEmailDomain,
+	"UPDATE_EMAIL_DOMAIN":                         ListWorkRequestsOperationTypeUpdateEmailDomain,
+	"CREATE_PRIVATE_ENDPOINT":                     ListWorkRequestsOperationTypeCreatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":                     ListWorkRequestsOperationTypeDeletePrivateEndpoint,
+	"MOVE_PRIVATE_ENDPOINT":                       ListWorkRequestsOperationTypeMovePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":                     ListWorkRequestsOperationTypeUpdatePrivateEndpoint,
+	"CREATE_EMAIL_TRACK_CONFIG":                   ListWorkRequestsOperationTypeCreateEmailTrackConfig,
+	"UPDATE_EMAIL_TRACK_CONFIG":                   ListWorkRequestsOperationTypeUpdateEmailTrackConfig,
+	"DELETE_EMAIL_TRACK_CONFIG":                   ListWorkRequestsOperationTypeDeleteEmailTrackConfig,
+	"MOVE_EMAIL_TRACK_CONFIG":                     ListWorkRequestsOperationTypeMoveEmailTrackConfig,
+	"CREATE_RETURN_PATH":                          ListWorkRequestsOperationTypeCreateReturnPath,
+	"DELETE_RETURN_PATH":                          ListWorkRequestsOperationTypeDeleteReturnPath,
+	"UPDATE_RETURN_PATH":                          ListWorkRequestsOperationTypeUpdateReturnPath,
+	"CREATE_IP_POOL":                              ListWorkRequestsOperationTypeCreateIpPool,
+	"UPDATE_IP_POOL":                              ListWorkRequestsOperationTypeUpdateIpPool,
+	"DELETE_IP_POOL":                              ListWorkRequestsOperationTypeDeleteIpPool,
+	"MOVE_IP_POOL":                                ListWorkRequestsOperationTypeMoveIpPool,
+	"CREATE_EMAIL_DELIVERY_CONFIG":                ListWorkRequestsOperationTypeCreateEmailDeliveryConfig,
+	"UPDATE_EMAIL_DELIVERY_CONFIG":                ListWorkRequestsOperationTypeUpdateEmailDeliveryConfig,
+	"DELETE_EMAIL_DELIVERY_CONFIG":                ListWorkRequestsOperationTypeDeleteEmailDeliveryConfig,
+	"MOVE_EMAIL_DELIVERY_CONFIG":                  ListWorkRequestsOperationTypeMoveEmailDeliveryConfig,
+	"PATCH_EMAIL_DELIVERY_CONFIG":                 ListWorkRequestsOperationTypePatchEmailDeliveryConfig,
+	"CREATE_EMAIL_RECIPIENT_DOMAIN":               ListWorkRequestsOperationTypeCreateEmailRecipientDomain,
+	"UPDATE_EMAIL_RECIPIENT_DOMAIN":               ListWorkRequestsOperationTypeUpdateEmailRecipientDomain,
+	"DELETE_EMAIL_RECIPIENT_DOMAIN":               ListWorkRequestsOperationTypeDeleteEmailRecipientDomain,
+	"MOVE_EMAIL_RECIPIENT_DOMAIN":                 ListWorkRequestsOperationTypeMoveEmailRecipientDomain,
+	"CREATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION": ListWorkRequestsOperationTypeCreateEmailDeliveryConfigIpAssociation,
+	"UPDATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION": ListWorkRequestsOperationTypeUpdateEmailDeliveryConfigIpAssociation,
+	"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION": ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation,
+	"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION":   ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation,
+	"UPDATE_EMAIL_CONFIGURATION":                  ListWorkRequestsOperationTypeUpdateEmailConfiguration,
+}
+
+var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
+	"create_dkim":                                 ListWorkRequestsOperationTypeCreateDkim,
+	"delete_dkim":                                 ListWorkRequestsOperationTypeDeleteDkim,
+	"move_dkim":                                   ListWorkRequestsOperationTypeMoveDkim,
+	"update_dkim":                                 ListWorkRequestsOperationTypeUpdateDkim,
+	"create_email_domain":                         ListWorkRequestsOperationTypeCreateEmailDomain,
+	"delete_email_domain":                         ListWorkRequestsOperationTypeDeleteEmailDomain,
+	"move_email_domain":                           ListWorkRequestsOperationTypeMoveEmailDomain,
+	"update_email_domain":                         ListWorkRequestsOperationTypeUpdateEmailDomain,
+	"create_private_endpoint":                     ListWorkRequestsOperationTypeCreatePrivateEndpoint,
+	"delete_private_endpoint":                     ListWorkRequestsOperationTypeDeletePrivateEndpoint,
+	"move_private_endpoint":                       ListWorkRequestsOperationTypeMovePrivateEndpoint,
+	"update_private_endpoint":                     ListWorkRequestsOperationTypeUpdatePrivateEndpoint,
+	"create_email_track_config":                   ListWorkRequestsOperationTypeCreateEmailTrackConfig,
+	"update_email_track_config":                   ListWorkRequestsOperationTypeUpdateEmailTrackConfig,
+	"delete_email_track_config":                   ListWorkRequestsOperationTypeDeleteEmailTrackConfig,
+	"move_email_track_config":                     ListWorkRequestsOperationTypeMoveEmailTrackConfig,
+	"create_return_path":                          ListWorkRequestsOperationTypeCreateReturnPath,
+	"delete_return_path":                          ListWorkRequestsOperationTypeDeleteReturnPath,
+	"update_return_path":                          ListWorkRequestsOperationTypeUpdateReturnPath,
+	"create_ip_pool":                              ListWorkRequestsOperationTypeCreateIpPool,
+	"update_ip_pool":                              ListWorkRequestsOperationTypeUpdateIpPool,
+	"delete_ip_pool":                              ListWorkRequestsOperationTypeDeleteIpPool,
+	"move_ip_pool":                                ListWorkRequestsOperationTypeMoveIpPool,
+	"create_email_delivery_config":                ListWorkRequestsOperationTypeCreateEmailDeliveryConfig,
+	"update_email_delivery_config":                ListWorkRequestsOperationTypeUpdateEmailDeliveryConfig,
+	"delete_email_delivery_config":                ListWorkRequestsOperationTypeDeleteEmailDeliveryConfig,
+	"move_email_delivery_config":                  ListWorkRequestsOperationTypeMoveEmailDeliveryConfig,
+	"patch_email_delivery_config":                 ListWorkRequestsOperationTypePatchEmailDeliveryConfig,
+	"create_email_recipient_domain":               ListWorkRequestsOperationTypeCreateEmailRecipientDomain,
+	"update_email_recipient_domain":               ListWorkRequestsOperationTypeUpdateEmailRecipientDomain,
+	"delete_email_recipient_domain":               ListWorkRequestsOperationTypeDeleteEmailRecipientDomain,
+	"move_email_recipient_domain":                 ListWorkRequestsOperationTypeMoveEmailRecipientDomain,
+	"create_email_delivery_config_ip_association": ListWorkRequestsOperationTypeCreateEmailDeliveryConfigIpAssociation,
+	"update_email_delivery_config_ip_association": ListWorkRequestsOperationTypeUpdateEmailDeliveryConfigIpAssociation,
+	"delete_email_delivery_config_ip_association": ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation,
+	"move_email_delivery_config_ip_association":   ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation,
+	"update_email_configuration":                  ListWorkRequestsOperationTypeUpdateEmailConfiguration,
+}
+
+// GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
+func GetListWorkRequestsOperationTypeEnumValues() []ListWorkRequestsOperationTypeEnum {
+	values := make([]ListWorkRequestsOperationTypeEnum, 0)
+	for _, v := range mappingListWorkRequestsOperationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsOperationTypeEnumStringValues Enumerates the set of values in String for ListWorkRequestsOperationTypeEnum
+func GetListWorkRequestsOperationTypeEnumStringValues() []string {
+	return []string{
+		"CREATE_DKIM",
+		"DELETE_DKIM",
+		"MOVE_DKIM",
+		"UPDATE_DKIM",
+		"CREATE_EMAIL_DOMAIN",
+		"DELETE_EMAIL_DOMAIN",
+		"MOVE_EMAIL_DOMAIN",
+		"UPDATE_EMAIL_DOMAIN",
+		"CREATE_PRIVATE_ENDPOINT",
+		"DELETE_PRIVATE_ENDPOINT",
+		"MOVE_PRIVATE_ENDPOINT",
+		"UPDATE_PRIVATE_ENDPOINT",
+		"CREATE_EMAIL_TRACK_CONFIG",
+		"UPDATE_EMAIL_TRACK_CONFIG",
+		"DELETE_EMAIL_TRACK_CONFIG",
+		"MOVE_EMAIL_TRACK_CONFIG",
+		"CREATE_RETURN_PATH",
+		"DELETE_RETURN_PATH",
+		"UPDATE_RETURN_PATH",
+		"CREATE_IP_POOL",
+		"UPDATE_IP_POOL",
+		"DELETE_IP_POOL",
+		"MOVE_IP_POOL",
+		"CREATE_EMAIL_DELIVERY_CONFIG",
+		"UPDATE_EMAIL_DELIVERY_CONFIG",
+		"DELETE_EMAIL_DELIVERY_CONFIG",
+		"MOVE_EMAIL_DELIVERY_CONFIG",
+		"PATCH_EMAIL_DELIVERY_CONFIG",
+		"CREATE_EMAIL_RECIPIENT_DOMAIN",
+		"UPDATE_EMAIL_RECIPIENT_DOMAIN",
+		"DELETE_EMAIL_RECIPIENT_DOMAIN",
+		"MOVE_EMAIL_RECIPIENT_DOMAIN",
+		"CREATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
+		"UPDATE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
+		"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
+		"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
+		"UPDATE_EMAIL_CONFIGURATION",
+	}
+}
+
+// GetMappingListWorkRequestsOperationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsOperationTypeEnum(val string) (ListWorkRequestsOperationTypeEnum, bool) {
+	enum, ok := mappingListWorkRequestsOperationTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

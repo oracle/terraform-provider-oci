@@ -67,33 +67,33 @@ type ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum string
 
 // Set of constants representing the allowable values for ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum
 const (
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled           ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SCHEDULED"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "READY_FOR_PATCHING"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded           ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SUCCEEDED"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NOT_READY_FOR_PATCHING"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress          ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "IN_PROGRESS"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention      ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NEEDS_ATTENTION"
-	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution  ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "AWAITING_RESOLUTION"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled                ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SCHEDULED"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded                ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "SUCCEEDED"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForManagedUpdate    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "READY_FOR_MANAGED_UPDATE"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForManagedUpdate ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NOT_READY_FOR_MANAGED_UPDATE"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress               ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "IN_PROGRESS"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention           ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "NEEDS_ATTENTION"
+	ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution       ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = "AWAITING_RESOLUTION"
 )
 
 var mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum = map[string]ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum{
-	"SCHEDULED":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
-	"READY_FOR_PATCHING":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching,
-	"SUCCEEDED":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
-	"NOT_READY_FOR_PATCHING": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching,
-	"IN_PROGRESS":            ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
-	"NEEDS_ATTENTION":        ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
-	"AWAITING_RESOLUTION":    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
+	"SCHEDULED":                    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
+	"SUCCEEDED":                    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
+	"READY_FOR_MANAGED_UPDATE":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForManagedUpdate,
+	"NOT_READY_FOR_MANAGED_UPDATE": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForManagedUpdate,
+	"IN_PROGRESS":                  ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
+	"NEEDS_ATTENTION":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
+	"AWAITING_RESOLUTION":          ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
 }
 
 var mappingManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumLowerCase = map[string]ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum{
-	"scheduled":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
-	"ready_for_patching":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForPatching,
-	"succeeded":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
-	"not_ready_for_patching": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForPatching,
-	"in_progress":            ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
-	"needs_attention":        ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
-	"awaiting_resolution":    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
+	"scheduled":                    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusScheduled,
+	"succeeded":                    ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusSucceeded,
+	"ready_for_managed_update":     ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusReadyForManagedUpdate,
+	"not_ready_for_managed_update": ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNotReadyForManagedUpdate,
+	"in_progress":                  ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusInProgress,
+	"needs_attention":              ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusNeedsAttention,
+	"awaiting_resolution":          ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusAwaitingResolution,
 }
 
 // GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumValues Enumerates the set of values for ManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnum
@@ -109,9 +109,9 @@ func GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumValues()
 func GetManagedSoftwareUpdateMaintenanceDetailsUpdateReadinessStatusEnumStringValues() []string {
 	return []string{
 		"SCHEDULED",
-		"READY_FOR_PATCHING",
 		"SUCCEEDED",
-		"NOT_READY_FOR_PATCHING",
+		"READY_FOR_MANAGED_UPDATE",
+		"NOT_READY_FOR_MANAGED_UPDATE",
 		"IN_PROGRESS",
 		"NEEDS_ATTENTION",
 		"AWAITING_RESOLUTION",

@@ -24,6 +24,10 @@ type DesktopNetworkConfiguration struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the
 	// connectivity will be established.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes)
+	// applied to the desktop service private endpoint VNIC
+	SecurityAttributes *interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m DesktopNetworkConfiguration) String() string {

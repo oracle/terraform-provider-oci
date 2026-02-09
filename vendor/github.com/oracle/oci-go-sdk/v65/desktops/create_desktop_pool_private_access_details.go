@@ -28,6 +28,10 @@ type CreateDesktopPoolPrivateAccessDetails struct {
 	// The IPv4 address from the provided OCI subnet which needs to be assigned to the VNIC. If not provided, it will
 	// be auto-assigned with an available IPv4 address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes)
+	// applied to private access endpoint VNIC.
+	SecurityAttributes *interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreateDesktopPoolPrivateAccessDetails) String() string {

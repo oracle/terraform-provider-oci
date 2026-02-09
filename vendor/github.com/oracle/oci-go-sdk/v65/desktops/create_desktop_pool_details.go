@@ -91,6 +91,10 @@ type CreateDesktopPoolDetails struct {
 
 	PrivateAccessDetails *CreateDesktopPoolPrivateAccessDetails `mandatory:"false" json:"privateAccessDetails"`
 
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes)
+	// applied to all desktop compute instances.
+	SecurityAttributes *interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The size in GBs of the boot volume for the desktop pool.
 	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
 }

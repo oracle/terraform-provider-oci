@@ -2,11 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OperatorAccessControl API
+// Operator Access Control API
 //
 // Operator Access Control enables you to control the time duration and the actions an Oracle operator can perform on your Exadata Cloud@Customer infrastructure.
 // Using logging service, you can view a near real-time audit report of all actions performed by an Oracle operator.
-// Use the table of contents and search tool to explore the OperatorAccessControl API.
 //
 
 package operatoraccesscontrol
@@ -20,36 +19,39 @@ type OperatorControlAssignmentLifecycleStatesEnum string
 
 // Set of constants representing the allowable values for OperatorControlAssignmentLifecycleStatesEnum
 const (
-	OperatorControlAssignmentLifecycleStatesCreated        OperatorControlAssignmentLifecycleStatesEnum = "CREATED"
-	OperatorControlAssignmentLifecycleStatesApplied        OperatorControlAssignmentLifecycleStatesEnum = "APPLIED"
-	OperatorControlAssignmentLifecycleStatesApplyfailed    OperatorControlAssignmentLifecycleStatesEnum = "APPLYFAILED"
-	OperatorControlAssignmentLifecycleStatesUpdating       OperatorControlAssignmentLifecycleStatesEnum = "UPDATING"
-	OperatorControlAssignmentLifecycleStatesUpdatefailed   OperatorControlAssignmentLifecycleStatesEnum = "UPDATEFAILED"
-	OperatorControlAssignmentLifecycleStatesDeleting       OperatorControlAssignmentLifecycleStatesEnum = "DELETING"
-	OperatorControlAssignmentLifecycleStatesDeleted        OperatorControlAssignmentLifecycleStatesEnum = "DELETED"
-	OperatorControlAssignmentLifecycleStatesDeletionfailed OperatorControlAssignmentLifecycleStatesEnum = "DELETIONFAILED"
+	OperatorControlAssignmentLifecycleStatesCreated          OperatorControlAssignmentLifecycleStatesEnum = "CREATED"
+	OperatorControlAssignmentLifecycleStatesApplied          OperatorControlAssignmentLifecycleStatesEnum = "APPLIED"
+	OperatorControlAssignmentLifecycleStatesApplyfailed      OperatorControlAssignmentLifecycleStatesEnum = "APPLYFAILED"
+	OperatorControlAssignmentLifecycleStatesUpdating         OperatorControlAssignmentLifecycleStatesEnum = "UPDATING"
+	OperatorControlAssignmentLifecycleStatesUpdatefailed     OperatorControlAssignmentLifecycleStatesEnum = "UPDATEFAILED"
+	OperatorControlAssignmentLifecycleStatesDeleting         OperatorControlAssignmentLifecycleStatesEnum = "DELETING"
+	OperatorControlAssignmentLifecycleStatesDeleted          OperatorControlAssignmentLifecycleStatesEnum = "DELETED"
+	OperatorControlAssignmentLifecycleStatesDeletionfailed   OperatorControlAssignmentLifecycleStatesEnum = "DELETIONFAILED"
+	OperatorControlAssignmentLifecycleStatesCustomerassigned OperatorControlAssignmentLifecycleStatesEnum = "CUSTOMERASSIGNED"
 )
 
 var mappingOperatorControlAssignmentLifecycleStatesEnum = map[string]OperatorControlAssignmentLifecycleStatesEnum{
-	"CREATED":        OperatorControlAssignmentLifecycleStatesCreated,
-	"APPLIED":        OperatorControlAssignmentLifecycleStatesApplied,
-	"APPLYFAILED":    OperatorControlAssignmentLifecycleStatesApplyfailed,
-	"UPDATING":       OperatorControlAssignmentLifecycleStatesUpdating,
-	"UPDATEFAILED":   OperatorControlAssignmentLifecycleStatesUpdatefailed,
-	"DELETING":       OperatorControlAssignmentLifecycleStatesDeleting,
-	"DELETED":        OperatorControlAssignmentLifecycleStatesDeleted,
-	"DELETIONFAILED": OperatorControlAssignmentLifecycleStatesDeletionfailed,
+	"CREATED":          OperatorControlAssignmentLifecycleStatesCreated,
+	"APPLIED":          OperatorControlAssignmentLifecycleStatesApplied,
+	"APPLYFAILED":      OperatorControlAssignmentLifecycleStatesApplyfailed,
+	"UPDATING":         OperatorControlAssignmentLifecycleStatesUpdating,
+	"UPDATEFAILED":     OperatorControlAssignmentLifecycleStatesUpdatefailed,
+	"DELETING":         OperatorControlAssignmentLifecycleStatesDeleting,
+	"DELETED":          OperatorControlAssignmentLifecycleStatesDeleted,
+	"DELETIONFAILED":   OperatorControlAssignmentLifecycleStatesDeletionfailed,
+	"CUSTOMERASSIGNED": OperatorControlAssignmentLifecycleStatesCustomerassigned,
 }
 
 var mappingOperatorControlAssignmentLifecycleStatesEnumLowerCase = map[string]OperatorControlAssignmentLifecycleStatesEnum{
-	"created":        OperatorControlAssignmentLifecycleStatesCreated,
-	"applied":        OperatorControlAssignmentLifecycleStatesApplied,
-	"applyfailed":    OperatorControlAssignmentLifecycleStatesApplyfailed,
-	"updating":       OperatorControlAssignmentLifecycleStatesUpdating,
-	"updatefailed":   OperatorControlAssignmentLifecycleStatesUpdatefailed,
-	"deleting":       OperatorControlAssignmentLifecycleStatesDeleting,
-	"deleted":        OperatorControlAssignmentLifecycleStatesDeleted,
-	"deletionfailed": OperatorControlAssignmentLifecycleStatesDeletionfailed,
+	"created":          OperatorControlAssignmentLifecycleStatesCreated,
+	"applied":          OperatorControlAssignmentLifecycleStatesApplied,
+	"applyfailed":      OperatorControlAssignmentLifecycleStatesApplyfailed,
+	"updating":         OperatorControlAssignmentLifecycleStatesUpdating,
+	"updatefailed":     OperatorControlAssignmentLifecycleStatesUpdatefailed,
+	"deleting":         OperatorControlAssignmentLifecycleStatesDeleting,
+	"deleted":          OperatorControlAssignmentLifecycleStatesDeleted,
+	"deletionfailed":   OperatorControlAssignmentLifecycleStatesDeletionfailed,
+	"customerassigned": OperatorControlAssignmentLifecycleStatesCustomerassigned,
 }
 
 // GetOperatorControlAssignmentLifecycleStatesEnumValues Enumerates the set of values for OperatorControlAssignmentLifecycleStatesEnum
@@ -72,6 +74,7 @@ func GetOperatorControlAssignmentLifecycleStatesEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"DELETIONFAILED",
+		"CUSTOMERASSIGNED",
 	}
 }
 

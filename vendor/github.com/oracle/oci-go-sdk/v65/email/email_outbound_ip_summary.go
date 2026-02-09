@@ -33,6 +33,12 @@ type EmailOutboundIpSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a
 	// resource in 'DRAINING' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The time IP was removed from IP Pool.
+	// Times are expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// timestamp format, "YYYY-MM-ddThh:mmZ".
+	// Example: `2021-02-12T22:47:12.613Z`
+	TimeUnassigned *common.SDKTime `mandatory:"false" json:"timeUnassigned"`
 }
 
 func (m EmailOutboundIpSummary) String() string {

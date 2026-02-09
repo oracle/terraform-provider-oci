@@ -2,13 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operator Access Control API
+// Secure Desktops API
 //
-// Operator Access Control enables you to control the time duration and the actions an Oracle operator can perform on your Exadata Cloud@Customer infrastructure.
-// Using logging service, you can view a near real-time audit report of all actions performed by an Oracle operator.
+// Create and manage cloud-hosted desktops which can be accessed from a web browser or installed client.
 //
 
-package operatoraccesscontrol
+package desktops
 
 import (
 	"fmt"
@@ -16,21 +15,22 @@ import (
 	"strings"
 )
 
-// RevokeAccessRequestDetails Summary of why the already approved access request was revoked.
-type RevokeAccessRequestDetails struct {
+// UpdateDesktopNetworkConfiguration Provides information about the network configuration of the desktop pool.
+type UpdateDesktopNetworkConfiguration struct {
 
-	// Comment specified by the approver explaining why the approval is revoked.
-	ApproverComment *string `mandatory:"false" json:"approverComment"`
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes)
+	// applied to the desktop service private endpoint VNIC
+	SecurityAttributes *interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
-func (m RevokeAccessRequestDetails) String() string {
+func (m UpdateDesktopNetworkConfiguration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RevokeAccessRequestDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateDesktopNetworkConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
