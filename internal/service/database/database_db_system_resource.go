@@ -90,6 +90,20 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"database_defined_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
+									},
+									"database_freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
+									},
 									"database_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -242,6 +256,18 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"is_active_data_guard_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"key_store_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"kms_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -274,6 +300,18 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"protection_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"sid_prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 									"tde_wallet_password": {
 										Type:      schema.TypeString,
@@ -334,6 +372,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"transport_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
 									},
 									"state": {
 										Type:     schema.TypeString,
@@ -738,6 +782,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"primary_db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"private_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -764,6 +814,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"DATABASE",
+					"DATAGUARD",
 					"DB_BACKUP",
 					"DB_SYSTEM",
 					"NONE",
@@ -1889,6 +1940,174 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseForStandbyDbSystemDetails(fieldKeyFormat string) (oci_database.CreateDatabaseForStandbyDbSystemDetails, error) {
+	result := oci_database.CreateDatabaseForStandbyDbSystemDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if databaseDefinedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_defined_tags")); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(databaseDefinedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DatabaseDefinedTags = convertedDefinedTags
+	}
+
+	if databaseFreeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_freeform_tags")); ok {
+		result.DatabaseFreeformTags = tfresource.ObjectMapToStringMap(databaseFreeformTags.(map[string]interface{}))
+	}
+
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
+	}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_backup_config, encountered error: %v", err)
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_domain")); ok {
+		tmp := dbDomain.(string)
+		result.DbDomain = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if isActiveDataGuardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_active_data_guard_enabled")); ok {
+		tmp := isActiveDataGuardEnabled.(bool)
+		result.IsActiveDataGuardEnabled = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
+		result.ProtectionMode = oci_database.CreateDatabaseForStandbyDbSystemDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
+	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
+		result.TransportType = oci_database.CreateDatabaseForStandbyDbSystemDetailsTransportTypeEnum(transportType.(string))
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyFormat string) (oci_database.EncryptionKeyLocationDetails, error) {
+	var baseObject oci_database.EncryptionKeyLocationDetails
+	//discriminator
+	providerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provider_type"))
+	var providerType string
+	if ok {
+		providerType = providerTypeRaw.(string)
+	} else {
+		providerType = "" // default value
+	}
+	switch strings.ToLower(providerType) {
+	case strings.ToLower("AZURE"):
+		details := oci_database.AzureEncryptionKeyDetails{}
+		if azureEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "azure_encryption_key_id")); ok {
+			tmp := azureEncryptionKeyId.(string)
+			details.AzureEncryptionKeyId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("EXTERNAL"):
+		details := oci_database.ExternalHsmEncryptionDetails{}
+		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
+			tmp := hsmPassword.(string)
+			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
+	}
+	return baseObject, nil
+}
+
+func CreateDatabaseForStandbyDbSystemDetailsToMap(obj *oci_database.CreateDatabaseForStandbyDbSystemDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminPassword != nil {
+		result["admin_password"] = string(*obj.AdminPassword)
+	}
+
+	result["database_defined_tags"] = obj.DatabaseDefinedTags
+
+	result["database_freeform_tags"] = obj.DatabaseFreeformTags
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbDomain != nil {
+		result["db_domain"] = string(*obj.DbDomain)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.IsActiveDataGuardEnabled != nil {
+		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
+	}
+
+	result["protection_mode"] = string(obj.ProtectionMode)
+
+	if obj.SidPrefix != nil {
+		result["sid_prefix"] = string(*obj.SidPrefix)
+	}
+
+	if obj.SourceEncryptionKeyLocationDetails != nil {
+		sourceEncryptionKeyLocationDetailsArray := []interface{}{}
+		if sourceEncryptionKeyLocationDetailsMap := EncryptionKeyLocationDetailsToMap(&obj.SourceEncryptionKeyLocationDetails, ""); sourceEncryptionKeyLocationDetailsMap != nil {
+			sourceEncryptionKeyLocationDetailsArray = append(sourceEncryptionKeyLocationDetailsArray, sourceEncryptionKeyLocationDetailsMap)
+		}
+		result["source_encryption_key_location_details"] = sourceEncryptionKeyLocationDetailsArray
+	}
+
+	if obj.TdeWalletPassword != nil {
+		result["tde_wallet_password"] = string(*obj.TdeWalletPassword)
+	}
+
+	result["transport_type"] = string(obj.TransportType)
+
+	return result
+}
+
 func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromAnotherDatabaseDetails, error) {
 	result := oci_database.CreateDatabaseFromAnotherDatabaseDetails{}
 
@@ -2225,6 +2444,42 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 
 	if obj.IsUnifiedAuditingEnabled != nil {
 		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
+	}
+
+	return result
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeForStandbyDbSystem(fieldKeyFormat string) (oci_database.CreateDbHomeForStandbyDbSystem, error) {
+	result := oci_database.CreateDbHomeForStandbyDbSystem{}
+
+	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database"), 0)
+			tmp, err := s.mapToCreateDatabaseForStandbyDbSystemDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert database, encountered error: %v", err)
+			}
+			result.Database = &tmp
+		}
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateDbHomeForStandbyDbSystemToMap(obj *oci_database.CreateDbHomeForStandbyDbSystem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Database != nil {
+		result["database"] = []interface{}{CreateDatabaseForStandbyDbSystemDetailsToMap(obj.Database)}
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
 	}
 
 	return result
@@ -2865,6 +3120,207 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
+		}
+		request.LaunchDbSystemDetails = details
+	case strings.ToLower("DATAGUARD"):
+		details := oci_database.LaunchStandbyDbSystemDetails{}
+		if dbHome, ok := s.D.GetOkExists("db_home"); ok {
+			if tmpList := dbHome.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home", 0)
+				tmp, err := s.mapToCreateDbHomeForStandbyDbSystem(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbHome = &tmp
+			}
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchStandbyDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if primaryDbSystemId, ok := s.D.GetOkExists("primary_db_system_id"); ok {
+			tmp := primaryDbSystemId.(string)
+			details.PrimaryDbSystemId = &tmp
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
+		}
+		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
+			tmp := backupSubnetId.(string)
+			details.BackupSubnetId = &tmp
+		}
+		if clusterName, ok := s.D.GetOkExists("cluster_name"); ok {
+			tmp := clusterName.(string)
+			details.ClusterName = &tmp
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+			tmp := computeCount.(int)
+			details.ComputeCount = &tmp
+		}
+		if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+			details.ComputeModel = oci_database.LaunchDbSystemBaseComputeModelEnum(computeModel.(string))
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+				tmp, err := s.mapToDataCollectionOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DataCollectionOptions = &tmp
+			}
+		}
+		if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+			tmp := dataStoragePercentage.(int)
+			details.DataStoragePercentage = &tmp
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if dbSystemOptions, ok := s.D.GetOkExists("db_system_options"); ok {
+			if tmpList := dbSystemOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_system_options", 0)
+				tmp, err := s.mapToDbSystemOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbSystemOptions = &tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if hostname, ok := s.D.GetOkExists("hostname"); ok {
+			tmp := hostname.(string)
+			details.Hostname = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.LaunchStandbyDbSystemDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
+			tmp := nodeCount.(int)
+			details.NodeCount = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
+			tmp := privateIp.(string)
+			details.PrivateIp = &tmp
+		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
+		}
+		if sparseDiskgroup, ok := s.D.GetOkExists("sparse_diskgroup"); ok {
+			tmp := sparseDiskgroup.(bool)
+			details.SparseDiskgroup = &tmp
+		}
+		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+			set := sshPublicKeys.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+				details.SshPublicKeys = tmp
+			}
+		}
+		if storageVolumePerformanceMode, ok := s.D.GetOkExists("storage_volume_performance_mode"); ok {
+			details.StorageVolumePerformanceMode = oci_database.LaunchDbSystemBaseStorageVolumePerformanceModeEnum(storageVolumePerformanceMode.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
 			tmp := timeZone.(string)
