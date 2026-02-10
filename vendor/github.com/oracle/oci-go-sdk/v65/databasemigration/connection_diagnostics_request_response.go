@@ -39,6 +39,9 @@ type ConnectionDiagnosticsRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
+	// When true, run assessment validation checks (e.g., DMSROLE) and include database information (name/version/size) in the response.
+	IsAssessmentValidation *bool `mandatory:"false" contributesTo:"query" name:"isAssessmentValidation"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
