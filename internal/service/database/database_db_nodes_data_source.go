@@ -200,6 +200,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["db_node_id"] = *r.Id // maintain legacy vanity id
 		}
 
+		if r.IsOsPatchRebootRequired != nil {
+			dbNode["is_os_patch_reboot_required"] = *r.IsOsPatchRebootRequired
+		}
+
 		if r.LifecycleDetails != nil {
 			dbNode["lifecycle_details"] = *r.LifecycleDetails
 		}

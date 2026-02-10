@@ -58,7 +58,7 @@ resource "oci_database_database_upgrade" "test_database_precheck" {
   action = "PRECHECK"
   database_id = data.oci_database_databases.test_db_system_for_upgrade.databases.0.id
   database_upgrade_source_details {
-    db_version = "19.24.0.0"
+    db_version = "19.25.0.0"
     source = "DB_VERSION"
   }
 }
@@ -67,7 +67,7 @@ resource "oci_database_database_upgrade" "test_database_upgrade" {
   action = "UPGRADE"
   database_id = data.oci_database_databases.test_db_system_for_upgrade.databases.0.id
   database_upgrade_source_details {
-    db_version = "19.24.0.0"
+    db_version = "19.25.0.0"
     options = "-upgradeTimezone false -keepEvents"
     source = "DB_VERSION"
   }

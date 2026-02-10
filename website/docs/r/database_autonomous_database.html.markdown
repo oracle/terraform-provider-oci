@@ -215,13 +215,17 @@ The following arguments are supported:
 	* `is_enabled` - (Optional) (Updatable) Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - (Optional) (Updatable) The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - (Required) (Updatable) Name of database tool.
-* `db_version` - (Optional) (Updatable) A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. `db_workload` AJD is only supported for `db_version` `19c` and above.
+* `db_version` - (Optional) (Updatable) A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai.
+
+	**Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter. `db_workload` AJD is only supported for `db_version` `19c` and above.
 * `db_workload` - (Optional) (Updatable) The Autonomous AI Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous AI Transaction Processing database
 	* DW - indicates an Autonomous AI Lakehouse database
 	* AJD - indicates an Autonomous AI JSON Database
 	* APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	* LH - indicates an Oracle Autonomous AI Lakehouse database
+
+	**Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
 
 	 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. *Note: `db_workload` can only be updated from AJD to OLTP or from a free OLTP to AJD.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
@@ -444,13 +448,17 @@ The following attributes are exported:
 	* `is_enabled` - Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - Name of database tool.
-* `db_version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. 
+* `db_version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai.
+
+	**Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter. 
 * `db_workload` - The Autonomous AI Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous AI Transaction Processing database
 	* DW - indicates an Autonomous AI Lakehouse database
 	* AJD - indicates an Autonomous AI JSON Database
 	* APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	* LH - indicates an Oracle Autonomous AI Lakehouse database
+
+	**Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
 
 	 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
