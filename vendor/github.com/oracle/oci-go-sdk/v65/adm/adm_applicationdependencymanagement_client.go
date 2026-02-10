@@ -1763,6 +1763,64 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 	return response, err
 }
 
+// ListVulnerabilities Returns a list of vulnerability details for an audit.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListVulnerabilities.go.html to see an example of how to use ListVulnerabilities API.
+// A default retry strategy applies to this operation ListVulnerabilities()
+func (client ApplicationDependencyManagementClient) ListVulnerabilities(ctx context.Context, request ListVulnerabilitiesRequest) (response ListVulnerabilitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVulnerabilities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVulnerabilitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVulnerabilitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVulnerabilitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVulnerabilitiesResponse")
+	}
+	return
+}
+
+// listVulnerabilities implements the OCIOperation interface (enables retrying operations)
+func (client ApplicationDependencyManagementClient) listVulnerabilities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vulnerabilityAudits/{vulnerabilityAuditId}/vulnerabilities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVulnerabilitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/VulnerabilityAudit/ListVulnerabilities"
+		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListVulnerabilities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListVulnerabilityAudits Returns a list of Vulnerability Audits based on the specified query parameters.
 // At least one of id, compartmentId query parameter must be provided.
 //

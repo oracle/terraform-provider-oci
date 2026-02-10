@@ -49,6 +49,9 @@ type PhaseStatus struct {
 
 	// Attribute that returns an array of names and types of GoldenGate configuration files that are available for read or update.
 	EditableParameterFiles []JobParameterFileVersionKindEnum `mandatory:"false" json:"editableParameterFiles,omitempty"`
+
+	// Job Phase group display name e.g. 'Step 1: Migration'
+	GroupDisplayName *string `mandatory:"false" json:"groupDisplayName"`
 }
 
 func (m PhaseStatus) String() string {

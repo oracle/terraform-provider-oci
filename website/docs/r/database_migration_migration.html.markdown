@@ -27,8 +27,6 @@ resource "oci_database_migration_migration" "test_migration" {
 	#Required
 	compartment_id = var.compartment_id
 	database_combination = var.migration_database_combination
-	source_database_connection_id = oci_database_migration_connection.test_connection.id
-	target_database_connection_id = oci_database_migration_connection.test_connection.id
 	type = var.migration_type
 
 	#Optional
@@ -45,6 +43,7 @@ resource "oci_database_migration_migration" "test_migration" {
 		is_ignore_errors = var.migration_advisor_settings_is_ignore_errors
 		is_skip_advisor = var.migration_advisor_settings_is_skip_advisor
 	}
+	assessment_id = oci_database_migration_assessment.test_assessment.id
 	bulk_include_exclude_data = var.migration_bulk_include_exclude_data
 	data_transfer_medium_details {
 		#Required
@@ -198,7 +197,9 @@ resource "oci_database_migration_migration" "test_migration" {
 		}
 	}
 	source_container_database_connection_id = oci_database_migration_connection.test_connection.id
+	source_database_connection_id = oci_database_migration_connection.test_connection.id
 	source_standby_database_connection_id = oci_database_migration_connection.test_connection.id
+	target_database_connection_id = oci_database_migration_connection.test_connection.id
 }
 ```
 
@@ -211,9 +212,10 @@ The following arguments are supported:
 	* `name` - (Required when database_combination=ORACLE) (Updatable) Parameter name.
 	* `value` - (Required when database_combination=ORACLE) (Updatable) If a STRING data type then the value should be an array of characters,  if a INTEGER data type then the value should be an integer value,  if a FLOAT data type then the value should be an float value, if a BOOLEAN data type then the value should be TRUE or FALSE. 
 * `advisor_settings` - (Optional) (Updatable) Optional Pre-Migration advisor settings.
-  * `is_ignore_errors` - (Optional) (Updatable) True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
-  * `is_skip_advisor` - (Optional) (Updatable) True to skip the Pre-Migration Advisor execution. Default is false.
-* `bulk_include_exclude_data` - (Optional) Specifies the database objects to be excluded from the migration in bulk. The definition accepts input in a CSV format, newline separated for each entry. More details can be found in the documentation.
+	* `is_ignore_errors` - (Optional) (Updatable) True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
+	* `is_skip_advisor` - (Optional) (Updatable) True to skip the Pre-Migration Advisor execution. Default is false.
+* `assessment_id` - (Optional) The OCID of the resource being referenced.
+* `bulk_include_exclude_data` - (Optional) Specifies the database objects to be excluded from the migration in bulk. The definition accepts input in a CSV format, newline separated for each entry. More details can be found in the documentation. 
 * `compartment_id` - (Required) (Updatable) The OCID of the resource being referenced.
 * `data_transfer_medium_details` - (Optional) (Updatable) Optional additional properties for data transfer.
   * `access_key_id` - (Applicable when type=AWS_S3) (Updatable) AWS access key credentials identifier Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys
@@ -304,10 +306,10 @@ The following arguments are supported:
     * `remap_target` - (Applicable when target_type=ADB_D_REMAP | ADB_S_REMAP | NON_ADB_REMAP) (Updatable) Name of the tablespace on the target database to which the source database tablespace is to be remapped.
     * `target_type` - (Required) (Updatable) Type of Database Base Migration Target.
 * `source_container_database_connection_id` - (Applicable when database_combination=ORACLE) (Updatable) The OCID of the resource being referenced.
-* `source_database_connection_id` - (Required) (Updatable) The OCID of the resource being referenced.
+* `source_database_connection_id` - (Optional) (Updatable) The OCID of the resource being referenced.
 * `source_standby_database_connection_id` - (Applicable when database_combination=ORACLE) (Updatable) The OCID of the resource being referenced.
-* `target_database_connection_id` - (Required) (Updatable) The OCID of the resource being referenced.
-* `type` - (Required) (Updatable) The type of the migration to be performed. Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
+* `target_database_connection_id` - (Optional) (Updatable) The OCID of the resource being referenced.
+* `type` - (Required) (Updatable) The type of the migration to be performed. Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication. 
 
 
 ** IMPORTANT **
@@ -322,8 +324,9 @@ The following attributes are exported:
 	* `name` - Parameter name.
 	* `value` - If a STRING data type then the value should be an array of characters,  if a INTEGER data type then the value should be an integer value,  if a FLOAT data type then the value should be an float value, if a BOOLEAN data type then the value should be TRUE or FALSE. 
 * `advisor_settings` - Details about Oracle Advisor Settings.
-  * `is_ignore_errors` - True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
-  * `is_skip_advisor` - True to skip the Pre-Migration Advisor execution. Default is false.
+	* `is_ignore_errors` - True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
+	* `is_skip_advisor` - True to skip the Pre-Migration Advisor execution. Default is false.
+* `assessment_id` - The OCID of the resource being referenced.
 * `compartment_id` - The OCID of the resource being referenced.
 * `data_transfer_medium_details` - Optional additional properties for data transfer.
   * `access_key_id` - AWS access key credentials identifier Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys

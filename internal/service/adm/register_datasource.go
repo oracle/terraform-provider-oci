@@ -19,4 +19,5 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerabilities", AdmVulnerabilityAuditApplicationDependencyVulnerabilitiesDataSource())
 	tfresource.RegisterDatasource("oci_adm_vulnerability_audit_application_dependency_vulnerability", AdmVulnerabilityAuditApplicationDependencyVulnerabilityDataSource())
 	tfresource.RegisterDatasource("oci_adm_vulnerability_audits", AdmVulnerabilityAuditsDataSource())
+	tfresource.RegisterDatasource("oci_adm_vulnerability_audit_vulnerability", AdmVulnerabilityAuditVulnerabilityDataSource())
 }

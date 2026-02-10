@@ -128,7 +128,9 @@ variable "connection_string" {
   default = ""
 }
 variable "nsg_ids" {
-  default = ""
+  type = set(string)
+  default = []
+
 }
 resource "oci_database_migration_connection" "test_connection_rds_source" {
   compartment_id = var.compartment_id
@@ -140,7 +142,7 @@ resource "oci_database_migration_connection" "test_connection_rds_source" {
   password = "BEstrO0ng_#11"
   technology_type = "AMAZON_RDS_ORACLE"
   username = "ggfe"
-  nsg_ids = var.nsg_ids
+  subnet_id = var.subnet_id
   replication_password="replicationPassword"
   replication_username="replicationUsername"
 }
@@ -158,6 +160,7 @@ resource "oci_database_migration_connection" "test_connection_rds_target" {
   password = "BEstrO0ng_#11"
   technology_type = "OCI_AUTONOMOUS_DATABASE"
   username = "ggfe"
+  subnet_id = var.subnet_id
   replication_password="replicationPassword"
   replication_username="replicationUsername"
 }
@@ -234,6 +237,17 @@ resource "oci_database_migration_migration" "test_migration" {
   target_database_connection_id = var.target_connection_mysql_id
   type = "ONLINE"
   display_name = "displayName"
+  data_transfer_medium_details {
+    type = "OBJECT_STORAGE"
+    object_storage_bucket {
+      bucket = var.bucket_oracle_id
+      namespace = "namespace"
+    }
+  }
+
+  initial_load_settings {
+    job_mode = "SCHEMA"
+  }
 }
 
 resource "oci_database_migration_migration" "test_offline_migration" {
@@ -243,6 +257,17 @@ resource "oci_database_migration_migration" "test_offline_migration" {
   target_database_connection_id = var.target_connection_mysql_id
   type = "OFFLINE"
   display_name = "displayName"
+  data_transfer_medium_details {
+    type = "OBJECT_STORAGE"
+    object_storage_bucket {
+      bucket = var.bucket_oracle_id
+      namespace = "namespace"
+    }
+  }
+
+  initial_load_settings {
+    job_mode = "SCHEMA"
+  }
 }
 
 variable "source_connection_oracle_id" {
@@ -290,7 +315,6 @@ resource "oci_database_migration_migration" "test_oracle_rds_migration" {
     name = "rdsbucket"
     region = "us-east-1"
     secret_access_key = "12345/12345"
-    access_key_id = "12345"
     object_storage_bucket {
       bucket = var.bucket_oracle_id
       namespace = "namespace"
@@ -317,3 +341,32 @@ output "password" {
   sensitive = true
   value = random_string.autonomous_database_admin_password.result
 }
+
+variable "source_connection_display_name" {
+  description = "Display name of the existing source Database Migration connection to use"
+  default     = ""
+}
+
+variable "target_connection_display_name" {
+  description = "Display name of the existing target Database Migration connection to use"
+  default     = ""
+}
+
+# Lookup source/target connections using the collection data source
+data "oci_database_migration_connections" "ds_source" {
+  compartment_id = var.compartment_id
+  display_name   = var.source_connection_display_name
+}
+
+data "oci_database_migration_connections" "ds_target" {
+  compartment_id = var.compartment_id
+  display_name   = var.target_connection_display_name
+}
+
+# List jobs for the created migration
+data "oci_database_migration_jobs" "jobs_for_ds_migration" {
+  migration_id = var.migration_id
+}
+
+
+

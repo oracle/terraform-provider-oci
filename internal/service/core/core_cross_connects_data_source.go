@@ -141,6 +141,10 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["id"] = *r.Id
 		}
 
+		if r.InterfaceName != nil {
+			crossConnect["interface_name"] = *r.InterfaceName
+		}
+
 		if r.LocationName != nil {
 			crossConnect["location_name"] = *r.LocationName
 		}
