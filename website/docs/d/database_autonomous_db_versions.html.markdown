@@ -49,6 +49,8 @@ The following attributes are exported:
 	* APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	* LH - indicates an Oracle Autonomous AI Lakehouse database
 
+	**Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
+
 	 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `details` - A URL that points to a detailed description of the Autonomous AI Database version.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
@@ -56,5 +58,7 @@ The following attributes are exported:
 * `is_default_for_paid` - True if this version of the Oracle AI Database software's default is paid.
 * `is_free_tier_enabled` - True if this version of the Oracle AI Database software can be used for Always-Free Autonomous AI Databases.
 * `is_paid_enabled` - True if this version of the Oracle AI Database software has payments enabled.
-* `version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. 
+* `version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai.
+
+	**Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter. 
 

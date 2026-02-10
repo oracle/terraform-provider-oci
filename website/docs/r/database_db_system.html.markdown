@@ -341,6 +341,7 @@ The following arguments are supported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet. 
 * `time_zone` - (Optional) The time zone to use for the DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Os Patch. Could be set to any integer value.
 
 
 ** IMPORTANT **

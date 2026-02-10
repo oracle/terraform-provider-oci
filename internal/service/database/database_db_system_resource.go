@@ -799,6 +799,22 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"os_patch_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"os_patch_action": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_database.ExecuteDbSystemOsPatchDetailsActionPrecheck),
+					string(oci_database.ExecuteDbSystemOsPatchDetailsActionApply),
+				}, true),
+			},
+			"os_patch_db_node_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"iorm_config_cache": {
@@ -1068,6 +1084,27 @@ func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	if _, ok := sync.D.GetOkExists("os_patch_trigger"); ok && sync.D.HasChange("os_patch_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("os_patch_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+
+		if oldValue < newValue {
+			err := sync.ExecuteDbSystemOsPatch()
+			if err != nil {
+				return err
+			}
+
+			//Do not proceed if the only os patch execution is requested
+			if !sync.D.HasChangesExcept("os_patch_trigger", "os_patch_action", "os_patch_db_node_id") {
+				return tfresource.ReadResource(sync)
+			}
+		} else {
+			sync.D.Set("os_patch_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -1606,6 +1643,54 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
 	}
+
+	return nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) ExecuteDbSystemOsPatch() error {
+	request := oci_database.ExecuteDbSystemOsPatchRequest{}
+
+	if action, ok := s.D.GetOkExists("os_patch_action"); ok {
+		request.Action = oci_database.ExecuteDbSystemOsPatchDetailsActionEnum(action.(string))
+	}
+
+	if dbNodeId, ok := s.D.GetOkExists("os_patch_db_node_id"); ok && dbNodeId.(string) != "" {
+		tmp := dbNodeId.(string)
+		request.DbNodeId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.DbSystemId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	resp, err := s.Client.ExecuteDbSystemOsPatch(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	// Operation is asynchronous; wait for work request to complete.
+	if resp.OpcWorkRequestId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(
+			s.WorkRequestClient,
+			resp.OpcWorkRequestId,
+			"dbSystem",
+			oci_work_requests.WorkRequestResourceActionTypeUpdated,
+			s.D.Timeout(schema.TimeoutUpdate),
+			s.DisableNotFoundRetries,
+		)
+		if err != nil {
+			return err
+		}
+	} else {
+		// Fallback: poll lifecycle state if no work request id is returned.
+		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+	}
+
+	val := s.D.Get("os_patch_trigger")
+	s.D.Set("os_patch_trigger", val)
 
 	return nil
 }

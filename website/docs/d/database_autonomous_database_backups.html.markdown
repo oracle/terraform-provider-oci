@@ -68,7 +68,9 @@ The following attributes are exported:
 	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
-* `db_version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai. 
+* `db_version` - A valid Oracle AI Database version for Autonomous AI Database. When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai. When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected. For new databases, it is recommended to use either 19c or 26ai.
+
+	**Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter. 
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database backup.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
@@ -97,6 +99,8 @@ The following attributes are exported:
 		* DW - indicates an Autonomous Data Warehouse database
 		* AJD - indicates an Autonomous JSON Database
 		* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+
+		**Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
 
 		 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `state` - The current state of the backup.
