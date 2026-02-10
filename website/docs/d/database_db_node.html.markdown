@@ -60,6 +60,7 @@ The following attributes are exported:
 	**Note:** Applies only to Exadata Cloud Service. 
 * `hostname` - The host name for the database node.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database node.
+* `is_os_patch_reboot_required` - Indicates whether the database node must be rebooted after applying Operating System patches. This flag becomes true after operations such as OS/kernel updates to indicate that a reboot of the node is required. After a successful reboot, this value is expected to return to false. 
 * `lifecycle_details` - Information about the current lifecycle state.
 * `maintenance_type` - The type of database node maintenance.
 * `memory_size_in_gbs` - The allocated memory in GBs on the Db node.
