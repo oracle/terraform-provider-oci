@@ -44,6 +44,9 @@ type ListJobsRequest struct {
 	// The lifecycle state of the Migration Job.
 	LifecycleState ListJobsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The ID of the Job to exclude from the list of jobs.
+	JobIdNotEqualTo *string `mandatory:"false" contributesTo:"query" name:"jobIdNotEqualTo"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

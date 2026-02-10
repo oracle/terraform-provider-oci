@@ -50,6 +50,7 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 	display_name = var.cross_connect_display_name
 	far_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 	freeform_tags = {"Department"= "Finance"}
+	interface_name = var.cross_connect_interface_name
 	macsec_properties {
 		#Required
 		state = var.cross_connect_macsec_properties_state
@@ -64,6 +65,7 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 		}
 	}
 	near_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
+	oci_physical_device_name = var.cross_connect_oci_physical_device_name
 }
 ```
 
@@ -77,7 +79,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `far_cross_connect_or_cross_connect_group_id` - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on a different router (for the purposes of redundancy), provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that existing cross-connect or cross-connect group.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `interface_name` - (Optional) The name of the FastConnect interface where this cross-connect is installed. Option will be provided only on request for select tenancies.
+* `oci_physical_device_name` - (Optional) The name of the FastConnect device where this cross-connect is installed. Option will be provided only on request for select tenancies.
 * `is_active` - (Optional) (Updatable) Set to true to activate the cross-connect. You activate it after the physical cabling is complete, and you've confirmed the cross-connect's light levels are good and your side of the interface is up. Activation indicates to Oracle that the physical connection is ready.
 * `location_name` - (Required) The name of the FastConnect location where this cross-connect will be installed. To get a list of the available locations, see [ListCrossConnectLocations](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectLocation/ListCrossConnectLocations).  Example: `CyrusOne, Chandler, AZ` 
 * `macsec_properties` - (Optional) (Updatable) Properties used to configure MACsec (if capable).

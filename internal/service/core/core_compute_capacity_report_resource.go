@@ -70,6 +70,12 @@ func CoreComputeCapacityReportResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"baseline_ocpu_utilization": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -211,6 +217,10 @@ func (s *CoreComputeCapacityReportResourceCrud) SetData() error {
 func (s *CoreComputeCapacityReportResourceCrud) mapToCapacityReportInstanceShapeConfig(fieldKeyFormat string) (oci_core.CapacityReportInstanceShapeConfig, error) {
 	result := oci_core.CapacityReportInstanceShapeConfig{}
 
+	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
+		result.BaselineOcpuUtilization = oci_core.CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -231,6 +241,8 @@ func (s *CoreComputeCapacityReportResourceCrud) mapToCapacityReportInstanceShape
 
 func CapacityReportInstanceShapeConfigToMap(obj *oci_core.CapacityReportInstanceShapeConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["baseline_ocpu_utilization"] = string(obj.BaselineOcpuUtilization)
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)

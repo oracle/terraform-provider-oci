@@ -90,6 +90,8 @@ const (
 	DbResourceIdFilterEntityTypeCloudexadatainfrastructure DbResourceIdFilterEntityTypeEnum = "CLOUDEXADATAINFRASTRUCTURE"
 	DbResourceIdFilterEntityTypeVmcluster                  DbResourceIdFilterEntityTypeEnum = "VMCLUSTER"
 	DbResourceIdFilterEntityTypeCloudvmcluster             DbResourceIdFilterEntityTypeEnum = "CLOUDVMCLUSTER"
+	DbResourceIdFilterEntityTypeExadbvmcluster             DbResourceIdFilterEntityTypeEnum = "EXADBVMCLUSTER"
+	DbResourceIdFilterEntityTypeExascaledbstoragevault     DbResourceIdFilterEntityTypeEnum = "EXASCALEDBSTORAGEVAULT"
 	DbResourceIdFilterEntityTypeFsucollection              DbResourceIdFilterEntityTypeEnum = "FSUCOLLECTION"
 )
 
@@ -100,6 +102,8 @@ var mappingDbResourceIdFilterEntityTypeEnum = map[string]DbResourceIdFilterEntit
 	"CLOUDEXADATAINFRASTRUCTURE": DbResourceIdFilterEntityTypeCloudexadatainfrastructure,
 	"VMCLUSTER":                  DbResourceIdFilterEntityTypeVmcluster,
 	"CLOUDVMCLUSTER":             DbResourceIdFilterEntityTypeCloudvmcluster,
+	"EXADBVMCLUSTER":             DbResourceIdFilterEntityTypeExadbvmcluster,
+	"EXASCALEDBSTORAGEVAULT":     DbResourceIdFilterEntityTypeExascaledbstoragevault,
 	"FSUCOLLECTION":              DbResourceIdFilterEntityTypeFsucollection,
 }
 
@@ -110,6 +114,8 @@ var mappingDbResourceIdFilterEntityTypeEnumLowerCase = map[string]DbResourceIdFi
 	"cloudexadatainfrastructure": DbResourceIdFilterEntityTypeCloudexadatainfrastructure,
 	"vmcluster":                  DbResourceIdFilterEntityTypeVmcluster,
 	"cloudvmcluster":             DbResourceIdFilterEntityTypeCloudvmcluster,
+	"exadbvmcluster":             DbResourceIdFilterEntityTypeExadbvmcluster,
+	"exascaledbstoragevault":     DbResourceIdFilterEntityTypeExascaledbstoragevault,
 	"fsucollection":              DbResourceIdFilterEntityTypeFsucollection,
 }
 
@@ -131,6 +137,8 @@ func GetDbResourceIdFilterEntityTypeEnumStringValues() []string {
 		"CLOUDEXADATAINFRASTRUCTURE",
 		"VMCLUSTER",
 		"CLOUDVMCLUSTER",
+		"EXADBVMCLUSTER",
+		"EXASCALEDBSTORAGEVAULT",
 		"FSUCOLLECTION",
 	}
 }

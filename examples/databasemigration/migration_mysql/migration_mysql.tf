@@ -73,7 +73,8 @@ variable "connection_string" {
 }
 
 variable "nsg_ids" {
-  default = ""
+  type    = set(string)
+  default = []
 }
 
 variable "migration_id" {
@@ -152,7 +153,7 @@ resource "oci_database_migration_connection" "test_connection_mysql_server_sourc
   username = "ggfe"
   database_name = "ggfe"
   host = "254.249.0.0"
-  port = "3306"
+  port = 3306
   replication_password="replicationPassword"
   replication_username="replicationUsername"
   security_protocol="PLAIN"

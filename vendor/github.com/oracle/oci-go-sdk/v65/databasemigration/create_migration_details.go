@@ -26,12 +26,6 @@ type CreateMigrationDetails interface {
 	// Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
 	GetType() MigrationTypesEnum
 
-	// The OCID of the resource being referenced.
-	GetSourceDatabaseConnectionId() *string
-
-	// The OCID of the resource being referenced.
-	GetTargetDatabaseConnectionId() *string
-
 	// A user-friendly description. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	GetDescription() *string
@@ -40,6 +34,12 @@ type CreateMigrationDetails interface {
 	// Avoid entering confidential information.
 	GetDisplayName() *string
 
+	// The OCID of the resource being referenced.
+	GetSourceDatabaseConnectionId() *string
+
+	// The OCID of the resource being referenced.
+	GetTargetDatabaseConnectionId() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	GetFreeformTags() map[string]string
@@ -47,18 +47,22 @@ type CreateMigrationDetails interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// The OCID of the resource being referenced.
+	GetAssessmentId() *string
 }
 
 type createmigrationdetails struct {
 	JsonData                   []byte
 	Description                *string                           `mandatory:"false" json:"description"`
 	DisplayName                *string                           `mandatory:"false" json:"displayName"`
+	SourceDatabaseConnectionId *string                           `mandatory:"false" json:"sourceDatabaseConnectionId"`
+	TargetDatabaseConnectionId *string                           `mandatory:"false" json:"targetDatabaseConnectionId"`
 	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	AssessmentId               *string                           `mandatory:"false" json:"assessmentId"`
 	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
 	Type                       MigrationTypesEnum                `mandatory:"true" json:"type"`
-	SourceDatabaseConnectionId *string                           `mandatory:"true" json:"sourceDatabaseConnectionId"`
-	TargetDatabaseConnectionId *string                           `mandatory:"true" json:"targetDatabaseConnectionId"`
 	DatabaseCombination        string                            `json:"databaseCombination"`
 }
 
@@ -75,12 +79,13 @@ func (m *createmigrationdetails) UnmarshalJSON(data []byte) error {
 	}
 	m.CompartmentId = s.Model.CompartmentId
 	m.Type = s.Model.Type
-	m.SourceDatabaseConnectionId = s.Model.SourceDatabaseConnectionId
-	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
 	m.Description = s.Model.Description
 	m.DisplayName = s.Model.DisplayName
+	m.SourceDatabaseConnectionId = s.Model.SourceDatabaseConnectionId
+	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.AssessmentId = s.Model.AssessmentId
 	m.DatabaseCombination = s.Model.DatabaseCombination
 
 	return err
@@ -119,6 +124,16 @@ func (m createmigrationdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
+// GetSourceDatabaseConnectionId returns SourceDatabaseConnectionId
+func (m createmigrationdetails) GetSourceDatabaseConnectionId() *string {
+	return m.SourceDatabaseConnectionId
+}
+
+// GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
+func (m createmigrationdetails) GetTargetDatabaseConnectionId() *string {
+	return m.TargetDatabaseConnectionId
+}
+
 // GetFreeformTags returns FreeformTags
 func (m createmigrationdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -129,6 +144,11 @@ func (m createmigrationdetails) GetDefinedTags() map[string]map[string]interface
 	return m.DefinedTags
 }
 
+// GetAssessmentId returns AssessmentId
+func (m createmigrationdetails) GetAssessmentId() *string {
+	return m.AssessmentId
+}
+
 // GetCompartmentId returns CompartmentId
 func (m createmigrationdetails) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -137,16 +157,6 @@ func (m createmigrationdetails) GetCompartmentId() *string {
 // GetType returns Type
 func (m createmigrationdetails) GetType() MigrationTypesEnum {
 	return m.Type
-}
-
-// GetSourceDatabaseConnectionId returns SourceDatabaseConnectionId
-func (m createmigrationdetails) GetSourceDatabaseConnectionId() *string {
-	return m.SourceDatabaseConnectionId
-}
-
-// GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
-func (m createmigrationdetails) GetTargetDatabaseConnectionId() *string {
-	return m.TargetDatabaseConnectionId
 }
 
 func (m createmigrationdetails) String() string {

@@ -50,6 +50,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `capabilities` - Describes what this model can be used for.
 * `description` - An optional description of the model.
 * `state` - The lifecycle state of the model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

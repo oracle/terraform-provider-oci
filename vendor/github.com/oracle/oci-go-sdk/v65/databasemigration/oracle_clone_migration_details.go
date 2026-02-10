@@ -32,6 +32,9 @@ type OracleCloneMigrationDetails struct {
 	// The OCID of the resource being referenced.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The OCID of the resource being referenced.
+	AssessmentId *string `mandatory:"false" json:"assessmentId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -65,6 +68,11 @@ func (m OracleCloneMigrationDetails) GetSourceDatabaseConnectionId() *string {
 // GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
 func (m OracleCloneMigrationDetails) GetTargetDatabaseConnectionId() *string {
 	return m.TargetDatabaseConnectionId
+}
+
+// GetAssessmentId returns AssessmentId
+func (m OracleCloneMigrationDetails) GetAssessmentId() *string {
+	return m.AssessmentId
 }
 
 // GetFreeformTags returns FreeformTags

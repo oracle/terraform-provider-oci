@@ -46,7 +46,8 @@ variable "connection_string" {
 }
 
 variable "nsg_ids" {
-  default = ""
+  type    = set(string)
+  default = []
 }
 
 variable "database_autonomous_id" {
