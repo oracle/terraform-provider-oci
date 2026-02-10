@@ -48,14 +48,6 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 					"ORACLE",
 				}, true),
 			},
-			"source_database_connection_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"target_database_connection_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"type": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -116,6 +108,12 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"assessment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"bulk_include_exclude_data": {
 				Type:     schema.TypeString,
@@ -825,9 +823,19 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"source_database_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"source_standby_database_connection_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"target_database_connection_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -1195,6 +1203,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 			s.D.Set("initial_load_settings", nil)
 		}
 
+		if v.AssessmentId != nil {
+			s.D.Set("assessment_id", *v.AssessmentId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1318,6 +1330,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 
 		if v.SourceStandbyDatabaseConnectionId != nil {
 			s.D.Set("source_standby_database_connection_id", *v.SourceStandbyDatabaseConnectionId)
+		}
+
+		if v.AssessmentId != nil {
+			s.D.Set("assessment_id", *v.AssessmentId)
 		}
 
 		if v.CompartmentId != nil {
@@ -4957,6 +4973,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicCrea
 				details.InitialLoadSettings = &tmp
 			}
 		}
+		if assessmentId, ok := s.D.GetOkExists("assessment_id"); ok {
+			tmp := assessmentId.(string)
+			details.AssessmentId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -5103,6 +5123,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicCrea
 		if sourceStandbyDatabaseConnectionId, ok := s.D.GetOkExists("source_standby_database_connection_id"); ok {
 			tmp := sourceStandbyDatabaseConnectionId.(string)
 			details.SourceStandbyDatabaseConnectionId = &tmp
+		}
+		if assessmentId, ok := s.D.GetOkExists("assessment_id"); ok {
+			tmp := assessmentId.(string)
+			details.AssessmentId = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)

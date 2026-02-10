@@ -33,6 +33,13 @@ resource "oci_mysql_mysql_configuration" "test_mysql_configuration" {
 		#Optional
 		lower_case_table_names = var.mysql_configuration_init_variables_lower_case_table_names
 	}
+	options {
+		#Required
+		name = var.mysql_configuration_options_name
+
+		#Optional
+		value = var.mysql_configuration_options_value
+	}
 	parent_configuration_id = oci_audit_configuration.test_configuration.id
 	variables {
 
@@ -168,7 +175,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) User-provided data about the Configuration.
 * `display_name` - (Optional) (Updatable) The display name of the Configuration.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `init_variables` - (Optional) User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime.
+* `init_variables` - (Optional) DEPRECATED -- please use the `options` field instead. User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime. 
 	* `lower_case_table_names` - (Optional)  Represents the MySQL server system variable lower_case_table_names (https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names).
 
 		lowerCaseTableNames controls case-sensitivity of tables and schema names and how they are stored in the DB System.
@@ -176,9 +183,12 @@ The following arguments are supported:
 		Valid values are:
 		* CASE_SENSITIVE - (default) Table and schema name comparisons are case-sensitive and stored as specified. (lower_case_table_names=0)
 		* CASE_INSENSITIVE_LOWERCASE - Table and schema name comparisons are not case-sensitive and stored in lowercase. (lower_case_table_names=1) 
+* `options` - (Optional) The MySQL options defined in the Configuration.
+	* `name` - (Required) The option name.
+	* `value` - (Optional) The option value.
 * `parent_configuration_id` - (Optional) The OCID of the Configuration from which the new Configuration is derived. The values in CreateConfigurationDetails.variables supersede the variables of the parent Configuration. 
 * `shape_name` - (Required) The name of the associated Shape.
-* `variables` - (Optional) User-defined service variables.
+* `variables` - (Optional) DEPRECATED -- please use the `options` field instead. User-defined service variables. 
 	* `auto_increment_increment` - (Optional) auto_increment_increment and auto_increment_offset are intended for use with circular (source-to-source) replication, and can be used to control the operation of AUTO_INCREMENT columns. Both variables have global and session values, and each can assume an integer value between 1 and 65,535 inclusive.
 
 		autoIncrementIncrement corresponds to the MySQL Replication Source Options variable [auto_increment_increment] (https://dev.mysql.com/doc/refman/8.0/en/replication-options-source.html#sysvar_auto_increment_increment). 
@@ -491,7 +501,7 @@ The following attributes are exported:
 * `display_name` - The display name of the Configuration.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the Configuration.
-* `init_variables` - User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime.
+* `init_variables` - DEPRECATED -- please use the `options` field instead. User-defined service variables set only at DB system initialization. These variables cannot be changed later at runtime. 
 	* `lower_case_table_names` -  Represents the MySQL server system variable lower_case_table_names (https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names).
 
 		lowerCaseTableNames controls case-sensitivity of tables and schema names and how they are stored in the DB System.
@@ -499,6 +509,9 @@ The following attributes are exported:
 		Valid values are:
 		* CASE_SENSITIVE - (default) Table and schema name comparisons are case-sensitive and stored as specified. (lower_case_table_names=0)
 		* CASE_INSENSITIVE_LOWERCASE - Table and schema name comparisons are not case-sensitive and stored in lowercase. (lower_case_table_names=1) 
+* `options` - The MySQL options defined in the Configuration.
+	* `name` - The option name.
+	* `value` - The option value.
 * `parent_configuration_id` - The OCID of the Configuration from which this Configuration is "derived". This is entirely a metadata relationship. There is no relation between the values in this Configuration and its parent. 
 * `shape_name` - The name of the associated Shape.
 * `state` - The current state of the Configuration.
@@ -506,7 +519,7 @@ The following attributes are exported:
 * `time_created` - The date and time the Configuration was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `time_updated` - The date and time the Configuration was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `type` - The Configuration type, DEFAULT or CUSTOM.
-* `variables` - User-defined service variables.
+* `variables` - DEPRECATED -- please use the `options` field instead. User-defined service variables. 
 	* `auto_increment_increment` - auto_increment_increment and auto_increment_offset are intended for use with circular (source-to-source) replication, and can be used to control the operation of AUTO_INCREMENT columns. Both variables have global and session values, and each can assume an integer value between 1 and 65,535 inclusive.
 
 		autoIncrementIncrement corresponds to the MySQL Replication Source Options variable [auto_increment_increment] (https://dev.mysql.com/doc/refman/8.0/en/replication-options-source.html#sysvar_auto_increment_increment). 

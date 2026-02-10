@@ -47,6 +47,11 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `compartment_id` - The OCID of the compartment that contains the private endpoint.
+* `subnet_id` - The OCID of the subnet that the private endpoint belongs to. 
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `time_created` - The date and time that the Generative AI private endpoint was created expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `time_updated` - The date and time that the Generative AI private endpoint was updated expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z`
 * `description` - A description of this private endpoint. 
 * `display_name` - A user friendly name. It doesn't have to be unique. Avoid entering confidential information. 
 * `fqdn` - Fully qualified domain name the customer will use for access (for eg: xyz.oraclecloud.com) 

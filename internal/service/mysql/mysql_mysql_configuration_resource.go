@@ -90,6 +90,32 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 					},
 				},
 			},
+			"options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"parent_configuration_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -715,6 +741,7 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+							Deprecated:       tfresource.FieldDeprecatedAndAvoidReferences("query_prealloc_size"),
 						},
 						"range_optimizer_max_mem_size": {
 							Type:             schema.TypeString,
@@ -723,7 +750,6 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
-							Deprecated:       tfresource.FieldDeprecatedAndAvoidReferences("query_prealloc_size"),
 						},
 						"regexp_time_limit": {
 							Type:     schema.TypeInt,
@@ -1024,6 +1050,23 @@ func (s *MysqlMysqlConfigurationResourceCrud) Create() error {
 		}
 	}
 
+	if options, ok := s.D.GetOkExists("options"); ok {
+		interfaces := options.([]interface{})
+		tmp := make([]oci_mysql.Option, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", stateDataIndex)
+			converted, err := s.mapToOption(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("options") {
+			request.Options = tmp
+		}
+	}
+
 	if parentConfigurationId, ok := s.D.GetOkExists("parent_configuration_id"); ok {
 		tmp := parentConfigurationId.(string)
 		request.ParentConfigurationId = &tmp
@@ -1164,6 +1207,42 @@ func (s *MysqlMysqlConfigurationResourceCrud) SetData() error {
 	} else {
 		s.D.Set("init_variables", nil)
 	}
+
+	// Filter options written to state to only those specified by the user.
+	// If none specified, set empty list to match intent and avoid persisting OCI defaults.
+	// This prevents diffs from service-added options.
+	serviceByName := map[string]oci_mysql.Option{}
+	for _, item := range s.Res.Options {
+		if item.Name != nil {
+			serviceByName[*item.Name] = item
+		}
+	}
+	filtered := []interface{}{}
+	if userOpts, ok := s.D.GetOk("options"); ok {
+		if list, isList := userOpts.([]interface{}); isList {
+			for _, u := range list {
+				if u == nil {
+					continue
+				}
+				umap, isMap := u.(map[string]interface{})
+				if !isMap {
+					continue
+				}
+				nameRaw, hasName := umap["name"]
+				if !hasName || nameRaw == nil {
+					continue
+				}
+				name, _ := nameRaw.(string)
+				if o, found := serviceByName[name]; found {
+					filtered = append(filtered, OptionToMap(o))
+				} else {
+					log.Printf("[WARN] mysql configuration: user-specified option %q not present in service response; omitting from state", name)
+				}
+			}
+		}
+	}
+	// If no user options or empty list, filtered is empty
+	s.D.Set("options", filtered)
 
 	if s.Res.ParentConfigurationId != nil {
 		s.D.Set("parent_configuration_id", *s.Res.ParentConfigurationId)
@@ -2385,6 +2464,36 @@ func InitializationVariablesToMap(obj *oci_mysql.InitializationVariables) map[st
 	result := map[string]interface{}{}
 
 	result["lower_case_table_names"] = string(obj.LowerCaseTableNames)
+
+	return result
+}
+
+func (s *MysqlMysqlConfigurationResourceCrud) mapToOption(fieldKeyFormat string) (oci_mysql.Option, error) {
+	result := oci_mysql.Option{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func OptionToMap(obj oci_mysql.Option) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
 
 	return result
 }

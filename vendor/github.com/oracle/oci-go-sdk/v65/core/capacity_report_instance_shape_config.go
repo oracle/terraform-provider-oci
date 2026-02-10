@@ -32,6 +32,14 @@ type CapacityReportInstanceShapeConfig struct {
 
 	// The number of NVMe drives to be used for storage.
 	Nvmes *int `mandatory:"false" json:"nvmes"`
+
+	// The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a
+	// non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+	// The following values are supported:
+	// - `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+	// - `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+	// - `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance.
+	BaselineOcpuUtilization CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum `mandatory:"false" json:"baselineOcpuUtilization,omitempty"`
 }
 
 func (m CapacityReportInstanceShapeConfig) String() string {
@@ -44,8 +52,57 @@ func (m CapacityReportInstanceShapeConfig) String() string {
 func (m CapacityReportInstanceShapeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum(string(m.BaselineOcpuUtilization)); !ok && m.BaselineOcpuUtilization != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BaselineOcpuUtilization: %s. Supported values are: %s.", m.BaselineOcpuUtilization, strings.Join(GetCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum Enum with underlying type: string
+type CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum string
+
+// Set of constants representing the allowable values for CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum
+const (
+	CapacityReportInstanceShapeConfigBaselineOcpuUtilization8 CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum = "BASELINE_1_8"
+	CapacityReportInstanceShapeConfigBaselineOcpuUtilization2 CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum = "BASELINE_1_2"
+	CapacityReportInstanceShapeConfigBaselineOcpuUtilization1 CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum = "BASELINE_1_1"
+)
+
+var mappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum = map[string]CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum{
+	"BASELINE_1_8": CapacityReportInstanceShapeConfigBaselineOcpuUtilization8,
+	"BASELINE_1_2": CapacityReportInstanceShapeConfigBaselineOcpuUtilization2,
+	"BASELINE_1_1": CapacityReportInstanceShapeConfigBaselineOcpuUtilization1,
+}
+
+var mappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumLowerCase = map[string]CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum{
+	"baseline_1_8": CapacityReportInstanceShapeConfigBaselineOcpuUtilization8,
+	"baseline_1_2": CapacityReportInstanceShapeConfigBaselineOcpuUtilization2,
+	"baseline_1_1": CapacityReportInstanceShapeConfigBaselineOcpuUtilization1,
+}
+
+// GetCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumValues Enumerates the set of values for CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum
+func GetCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumValues() []CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum {
+	values := make([]CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum, 0)
+	for _, v := range mappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues Enumerates the set of values in String for CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum
+func GetCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumStringValues() []string {
+	return []string{
+		"BASELINE_1_8",
+		"BASELINE_1_2",
+		"BASELINE_1_1",
+	}
+}
+
+// GetMappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum(val string) (CapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnum, bool) {
+	enum, ok := mappingCapacityReportInstanceShapeConfigBaselineOcpuUtilizationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -48,6 +48,9 @@ type MigrationSummary interface {
 	// The OCID of the resource being referenced.
 	GetExecutingJobId() *string
 
+	// The OCID of the resource being referenced.
+	GetAssessmentId() *string
+
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	GetTimeUpdated() *common.SDKTime
 
@@ -73,6 +76,7 @@ type MigrationSummary interface {
 type migrationsummary struct {
 	JsonData                   []byte
 	ExecutingJobId             *string                           `mandatory:"false" json:"executingJobId"`
+	AssessmentId               *string                           `mandatory:"false" json:"assessmentId"`
 	TimeUpdated                *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	TimeLastMigration          *common.SDKTime                   `mandatory:"false" json:"timeLastMigration"`
 	LifecycleDetails           MigrationStatusEnum               `mandatory:"false" json:"lifecycleDetails,omitempty"`
@@ -110,6 +114,7 @@ func (m *migrationsummary) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
 	m.ExecutingJobId = s.Model.ExecutingJobId
+	m.AssessmentId = s.Model.AssessmentId
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.TimeLastMigration = s.Model.TimeLastMigration
 	m.LifecycleDetails = s.Model.LifecycleDetails
@@ -147,6 +152,11 @@ func (m *migrationsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 // GetExecutingJobId returns ExecutingJobId
 func (m migrationsummary) GetExecutingJobId() *string {
 	return m.ExecutingJobId
+}
+
+// GetAssessmentId returns AssessmentId
+func (m migrationsummary) GetAssessmentId() *string {
+	return m.AssessmentId
 }
 
 // GetTimeUpdated returns TimeUpdated

@@ -31,6 +31,24 @@ var (
 		"fault_domain":   acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
 	}
 
+	CoreComputeCapacityReportRepresentationWithBurstableShapeConfig = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape_availabilities": acctest.RepresentationGroup{RepType: acctest.Required,
+			Group: CoreComputeCapacityReportShapeAvailabilitiesRepresentationWithBurstableShapeConfig},
+	}
+	CoreComputeCapacityReportShapeAvailabilitiesRepresentationWithBurstableShapeConfig = map[string]interface{}{
+		"instance_shape": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"fault_domain":   acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
+		"instance_shape_config": acctest.RepresentationGroup{RepType: acctest.Required,
+			Group: CoreComputeCapacityReportShapeAvailabilitiesInstanceShapeConfigRepresentationWithBurstableShapeConfig},
+	}
+	CoreComputeCapacityReportShapeAvailabilitiesInstanceShapeConfigRepresentationWithBurstableShapeConfig = map[string]interface{}{
+		"memory_in_gbs":             acctest.Representation{RepType: acctest.Required, Create: `16`},
+		"nvmes":                     acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"ocpus":                     acctest.Representation{RepType: acctest.Required, Create: `16`},
+		"baseline_ocpu_utilization": acctest.Representation{RepType: acctest.Required, Create: `BASELINE_1_2`},
+	}
 	CoreComputeCapacityReportRepresentationWithShapeConfig = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -118,6 +136,49 @@ func TestCoreComputeCapacityReportResource_withShapeConfig(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "shape_availabilities.0.instance_shape", "VM.Standard.E4.Flex"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestCoreComputeCapacityReportResource_withBurstableShapeConfig(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeCapacityReportResource_withBurstableShapeConfig")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_compute_capacity_report.test_compute_capacity_report"
+
+	var resId string
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreComputeCapacityReportResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_report", "test_compute_capacity_report", acctest.Required, acctest.Create, CoreComputeCapacityReportRepresentationWithBurstableShapeConfig), "core", "computeCapacityReport", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + CoreComputeCapacityReportResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_report", "test_compute_capacity_report", acctest.Required, acctest.Create, CoreComputeCapacityReportRepresentationWithBurstableShapeConfig),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "shape_availabilities.0.instance_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "shape_availabilities.0.instance_shape_config.0.ocpus", "16"),
+				resource.TestCheckResourceAttr(resourceName, "shape_availabilities.0.instance_shape_config.0.memory_in_gbs", "16"),
+				resource.TestCheckResourceAttr(resourceName, "shape_availabilities.0.instance_shape_config.0.baseline_ocpu_utilization", "BASELINE_1_2"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

@@ -803,6 +803,10 @@ func DeployEnvironmentSummaryToMap(obj oci_devops.DeployEnvironmentSummary) map[
 		result["compartment_id"] = obj.GetCompartmentId()
 	}
 
+	if obj.GetDisplayName() != nil {
+		result["display_name"] = obj.GetDisplayName()
+	}
+
 	if obj.GetDescription() != nil {
 		result["description"] = obj.GetDescription()
 	}

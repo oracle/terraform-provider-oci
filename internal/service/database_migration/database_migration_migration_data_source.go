@@ -103,6 +103,10 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 			s.D.Set("initial_load_settings", nil)
 		}
 
+		if v.AssessmentId != nil {
+			s.D.Set("assessment_id", *v.AssessmentId)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -205,6 +209,10 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 
 		if v.SourceStandbyDatabaseConnectionId != nil {
 			s.D.Set("source_standby_database_connection_id", *v.SourceStandbyDatabaseConnectionId)
+		}
+
+		if v.AssessmentId != nil {
+			s.D.Set("assessment_id", *v.AssessmentId)
 		}
 
 		if v.CompartmentId != nil {

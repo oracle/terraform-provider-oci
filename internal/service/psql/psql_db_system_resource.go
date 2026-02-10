@@ -89,6 +89,9 @@ func PsqlDbSystemResource() *schema.Resource {
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return normalizeShape(old) == normalizeShape(new)
+				},
 			},
 			"storage_details": {
 				Type:     schema.TypeList,
@@ -733,7 +736,7 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
-		tmp := shape.(string)
+		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
 	}
 
@@ -1055,13 +1058,13 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
-		tmp := shape.(string)
+		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
 	}
 
 	if s.D.HasChange("shape") || s.D.HasChange("instance_ocpu_count") || s.D.HasChange("instance_memory_size_in_gbs") {
 		if shape, ok := s.D.GetOkExists("shape"); ok {
-			tmp := shape.(string)
+			tmp := normalizeShape(shape.(string))
 			request.Shape = &tmp
 		}
 		if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok {
@@ -2151,4 +2154,14 @@ func isNoneManagementPolicy(old, new string, d *schema.ResourceData) bool {
 		}
 	}
 	return false
+}
+
+func normalizeShape(s string) string {
+	const prefix = "PostgreSQL."
+
+	if strings.HasPrefix(s, prefix) {
+		return s
+	} else {
+		return prefix + s
+	}
 }
