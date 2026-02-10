@@ -5,7 +5,7 @@
 #      main.tf - Shepherd Main file
 #
 #    USAGE
-#      Use the following path for Example Test & Backward-Compatibility-Test: database/dataguard/vm_shape/vm_std_x86
+#      Use the following path for Example Test & Backward-Compatibility-Test: database/dataguard/db_vm/vm_std_x86
 #    NOTES
 #      Terraform Example: TestDatabaseDataGuardAssociationResourceVmStdx86_basic
 #    FILES
