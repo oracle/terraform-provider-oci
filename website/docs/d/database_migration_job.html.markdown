@@ -65,6 +65,7 @@ The following attributes are exported:
 		* `extract` - Summary of phase status results. 
 			* `message` - Message in entry. 
 			* `type` - Type of extract. 
+		* `group_display_name` - Job Phase group display name e.g. 'Step 1: Migration' 
 		* `is_advisor_report_available` - True if a Pre-Migration Advisor report is available for this phase. False or null if no report is available. 
 		* `is_suspend_available` - This is returned as true if the current phase can be suspended. 
 		* `issue` - The text describing the root cause of the reported issue 

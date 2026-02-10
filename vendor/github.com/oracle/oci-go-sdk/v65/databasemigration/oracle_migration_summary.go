@@ -41,6 +41,9 @@ type OracleMigrationSummary struct {
 	// The OCID of the resource being referenced.
 	ExecutingJobId *string `mandatory:"false" json:"executingJobId"`
 
+	// The OCID of the resource being referenced.
+	AssessmentId *string `mandatory:"false" json:"assessmentId"`
+
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -109,6 +112,11 @@ func (m OracleMigrationSummary) GetTargetDatabaseConnectionId() *string {
 // GetExecutingJobId returns ExecutingJobId
 func (m OracleMigrationSummary) GetExecutingJobId() *string {
 	return m.ExecutingJobId
+}
+
+// GetAssessmentId returns AssessmentId
+func (m OracleMigrationSummary) GetAssessmentId() *string {
+	return m.AssessmentId
 }
 
 // GetTimeCreated returns TimeCreated

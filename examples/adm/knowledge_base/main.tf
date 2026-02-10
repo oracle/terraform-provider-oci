@@ -111,8 +111,21 @@ data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "examp
   cvss_v2greater_than_or_equal = "1.5"
 }
 
+data "oci_adm_vulnerability_audit_vulnerability" "example_vulnerabilities_without_filter" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
+}
+
+data "oci_adm_vulnerability_audit_vulnerability" "example_vulnerabilities_with_filter" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
+  is_direct_vulnerability = true
+}
+
 data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "example_application_dependency_vulnerabilities_polyglot" {
   vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit_polyglot.id
   purl = "pkg:deb/ubuntu/openjdk-6@6b30?distro=14.04"
   severity_greater_than_or_equal = "LOW"
+}
+
+data "oci_adm_vulnerability_audit_application_dependency_vulnerability" "deprecated_application_dependency_vulnerability_data_source" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit_polyglot.id
 }

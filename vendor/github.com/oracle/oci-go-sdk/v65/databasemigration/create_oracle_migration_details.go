@@ -22,12 +22,6 @@ type CreateOracleMigrationDetails struct {
 	// The OCID of the resource being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the resource being referenced.
-	SourceDatabaseConnectionId *string `mandatory:"true" json:"sourceDatabaseConnectionId"`
-
-	// The OCID of the resource being referenced.
-	TargetDatabaseConnectionId *string `mandatory:"true" json:"targetDatabaseConnectionId"`
-
 	// A user-friendly description. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
@@ -36,6 +30,12 @@ type CreateOracleMigrationDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The OCID of the resource being referenced.
+	SourceDatabaseConnectionId *string `mandatory:"false" json:"sourceDatabaseConnectionId"`
+
+	// The OCID of the resource being referenced.
+	TargetDatabaseConnectionId *string `mandatory:"false" json:"targetDatabaseConnectionId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -43,6 +43,9 @@ type CreateOracleMigrationDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of the resource being referenced.
+	AssessmentId *string `mandatory:"false" json:"assessmentId"`
 
 	DataTransferMediumDetails CreateOracleDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -119,6 +122,11 @@ func (m CreateOracleMigrationDetails) GetDefinedTags() map[string]map[string]int
 	return m.DefinedTags
 }
 
+// GetAssessmentId returns AssessmentId
+func (m CreateOracleMigrationDetails) GetAssessmentId() *string {
+	return m.AssessmentId
+}
+
 func (m CreateOracleMigrationDetails) String() string {
 	return common.PointerString(m)
 }
@@ -157,8 +165,11 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                         *string                               `json:"description"`
 		DisplayName                         *string                               `json:"displayName"`
+		SourceDatabaseConnectionId          *string                               `json:"sourceDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                               `json:"targetDatabaseConnectionId"`
 		FreeformTags                        map[string]string                     `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}     `json:"definedTags"`
+		AssessmentId                        *string                               `json:"assessmentId"`
 		DataTransferMediumDetails           createoracledatatransfermediumdetails `json:"dataTransferMediumDetails"`
 		InitialLoadSettings                 *CreateOracleInitialLoadSettings      `json:"initialLoadSettings"`
 		AdvisorSettings                     *CreateOracleAdvisorSettings          `json:"advisorSettings"`
@@ -172,8 +183,6 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 		BulkIncludeExcludeData              *string                               `json:"bulkIncludeExcludeData"`
 		CompartmentId                       *string                               `json:"compartmentId"`
 		Type                                MigrationTypesEnum                    `json:"type"`
-		SourceDatabaseConnectionId          *string                               `json:"sourceDatabaseConnectionId"`
-		TargetDatabaseConnectionId          *string                               `json:"targetDatabaseConnectionId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -185,9 +194,15 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DisplayName = model.DisplayName
 
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.AssessmentId = model.AssessmentId
 
 	nn, e = model.DataTransferMediumDetails.UnmarshalPolymorphicJSON(model.DataTransferMediumDetails.JsonData)
 	if e != nil {
@@ -222,10 +237,6 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	m.Type = model.Type
-
-	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
-
-	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
 
 	return
 }

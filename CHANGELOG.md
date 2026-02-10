@@ -1,3 +1,19 @@
+## 8.1.0 (February 10, 2026)
+
+### Added
+- Support for CP: Work on assessment TERSI ticket TERSI-4354 Workflow Style UI for Migrations
+- Support for GenAI Image Generation
+- Support for Exadata Fleet Update GI/DB fleet patching support for ExaDB-XS
+- Support for FC Guardrails Create CrossConnect API
+- Support for Compute Control Plane: Support Burstable Shapes in Capacity Report
+- Support for MySQL HeatWave Service: Flexible Configuration Support (API ONLY)
+- new listVulnerabilities endpoint plus extended response models for some of the existing endpoints
+
+### Bug Fix
+- Issue with updating shapes on the configuration and DB system resources
+- Fix DisplayName null error for DevopsDeployEnvironments DataSource
+- database encryption key location
+
 ## 8.0.0 (February 4, 2026)
 
 ### Added

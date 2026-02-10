@@ -22,6 +22,10 @@ func DatabaseMigrationJobsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"job_id_not_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"migration_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -72,6 +76,11 @@ func (s *DatabaseMigrationJobsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if jobIdNotEqualTo, ok := s.D.GetOkExists("job_id_not_equal_to"); ok {
+		tmp := jobIdNotEqualTo.(string)
+		request.JobIdNotEqualTo = &tmp
 	}
 
 	if migrationId, ok := s.D.GetOkExists("migration_id"); ok {

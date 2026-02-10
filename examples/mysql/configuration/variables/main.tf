@@ -13,7 +13,7 @@ variable "private_key_path" {
 }
 
 variable "region" {
-  // Define the region where destination backup will be created.
+  // Define the region where configuration will be created.
 }
 
 variable "compartment_ocid" {
@@ -30,7 +30,7 @@ provider "oci" {
 resource "oci_mysql_mysql_configuration" "test_mysql_configuration" {
   #Required
   compartment_id = var.compartment_ocid
-  shape_name = "MySQL.VM.Standard.E3.1.8GB"
+  shape_name = "MySQL.32"
 
   #Optional
   description = "test configuration created by terraform"
@@ -82,7 +82,8 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  shape_name   = "MySQL.VM.Standard.E3.1.8GB"
+  shape_name   = "MySQL.32"
+  type         = ["DEFAULT"]
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {

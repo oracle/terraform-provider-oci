@@ -80,6 +80,12 @@ func CoreCrossConnectResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"interface_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"macsec_properties": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -150,6 +156,12 @@ func CoreCrossConnectResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"oci_physical_device_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_active": {
 				Type:         schema.TypeBool,
 				Optional:     true,
@@ -158,10 +170,6 @@ func CoreCrossConnectResource() *schema.Resource {
 
 			// Computed
 			"oci_logical_device_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"oci_physical_device_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -321,6 +329,11 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if interfaceName, ok := s.D.GetOkExists("interface_name"); ok {
+		tmp := interfaceName.(string)
+		request.InterfaceName = &tmp
+	}
+
 	if locationName, ok := s.D.GetOkExists("location_name"); ok {
 		tmp := locationName.(string)
 		request.LocationName = &tmp
@@ -340,6 +353,11 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 	if nearCrossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists("near_cross_connect_or_cross_connect_group_id"); ok {
 		tmp := nearCrossConnectOrCrossConnectGroupId.(string)
 		request.NearCrossConnectOrCrossConnectGroupId = &tmp
+	}
+
+	if ociPhysicalDeviceName, ok := s.D.GetOkExists("oci_physical_device_name"); ok {
+		tmp := ociPhysicalDeviceName.(string)
+		request.OciPhysicalDeviceName = &tmp
 	}
 
 	if portSpeedShapeName, ok := s.D.GetOkExists("port_speed_shape_name"); ok {
@@ -477,6 +495,10 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.InterfaceName != nil {
+		s.D.Set("interface_name", *s.Res.InterfaceName)
+	}
 
 	if s.Res.LocationName != nil {
 		s.D.Set("location_name", *s.Res.LocationName)

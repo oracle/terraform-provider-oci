@@ -29,6 +29,12 @@ type ResultError struct {
 
 	// The text describing the action required to fix the issue
 	Action *string `mandatory:"false" json:"action"`
+
+	// The link to the documentation
+	ActionLink *string `mandatory:"false" json:"actionLink"`
+
+	// The text for the link to the documentation
+	ActionText *string `mandatory:"false" json:"actionText"`
 }
 
 func (m ResultError) String() string {

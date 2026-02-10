@@ -28,6 +28,9 @@ type ListConnectionsRequest struct {
 	// The array of technology types.
 	TechnologyType []TechnologyTypeEnum `contributesTo:"query" name:"technologyType" omitEmpty:"true" collectionFormat:"multi"`
 
+	// The database technology sub-type.
+	TechnologySubType *string `mandatory:"false" contributesTo:"query" name:"technologySubType"`
+
 	// The array of connection types.
 	ConnectionType []ConnectionTypeEnum `contributesTo:"query" name:"connectionType" omitEmpty:"true" collectionFormat:"multi"`
 

@@ -88,6 +88,9 @@ type CrossConnect struct {
 	// The FastConnect device that terminates the logical connection.
 	// This device might be different than the device that terminates the physical connection.
 	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
+
+	// The name of the FastConnect interface where this cross-connect is installed.
+	InterfaceName *string `mandatory:"false" json:"interfaceName"`
 }
 
 func (m CrossConnect) String() string {

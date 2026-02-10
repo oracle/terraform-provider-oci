@@ -34,6 +34,9 @@ type CreateConfigurationDetails struct {
 
 	Variables *ConfigurationVariables `mandatory:"false" json:"variables"`
 
+	// The MySQL options defined in the Configuration.
+	Options []Option `mandatory:"false" json:"options"`
+
 	// The OCID of the Configuration from which the new Configuration is derived. The values in CreateConfigurationDetails.variables supersede the variables of the parent Configuration.
 	ParentConfigurationId *string `mandatory:"false" json:"parentConfigurationId"`
 

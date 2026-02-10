@@ -2558,15 +2558,18 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 		result["storage_size_details"] = nil
 	}
 
-	if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
-		if s.Res.EncryptionKeyLocationDetails != nil {
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
 			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, hsmPassword.(string))}
+		} else {
+			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")}
 		}
-	}
-
-	if sourceHsmPassword, ok := s.D.GetOkExists("database.0.source_encryption_key_location_details.0.hsm_password"); ok && sourceHsmPassword != nil {
-		if s.Res.EncryptionKeyLocationDetails != nil {
-			result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, sourceHsmPassword.(string))}
+		if _, ok := s.D.GetOkExists("database.0.source_encryption_key_location_details"); ok {
+			if sourceHsmPassword, ok := s.D.GetOkExists("database.0.source_encryption_key_location_details.0.hsm_password"); ok && sourceHsmPassword != nil {
+				result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, sourceHsmPassword.(string))}
+			} else {
+				result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")}
+			}
 		}
 	}
 

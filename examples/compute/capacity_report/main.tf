@@ -5,6 +5,7 @@ provider "oci" {
   fingerprint = var.fingerprint
   private_key_path = var.private_key_path
   retry_duration_seconds = "1800"
+  # version             = "7.30.0"
 }
 
 data "oci_identity_availability_domain" "ad" {
@@ -26,7 +27,6 @@ resource "oci_core_compute_capacity_report" "test_compute_capacity_report_flex_s
 
       #Optional
       memory_in_gbs = var.compute_capacity_report_shape_availabilities_instance_shape_config_memory_in_gbs
-      nvmes         = var.compute_capacity_report_shape_availabilities_instance_shape_config_nvmes
       ocpus         = var.compute_capacity_report_shape_availabilities_instance_shape_config_ocpus
     }
   }
@@ -39,5 +39,26 @@ resource "oci_core_compute_capacity_report" "test_compute_capacity_report_fix_sh
   shape_availabilities {
     #Required
     instance_shape = var.compute_capacity_report_shape_availabilities_instance_shape_fix
+  }
+}
+
+
+resource "oci_core_compute_capacity_report" "test_burstable_compute_capacity_report" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  shape_availabilities {
+    #Required
+    instance_shape = var.compute_capacity_report_shape_availabilities_instance_shape_flex
+
+    #Optional
+    fault_domain = var.compute_capacity_report_shape_availabilities_fault_domain
+    instance_shape_config {
+
+      #Optional
+      baseline_ocpu_utilization = var.compute_capacity_report_shape_availabilities_instance_shape_config_baseline_ocpu_utilization
+      memory_in_gbs             = var.compute_capacity_report_shape_availabilities_instance_shape_config_memory_in_gbs
+      ocpus                     = var.compute_capacity_report_shape_availabilities_instance_shape_config_ocpus
+    }
   }
 }
