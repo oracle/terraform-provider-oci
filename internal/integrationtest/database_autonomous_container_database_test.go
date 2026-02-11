@@ -1182,6 +1182,61 @@ func TestDatabaseAutonomousContainerDatabaseResource_OkvEpg(t *testing.T) {
 	})
 }
 
+func TestDatabaseAutonomousContainerDatabaseResource_RecoveryWindowsInDays(t *testing.T) {
+	//t.Skip("Skip this test as AEI and its api no longer exists.")
+
+	shouldSkipADBDtest := os.Getenv("TF_VAR_should_skip_adbd_test")
+
+	if shouldSkipADBDtest == "true" {
+		t.Skip("Skipping TestDatabaseAutonomousContainerDatabaseResource_OkvEpg test.\n" + "Current TF_VAR_should_skip_adbd_test=" + shouldSkipADBDtest)
+	}
+
+	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseResource_OkvEpg")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
+
+	ACDBackupConfigRepresentation := map[string]interface{}{
+		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+
+	AutonomousContainerDatabaseDedicatedRepresentation := acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousContainerDatabaseRepresentation,
+		map[string]interface{}{
+			"backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDBackupConfigRepresentation},
+		})
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ATPDAutonomousContainerDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, AutonomousContainerDatabaseDedicatedRepresentation), "database", "autonomousContainerDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, AutonomousContainerDatabaseDedicatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
 func testAccCheckDatabaseAutonomousContainerDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
