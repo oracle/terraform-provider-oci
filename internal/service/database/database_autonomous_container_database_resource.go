@@ -1952,6 +1952,33 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToAutonomousContain
 	return result, nil
 }
 
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToAutonomousContainerDatabaseBackupConfigForCreation(fieldKeyFormat string) (oci_database.AutonomousContainerDatabaseBackupConfig, error) {
+	result := oci_database.AutonomousContainerDatabaseBackupConfig{}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		if len(interfaces) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), 0)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[0] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
+}
+
 // service currently supports only one backupDestination
 func AutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.AutonomousContainerDatabaseBackupConfig, s *DatabaseAutonomousContainerDatabaseResourceCrud, dataSource bool) map[string]interface{} {
 	result := map[string]interface{}{}
@@ -2541,7 +2568,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
 			if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
-				tmp, err := s.mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+				tmp, err := s.mapToAutonomousContainerDatabaseBackupConfigForCreation(fieldKeyFormat)
 				if err != nil {
 					return err
 				}
@@ -2748,7 +2775,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
 			if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
-				tmp, err := s.mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+				tmp, err := s.mapToAutonomousContainerDatabaseBackupConfigForCreation(fieldKeyFormat)
 				if err != nil {
 					return err
 				}
