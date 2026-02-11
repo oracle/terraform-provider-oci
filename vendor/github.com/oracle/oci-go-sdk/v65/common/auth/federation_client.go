@@ -939,11 +939,9 @@ func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
 		return fmt.Errorf("unable to generate RSA key: %w", err)
 	}
 
-	var publicKey = ""
-	if vals, ok := fc.requestData["public_key"]; ok && len(vals) > 0 {
-		publicKey = vals[0]
-	} else {
-		return fmt.Errorf("unable to derive public key")
+	publicKey , err := privateToPublicDERBase64(privateKey) 
+	if err != nil { 
+		return fmt.Errorf("unable to derive public key: %w", err) 
 	}
 
 	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
@@ -986,6 +984,7 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 			return t, fmt.Errorf("failed to make request to token endpoint: %w", err)
 		}
 
+		httpRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		httpRequest.Header.Set("Accept", "application/json")
 
 		if fc.instancePrincipalProvider != nil {
