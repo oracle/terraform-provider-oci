@@ -54,11 +54,11 @@ var (
 	CloudMigrationsTargetAssetRepresentation = map[string]interface{}{
 		"is_excluded_from_execution": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"migration_plan_id":          acctest.Representation{RepType: acctest.Required, Create: CloudMigrationsMigrationPlanId},
-		"preferred_shape_type":       acctest.Representation{RepType: acctest.Required, Create: `VM`, Update: `VM_INTEL`},
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `INSTANCE`},
-		"user_spec":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudMigrationsTargetAssetUserSpecRepresentation},
 		"block_volumes_performance":  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"ms_license":                 acctest.Representation{RepType: acctest.Optional, Create: `msLicense`, Update: `msLicense2`},
+		"preferred_shape_type":       acctest.Representation{RepType: acctest.Required, Create: `VM`, Update: `VM_INTEL`},
+		"user_spec":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudMigrationsTargetAssetUserSpecRepresentation},
 	}
 	CloudMigrationsTargetAssetUserSpecRepresentation = map[string]interface{}{
 		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsTargetAssetUserSpecAgentConfigRepresentation},
@@ -97,7 +97,7 @@ var (
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	CloudMigrationsTargetAssetUserSpecPreemptibleInstanceConfigRepresentation = map[string]interface{}{
-		"preemption_action": acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudMigrationsTargetAssetUserSpecPreemptibleInstanceConfigPreemptionActionRepresentation},
+		"preemption_action": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsTargetAssetUserSpecPreemptibleInstanceConfigPreemptionActionRepresentation},
 	}
 	CloudMigrationsTargetAssetUserSpecShapeConfigRepresentation = map[string]interface{}{
 		"baseline_ocpu_utilization": acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
@@ -112,8 +112,8 @@ var (
 		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: CloudMigrationsKmsKeyId},
 	}
 	CloudMigrationsTargetAssetUserSpecAgentConfigPluginsConfigRepresentation = map[string]interface{}{
-		"desired_state": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
-		"name":          acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"desired_state": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"name":          acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 	}
 	CloudMigrationsTargetAssetUserSpecPreemptibleInstanceConfigPreemptionActionRepresentation = map[string]interface{}{
 		"type":                 acctest.Representation{RepType: acctest.Required, Create: `TERMINATE`},
@@ -121,6 +121,18 @@ var (
 	}
 
 	CloudMigrationsTargetAssetResourceDependencies = ""
+
+	// OLVM
+	CloudMigrationsOlvmTargetAssetRepresentation = map[string]interface{}{
+		"is_excluded_from_execution": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"migration_plan_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_migrations_migration_plan.test_migration_plan_olvm.id}`},
+		"type":                       acctest.Representation{RepType: acctest.Required, Create: `OLVM_INSTANCE`},
+	}
+	CloudMigrationsCloudMigrationsOlvmTargetAssetDataSourceRepresentation = map[string]interface{}{
+		"migration_plan_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_migration_plan.test_migration_plan_olvm.id}`},
+	}
+	CloudMigrationsOlvmTargetAssetResourceDependencies = CloudMigrationsMigrationResourceDependencies + CloudMigrationsOlvmMigrationPlanResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan_olvm", acctest.Required, acctest.Create, CloudMigrationsOlvmMigrationPlanRepresentation)
 )
 
 // issue-routing-tag: cloud_migrations/default
@@ -155,6 +167,71 @@ func TestCloudMigrationsTargetAssetResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Optional, acctest.Create, CloudMigrationsTargetAssetRepresentation), "cloudmigrations", "targetAsset", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudMigrationsTargetAssetDestroy, []resource.TestStep{
+		// OVLM
+		{
+			Config: config + variableStr + CloudMigrationsOlvmTargetAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Required, acctest.Create, CloudMigrationsOlvmTargetAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_excluded_from_execution", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_plan_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM_INSTANCE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + variableStr + CloudMigrationsOlvmTargetAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Optional, acctest.Update, CloudMigrationsOlvmTargetAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_excluded_from_execution", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_plan_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM_INSTANCE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_target_assets", "test_target_assets", acctest.Optional, acctest.Update, CloudMigrationsCloudMigrationsOlvmTargetAssetDataSourceRepresentation) +
+				variableStr + CloudMigrationsOlvmTargetAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Optional, acctest.Update, CloudMigrationsOlvmTargetAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "target_asset_collection.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Required, acctest.Create, CloudMigrationsCloudMigrationsTargetAssetSingularDataSourceRepresentation) +
+				variableStr + CloudMigrationsOlvmTargetAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_target_asset", "test_target_asset", acctest.Optional, acctest.Update, CloudMigrationsOlvmTargetAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_asset_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_excluded_from_execution", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_assessed"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "OLVM_INSTANCE"),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + variableStr,
+		},
 		// verify Create
 		{
 			Config: config + variableStr + CloudMigrationsTargetAssetResourceDependencies +

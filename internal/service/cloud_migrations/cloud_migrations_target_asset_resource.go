@@ -43,21 +43,36 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"preferred_shape_type": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"type": {
 				Type:             schema.TypeString,
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"INSTANCE",
+					"OLVM_INSTANCE",
 				}, true),
+			},
+
+			// Optional
+			"block_volumes_performance": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"ms_license": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"preferred_shape_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"user_spec": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -98,16 +113,18 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
+
+												// Optional
 												"desired_state": {
 													Type:     schema.TypeString,
-													Required: true,
+													Optional: true,
+													Computed: true,
 												},
 												"name": {
 													Type:     schema.TypeString,
-													Required: true,
+													Optional: true,
+													Computed: true,
 												},
-
-												// Optional
 
 												// Computed
 											},
@@ -285,9 +302,12 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+
+									// Optional
 									"preemption_action": {
 										Type:     schema.TypeList,
-										Required: true,
+										Optional: true,
+										Computed: true,
 										MaxItems: 1,
 										MinItems: 1,
 										Elem: &schema.Resource{
@@ -313,8 +333,6 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 											},
 										},
 									},
-
-									// Optional
 
 									// Computed
 								},
@@ -414,18 +432,6 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-
-			// Optional
-			"block_volumes_performance": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"ms_license": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 
 			// Computed
@@ -652,6 +658,11 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"destination_disks": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"depends_on": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -689,6 +700,33 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 						"replication_compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"replication_location_detail": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"metadata": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"replication_location_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"replication_schedule_id": {
 							Type:     schema.TypeString,
@@ -738,6 +776,7 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 			"recommended_spec": {
 				Type:     schema.TypeList,
 				Computed: true,
+				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1026,6 +1065,7 @@ func CloudMigrationsTargetAssetResource() *schema.Resource {
 			},
 			"test_spec": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -1361,13 +1401,13 @@ func deleteCloudMigrationsTargetAsset(d *schema.ResourceData, m interface{}) err
 type CloudMigrationsTargetAssetResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_cloud_migrations.MigrationClient
-	Res                    *oci_cloud_migrations.TargetAsset
+	Res                    oci_cloud_migrations.TargetAsset
 	DisableNotFoundRetries bool
 }
 
 func (s *CloudMigrationsTargetAssetResourceCrud) ID() string {
-	targetAsset := *s.Res
-	return *targetAsset.GetId()
+	//targetAsset := *s.Res
+	return *s.Res.GetId()
 }
 
 func (s *CloudMigrationsTargetAssetResourceCrud) CreatedPending() []string {
@@ -1558,7 +1598,7 @@ func (s *CloudMigrationsTargetAssetResourceCrud) Get() error {
 		return err
 	}
 
-	s.Res = &response.TargetAsset
+	s.Res = response.TargetAsset
 	return nil
 }
 
@@ -1601,7 +1641,7 @@ func (s *CloudMigrationsTargetAssetResourceCrud) Delete() error {
 }
 
 func (s *CloudMigrationsTargetAssetResourceCrud) SetData() error {
-	switch v := (*s.Res).(type) {
+	switch v := (s.Res).(type) {
 	case oci_cloud_migrations.VmTargetAsset:
 		s.D.Set("type", "INSTANCE")
 
@@ -1692,8 +1732,74 @@ func (s *CloudMigrationsTargetAssetResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_cloud_migrations.OlvmTargetAsset:
+		s.D.Set("type", "OLVM_INSTANCE")
+
+		if v.MsLicense != nil {
+			s.D.Set("ms_license", *v.MsLicense)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		compatibilityMessages := []interface{}{}
+		for _, item := range v.CompatibilityMessages {
+			compatibilityMessages = append(compatibilityMessages, CompatibilityMessageToMap(item))
+		}
+		s.D.Set("compatibility_messages", compatibilityMessages)
+
+		if v.CreatedResourceId != nil {
+			s.D.Set("created_resource_id", *v.CreatedResourceId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EstimatedCost != nil {
+			s.D.Set("estimated_cost", []interface{}{CostEstimationToMap(v.EstimatedCost)})
+		} else {
+			s.D.Set("estimated_cost", nil)
+		}
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		if v.IsExcludedFromExecution != nil {
+			s.D.Set("is_excluded_from_execution", *v.IsExcludedFromExecution)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.MigrationAsset != nil {
+			s.D.Set("migration_asset", []interface{}{MigrationAssetToMap(v.MigrationAsset)})
+		} else {
+			s.D.Set("migration_asset", nil)
+		}
+
+		if v.MigrationPlanId != nil {
+			s.D.Set("migration_plan_id", *v.MigrationPlanId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.TimeAssessed != nil {
+			s.D.Set("time_assessed", v.TimeAssessed.String())
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *s.Res)
+		log.Printf("[WARN] Received 'type' of unknown type %v", s.Res)
 		return nil
 	}
 	return nil
@@ -2313,6 +2419,8 @@ func MigrationAssetToMap(obj *oci_cloud_migrations.MigrationAsset) map[string]in
 	result["depends_on"] = obj.DependsOn
 	result["depends_on"] = obj.DependsOn
 
+	result["destination_disks"] = obj.DestinationDisks
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -2340,6 +2448,10 @@ func MigrationAssetToMap(obj *oci_cloud_migrations.MigrationAsset) map[string]in
 		result["replication_compartment_id"] = string(*obj.ReplicationCompartmentId)
 	}
 
+	if obj.ReplicationLocationDetail != nil {
+		result["replication_location_detail"] = []interface{}{ReplicationLocationDetailToMap(obj.ReplicationLocationDetail)}
+	}
+
 	if obj.ReplicationScheduleId != nil {
 		result["replication_schedule_id"] = string(*obj.ReplicationScheduleId)
 	}
@@ -2348,7 +2460,6 @@ func MigrationAssetToMap(obj *oci_cloud_migrations.MigrationAsset) map[string]in
 		result["snap_shot_bucket_name"] = string(*obj.SnapShotBucketName)
 	}
 
-	result["snapshots"] = obj.Snapshots
 	result["snapshots"] = obj.Snapshots
 
 	if obj.SourceAssetId != nil {
@@ -2476,6 +2587,12 @@ func TargetAssetSummaryToMap(obj oci_cloud_migrations.TargetAssetSummary, dataso
 		if v.UserSpec != nil {
 			result["user_spec"] = []interface{}{LaunchInstanceDetailsToMap(v.UserSpec, datasource)}
 		}
+	case oci_cloud_migrations.OlvmTargetAssetSummary:
+		result["type"] = "OLVM_INSTANCE"
+
+		if v.MsLicense != nil {
+			result["ms_license"] = string(*v.MsLicense)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil
@@ -2526,6 +2643,21 @@ func (s *CloudMigrationsTargetAssetResourceCrud) populateTopLevelPolymorphicCrea
 			details.MigrationPlanId = &tmp
 		}
 		request.CreateTargetAssetDetails = details
+	case strings.ToLower("OLVM_INSTANCE"):
+		details := oci_cloud_migrations.CreateOlvmTargetAssetDetails{}
+		if msLicense, ok := s.D.GetOkExists("ms_license"); ok {
+			tmp := msLicense.(string)
+			details.MsLicense = &tmp
+		}
+		if isExcludedFromExecution, ok := s.D.GetOkExists("is_excluded_from_execution"); ok {
+			tmp := isExcludedFromExecution.(bool)
+			details.IsExcludedFromExecution = &tmp
+		}
+		if migrationPlanId, ok := s.D.GetOkExists("migration_plan_id"); ok {
+			tmp := migrationPlanId.(string)
+			details.MigrationPlanId = &tmp
+		}
+		request.CreateTargetAssetDetails = details
 	default:
 		return fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -2564,6 +2696,19 @@ func (s *CloudMigrationsTargetAssetResourceCrud) populateTopLevelPolymorphicUpda
 				}
 				details.UserSpec = &tmp
 			}
+		}
+		if isExcludedFromExecution, ok := s.D.GetOkExists("is_excluded_from_execution"); ok {
+			tmp := isExcludedFromExecution.(bool)
+			details.IsExcludedFromExecution = &tmp
+		}
+		tmp := s.D.Id()
+		request.TargetAssetId = &tmp
+		request.UpdateTargetAssetDetails = details
+	case strings.ToLower("OLVM_INSTANCE"):
+		details := oci_cloud_migrations.UpdateOlvmTargetAssetDetails{}
+		if msLicense, ok := s.D.GetOkExists("ms_license"); ok {
+			tmp := msLicense.(string)
+			details.MsLicense = &tmp
 		}
 		if isExcludedFromExecution, ok := s.D.GetOkExists("is_excluded_from_execution"); ok {
 			tmp := isExcludedFromExecution.(bool)

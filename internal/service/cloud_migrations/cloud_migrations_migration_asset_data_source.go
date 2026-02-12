@@ -80,6 +80,8 @@ func (s *CloudMigrationsMigrationAssetDataSourceCrud) SetData() error {
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
 
+	s.D.Set("destination_disks", s.Res.DestinationDisks)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -101,6 +103,12 @@ func (s *CloudMigrationsMigrationAssetDataSourceCrud) SetData() error {
 
 	if s.Res.ReplicationCompartmentId != nil {
 		s.D.Set("replication_compartment_id", *s.Res.ReplicationCompartmentId)
+	}
+
+	if s.Res.ReplicationLocationDetail != nil {
+		s.D.Set("replication_location_detail", []interface{}{ReplicationLocationDetailToMap(s.Res.ReplicationLocationDetail)})
+	} else {
+		s.D.Set("replication_location_detail", nil)
 	}
 
 	if s.Res.ReplicationScheduleId != nil {
