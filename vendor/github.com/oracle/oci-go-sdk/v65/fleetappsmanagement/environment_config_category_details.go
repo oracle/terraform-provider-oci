@@ -20,6 +20,9 @@ import (
 // Defines the supported prioritization associated with resources based on the implementation phase of the applications hosted by them.
 // For example, your organization might support development, beta, or production environment types.
 type EnvironmentConfigCategoryDetails struct {
+
+	// Environment Prioritization.
+	EnvironmentPrioritization *int64 `mandatory:"false" json:"environmentPrioritization"`
 }
 
 func (m EnvironmentConfigCategoryDetails) String() string {

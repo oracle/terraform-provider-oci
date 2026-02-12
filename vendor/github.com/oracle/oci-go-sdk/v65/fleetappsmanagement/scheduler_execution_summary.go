@@ -42,6 +42,9 @@ type SchedulerExecutionSummary struct {
 	// Name of the compartment in which resource exist.
 	CompartmentName *string `mandatory:"false" json:"compartmentName"`
 
+	// Lifecycle operation of given execution.
+	LifecycleOperation *string `mandatory:"false" json:"lifecycleOperation"`
+
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -83,6 +86,12 @@ type SchedulerExecutionSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Subject Type
+	SubjectType SubjectTypeEnum `mandatory:"false" json:"subjectType,omitempty"`
+
+	// Emergency override flag.
+	IsEmergencyOverride *bool `mandatory:"false" json:"isEmergencyOverride"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -105,6 +114,9 @@ func (m SchedulerExecutionSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSchedulerExecutionSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSubjectTypeEnum(string(m.SubjectType)); !ok && m.SubjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubjectType: %s. Supported values are: %s.", m.SubjectType, strings.Join(GetSubjectTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

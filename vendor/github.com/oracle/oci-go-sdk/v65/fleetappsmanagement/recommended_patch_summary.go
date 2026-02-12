@@ -38,6 +38,9 @@ type RecommendedPatchSummary struct {
 
 	// Patch Level.
 	PatchLevel RecommendedPatchSummaryPatchLevelEnum `mandatory:"false" json:"patchLevel,omitempty"`
+
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
 }
 
 func (m RecommendedPatchSummary) String() string {

@@ -37,6 +37,9 @@ type CompliancePatchDetail struct {
 	Severity PatchSeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
 	Product *ComplianceDetailProduct `mandatory:"false" json:"product"`
+
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
 }
 
 func (m CompliancePatchDetail) String() string {

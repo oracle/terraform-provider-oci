@@ -37,6 +37,9 @@ type ScriptBasedExecutionDetails struct {
 
 	// The list of system variables.
 	SystemVariables []string `mandatory:"false" json:"systemVariables"`
+
+	// Specifies the user account under which the runbook or task should execute.
+	RunAs *string `mandatory:"false" json:"runAs"`
 }
 
 func (m ScriptBasedExecutionDetails) String() string {
@@ -79,6 +82,7 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 		IsLocked            *bool                      `json:"isLocked"`
 		IsExecutableContent *bool                      `json:"isExecutableContent"`
 		SystemVariables     []string                   `json:"systemVariables"`
+		RunAs               *string                    `json:"runAs"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -108,5 +112,7 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemVariables = make([]string, len(model.SystemVariables))
 	copy(m.SystemVariables, model.SystemVariables)
+	m.RunAs = model.RunAs
+
 	return
 }

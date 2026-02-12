@@ -22,6 +22,9 @@ type PatchReleaseDateSelectionDetails struct {
 
 	// Days passed since patch release.
 	DaysSinceRelease *int `mandatory:"true" json:"daysSinceRelease"`
+
+	// Pattern to match and support suffix and prefix "*" pattern.
+	Pattern *string `mandatory:"false" json:"pattern"`
 }
 
 func (m PatchReleaseDateSelectionDetails) String() string {

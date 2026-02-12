@@ -270,6 +270,65 @@ func (client FleetAppsManagementAdminClient) createCompliancePolicyRule(ctx cont
 	return response, err
 }
 
+// CreateDependentPropertyValue Create a new Dependent value for a Property.
+// A default retry strategy applies to this operation CreateDependentPropertyValue()
+func (client FleetAppsManagementAdminClient) CreateDependentPropertyValue(ctx context.Context, request CreateDependentPropertyValueRequest) (response CreateDependentPropertyValueResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDependentPropertyValue, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDependentPropertyValueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDependentPropertyValueResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDependentPropertyValueResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDependentPropertyValueResponse")
+	}
+	return
+}
+
+// createDependentPropertyValue implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementAdminClient) createDependentPropertyValue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/properties/{propertyId}/dependentPropertyValues", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDependentPropertyValueResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DependentPropertyValue/CreateDependentPropertyValue"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "CreateDependentPropertyValue", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOnboarding Onboard a tenant to Fleet Application Management.
 // The onboarding process lets Fleet Application Management create a few required policies that you need to start using it and its features.
 // A default retry strategy applies to this operation CreateOnboarding()
@@ -495,6 +554,60 @@ func (client FleetAppsManagementAdminClient) deleteCompliancePolicyRule(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CompliancePolicyRule/DeleteCompliancePolicyRule"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "DeleteCompliancePolicyRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDependentPropertyValue Delete the Dependent property value.
+// A default retry strategy applies to this operation DeleteDependentPropertyValue()
+func (client FleetAppsManagementAdminClient) DeleteDependentPropertyValue(ctx context.Context, request DeleteDependentPropertyValueRequest) (response DeleteDependentPropertyValueResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDependentPropertyValue, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDependentPropertyValueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDependentPropertyValueResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDependentPropertyValueResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDependentPropertyValueResponse")
+	}
+	return
+}
+
+// deleteDependentPropertyValue implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementAdminClient) deleteDependentPropertyValue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/properties/{propertyId}/dependentPropertyValues/{dependentPropertyValueId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDependentPropertyValueResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DependentPropertyValue/DeleteDependentPropertyValue"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "DeleteDependentPropertyValue", apiReferenceLink)
 		return response, err
 	}
 
@@ -831,6 +944,60 @@ func (client FleetAppsManagementAdminClient) getCompliancePolicyRule(ctx context
 	return response, err
 }
 
+// GetDependentPropertyValue Gets a Dependent property value by identifier.
+// A default retry strategy applies to this operation GetDependentPropertyValue()
+func (client FleetAppsManagementAdminClient) GetDependentPropertyValue(ctx context.Context, request GetDependentPropertyValueRequest) (response GetDependentPropertyValueResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDependentPropertyValue, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDependentPropertyValueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDependentPropertyValueResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDependentPropertyValueResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDependentPropertyValueResponse")
+	}
+	return
+}
+
+// getDependentPropertyValue implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementAdminClient) getDependentPropertyValue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/properties/{propertyId}/dependentPropertyValues/{dependentPropertyValueId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDependentPropertyValueResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DependentPropertyValue/GetDependentPropertyValue"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "GetDependentPropertyValue", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOnboarding Gets a Fleet Application Management Onboarding by identifier.
 // A default retry strategy applies to this operation GetOnboarding()
 func (client FleetAppsManagementAdminClient) GetOnboarding(ctx context.Context, request GetOnboardingRequest) (response GetOnboardingResponse, err error) {
@@ -1095,6 +1262,60 @@ func (client FleetAppsManagementAdminClient) listCompliancePolicyRules(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CompliancePolicyRuleCollection/ListCompliancePolicyRules"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "ListCompliancePolicyRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDependentPropertyValues Returns the list of all Dependent values of a Property.
+// A default retry strategy applies to this operation ListDependentPropertyValues()
+func (client FleetAppsManagementAdminClient) ListDependentPropertyValues(ctx context.Context, request ListDependentPropertyValuesRequest) (response ListDependentPropertyValuesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDependentPropertyValues, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDependentPropertyValuesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDependentPropertyValuesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDependentPropertyValuesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDependentPropertyValuesResponse")
+	}
+	return
+}
+
+// listDependentPropertyValues implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementAdminClient) listDependentPropertyValues(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/properties/{propertyId}/dependentPropertyValues", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDependentPropertyValuesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DependentPropertyValueCollection/ListDependentPropertyValues"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "ListDependentPropertyValues", apiReferenceLink)
 		return response, err
 	}
 
@@ -1427,6 +1648,60 @@ func (client FleetAppsManagementAdminClient) updateCompliancePolicyRule(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CompliancePolicyRule/UpdateCompliancePolicyRule"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "UpdateCompliancePolicyRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDependentPropertyValue Update the Dependent property value.
+// A default retry strategy applies to this operation UpdateDependentPropertyValue()
+func (client FleetAppsManagementAdminClient) UpdateDependentPropertyValue(ctx context.Context, request UpdateDependentPropertyValueRequest) (response UpdateDependentPropertyValueResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDependentPropertyValue, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDependentPropertyValueResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDependentPropertyValueResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDependentPropertyValueResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDependentPropertyValueResponse")
+	}
+	return
+}
+
+// updateDependentPropertyValue implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementAdminClient) updateDependentPropertyValue(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/properties/{propertyId}/dependentPropertyValues/{dependentPropertyValueId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDependentPropertyValueResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DependentPropertyValue/UpdateDependentPropertyValue"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementAdmin", "UpdateDependentPropertyValue", apiReferenceLink)
 		return response, err
 	}
 

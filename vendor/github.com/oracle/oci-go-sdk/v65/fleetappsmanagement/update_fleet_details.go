@@ -36,6 +36,10 @@ type UpdateFleetDetails struct {
 	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
+	// A value that represents to patch group lock fleet can be enabled.
+	// This will allow targets to patch group lock fleet.
+	IsPatchGroupLocked *bool `mandatory:"false" json:"isPatchGroupLocked"`
+
 	ResourceSelection ResourceSelection `mandatory:"false" json:"resourceSelection"`
 
 	// Products associated with the Fleet.
@@ -78,6 +82,7 @@ func (m *UpdateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 		Description             *string                           `json:"description"`
 		NotificationPreferences []NotificationPreference          `json:"notificationPreferences"`
 		IsTargetAutoConfirm     *bool                             `json:"isTargetAutoConfirm"`
+		IsPatchGroupLocked      *bool                             `json:"isPatchGroupLocked"`
 		ResourceSelection       resourceselection                 `json:"resourceSelection"`
 		Products                []string                          `json:"products"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
@@ -97,6 +102,8 @@ func (m *UpdateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NotificationPreferences = make([]NotificationPreference, len(model.NotificationPreferences))
 	copy(m.NotificationPreferences, model.NotificationPreferences)
 	m.IsTargetAutoConfirm = model.IsTargetAutoConfirm
+
+	m.IsPatchGroupLocked = model.IsPatchGroupLocked
 
 	nn, e = model.ResourceSelection.UnmarshalPolymorphicJSON(model.ResourceSelection.JsonData)
 	if e != nil {

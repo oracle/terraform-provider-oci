@@ -33,6 +33,9 @@ type CreatePlatformConfigurationDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Scope of the platform configuration. Tenancy scope can only be set in the root compartment.
+	Scope PlatformConfigurationScopeEnum `mandatory:"false" json:"scope,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -52,6 +55,9 @@ func (m CreatePlatformConfigurationDetails) String() string {
 func (m CreatePlatformConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingPlatformConfigurationScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetPlatformConfigurationScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -62,6 +68,7 @@ func (m CreatePlatformConfigurationDetails) ValidateEnumValue() (bool, error) {
 func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description           *string                           `json:"description"`
+		Scope                 PlatformConfigurationScopeEnum    `json:"scope"`
 		FreeformTags          map[string]string                 `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
 		CompartmentId         *string                           `json:"compartmentId"`
@@ -75,6 +82,8 @@ func (m *CreatePlatformConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.Scope = model.Scope
 
 	m.FreeformTags = model.FreeformTags
 

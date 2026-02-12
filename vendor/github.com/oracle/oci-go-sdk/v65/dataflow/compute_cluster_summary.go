@@ -87,12 +87,6 @@ type ComputeClusterSummary struct {
 	// The OCID of the user who created the resource.
 	OwnerPrincipalId *string `mandatory:"false" json:"ownerPrincipalId"`
 
-	// The OCID of OCI Lake.
-	LakeId *string `mandatory:"false" json:"lakeId"`
-
-	// The OCID of Hub.
-	HubId *string `mandatory:"false" json:"hubId"`
-
 	// The paths to init scripts that will be executed in the order of definition
 	InitScripts []string `mandatory:"false" json:"initScripts"`
 
@@ -140,6 +134,18 @@ type ComputeClusterSummary struct {
 
 	// The tenant ID of owner service principal.
 	OwnerServicePrincipalTenantId *string `mandatory:"false" json:"ownerServicePrincipalTenantId"`
+
+	// WorkspaceKey of the cluster.
+	WorkspaceKey *string `mandatory:"false" json:"workspaceKey"`
+
+	// Cluster Key of the cluster.
+	ClusterKey *string `mandatory:"false" json:"clusterKey"`
+
+	// DataLake Id for Library.
+	DatalakeId *string `mandatory:"false" json:"datalakeId"`
+
+	// DataLake Proxy Endpoint for Library.
+	DatalakeProxyEndpoint *string `mandatory:"false" json:"datalakeProxyEndpoint"`
 
 	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
 }

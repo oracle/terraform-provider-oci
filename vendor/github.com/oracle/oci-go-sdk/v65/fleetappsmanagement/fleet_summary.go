@@ -51,6 +51,10 @@ type FleetSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Type of resource selection in a Fleet.
+	// Select resources manually or select resources based on rules.
+	ResourceSelectionType ResourceSelectionResourceSelectionTypeEnum `mandatory:"false" json:"resourceSelectionType,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -77,6 +81,9 @@ func (m FleetSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFleetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingResourceSelectionResourceSelectionTypeEnum(string(m.ResourceSelectionType)); !ok && m.ResourceSelectionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceSelectionType: %s. Supported values are: %s.", m.ResourceSelectionType, strings.Join(GetResourceSelectionResourceSelectionTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -86,19 +93,20 @@ func (m FleetSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *FleetSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ResourceRegion   *string                           `json:"resourceRegion"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		Details          fleetdetails                      `json:"details"`
-		EnvironmentType  *string                           `json:"environmentType"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		DisplayName      *string                           `json:"displayName"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState   FleetLifecycleStateEnum           `json:"lifecycleState"`
+		ResourceRegion        *string                                    `json:"resourceRegion"`
+		TimeUpdated           *common.SDKTime                            `json:"timeUpdated"`
+		Details               fleetdetails                               `json:"details"`
+		EnvironmentType       *string                                    `json:"environmentType"`
+		LifecycleDetails      *string                                    `json:"lifecycleDetails"`
+		ResourceSelectionType ResourceSelectionResourceSelectionTypeEnum `json:"resourceSelectionType"`
+		FreeformTags          map[string]string                          `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{}          `json:"definedTags"`
+		SystemTags            map[string]map[string]interface{}          `json:"systemTags"`
+		Id                    *string                                    `json:"id"`
+		CompartmentId         *string                                    `json:"compartmentId"`
+		DisplayName           *string                                    `json:"displayName"`
+		TimeCreated           *common.SDKTime                            `json:"timeCreated"`
+		LifecycleState        FleetLifecycleStateEnum                    `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -123,6 +131,8 @@ func (m *FleetSummary) UnmarshalJSON(data []byte) (e error) {
 	m.EnvironmentType = model.EnvironmentType
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.ResourceSelectionType = model.ResourceSelectionType
 
 	m.FreeformTags = model.FreeformTags
 

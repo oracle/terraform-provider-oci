@@ -31,6 +31,9 @@ type ListPlatformConfigurationsRequest struct {
 	// Config Category
 	ConfigCategory ConfigCategoryDetailsConfigCategoryEnum `mandatory:"false" contributesTo:"query" name:"configCategory" omitEmpty:"true"`
 
+	// A filter to return Platform Configurations whose type matches the given scope.
+	Scope PlatformConfigurationScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
+
 	// If set to true, resources will be returned for not only the provided compartment, but all compartments which
 	// descend from it. Which resources are returned and their field contents depends on the value of accessLevel.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
@@ -94,6 +97,9 @@ func (request ListPlatformConfigurationsRequest) ValidateEnumValue() (bool, erro
 	}
 	if _, ok := GetMappingConfigCategoryDetailsConfigCategoryEnum(string(request.ConfigCategory)); !ok && request.ConfigCategory != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConfigCategory: %s. Supported values are: %s.", request.ConfigCategory, strings.Join(GetConfigCategoryDetailsConfigCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPlatformConfigurationScopeEnum(string(request.Scope)); !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetPlatformConfigurationScopeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingPlatformConfigurationTypeEnum(string(request.Type)); !ok && request.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetPlatformConfigurationTypeEnumStringValues(), ",")))

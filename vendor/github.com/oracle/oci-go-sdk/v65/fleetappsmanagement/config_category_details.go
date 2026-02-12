@@ -58,6 +58,10 @@ func (m *configcategorydetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := EnvironmentConfigCategoryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SOURCE_PROVIDER":
+		mm := SourceProviderConfigCategoryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CREDENTIAL":
 		mm := CredentialConfigCategoryDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -76,6 +80,14 @@ func (m *configcategorydetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		return mm, err
 	case "SELF_HOSTED_INSTANCE":
 		mm := SelfHostedInstanceConfigCategoryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "NOTIFICATION_PREFERENCE":
+		mm := NotificationPreferenceConfigCategoryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AUTO_DISCOVERY_PREFERENCE":
+		mm := AutoDiscoveryPreferenceConfigCategoryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -105,33 +117,42 @@ type ConfigCategoryDetailsConfigCategoryEnum string
 
 // Set of constants representing the allowable values for ConfigCategoryDetailsConfigCategoryEnum
 const (
-	ConfigCategoryDetailsConfigCategoryProduct            ConfigCategoryDetailsConfigCategoryEnum = "PRODUCT"
-	ConfigCategoryDetailsConfigCategoryProductStack       ConfigCategoryDetailsConfigCategoryEnum = "PRODUCT_STACK"
-	ConfigCategoryDetailsConfigCategoryEnvironment        ConfigCategoryDetailsConfigCategoryEnum = "ENVIRONMENT"
-	ConfigCategoryDetailsConfigCategoryPatchType          ConfigCategoryDetailsConfigCategoryEnum = "PATCH_TYPE"
-	ConfigCategoryDetailsConfigCategoryCredential         ConfigCategoryDetailsConfigCategoryEnum = "CREDENTIAL"
-	ConfigCategoryDetailsConfigCategorySelfHostedInstance ConfigCategoryDetailsConfigCategoryEnum = "SELF_HOSTED_INSTANCE"
-	ConfigCategoryDetailsConfigCategoryLifecycleOperation ConfigCategoryDetailsConfigCategoryEnum = "LIFECYCLE_OPERATION"
+	ConfigCategoryDetailsConfigCategoryProduct                 ConfigCategoryDetailsConfigCategoryEnum = "PRODUCT"
+	ConfigCategoryDetailsConfigCategoryProductStack            ConfigCategoryDetailsConfigCategoryEnum = "PRODUCT_STACK"
+	ConfigCategoryDetailsConfigCategoryEnvironment             ConfigCategoryDetailsConfigCategoryEnum = "ENVIRONMENT"
+	ConfigCategoryDetailsConfigCategoryPatchType               ConfigCategoryDetailsConfigCategoryEnum = "PATCH_TYPE"
+	ConfigCategoryDetailsConfigCategoryCredential              ConfigCategoryDetailsConfigCategoryEnum = "CREDENTIAL"
+	ConfigCategoryDetailsConfigCategorySelfHostedInstance      ConfigCategoryDetailsConfigCategoryEnum = "SELF_HOSTED_INSTANCE"
+	ConfigCategoryDetailsConfigCategoryLifecycleOperation      ConfigCategoryDetailsConfigCategoryEnum = "LIFECYCLE_OPERATION"
+	ConfigCategoryDetailsConfigCategoryAutoDiscoveryPreference ConfigCategoryDetailsConfigCategoryEnum = "AUTO_DISCOVERY_PREFERENCE"
+	ConfigCategoryDetailsConfigCategoryNotificationPreference  ConfigCategoryDetailsConfigCategoryEnum = "NOTIFICATION_PREFERENCE"
+	ConfigCategoryDetailsConfigCategorySourceProvider          ConfigCategoryDetailsConfigCategoryEnum = "SOURCE_PROVIDER"
 )
 
 var mappingConfigCategoryDetailsConfigCategoryEnum = map[string]ConfigCategoryDetailsConfigCategoryEnum{
-	"PRODUCT":              ConfigCategoryDetailsConfigCategoryProduct,
-	"PRODUCT_STACK":        ConfigCategoryDetailsConfigCategoryProductStack,
-	"ENVIRONMENT":          ConfigCategoryDetailsConfigCategoryEnvironment,
-	"PATCH_TYPE":           ConfigCategoryDetailsConfigCategoryPatchType,
-	"CREDENTIAL":           ConfigCategoryDetailsConfigCategoryCredential,
-	"SELF_HOSTED_INSTANCE": ConfigCategoryDetailsConfigCategorySelfHostedInstance,
-	"LIFECYCLE_OPERATION":  ConfigCategoryDetailsConfigCategoryLifecycleOperation,
+	"PRODUCT":                   ConfigCategoryDetailsConfigCategoryProduct,
+	"PRODUCT_STACK":             ConfigCategoryDetailsConfigCategoryProductStack,
+	"ENVIRONMENT":               ConfigCategoryDetailsConfigCategoryEnvironment,
+	"PATCH_TYPE":                ConfigCategoryDetailsConfigCategoryPatchType,
+	"CREDENTIAL":                ConfigCategoryDetailsConfigCategoryCredential,
+	"SELF_HOSTED_INSTANCE":      ConfigCategoryDetailsConfigCategorySelfHostedInstance,
+	"LIFECYCLE_OPERATION":       ConfigCategoryDetailsConfigCategoryLifecycleOperation,
+	"AUTO_DISCOVERY_PREFERENCE": ConfigCategoryDetailsConfigCategoryAutoDiscoveryPreference,
+	"NOTIFICATION_PREFERENCE":   ConfigCategoryDetailsConfigCategoryNotificationPreference,
+	"SOURCE_PROVIDER":           ConfigCategoryDetailsConfigCategorySourceProvider,
 }
 
 var mappingConfigCategoryDetailsConfigCategoryEnumLowerCase = map[string]ConfigCategoryDetailsConfigCategoryEnum{
-	"product":              ConfigCategoryDetailsConfigCategoryProduct,
-	"product_stack":        ConfigCategoryDetailsConfigCategoryProductStack,
-	"environment":          ConfigCategoryDetailsConfigCategoryEnvironment,
-	"patch_type":           ConfigCategoryDetailsConfigCategoryPatchType,
-	"credential":           ConfigCategoryDetailsConfigCategoryCredential,
-	"self_hosted_instance": ConfigCategoryDetailsConfigCategorySelfHostedInstance,
-	"lifecycle_operation":  ConfigCategoryDetailsConfigCategoryLifecycleOperation,
+	"product":                   ConfigCategoryDetailsConfigCategoryProduct,
+	"product_stack":             ConfigCategoryDetailsConfigCategoryProductStack,
+	"environment":               ConfigCategoryDetailsConfigCategoryEnvironment,
+	"patch_type":                ConfigCategoryDetailsConfigCategoryPatchType,
+	"credential":                ConfigCategoryDetailsConfigCategoryCredential,
+	"self_hosted_instance":      ConfigCategoryDetailsConfigCategorySelfHostedInstance,
+	"lifecycle_operation":       ConfigCategoryDetailsConfigCategoryLifecycleOperation,
+	"auto_discovery_preference": ConfigCategoryDetailsConfigCategoryAutoDiscoveryPreference,
+	"notification_preference":   ConfigCategoryDetailsConfigCategoryNotificationPreference,
+	"source_provider":           ConfigCategoryDetailsConfigCategorySourceProvider,
 }
 
 // GetConfigCategoryDetailsConfigCategoryEnumValues Enumerates the set of values for ConfigCategoryDetailsConfigCategoryEnum
@@ -153,6 +174,9 @@ func GetConfigCategoryDetailsConfigCategoryEnumStringValues() []string {
 		"CREDENTIAL",
 		"SELF_HOSTED_INSTANCE",
 		"LIFECYCLE_OPERATION",
+		"AUTO_DISCOVERY_PREFERENCE",
+		"NOTIFICATION_PREFERENCE",
+		"SOURCE_PROVIDER",
 	}
 }
 

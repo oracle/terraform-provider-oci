@@ -26,7 +26,11 @@ type ArrayVariable struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Indicates if this input variable is required for stack execution.
+	// This field is deprecated use "mandatory" field instead
 	IsRequired *bool `mandatory:"false" json:"isRequired"`
+
+	// Indicates if this input variable is required for stack execution.
+	Mandatory *string `mandatory:"false" json:"mandatory"`
 
 	// Hint to control whether this variable is visible.
 	Visible *string `mandatory:"false" json:"visible"`
@@ -61,6 +65,11 @@ func (m ArrayVariable) GetDescription() *string {
 // GetIsRequired returns IsRequired
 func (m ArrayVariable) GetIsRequired() *bool {
 	return m.IsRequired
+}
+
+// GetMandatory returns Mandatory
+func (m ArrayVariable) GetMandatory() *string {
+	return m.Mandatory
 }
 
 // GetVisible returns Visible
@@ -104,6 +113,7 @@ func (m *ArrayVariable) UnmarshalJSON(data []byte) (e error) {
 		Title          *string      `json:"title"`
 		Description    *string      `json:"description"`
 		IsRequired     *bool        `json:"isRequired"`
+		Mandatory      *string      `json:"mandatory"`
 		Visible        *string      `json:"visible"`
 		Items          basevariable `json:"items"`
 		MaxItems       *int         `json:"maxItems"`
@@ -123,6 +133,8 @@ func (m *ArrayVariable) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.IsRequired = model.IsRequired
+
+	m.Mandatory = model.Mandatory
 
 	m.Visible = model.Visible
 

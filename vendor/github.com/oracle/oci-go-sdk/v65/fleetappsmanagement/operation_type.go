@@ -60,6 +60,12 @@ const (
 	OperationTypeDeleteCompliancePolicyRule  OperationTypeEnum = "DELETE_COMPLIANCE_POLICY_RULE"
 	OperationTypeUpdatePatch                 OperationTypeEnum = "UPDATE_PATCH"
 	OperationTypeDeletePatch                 OperationTypeEnum = "DELETE_PATCH"
+	OperationTypeUpdatePatchGroup            OperationTypeEnum = "UPDATE_PATCH_GROUP"
+	OperationTypeDeletePatchGroup            OperationTypeEnum = "DELETE_PATCH_GROUP"
+	OperationTypeCreatePatchGroup            OperationTypeEnum = "CREATE_PATCH_GROUP"
+	OperationTypeMovePatchGroup              OperationTypeEnum = "MOVE_PATCH_GROUP"
+	OperationTypeModifyPatches               OperationTypeEnum = "MODIFY_PATCHES"
+	OperationTypeAddPatchesByCondition       OperationTypeEnum = "ADD_PATCHES_BY_CONDITION"
 	OperationTypeMovePatch                   OperationTypeEnum = "MOVE_PATCH"
 	OperationTypeManageJobExecution          OperationTypeEnum = "MANAGE_JOB_EXECUTION"
 	OperationTypeDeletePlatformConfiguration OperationTypeEnum = "DELETE_PLATFORM_CONFIGURATION"
@@ -121,6 +127,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_COMPLIANCE_POLICY_RULE": OperationTypeDeleteCompliancePolicyRule,
 	"UPDATE_PATCH":                  OperationTypeUpdatePatch,
 	"DELETE_PATCH":                  OperationTypeDeletePatch,
+	"UPDATE_PATCH_GROUP":            OperationTypeUpdatePatchGroup,
+	"DELETE_PATCH_GROUP":            OperationTypeDeletePatchGroup,
+	"CREATE_PATCH_GROUP":            OperationTypeCreatePatchGroup,
+	"MOVE_PATCH_GROUP":              OperationTypeMovePatchGroup,
+	"MODIFY_PATCHES":                OperationTypeModifyPatches,
+	"ADD_PATCHES_BY_CONDITION":      OperationTypeAddPatchesByCondition,
 	"MOVE_PATCH":                    OperationTypeMovePatch,
 	"MANAGE_JOB_EXECUTION":          OperationTypeManageJobExecution,
 	"DELETE_PLATFORM_CONFIGURATION": OperationTypeDeletePlatformConfiguration,
@@ -182,6 +194,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_compliance_policy_rule": OperationTypeDeleteCompliancePolicyRule,
 	"update_patch":                  OperationTypeUpdatePatch,
 	"delete_patch":                  OperationTypeDeletePatch,
+	"update_patch_group":            OperationTypeUpdatePatchGroup,
+	"delete_patch_group":            OperationTypeDeletePatchGroup,
+	"create_patch_group":            OperationTypeCreatePatchGroup,
+	"move_patch_group":              OperationTypeMovePatchGroup,
+	"modify_patches":                OperationTypeModifyPatches,
+	"add_patches_by_condition":      OperationTypeAddPatchesByCondition,
 	"move_patch":                    OperationTypeMovePatch,
 	"manage_job_execution":          OperationTypeManageJobExecution,
 	"delete_platform_configuration": OperationTypeDeletePlatformConfiguration,
@@ -254,6 +272,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_COMPLIANCE_POLICY_RULE",
 		"UPDATE_PATCH",
 		"DELETE_PATCH",
+		"UPDATE_PATCH_GROUP",
+		"DELETE_PATCH_GROUP",
+		"CREATE_PATCH_GROUP",
+		"MOVE_PATCH_GROUP",
+		"MODIFY_PATCHES",
+		"ADD_PATCHES_BY_CONDITION",
 		"MOVE_PATCH",
 		"MANAGE_JOB_EXECUTION",
 		"DELETE_PLATFORM_CONFIGURATION",

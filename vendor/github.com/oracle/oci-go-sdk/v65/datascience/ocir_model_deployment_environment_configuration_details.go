@@ -30,6 +30,9 @@ type OcirModelDeploymentEnvironmentConfigurationDetails struct {
 	// `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030`
 	ImageDigest *string `mandatory:"false" json:"imageDigest"`
 
+	// OCID of the container image signature
+	ImageSignatureId *string `mandatory:"false" json:"imageSignatureId"`
+
 	// The container image run CMD (https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings.
 	// Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`.
 	// The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes.

@@ -259,6 +259,65 @@ func (client FleetAppsManagementProvisionClient) deleteProvision(ctx context.Con
 	return response, err
 }
 
+// GenerateDriftDetectionReport Generates driftDetectionReport associated with provisionId.
+// A default retry strategy applies to this operation GenerateDriftDetectionReport()
+func (client FleetAppsManagementProvisionClient) GenerateDriftDetectionReport(ctx context.Context, request GenerateDriftDetectionReportRequest) (response GenerateDriftDetectionReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateDriftDetectionReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateDriftDetectionReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateDriftDetectionReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateDriftDetectionReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateDriftDetectionReportResponse")
+	}
+	return
+}
+
+// generateDriftDetectionReport implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementProvisionClient) generateDriftDetectionReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/provisions/{provisionId}/actions/driftDetectionReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateDriftDetectionReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/GenerateDriftDetectionReport"
+		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "GenerateDriftDetectionReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetProvision Gets information about a Provision.
 // A default retry strategy applies to this operation GetProvision()
 func (client FleetAppsManagementProvisionClient) GetProvision(ctx context.Context, request GetProvisionRequest) (response GetProvisionResponse, err error) {

@@ -42,6 +42,9 @@ type ListInventoryRecordsRequest struct {
 	// If set to true, inventory details will be returned.
 	IsDetailsRequired *bool `mandatory:"false" contributesTo:"query" name:"isDetailsRequired"`
 
+	// target product name
+	TargetProductName *string `mandatory:"false" contributesTo:"query" name:"targetProductName"`
+
 	// The field to sort by. Only one sort order may be provided.
 	SortBy ListInventoryRecordsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

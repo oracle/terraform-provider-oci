@@ -38,6 +38,9 @@ type UpdatePatchDetails struct {
 	// Dependent Patches.
 	DependentPatches []DependentPatchDetails `mandatory:"false" json:"dependentPatches"`
 
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -69,15 +72,16 @@ func (m UpdatePatchDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdatePatchDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		PatchType        *PatchType                        `json:"patchType"`
-		Severity         PatchSeverityEnum                 `json:"severity"`
-		TimeReleased     *common.SDKTime                   `json:"timeReleased"`
-		ArtifactDetails  artifactdetails                   `json:"artifactDetails"`
-		Product          *PatchProduct                     `json:"product"`
-		DependentPatches []DependentPatchDetails           `json:"dependentPatches"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		Description              *string                           `json:"description"`
+		PatchType                *PatchType                        `json:"patchType"`
+		Severity                 PatchSeverityEnum                 `json:"severity"`
+		TimeReleased             *common.SDKTime                   `json:"timeReleased"`
+		ArtifactDetails          artifactdetails                   `json:"artifactDetails"`
+		Product                  *PatchProduct                     `json:"product"`
+		DependentPatches         []DependentPatchDetails           `json:"dependentPatches"`
+		IsManualInstallationOnly *bool                             `json:"isManualInstallationOnly"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -107,6 +111,8 @@ func (m *UpdatePatchDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DependentPatches = make([]DependentPatchDetails, len(model.DependentPatches))
 	copy(m.DependentPatches, model.DependentPatches)
+	m.IsManualInstallationOnly = model.IsManualInstallationOnly
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

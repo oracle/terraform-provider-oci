@@ -222,6 +222,12 @@ type CloudAutonomousVmCluster struct {
 
 	// TDE keystore type
 	TdeKeyStoreType CloudAutonomousVmClusterTdeKeyStoreTypeEnum `mandatory:"false" json:"tdeKeyStoreType,omitempty"`
+
+	// The distribution algorithm used for the Autonomous VM cluster.
+	DistributionAlgorithm CloudAutonomousVmClusterDistributionAlgorithmEnum `mandatory:"false" json:"distributionAlgorithm,omitempty"`
+
+	// Percentage of ECPU memory allocated for SGA(System Global Area).
+	SgaPercentage *float32 `mandatory:"false" json:"sgaPercentage"`
 }
 
 func (m CloudAutonomousVmCluster) String() string {
@@ -245,6 +251,9 @@ func (m CloudAutonomousVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum(string(m.TdeKeyStoreType)); !ok && m.TdeKeyStoreType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TdeKeyStoreType: %s. Supported values are: %s.", m.TdeKeyStoreType, strings.Join(GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudAutonomousVmClusterDistributionAlgorithmEnum(string(m.DistributionAlgorithm)); !ok && m.DistributionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAlgorithm: %s. Supported values are: %s.", m.DistributionAlgorithm, strings.Join(GetCloudAutonomousVmClusterDistributionAlgorithmEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -445,5 +454,47 @@ func GetCloudAutonomousVmClusterTdeKeyStoreTypeEnumStringValues() []string {
 // GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudAutonomousVmClusterTdeKeyStoreTypeEnum(val string) (CloudAutonomousVmClusterTdeKeyStoreTypeEnum, bool) {
 	enum, ok := mappingCloudAutonomousVmClusterTdeKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudAutonomousVmClusterDistributionAlgorithmEnum Enum with underlying type: string
+type CloudAutonomousVmClusterDistributionAlgorithmEnum string
+
+// Set of constants representing the allowable values for CloudAutonomousVmClusterDistributionAlgorithmEnum
+const (
+	CloudAutonomousVmClusterDistributionAlgorithmResourceOptimized     CloudAutonomousVmClusterDistributionAlgorithmEnum = "RESOURCE_OPTIMIZED"
+	CloudAutonomousVmClusterDistributionAlgorithmDistributionOptimized CloudAutonomousVmClusterDistributionAlgorithmEnum = "DISTRIBUTION_OPTIMIZED"
+)
+
+var mappingCloudAutonomousVmClusterDistributionAlgorithmEnum = map[string]CloudAutonomousVmClusterDistributionAlgorithmEnum{
+	"RESOURCE_OPTIMIZED":     CloudAutonomousVmClusterDistributionAlgorithmResourceOptimized,
+	"DISTRIBUTION_OPTIMIZED": CloudAutonomousVmClusterDistributionAlgorithmDistributionOptimized,
+}
+
+var mappingCloudAutonomousVmClusterDistributionAlgorithmEnumLowerCase = map[string]CloudAutonomousVmClusterDistributionAlgorithmEnum{
+	"resource_optimized":     CloudAutonomousVmClusterDistributionAlgorithmResourceOptimized,
+	"distribution_optimized": CloudAutonomousVmClusterDistributionAlgorithmDistributionOptimized,
+}
+
+// GetCloudAutonomousVmClusterDistributionAlgorithmEnumValues Enumerates the set of values for CloudAutonomousVmClusterDistributionAlgorithmEnum
+func GetCloudAutonomousVmClusterDistributionAlgorithmEnumValues() []CloudAutonomousVmClusterDistributionAlgorithmEnum {
+	values := make([]CloudAutonomousVmClusterDistributionAlgorithmEnum, 0)
+	for _, v := range mappingCloudAutonomousVmClusterDistributionAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudAutonomousVmClusterDistributionAlgorithmEnumStringValues Enumerates the set of values in String for CloudAutonomousVmClusterDistributionAlgorithmEnum
+func GetCloudAutonomousVmClusterDistributionAlgorithmEnumStringValues() []string {
+	return []string{
+		"RESOURCE_OPTIMIZED",
+		"DISTRIBUTION_OPTIMIZED",
+	}
+}
+
+// GetMappingCloudAutonomousVmClusterDistributionAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudAutonomousVmClusterDistributionAlgorithmEnum(val string) (CloudAutonomousVmClusterDistributionAlgorithmEnum, bool) {
+	enum, ok := mappingCloudAutonomousVmClusterDistributionAlgorithmEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

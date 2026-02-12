@@ -18,9 +18,13 @@ import (
 
 // ApiBasedExecutionDetails Details for API-based execution.
 type ApiBasedExecutionDetails struct {
+	RequestDetails *RequestDetails `mandatory:"true" json:"requestDetails"`
 
-	// Endpoint to be invoked.
-	Endpoint *string `mandatory:"true" json:"endpoint"`
+	ExpectedResponse *ExpectedResponseCondition `mandatory:"true" json:"expectedResponse"`
+
+	PollingConfig *PollingConfig `mandatory:"false" json:"pollingConfig"`
+
+	TaskVariables *ApiTaskVariables `mandatory:"false" json:"taskVariables"`
 
 	// The list of system variables.
 	SystemVariables []string `mandatory:"false" json:"systemVariables"`

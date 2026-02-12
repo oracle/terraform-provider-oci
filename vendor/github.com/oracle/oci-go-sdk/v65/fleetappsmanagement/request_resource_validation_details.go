@@ -23,6 +23,9 @@ type RequestResourceValidationDetails struct {
 
 	// Resource OCIDS to be included for validation.
 	ResourceIds []string `mandatory:"false" json:"resourceIds"`
+
+	// A list of resource validation statuses. Each status represents a specific state in the workflow.
+	Statuses []RequestResourceValidationDetailsStatusesEnum `mandatory:"false" json:"statuses,omitempty"`
 }
 
 func (m RequestResourceValidationDetails) String() string {
@@ -35,8 +38,64 @@ func (m RequestResourceValidationDetails) String() string {
 func (m RequestResourceValidationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	for _, val := range m.Statuses {
+		if _, ok := GetMappingRequestResourceValidationDetailsStatusesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statuses: %s. Supported values are: %s.", val, strings.Join(GetRequestResourceValidationDetailsStatusesEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// RequestResourceValidationDetailsStatusesEnum Enum with underlying type: string
+type RequestResourceValidationDetailsStatusesEnum string
+
+// Set of constants representing the allowable values for RequestResourceValidationDetailsStatusesEnum
+const (
+	RequestResourceValidationDetailsStatusesPendingValidation RequestResourceValidationDetailsStatusesEnum = "PENDING_VALIDATION"
+	RequestResourceValidationDetailsStatusesValidating        RequestResourceValidationDetailsStatusesEnum = "VALIDATING"
+	RequestResourceValidationDetailsStatusesValidated         RequestResourceValidationDetailsStatusesEnum = "VALIDATED"
+	RequestResourceValidationDetailsStatusesInvalid           RequestResourceValidationDetailsStatusesEnum = "INVALID"
+)
+
+var mappingRequestResourceValidationDetailsStatusesEnum = map[string]RequestResourceValidationDetailsStatusesEnum{
+	"PENDING_VALIDATION": RequestResourceValidationDetailsStatusesPendingValidation,
+	"VALIDATING":         RequestResourceValidationDetailsStatusesValidating,
+	"VALIDATED":          RequestResourceValidationDetailsStatusesValidated,
+	"INVALID":            RequestResourceValidationDetailsStatusesInvalid,
+}
+
+var mappingRequestResourceValidationDetailsStatusesEnumLowerCase = map[string]RequestResourceValidationDetailsStatusesEnum{
+	"pending_validation": RequestResourceValidationDetailsStatusesPendingValidation,
+	"validating":         RequestResourceValidationDetailsStatusesValidating,
+	"validated":          RequestResourceValidationDetailsStatusesValidated,
+	"invalid":            RequestResourceValidationDetailsStatusesInvalid,
+}
+
+// GetRequestResourceValidationDetailsStatusesEnumValues Enumerates the set of values for RequestResourceValidationDetailsStatusesEnum
+func GetRequestResourceValidationDetailsStatusesEnumValues() []RequestResourceValidationDetailsStatusesEnum {
+	values := make([]RequestResourceValidationDetailsStatusesEnum, 0)
+	for _, v := range mappingRequestResourceValidationDetailsStatusesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRequestResourceValidationDetailsStatusesEnumStringValues Enumerates the set of values in String for RequestResourceValidationDetailsStatusesEnum
+func GetRequestResourceValidationDetailsStatusesEnumStringValues() []string {
+	return []string{
+		"PENDING_VALIDATION",
+		"VALIDATING",
+		"VALIDATED",
+		"INVALID",
+	}
+}
+
+// GetMappingRequestResourceValidationDetailsStatusesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRequestResourceValidationDetailsStatusesEnum(val string) (RequestResourceValidationDetailsStatusesEnum, bool) {
+	enum, ok := mappingRequestResourceValidationDetailsStatusesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

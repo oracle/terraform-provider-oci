@@ -32,6 +32,11 @@ type CreateFleetResourceDetails struct {
 
 	// Type of the Resource.
 	ResourceType *string `mandatory:"false" json:"resourceType"`
+
+	// Execution order for the resource when runbook tasks
+	// under rolling resource container are executed against fleet
+	// resources.
+	ExecutionOrder *int `mandatory:"false" json:"executionOrder"`
 }
 
 func (m CreateFleetResourceDetails) String() string {

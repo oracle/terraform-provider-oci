@@ -26,7 +26,11 @@ type IdentityDomainVariable struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Indicates if this input variable is required for stack execution.
+	// This field is deprecated use "mandatory" field instead
 	IsRequired *bool `mandatory:"false" json:"isRequired"`
+
+	// Indicates if this input variable is required for stack execution.
+	Mandatory *string `mandatory:"false" json:"mandatory"`
 
 	// Hint to control whether this variable is visible.
 	Visible *string `mandatory:"false" json:"visible"`
@@ -50,6 +54,11 @@ func (m IdentityDomainVariable) GetDescription() *string {
 // GetIsRequired returns IsRequired
 func (m IdentityDomainVariable) GetIsRequired() *bool {
 	return m.IsRequired
+}
+
+// GetMandatory returns Mandatory
+func (m IdentityDomainVariable) GetMandatory() *string {
+	return m.Mandatory
 }
 
 // GetVisible returns Visible

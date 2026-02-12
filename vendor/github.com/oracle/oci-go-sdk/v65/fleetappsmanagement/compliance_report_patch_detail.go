@@ -32,6 +32,9 @@ type ComplianceReportPatchDetail struct {
 
 	// The date on which patch was released.
 	TimeReleased *common.SDKTime `mandatory:"false" json:"timeReleased"`
+
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
 }
 
 func (m ComplianceReportPatchDetail) String() string {

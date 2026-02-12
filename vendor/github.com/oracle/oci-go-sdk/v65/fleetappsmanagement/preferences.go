@@ -51,6 +51,12 @@ type Preferences struct {
 
 	// Enables or disables notification on job schedule change.
 	OnJobScheduleChange *bool `mandatory:"false" json:"onJobScheduleChange"`
+
+	// Enables or disables notification on any updates to patch group.
+	OnPatchGroupUpdated *bool `mandatory:"false" json:"onPatchGroupUpdated"`
+
+	// Enables or disables notification on drift detection.
+	OnDriftDetected *bool `mandatory:"false" json:"onDriftDetected"`
 }
 
 func (m Preferences) String() string {

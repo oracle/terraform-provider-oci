@@ -90,6 +90,14 @@ func (m *actiongroupdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := FleetBasedActionGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FLEET_TARGETS_USING_RUNBOOK":
+		mm := FleetTargetBasedActionGroupDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FLEET_RESOURCES_USING_RUNBOOK":
+		mm := FleetResourceBasedActionGroupDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for ActionGroupDetails: %s.", m.Kind)
 		return *m, nil
@@ -155,15 +163,21 @@ type ActionGroupDetailsKindEnum string
 
 // Set of constants representing the allowable values for ActionGroupDetailsKindEnum
 const (
-	ActionGroupDetailsKindFleetUsingRunbook ActionGroupDetailsKindEnum = "FLEET_USING_RUNBOOK"
+	ActionGroupDetailsKindUsingRunbook          ActionGroupDetailsKindEnum = "FLEET_USING_RUNBOOK"
+	ActionGroupDetailsKindResourcesUsingRunbook ActionGroupDetailsKindEnum = "FLEET_RESOURCES_USING_RUNBOOK"
+	ActionGroupDetailsKindTargetsUsingRunbook   ActionGroupDetailsKindEnum = "FLEET_TARGETS_USING_RUNBOOK"
 )
 
 var mappingActionGroupDetailsKindEnum = map[string]ActionGroupDetailsKindEnum{
-	"FLEET_USING_RUNBOOK": ActionGroupDetailsKindFleetUsingRunbook,
+	"FLEET_USING_RUNBOOK":           ActionGroupDetailsKindUsingRunbook,
+	"FLEET_RESOURCES_USING_RUNBOOK": ActionGroupDetailsKindResourcesUsingRunbook,
+	"FLEET_TARGETS_USING_RUNBOOK":   ActionGroupDetailsKindTargetsUsingRunbook,
 }
 
 var mappingActionGroupDetailsKindEnumLowerCase = map[string]ActionGroupDetailsKindEnum{
-	"fleet_using_runbook": ActionGroupDetailsKindFleetUsingRunbook,
+	"fleet_using_runbook":           ActionGroupDetailsKindUsingRunbook,
+	"fleet_resources_using_runbook": ActionGroupDetailsKindResourcesUsingRunbook,
+	"fleet_targets_using_runbook":   ActionGroupDetailsKindTargetsUsingRunbook,
 }
 
 // GetActionGroupDetailsKindEnumValues Enumerates the set of values for ActionGroupDetailsKindEnum
@@ -179,6 +193,8 @@ func GetActionGroupDetailsKindEnumValues() []ActionGroupDetailsKindEnum {
 func GetActionGroupDetailsKindEnumStringValues() []string {
 	return []string{
 		"FLEET_USING_RUNBOOK",
+		"FLEET_RESOURCES_USING_RUNBOOK",
+		"FLEET_TARGETS_USING_RUNBOOK",
 	}
 }
 

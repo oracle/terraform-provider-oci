@@ -722,6 +722,65 @@ func (client FleetAppsManagementClient) deleteFleetResource(ctx context.Context,
 	return response, err
 }
 
+// FetchDiscoveryStatus Fetch Discovery Status
+// A default retry strategy applies to this operation FetchDiscoveryStatus()
+func (client FleetAppsManagementClient) FetchDiscoveryStatus(ctx context.Context, request FetchDiscoveryStatusRequest) (response FetchDiscoveryStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.fetchDiscoveryStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FetchDiscoveryStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FetchDiscoveryStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FetchDiscoveryStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FetchDiscoveryStatusResponse")
+	}
+	return
+}
+
+// fetchDiscoveryStatus implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) fetchDiscoveryStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/fetchLastKnownDiscoveryStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FetchDiscoveryStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DiscoveryStatusCollection/FetchDiscoveryStatus"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "FetchDiscoveryStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateComplianceReport Generate compliance report for a Fleet.
 // A default retry strategy applies to this operation GenerateComplianceReport()
 func (client FleetAppsManagementClient) GenerateComplianceReport(ctx context.Context, request GenerateComplianceReportRequest) (response GenerateComplianceReportResponse, err error) {
@@ -1105,6 +1164,60 @@ func (client FleetAppsManagementClient) getFleetResource(ctx context.Context, re
 	return response, err
 }
 
+// GetFleetValidatePatchingAllowed Retrieves the validation result indicating whether patching is currently allowed for a fleet.
+// A default retry strategy applies to this operation GetFleetValidatePatchingAllowed()
+func (client FleetAppsManagementClient) GetFleetValidatePatchingAllowed(ctx context.Context, request GetFleetValidatePatchingAllowedRequest) (response GetFleetValidatePatchingAllowedResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFleetValidatePatchingAllowed, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFleetValidatePatchingAllowedResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFleetValidatePatchingAllowedResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFleetValidatePatchingAllowedResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFleetValidatePatchingAllowedResponse")
+	}
+	return
+}
+
+// getFleetValidatePatchingAllowed implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) getFleetValidatePatchingAllowed(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/validatePatchingAllowed", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetFleetValidatePatchingAllowedResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetValidatePatchingAllowed/GetFleetValidatePatchingAllowed"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleetValidatePatchingAllowed", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAnnouncements Return a list of Announcement Summary items in a tenancy.
 // A default retry strategy applies to this operation ListAnnouncements()
 func (client FleetAppsManagementClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
@@ -1152,6 +1265,60 @@ func (client FleetAppsManagementClient) listAnnouncements(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AnnouncementCollection/ListAnnouncements"
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListAnnouncements", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFleetAutoExecutions Returns a list of all auto executions.
+// A default retry strategy applies to this operation ListFleetAutoExecutions()
+func (client FleetAppsManagementClient) ListFleetAutoExecutions(ctx context.Context, request ListFleetAutoExecutionsRequest) (response ListFleetAutoExecutionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFleetAutoExecutions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFleetAutoExecutionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFleetAutoExecutionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFleetAutoExecutionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFleetAutoExecutionsResponse")
+	}
+	return
+}
+
+// listFleetAutoExecutions implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) listFleetAutoExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/autoExecutions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFleetAutoExecutionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AutoExecutionCollection/ListFleetAutoExecutions"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetAutoExecutions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1539,6 +1706,114 @@ func (client FleetAppsManagementClient) listInventoryResources(ctx context.Conte
 	return response, err
 }
 
+// ListPatchGroupCompliances Returns a fleet level compliance status for patch group.
+// A default retry strategy applies to this operation ListPatchGroupCompliances()
+func (client FleetAppsManagementClient) ListPatchGroupCompliances(ctx context.Context, request ListPatchGroupCompliancesRequest) (response ListPatchGroupCompliancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPatchGroupCompliances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPatchGroupCompliancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPatchGroupCompliancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPatchGroupCompliancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPatchGroupCompliancesResponse")
+	}
+	return
+}
+
+// listPatchGroupCompliances implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) listPatchGroupCompliances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/patchGroupCompliances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPatchGroupCompliancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupComplianceCollection/ListPatchGroupCompliances"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListPatchGroupCompliances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPatchGroupPendingPatches Return list of Pending patches for given target for a Fleet.
+// A default retry strategy applies to this operation ListPatchGroupPendingPatches()
+func (client FleetAppsManagementClient) ListPatchGroupPendingPatches(ctx context.Context, request ListPatchGroupPendingPatchesRequest) (response ListPatchGroupPendingPatchesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPatchGroupPendingPatches, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPatchGroupPendingPatchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPatchGroupPendingPatchesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPatchGroupPendingPatchesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPatchGroupPendingPatchesResponse")
+	}
+	return
+}
+
+// listPatchGroupPendingPatches implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) listPatchGroupPendingPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/targets/{targetId}/patchGroupPendingPatches", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPatchGroupPendingPatchesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupPendingPatchesCollection/ListPatchGroupPendingPatches"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListPatchGroupPendingPatches", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTargets Return all targets belonging to the resources within a fleet.
 // It will include both confirmed and unconfirmed targets.
 // A default retry strategy applies to this operation ListTargets()
@@ -1587,6 +1862,65 @@ func (client FleetAppsManagementClient) listTargets(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetTargetCollection/ListTargets"
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListTargets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchGroupComplianceOverview Get the Patch Group Compliance Summary for a fleet in Fleet Application Management.
+// A default retry strategy applies to this operation PatchGroupComplianceOverview()
+func (client FleetAppsManagementClient) PatchGroupComplianceOverview(ctx context.Context, request PatchGroupComplianceOverviewRequest) (response PatchGroupComplianceOverviewResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchGroupComplianceOverview, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchGroupComplianceOverviewResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchGroupComplianceOverviewResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchGroupComplianceOverviewResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchGroupComplianceOverviewResponse")
+	}
+	return
+}
+
+// patchGroupComplianceOverview implements the OCIOperation interface (enables retrying operations)
+func (client FleetAppsManagementClient) patchGroupComplianceOverview(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/patchGroupCompliances/actions/summarize", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchGroupComplianceOverviewResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupComplianceOverview/PatchGroupComplianceOverview"
+		err = common.PostProcessServiceError(err, "FleetAppsManagement", "PatchGroupComplianceOverview", apiReferenceLink)
 		return response, err
 	}
 

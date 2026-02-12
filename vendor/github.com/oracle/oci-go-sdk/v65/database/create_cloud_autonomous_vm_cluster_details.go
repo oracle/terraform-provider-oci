@@ -54,6 +54,12 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
 	IsMtlsEnabledVmCluster *bool `mandatory:"false" json:"isMtlsEnabledVmCluster"`
 
+	// The distribution algorithm used for the Autonomous VM cluster.
+	DistributionAlgorithm CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum `mandatory:"false" json:"distributionAlgorithm,omitempty"`
+
+	// Percentage of ECPU memory allocated for SGA(System Global Area).
+	SgaPercentage *float32 `mandatory:"false" json:"sgaPercentage"`
+
 	// The list of database servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
@@ -108,6 +114,9 @@ func (m CreateCloudAutonomousVmClusterDetails) ValidateEnumValue() (bool, error)
 	if _, ok := GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(string(m.DistributionAlgorithm)); !ok && m.DistributionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAlgorithm: %s. Supported values are: %s.", m.DistributionAlgorithm, strings.Join(GetCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateCloudAutonomousVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
 	}
@@ -156,6 +165,48 @@ func GetCreateCloudAutonomousVmClusterDetailsComputeModelEnumStringValues() []st
 // GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateCloudAutonomousVmClusterDetailsComputeModelEnum(val string) (CreateCloudAutonomousVmClusterDetailsComputeModelEnum, bool) {
 	enum, ok := mappingCreateCloudAutonomousVmClusterDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum Enum with underlying type: string
+type CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum string
+
+// Set of constants representing the allowable values for CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+const (
+	CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized     CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = "RESOURCE_OPTIMIZED"
+	CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = "DISTRIBUTION_OPTIMIZED"
+)
+
+var mappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = map[string]CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"RESOURCE_OPTIMIZED":     CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"DISTRIBUTION_OPTIMIZED": CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+var mappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase = map[string]CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"resource_optimized":     CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"distribution_optimized": CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+// GetCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumValues Enumerates the set of values for CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumValues() []CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+	values := make([]CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum, 0)
+	for _, v := range mappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues Enumerates the set of values in String for CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues() []string {
+	return []string{
+		"RESOURCE_OPTIMIZED",
+		"DISTRIBUTION_OPTIMIZED",
+	}
+}
+
+// GetMappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(val string) (CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum, bool) {
+	enum, ok := mappingCreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

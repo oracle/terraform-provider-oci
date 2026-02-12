@@ -54,8 +54,16 @@ func (m *contentdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := CatalogContentDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PAR":
+		mm := ParUrlContentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
 		mm := ObjectStorageBucketContentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GIT_REPO":
+		mm := GitRepoContentDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -87,16 +95,22 @@ type ContentDetailsSourceTypeEnum string
 const (
 	ContentDetailsSourceTypeObjectStorageBucket ContentDetailsSourceTypeEnum = "OBJECT_STORAGE_BUCKET"
 	ContentDetailsSourceTypeCatalog             ContentDetailsSourceTypeEnum = "CATALOG"
+	ContentDetailsSourceTypeGitRepo             ContentDetailsSourceTypeEnum = "GIT_REPO"
+	ContentDetailsSourceTypePar                 ContentDetailsSourceTypeEnum = "PAR"
 )
 
 var mappingContentDetailsSourceTypeEnum = map[string]ContentDetailsSourceTypeEnum{
 	"OBJECT_STORAGE_BUCKET": ContentDetailsSourceTypeObjectStorageBucket,
 	"CATALOG":               ContentDetailsSourceTypeCatalog,
+	"GIT_REPO":              ContentDetailsSourceTypeGitRepo,
+	"PAR":                   ContentDetailsSourceTypePar,
 }
 
 var mappingContentDetailsSourceTypeEnumLowerCase = map[string]ContentDetailsSourceTypeEnum{
 	"object_storage_bucket": ContentDetailsSourceTypeObjectStorageBucket,
 	"catalog":               ContentDetailsSourceTypeCatalog,
+	"git_repo":              ContentDetailsSourceTypeGitRepo,
+	"par":                   ContentDetailsSourceTypePar,
 }
 
 // GetContentDetailsSourceTypeEnumValues Enumerates the set of values for ContentDetailsSourceTypeEnum
@@ -113,6 +127,8 @@ func GetContentDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_STORAGE_BUCKET",
 		"CATALOG",
+		"GIT_REPO",
+		"PAR",
 	}
 }
 

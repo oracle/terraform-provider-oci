@@ -62,6 +62,10 @@ type CreateFleetDetails struct {
 	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
+	// A value that represents to patch group lock fleet can be enabled.
+	// This will allow targets to patch group lock fleet.
+	IsPatchGroupLocked *bool `mandatory:"false" json:"isPatchGroupLocked"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -100,6 +104,7 @@ func (m *CreateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 		Properties              []AssociatedFleetPropertyDetails   `json:"properties"`
 		ParentFleetId           *string                            `json:"parentFleetId"`
 		IsTargetAutoConfirm     *bool                              `json:"isTargetAutoConfirm"`
+		IsPatchGroupLocked      *bool                              `json:"isPatchGroupLocked"`
 		FreeformTags            map[string]string                  `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{}  `json:"definedTags"`
 		DisplayName             *string                            `json:"displayName"`
@@ -139,6 +144,8 @@ func (m *CreateFleetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ParentFleetId = model.ParentFleetId
 
 	m.IsTargetAutoConfirm = model.IsTargetAutoConfirm
+
+	m.IsPatchGroupLocked = model.IsPatchGroupLocked
 
 	m.FreeformTags = model.FreeformTags
 

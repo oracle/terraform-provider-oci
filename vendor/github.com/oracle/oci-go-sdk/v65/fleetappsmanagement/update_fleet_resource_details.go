@@ -23,6 +23,11 @@ type UpdateFleetResourceDetails struct {
 
 	// OCID of the compartment to which the resource belongs to.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Execution order for the resource when runbook tasks
+	// under rolling resource container are executed against fleet
+	// resources.
+	ExecutionOrder *int `mandatory:"false" json:"executionOrder"`
 }
 
 func (m UpdateFleetResourceDetails) String() string {

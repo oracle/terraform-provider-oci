@@ -54,8 +54,16 @@ func (m *patchselectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := PatchLevelSelectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PATCH_RELEASE_DATE_RANGE":
+		mm := PatchReleaseDateRangeSelectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PATCH_RELEASE_DATE":
 		mm := PatchReleaseDateSelectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AVAILABLE_PATCHES":
+		mm := AvailablePatchesSelectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PATCH_NAME":
@@ -89,21 +97,27 @@ type PatchSelectionDetailsSelectionTypeEnum string
 
 // Set of constants representing the allowable values for PatchSelectionDetailsSelectionTypeEnum
 const (
-	PatchSelectionDetailsSelectionTypeLevel       PatchSelectionDetailsSelectionTypeEnum = "PATCH_LEVEL"
-	PatchSelectionDetailsSelectionTypeName        PatchSelectionDetailsSelectionTypeEnum = "PATCH_NAME"
-	PatchSelectionDetailsSelectionTypeReleaseDate PatchSelectionDetailsSelectionTypeEnum = "PATCH_RELEASE_DATE"
+	PatchSelectionDetailsSelectionTypePatchLevel            PatchSelectionDetailsSelectionTypeEnum = "PATCH_LEVEL"
+	PatchSelectionDetailsSelectionTypePatchName             PatchSelectionDetailsSelectionTypeEnum = "PATCH_NAME"
+	PatchSelectionDetailsSelectionTypePatchReleaseDate      PatchSelectionDetailsSelectionTypeEnum = "PATCH_RELEASE_DATE"
+	PatchSelectionDetailsSelectionTypeAvailablePatches      PatchSelectionDetailsSelectionTypeEnum = "AVAILABLE_PATCHES"
+	PatchSelectionDetailsSelectionTypePatchReleaseDateRange PatchSelectionDetailsSelectionTypeEnum = "PATCH_RELEASE_DATE_RANGE"
 )
 
 var mappingPatchSelectionDetailsSelectionTypeEnum = map[string]PatchSelectionDetailsSelectionTypeEnum{
-	"PATCH_LEVEL":        PatchSelectionDetailsSelectionTypeLevel,
-	"PATCH_NAME":         PatchSelectionDetailsSelectionTypeName,
-	"PATCH_RELEASE_DATE": PatchSelectionDetailsSelectionTypeReleaseDate,
+	"PATCH_LEVEL":              PatchSelectionDetailsSelectionTypePatchLevel,
+	"PATCH_NAME":               PatchSelectionDetailsSelectionTypePatchName,
+	"PATCH_RELEASE_DATE":       PatchSelectionDetailsSelectionTypePatchReleaseDate,
+	"AVAILABLE_PATCHES":        PatchSelectionDetailsSelectionTypeAvailablePatches,
+	"PATCH_RELEASE_DATE_RANGE": PatchSelectionDetailsSelectionTypePatchReleaseDateRange,
 }
 
 var mappingPatchSelectionDetailsSelectionTypeEnumLowerCase = map[string]PatchSelectionDetailsSelectionTypeEnum{
-	"patch_level":        PatchSelectionDetailsSelectionTypeLevel,
-	"patch_name":         PatchSelectionDetailsSelectionTypeName,
-	"patch_release_date": PatchSelectionDetailsSelectionTypeReleaseDate,
+	"patch_level":              PatchSelectionDetailsSelectionTypePatchLevel,
+	"patch_name":               PatchSelectionDetailsSelectionTypePatchName,
+	"patch_release_date":       PatchSelectionDetailsSelectionTypePatchReleaseDate,
+	"available_patches":        PatchSelectionDetailsSelectionTypeAvailablePatches,
+	"patch_release_date_range": PatchSelectionDetailsSelectionTypePatchReleaseDateRange,
 }
 
 // GetPatchSelectionDetailsSelectionTypeEnumValues Enumerates the set of values for PatchSelectionDetailsSelectionTypeEnum
@@ -121,6 +135,8 @@ func GetPatchSelectionDetailsSelectionTypeEnumStringValues() []string {
 		"PATCH_LEVEL",
 		"PATCH_NAME",
 		"PATCH_RELEASE_DATE",
+		"AVAILABLE_PATCHES",
+		"PATCH_RELEASE_DATE_RANGE",
 	}
 }
 

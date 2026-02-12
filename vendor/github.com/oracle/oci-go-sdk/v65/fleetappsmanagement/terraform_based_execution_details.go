@@ -33,6 +33,12 @@ type TerraformBasedExecutionDetails struct {
 
 	// The list of system variables.
 	SystemVariables []string `mandatory:"false" json:"systemVariables"`
+
+	// Indicates if the DriftDetection is enabled for this deployment.
+	IsDriftDetectEnabled *bool `mandatory:"false" json:"isDriftDetectEnabled"`
+
+	// Time interval in seconds before the next run of drift report.
+	DriftDetectRefreshIntervalInSeconds *int `mandatory:"false" json:"driftDetectRefreshIntervalInSeconds"`
 }
 
 func (m TerraformBasedExecutionDetails) String() string {

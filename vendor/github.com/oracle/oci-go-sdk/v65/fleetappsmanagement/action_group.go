@@ -57,6 +57,14 @@ func (m *actiongroup) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.Kind {
+	case "FLEET_RESOURCES_USING_RUNBOOK":
+		mm := FleetResourceBasedActionGroup{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FLEET_TARGETS_USING_RUNBOOK":
+		mm := FleetTargetBasedActionGroup{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FLEET_USING_RUNBOOK":
 		mm := FleetBasedActionGroup{}
 		err = json.Unmarshal(data, &mm)
@@ -93,15 +101,21 @@ type ActionGroupKindEnum string
 
 // Set of constants representing the allowable values for ActionGroupKindEnum
 const (
-	ActionGroupKindFleetUsingRunbook ActionGroupKindEnum = "FLEET_USING_RUNBOOK"
+	ActionGroupKindUsingRunbook          ActionGroupKindEnum = "FLEET_USING_RUNBOOK"
+	ActionGroupKindResourcesUsingRunbook ActionGroupKindEnum = "FLEET_RESOURCES_USING_RUNBOOK"
+	ActionGroupKindTargetsUsingRunbook   ActionGroupKindEnum = "FLEET_TARGETS_USING_RUNBOOK"
 )
 
 var mappingActionGroupKindEnum = map[string]ActionGroupKindEnum{
-	"FLEET_USING_RUNBOOK": ActionGroupKindFleetUsingRunbook,
+	"FLEET_USING_RUNBOOK":           ActionGroupKindUsingRunbook,
+	"FLEET_RESOURCES_USING_RUNBOOK": ActionGroupKindResourcesUsingRunbook,
+	"FLEET_TARGETS_USING_RUNBOOK":   ActionGroupKindTargetsUsingRunbook,
 }
 
 var mappingActionGroupKindEnumLowerCase = map[string]ActionGroupKindEnum{
-	"fleet_using_runbook": ActionGroupKindFleetUsingRunbook,
+	"fleet_using_runbook":           ActionGroupKindUsingRunbook,
+	"fleet_resources_using_runbook": ActionGroupKindResourcesUsingRunbook,
+	"fleet_targets_using_runbook":   ActionGroupKindTargetsUsingRunbook,
 }
 
 // GetActionGroupKindEnumValues Enumerates the set of values for ActionGroupKindEnum
@@ -117,6 +131,8 @@ func GetActionGroupKindEnumValues() []ActionGroupKindEnum {
 func GetActionGroupKindEnumStringValues() []string {
 	return []string{
 		"FLEET_USING_RUNBOOK",
+		"FLEET_RESOURCES_USING_RUNBOOK",
+		"FLEET_TARGETS_USING_RUNBOOK",
 	}
 }
 

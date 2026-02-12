@@ -59,6 +59,9 @@ type PatchSummary struct {
 
 	ArtifactDetails ArtifactDetails `mandatory:"false" json:"artifactDetails"`
 
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -106,24 +109,25 @@ func (m PatchSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PatchSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		Type             PatchTypeEnum                     `json:"type"`
-		ArtifactDetails  artifactdetails                   `json:"artifactDetails"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		ResourceRegion   *string                           `json:"resourceRegion"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		Name             *string                           `json:"name"`
-		PatchType        *PatchType                        `json:"patchType"`
-		Severity         PatchSeverityEnum                 `json:"severity"`
-		TimeReleased     *common.SDKTime                   `json:"timeReleased"`
-		Product          *PatchProduct                     `json:"product"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		LifecycleState   PatchLifecycleStateEnum           `json:"lifecycleState"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		Description              *string                           `json:"description"`
+		Type                     PatchTypeEnum                     `json:"type"`
+		ArtifactDetails          artifactdetails                   `json:"artifactDetails"`
+		IsManualInstallationOnly *bool                             `json:"isManualInstallationOnly"`
+		LifecycleDetails         *string                           `json:"lifecycleDetails"`
+		ResourceRegion           *string                           `json:"resourceRegion"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
+		Id                       *string                           `json:"id"`
+		Name                     *string                           `json:"name"`
+		PatchType                *PatchType                        `json:"patchType"`
+		Severity                 PatchSeverityEnum                 `json:"severity"`
+		TimeReleased             *common.SDKTime                   `json:"timeReleased"`
+		Product                  *PatchProduct                     `json:"product"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		LifecycleState           PatchLifecycleStateEnum           `json:"lifecycleState"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                   `json:"timeUpdated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -144,6 +148,8 @@ func (m *PatchSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ArtifactDetails = nil
 	}
+
+	m.IsManualInstallationOnly = model.IsManualInstallationOnly
 
 	m.LifecycleDetails = model.LifecycleDetails
 

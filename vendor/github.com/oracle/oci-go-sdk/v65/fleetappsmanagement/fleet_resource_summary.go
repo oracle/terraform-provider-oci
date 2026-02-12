@@ -79,6 +79,9 @@ type FleetResourceSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Execution order for the resource when runbook tasks under rolling resource container are executed against fleet resources.
+	ExecutionOrder *int `mandatory:"false" json:"executionOrder"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

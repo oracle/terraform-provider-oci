@@ -49,6 +49,9 @@ type PlatformConfiguration struct {
 	// The type of the configuration.
 	Type PlatformConfigurationTypeEnum `mandatory:"false" json:"type,omitempty"`
 
+	// Scope of the platform configuration. TENANCY scope can only be set in the root compartment.
+	Scope PlatformConfigurationScopeEnum `mandatory:"false" json:"scope,omitempty"`
+
 	ConfigCategoryDetails ConfigCategoryDetails `mandatory:"false" json:"configCategoryDetails"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -83,6 +86,9 @@ func (m PlatformConfiguration) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingPlatformConfigurationTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetPlatformConfigurationTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingPlatformConfigurationScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetPlatformConfigurationScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -95,6 +101,7 @@ func (m *PlatformConfiguration) UnmarshalJSON(data []byte) (e error) {
 		Description           *string                                 `json:"description"`
 		TimeUpdated           *common.SDKTime                         `json:"timeUpdated"`
 		Type                  PlatformConfigurationTypeEnum           `json:"type"`
+		Scope                 PlatformConfigurationScopeEnum          `json:"scope"`
 		ConfigCategoryDetails configcategorydetails                   `json:"configCategoryDetails"`
 		LifecycleDetails      *string                                 `json:"lifecycleDetails"`
 		FreeformTags          map[string]string                       `json:"freeformTags"`
@@ -118,6 +125,8 @@ func (m *PlatformConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.Type = model.Type
+
+	m.Scope = model.Scope
 
 	nn, e = model.ConfigCategoryDetails.UnmarshalPolymorphicJSON(model.ConfigCategoryDetails.JsonData)
 	if e != nil {
@@ -191,6 +200,48 @@ func GetPlatformConfigurationTypeEnumStringValues() []string {
 // GetMappingPlatformConfigurationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingPlatformConfigurationTypeEnum(val string) (PlatformConfigurationTypeEnum, bool) {
 	enum, ok := mappingPlatformConfigurationTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PlatformConfigurationScopeEnum Enum with underlying type: string
+type PlatformConfigurationScopeEnum string
+
+// Set of constants representing the allowable values for PlatformConfigurationScopeEnum
+const (
+	PlatformConfigurationScopeTenancy     PlatformConfigurationScopeEnum = "TENANCY"
+	PlatformConfigurationScopeCompartment PlatformConfigurationScopeEnum = "COMPARTMENT"
+)
+
+var mappingPlatformConfigurationScopeEnum = map[string]PlatformConfigurationScopeEnum{
+	"TENANCY":     PlatformConfigurationScopeTenancy,
+	"COMPARTMENT": PlatformConfigurationScopeCompartment,
+}
+
+var mappingPlatformConfigurationScopeEnumLowerCase = map[string]PlatformConfigurationScopeEnum{
+	"tenancy":     PlatformConfigurationScopeTenancy,
+	"compartment": PlatformConfigurationScopeCompartment,
+}
+
+// GetPlatformConfigurationScopeEnumValues Enumerates the set of values for PlatformConfigurationScopeEnum
+func GetPlatformConfigurationScopeEnumValues() []PlatformConfigurationScopeEnum {
+	values := make([]PlatformConfigurationScopeEnum, 0)
+	for _, v := range mappingPlatformConfigurationScopeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPlatformConfigurationScopeEnumStringValues Enumerates the set of values in String for PlatformConfigurationScopeEnum
+func GetPlatformConfigurationScopeEnumStringValues() []string {
+	return []string{
+		"TENANCY",
+		"COMPARTMENT",
+	}
+}
+
+// GetMappingPlatformConfigurationScopeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPlatformConfigurationScopeEnum(val string) (PlatformConfigurationScopeEnum, bool) {
+	enum, ok := mappingPlatformConfigurationScopeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

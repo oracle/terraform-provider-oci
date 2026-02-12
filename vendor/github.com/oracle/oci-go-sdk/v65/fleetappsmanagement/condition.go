@@ -29,6 +29,12 @@ type Condition struct {
 	// Attribute Value.Provide Tag value if the rule is based on a tag.
 	// Provide resource property value if the rule is based on a resource property.
 	AttrValue *string `mandatory:"true" json:"attrValue"`
+
+	// Specifies the operator used to evaluate attribute values for rule selection.
+	// EQUALS: Selects resources where the attribute value exactly matches the rule.
+	// CONTAINS: Selects resources where the attribute value includes the rule value as a substring.
+	// The default value is EQUALS.
+	AttrValueOperator ConditionAttrValueOperatorEnum `mandatory:"false" json:"attrValueOperator,omitempty"`
 }
 
 func (m Condition) String() string {
@@ -41,8 +47,53 @@ func (m Condition) String() string {
 func (m Condition) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingConditionAttrValueOperatorEnum(string(m.AttrValueOperator)); !ok && m.AttrValueOperator != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttrValueOperator: %s. Supported values are: %s.", m.AttrValueOperator, strings.Join(GetConditionAttrValueOperatorEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ConditionAttrValueOperatorEnum Enum with underlying type: string
+type ConditionAttrValueOperatorEnum string
+
+// Set of constants representing the allowable values for ConditionAttrValueOperatorEnum
+const (
+	ConditionAttrValueOperatorEquals   ConditionAttrValueOperatorEnum = "EQUALS"
+	ConditionAttrValueOperatorContains ConditionAttrValueOperatorEnum = "CONTAINS"
+)
+
+var mappingConditionAttrValueOperatorEnum = map[string]ConditionAttrValueOperatorEnum{
+	"EQUALS":   ConditionAttrValueOperatorEquals,
+	"CONTAINS": ConditionAttrValueOperatorContains,
+}
+
+var mappingConditionAttrValueOperatorEnumLowerCase = map[string]ConditionAttrValueOperatorEnum{
+	"equals":   ConditionAttrValueOperatorEquals,
+	"contains": ConditionAttrValueOperatorContains,
+}
+
+// GetConditionAttrValueOperatorEnumValues Enumerates the set of values for ConditionAttrValueOperatorEnum
+func GetConditionAttrValueOperatorEnumValues() []ConditionAttrValueOperatorEnum {
+	values := make([]ConditionAttrValueOperatorEnum, 0)
+	for _, v := range mappingConditionAttrValueOperatorEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetConditionAttrValueOperatorEnumStringValues Enumerates the set of values in String for ConditionAttrValueOperatorEnum
+func GetConditionAttrValueOperatorEnumStringValues() []string {
+	return []string{
+		"EQUALS",
+		"CONTAINS",
+	}
+}
+
+// GetMappingConditionAttrValueOperatorEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingConditionAttrValueOperatorEnum(val string) (ConditionAttrValueOperatorEnum, bool) {
+	enum, ok := mappingConditionAttrValueOperatorEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -107,6 +107,26 @@ type Provision struct {
 	// The deployed resources and their summary
 	DeployedResources []DeployedResourceDetails `mandatory:"false" json:"deployedResources"`
 
+	// Indicates if the DriftDetection is enabled for this deployment.
+	IsDriftDetectEnabled *bool `mandatory:"false" json:"isDriftDetectEnabled"`
+
+	// Indicates if the provisioned (deployed) resource attributes have changed values from initial state.
+	IsDrifted *bool `mandatory:"false" json:"isDrifted"`
+
+	// The date and time the last Drift report was reported, in the format defined by
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeLastDriftReport *common.SDKTime `mandatory:"false" json:"timeLastDriftReport"`
+
+	// Time interval in seconds before the next run of drift report.
+	DriftDetectRefreshIntervalInSeconds *int `mandatory:"false" json:"driftDetectRefreshIntervalInSeconds"`
+
+	// Resource addresses in the deployment.
+	ResourceAddressesToMonitor []string `mandatory:"false" json:"resourceAddressesToMonitor"`
+
+	// Name of the report started with a standard prefix matching ProvisionId, saved in pre-configured bucket.
+	DriftDetectionReportName *string `mandatory:"false" json:"driftDetectionReportName"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

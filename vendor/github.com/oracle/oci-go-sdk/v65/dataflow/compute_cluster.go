@@ -102,6 +102,9 @@ type ComputeCluster struct {
 	// The OCID of Hub.
 	HubId *string `mandatory:"false" json:"hubId"`
 
+	// DataLake Id for Library.
+	DatalakeId *string `mandatory:"false" json:"datalakeId"`
+
 	// The paths to init scripts that will be executed in the order of definition
 	InitScripts []string `mandatory:"false" json:"initScripts"`
 
@@ -146,6 +149,9 @@ type ComputeCluster struct {
 
 	// HubProxyEndpoint of the cluster.
 	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
+
+	// DataLake Proxy Endpoint for Library.
+	DatalakeProxyEndpoint *string `mandatory:"false" json:"datalakeProxyEndpoint"`
 
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`

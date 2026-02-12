@@ -30,6 +30,8 @@ const (
 	JobStatusAborted       JobStatusEnum = "ABORTED"
 	JobStatusTimedOut      JobStatusEnum = "TIMED_OUT"
 	JobStatusPaused        JobStatusEnum = "PAUSED"
+	JobStatusExpired       JobStatusEnum = "EXPIRED"
+	JobStatusUpcoming      JobStatusEnum = "UPCOMING"
 )
 
 var mappingJobStatusEnum = map[string]JobStatusEnum{
@@ -45,6 +47,8 @@ var mappingJobStatusEnum = map[string]JobStatusEnum{
 	"ABORTED":        JobStatusAborted,
 	"TIMED_OUT":      JobStatusTimedOut,
 	"PAUSED":         JobStatusPaused,
+	"EXPIRED":        JobStatusExpired,
+	"UPCOMING":       JobStatusUpcoming,
 }
 
 var mappingJobStatusEnumLowerCase = map[string]JobStatusEnum{
@@ -60,6 +64,8 @@ var mappingJobStatusEnumLowerCase = map[string]JobStatusEnum{
 	"aborted":        JobStatusAborted,
 	"timed_out":      JobStatusTimedOut,
 	"paused":         JobStatusPaused,
+	"expired":        JobStatusExpired,
+	"upcoming":       JobStatusUpcoming,
 }
 
 // GetJobStatusEnumValues Enumerates the set of values for JobStatusEnum
@@ -86,6 +92,8 @@ func GetJobStatusEnumStringValues() []string {
 		"ABORTED",
 		"TIMED_OUT",
 		"PAUSED",
+		"EXPIRED",
+		"UPCOMING",
 	}
 }
 

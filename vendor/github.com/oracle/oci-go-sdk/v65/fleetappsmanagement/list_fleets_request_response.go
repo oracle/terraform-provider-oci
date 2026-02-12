@@ -40,6 +40,10 @@ type ListFleetsRequest struct {
 	// Either compartmentId or id must be provided.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// Type of resource selection in a Fleet.
+	// Select resources manually or select resources based on rules.
+	ResourceSelectionType ListFleetsResourceSelectionTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceSelectionType" omitEmpty:"true"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -97,6 +101,9 @@ func (request ListFleetsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingFleetDetailsFleetTypeEnum(string(request.FleetType)); !ok && request.FleetType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FleetType: %s. Supported values are: %s.", request.FleetType, strings.Join(GetFleetDetailsFleetTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListFleetsResourceSelectionTypeEnum(string(request.ResourceSelectionType)); !ok && request.ResourceSelectionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceSelectionType: %s. Supported values are: %s.", request.ResourceSelectionType, strings.Join(GetListFleetsResourceSelectionTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListFleetsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListFleetsSortOrderEnumStringValues(), ",")))
 	}
@@ -138,6 +145,48 @@ func (response ListFleetsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListFleetsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListFleetsResourceSelectionTypeEnum Enum with underlying type: string
+type ListFleetsResourceSelectionTypeEnum string
+
+// Set of constants representing the allowable values for ListFleetsResourceSelectionTypeEnum
+const (
+	ListFleetsResourceSelectionTypeDynamic ListFleetsResourceSelectionTypeEnum = "DYNAMIC"
+	ListFleetsResourceSelectionTypeManual  ListFleetsResourceSelectionTypeEnum = "MANUAL"
+)
+
+var mappingListFleetsResourceSelectionTypeEnum = map[string]ListFleetsResourceSelectionTypeEnum{
+	"DYNAMIC": ListFleetsResourceSelectionTypeDynamic,
+	"MANUAL":  ListFleetsResourceSelectionTypeManual,
+}
+
+var mappingListFleetsResourceSelectionTypeEnumLowerCase = map[string]ListFleetsResourceSelectionTypeEnum{
+	"dynamic": ListFleetsResourceSelectionTypeDynamic,
+	"manual":  ListFleetsResourceSelectionTypeManual,
+}
+
+// GetListFleetsResourceSelectionTypeEnumValues Enumerates the set of values for ListFleetsResourceSelectionTypeEnum
+func GetListFleetsResourceSelectionTypeEnumValues() []ListFleetsResourceSelectionTypeEnum {
+	values := make([]ListFleetsResourceSelectionTypeEnum, 0)
+	for _, v := range mappingListFleetsResourceSelectionTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFleetsResourceSelectionTypeEnumStringValues Enumerates the set of values in String for ListFleetsResourceSelectionTypeEnum
+func GetListFleetsResourceSelectionTypeEnumStringValues() []string {
+	return []string{
+		"DYNAMIC",
+		"MANUAL",
+	}
+}
+
+// GetMappingListFleetsResourceSelectionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFleetsResourceSelectionTypeEnum(val string) (ListFleetsResourceSelectionTypeEnum, bool) {
+	enum, ok := mappingListFleetsResourceSelectionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListFleetsSortOrderEnum Enum with underlying type: string

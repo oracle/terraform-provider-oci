@@ -26,7 +26,11 @@ type BaseVariable interface {
 	GetDescription() *string
 
 	// Indicates if this input variable is required for stack execution.
+	// This field is deprecated use "mandatory" field instead
 	GetIsRequired() *bool
+
+	// Indicates if this input variable is required for stack execution.
+	GetMandatory() *string
 
 	// Hint to control whether this variable is visible.
 	GetVisible() *string
@@ -37,6 +41,7 @@ type basevariable struct {
 	Title       *string `mandatory:"false" json:"title"`
 	Description *string `mandatory:"false" json:"description"`
 	IsRequired  *bool   `mandatory:"false" json:"isRequired"`
+	Mandatory   *string `mandatory:"false" json:"mandatory"`
 	Visible     *string `mandatory:"false" json:"visible"`
 	Type        string  `json:"type"`
 }
@@ -55,6 +60,7 @@ func (m *basevariable) UnmarshalJSON(data []byte) error {
 	m.Title = s.Model.Title
 	m.Description = s.Model.Description
 	m.IsRequired = s.Model.IsRequired
+	m.Mandatory = s.Model.Mandatory
 	m.Visible = s.Model.Visible
 	m.Type = s.Model.Type
 
@@ -94,12 +100,20 @@ func (m *basevariable) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := AutonomousContainerDbVariable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_LOADBALANCER_BACKEND_NAME":
+		mm := LoadBalancerBackendName{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_DATABASE_DATABASE_ID":
 		mm := DataBaseVariable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_DATABASE_AUTONOMOUSDATABASEVERSION_ID":
 		mm := AutonomousDatabaseVersionVariable{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_LOADBALANCER_ROUTINGPOLICY_NAME":
+		mm := LoadBalancerRoutingPolicyName{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_IDENTITY_REGION_NAME":
@@ -136,6 +150,10 @@ func (m *basevariable) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		return mm, err
 	case "OCI_MGMT_AGENT_ID":
 		mm := ManagementAgents{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_LOADBALANCER_CERTIFICATE_NAME":
+		mm := LoadBalancerCertificateName{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_BLOCKSTORAGE_POLICIES_ID":
@@ -196,6 +214,14 @@ func (m *basevariable) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		return mm, err
 	case "OCI_KMS_SECRET_ID":
 		mm := KmsSecretVariable{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_LOADBALANCER_LISTENER_NAME":
+		mm := LoadBalancerListenerName{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_BLOCKSTORAGE_ID":
+		mm := BlockStorageId{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DATETIME":
@@ -302,6 +328,10 @@ func (m *basevariable) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := DatabaseExadataId{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_FAMPROPERTY_KEY_VALUE":
+		mm := FamPropertyKeyValue{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_DATABASE_DBHOME_ID":
 		mm := DbHomeVariable{}
 		err = json.Unmarshal(data, &mm)
@@ -338,6 +368,14 @@ func (m *basevariable) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := FileStorageMountTargetId{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_LOADBALANCER_BACKENDSET_NAME":
+		mm := LoadBalancerBackendSetName{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_CORE_SECURITYLIST_ID":
+		mm := SecurityListId{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_DATABASE_CDB_ID":
 		mm := DatabaseCdbId{}
 		err = json.Unmarshal(data, &mm)
@@ -365,6 +403,11 @@ func (m basevariable) GetDescription() *string {
 // GetIsRequired returns IsRequired
 func (m basevariable) GetIsRequired() *bool {
 	return m.IsRequired
+}
+
+// GetMandatory returns Mandatory
+func (m basevariable) GetMandatory() *string {
+	return m.Mandatory
 }
 
 // GetVisible returns Visible
@@ -463,6 +506,14 @@ const (
 	BaseVariableTypeOciDatabaseDbnodeId                      BaseVariableTypeEnum = "OCI_DATABASE_DBNODE_ID"
 	BaseVariableTypeOciCoreVcnNetworksecuritygroupId         BaseVariableTypeEnum = "OCI_CORE_VCN_NETWORKSECURITYGROUP_ID"
 	BaseVariableTypeOciStorageFilestorageMounttargetId       BaseVariableTypeEnum = "OCI_STORAGE_FILESTORAGE_MOUNTTARGET_ID"
+	BaseVariableTypeOciLoadbalancerCertificateName           BaseVariableTypeEnum = "OCI_LOADBALANCER_CERTIFICATE_NAME"
+	BaseVariableTypeOciLoadbalancerListenerName              BaseVariableTypeEnum = "OCI_LOADBALANCER_LISTENER_NAME"
+	BaseVariableTypeOciLoadbalancerBackendsetName            BaseVariableTypeEnum = "OCI_LOADBALANCER_BACKENDSET_NAME"
+	BaseVariableTypeOciLoadbalancerBackendName               BaseVariableTypeEnum = "OCI_LOADBALANCER_BACKEND_NAME"
+	BaseVariableTypeOciLoadbalancerRoutingpolicyName         BaseVariableTypeEnum = "OCI_LOADBALANCER_ROUTINGPOLICY_NAME"
+	BaseVariableTypeOciCoreSecuritylistId                    BaseVariableTypeEnum = "OCI_CORE_SECURITYLIST_ID"
+	BaseVariableTypeOciBlockstorageId                        BaseVariableTypeEnum = "OCI_BLOCKSTORAGE_ID"
+	BaseVariableTypeOciFampropertyKeyValue                   BaseVariableTypeEnum = "OCI_FAMPROPERTY_KEY_VALUE"
 )
 
 var mappingBaseVariableTypeEnum = map[string]BaseVariableTypeEnum{
@@ -536,6 +587,14 @@ var mappingBaseVariableTypeEnum = map[string]BaseVariableTypeEnum{
 	"OCI_DATABASE_DBNODE_ID":                       BaseVariableTypeOciDatabaseDbnodeId,
 	"OCI_CORE_VCN_NETWORKSECURITYGROUP_ID":         BaseVariableTypeOciCoreVcnNetworksecuritygroupId,
 	"OCI_STORAGE_FILESTORAGE_MOUNTTARGET_ID":       BaseVariableTypeOciStorageFilestorageMounttargetId,
+	"OCI_LOADBALANCER_CERTIFICATE_NAME":            BaseVariableTypeOciLoadbalancerCertificateName,
+	"OCI_LOADBALANCER_LISTENER_NAME":               BaseVariableTypeOciLoadbalancerListenerName,
+	"OCI_LOADBALANCER_BACKENDSET_NAME":             BaseVariableTypeOciLoadbalancerBackendsetName,
+	"OCI_LOADBALANCER_BACKEND_NAME":                BaseVariableTypeOciLoadbalancerBackendName,
+	"OCI_LOADBALANCER_ROUTINGPOLICY_NAME":          BaseVariableTypeOciLoadbalancerRoutingpolicyName,
+	"OCI_CORE_SECURITYLIST_ID":                     BaseVariableTypeOciCoreSecuritylistId,
+	"OCI_BLOCKSTORAGE_ID":                          BaseVariableTypeOciBlockstorageId,
+	"OCI_FAMPROPERTY_KEY_VALUE":                    BaseVariableTypeOciFampropertyKeyValue,
 }
 
 var mappingBaseVariableTypeEnumLowerCase = map[string]BaseVariableTypeEnum{
@@ -609,6 +668,14 @@ var mappingBaseVariableTypeEnumLowerCase = map[string]BaseVariableTypeEnum{
 	"oci_database_dbnode_id":                       BaseVariableTypeOciDatabaseDbnodeId,
 	"oci_core_vcn_networksecuritygroup_id":         BaseVariableTypeOciCoreVcnNetworksecuritygroupId,
 	"oci_storage_filestorage_mounttarget_id":       BaseVariableTypeOciStorageFilestorageMounttargetId,
+	"oci_loadbalancer_certificate_name":            BaseVariableTypeOciLoadbalancerCertificateName,
+	"oci_loadbalancer_listener_name":               BaseVariableTypeOciLoadbalancerListenerName,
+	"oci_loadbalancer_backendset_name":             BaseVariableTypeOciLoadbalancerBackendsetName,
+	"oci_loadbalancer_backend_name":                BaseVariableTypeOciLoadbalancerBackendName,
+	"oci_loadbalancer_routingpolicy_name":          BaseVariableTypeOciLoadbalancerRoutingpolicyName,
+	"oci_core_securitylist_id":                     BaseVariableTypeOciCoreSecuritylistId,
+	"oci_blockstorage_id":                          BaseVariableTypeOciBlockstorageId,
+	"oci_famproperty_key_value":                    BaseVariableTypeOciFampropertyKeyValue,
 }
 
 // GetBaseVariableTypeEnumValues Enumerates the set of values for BaseVariableTypeEnum
@@ -693,6 +760,14 @@ func GetBaseVariableTypeEnumStringValues() []string {
 		"OCI_DATABASE_DBNODE_ID",
 		"OCI_CORE_VCN_NETWORKSECURITYGROUP_ID",
 		"OCI_STORAGE_FILESTORAGE_MOUNTTARGET_ID",
+		"OCI_LOADBALANCER_CERTIFICATE_NAME",
+		"OCI_LOADBALANCER_LISTENER_NAME",
+		"OCI_LOADBALANCER_BACKENDSET_NAME",
+		"OCI_LOADBALANCER_BACKEND_NAME",
+		"OCI_LOADBALANCER_ROUTINGPOLICY_NAME",
+		"OCI_CORE_SECURITYLIST_ID",
+		"OCI_BLOCKSTORAGE_ID",
+		"OCI_FAMPROPERTY_KEY_VALUE",
 	}
 }
 

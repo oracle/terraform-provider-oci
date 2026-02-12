@@ -38,6 +38,16 @@ type FleetBasedActionGroup struct {
 	// All Action Groups having the same sequence will be executed parallely.
 	// If no value is provided a default value of 1 will be given.
 	Sequence *int `mandatory:"false" json:"sequence"`
+
+	// Emergency override flag.
+	IsEmergencyOverride *bool `mandatory:"false" json:"isEmergencyOverride"`
+
+	// Consent to add provisioned resources (compute and database) to fleet.
+	// Set this to true to add the resources to the fleet post provisioning.
+	IsConsentToAddResourcesToFleet *bool `mandatory:"false" json:"isConsentToAddResourcesToFleet"`
+
+	// Subject Type
+	SubjectType SubjectTypeEnum `mandatory:"false" json:"subjectType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -55,6 +65,9 @@ func (m FleetBasedActionGroup) String() string {
 func (m FleetBasedActionGroup) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSubjectTypeEnum(string(m.SubjectType)); !ok && m.SubjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubjectType: %s. Supported values are: %s.", m.SubjectType, strings.Join(GetSubjectTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

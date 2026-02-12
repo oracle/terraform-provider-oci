@@ -71,7 +71,7 @@ func newEventsClientFromBaseClient(baseClient common.BaseClient, configProvider 
 
 // SetRegion overrides the region of this client.
 func (client *EventsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("events", "https://events.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("events", client.getEndpointTemplatePerRealm(region), "events")
 	client.parseEndpointTemplatePerRealm()
 }
 
@@ -114,7 +114,7 @@ func (client *EventsClient) getEndpointTemplatePerRealm(region string) string {
 			return template
 		}
 	}
-	return "https://events.{region}.oci.{secondLevelDomain}"
+	return "https://events.{region}.{dualStack?ds.:}oci.{secondLevelDomain}"
 }
 
 // parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template

@@ -54,9 +54,6 @@ type MountTargetSummary struct {
 	// this mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
-	// The OCIDs of the IPv6 addresses associated with this mount target.
-	MountTargetIpv6Ids []string `mandatory:"false" json:"mountTargetIpv6Ids"`
-
 	// A list of Network Security Group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.

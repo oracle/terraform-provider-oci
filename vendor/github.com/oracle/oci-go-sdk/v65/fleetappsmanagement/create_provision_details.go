@@ -48,6 +48,15 @@ type CreateProvisionDetails struct {
 	// An optional variable added to a list of RMS variables for createStack API. Overrides the one supplied in configuration file.
 	TfVariableCompartmentId *string `mandatory:"false" json:"tfVariableCompartmentId"`
 
+	// Indicates if the DriftDetection is enabled for this deployment.
+	IsDriftDetectEnabled *bool `mandatory:"false" json:"isDriftDetectEnabled"`
+
+	// Time in seconds before the next run of drift report.
+	DriftDetectRefreshIntervalInSeconds *int `mandatory:"false" json:"driftDetectRefreshIntervalInSeconds"`
+
+	// Resource addresses in the deployment.
+	ResourceAddressesToMonitor []string `mandatory:"false" json:"resourceAddressesToMonitor"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

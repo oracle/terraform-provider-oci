@@ -53,6 +53,8 @@ type Onboarding struct {
 	// Provide discovery frequency.
 	DiscoveryFrequency *string `mandatory:"false" json:"discoveryFrequency"`
 
+	ExecutionLogsObjectStorageLocationDetails *ExecutionLogsObjectStorageLocationDetails `mandatory:"false" json:"executionLogsObjectStorageLocationDetails"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

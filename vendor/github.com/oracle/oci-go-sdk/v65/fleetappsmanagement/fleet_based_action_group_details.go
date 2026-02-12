@@ -50,8 +50,18 @@ type FleetBasedActionGroupDetails struct {
 	// sequence of the Action Group
 	Sequence *int `mandatory:"false" json:"sequence"`
 
+	// Emergency override flag.
+	IsEmergencyOverride *bool `mandatory:"false" json:"isEmergencyOverride"`
+
+	// Consent to add provisioned resources (compute and database) to fleet.
+	// Set this to true to add the resources to the fleet post provisioning.
+	IsConsentToAddResourcesToFleet *bool `mandatory:"false" json:"isConsentToAddResourcesToFleet"`
+
 	// Status of the Job at Action Group Level.
 	Status JobStatusEnum `mandatory:"false" json:"status,omitempty"`
+
+	// Subject Type
+	SubjectType SubjectTypeEnum `mandatory:"false" json:"subjectType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -101,6 +111,9 @@ func (m FleetBasedActionGroupDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingJobStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetJobStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSubjectTypeEnum(string(m.SubjectType)); !ok && m.SubjectType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SubjectType: %s. Supported values are: %s.", m.SubjectType, strings.Join(GetSubjectTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

@@ -39,6 +39,21 @@ type UpdateAutonomousVmClusterDetails struct {
 
 	// The new value of maximum number of ACDs for the Autonomous VM cluster.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
+	// The time zone to use for the Autonomous VM cluster. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
+	TimeZone *string `mandatory:"false" json:"timeZone"`
+
+	// The SCAN Listener TLS port number. Default value is 2484.
+	ScanListenerPortTls *int `mandatory:"false" json:"scanListenerPortTls"`
+
+	// The SCAN Listener Non TLS port number. Default value is 1521.
+	ScanListenerPortNonTls *int `mandatory:"false" json:"scanListenerPortNonTls"`
+
+	// Enable mutual TLS(mTLS) authentication for database. Default is TLS.
+	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
+
+	// The distribution algorithm used for the Autonomous VM cluster.
+	DistributionAlgorithm UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum `mandatory:"false" json:"distributionAlgorithm,omitempty"`
 }
 
 func (m UpdateAutonomousVmClusterDetails) String() string {
@@ -53,6 +68,9 @@ func (m UpdateAutonomousVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateAutonomousVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum(string(m.DistributionAlgorithm)); !ok && m.DistributionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAlgorithm: %s. Supported values are: %s.", m.DistributionAlgorithm, strings.Join(GetUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -99,5 +117,47 @@ func GetUpdateAutonomousVmClusterDetailsLicenseModelEnumStringValues() []string 
 // GetMappingUpdateAutonomousVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousVmClusterDetailsLicenseModelEnum(val string) (UpdateAutonomousVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateAutonomousVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum Enum with underlying type: string
+type UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum
+const (
+	UpdateAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized     UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum = "RESOURCE_OPTIMIZED"
+	UpdateAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum = "DISTRIBUTION_OPTIMIZED"
+)
+
+var mappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum = map[string]UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"RESOURCE_OPTIMIZED":     UpdateAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"DISTRIBUTION_OPTIMIZED": UpdateAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+var mappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase = map[string]UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"resource_optimized":     UpdateAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"distribution_optimized": UpdateAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+// GetUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumValues Enumerates the set of values for UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumValues() []UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+	values := make([]UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum, 0)
+	for _, v := range mappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues Enumerates the set of values in String for UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues() []string {
+	return []string{
+		"RESOURCE_OPTIMIZED",
+		"DISTRIBUTION_OPTIMIZED",
+	}
+}
+
+// GetMappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum(val string) (UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum, bool) {
+	enum, ok := mappingUpdateAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

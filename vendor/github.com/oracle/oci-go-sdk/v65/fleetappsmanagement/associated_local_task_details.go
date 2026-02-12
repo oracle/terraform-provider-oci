@@ -41,6 +41,9 @@ type AssociatedLocalTaskDetails struct {
 	// The name of the task
 	Name *string `mandatory:"false" json:"name"`
 
+	// Task type.
+	Type AssociatedLocalTaskDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+
 	// The OS for the task.
 	OsType OsTypeEnum `mandatory:"false" json:"osType,omitempty"`
 }
@@ -54,6 +57,9 @@ func (m AssociatedLocalTaskDetails) String() string {
 // Not recommended for calling this function directly
 func (m AssociatedLocalTaskDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAssociatedLocalTaskDetailsTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetAssociatedLocalTaskDetailsTypeEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingOsTypeEnum(string(m.OsType)); !ok && m.OsType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsType: %s. Supported values are: %s.", m.OsType, strings.Join(GetOsTypeEnumStringValues(), ",")))
@@ -81,15 +87,16 @@ func (m AssociatedLocalTaskDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *AssociatedLocalTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description            *string          `json:"description"`
-		Platform               *string          `json:"platform"`
-		IsCopyToLibraryEnabled *bool            `json:"isCopyToLibraryEnabled"`
-		OsType                 OsTypeEnum       `json:"osType"`
-		Properties             *Properties      `json:"properties"`
-		IsDiscoveryOutputTask  *bool            `json:"isDiscoveryOutputTask"`
-		IsApplySubjectTask     *bool            `json:"isApplySubjectTask"`
-		Name                   *string          `json:"name"`
-		ExecutionDetails       executiondetails `json:"executionDetails"`
+		Description            *string                            `json:"description"`
+		Type                   AssociatedLocalTaskDetailsTypeEnum `json:"type"`
+		Platform               *string                            `json:"platform"`
+		IsCopyToLibraryEnabled *bool                              `json:"isCopyToLibraryEnabled"`
+		OsType                 OsTypeEnum                         `json:"osType"`
+		Properties             *Properties                        `json:"properties"`
+		IsDiscoveryOutputTask  *bool                              `json:"isDiscoveryOutputTask"`
+		IsApplySubjectTask     *bool                              `json:"isApplySubjectTask"`
+		Name                   *string                            `json:"name"`
+		ExecutionDetails       executiondetails                   `json:"executionDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -98,6 +105,8 @@ func (m *AssociatedLocalTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.Type = model.Type
 
 	m.Platform = model.Platform
 
@@ -124,4 +133,46 @@ func (m *AssociatedLocalTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	return
+}
+
+// AssociatedLocalTaskDetailsTypeEnum Enum with underlying type: string
+type AssociatedLocalTaskDetailsTypeEnum string
+
+// Set of constants representing the allowable values for AssociatedLocalTaskDetailsTypeEnum
+const (
+	AssociatedLocalTaskDetailsTypeUserDefined   AssociatedLocalTaskDetailsTypeEnum = "USER_DEFINED"
+	AssociatedLocalTaskDetailsTypeOracleDefined AssociatedLocalTaskDetailsTypeEnum = "ORACLE_DEFINED"
+)
+
+var mappingAssociatedLocalTaskDetailsTypeEnum = map[string]AssociatedLocalTaskDetailsTypeEnum{
+	"USER_DEFINED":   AssociatedLocalTaskDetailsTypeUserDefined,
+	"ORACLE_DEFINED": AssociatedLocalTaskDetailsTypeOracleDefined,
+}
+
+var mappingAssociatedLocalTaskDetailsTypeEnumLowerCase = map[string]AssociatedLocalTaskDetailsTypeEnum{
+	"user_defined":   AssociatedLocalTaskDetailsTypeUserDefined,
+	"oracle_defined": AssociatedLocalTaskDetailsTypeOracleDefined,
+}
+
+// GetAssociatedLocalTaskDetailsTypeEnumValues Enumerates the set of values for AssociatedLocalTaskDetailsTypeEnum
+func GetAssociatedLocalTaskDetailsTypeEnumValues() []AssociatedLocalTaskDetailsTypeEnum {
+	values := make([]AssociatedLocalTaskDetailsTypeEnum, 0)
+	for _, v := range mappingAssociatedLocalTaskDetailsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAssociatedLocalTaskDetailsTypeEnumStringValues Enumerates the set of values in String for AssociatedLocalTaskDetailsTypeEnum
+func GetAssociatedLocalTaskDetailsTypeEnumStringValues() []string {
+	return []string{
+		"USER_DEFINED",
+		"ORACLE_DEFINED",
+	}
+}
+
+// GetMappingAssociatedLocalTaskDetailsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAssociatedLocalTaskDetailsTypeEnum(val string) (AssociatedLocalTaskDetailsTypeEnum, bool) {
+	enum, ok := mappingAssociatedLocalTaskDetailsTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

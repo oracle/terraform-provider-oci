@@ -32,6 +32,9 @@ type UpdatePropertyDetails struct {
 	// Values of the property (must be a single value if selection = 'SINGLE_CHOICE').
 	Values []string `mandatory:"false" json:"values"`
 
+	// Property OCID on which the current property depends on.
+	DependOn *string `mandatory:"false" json:"dependOn"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

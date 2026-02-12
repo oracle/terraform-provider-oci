@@ -50,6 +50,14 @@ func (m *patchfilecontentdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.SourceType {
+	case "GIT_REPO":
+		mm := PatchFileGitRepoContentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PAR":
+		mm := PatchFileParContentDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
 		mm := PatchFileObjectStorageBucketContentDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -82,14 +90,20 @@ type PatchFileContentDetailsSourceTypeEnum string
 // Set of constants representing the allowable values for PatchFileContentDetailsSourceTypeEnum
 const (
 	PatchFileContentDetailsSourceTypeObjectStorageBucket PatchFileContentDetailsSourceTypeEnum = "OBJECT_STORAGE_BUCKET"
+	PatchFileContentDetailsSourceTypeGitRepo             PatchFileContentDetailsSourceTypeEnum = "GIT_REPO"
+	PatchFileContentDetailsSourceTypePar                 PatchFileContentDetailsSourceTypeEnum = "PAR"
 )
 
 var mappingPatchFileContentDetailsSourceTypeEnum = map[string]PatchFileContentDetailsSourceTypeEnum{
 	"OBJECT_STORAGE_BUCKET": PatchFileContentDetailsSourceTypeObjectStorageBucket,
+	"GIT_REPO":              PatchFileContentDetailsSourceTypeGitRepo,
+	"PAR":                   PatchFileContentDetailsSourceTypePar,
 }
 
 var mappingPatchFileContentDetailsSourceTypeEnumLowerCase = map[string]PatchFileContentDetailsSourceTypeEnum{
 	"object_storage_bucket": PatchFileContentDetailsSourceTypeObjectStorageBucket,
+	"git_repo":              PatchFileContentDetailsSourceTypeGitRepo,
+	"par":                   PatchFileContentDetailsSourceTypePar,
 }
 
 // GetPatchFileContentDetailsSourceTypeEnumValues Enumerates the set of values for PatchFileContentDetailsSourceTypeEnum
@@ -105,6 +119,8 @@ func GetPatchFileContentDetailsSourceTypeEnumValues() []PatchFileContentDetailsS
 func GetPatchFileContentDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_STORAGE_BUCKET",
+		"GIT_REPO",
+		"PAR",
 	}
 }
 

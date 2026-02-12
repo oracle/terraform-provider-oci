@@ -33,6 +33,21 @@ type DeployedResourceDetails struct {
 
 	// Collection of InstanceSummary
 	ResourceInstanceList []InstanceSummary `mandatory:"true" json:"resourceInstanceList"`
+
+	// The drift status of the resource
+	ResourceDriftStatus DeployedResourceDetailsResourceDriftStatusEnum `mandatory:"false" json:"resourceDriftStatus,omitempty"`
+
+	// Key-value pair of the actual resource properties
+	ActualProperties []KeyValueProperty `mandatory:"false" json:"actualProperties"`
+
+	// Key-value pair of the expected resource properties
+	ExpectedProperties []KeyValueProperty `mandatory:"false" json:"expectedProperties"`
+
+	// A list of the modified properties
+	ModifiedProperties []ModifiedProperty `mandatory:"false" json:"modifiedProperties"`
+
+	// The time the drift has been checked. An RFC 3339 (https://tools.ietf.org/rfc/rfc3339) formatted datetime string
+	TimeDriftChecked *common.SDKTime `mandatory:"false" json:"timeDriftChecked"`
 }
 
 func (m DeployedResourceDetails) String() string {
@@ -45,8 +60,61 @@ func (m DeployedResourceDetails) String() string {
 func (m DeployedResourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDeployedResourceDetailsResourceDriftStatusEnum(string(m.ResourceDriftStatus)); !ok && m.ResourceDriftStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceDriftStatus: %s. Supported values are: %s.", m.ResourceDriftStatus, strings.Join(GetDeployedResourceDetailsResourceDriftStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DeployedResourceDetailsResourceDriftStatusEnum Enum with underlying type: string
+type DeployedResourceDetailsResourceDriftStatusEnum string
+
+// Set of constants representing the allowable values for DeployedResourceDetailsResourceDriftStatusEnum
+const (
+	DeployedResourceDetailsResourceDriftStatusNotChecked DeployedResourceDetailsResourceDriftStatusEnum = "NOT_CHECKED"
+	DeployedResourceDetailsResourceDriftStatusInSync     DeployedResourceDetailsResourceDriftStatusEnum = "IN_SYNC"
+	DeployedResourceDetailsResourceDriftStatusModified   DeployedResourceDetailsResourceDriftStatusEnum = "MODIFIED"
+	DeployedResourceDetailsResourceDriftStatusDeleted    DeployedResourceDetailsResourceDriftStatusEnum = "DELETED"
+)
+
+var mappingDeployedResourceDetailsResourceDriftStatusEnum = map[string]DeployedResourceDetailsResourceDriftStatusEnum{
+	"NOT_CHECKED": DeployedResourceDetailsResourceDriftStatusNotChecked,
+	"IN_SYNC":     DeployedResourceDetailsResourceDriftStatusInSync,
+	"MODIFIED":    DeployedResourceDetailsResourceDriftStatusModified,
+	"DELETED":     DeployedResourceDetailsResourceDriftStatusDeleted,
+}
+
+var mappingDeployedResourceDetailsResourceDriftStatusEnumLowerCase = map[string]DeployedResourceDetailsResourceDriftStatusEnum{
+	"not_checked": DeployedResourceDetailsResourceDriftStatusNotChecked,
+	"in_sync":     DeployedResourceDetailsResourceDriftStatusInSync,
+	"modified":    DeployedResourceDetailsResourceDriftStatusModified,
+	"deleted":     DeployedResourceDetailsResourceDriftStatusDeleted,
+}
+
+// GetDeployedResourceDetailsResourceDriftStatusEnumValues Enumerates the set of values for DeployedResourceDetailsResourceDriftStatusEnum
+func GetDeployedResourceDetailsResourceDriftStatusEnumValues() []DeployedResourceDetailsResourceDriftStatusEnum {
+	values := make([]DeployedResourceDetailsResourceDriftStatusEnum, 0)
+	for _, v := range mappingDeployedResourceDetailsResourceDriftStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeployedResourceDetailsResourceDriftStatusEnumStringValues Enumerates the set of values in String for DeployedResourceDetailsResourceDriftStatusEnum
+func GetDeployedResourceDetailsResourceDriftStatusEnumStringValues() []string {
+	return []string{
+		"NOT_CHECKED",
+		"IN_SYNC",
+		"MODIFIED",
+		"DELETED",
+	}
+}
+
+// GetMappingDeployedResourceDetailsResourceDriftStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeployedResourceDetailsResourceDriftStatusEnum(val string) (DeployedResourceDetailsResourceDriftStatusEnum, bool) {
+	enum, ok := mappingDeployedResourceDetailsResourceDriftStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

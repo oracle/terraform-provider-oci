@@ -27,6 +27,9 @@ type BackupCopyDetails struct {
 
 	// Retention period in days of the backup copy.
 	RetentionPeriod *int `mandatory:"false" json:"retentionPeriod"`
+
+	// List of key ids of the remote regions
+	KmsKeyIds []string `mandatory:"false" json:"kmsKeyIds"`
 }
 
 func (m BackupCopyDetails) String() string {

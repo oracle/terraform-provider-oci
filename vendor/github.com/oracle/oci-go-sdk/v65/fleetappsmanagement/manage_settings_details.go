@@ -20,6 +20,8 @@ type ManageSettingsDetails struct {
 
 	// Provide discovery frequency.
 	DiscoveryFrequency *string `mandatory:"false" json:"discoveryFrequency"`
+
+	ExecutionLogsObjectStorageLocationDetails *ExecutionLogsObjectStorageLocationDetails `mandatory:"false" json:"executionLogsObjectStorageLocationDetails"`
 }
 
 func (m ManageSettingsDetails) String() string {

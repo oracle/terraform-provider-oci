@@ -81,6 +81,10 @@ type Fleet struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet that would be the parent for this fleet.
 	ParentFleetId *string `mandatory:"false" json:"parentFleetId"`
 
+	// A value that represents to patch group lock fleet can be enabled.
+	// This will allow targets to patch group lock fleet.
+	IsPatchGroupLocked *bool `mandatory:"false" json:"isPatchGroupLocked"`
+
 	// A value that represents if auto-confirming of the targets can be enabled.
 	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
@@ -127,6 +131,7 @@ func (m *Fleet) UnmarshalJSON(data []byte) (e error) {
 		Properties              []AssociatedFleetPropertyDetails   `json:"properties"`
 		Credentials             []AssociatedFleetCredentialDetails `json:"credentials"`
 		ParentFleetId           *string                            `json:"parentFleetId"`
+		IsPatchGroupLocked      *bool                              `json:"isPatchGroupLocked"`
 		IsTargetAutoConfirm     *bool                              `json:"isTargetAutoConfirm"`
 		LifecycleDetails        *string                            `json:"lifecycleDetails"`
 		SystemTags              map[string]map[string]interface{}  `json:"systemTags"`
@@ -183,6 +188,8 @@ func (m *Fleet) UnmarshalJSON(data []byte) (e error) {
 	m.Credentials = make([]AssociatedFleetCredentialDetails, len(model.Credentials))
 	copy(m.Credentials, model.Credentials)
 	m.ParentFleetId = model.ParentFleetId
+
+	m.IsPatchGroupLocked = model.IsPatchGroupLocked
 
 	m.IsTargetAutoConfirm = model.IsTargetAutoConfirm
 

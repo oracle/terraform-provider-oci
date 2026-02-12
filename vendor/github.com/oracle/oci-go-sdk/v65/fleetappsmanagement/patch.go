@@ -34,8 +34,6 @@ type Patch struct {
 	// Date when the patch was released.
 	TimeReleased *common.SDKTime `mandatory:"true" json:"timeReleased"`
 
-	ArtifactDetails ArtifactDetails `mandatory:"true" json:"artifactDetails"`
-
 	Product *PatchProduct `mandatory:"true" json:"product"`
 
 	// The current state of the Patch.
@@ -59,8 +57,13 @@ type Patch struct {
 	// For Oracle Defined Patches the value will be ORACLE_DEFINED
 	Type PatchTypeEnum `mandatory:"false" json:"type,omitempty"`
 
+	ArtifactDetails ArtifactDetails `mandatory:"false" json:"artifactDetails"`
+
 	// Dependent Patches for this patch.
 	DependentPatches []DependentPatchDetails `mandatory:"false" json:"dependentPatches"`
+
+	// A value determining if patch needs manual installation.
+	IsManualInstallationOnly *bool `mandatory:"false" json:"isManualInstallationOnly"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -109,25 +112,26 @@ func (m Patch) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Patch) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		Type             PatchTypeEnum                     `json:"type"`
-		DependentPatches []DependentPatchDetails           `json:"dependentPatches"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		ResourceRegion   *string                           `json:"resourceRegion"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		Name             *string                           `json:"name"`
-		PatchType        *PatchType                        `json:"patchType"`
-		Severity         PatchSeverityEnum                 `json:"severity"`
-		TimeReleased     *common.SDKTime                   `json:"timeReleased"`
-		ArtifactDetails  artifactdetails                   `json:"artifactDetails"`
-		Product          *PatchProduct                     `json:"product"`
-		LifecycleState   PatchLifecycleStateEnum           `json:"lifecycleState"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		CompartmentId    *string                           `json:"compartmentId"`
+		Description              *string                           `json:"description"`
+		Type                     PatchTypeEnum                     `json:"type"`
+		ArtifactDetails          artifactdetails                   `json:"artifactDetails"`
+		DependentPatches         []DependentPatchDetails           `json:"dependentPatches"`
+		IsManualInstallationOnly *bool                             `json:"isManualInstallationOnly"`
+		LifecycleDetails         *string                           `json:"lifecycleDetails"`
+		ResourceRegion           *string                           `json:"resourceRegion"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
+		Id                       *string                           `json:"id"`
+		Name                     *string                           `json:"name"`
+		PatchType                *PatchType                        `json:"patchType"`
+		Severity                 PatchSeverityEnum                 `json:"severity"`
+		TimeReleased             *common.SDKTime                   `json:"timeReleased"`
+		Product                  *PatchProduct                     `json:"product"`
+		LifecycleState           PatchLifecycleStateEnum           `json:"lifecycleState"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                   `json:"timeUpdated"`
+		CompartmentId            *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -139,8 +143,20 @@ func (m *Patch) UnmarshalJSON(data []byte) (e error) {
 
 	m.Type = model.Type
 
+	nn, e = model.ArtifactDetails.UnmarshalPolymorphicJSON(model.ArtifactDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ArtifactDetails = nn.(ArtifactDetails)
+	} else {
+		m.ArtifactDetails = nil
+	}
+
 	m.DependentPatches = make([]DependentPatchDetails, len(model.DependentPatches))
 	copy(m.DependentPatches, model.DependentPatches)
+	m.IsManualInstallationOnly = model.IsManualInstallationOnly
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.ResourceRegion = model.ResourceRegion
@@ -160,16 +176,6 @@ func (m *Patch) UnmarshalJSON(data []byte) (e error) {
 	m.Severity = model.Severity
 
 	m.TimeReleased = model.TimeReleased
-
-	nn, e = model.ArtifactDetails.UnmarshalPolymorphicJSON(model.ArtifactDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.ArtifactDetails = nn.(ArtifactDetails)
-	} else {
-		m.ArtifactDetails = nil
-	}
 
 	m.Product = model.Product
 

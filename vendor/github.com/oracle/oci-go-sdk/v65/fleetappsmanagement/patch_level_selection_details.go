@@ -22,6 +22,9 @@ import (
 //   - Reports the patch process as noncompliant for the software identified or targets discovered at the Latest-2 version.
 type PatchLevelSelectionDetails struct {
 
+	// Pattern to match and support suffix and prefix "*" pattern.
+	Pattern *string `mandatory:"false" json:"pattern"`
+
 	// Patch Name.
 	PatchLevel PatchLevelSelectionDetailsPatchLevelEnum `mandatory:"true" json:"patchLevel"`
 }

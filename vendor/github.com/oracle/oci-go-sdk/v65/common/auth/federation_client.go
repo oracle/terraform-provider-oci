@@ -939,9 +939,9 @@ func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
 		return fmt.Errorf("unable to generate RSA key: %w", err)
 	}
 
-	publicKey , err := privateToPublicDERBase64(privateKey) 
-	if err != nil { 
-		return fmt.Errorf("unable to derive public key: %w", err) 
+	publicKey, err := privateToPublicDERBase64(privateKey)
+	if err != nil {
+		return fmt.Errorf("unable to derive public key: %w", err)
 	}
 
 	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
