@@ -817,6 +817,7 @@ email
 * oci\_email\_email\_domain
 * oci\_email\_dkim
 * oci\_email\_email\_return\_path
+* oci\_email\_email\_ip\_pool
 
 events
 

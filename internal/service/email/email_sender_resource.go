@@ -44,6 +44,11 @@ func EmailSenderResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"email_ip_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -201,6 +206,11 @@ func (s *EmailSenderResourceCrud) Create() error {
 		request.EmailAddress = &tmp
 	}
 
+	if emailIpPoolId, ok := s.D.GetOkExists("email_ip_pool_id"); ok {
+		tmp := emailIpPoolId.(string)
+		request.EmailIpPoolId = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -251,6 +261,11 @@ func (s *EmailSenderResourceCrud) Update() error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+	}
+
+	if emailIpPoolId, ok := s.D.GetOkExists("email_ip_pool_id"); ok {
+		tmp := emailIpPoolId.(string)
+		request.EmailIpPoolId = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -308,6 +323,10 @@ func (s *EmailSenderResourceCrud) SetData() error {
 
 	if s.Res.EmailDomainId != nil {
 		s.D.Set("email_domain_id", *s.Res.EmailDomainId)
+	}
+
+	if s.Res.EmailIpPoolId != nil {
+		s.D.Set("email_ip_pool_id", *s.Res.EmailIpPoolId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
