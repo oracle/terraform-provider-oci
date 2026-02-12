@@ -1,15 +1,12 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "region" {
+  default = "us-ashburn-1"
+}
 
-variable "migration_defined_tags_value" {
-  default = "value"
+variable "compartment_id" {
+  default = "compartment_id"
 }
 
 variable "migration_display_name" {
@@ -25,17 +22,20 @@ variable "migration_is_completed" {
 }
 
 variable "migration_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
+}
+
+variable "replication_schedule_id" {
+  default = "replication_schedule_id"
 }
 
 
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  # version             = "8.3.0"
 }
 
 resource "oci_cloud_migrations_migration" "test_migration" {
@@ -44,10 +44,9 @@ resource "oci_cloud_migrations_migration" "test_migration" {
   display_name   = var.migration_display_name
 
   #Optional
-  defined_tags            = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.migration_defined_tags_value)
   freeform_tags           = var.migration_freeform_tags
   is_completed            = var.migration_is_completed
-  replication_schedule_id = oci_cloud_migrations_replication_schedule.test_replication_schedule.id
+  replication_schedule_id = var.replication_schedule_id
 }
 
 data "oci_cloud_migrations_migrations" "test_migrations" {

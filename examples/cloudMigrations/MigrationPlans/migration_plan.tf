@@ -1,15 +1,12 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "region" {
+  default = "us-ashburn-1"
+}
 
-variable "migration_plan_defined_tags_value" {
-  default = "value"
+variable "compartment_id" {
+  default = "compartment_id"
 }
 
 variable "migration_plan_display_name" {
@@ -21,7 +18,7 @@ variable "migration_plan_freeform_tags" {
 }
 
 variable "migration_plan_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "migration_plan_strategies_adjustment_multiplier" {
@@ -49,15 +46,7 @@ variable "migration_plan_strategies_strategy_type" {
 }
 
 variable "migration_plan_target_environments_availability_domain" {
-  default = "availabilityDomain"
-}
-
-variable "migration_plan_target_environments_dedicated_vm_host" {
-  default = "dedicatedVmHost"
-}
-
-variable "migration_plan_target_environments_fault_domain" {
-  default = "faultDomain"
+  default = "oQNt:US-ASHBURN-AD-1"
 }
 
 variable "migration_plan_target_environments_ms_license" {
@@ -69,7 +58,7 @@ variable "migration_plan_target_environments_preferred_shape_type" {
 }
 
 variable "migration_plan_target_environments_subnet" {
-  default = "subnet"
+  default = "migration_plan_target_environments_subnet"
 }
 
 variable "migration_plan_target_environments_target_environment_type" {
@@ -77,29 +66,30 @@ variable "migration_plan_target_environments_target_environment_type" {
 }
 
 variable "migration_plan_target_environments_vcn" {
-  default = "vcn"
+  default = "migration_plan_target_environments_vcn"
+}
+
+variable "migration_id" {
+  default = "migration_id"
 }
 
 
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  # version             = "8.3.0"
 }
 
 resource "oci_cloud_migrations_migration_plan" "test_migration_plan" {
   #Required
   compartment_id = var.compartment_id
   display_name   = var.migration_plan_display_name
-  migration_id   = oci_cloud_migrations_migration.test_migration.id
+  migration_id   = var.migration_id
 
   #Optional
-  defined_tags             = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.migration_plan_defined_tags_value)
   freeform_tags            = var.migration_plan_freeform_tags
-  source_migration_plan_id = oci_cloud_migrations_migration_plan.test_migration_plan.id
   strategies {
     #Required
     resource_type = var.migration_plan_strategies_resource_type
@@ -119,11 +109,9 @@ resource "oci_cloud_migrations_migration_plan" "test_migration_plan" {
 
     #Optional
     availability_domain   = var.migration_plan_target_environments_availability_domain
-    dedicated_vm_host     = var.migration_plan_target_environments_dedicated_vm_host
-    fault_domain          = var.migration_plan_target_environments_fault_domain
     ms_license            = var.migration_plan_target_environments_ms_license
     preferred_shape_type  = var.migration_plan_target_environments_preferred_shape_type
-    target_compartment_id = oci_identity_compartment.test_compartment.id
+    target_compartment_id = var.compartment_id
   }
 }
 
@@ -132,7 +120,7 @@ data "oci_cloud_migrations_migration_plans" "test_migration_plans" {
   #Optional
   compartment_id    = var.compartment_id
   display_name      = var.migration_plan_display_name
-  migration_id      = oci_cloud_migrations_migration.test_migration.id
+  migration_id      = var.migration_id
   migration_plan_id = oci_cloud_migrations_migration_plan.test_migration_plan.id
   state             = var.migration_plan_state
 }

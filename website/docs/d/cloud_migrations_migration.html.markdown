@@ -39,6 +39,9 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `is_completed` - Indicates whether migration is marked as completed.
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.
+* `migration_config` - Configuration for a Migration Project.
+	* `subnet_id` - The OCID of the subnet to use for replication
+* `migration_type` - Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - Replication schedule identifier
 * `state` - The current state of migration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

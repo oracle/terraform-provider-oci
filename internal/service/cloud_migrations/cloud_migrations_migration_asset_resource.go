@@ -30,6 +30,7 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 		ReadContext:   readCloudMigrationsMigrationAssetWithContext,
 		UpdateContext: updateCloudMigrationsMigrationAssetWithContext,
 		DeleteContext: deleteCloudMigrationsMigrationAssetWithContext,
+		CustomizeDiff: customizeDiffReplicationLocationDetailMetadata(),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -68,6 +69,33 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"replication_location_detail": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"metadata": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"replication_location_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -90,6 +118,11 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"destination_disks": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -249,6 +282,17 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) CreateWithContext(ctx contex
 		request.ReplicationCompartmentId = &tmp
 	}
 
+	if replicationLocationDetail, ok := s.D.GetOkExists("replication_location_detail"); ok {
+		if tmpList := replicationLocationDetail.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_location_detail", 0)
+			tmp, err := s.mapToReplicationLocationDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationLocationDetail = &tmp
+		}
+	}
+
 	if replicationScheduleId, ok := s.D.GetOkExists("replication_schedule_id"); ok {
 		tmp := replicationScheduleId.(string)
 		request.ReplicationScheduleId = &tmp
@@ -272,7 +316,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) CreateWithContext(ctx contex
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMigrationAssetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMigrationAssetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *CloudMigrationsMigrationAssetResourceCrud) getMigrationAssetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -494,6 +538,8 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) SetData() error {
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
 
+	s.D.Set("destination_disks", s.Res.DestinationDisks)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -515,6 +561,12 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) SetData() error {
 
 	if s.Res.ReplicationCompartmentId != nil {
 		s.D.Set("replication_compartment_id", *s.Res.ReplicationCompartmentId)
+	}
+
+	if s.Res.ReplicationLocationDetail != nil {
+		s.D.Set("replication_location_detail", []interface{}{ReplicationLocationDetailToMap(s.Res.ReplicationLocationDetail)})
+	} else {
+		s.D.Set("replication_location_detail", nil)
 	}
 
 	if s.Res.ReplicationScheduleId != nil {
@@ -566,6 +618,8 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 	result["migration_asset_depends_on"] = obj.DependsOn
 	result["migration_asset_depends_on"] = obj.DependsOn
 
+	result["destination_disks"] = obj.DestinationDisks
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -587,6 +641,10 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 
 	if obj.ParentSnapshot != nil {
 		result["parent_snapshot"] = string(*obj.ParentSnapshot)
+	}
+
+	if obj.ReplicationLocationDetail != nil {
+		result["replication_location_detail"] = []interface{}{ReplicationLocationDetailToMap(obj.ReplicationLocationDetail)}
 	}
 
 	if obj.ReplicationScheduleId != nil {
@@ -623,4 +681,75 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 	}
 
 	return result
+}
+
+func (s *CloudMigrationsMigrationAssetResourceCrud) mapToReplicationLocationDetail(fieldKeyFormat string) (oci_cloud_migrations.ReplicationLocationDetail, error) {
+	result := oci_cloud_migrations.ReplicationLocationDetail{}
+
+	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
+		stringMap := tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
+		var temp interface{} = stringMap
+		result.Metadata = &temp
+	}
+
+	if replicationLocationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replication_location_type")); ok {
+		result.ReplicationLocationType = oci_cloud_migrations.ReplicationLocationDetailReplicationLocationTypeEnum(replicationLocationType.(string))
+	}
+
+	return result, nil
+}
+
+func ReplicationLocationDetailToMap(obj *oci_cloud_migrations.ReplicationLocationDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["metadata"] = obj.Metadata
+
+	result["replication_location_type"] = string(obj.ReplicationLocationType)
+
+	return result
+}
+
+func customizeDiffReplicationLocationDetailMetadata() schema.CustomizeDiffFunc {
+	return func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+		if !d.HasChange("replication_location_detail") {
+			return nil
+		}
+
+		oldRaw, newRaw := d.GetChange("replication_location_detail")
+		oldList, _ := oldRaw.([]interface{})
+		newList, _ := newRaw.([]interface{})
+
+		if len(oldList) == 0 || len(newList) == 0 || oldList[0] == nil || newList[0] == nil {
+			return nil
+		}
+
+		old0, ok := oldList[0].(map[string]interface{})
+		if !ok {
+			return nil
+		}
+		new0, ok := newList[0].(map[string]interface{})
+		if !ok {
+			return nil
+		}
+
+		oldMeta, _ := old0["metadata"].(map[string]interface{})
+		newMeta, _ := new0["metadata"].(map[string]interface{})
+
+		if len(oldMeta) == 0 || newMeta == nil {
+			return nil
+		}
+
+		merged := make(map[string]interface{}, len(oldMeta)+len(newMeta))
+		for k, v := range oldMeta {
+			merged[k] = v
+		}
+		for k, v := range newMeta {
+			merged[k] = v
+		}
+
+		new0["metadata"] = merged
+		newList[0] = new0
+
+		return d.SetNew("replication_location_detail", newList)
+	}
 }

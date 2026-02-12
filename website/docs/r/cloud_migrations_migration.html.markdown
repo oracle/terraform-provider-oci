@@ -28,6 +28,12 @@ resource "oci_cloud_migrations_migration" "test_migration" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	is_completed = var.migration_is_completed
+	migration_config {
+
+		#Optional
+		subnet_id = oci_core_subnet.test_subnet.id
+	}
+	migration_type = var.migration_migration_type
 	replication_schedule_id = oci_cloud_migrations_replication_schedule.test_replication_schedule.id
 }
 ```
@@ -41,6 +47,9 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) Migration identifier
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: `{"bar-key": "value"}` 
 * `is_completed` - (Optional) (Updatable) Indicates whether migration is marked as complete.
+* `migration_config` - (Optional) (Updatable) Configuration for a Migration Project.
+	* `subnet_id` - (Optional) (Updatable) The OCID of the subnet to use for replication
+* `migration_type` - (Optional) (Updatable) Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - (Optional) (Updatable) Replication schedule identifier
 
 
@@ -58,6 +67,9 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `is_completed` - Indicates whether migration is marked as completed.
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.
+* `migration_config` - Configuration for a Migration Project.
+	* `subnet_id` - The OCID of the subnet to use for replication
+* `migration_type` - Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - Replication schedule identifier
 * `state` - The current state of migration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

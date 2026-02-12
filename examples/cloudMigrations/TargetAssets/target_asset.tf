@@ -1,12 +1,13 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "region" {
+  default = "us-ashburn-1"
+}
+
+variable "compartment_id" {
+  default = "compartment_id"
+}
 
 variable "target_asset_block_volumes_performance" {
   default = 10
@@ -29,7 +30,7 @@ variable "target_asset_preferred_shape_type" {
 }
 
 variable "target_asset_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "target_asset_type" {
@@ -57,7 +58,7 @@ variable "target_asset_user_spec_agent_config_plugins_config_name" {
 }
 
 variable "target_asset_user_spec_availability_domain" {
-  default = "availabilityDomain"
+  default = "oQNt:US-ASHBURN-AD-1"
 }
 
 variable "target_asset_user_spec_create_vnic_details_assign_private_dns_record" {
@@ -137,7 +138,7 @@ variable "target_asset_user_spec_preemptible_instance_config_preemption_action_t
 }
 
 variable "target_asset_user_spec_shape" {
-  default = "shape"
+  default = "VM.Standard.E4.Flex"
 }
 
 variable "target_asset_user_spec_shape_config_baseline_ocpu_utilization" {
@@ -161,23 +162,34 @@ variable "target_asset_user_spec_source_details_boot_volume_vpus_per_gb" {
 }
 
 variable "target_asset_user_spec_source_details_source_type" {
-  default = "sourceType"
+  default = "image"
+}
+
+variable "migration_plan_id" {
+  default = "migration_plan_id"
+}
+
+variable "subnet_id" {
+  default = "subnet_id"
+}
+
+variable "image_id" {
+  default = "image_id"
 }
 
 
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  # version             = "8.3.0"
 }
 
 resource "oci_cloud_migrations_target_asset" "test_target_asset" {
   #Required
   is_excluded_from_execution = var.target_asset_is_excluded_from_execution
-  migration_plan_id          = oci_cloud_migrations_migration_plan.test_migration_plan.id
+  migration_plan_id          = var.migration_plan_id
   preferred_shape_type       = var.target_asset_preferred_shape_type
   type                       = var.target_asset_type
   user_spec {
@@ -196,25 +208,20 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
       }
     }
     availability_domain     = var.target_asset_user_spec_availability_domain
-    capacity_reservation_id = oci_cloud_migrations_capacity_reservation.test_capacity_reservation.id
     compartment_id          = var.compartment_id
     create_vnic_details {
 
       #Optional
       assign_private_dns_record = var.target_asset_user_spec_create_vnic_details_assign_private_dns_record
       assign_public_ip          = var.target_asset_user_spec_create_vnic_details_assign_public_ip
-      defined_tags              = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.target_asset_user_spec_create_vnic_details_defined_tags_value)
       display_name              = var.target_asset_user_spec_create_vnic_details_display_name
       freeform_tags             = var.target_asset_user_spec_create_vnic_details_freeform_tags
       hostname_label            = var.target_asset_user_spec_create_vnic_details_hostname_label
       nsg_ids                   = var.target_asset_user_spec_create_vnic_details_nsg_ids
       private_ip                = var.target_asset_user_spec_create_vnic_details_private_ip
       skip_source_dest_check    = var.target_asset_user_spec_create_vnic_details_skip_source_dest_check
-      subnet_id                 = oci_core_subnet.test_subnet.id
-      vlan_id                   = oci_core_vlan.test_vlan.id
+      subnet_id                 = var.subnet_id
     }
-    dedicated_vm_host_id = oci_core_dedicated_vm_host.test_dedicated_vm_host.id
-    defined_tags         = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.target_asset_user_spec_defined_tags_value)
     display_name         = var.target_asset_user_spec_display_name
     fault_domain         = var.target_asset_user_spec_fault_domain
     freeform_tags        = var.target_asset_user_spec_freeform_tags
@@ -249,11 +256,9 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
       source_type = var.target_asset_user_spec_source_details_source_type
 
       #Optional
-      boot_volume_id          = oci_core_boot_volume.test_boot_volume.id
       boot_volume_size_in_gbs = var.target_asset_user_spec_source_details_boot_volume_size_in_gbs
       boot_volume_vpus_per_gb = var.target_asset_user_spec_source_details_boot_volume_vpus_per_gb
-      image_id                = oci_core_image.test_image.id
-      kms_key_id              = oci_kms_key.test_key.id
+      image_id                = var.image_id
     }
   }
 
@@ -266,7 +271,7 @@ data "oci_cloud_migrations_target_assets" "test_target_assets" {
 
   #Optional
   display_name      = var.target_asset_display_name
-  migration_plan_id = oci_cloud_migrations_migration_plan.test_migration_plan.id
+  migration_plan_id = var.migration_plan_id
   state             = var.target_asset_state
   target_asset_id   = oci_cloud_migrations_target_asset.test_target_asset.id
 }
