@@ -89,6 +89,14 @@ func (s *CloudMigrationsMigrationDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MigrationConfig != nil {
+		s.D.Set("migration_config", []interface{}{MigrationConfigToMap(s.Res.MigrationConfig)})
+	} else {
+		s.D.Set("migration_config", nil)
+	}
+
+	s.D.Set("migration_type", s.Res.MigrationType)
+
 	if s.Res.ReplicationScheduleId != nil {
 		s.D.Set("replication_schedule_id", *s.Res.ReplicationScheduleId)
 	}

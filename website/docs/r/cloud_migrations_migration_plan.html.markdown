@@ -42,17 +42,20 @@ resource "oci_cloud_migrations_migration_plan" "test_migration_plan" {
 	}
 	target_environments {
 		#Required
-		subnet = var.migration_plan_target_environments_subnet
 		target_environment_type = var.migration_plan_target_environments_target_environment_type
-		vcn = var.migration_plan_target_environments_vcn
 
 		#Optional
 		availability_domain = var.migration_plan_target_environments_availability_domain
+		cluster_asset_id = oci_cloud_bridge_asset.test_asset.id
 		dedicated_vm_host = var.migration_plan_target_environments_dedicated_vm_host
 		fault_domain = var.migration_plan_target_environments_fault_domain
 		ms_license = var.migration_plan_target_environments_ms_license
+		olvm_templates = var.migration_plan_target_environments_olvm_templates
 		preferred_shape_type = var.migration_plan_target_environments_preferred_shape_type
+		subnet = var.migration_plan_target_environments_subnet
 		target_compartment_id = oci_identity_compartment.test_compartment.id
+		vcn = var.migration_plan_target_environments_vcn
+		vnic_profile_asset_id = oci_cloud_bridge_asset.test_asset.id
 	}
 }
 ```
@@ -75,15 +78,18 @@ The following arguments are supported:
 	* `resource_type` - (Required) (Updatable) The type of resource.
 	* `strategy_type` - (Required) (Updatable) The type of strategy used for migration.
 * `target_environments` - (Optional) (Updatable) List of target environments.
-	* `availability_domain` - (Optional) (Updatable) Availability Domain of the VM configuration.
-	* `dedicated_vm_host` - (Optional) (Updatable) OCID of the dedicated VM configuration host.
-	* `fault_domain` - (Optional) (Updatable) Fault domain of the VM configuration.
-	* `ms_license` - (Optional) (Updatable) Microsoft license for the VM configuration.
+	* `availability_domain` - (Applicable when target_environment_type=VM_TARGET_ENV) (Updatable) Availability Domain of the VM configuration.
+	* `cluster_asset_id` - (Required when target_environment_type=OLVM_TARGET_ENV) (Updatable) Inventory asset id of the olvm cluster
+	* `dedicated_vm_host` - (Applicable when target_environment_type=VM_TARGET_ENV) (Updatable) OCID of the dedicated VM configuration host.
+	* `fault_domain` - (Applicable when target_environment_type=VM_TARGET_ENV) (Updatable) Fault domain of the VM configuration.
+	* `ms_license` - (Applicable when target_environment_type=VM_TARGET_ENV) (Updatable) Microsoft license for the VM configuration.
+	* `olvm_templates` - (Applicable when target_environment_type=OLVM_TARGET_ENV) (Updatable) OLVM OS type to inventory asset id of the template
 	* `preferred_shape_type` - (Optional) (Updatable) Preferred VM shape type provided by the customer.
-	* `subnet` - (Required) (Updatable) OCID of the VM configuration subnet.
+	* `subnet` - (Required when target_environment_type=VM_TARGET_ENV) (Updatable) OCID of the VM configuration subnet.
 	* `target_compartment_id` - (Optional) (Updatable) Target compartment identifier
 	* `target_environment_type` - (Required) (Updatable) The type of target environment.
-	* `vcn` - (Required) (Updatable) OCID of the VM configuration VCN.
+	* `vcn` - (Required when target_environment_type=VM_TARGET_ENV) (Updatable) OCID of the VM configuration VCN.
+	* `vnic_profile_asset_id` - (Required when target_environment_type=OLVM_TARGET_ENV) (Updatable) Inventory asset Id of the vnic profile
 
 
 ** IMPORTANT **
@@ -102,6 +108,16 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.
 * `migration_id` - The OCID of the associated migration.
 * `migration_plan_stats` - Status of the migration plan.
+	* `cost_to_migrate` - Summary of costs to migrate.
+		* `asset_count` - Number of assets used in this calculation.
+		* `currency_code` - Currency code as defined by ISO-4217.
+		* `oci_data_transfer_costs` - Data transfer costs from OCI.
+		* `source_data_transfer_costs` - Data transfer costs from source cloud provider.
+	* `current_monthly_cost` - Current monthly compute and storage costs.
+		* `asset_count` - Number of assets used in this calculation.
+		* `compute_amount` - Current monthly compute costs.
+		* `currency_code` - Currency code as defined by ISO-4217.
+		* `storage_amount` - Current monthly storage costs.
 	* `time_updated` - The time when the migration plan was calculated. An RFC3339 formatted datetime string.
 	* `total_estimated_cost` - Cost estimation description
 		* `compute` - Cost estimation for compute
@@ -145,14 +161,17 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_environments` - List of target environments.
 	* `availability_domain` - Availability Domain of the VM configuration.
+	* `cluster_asset_id` - Inventory asset id of the olvm cluster
 	* `dedicated_vm_host` - OCID of the dedicated VM configuration host.
 	* `fault_domain` - Fault domain of the VM configuration.
 	* `ms_license` - Microsoft license for the VM configuration.
+	* `olvm_templates` - OLVM OS type to inventory asset id of the template
 	* `preferred_shape_type` - Preferred VM shape type provided by the customer.
 	* `subnet` - OCID of the VM configuration subnet.
 	* `target_compartment_id` - Target compartment identifier
 	* `target_environment_type` - The type of target environment.
 	* `vcn` - OCID of the VM configuration VCN.
+	* `vnic_profile_asset_id` - Inventory asset Id of the vnic profile
 * `time_created` - The time when the migration plan was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time when the migration plan was updated. An RFC3339 formatted datetime string.
 

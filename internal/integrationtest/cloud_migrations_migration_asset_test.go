@@ -64,6 +64,31 @@ var (
 
 	CloudMigrationsMigrationAssetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Required, acctest.Create, CloudMigrationsMigrationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_replication_schedule", "test_replication_schedule", acctest.Required, acctest.Create, CloudMigrationsReplicationScheduleRepresentation)
+
+	// OLVM
+	CloudMigrationsOlvmMigrationAssetRepresentation = map[string]interface{}{
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: CloudMigrationsAssetAD},
+		"inventory_asset_id":          acctest.Representation{RepType: acctest.Required, Create: CloudMigrationsAssetId},
+		"migration_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_migrations_migration.test_migration_olvm.id}`},
+		"replication_compartment_id":  acctest.Representation{RepType: acctest.Required, Create: compartmentId},
+		"snap_shot_bucket_name":       acctest.Representation{RepType: acctest.Required, Create: CloudMigrationsBucketName},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"replication_schedule_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_replication_schedule.test_replication_schedule.id}`},
+		"replication_location_detail": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsOlvmMigrationAssetReplicationLocationDetailRepresentation}}
+
+	CloudMigrationsOlvmMigrationAssetReplicationLocationDetailRepresentation = map[string]interface{}{
+		"metadata":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"storageDomainAssetId": "${var.storageDomainAssetId}"}},
+		"replication_location_type": acctest.Representation{RepType: acctest.Optional, Create: `OLVM_STORAGE_DOMAIN`},
+	}
+	CloudMigrationsCloudMigrationsOlvmMigrationAssetDataSourceRepresentation = map[string]interface{}{
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"migration_asset_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_migration_asset.test_migration_asset.id}`},
+		"migration_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_migration.test_migration_olvm.id}`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudMigrationsMigrationAssetDataSourceFilterRepresentation}}
+
+	CloudMigrationsOlvmMigrationAssetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration_olvm", acctest.Optional, acctest.Create, CloudMigrationsOlvmMigrationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_replication_schedule", "test_replication_schedule", acctest.Required, acctest.Create, CloudMigrationsReplicationScheduleRepresentation)
 )
 
 // issue-routing-tag: cloud_migrations/default
@@ -84,12 +109,88 @@ func TestCloudMigrationsMigrationAssetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_cloud_migrations_migration_assets.test_migration_assets"
 	singularDatasourceName := "data.oci_cloud_migrations_migration_asset.test_migration_asset"
 
+	storageDomainAssetId := utils.GetEnvSettingWithBlankDefault("storageDomainAssetId")
+	storageDomainAssetIdVariableStr := fmt.Sprintf("variable \"storageDomainAssetId\" { default = \"%s\" }\n", storageDomainAssetId)
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+variableStr+CloudMigrationsMigrationAssetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_asset", "test_migration_asset", acctest.Optional, acctest.Create, CloudMigrationsMigrationAssetRepresentation), "cloudmigrations", "migrationAsset", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudMigrationsMigrationAssetDestroy, []resource.TestStep{
+		// OLVM
+		// verify Create
+		{
+			Config: config + variableStr + storageDomainAssetIdVariableStr + CloudMigrationsOlvmMigrationAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_asset", "test_migration_asset", acctest.Optional, acctest.Create, CloudMigrationsOlvmMigrationAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_asset_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.metadata.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.replication_location_type", "OLVM_STORAGE_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.metadata.storageDomainAssetId", storageDomainAssetId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migration_assets", "test_migration_assets", acctest.Optional, acctest.Update, CloudMigrationsCloudMigrationsOlvmMigrationAssetDataSourceRepresentation) +
+				variableStr + storageDomainAssetIdVariableStr + CloudMigrationsOlvmMigrationAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_asset", "test_migration_asset", acctest.Optional, acctest.Update, CloudMigrationsOlvmMigrationAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "migration_asset_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "migration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "migration_asset_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "migration_asset_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migration_asset", "test_migration_asset", acctest.Required, acctest.Create, CloudMigrationsCloudMigrationsMigrationAssetSingularDataSourceRepresentation) +
+				variableStr + storageDomainAssetIdVariableStr + CloudMigrationsOlvmMigrationAssetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_asset", "test_migration_asset", acctest.Optional, acctest.Update, CloudMigrationsOlvmMigrationAssetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_asset_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_asset_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.metadata.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.replication_location_type", "OLVM_STORAGE_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "replication_location_detail.0.metadata.storageDomainAssetId", storageDomainAssetId),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + variableStr,
+		},
 		// verify Create
 		{
 			Config: config + variableStr + CloudMigrationsMigrationAssetResourceDependencies +
@@ -112,6 +213,7 @@ func TestCloudMigrationsMigrationAssetResource_basic(t *testing.T) {
 		{
 			Config: config + variableStr + CloudMigrationsMigrationAssetResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + variableStr + CloudMigrationsMigrationAssetResourceDependencies +
@@ -194,7 +296,7 @@ func TestCloudMigrationsMigrationAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "notifications.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "notifications.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_asset_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

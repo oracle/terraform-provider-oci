@@ -60,6 +60,32 @@ func CloudMigrationsMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"migration_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"migration_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"replication_schedule_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -189,6 +215,21 @@ func (s *CloudMigrationsMigrationResourceCrud) Create() error {
 	if isCompleted, ok := s.D.GetOkExists("is_completed"); ok {
 		tmp := isCompleted.(bool)
 		request.IsCompleted = &tmp
+	}
+
+	if migrationConfig, ok := s.D.GetOkExists("migration_config"); ok {
+		if tmpList := migrationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "migration_config", 0)
+			tmp, err := s.mapToMigrationConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MigrationConfig = &tmp
+		}
+	}
+
+	if migrationType, ok := s.D.GetOkExists("migration_type"); ok {
+		request.MigrationType = oci_cloud_migrations.MigrationMigrationTypeEnum(migrationType.(string))
 	}
 
 	if replicationScheduleId, ok := s.D.GetOkExists("replication_schedule_id"); ok {
@@ -385,8 +426,23 @@ func (s *CloudMigrationsMigrationResourceCrud) Update() error {
 		request.IsCompleted = &tmp
 	}
 
+	if migrationConfig, ok := s.D.GetOkExists("migration_config"); ok {
+		if tmpList := migrationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "migration_config", 0)
+			tmp, err := s.mapToMigrationConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MigrationConfig = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.MigrationId = &tmp
+
+	if migrationType, ok := s.D.GetOkExists("migration_type"); ok {
+		request.MigrationType = oci_cloud_migrations.MigrationMigrationTypeEnum(migrationType.(string))
+	}
 
 	if replicationScheduleId, ok := s.D.GetOkExists("replication_schedule_id"); ok {
 		tmp := replicationScheduleId.(string)
@@ -449,6 +505,14 @@ func (s *CloudMigrationsMigrationResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MigrationConfig != nil {
+		s.D.Set("migration_config", []interface{}{MigrationConfigToMap(s.Res.MigrationConfig)})
+	} else {
+		s.D.Set("migration_config", nil)
+	}
+
+	s.D.Set("migration_type", s.Res.MigrationType)
+
 	if s.Res.ReplicationScheduleId != nil {
 		s.D.Set("replication_schedule_id", *s.Res.ReplicationScheduleId)
 	}
@@ -468,6 +532,27 @@ func (s *CloudMigrationsMigrationResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *CloudMigrationsMigrationResourceCrud) mapToMigrationConfig(fieldKeyFormat string) (oci_cloud_migrations.MigrationConfig, error) {
+	result := oci_cloud_migrations.MigrationConfig{}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func MigrationConfigToMap(obj *oci_cloud_migrations.MigrationConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
 }
 
 func MigrationSummaryToMap(obj oci_cloud_migrations.MigrationSummary) map[string]interface{} {
@@ -499,6 +584,12 @@ func MigrationSummaryToMap(obj oci_cloud_migrations.MigrationSummary) map[string
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	if obj.MigrationConfig != nil {
+		result["migration_config"] = []interface{}{MigrationConfigToMap(obj.MigrationConfig)}
+	}
+
+	result["migration_type"] = string(obj.MigrationType)
 
 	if obj.ReplicationScheduleId != nil {
 		result["replication_schedule_id"] = string(*obj.ReplicationScheduleId)
