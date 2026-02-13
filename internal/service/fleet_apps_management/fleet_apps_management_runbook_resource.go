@@ -1907,10 +1907,10 @@ func (s *FleetAppsManagementRunbookResourceCrud) mapToExecutionDetails(fieldKeyF
 	switch strings.ToLower(executionType) {
 	case strings.ToLower("API"):
 		details := oci_fleet_apps_management.ApiBasedExecutionDetails{}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
-			tmp := endpoint.(string)
-			details.Endpoint = &tmp
-		}
+		//if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		//	tmp := endpoint.(string)
+		//	details.Endpoint = &tmp
+		//}
 		baseObject = details
 	case strings.ToLower("SCRIPT"):
 		details := oci_fleet_apps_management.ScriptBasedExecutionDetails{}

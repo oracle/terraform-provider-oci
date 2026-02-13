@@ -1014,10 +1014,10 @@ func (s *FleetAppsManagementTaskRecordResourceCrud) mapToExecutionDetails(fieldK
 	switch strings.ToLower(executionType) {
 	case strings.ToLower("API"):
 		details := oci_fleet_apps_management.ApiBasedExecutionDetails{}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
-			tmp := endpoint.(string)
-			details.Endpoint = &tmp
-		}
+		//if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		//	tmp := endpoint.(string)
+		//	details.Endpoint = &tmp
+		//}
 		if systemVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_variables")); ok {
 			interfaces := systemVariables.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1137,9 +1137,9 @@ func ExecutionDetailsToMap(obj *oci_fleet_apps_management.ExecutionDetails) map[
 	case oci_fleet_apps_management.ApiBasedExecutionDetails:
 		result["execution_type"] = "API"
 
-		if v.Endpoint != nil {
-			result["endpoint"] = string(*v.Endpoint)
-		}
+		//if v.Endpoint != nil {
+		//	result["endpoint"] = string(*v.Endpoint)
+		//}
 
 		result["system_variables"] = v.SystemVariables
 	case oci_fleet_apps_management.ScriptBasedExecutionDetails:
