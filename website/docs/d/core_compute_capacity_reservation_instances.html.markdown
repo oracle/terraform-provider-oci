@@ -61,5 +61,5 @@ The following attributes are exported:
 
 	For more information about customizing the resources that are allocated to flexible shapes, see [Flexible Shapes](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible). 
 	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
-	* `ocpus` - The total number of OCPUs available to the instance. 
+	* `ocpus` - The total number of OCPUs available to the instance
 
