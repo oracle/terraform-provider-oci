@@ -82,6 +82,10 @@ func CoreComputeCapacityReservationInstancesDataSource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
+									"resource_management": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},

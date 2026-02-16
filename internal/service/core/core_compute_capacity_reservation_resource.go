@@ -138,6 +138,11 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"resource_management": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -643,6 +648,12 @@ func (s *CoreComputeCapacityReservationResourceCrud) mapToInstanceReservationSha
 		result.Ocpus = &tmp
 	}
 
+	if resourceManagement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_management")); ok {
+		result.ResourceManagement = oci_core.InstanceReservationShapeConfigDetailsResourceManagementEnum(resourceManagement.(string))
+	} else {
+		result.ResourceManagement = oci_core.InstanceReservationShapeConfigDetailsResourceManagementStatic
+	}
+
 	return result, nil
 }
 
@@ -655,6 +666,12 @@ func InstanceReservationShapeConfigDetailsToMap(obj *oci_core.InstanceReservatio
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	if obj.ResourceManagement != "" {
+		result["resource_management"] = string(obj.ResourceManagement)
+	} else {
+		result["resource_management"] = "STATIC"
 	}
 
 	return result
@@ -729,6 +746,12 @@ func instanceReservationConfigsHashCodeForSets(v interface{}) int {
 				}
 				if ocpus, ok := instanceShapeConfigMap["ocpus"]; ok {
 					buf.WriteString(fmt.Sprintf("%v-", ocpus))
+				}
+
+				if resourceManagement, ok := instanceShapeConfigMap["resource_management"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", resourceManagement))
+				} else {
+					buf.WriteString(fmt.Sprintf("%v-", "STATIC"))
 				}
 			}
 		}

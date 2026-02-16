@@ -89,23 +89,27 @@ var (
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `15`},
-		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"memory_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `15`},
+		"ocpus":               acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"resource_management": acctest.Representation{RepType: acctest.Required, Create: `STATIC`},
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation2 = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `24`},
-		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"memory_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"ocpus":               acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"resource_management": acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`},
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation3 = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `36`},
-		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"memory_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"ocpus":               acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"resource_management": acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`},
 	}
 
 	CoreComputeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation4 = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `23`},
-		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `4`},
+		"memory_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"ocpus":               acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"resource_management": acctest.Representation{RepType: acctest.Required, Create: `STATIC`},
 	}
 
 	CoreComputeCapacityReservationResourceDependencies = AvailabilityDomainConfig +
@@ -122,21 +126,14 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-
 	clusterPlacementGroupId := utils.GetEnvSettingWithBlankDefault("cluster_placement_group_ocid")
 	clusterPlacementGroupIdStr := fmt.Sprintf("variable \"cluster_placement_group_id\" { default = \"%s\" }\n", clusterPlacementGroupId)
 
 	resourceName := "oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
-	datasourceName := "data.oci_core_compute_capacity_reservations.test_compute_capacity_reservations"
-	singularDatasourceName := "data.oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
 
-	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+clusterPlacementGroupIdStr+CoreComputeCapacityReservationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create, CoreComputeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
-
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreComputeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
 	acctest.ResourceTest(t, testAccCheckCoreComputeCapacityReservationDestroy, []resource.TestStep{
 		// Step 0: verify Create
 		{
@@ -161,6 +158,10 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "2"),
+				//resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.1.instance_shape_config.0.resource_management", "DYNAMIC"),
+				func(s *terraform.State) error {
+					return checkDynamicAndStaticInstanceConfigs(resourceName, s, 1, 1)
+				},
 			),
 		},
 
@@ -172,6 +173,9 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "3"),
+				func(s *terraform.State) error {
+					return checkDynamicAndStaticInstanceConfigs(resourceName, s, 2, 1)
+				},
 			),
 		},
 
@@ -188,13 +192,44 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "3"),
+				func(s *terraform.State) error {
+					return checkDynamicAndStaticInstanceConfigs(resourceName, s, 2, 1)
+				},
 			),
 		},
 		// Step 5: delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CoreComputeCapacityReservationResourceDependencies,
 		},
-		// Step 6: verify Create with optionals
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreComputeCapacityReservationResource_original(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeCapacityReservationResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	clusterPlacementGroupId := utils.GetEnvSettingWithBlankDefault("cluster_placement_group_ocid")
+	clusterPlacementGroupIdStr := fmt.Sprintf("variable \"cluster_placement_group_id\" { default = \"%s\" }\n", clusterPlacementGroupId)
+
+	resourceName := "oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+clusterPlacementGroupIdStr+CoreComputeCapacityReservationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreComputeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreComputeCapacityReservationDestroy, []resource.TestStep{
+
+		// Step 1: verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + clusterPlacementGroupIdStr + CoreComputeCapacityReservationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create, CoreComputeCapacityReservationRepresentation),
@@ -229,7 +264,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			),
 		},
 
-		// Step 7: verify Update to the compartment (the compartment will be switched back in the next step)
+		// Step 2: verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + clusterPlacementGroupIdStr + CoreComputeCapacityReservationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Create,
@@ -265,7 +300,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			),
 		},
 
-		// Step 8: verify updates to updatable parameters
+		// Step 3: verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CoreComputeCapacityReservationResourceDependencies + clusterPlacementGroupIdStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Optional, acctest.Update, CoreComputeCapacityReservationRepresentation),
@@ -297,7 +332,33 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// Step 9: verify datasource
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreComputeCapacityReservationResource_dataSource(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeCapacityReservationResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	clusterPlacementGroupId := utils.GetEnvSettingWithBlankDefault("cluster_placement_group_ocid")
+	clusterPlacementGroupIdStr := fmt.Sprintf("variable \"cluster_placement_group_id\" { default = \"%s\" }\n", clusterPlacementGroupId)
+
+	resourceName := "oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
+	datasourceName := "data.oci_core_compute_capacity_reservations.test_compute_capacity_reservations"
+	singularDatasourceName := "data.oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+clusterPlacementGroupIdStr+CoreComputeCapacityReservationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreComputeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreComputeCapacityReservationDestroy, []resource.TestStep{
+
+		// Step 1: verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", acctest.Optional, acctest.Update, CoreCoreComputeCapacityReservationDataSourceRepresentation) +
@@ -323,7 +384,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.used_instance_count"),
 			),
 		},
-		// Step 10: verify singular datasource
+		// Step 2: verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", acctest.Required, acctest.Create, CoreCoreComputeCapacityReservationSingularDataSourceRepresentation) +
@@ -483,4 +544,57 @@ func CoreComputeCapacityReservationSweepResponseFetchOperation(client *tf_client
 	},
 	})
 	return err
+}
+
+// Helper to check exact expected dynamic and static instance_reservation_configs
+// Dynamic: resource_management == "DYNAMIC"; Static: no resource_management or != "DYNAMIC"
+func checkDynamicAndStaticInstanceConfigs(fullResourceName string, s *terraform.State, expectedDynamicCount int, expectedStaticCount int) error {
+	// Get the resource instance from state
+	instance, ok := s.RootModule().Resources[fullResourceName]
+	if !ok {
+		return fmt.Errorf("resource %s not found in state", fullResourceName)
+	}
+
+	// Get the primary state
+	primary := instance.Primary
+	if primary == nil {
+		return fmt.Errorf("primary state not found for resource %s", fullResourceName)
+	}
+	if primary.ID == "" {
+		return fmt.Errorf("no ID set for resource %s", fullResourceName)
+	}
+
+	// Get the total count from attributes
+	countStr, countExists := primary.Attributes["instance_reservation_configs.#"]
+	if !countExists {
+		return fmt.Errorf("could not find instance_reservation_configs.# in state for %s", fullResourceName)
+	}
+	totalCount, err := strconv.Atoi(countStr)
+	if err != nil {
+		return fmt.Errorf("invalid total count for instance_reservation_configs in %s: %s", fullResourceName, countStr)
+	}
+
+	// Validate expected totals match
+	if expectedDynamicCount+expectedStaticCount != totalCount {
+		return fmt.Errorf("expected dynamic (%d) + static (%d) must equal total count (%d) for %s", expectedDynamicCount, expectedStaticCount, totalCount, fullResourceName)
+	}
+
+	// Count dynamics
+	dynamicCount := 0
+	for i := 0; i < totalCount; i++ {
+		rmKey := fmt.Sprintf("instance_reservation_configs.%d.instance_shape_config.0.resource_management", i)
+		if rmValue, exists := primary.Attributes[rmKey]; exists && rmValue == "DYNAMIC" {
+			dynamicCount++
+		}
+	}
+
+	actualStaticCount := totalCount - dynamicCount
+
+	if dynamicCount != expectedDynamicCount {
+		return fmt.Errorf("expected %d dynamic instance_reservation_config(s) (resource_management == 'DYNAMIC') for %s, got %d (static: %d, total: %d)", expectedDynamicCount, fullResourceName, dynamicCount, actualStaticCount, totalCount)
+	}
+	if actualStaticCount != expectedStaticCount {
+		return fmt.Errorf("expected %d static instance_reservation_config(s) for %s, got %d (dynamic: %d, total: %d)", expectedStaticCount, fullResourceName, actualStaticCount, dynamicCount, totalCount)
+	}
+	return nil
 }

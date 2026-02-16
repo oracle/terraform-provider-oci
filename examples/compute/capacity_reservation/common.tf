@@ -5,6 +5,7 @@ provider "oci" {
   fingerprint = var.fingerprint
   private_key_path = var.private_key_path
   retry_duration_seconds = "1800"
+  # version             = "7.22.0"
 }
 
 data "oci_identity_availability_domain" "ad" {
