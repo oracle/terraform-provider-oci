@@ -64,6 +64,7 @@ var (
 	waitForStateRefreshVar                 = WaitForStateRefresh
 	waitForStateRefreshVarWithContext      = WaitForStateRefreshWithContext
 	WaitForWorkRequestVar                  = WaitForWorkRequest
+	WaitForWorkRequestWithContextVar       = WaitForWorkRequestWithContext
 	getWorkRequestErrorsVar                = getWorkRequestErrors
 	waitForStateRefreshForHybridPollingVar = waitForStateRefreshForHybridPolling
 	stateRefreshFuncVar                    = stateRefreshFunc
@@ -169,7 +170,7 @@ func waitForStateRefreshForHybridPolling(workRequestClient workReqClient, workRe
 		if _, ok := e.(*retry.UnexpectedStateError); ok {
 			retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
-			e = getWorkRequestErrorsVar(workRequestClient, workRequestIds, retryPolicy, entityType, action)
+			e = getWorkRequestErrorsVar(context.Background(), workRequestClient, workRequestIds, retryPolicy, entityType, action)
 			return e
 		}
 
@@ -1195,6 +1196,30 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient workReqClient, workRe
 
 }
 
+// WaitForWorkRequestWithErrorHandlingAndContext is the context-aware counterpart to
+// WaitForWorkRequestWithErrorHandling. Both helpers coexist until every async code path can pass a
+// context; at that point the non-context variant can be removed.
+func WaitForWorkRequestWithErrorHandlingAndContext(ctx context.Context, workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool) (*string, error) {
+	var identifier *string
+	workRequestIdsSet := map[string]bool{}
+
+	for _, wId := range strings.Split(strings.TrimSpace(*workRequestIds), ",") {
+		if wId != "" {
+			workRequestIdsSet[strings.TrimSpace(wId)] = true
+		}
+	}
+
+	for wId := range workRequestIdsSet {
+		id, err := WaitForWorkRequestWithContextVar(ctx, workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
+		if err != nil {
+			return id, err
+		}
+		identifier = id
+	}
+	return identifier, nil
+}
+
 func WaitForWorkRequest(workRequestClient workReqClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
 	retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
@@ -1257,7 +1282,77 @@ func WaitForWorkRequest(workRequestClient workReqClient, workRequestId *string, 
 			return nil, fmt.Errorf("work request succeeded but no identifier was found, workId: %s, entity: %s, action: %s",
 				*workRequestId, entityType, action)
 		}
-		return nil, getWorkRequestErrorsVar(workRequestClient, workRequestId, retryPolicy, entityType, action)
+		return nil, getWorkRequestErrorsVar(context.Background(), workRequestClient, workRequestId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+// WaitForWorkRequestWithContext mirrors WaitForWorkRequest but allows callers to pass a context so polling
+// can respect upstream cancellation. Once all async paths are context-aware, the
+// original WaitForWorkRequest helper can be removed in favor of this version.
+func WaitForWorkRequestWithContext(ctx context.Context, workRequestClient workReqClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
+	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
+
+	response := oci_work_requests.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_work_requests.WorkRequestStatusInProgress),
+			string(oci_work_requests.WorkRequestStatusAccepted),
+			string(oci_work_requests.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_work_requests.WorkRequestStatusSucceeded),
+			string(oci_work_requests.WorkRequestStatusFailed),
+			string(oci_work_requests.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = workRequestClient.GetWorkRequest(ctx,
+				oci_work_requests.GetWorkRequestRequest{
+					WorkRequestId: workRequestId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+
+	var identifier *string
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		for _, res := range response.Resources {
+			if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
+				if res.Identifier != nil {
+					identifier = res.Identifier
+					break
+				}
+			}
+		}
+
+		return identifier, e
+	}
+
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), strings.ToLower(entityType)) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	if expectIdentifier && identifier == nil {
+		if response.Status == oci_work_requests.WorkRequestStatusSucceeded {
+			return nil, fmt.Errorf("work request succeeded but no identifier was found, workId: %s, entity: %s, action: %s",
+				*workRequestId, entityType, action)
+		}
+		return nil, getWorkRequestErrors(ctx, workRequestClient, workRequestId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -1312,8 +1407,8 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 	}
 }
 
-func getWorkRequestErrors(workRequestClient workReqClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
-	response, err := workRequestClient.ListWorkRequestErrors(context.Background(), oci_work_requests.ListWorkRequestErrorsRequest{
+func getWorkRequestErrors(ctx context.Context, workRequestClient workReqClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+	response, err := workRequestClient.ListWorkRequestErrors(ctx, oci_work_requests.ListWorkRequestErrorsRequest{
 		WorkRequestId: workRequestId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,

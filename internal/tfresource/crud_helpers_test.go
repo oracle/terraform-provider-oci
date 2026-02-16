@@ -1496,6 +1496,64 @@ func TestUnitWaitForWorkRequestWithErrorHandling(t *testing.T) {
 	}
 }
 
+func TestUnitWaitForWorkRequestWithErrorHandlingAndContext(t *testing.T) {
+	type output struct {
+		identifier string
+		gotError   bool
+	}
+	type args struct {
+		workRequestClient   *mockWorkRequestClient
+		workRequestIds      *string
+		entityType          string
+		action              oci_work_requests.WorkRequestResourceActionTypeEnum
+		timeout             time.Duration
+		disableFoundRetries bool
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		output   output
+		mockFunc func()
+	}
+	timeoutDuration, _ := time.ParseDuration("1s")
+	workReqIds := "1 2 3"
+	tests := []testFormat{
+		{
+			name:   "Test error is not returned",
+			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "", timeout: timeoutDuration, disableFoundRetries: false},
+			output: output{identifier: "test", gotError: false},
+			mockFunc: func() {
+				WaitForWorkRequestWithContextVar = func(ctx context.Context, wrc workReqClient, wId *string, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum, tt time.Duration, dfr bool, ei bool) (*string, error) {
+					id := "test"
+					return &id, nil
+				}
+			},
+		},
+		{
+			name:   "Test error is returned",
+			args:   args{workRequestClient: nil, workRequestIds: &workReqIds, entityType: "", action: "", timeout: timeoutDuration, disableFoundRetries: false},
+			output: output{identifier: "test", gotError: true},
+			mockFunc: func() {
+				WaitForWorkRequestWithContextVar = func(ctx context.Context, wrc workReqClient, wId *string, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum, tt time.Duration, dfr bool, ei bool) (*string, error) {
+					id := "test"
+					return &id, errors.New("default")
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		id, err := WaitForWorkRequestWithErrorHandlingAndContext(context.Background(), test.args.workRequestClient, test.args.workRequestIds, test.args.entityType, test.args.action, test.args.timeout, test.args.disableFoundRetries)
+		if (err != nil) != test.output.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.output.gotError)
+		}
+		if *id != test.output.identifier {
+			t.Errorf("Output string - %s is not equal to expected string - %s", *id, test.output.identifier)
+		}
+	}
+}
+
 func TestUnitWaitForWorkRequest(t *testing.T) {
 	type output struct {
 		identifier string
@@ -1525,7 +1583,7 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 			args:      args{workRequestClient: nil, entityType: "", action: "CREATED", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
 			output:    output{identifier: "oci", gotError: false},
 			mockFunc: func() {
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return nil
 				}
 			},
@@ -1536,7 +1594,7 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 			args:      args{workRequestClient: nil, entityType: "default", action: "CREATED", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
 			output:    output{identifier: "", gotError: true},
 			mockFunc: func() {
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1547,7 +1605,7 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 			args:      args{workRequestClient: nil, entityType: "default", action: "", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
 			output:    output{identifier: "", gotError: true},
 			mockFunc: func() {
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1558,7 +1616,7 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 			args:      args{workRequestClient: nil, entityType: "default", action: "", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
 			output:    output{identifier: "", gotError: true},
 			mockFunc: func() {
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1568,6 +1626,66 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 		t.Log("Running ", test.name)
 		test.mockFunc()
 		id, err := WaitForWorkRequest(test.args.workRequestClient, &test.workReqId, test.args.entityType, test.args.action, test.args.timeout, test.args.disableFoundRetries, test.args.expectIdentifier)
+		if id != nil && *id != test.output.identifier {
+			t.Log(*id)
+			t.Errorf("Output identifier - %s not equal to expected identifier - %s", *id, test.output.identifier)
+		}
+		if (err != nil) != test.output.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.output.gotError)
+		}
+	}
+}
+
+func TestUnitWaitForWorkRequestWithContext(t *testing.T) {
+	type output struct {
+		identifier string
+		gotError   bool
+	}
+	type args struct {
+		workRequestClient   *mockWorkRequestClient
+		workRequestId       *string
+		entityType          string
+		action              oci_work_requests.WorkRequestResourceActionTypeEnum
+		timeout             time.Duration
+		disableFoundRetries bool
+		expectIdentifier    bool
+	}
+	type testFormat struct {
+		name      string
+		workReqId string
+		args      args
+		output    output
+		mockFunc  func()
+	}
+	timeoutDuration, _ := time.ParseDuration("1s")
+	tests := []testFormat{
+		{
+			name:      "Test error is not returned",
+			workReqId: "1",
+			args:      args{workRequestClient: nil, entityType: "", action: "CREATED", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
+			output:    output{identifier: "oci", gotError: false},
+			mockFunc: func() {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+					return nil
+				}
+			},
+		},
+		{
+			name:      "Test error is returned",
+			workReqId: "2",
+			args:      args{workRequestClient: nil, entityType: "default", action: "CREATED", timeout: timeoutDuration, disableFoundRetries: false, expectIdentifier: true},
+			output:    output{identifier: "", gotError: true},
+			mockFunc: func() {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+					return errors.New("")
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Log("Running ", test.name)
+		test.mockFunc()
+		id, err := WaitForWorkRequestWithContext(context.Background(), test.args.workRequestClient, &test.workReqId, test.args.entityType, test.args.action, test.args.timeout, test.args.disableFoundRetries, test.args.expectIdentifier)
 		if id != nil && *id != test.output.identifier {
 			t.Log(*id)
 			t.Errorf("Output identifier - %s not equal to expected identifier - %s", *id, test.output.identifier)
@@ -1650,7 +1768,7 @@ func TestUnitgetWorkRequestErrors(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Logf("Running %s", test.name)
-		if res := getWorkRequestErrors(test.args.workRequestClient, test.args.workRequestId, test.args.retryPolicy, test.args.entityType, test.args.action); (res != nil) != test.output {
+		if res := getWorkRequestErrors(context.Background(), test.args.workRequestClient, test.args.workRequestId, test.args.retryPolicy, test.args.entityType, test.args.action); (res != nil) != test.output {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.output)
 		}
 	}
@@ -1688,7 +1806,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 						return wr, string(wr.Status), nil
 					}
 				}
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1704,7 +1822,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 						return wr, string(wr.Status), nil
 					}
 				}
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1720,7 +1838,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 						return wr, string(wr.Status), nil
 					}
 				}
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
@@ -1736,7 +1854,7 @@ func TestUnitwaitForStateRefreshForHybridPolling(t *testing.T) {
 						return wr, string(wr.Status), nil
 					}
 				}
-				getWorkRequestErrorsVar = func(wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+				getWorkRequestErrorsVar = func(ctx context.Context, wrc workReqClient, wId *string, rp *oci_common.RetryPolicy, et string, a oci_work_requests.WorkRequestResourceActionTypeEnum) error {
 					return errors.New("")
 				}
 			},
