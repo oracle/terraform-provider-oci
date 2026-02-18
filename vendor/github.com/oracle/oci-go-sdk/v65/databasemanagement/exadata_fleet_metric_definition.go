@@ -1,0 +1,59 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Database Management API
+//
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
+//
+
+package databasemanagement
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// ExadataFleetMetricDefinition The Exadata infrastructure metric details.
+type ExadataFleetMetricDefinition struct {
+
+	// The name of the metric.
+	MetricName *string `mandatory:"false" json:"metricName"`
+
+	// The baseline value of the metric.
+	BaselineValue *float64 `mandatory:"false" json:"baselineValue"`
+
+	// The target value of the metric.
+	TargetValue *float64 `mandatory:"false" json:"targetValue"`
+
+	// The unit of the value.
+	Unit *string `mandatory:"false" json:"unit"`
+
+	// The data point date and time in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
+	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
+
+	// The percentage change in the metric aggregated value compared to the baseline value.
+	PercentageChange *float64 `mandatory:"false" json:"percentageChange"`
+
+	// The dimensions of the metric.
+	Dimensions []ExadataMetricDimensionDefinition `mandatory:"false" json:"dimensions"`
+}
+
+func (m ExadataFleetMetricDefinition) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExadataFleetMetricDefinition) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
