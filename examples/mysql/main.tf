@@ -130,6 +130,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     maintenance_schedule_type = "REGULAR"
     version_preference =        "OLDEST"
     version_track_preference =  "FOLLOW"
+    maintenance_disabled_windows {
+      time_start = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "24h"))
+      time_end = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "48h"))
+    }
   }
 
   nsg_ids       = [oci_core_network_security_group.test_network_security_group.id]
@@ -230,6 +234,16 @@ data "oci_mysql_mysql_db_systems" "test_mysql_db_systems" {
 data "oci_mysql_mysql_backup" "test_mysql_backup" {
   #Required
   backup_id = oci_mysql_mysql_backup.test_mysql_backup.id
+}
+
+data "oci_mysql_db_system_maintenance_events" "test_mysql_db_system_maintenance_events" {
+  #Required
+  db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
+
+  #Optional
+  maintenance_action = "DATABASE"
+  maintenance_status = "SUCCEEDED"
+  maintenance_type = "MANUAL"
 }
 
 output "configuration_id" {

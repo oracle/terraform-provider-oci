@@ -89,6 +89,12 @@ func (s *CoreComputeGpuMemoryClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GpuMemoryClusterScaleConfig != nil {
+		s.D.Set("gpu_memory_cluster_scale_config", []interface{}{ComputeGpuMemoryClusterScaleConfigToMap(s.Res.GpuMemoryClusterScaleConfig)})
+	} else {
+		s.D.Set("gpu_memory_cluster_scale_config", nil)
+	}
+
 	if s.Res.GpuMemoryFabricId != nil {
 		s.D.Set("gpu_memory_fabric_id", *s.Res.GpuMemoryFabricId)
 	}

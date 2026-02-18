@@ -632,6 +632,64 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListMaintenanceEvents List all the maintenance events.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListMaintenanceEvents.go.html to see an example of how to use ListMaintenanceEvents API.
+// A default retry strategy applies to this operation ListMaintenanceEvents()
+func (client DbSystemClient) ListMaintenanceEvents(ctx context.Context, request ListMaintenanceEventsRequest) (response ListMaintenanceEventsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaintenanceEvents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaintenanceEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaintenanceEventsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaintenanceEventsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaintenanceEventsResponse")
+	}
+	return
+}
+
+// listMaintenanceEvents implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) listMaintenanceEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/maintenanceEvents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaintenanceEventsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/MaintenanceEvent/ListMaintenanceEvents"
+		err = common.PostProcessServiceError(err, "DbSystem", "ListMaintenanceEvents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RestartDbSystem Restarts the specified DB System.
 //
 // # See also

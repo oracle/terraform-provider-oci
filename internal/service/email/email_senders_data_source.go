@@ -30,6 +30,10 @@ func EmailSendersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"email_ip_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -79,6 +83,11 @@ func (s *EmailSendersDataSourceCrud) Get() error {
 		request.EmailAddress = &tmp
 	}
 
+	if emailIpPoolId, ok := s.D.GetOkExists("email_ip_pool_id"); ok {
+		tmp := emailIpPoolId.(string)
+		request.EmailIpPoolId = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_email.SenderLifecycleStateEnum(state.(string))
 	}
@@ -125,6 +134,10 @@ func (s *EmailSendersDataSourceCrud) SetData() error {
 
 		if r.EmailAddress != nil {
 			sender["email_address"] = *r.EmailAddress
+		}
+
+		if r.EmailIpPoolId != nil {
+			sender["email_ip_pool_id"] = *r.EmailIpPoolId
 		}
 
 		sender["freeform_tags"] = r.FreeformTags

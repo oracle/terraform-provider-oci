@@ -59,7 +59,19 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreEmailSenderDefinedTagsChangesRepresentation},
 	}
 
-	EmailSenderResourceDependencies = DefinedTagsDependencies
+	SenderEmailIpPoolRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `name_sender`},
+		"outbound_ips": acctest.Representation{
+			RepType: acctest.Required,
+			Create:  []string{`${var.ip1}`, `${var.ip2}`},
+			Update:  []string{`${var.ip1}`, `${var.ip2}`},
+		},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+	EmailSenderResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Required, acctest.Create, SenderEmailIpPoolRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: email/default

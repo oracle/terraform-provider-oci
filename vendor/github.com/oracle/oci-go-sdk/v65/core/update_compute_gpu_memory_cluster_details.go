@@ -43,6 +43,8 @@ type UpdateComputeGpuMemoryClusterDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	GpuMemoryClusterScaleConfig *UpdateComputeGpuMemoryClusterScaleConfig `mandatory:"false" json:"gpuMemoryClusterScaleConfig"`
 }
 
 func (m UpdateComputeGpuMemoryClusterDetails) String() string {

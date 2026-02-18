@@ -48,6 +48,11 @@ type MaintenanceDetails struct {
 
 	// The version that is expected to be targeted during the next scheduled maintenance run.
 	TargetVersion *string `mandatory:"false" json:"targetVersion"`
+
+	// Time window during which downtime-inducing maintenance shall not be performed.
+	// Downtime-free maintenance may be performed to apply required security patches.
+	// At most one configured window is supported.
+	MaintenanceDisabledWindows []MaintenanceDisabledWindow `mandatory:"false" json:"maintenanceDisabledWindows"`
 }
 
 func (m MaintenanceDetails) String() string {

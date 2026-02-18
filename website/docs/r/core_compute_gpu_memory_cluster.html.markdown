@@ -30,6 +30,14 @@ resource "oci_core_compute_gpu_memory_cluster" "test_compute_gpu_memory_cluster"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.compute_gpu_memory_cluster_display_name
 	freeform_tags = {"Department"= "Finance"}
+	gpu_memory_cluster_scale_config {
+		#Required
+		is_upsize_enabled = var.compute_gpu_memory_cluster_gpu_memory_cluster_scale_config_is_upsize_enabled
+
+		#Optional
+		is_downsize_enabled = var.compute_gpu_memory_cluster_gpu_memory_cluster_scale_config_is_downsize_enabled
+		target_size = var.compute_gpu_memory_cluster_gpu_memory_cluster_scale_config_target_size
+	}
 	gpu_memory_fabric_id = oci_core_gpu_memory_fabric.test_gpu_memory_fabric.id
 	size = var.compute_gpu_memory_cluster_size
 }
@@ -45,6 +53,10 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `gpu_memory_cluster_scale_config` - (Optional) (Updatable) Configuration settings for GPU Memory Cluster scaling. 
+	* `is_downsize_enabled` - (Optional) (Updatable) Enables downsizing towards the target size. 
+	* `is_upsize_enabled` - (Required) (Updatable) Enables upsizing towards the target size. 
+	* `target_size` - (Optional) (Updatable) The configured target size for the GPU Memory cluster. 
 * `gpu_memory_fabric_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric. 
 * `instance_configuration_id` - (Required) (Updatable) Instance Configuration to be used for this GPU Memory Cluster 
 * `size` - (Optional) (Updatable) The number of instances currently running in the GpuMemoryCluster 
@@ -63,6 +75,10 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `gpu_memory_cluster_scale_config` - Configuration settings for GPU Memory Cluster scaling. 
+	* `is_downsize_enabled` - Whether downsizing is enabled. 
+	* `is_upsize_enabled` - Whether upsizing is enabled. 
+	* `target_size` - The configured target size for the GPU Memory cluster. 
 * `gpu_memory_fabric_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster 
 * `instance_configuration_id` - The OCID of the Instance Configuration used to source launch details for this instance.
