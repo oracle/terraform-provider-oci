@@ -102,6 +102,14 @@ func (m *entitydiscovered) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 
 	var err error
 	switch m.EntityType {
+	case "MANAGED_INFRASTRUCTURE_DISCOVER_SUMMARY":
+		mm := ExadataInfrastructureDiscoverySummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MANAGED_STORAGE_GRID_DISCOVER_SUMMARY":
+		mm := StorageGridDiscoverySummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STORAGE_GRID_DISCOVER_SUMMARY":
 		mm := ExternalStorageGridDiscoverySummary{}
 		err = json.Unmarshal(data, &mm)
@@ -114,12 +122,24 @@ func (m *entitydiscovered) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := ExternalDatabaseSystemDiscoverySummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CLOUD_INFRASTRUCTURE_DISCOVER":
+		mm := CloudExadataInfrastructureDiscovery{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INFRASTRUCTURE_DISCOVER_SUMMARY":
 		mm := ExternalExadataInfrastructureDiscoverySummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "STORAGE_SERVER_DISCOVER_SUMMARY":
 		mm := ExternalStorageServerDiscoverySummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MANAGED_STORAGE_SERVER_DISCOVER_SUMMARY":
+		mm := StorageServerDiscoverySummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VM_CLUSTER_DISCOVER_SUMMARY":
+		mm := VmClusterDiscoverySummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -252,27 +272,42 @@ type EntityDiscoveredEntityTypeEnum string
 
 // Set of constants representing the allowable values for EntityDiscoveredEntityTypeEnum
 const (
-	EntityDiscoveredEntityTypeStorageServerDiscoverSummary  EntityDiscoveredEntityTypeEnum = "STORAGE_SERVER_DISCOVER_SUMMARY"
-	EntityDiscoveredEntityTypeStorageGridDiscoverSummary    EntityDiscoveredEntityTypeEnum = "STORAGE_GRID_DISCOVER_SUMMARY"
-	EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary EntityDiscoveredEntityTypeEnum = "DATABASE_SYSTEM_DISCOVER_SUMMARY"
-	EntityDiscoveredEntityTypeInfrastructureDiscoverSummary EntityDiscoveredEntityTypeEnum = "INFRASTRUCTURE_DISCOVER_SUMMARY"
-	EntityDiscoveredEntityTypeInfrastructureDiscover        EntityDiscoveredEntityTypeEnum = "INFRASTRUCTURE_DISCOVER"
+	EntityDiscoveredEntityTypeStorageServerDiscoverSummary         EntityDiscoveredEntityTypeEnum = "STORAGE_SERVER_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeStorageGridDiscoverSummary           EntityDiscoveredEntityTypeEnum = "STORAGE_GRID_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary        EntityDiscoveredEntityTypeEnum = "DATABASE_SYSTEM_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeInfrastructureDiscoverSummary        EntityDiscoveredEntityTypeEnum = "INFRASTRUCTURE_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeInfrastructureDiscover               EntityDiscoveredEntityTypeEnum = "INFRASTRUCTURE_DISCOVER"
+	EntityDiscoveredEntityTypeManagedStorageServerDiscoverSummary  EntityDiscoveredEntityTypeEnum = "MANAGED_STORAGE_SERVER_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeManagedStorageGridDiscoverSummary    EntityDiscoveredEntityTypeEnum = "MANAGED_STORAGE_GRID_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeVmClusterDiscoverSummary             EntityDiscoveredEntityTypeEnum = "VM_CLUSTER_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeManagedInfrastructureDiscoverSummary EntityDiscoveredEntityTypeEnum = "MANAGED_INFRASTRUCTURE_DISCOVER_SUMMARY"
+	EntityDiscoveredEntityTypeCloudInfrastructureDiscover          EntityDiscoveredEntityTypeEnum = "CLOUD_INFRASTRUCTURE_DISCOVER"
 )
 
 var mappingEntityDiscoveredEntityTypeEnum = map[string]EntityDiscoveredEntityTypeEnum{
-	"STORAGE_SERVER_DISCOVER_SUMMARY":  EntityDiscoveredEntityTypeStorageServerDiscoverSummary,
-	"STORAGE_GRID_DISCOVER_SUMMARY":    EntityDiscoveredEntityTypeStorageGridDiscoverSummary,
-	"DATABASE_SYSTEM_DISCOVER_SUMMARY": EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary,
-	"INFRASTRUCTURE_DISCOVER_SUMMARY":  EntityDiscoveredEntityTypeInfrastructureDiscoverSummary,
-	"INFRASTRUCTURE_DISCOVER":          EntityDiscoveredEntityTypeInfrastructureDiscover,
+	"STORAGE_SERVER_DISCOVER_SUMMARY":         EntityDiscoveredEntityTypeStorageServerDiscoverSummary,
+	"STORAGE_GRID_DISCOVER_SUMMARY":           EntityDiscoveredEntityTypeStorageGridDiscoverSummary,
+	"DATABASE_SYSTEM_DISCOVER_SUMMARY":        EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary,
+	"INFRASTRUCTURE_DISCOVER_SUMMARY":         EntityDiscoveredEntityTypeInfrastructureDiscoverSummary,
+	"INFRASTRUCTURE_DISCOVER":                 EntityDiscoveredEntityTypeInfrastructureDiscover,
+	"MANAGED_STORAGE_SERVER_DISCOVER_SUMMARY": EntityDiscoveredEntityTypeManagedStorageServerDiscoverSummary,
+	"MANAGED_STORAGE_GRID_DISCOVER_SUMMARY":   EntityDiscoveredEntityTypeManagedStorageGridDiscoverSummary,
+	"VM_CLUSTER_DISCOVER_SUMMARY":             EntityDiscoveredEntityTypeVmClusterDiscoverSummary,
+	"MANAGED_INFRASTRUCTURE_DISCOVER_SUMMARY": EntityDiscoveredEntityTypeManagedInfrastructureDiscoverSummary,
+	"CLOUD_INFRASTRUCTURE_DISCOVER":           EntityDiscoveredEntityTypeCloudInfrastructureDiscover,
 }
 
 var mappingEntityDiscoveredEntityTypeEnumLowerCase = map[string]EntityDiscoveredEntityTypeEnum{
-	"storage_server_discover_summary":  EntityDiscoveredEntityTypeStorageServerDiscoverSummary,
-	"storage_grid_discover_summary":    EntityDiscoveredEntityTypeStorageGridDiscoverSummary,
-	"database_system_discover_summary": EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary,
-	"infrastructure_discover_summary":  EntityDiscoveredEntityTypeInfrastructureDiscoverSummary,
-	"infrastructure_discover":          EntityDiscoveredEntityTypeInfrastructureDiscover,
+	"storage_server_discover_summary":         EntityDiscoveredEntityTypeStorageServerDiscoverSummary,
+	"storage_grid_discover_summary":           EntityDiscoveredEntityTypeStorageGridDiscoverSummary,
+	"database_system_discover_summary":        EntityDiscoveredEntityTypeDatabaseSystemDiscoverSummary,
+	"infrastructure_discover_summary":         EntityDiscoveredEntityTypeInfrastructureDiscoverSummary,
+	"infrastructure_discover":                 EntityDiscoveredEntityTypeInfrastructureDiscover,
+	"managed_storage_server_discover_summary": EntityDiscoveredEntityTypeManagedStorageServerDiscoverSummary,
+	"managed_storage_grid_discover_summary":   EntityDiscoveredEntityTypeManagedStorageGridDiscoverSummary,
+	"vm_cluster_discover_summary":             EntityDiscoveredEntityTypeVmClusterDiscoverSummary,
+	"managed_infrastructure_discover_summary": EntityDiscoveredEntityTypeManagedInfrastructureDiscoverSummary,
+	"cloud_infrastructure_discover":           EntityDiscoveredEntityTypeCloudInfrastructureDiscover,
 }
 
 // GetEntityDiscoveredEntityTypeEnumValues Enumerates the set of values for EntityDiscoveredEntityTypeEnum
@@ -292,6 +327,11 @@ func GetEntityDiscoveredEntityTypeEnumStringValues() []string {
 		"DATABASE_SYSTEM_DISCOVER_SUMMARY",
 		"INFRASTRUCTURE_DISCOVER_SUMMARY",
 		"INFRASTRUCTURE_DISCOVER",
+		"MANAGED_STORAGE_SERVER_DISCOVER_SUMMARY",
+		"MANAGED_STORAGE_GRID_DISCOVER_SUMMARY",
+		"VM_CLUSTER_DISCOVER_SUMMARY",
+		"MANAGED_INFRASTRUCTURE_DISCOVER_SUMMARY",
+		"CLOUD_INFRASTRUCTURE_DISCOVER",
 	}
 }
 

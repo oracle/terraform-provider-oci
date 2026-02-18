@@ -18,18 +18,24 @@ type MaintenanceActionEnum string
 
 // Set of constants representing the allowable values for MaintenanceActionEnum
 const (
-	MaintenanceActionDatabase MaintenanceActionEnum = "DATABASE"
-	MaintenanceActionOsUpdate MaintenanceActionEnum = "OS_UPDATE"
+	MaintenanceActionDatabase     MaintenanceActionEnum = "DATABASE"
+	MaintenanceActionOsUpdate     MaintenanceActionEnum = "OS_UPDATE"
+	MaintenanceActionOnlineUpdate MaintenanceActionEnum = "ONLINE_UPDATE"
+	MaintenanceActionHardware     MaintenanceActionEnum = "HARDWARE"
 )
 
 var mappingMaintenanceActionEnum = map[string]MaintenanceActionEnum{
-	"DATABASE":  MaintenanceActionDatabase,
-	"OS_UPDATE": MaintenanceActionOsUpdate,
+	"DATABASE":      MaintenanceActionDatabase,
+	"OS_UPDATE":     MaintenanceActionOsUpdate,
+	"ONLINE_UPDATE": MaintenanceActionOnlineUpdate,
+	"HARDWARE":      MaintenanceActionHardware,
 }
 
 var mappingMaintenanceActionEnumLowerCase = map[string]MaintenanceActionEnum{
-	"database":  MaintenanceActionDatabase,
-	"os_update": MaintenanceActionOsUpdate,
+	"database":      MaintenanceActionDatabase,
+	"os_update":     MaintenanceActionOsUpdate,
+	"online_update": MaintenanceActionOnlineUpdate,
+	"hardware":      MaintenanceActionHardware,
 }
 
 // GetMaintenanceActionEnumValues Enumerates the set of values for MaintenanceActionEnum
@@ -46,6 +52,8 @@ func GetMaintenanceActionEnumStringValues() []string {
 	return []string{
 		"DATABASE",
 		"OS_UPDATE",
+		"ONLINE_UPDATE",
+		"HARDWARE",
 	}
 }
 
