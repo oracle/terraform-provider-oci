@@ -107,28 +107,64 @@ func (m *dbmresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := ExternalExadataStorageConnector{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "STORAGE_GRID_SUMMARY":
-		mm := ExternalExadataStorageGridSummary{}
+	case "VM_CLUSTER_SUMMARY":
+		mm := ExadataVmClusterSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "STORAGE_SERVER":
-		mm := ExternalExadataStorageServer{}
+	case "CLOUD_STORAGE_CONNECTOR_SUMMARY":
+		mm := CloudExadataStorageConnectorSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "INFRASTRUCTURE":
 		mm := ExternalExadataInfrastructure{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "STORAGE_GRID":
-		mm := ExternalExadataStorageGrid{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "INFRASTRUCTURE_SUMMARY":
 		mm := ExternalExadataInfrastructureSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CLOUD_INFRASTRUCTURE":
+		mm := CloudExadataInfrastructure{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_STORAGE_SERVER_SUMMARY":
+		mm := CloudExadataStorageServerSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_STORAGE_GRID":
+		mm := CloudExadataStorageGrid{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "STORAGE_GRID_SUMMARY":
+		mm := ExternalExadataStorageGridSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_STORAGE_CONNECTOR":
+		mm := CloudExadataStorageConnector{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_INFRASTRUCTURE_SUMMARY":
+		mm := CloudExadataInfrastructureSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "STORAGE_SERVER":
+		mm := ExternalExadataStorageServer{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "STORAGE_GRID":
+		mm := ExternalExadataStorageGrid{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_STORAGE_GRID_SUMMARY":
+		mm := CloudExadataStorageGridSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE_SYSTEM_SUMMARY":
 		mm := ExternalExadataDatabaseSystemSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CLOUD_STORAGE_SERVER":
+		mm := CloudExadataStorageServer{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "STORAGE_CONNECTOR_SUMMARY":
@@ -281,42 +317,72 @@ type DbmResourceResourceTypeEnum string
 
 // Set of constants representing the allowable values for DbmResourceResourceTypeEnum
 const (
-	DbmResourceResourceTypeInfrastructureSummary   DbmResourceResourceTypeEnum = "INFRASTRUCTURE_SUMMARY"
-	DbmResourceResourceTypeInfrastructure          DbmResourceResourceTypeEnum = "INFRASTRUCTURE"
-	DbmResourceResourceTypeStorageServerSummary    DbmResourceResourceTypeEnum = "STORAGE_SERVER_SUMMARY"
-	DbmResourceResourceTypeStorageServer           DbmResourceResourceTypeEnum = "STORAGE_SERVER"
-	DbmResourceResourceTypeStorageGridSummary      DbmResourceResourceTypeEnum = "STORAGE_GRID_SUMMARY"
-	DbmResourceResourceTypeStorageGrid             DbmResourceResourceTypeEnum = "STORAGE_GRID"
-	DbmResourceResourceTypeStorageConnectorSummary DbmResourceResourceTypeEnum = "STORAGE_CONNECTOR_SUMMARY"
-	DbmResourceResourceTypeStorageConnector        DbmResourceResourceTypeEnum = "STORAGE_CONNECTOR"
-	DbmResourceResourceTypeDatabaseSystemSummary   DbmResourceResourceTypeEnum = "DATABASE_SYSTEM_SUMMARY"
-	DbmResourceResourceTypeDatabaseSummary         DbmResourceResourceTypeEnum = "DATABASE_SUMMARY"
+	DbmResourceResourceTypeInfrastructureSummary        DbmResourceResourceTypeEnum = "INFRASTRUCTURE_SUMMARY"
+	DbmResourceResourceTypeInfrastructure               DbmResourceResourceTypeEnum = "INFRASTRUCTURE"
+	DbmResourceResourceTypeStorageServerSummary         DbmResourceResourceTypeEnum = "STORAGE_SERVER_SUMMARY"
+	DbmResourceResourceTypeStorageServer                DbmResourceResourceTypeEnum = "STORAGE_SERVER"
+	DbmResourceResourceTypeStorageGridSummary           DbmResourceResourceTypeEnum = "STORAGE_GRID_SUMMARY"
+	DbmResourceResourceTypeStorageGrid                  DbmResourceResourceTypeEnum = "STORAGE_GRID"
+	DbmResourceResourceTypeStorageConnectorSummary      DbmResourceResourceTypeEnum = "STORAGE_CONNECTOR_SUMMARY"
+	DbmResourceResourceTypeStorageConnector             DbmResourceResourceTypeEnum = "STORAGE_CONNECTOR"
+	DbmResourceResourceTypeDatabaseSystemSummary        DbmResourceResourceTypeEnum = "DATABASE_SYSTEM_SUMMARY"
+	DbmResourceResourceTypeDatabaseSummary              DbmResourceResourceTypeEnum = "DATABASE_SUMMARY"
+	DbmResourceResourceTypeVmClusterSummary             DbmResourceResourceTypeEnum = "VM_CLUSTER_SUMMARY"
+	DbmResourceResourceTypeCloudInfrastructureSummary   DbmResourceResourceTypeEnum = "CLOUD_INFRASTRUCTURE_SUMMARY"
+	DbmResourceResourceTypeCloudInfrastructure          DbmResourceResourceTypeEnum = "CLOUD_INFRASTRUCTURE"
+	DbmResourceResourceTypeCloudStorageServerSummary    DbmResourceResourceTypeEnum = "CLOUD_STORAGE_SERVER_SUMMARY"
+	DbmResourceResourceTypeCloudStorageServer           DbmResourceResourceTypeEnum = "CLOUD_STORAGE_SERVER"
+	DbmResourceResourceTypeCloudStorageGridSummary      DbmResourceResourceTypeEnum = "CLOUD_STORAGE_GRID_SUMMARY"
+	DbmResourceResourceTypeCloudStorageGrid             DbmResourceResourceTypeEnum = "CLOUD_STORAGE_GRID"
+	DbmResourceResourceTypeCloudStorageConnectorSummary DbmResourceResourceTypeEnum = "CLOUD_STORAGE_CONNECTOR_SUMMARY"
+	DbmResourceResourceTypeCloudStorageConnector        DbmResourceResourceTypeEnum = "CLOUD_STORAGE_CONNECTOR"
+	DbmResourceResourceTypeManagedDatabaseSummary       DbmResourceResourceTypeEnum = "MANAGED_DATABASE_SUMMARY"
 )
 
 var mappingDbmResourceResourceTypeEnum = map[string]DbmResourceResourceTypeEnum{
-	"INFRASTRUCTURE_SUMMARY":    DbmResourceResourceTypeInfrastructureSummary,
-	"INFRASTRUCTURE":            DbmResourceResourceTypeInfrastructure,
-	"STORAGE_SERVER_SUMMARY":    DbmResourceResourceTypeStorageServerSummary,
-	"STORAGE_SERVER":            DbmResourceResourceTypeStorageServer,
-	"STORAGE_GRID_SUMMARY":      DbmResourceResourceTypeStorageGridSummary,
-	"STORAGE_GRID":              DbmResourceResourceTypeStorageGrid,
-	"STORAGE_CONNECTOR_SUMMARY": DbmResourceResourceTypeStorageConnectorSummary,
-	"STORAGE_CONNECTOR":         DbmResourceResourceTypeStorageConnector,
-	"DATABASE_SYSTEM_SUMMARY":   DbmResourceResourceTypeDatabaseSystemSummary,
-	"DATABASE_SUMMARY":          DbmResourceResourceTypeDatabaseSummary,
+	"INFRASTRUCTURE_SUMMARY":          DbmResourceResourceTypeInfrastructureSummary,
+	"INFRASTRUCTURE":                  DbmResourceResourceTypeInfrastructure,
+	"STORAGE_SERVER_SUMMARY":          DbmResourceResourceTypeStorageServerSummary,
+	"STORAGE_SERVER":                  DbmResourceResourceTypeStorageServer,
+	"STORAGE_GRID_SUMMARY":            DbmResourceResourceTypeStorageGridSummary,
+	"STORAGE_GRID":                    DbmResourceResourceTypeStorageGrid,
+	"STORAGE_CONNECTOR_SUMMARY":       DbmResourceResourceTypeStorageConnectorSummary,
+	"STORAGE_CONNECTOR":               DbmResourceResourceTypeStorageConnector,
+	"DATABASE_SYSTEM_SUMMARY":         DbmResourceResourceTypeDatabaseSystemSummary,
+	"DATABASE_SUMMARY":                DbmResourceResourceTypeDatabaseSummary,
+	"VM_CLUSTER_SUMMARY":              DbmResourceResourceTypeVmClusterSummary,
+	"CLOUD_INFRASTRUCTURE_SUMMARY":    DbmResourceResourceTypeCloudInfrastructureSummary,
+	"CLOUD_INFRASTRUCTURE":            DbmResourceResourceTypeCloudInfrastructure,
+	"CLOUD_STORAGE_SERVER_SUMMARY":    DbmResourceResourceTypeCloudStorageServerSummary,
+	"CLOUD_STORAGE_SERVER":            DbmResourceResourceTypeCloudStorageServer,
+	"CLOUD_STORAGE_GRID_SUMMARY":      DbmResourceResourceTypeCloudStorageGridSummary,
+	"CLOUD_STORAGE_GRID":              DbmResourceResourceTypeCloudStorageGrid,
+	"CLOUD_STORAGE_CONNECTOR_SUMMARY": DbmResourceResourceTypeCloudStorageConnectorSummary,
+	"CLOUD_STORAGE_CONNECTOR":         DbmResourceResourceTypeCloudStorageConnector,
+	"MANAGED_DATABASE_SUMMARY":        DbmResourceResourceTypeManagedDatabaseSummary,
 }
 
 var mappingDbmResourceResourceTypeEnumLowerCase = map[string]DbmResourceResourceTypeEnum{
-	"infrastructure_summary":    DbmResourceResourceTypeInfrastructureSummary,
-	"infrastructure":            DbmResourceResourceTypeInfrastructure,
-	"storage_server_summary":    DbmResourceResourceTypeStorageServerSummary,
-	"storage_server":            DbmResourceResourceTypeStorageServer,
-	"storage_grid_summary":      DbmResourceResourceTypeStorageGridSummary,
-	"storage_grid":              DbmResourceResourceTypeStorageGrid,
-	"storage_connector_summary": DbmResourceResourceTypeStorageConnectorSummary,
-	"storage_connector":         DbmResourceResourceTypeStorageConnector,
-	"database_system_summary":   DbmResourceResourceTypeDatabaseSystemSummary,
-	"database_summary":          DbmResourceResourceTypeDatabaseSummary,
+	"infrastructure_summary":          DbmResourceResourceTypeInfrastructureSummary,
+	"infrastructure":                  DbmResourceResourceTypeInfrastructure,
+	"storage_server_summary":          DbmResourceResourceTypeStorageServerSummary,
+	"storage_server":                  DbmResourceResourceTypeStorageServer,
+	"storage_grid_summary":            DbmResourceResourceTypeStorageGridSummary,
+	"storage_grid":                    DbmResourceResourceTypeStorageGrid,
+	"storage_connector_summary":       DbmResourceResourceTypeStorageConnectorSummary,
+	"storage_connector":               DbmResourceResourceTypeStorageConnector,
+	"database_system_summary":         DbmResourceResourceTypeDatabaseSystemSummary,
+	"database_summary":                DbmResourceResourceTypeDatabaseSummary,
+	"vm_cluster_summary":              DbmResourceResourceTypeVmClusterSummary,
+	"cloud_infrastructure_summary":    DbmResourceResourceTypeCloudInfrastructureSummary,
+	"cloud_infrastructure":            DbmResourceResourceTypeCloudInfrastructure,
+	"cloud_storage_server_summary":    DbmResourceResourceTypeCloudStorageServerSummary,
+	"cloud_storage_server":            DbmResourceResourceTypeCloudStorageServer,
+	"cloud_storage_grid_summary":      DbmResourceResourceTypeCloudStorageGridSummary,
+	"cloud_storage_grid":              DbmResourceResourceTypeCloudStorageGrid,
+	"cloud_storage_connector_summary": DbmResourceResourceTypeCloudStorageConnectorSummary,
+	"cloud_storage_connector":         DbmResourceResourceTypeCloudStorageConnector,
+	"managed_database_summary":        DbmResourceResourceTypeManagedDatabaseSummary,
 }
 
 // GetDbmResourceResourceTypeEnumValues Enumerates the set of values for DbmResourceResourceTypeEnum
@@ -341,6 +407,16 @@ func GetDbmResourceResourceTypeEnumStringValues() []string {
 		"STORAGE_CONNECTOR",
 		"DATABASE_SYSTEM_SUMMARY",
 		"DATABASE_SUMMARY",
+		"VM_CLUSTER_SUMMARY",
+		"CLOUD_INFRASTRUCTURE_SUMMARY",
+		"CLOUD_INFRASTRUCTURE",
+		"CLOUD_STORAGE_SERVER_SUMMARY",
+		"CLOUD_STORAGE_SERVER",
+		"CLOUD_STORAGE_GRID_SUMMARY",
+		"CLOUD_STORAGE_GRID",
+		"CLOUD_STORAGE_CONNECTOR_SUMMARY",
+		"CLOUD_STORAGE_CONNECTOR",
+		"MANAGED_DATABASE_SUMMARY",
 	}
 }
 

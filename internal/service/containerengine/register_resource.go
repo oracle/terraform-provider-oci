@@ -13,4 +13,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_containerengine_cluster_start_credential_rotation_management", ContainerengineClusterStartCredentialRotationManagementResource())
 	tfresource.RegisterResource("oci_containerengine_node_pool", ContainerengineNodePoolResource())
 	tfresource.RegisterResource("oci_containerengine_virtual_node_pool", ContainerengineVirtualNodePoolResource())
+	tfresource.RegisterResource("oci_containerengine_cluster_public_api_endpoint_decommission_manager", ContainerengineClusterPublicApiEndpointDecommissionManagerResource())
 }

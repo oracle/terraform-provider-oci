@@ -1,3 +1,13 @@
+## 8.2.0 (February 18, 2026)
+
+### Added
+- Support for Database Management : ExaDB-D/ExaDB-C@C Storage Monitoring
+- Ip Pool Terraform
+- Support for Customer-controlled publicIP decommission
+- Support for MySQL HeatWave Service: Deferred Scheduled Maintenance
+- Support for Compute: Declarative GPU Memory Cluster API
+
+
 ## 8.1.0 (February 10, 2026)
 
 ### Added

@@ -277,6 +277,69 @@ func (client DbManagementClient) addmTasks(ctx context.Context, request common.O
 	return response, err
 }
 
+// ChangeCloudExadataInfrastructureCompartment Moves the Exadata infrastructure and its related resources (Exadata storage server, Exadata storage server connectors and Exadata storage server grid) to the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeCloudExadataInfrastructureCompartment.go.html to see an example of how to use ChangeCloudExadataInfrastructureCompartment API.
+// A default retry strategy applies to this operation ChangeCloudExadataInfrastructureCompartment()
+func (client DbManagementClient) ChangeCloudExadataInfrastructureCompartment(ctx context.Context, request ChangeCloudExadataInfrastructureCompartmentRequest) (response ChangeCloudExadataInfrastructureCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCloudExadataInfrastructureCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCloudExadataInfrastructureCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCloudExadataInfrastructureCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCloudExadataInfrastructureCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCloudExadataInfrastructureCompartmentResponse")
+	}
+	return
+}
+
+// changeCloudExadataInfrastructureCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) changeCloudExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCloudExadataInfrastructureCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/ChangeCloudExadataInfrastructureCompartment"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeCloudExadataInfrastructureCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseParameters Changes database parameter values. There are two kinds of database
 // parameters:
 // - Dynamic parameters: They can be changed for the current Oracle
@@ -966,6 +1029,69 @@ func (client DbManagementClient) checkCloudDbSystemConnectorConnectionStatus(ctx
 	return response, err
 }
 
+// CheckCloudExadataStorageConnector Checks the status of the Exadata storage server connection specified by exadataStorageConnectorId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CheckCloudExadataStorageConnector.go.html to see an example of how to use CheckCloudExadataStorageConnector API.
+// A default retry strategy applies to this operation CheckCloudExadataStorageConnector()
+func (client DbManagementClient) CheckCloudExadataStorageConnector(ctx context.Context, request CheckCloudExadataStorageConnectorRequest) (response CheckCloudExadataStorageConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.checkCloudExadataStorageConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckCloudExadataStorageConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckCloudExadataStorageConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckCloudExadataStorageConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckCloudExadataStorageConnectorResponse")
+	}
+	return
+}
+
+// checkCloudExadataStorageConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) checkCloudExadataStorageConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataStorageConnectors/{cloudExadataStorageConnectorId}/actions/checkStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CheckCloudExadataStorageConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/CheckCloudExadataStorageConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "CheckCloudExadataStorageConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CheckExternalDbSystemConnectorConnectionStatus Checks the status of the external DB system component connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
 //
@@ -1456,6 +1582,138 @@ func (client DbManagementClient) createCloudDbSystemDiscovery(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/CreateCloudDbSystemDiscovery"
 		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudDbSystemDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCloudExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
+// The following resource/subresources are created:
+//
+//	Infrastructure
+//	Storage server connectors
+//	Storage servers
+//	Storage grids
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudExadataInfrastructure.go.html to see an example of how to use CreateCloudExadataInfrastructure API.
+// A default retry strategy applies to this operation CreateCloudExadataInfrastructure()
+func (client DbManagementClient) CreateCloudExadataInfrastructure(ctx context.Context, request CreateCloudExadataInfrastructureRequest) (response CreateCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// createCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/CreateCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCloudExadataStorageConnector Creates the Exadata storage server connector after validating the connection information.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudExadataStorageConnector.go.html to see an example of how to use CreateCloudExadataStorageConnector API.
+// A default retry strategy applies to this operation CreateCloudExadataStorageConnector()
+func (client DbManagementClient) CreateCloudExadataStorageConnector(ctx context.Context, request CreateCloudExadataStorageConnectorRequest) (response CreateCloudExadataStorageConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCloudExadataStorageConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCloudExadataStorageConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCloudExadataStorageConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCloudExadataStorageConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCloudExadataStorageConnectorResponse")
+	}
+	return
+}
+
+// createCloudExadataStorageConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createCloudExadataStorageConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataStorageConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCloudExadataStorageConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/CreateCloudExadataStorageConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateCloudExadataStorageConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -2387,6 +2645,120 @@ func (client DbManagementClient) deleteCloudDbSystemDiscovery(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/DeleteCloudDbSystemDiscovery"
 		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudDbSystemDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCloudExadataInfrastructure Deletes the Exadata infrastructure specified by exadataInfrastructureId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteCloudExadataInfrastructure.go.html to see an example of how to use DeleteCloudExadataInfrastructure API.
+func (client DbManagementClient) DeleteCloudExadataInfrastructure(ctx context.Context, request DeleteCloudExadataInfrastructureRequest) (response DeleteCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// deleteCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/DeleteCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCloudExadataStorageConnector Deletes the Exadata storage server connector specified by exadataStorageConnectorId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteCloudExadataStorageConnector.go.html to see an example of how to use DeleteCloudExadataStorageConnector API.
+func (client DbManagementClient) DeleteCloudExadataStorageConnector(ctx context.Context, request DeleteCloudExadataStorageConnectorRequest) (response DeleteCloudExadataStorageConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCloudExadataStorageConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCloudExadataStorageConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCloudExadataStorageConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCloudExadataStorageConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCloudExadataStorageConnectorResponse")
+	}
+	return
+}
+
+// deleteCloudExadataStorageConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteCloudExadataStorageConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudExadataStorageConnectors/{cloudExadataStorageConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCloudExadataStorageConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/DeleteCloudExadataStorageConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteCloudExadataStorageConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -3386,6 +3758,74 @@ func (client DbManagementClient) disableCloudDbSystemStackMonitoring(ctx context
 	return response, err
 }
 
+// DisableCloudExadataInfrastructureManagement Disables Database Management for the Exadata infrastructure specified by exadataInfrastructureId.
+// It covers the following components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
+// Note that Database Management will not be disabled for the VM Clusters within the Exadata infrastructure and should be disabled explicitly, if required.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableCloudExadataInfrastructureManagement.go.html to see an example of how to use DisableCloudExadataInfrastructureManagement API.
+// A default retry strategy applies to this operation DisableCloudExadataInfrastructureManagement()
+func (client DbManagementClient) DisableCloudExadataInfrastructureManagement(ctx context.Context, request DisableCloudExadataInfrastructureManagementRequest) (response DisableCloudExadataInfrastructureManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableCloudExadataInfrastructureManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableCloudExadataInfrastructureManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableCloudExadataInfrastructureManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableCloudExadataInfrastructureManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableCloudExadataInfrastructureManagementResponse")
+	}
+	return
+}
+
+// disableCloudExadataInfrastructureManagement implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableCloudExadataInfrastructureManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableCloudExadataInfrastructureManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/DisableCloudExadataInfrastructureManagement"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableCloudExadataInfrastructureManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableDatabaseManagementFeature Disables a Database Management feature for the specified Oracle cloud database.
 //
 // # See also
@@ -4077,6 +4517,81 @@ func (client DbManagementClient) disableSqlPlanBaselinesUsage(ctx context.Contex
 	return response, err
 }
 
+// DiscoverCloudExadataInfrastructure Completes the Exadata system prechecking on the following:
+// - Verifies if the ASM connector is defined for each VM Cluster or return 400 status code with CONNECTOR_NOT_DEFINED error code.
+// - Verifies if the agents associated with ASM are valid and could be used for the Exadata storage servers or return 400 status code with
+// INVALID_AGENT error code.
+// Starts the discovery process for the Exadata system infrastructure. The following resources/components are discovered
+// - Exadata storage servers from each VM Cluster
+// - Exadata storage grid for all Exadata storage servers
+// - Exadata infrastructure
+// The same API covers both new discovery and rediscovery cases.
+//
+//	For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
+//	For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+//	should be removed based on the unique key defined for each resource/sub-resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DiscoverCloudExadataInfrastructure.go.html to see an example of how to use DiscoverCloudExadataInfrastructure API.
+// A default retry strategy applies to this operation DiscoverCloudExadataInfrastructure()
+func (client DbManagementClient) DiscoverCloudExadataInfrastructure(ctx context.Context, request DiscoverCloudExadataInfrastructureRequest) (response DiscoverCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.discoverCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DiscoverCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DiscoverCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DiscoverCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DiscoverCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// discoverCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) discoverCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/actions/discoverExadataInfrastructure", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DiscoverCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/DiscoverCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "DbManagement", "DiscoverCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DiscoverExternalExadataInfrastructure Completes the Exadata system prechecking on the following:
 // - Verifies if the DB systems are valid RAC DB systems or return 400 status code with NON_RAC_DATABASE_SYSTEM error code.
 // - Verifies if the ASM connector defined for each DB system or return 400 status code with CONNECTOR_NOT_DEFINED error code.
@@ -4589,6 +5104,73 @@ func (client DbManagementClient) enableCloudDbSystemStackMonitoring(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/EnableCloudDbSystemStackMonitoring"
 		err = common.PostProcessServiceError(err, "DbManagement", "EnableCloudDbSystemStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableCloudExadataInfrastructureManagement Enables Database Management for the Exadata infrastructure specified by exadataInfrastructureId. It covers the following
+// components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableCloudExadataInfrastructureManagement.go.html to see an example of how to use EnableCloudExadataInfrastructureManagement API.
+// A default retry strategy applies to this operation EnableCloudExadataInfrastructureManagement()
+func (client DbManagementClient) EnableCloudExadataInfrastructureManagement(ctx context.Context, request EnableCloudExadataInfrastructureManagementRequest) (response EnableCloudExadataInfrastructureManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableCloudExadataInfrastructureManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCloudExadataInfrastructureManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCloudExadataInfrastructureManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCloudExadataInfrastructureManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCloudExadataInfrastructureManagementResponse")
+	}
+	return
+}
+
+// enableCloudExadataInfrastructureManagement implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableCloudExadataInfrastructureManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCloudExadataInfrastructureManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/EnableCloudExadataInfrastructureManagement"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableCloudExadataInfrastructureManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -6057,6 +6639,297 @@ func (client DbManagementClient) getCloudDbSystemDiscovery(ctx context.Context, 
 	return response, err
 }
 
+// GetCloudExadataInfrastructure Gets the details for the Exadata infrastructure specified by exadataInfrastructureId. It includes the VMCluster and storage grid within the
+// Exadata infrastructure.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudExadataInfrastructure.go.html to see an example of how to use GetCloudExadataInfrastructure API.
+// A default retry strategy applies to this operation GetCloudExadataInfrastructure()
+func (client DbManagementClient) GetCloudExadataInfrastructure(ctx context.Context, request GetCloudExadataInfrastructureRequest) (response GetCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// getCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/GetCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudExadataStorageConnector Gets the details for the Exadata storage server connector specified by exadataStorageConnectorId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudExadataStorageConnector.go.html to see an example of how to use GetCloudExadataStorageConnector API.
+// A default retry strategy applies to this operation GetCloudExadataStorageConnector()
+func (client DbManagementClient) GetCloudExadataStorageConnector(ctx context.Context, request GetCloudExadataStorageConnectorRequest) (response GetCloudExadataStorageConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudExadataStorageConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudExadataStorageConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudExadataStorageConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudExadataStorageConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudExadataStorageConnectorResponse")
+	}
+	return
+}
+
+// getCloudExadataStorageConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudExadataStorageConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageConnectors/{cloudExadataStorageConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudExadataStorageConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/GetCloudExadataStorageConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudExadataStorageConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudExadataStorageGrid Gets the details for the Exadata storage server grid specified by exadataStorageGridId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudExadataStorageGrid.go.html to see an example of how to use GetCloudExadataStorageGrid API.
+// A default retry strategy applies to this operation GetCloudExadataStorageGrid()
+func (client DbManagementClient) GetCloudExadataStorageGrid(ctx context.Context, request GetCloudExadataStorageGridRequest) (response GetCloudExadataStorageGridResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudExadataStorageGrid, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudExadataStorageGridResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudExadataStorageGridResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudExadataStorageGridResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudExadataStorageGridResponse")
+	}
+	return
+}
+
+// getCloudExadataStorageGrid implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudExadataStorageGrid(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageGrids/{cloudExadataStorageGridId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudExadataStorageGridResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageGrid/GetCloudExadataStorageGrid"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudExadataStorageGrid", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudExadataStorageServer Gets the summary for the Exadata storage server specified by exadataStorageServerId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudExadataStorageServer.go.html to see an example of how to use GetCloudExadataStorageServer API.
+// A default retry strategy applies to this operation GetCloudExadataStorageServer()
+func (client DbManagementClient) GetCloudExadataStorageServer(ctx context.Context, request GetCloudExadataStorageServerRequest) (response GetCloudExadataStorageServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudExadataStorageServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudExadataStorageServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudExadataStorageServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudExadataStorageServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudExadataStorageServerResponse")
+	}
+	return
+}
+
+// getCloudExadataStorageServer implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudExadataStorageServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageServers/{cloudExadataStorageServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudExadataStorageServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageServer/GetCloudExadataStorageServer"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudExadataStorageServer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudIormPlan Get the IORM plan from the specific Exadata storage server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudIormPlan.go.html to see an example of how to use GetCloudIormPlan API.
+// A default retry strategy applies to this operation GetCloudIormPlan()
+func (client DbManagementClient) GetCloudIormPlan(ctx context.Context, request GetCloudIormPlanRequest) (response GetCloudIormPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudIormPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudIormPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudIormPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudIormPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudIormPlanResponse")
+	}
+	return
+}
+
+// getCloudIormPlan implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudIormPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageServers/{cloudExadataStorageServerId}/iormPlan", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudIormPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageServer/GetCloudIormPlan"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudIormPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetCloudListener Gets the details for the cloud listener specified by `cloudListenerId`.
 //
 // # See also
@@ -6108,6 +6981,64 @@ func (client DbManagementClient) getCloudListener(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudListener/GetCloudListener"
 		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudListener", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudOpenAlertHistory Gets the open alerts from the specified Exadata storage server.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetCloudOpenAlertHistory.go.html to see an example of how to use GetCloudOpenAlertHistory API.
+// A default retry strategy applies to this operation GetCloudOpenAlertHistory()
+func (client DbManagementClient) GetCloudOpenAlertHistory(ctx context.Context, request GetCloudOpenAlertHistoryRequest) (response GetCloudOpenAlertHistoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudOpenAlertHistory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudOpenAlertHistoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudOpenAlertHistoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudOpenAlertHistoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudOpenAlertHistoryResponse")
+	}
+	return
+}
+
+// getCloudOpenAlertHistory implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getCloudOpenAlertHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageServers/{cloudExadataStorageServerId}/openAlertHistory", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudOpenAlertHistoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageServer/GetCloudOpenAlertHistory"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetCloudOpenAlertHistory", apiReferenceLink)
 		return response, err
 	}
 
@@ -6634,6 +7565,64 @@ func (client DbManagementClient) getDbManagementPrivateEndpoint(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DbManagementPrivateEndpoint/GetDbManagementPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DbManagement", "GetDbManagementPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetExadataInfrastructureFleetHealthMetrics Gets the health metrics for a fleet of Exadata infrastructure in a compartment.
+// The CompartmentId query parameters must be provided to retrieve the health metrics.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExadataInfrastructureFleetHealthMetrics.go.html to see an example of how to use GetExadataInfrastructureFleetHealthMetrics API.
+func (client DbManagementClient) GetExadataInfrastructureFleetHealthMetrics(ctx context.Context, request GetExadataInfrastructureFleetHealthMetricsRequest) (response GetExadataInfrastructureFleetHealthMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExadataInfrastructureFleetHealthMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetExadataInfrastructureFleetHealthMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetExadataInfrastructureFleetHealthMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExadataInfrastructureFleetHealthMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExadataInfrastructureFleetHealthMetricsResponse")
+	}
+	return
+}
+
+// getExadataInfrastructureFleetHealthMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getExadataInfrastructureFleetHealthMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructureFleetMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExadataInfrastructureFleetHealthMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExadataInfrastructureFleetHealthMetrics/GetExadataInfrastructureFleetHealthMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetExadataInfrastructureFleetHealthMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -9766,6 +10755,180 @@ func (client DbManagementClient) listCloudDbSystems(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystem/ListCloudDbSystems"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudDbSystems", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudExadataInfrastructures Lists the Exadata infrastructure resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudExadataInfrastructures.go.html to see an example of how to use ListCloudExadataInfrastructures API.
+// A default retry strategy applies to this operation ListCloudExadataInfrastructures()
+func (client DbManagementClient) ListCloudExadataInfrastructures(ctx context.Context, request ListCloudExadataInfrastructuresRequest) (response ListCloudExadataInfrastructuresResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudExadataInfrastructures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudExadataInfrastructuresResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudExadataInfrastructuresResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudExadataInfrastructuresResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudExadataInfrastructuresResponse")
+	}
+	return
+}
+
+// listCloudExadataInfrastructures implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudExadataInfrastructuresResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/ListCloudExadataInfrastructures"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudExadataInfrastructures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudExadataStorageConnectors Lists the Exadata storage server connectors for the specified Exadata infrastructure.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudExadataStorageConnectors.go.html to see an example of how to use ListCloudExadataStorageConnectors API.
+// A default retry strategy applies to this operation ListCloudExadataStorageConnectors()
+func (client DbManagementClient) ListCloudExadataStorageConnectors(ctx context.Context, request ListCloudExadataStorageConnectorsRequest) (response ListCloudExadataStorageConnectorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudExadataStorageConnectors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudExadataStorageConnectorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudExadataStorageConnectorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudExadataStorageConnectorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudExadataStorageConnectorsResponse")
+	}
+	return
+}
+
+// listCloudExadataStorageConnectors implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudExadataStorageConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudExadataStorageConnectorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/ListCloudExadataStorageConnectors"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudExadataStorageConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudExadataStorageServers Lists the Exadata storage servers for the specified Exadata infrastructure.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCloudExadataStorageServers.go.html to see an example of how to use ListCloudExadataStorageServers API.
+// A default retry strategy applies to this operation ListCloudExadataStorageServers()
+func (client DbManagementClient) ListCloudExadataStorageServers(ctx context.Context, request ListCloudExadataStorageServersRequest) (response ListCloudExadataStorageServersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudExadataStorageServers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudExadataStorageServersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudExadataStorageServersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudExadataStorageServersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudExadataStorageServersResponse")
+	}
+	return
+}
+
+// listCloudExadataStorageServers implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCloudExadataStorageServers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataStorageServers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudExadataStorageServersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageServer/ListCloudExadataStorageServers"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCloudExadataStorageServers", apiReferenceLink)
 		return response, err
 	}
 
@@ -15424,6 +16587,240 @@ func (client DbManagementClient) updateCloudDbSystemDiscovery(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudDbSystemDiscovery/UpdateCloudDbSystemDiscovery"
 		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudDbSystemDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudExadataInfrastructure Updates the details for the Exadata infrastructure specified by exadataInfrastructureId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudExadataInfrastructure.go.html to see an example of how to use UpdateCloudExadataInfrastructure API.
+// A default retry strategy applies to this operation UpdateCloudExadataInfrastructure()
+func (client DbManagementClient) UpdateCloudExadataInfrastructure(ctx context.Context, request UpdateCloudExadataInfrastructureRequest) (response UpdateCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// updateCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataInfrastructure/UpdateCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudExadataStorageConnector Updates the Exadata storage server connector specified by exadataStorageConnectorId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudExadataStorageConnector.go.html to see an example of how to use UpdateCloudExadataStorageConnector API.
+func (client DbManagementClient) UpdateCloudExadataStorageConnector(ctx context.Context, request UpdateCloudExadataStorageConnectorRequest) (response UpdateCloudExadataStorageConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudExadataStorageConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudExadataStorageConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudExadataStorageConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudExadataStorageConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudExadataStorageConnectorResponse")
+	}
+	return
+}
+
+// updateCloudExadataStorageConnector implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudExadataStorageConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataStorageConnectors/{cloudExadataStorageConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudExadataStorageConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageConnector/UpdateCloudExadataStorageConnector"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudExadataStorageConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudExadataStorageGrid Updates the Exadata storage server grid specified by exadataStorageGridId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudExadataStorageGrid.go.html to see an example of how to use UpdateCloudExadataStorageGrid API.
+func (client DbManagementClient) UpdateCloudExadataStorageGrid(ctx context.Context, request UpdateCloudExadataStorageGridRequest) (response UpdateCloudExadataStorageGridResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudExadataStorageGrid, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudExadataStorageGridResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudExadataStorageGridResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudExadataStorageGridResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudExadataStorageGridResponse")
+	}
+	return
+}
+
+// updateCloudExadataStorageGrid implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudExadataStorageGrid(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataStorageGrids/{cloudExadataStorageGridId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudExadataStorageGridResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageGrid/UpdateCloudExadataStorageGrid"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudExadataStorageGrid", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCloudExadataStorageServer Updates the Exadata storage server specified by exadataStorageServerId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateCloudExadataStorageServer.go.html to see an example of how to use UpdateCloudExadataStorageServer API.
+func (client DbManagementClient) UpdateCloudExadataStorageServer(ctx context.Context, request UpdateCloudExadataStorageServerRequest) (response UpdateCloudExadataStorageServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCloudExadataStorageServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCloudExadataStorageServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCloudExadataStorageServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCloudExadataStorageServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCloudExadataStorageServerResponse")
+	}
+	return
+}
+
+// updateCloudExadataStorageServer implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateCloudExadataStorageServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataStorageServers/{cloudExadataStorageServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCloudExadataStorageServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/CloudExadataStorageServer/UpdateCloudExadataStorageServer"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateCloudExadataStorageServer", apiReferenceLink)
 		return response, err
 	}
 
