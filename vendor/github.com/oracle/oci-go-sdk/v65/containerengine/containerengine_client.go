@@ -929,6 +929,70 @@ func (client ContainerEngineClient) disableAddon(ctx context.Context, request co
 	return response, err
 }
 
+// ExtendEndpointDecommissionRollbackDeadline Extend the rollback deadline of public api endpoint decommission for a cluster.
+// The operation can only be performed within decommission rollback deadline.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ExtendEndpointDecommissionRollbackDeadline.go.html to see an example of how to use ExtendEndpointDecommissionRollbackDeadline API.
+// A default retry strategy applies to this operation ExtendEndpointDecommissionRollbackDeadline()
+func (client ContainerEngineClient) ExtendEndpointDecommissionRollbackDeadline(ctx context.Context, request ExtendEndpointDecommissionRollbackDeadlineRequest) (response ExtendEndpointDecommissionRollbackDeadlineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.extendEndpointDecommissionRollbackDeadline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExtendEndpointDecommissionRollbackDeadlineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExtendEndpointDecommissionRollbackDeadlineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExtendEndpointDecommissionRollbackDeadlineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExtendEndpointDecommissionRollbackDeadlineResponse")
+	}
+	return
+}
+
+// extendEndpointDecommissionRollbackDeadline implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) extendEndpointDecommissionRollbackDeadline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/extendEndpointDecommissionRollbackDeadline", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExtendEndpointDecommissionRollbackDeadlineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ExtendEndpointDecommissionRollbackDeadline"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ExtendEndpointDecommissionRollbackDeadline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAddon Get the specified addon for a cluster.
 //
 // # See also
@@ -1328,6 +1392,64 @@ func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePoolOptions/GetNodePoolOptions"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetNodePoolOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPublicApiEndpointDecommissionStatus Get cluster public api endpoint decommission status.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetPublicApiEndpointDecommissionStatus.go.html to see an example of how to use GetPublicApiEndpointDecommissionStatus API.
+// A default retry strategy applies to this operation GetPublicApiEndpointDecommissionStatus()
+func (client ContainerEngineClient) GetPublicApiEndpointDecommissionStatus(ctx context.Context, request GetPublicApiEndpointDecommissionStatusRequest) (response GetPublicApiEndpointDecommissionStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPublicApiEndpointDecommissionStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPublicApiEndpointDecommissionStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPublicApiEndpointDecommissionStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPublicApiEndpointDecommissionStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPublicApiEndpointDecommissionStatusResponse")
+	}
+	return
+}
+
+// getPublicApiEndpointDecommissionStatus implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) getPublicApiEndpointDecommissionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}/publicApiEndpointDecommissionStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPublicApiEndpointDecommissionStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/GetPublicApiEndpointDecommissionStatus"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "GetPublicApiEndpointDecommissionStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -2394,6 +2516,70 @@ func (client ContainerEngineClient) replaceBootVolumeClusterNode(ctx context.Con
 	return response, err
 }
 
+// RollbackPublicApiEndpointDecommission Rollback public api endpoint decommission for a cluster, legacy kubernetes endpoint will be brought back once the operation is completed.
+// The operation can only be performed within decommission rollback deadline.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/RollbackPublicApiEndpointDecommission.go.html to see an example of how to use RollbackPublicApiEndpointDecommission API.
+// A default retry strategy applies to this operation RollbackPublicApiEndpointDecommission()
+func (client ContainerEngineClient) RollbackPublicApiEndpointDecommission(ctx context.Context, request RollbackPublicApiEndpointDecommissionRequest) (response RollbackPublicApiEndpointDecommissionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rollbackPublicApiEndpointDecommission, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RollbackPublicApiEndpointDecommissionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RollbackPublicApiEndpointDecommissionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RollbackPublicApiEndpointDecommissionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RollbackPublicApiEndpointDecommissionResponse")
+	}
+	return
+}
+
+// rollbackPublicApiEndpointDecommission implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) rollbackPublicApiEndpointDecommission(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/rollbackPublicApiEndpointDecommission", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RollbackPublicApiEndpointDecommissionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/RollbackPublicApiEndpointDecommission"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "RollbackPublicApiEndpointDecommission", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartCredentialRotation Start cluster credential rotation by adding new credentials, old credentials will still work after this operation.
 //
 // # See also
@@ -2450,6 +2636,69 @@ func (client ContainerEngineClient) startCredentialRotation(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/StartCredentialRotation"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "StartCredentialRotation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartPublicApiEndpointDecommission Start public api endpoint decommission for a cluster, legacy kubernetes endpoint will no longer available after this operation.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/StartPublicApiEndpointDecommission.go.html to see an example of how to use StartPublicApiEndpointDecommission API.
+// A default retry strategy applies to this operation StartPublicApiEndpointDecommission()
+func (client ContainerEngineClient) StartPublicApiEndpointDecommission(ctx context.Context, request StartPublicApiEndpointDecommissionRequest) (response StartPublicApiEndpointDecommissionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startPublicApiEndpointDecommission, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartPublicApiEndpointDecommissionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartPublicApiEndpointDecommissionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartPublicApiEndpointDecommissionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartPublicApiEndpointDecommissionResponse")
+	}
+	return
+}
+
+// startPublicApiEndpointDecommission implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) startPublicApiEndpointDecommission(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/startPublicApiEndpointDecommission", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartPublicApiEndpointDecommissionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/StartPublicApiEndpointDecommission"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "StartPublicApiEndpointDecommission", apiReferenceLink)
 		return response, err
 	}
 

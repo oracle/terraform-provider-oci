@@ -129,35 +129,35 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 			return nil, fmt.Errorf("please ensure the cluster type is enhanced: Status: %s, Message: %s",
 				response.Status, body.String())
 		} else {
-			return nil, fmt.Errorf("failed to get a RPST token from Proxymux: URL: %s, Status: %s, Message: %s",
-				c.proxymuxEndpoint, response.Status, body.String())
+			return nil, fmt.Errorf("failed to get a Workload Identity token. Status: %s, Message: %s. Please contact OKE team",
+				response.Status, body.String())
 		}
 
 	}
 
 	if _, err = body.ReadFrom(response.Body); err != nil {
-		return nil, fmt.Errorf("error reading body from Proxymux response: %s", err)
+		return nil, fmt.Errorf("error reading Workload Identity token generation response: %s. Please contact OKE team", err)
 	}
 
 	rawBody := body.String()
 	rawBody = rawBody[1 : len(rawBody)-1]
 	decodedBodyStr, err := base64.StdEncoding.DecodeString(rawBody)
 	if err != nil {
-		return nil, fmt.Errorf("error decoding Proxymux response using base64 scheme: %s", err)
+		return nil, fmt.Errorf("error decoding Workload Identity token: %s. Please contact OKE team", err)
 	}
 
 	var parsedBody token
 	err = json.Unmarshal(decodedBodyStr, &parsedBody)
 	if err != nil {
-		return nil, fmt.Errorf("error parsing Proxymux response body: %s", err)
+		return nil, fmt.Errorf("error parsing Workload Identity token: %s. Please contact OKE team", err)
 	}
 
 	token := parsedBody.Token
 	if len(token) == 0 {
-		return nil, fmt.Errorf("invalid (empty) token received from Proxymux")
+		return nil, fmt.Errorf("invalid (empty) Workload Identity token received. Please contact OKE team")
 	}
 	if len(token) < 3 {
-		return nil, fmt.Errorf("invalid token received from Proxymux")
+		return nil, fmt.Errorf("invalid Workload Identity token received. Please contact OKE team")
 	}
 
 	return newPrincipalToken(token[3:])
