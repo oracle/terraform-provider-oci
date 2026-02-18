@@ -70,6 +70,18 @@ var exportEmailEmailReturnPathHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportEmailEmailIpPoolHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_email_email_ip_pool",
+	DatasourceClass:        "oci_email_email_ip_pools",
+	DatasourceItemsAttr:    "email_ip_pool_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "email_ip_pool",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_email.EmailIpPoolLifecycleStateActive),
+	},
+}
+
 var emailResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},

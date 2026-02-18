@@ -5,6 +5,7 @@ package integrationtest
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -39,10 +40,23 @@ var (
 	}
 
 	mysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
-		"window_start_time":         acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
-		"maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `EARLY`, Update: `REGULAR`},
-		"version_preference":        acctest.Representation{RepType: acctest.Optional, Create: `OLDEST`, Update: `SECOND_NEWEST`},
-		"version_track_preference":  acctest.Representation{RepType: acctest.Optional, Create: `LONG_TERM_SUPPORT`, Update: `INNOVATION`},
+		"window_start_time":            acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
+		"maintenance_schedule_type":    acctest.Representation{RepType: acctest.Optional, Create: `EARLY`, Update: `REGULAR`},
+		"version_preference":           acctest.Representation{RepType: acctest.Optional, Create: `OLDEST`, Update: `SECOND_NEWEST`},
+		"version_track_preference":     acctest.Representation{RepType: acctest.Optional, Create: `LONG_TERM_SUPPORT`, Update: `INNOVATION`},
+		"maintenance_disabled_windows": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceMaintenanceDisabledWindowsRepresentation},
+	}
+
+	maintenanceTimeNow                  = time.Now().Round(time.Millisecond)
+	maintenanceDisabledWindowTimeStart1 = maintenanceTimeNow.AddDate(0, 1, 0).UTC().Format(time.RFC3339Nano)
+	maintenanceDisabledWindowTimeEnd1   = maintenanceTimeNow.AddDate(0, 1, 1).UTC().Format(time.RFC3339Nano)
+	maintenanceDisabledWindowTimeStart2 = maintenanceTimeNow.AddDate(0, 2, 0).UTC().Format(time.RFC3339Nano)
+	maintenanceDisabledWindowTimeEnd2   = maintenanceTimeNow.AddDate(0, 2, 1).UTC().Format(time.RFC3339Nano)
+	// The returned value is not in the proper RFC3339Nano format since it's parsed by the framework.
+
+	MysqlMysqlDbSystemMaintenanceMaintenanceDisabledWindowsRepresentation = map[string]interface{}{
+		"time_end":   acctest.Representation{RepType: acctest.Required, Create: maintenanceDisabledWindowTimeEnd1, Update: maintenanceDisabledWindowTimeEnd2},
+		"time_start": acctest.Representation{RepType: acctest.Required, Create: maintenanceDisabledWindowTimeStart1, Update: maintenanceDisabledWindowTimeStart2},
 	}
 )
 
@@ -69,6 +83,9 @@ func TestMysqlMysqlDbSystemResource_maintenance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.version_preference", "OLDEST"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.version_track_preference", "LONG_TERM_SUPPORT"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.0.time_end", maintenanceDisabledWindowTimeEnd1),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.0.time_start", maintenanceDisabledWindowTimeStart1),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance.0.target_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance.0.time_scheduled"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
@@ -89,6 +106,9 @@ func TestMysqlMysqlDbSystemResource_maintenance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_schedule_type", "REGULAR"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.version_preference", "SECOND_NEWEST"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.version_track_preference", "INNOVATION"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.0.time_end", maintenanceDisabledWindowTimeEnd2),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_disabled_windows.0.time_start", maintenanceDisabledWindowTimeStart2),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance.0.target_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance.0.time_scheduled"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),

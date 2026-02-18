@@ -1,0 +1,42 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Kubernetes Engine API
+//
+// API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
+// and manage cloud-native applications. For more information, see
+// Overview of Kubernetes Engine (https://docs.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+//
+
+package containerengine
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// ExtendEndpointDecommissionRollbackDeadlineDetails The properties that define a request to extend the rollback deadline for a public api endpoint decommission.
+type ExtendEndpointDecommissionRollbackDeadlineDetails struct {
+
+	// The optional override delay of the rollback deadline once decommission is finished.
+	// maximum to 30 days could be added. Once Deadline is passed, rollback will not able to be launched.
+	RollbackDeadlineDelay *string `mandatory:"true" json:"rollbackDeadlineDelay"`
+}
+
+func (m ExtendEndpointDecommissionRollbackDeadlineDetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ExtendEndpointDecommissionRollbackDeadlineDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

@@ -12,7 +12,7 @@ variable "compartment_ocid" {}
 variable "tenancy_ocid" {}
 variable "gb200_image_id" {}
 variable "compute_gpu_memory_cluster_size" {
-  default = 18
+  default = 1
 }
 
 // dependent data
@@ -148,6 +148,10 @@ resource "oci_core_compute_gpu_memory_cluster" "test_compute_gpu_memory_cluster"
   size                 = var.compute_gpu_memory_cluster_size
 
   depends_on = [oci_core_compute_capacity_topology.test_compute_capacity_topology]
+  gpu_memory_cluster_scale_config {
+    is_upsize_enabled = true
+    target_size = 2
+  }
 }
 
 output "output_get_gpu_memory_cluster" {

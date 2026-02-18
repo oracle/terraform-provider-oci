@@ -25,6 +25,7 @@ resource "oci_email_sender" "test_sender" {
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
+	email_ip_pool_id = oci_email_email_ip_pool.test_email_ip_pool.id
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the sender.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `email_address` - (Required) The email address of the sender.
+* `email_ip_pool_id` - (Optional) (Updatable) An optional field. The IpPool [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
@@ -50,6 +52,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `email_address` - The email address of the sender.
 * `email_domain_id` - The email domain used to assert responsibility for emails sent from this sender. 
+* `email_ip_pool_id` - The IpPool [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used to submit an email by Email Delivery when sent from this sender.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The unique OCID of the sender.
 * `is_spf` - Value of the SPF field. For more information about SPF, please see [SPF Authentication](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components). 
