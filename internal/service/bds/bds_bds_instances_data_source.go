@@ -179,6 +179,10 @@ func (s *BdsBdsInstancesDataSourceCrud) SetData() error {
 			bdsInstance["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeEarliestCertificateExpiration != nil {
+			bdsInstance["time_earliest_certificate_expiration"] = r.TimeEarliestCertificateExpiration.String()
+		}
+
 		resources = append(resources, bdsInstance)
 	}
 

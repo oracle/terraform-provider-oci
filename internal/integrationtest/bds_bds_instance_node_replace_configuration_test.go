@@ -46,22 +46,20 @@ var (
 	}
 
 	BdsBdsInstanceNodeReplaceConfigurationRepresentation = map[string]interface{}{
-		"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.bds_instance_id}`},
-		"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`},
-		"duration_in_minutes":    acctest.Representation{RepType: acctest.Required, Create: `20`, Update: `30`},
-		"level_type_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsBdsInstanceNodeReplaceConfigurationLevelTypeDetailsRepresentation},
-		"metric_type":            acctest.Representation{RepType: acctest.Required, Create: `INSTANCE_STATUS`, Update: `INSTANCE_ACCESSIBILITY_STATUS`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${var.bds_instance_id}`},
+		//"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`}, // Comment if cluster_admin_password is used.
+		"secret_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_id}`},
+		"duration_in_minutes": acctest.Representation{RepType: acctest.Required, Create: `20`, Update: `30`},
+		"level_type_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsBdsInstanceNodeReplaceConfigurationLevelTypeDetailsRepresentation},
+		"metric_type":         acctest.Representation{RepType: acctest.Required, Create: `INSTANCE_STATUS`, Update: `INSTANCE_ACCESSIBILITY_STATUS`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	}
 	BdsBdsInstanceNodeReplaceConfigurationLevelTypeDetailsRepresentation = map[string]interface{}{
 		"level_type": acctest.Representation{RepType: acctest.Required, Create: `NODE_TYPE_LEVEL`},
 		"node_type":  acctest.Representation{RepType: acctest.Optional, Create: `MASTER`, Update: `UTILITY`},
 	}
 
-	BdsBdsInstanceNodeReplaceConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation)
-	//	acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-	//	acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-
+	BdsBdsInstanceNodeReplaceConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceRepresentation)
 )
 
 // issue-routing-tag: bds/default
@@ -77,8 +75,13 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
-	bdsInstanceId := utils.GetEnvSettingWithBlankDefault("bds_instance_ocid")
+	bdsInstanceId := utils.GetEnvSettingWithBlankDefault("bds_instance_id")
 	bdsInstanceIdVariableStr := fmt.Sprintf("variable \"bds_instance_id\" { default = \"%s\" }\n", bdsInstanceId)
+
+	secretId := utils.GetEnvSettingWithBlankDefault("secret_id")
+	secretIdVariableStr := fmt.Sprintf("variable \"secret_id\" { default = \"%s\" }\n", secretId)
+
+	config = config + secretIdVariableStr
 
 	resourceName := "oci_bds_bds_instance_node_replace_configuration.test_bds_instance_node_replace_configuration"
 	datasourceName := "data.oci_bds_bds_instance_node_replace_configurations.test_bds_instance_node_replace_configurations"
@@ -94,11 +97,12 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_node_replace_configuration", "test_bds_instance_node_replace_configuration", acctest.Optional, acctest.Create, BdsBdsInstanceNodeReplaceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				//resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttr(resourceName, "duration_in_minutes", "20"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "level_type_details.0.node_type", "MASTER"),
 				resource.TestCheckResourceAttr(resourceName, "metric_type", "INSTANCE_STATUS"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -121,11 +125,12 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_node_replace_configuration", "test_bds_instance_node_replace_configuration", acctest.Optional, acctest.Update, BdsBdsInstanceNodeReplaceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				//resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttr(resourceName, "duration_in_minutes", "30"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "level_type_details.0.node_type", "UTILITY"),
 				resource.TestCheckResourceAttr(resourceName, "metric_type", "INSTANCE_ACCESSIBILITY_STATUS"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -139,6 +144,7 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config +
@@ -158,6 +164,7 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "node_replace_configurations.0.time_updated"),
 			),
 		},
+
 		// verify singular datasource
 		{
 			Config: config +
@@ -184,7 +191,8 @@ func TestBdsBdsInstanceNodeReplaceConfigurationResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateIdFunc: getBdsReplaceConfigCompositeId(resourceName),
 			ImportStateVerifyIgnore: []string{
-				"cluster_admin_password",
+				//"cluster_admin_password",
+				"secret_id",
 			},
 			ResourceName: resourceName,
 		},

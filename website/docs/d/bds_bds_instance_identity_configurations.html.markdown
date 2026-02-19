@@ -56,6 +56,7 @@ The following attributes are exported:
 	* `time_updated` - Time when this IAM user sync config was updated, shown as an RFC 3339 formatted datetime string.
 * `id` - The id of the identity config
 * `identity_domain_id` - Identity domain to use for identity config
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - Lifecycle state of the identity configuration
 * `time_created` - Time when this identity configuration was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - Time when this identity configuration config was updated, shown as an RFC 3339 formatted datetime string.

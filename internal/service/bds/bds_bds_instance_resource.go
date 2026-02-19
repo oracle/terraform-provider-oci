@@ -38,12 +38,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 		Delete: deleteBdsBdsInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"cluster_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"cluster_public_key": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -386,6 +380,16 @@ func BdsBdsInstanceResource() *schema.Resource {
 								return ShapeChangeDiffSuppressFunction("edge", d)
 							},
 						},
+						/*
+						   tersi-4864
+						   <<<<<<< ours
+						   						"certificate_configuration_id": {
+						   							Type:     schema.TypeString,
+						   							Computed: true,
+						   						},
+						   						"display_name": {
+						   =======
+						*/
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -598,6 +602,14 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+
+			"cluster_admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
+
 			"cluster_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -654,6 +666,16 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"is_secret_reused": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -671,6 +693,13 @@ func BdsBdsInstanceResource() *schema.Resource {
 			"remove_node": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"remove_nodes": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"os_patch_version": {
 				Type:     schema.TypeString,
@@ -889,6 +918,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_earliest_certificate_expiration": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -943,7 +976,7 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	if cloudSql {
 		id := sync.D.Id()
 		cloudSqlRequest.BdsInstanceId = &id
-		if clusterAdminPassword, ok := sync.D.GetOkExists("cluster_admin_password"); ok {
+		if clusterAdminPassword, ok := sync.D.GetOkExists("cluster_admin_password"); ok || sync.D.Get("secret_id") != "" {
 			tmp := clusterAdminPassword.(string)
 			cloudSqlRequest.ClusterAdminPassword = &tmp
 		}
@@ -1000,7 +1033,14 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 				return err
 			}
 		}
+	}
 
+	if removeNodes, ok := sync.D.GetOkExists("remove_nodes"); ok {
+		if interfaces, isList := removeNodes.([]interface{}); isList && len(interfaces) > 0 {
+			if err := sync.RemoveNodes(); err != nil {
+				return err
+			}
+		}
 	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
@@ -1089,6 +1129,10 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 		return fmt.Errorf("[ERROR] remove_node is not permitted during create bds instance")
 	}
 
+	if _, ok := s.D.GetOkExists("remove_nodes"); ok {
+		return fmt.Errorf("[ERROR] remove_nodes is not permitted during create bds instance")
+	}
+
 	if bdsClusterVersionSummary, ok := s.D.GetOkExists("bds_cluster_version_summary"); ok {
 		if tmpList := bdsClusterVersionSummary.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bds_cluster_version_summary", 0)
@@ -1108,6 +1152,16 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
+	if isSecretReused, ok := s.D.GetOkExists("is_secret_reused"); ok {
+		tmp := isSecretReused.(bool)
+		request.IsSecretReused = &tmp
 	}
 
 	if clusterProfile, ok := s.D.GetOkExists("cluster_profile"); ok {
@@ -1490,6 +1544,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) Update() error {
+
 	isKafkaBrokerAdded := false
 	if cloudSqlConfigured, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok && s.D.HasChange("is_cloud_sql_configured") {
 		oldRaw, newRaw := s.D.GetChange("is_cloud_sql_configured")
@@ -1499,7 +1554,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 				request := oci_bds.AddCloudSqlRequest{}
 				id := s.D.Id()
 				request.BdsInstanceId = &id
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					tmp := clusterAdminPassword.(string)
 					request.ClusterAdminPassword = &tmp
 				}
@@ -1528,7 +1583,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 				request := oci_bds.RemoveCloudSqlRequest{}
 				id := s.D.Id()
 				request.BdsInstanceId = &id
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					tmp := clusterAdminPassword.(string)
 					request.ClusterAdminPassword = &tmp
 
@@ -1639,9 +1694,9 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		}
 
 		if tmpInt64New > tmpInt64Old {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				dif := tmpInt64New - tmpInt64Old
-				err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, dif, oci_bds.AddBlockStorageDetailsNodeTypeWorker)
+				err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeWorker)
 				if err != nil {
 					return err
 				}
@@ -1669,9 +1724,69 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 
 			if tmpInt64New > tmpInt64Old {
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					dif := tmpInt64New - tmpInt64Old
-					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, dif, oci_bds.AddBlockStorageDetailsNodeTypeKafkaBroker)
+					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeKafkaBroker)
+					if err != nil {
+						return err
+					}
+				}
+			} else {
+				return fmt.Errorf("the new value should be larger than previous one")
+			}
+		}
+	}
+	_, edgeBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+	if edgeBlockVolumeSizeInGbsPresent && s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "block_volume_size_in_gbs")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+		if oldRaw != "" {
+			tmpOld := oldRaw.(string)
+			tmpInt64Old, err := strconv.ParseInt(tmpOld, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			tmpNew := newRaw.(string)
+			tmpInt64New, err := strconv.ParseInt(tmpNew, 10, 64)
+
+			if err != nil {
+				return err
+			}
+
+			if tmpInt64New > tmpInt64Old {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
+					dif := tmpInt64New - tmpInt64Old
+					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeEdge)
+					if err != nil {
+						return err
+					}
+				}
+			} else {
+				return fmt.Errorf("the new value should be larger than previous one")
+			}
+		}
+	}
+	_, computeOnlyWorkerBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+	if computeOnlyWorkerBlockVolumeSizeInGbsPresent && s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "block_volume_size_in_gbs")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+		if oldRaw != "" {
+			tmpOld := oldRaw.(string)
+			tmpInt64Old, err := strconv.ParseInt(tmpOld, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			tmpNew := newRaw.(string)
+			tmpInt64New, err := strconv.ParseInt(tmpNew, 10, 64)
+
+			if err != nil {
+				return err
+			}
+
+			if tmpInt64New > tmpInt64Old {
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
+					dif := tmpInt64New - tmpInt64Old
+					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeComputeOnlyWorker)
 					if err != nil {
 						return err
 					}
@@ -1705,17 +1820,17 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 				}
 			}
 			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, &workerNodeShapeStr, &workerShapeConfig)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, &workerNodeShapeStr, &workerShapeConfig)
 				}
 				if err != nil {
 					return err
 				}
 			} else {
-				return fmt.Errorf("cluster admin password not provided")
+				return fmt.Errorf("cluster admin password or secret ocid not provided")
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
@@ -1747,11 +1862,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 				}
 			}
 			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
+					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
 				} else {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, &masterNodeShapeStr, &masterShapeConfig)
+					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &masterNodeShapeStr, &masterShapeConfig)
 				}
 				if err != nil {
 					return err
@@ -1787,11 +1902,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 				}
 			}
 			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
+					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
 				} else {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, &utilNodeShapeStr, &utilShapeConfig)
+					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &utilNodeShapeStr, &utilShapeConfig)
 				}
 				if err != nil {
 					return err
@@ -1924,9 +2039,12 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			result.Cloudsql = &tmp
 		}
 	}
-	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 		clusterAdminPasswordTmp := clusterAdminPassword.(string)
 		changeShapeRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
+
+		secretIdTmp := s.D.Get("secret_id").(string)
+		changeShapeRequest.SecretId = &secretIdTmp
 
 		changeShapeRequest.Nodes = &result
 		if !reflect.DeepEqual(result, oci_bds.ChangeShapeNodes{}) {
@@ -1973,6 +2091,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isSecretReused, ok := s.D.GetOkExists("is_secret_reused"); ok {
+		tmp := isSecretReused.(bool)
+		request.IsSecretReused = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -1987,6 +2110,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 			request.NetworkConfig = &tmp
 		}
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2027,11 +2155,11 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 		}
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if computeWorkerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt64, &compute_worker_shape_string, &compute_worker_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt64, &compute_worker_shape_string, &compute_worker_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, nil, &compute_worker_shape_string, &compute_worker_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, nil, &compute_worker_shape_string, &compute_worker_shape_config)
 				}
 				if err != nil {
 					return false, err
@@ -2071,11 +2199,11 @@ func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 		}
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if edgeBlockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeInGBInt64, &edge_shape_string, &edge_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeInGBInt64, &edge_shape_string, &edge_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, nil, &edge_shape_string, &edge_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, nil, &edge_shape_string, &edge_shape_config)
 				}
 				if err != nil {
 					return false, err
@@ -2116,18 +2244,18 @@ func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error)
 		}
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if kafkaBrokerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt64, &kafka_broker_shape_string, &kafka_broker_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt64, &kafka_broker_shape_string, &kafka_broker_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, nil, &kafka_broker_shape_string, &kafka_broker_shape_config)
+					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, nil, &kafka_broker_shape_string, &kafka_broker_shape_config)
 				}
 				if err != nil {
 					return false, err
 				}
 				areKafkaBrokerAdded = true
 			} else {
-				return false, fmt.Errorf("cluster admin password not provided")
+				return false, fmt.Errorf("cluster admin password or secret ocid not provided")
 			}
 		} else {
 			return false, fmt.Errorf("the new number of kafka broker node should be larger than previous one")
@@ -2214,6 +2342,10 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 		s.D.Set("is_kafka_configured", *s.Res.IsKafkaConfigured)
 	}
 
+	if s.Res.IsSecretReused != nil {
+		s.D.Set("is_secret_reused", *s.Res.IsSecretReused)
+	}
+
 	if s.Res.IsSecure != nil {
 		s.D.Set("is_secure", *s.Res.IsSecure)
 	}
@@ -2272,10 +2404,18 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 		s.D.Set("number_of_nodes_requiring_maintenance_reboot", *s.Res.NumberOfNodesRequiringMaintenanceReboot)
 	}
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeEarliestCertificateExpiration != nil {
+		s.D.Set("time_earliest_certificate_expiration", s.Res.TimeEarliestCertificateExpiration.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -2294,6 +2434,11 @@ func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	if startClusterShapeConfigs, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
@@ -2332,6 +2477,11 @@ func (s *BdsBdsInstanceResourceCrud) StopBdsInstance() error {
 	if isForceStopJobs, ok := s.D.GetOkExists("is_force_stop_jobs"); ok {
 		tmp := isForceStopJobs.(bool)
 		request.IsForceStopJobs = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2374,6 +2524,11 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 				request.Shape = &tmp
 			}
 
+			if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+				tmp := secretId.(string)
+				request.SecretId = &tmp
+			}
+
 			if shapeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config")); ok {
 				if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
 					fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config"), 0)
@@ -2395,6 +2550,11 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2425,6 +2585,11 @@ func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2459,6 +2624,11 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2497,6 +2667,11 @@ func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
 		request.NodeId = &tmp
 	}
 
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.RemoveNode(context.Background(), request)
@@ -2508,11 +2683,97 @@ func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
 		return waitErr
 	}
 
+	workId := response.OpcWorkRequestId
+	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) RemoveNodes() error {
+	request := oci_bds.RemoveNodesRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	if instanceIds, ok := s.D.GetOkExists("remove_nodes"); ok {
+		interfaces := instanceIds.([]interface{})
+		tmp := make([]string, 0, len(interfaces))
+		for _, v := range interfaces {
+			if v == nil {
+				continue
+			}
+			id := strings.TrimSpace(v.(string))
+			if id != "" {
+				tmp = append(tmp, id)
+			}
+		}
+		if len(tmp) == 0 {
+			return fmt.Errorf("remove_nodes must contain at least one instance OCID")
+		}
+		request.InstanceIds = tmp
+	} else {
+		return fmt.Errorf("remove_nodes must be provided")
+	}
+
+	if isForceRemoveEnabled, ok := s.D.GetOkExists("is_force_remove_enabled"); ok {
+		tmp := isForceRemoveEnabled.(bool)
+		request.IsForceRemoveEnabled = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	response, err := s.Client.RemoveNodes(context.Background(), request)
 	if err != nil {
 		return err
 	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
 	workId := response.OpcWorkRequestId
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) BdsInstanceResetPassword() error {
+	request := oci_bds.BdsInstanceResetPasswordRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
+	if service, ok := s.D.GetOkExists("service"); ok {
+		request.Service = oci_bds.BdsInstanceResetPasswordDetailsServiceEnum(service.(string))
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	_, err := s.Client.BdsInstanceResetPassword(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }
 
 func (s *BdsBdsInstanceResourceCrud) mapToBdsClusterVersionSummary(fieldKeyFormat string) (oci_bds.BdsClusterVersionSummary, error) {
@@ -2728,6 +2989,19 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
 
+	/*
+	   tersi-4864
+	   <<<<<<< ours
+	   	if obj.BlockVolumeSizeInGBs != nil {
+	   		result["block_volume_size_in_gbs"] = strconv.FormatInt(*obj.BlockVolumeSizeInGBs, 10)
+	   	}
+
+	   	if obj.CertificateConfigurationId != nil {
+	   		result["certificate_configuration_id"] = string(*obj.CertificateConfigurationId)
+	   	}
+
+	   =======
+	*/
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -2911,7 +3185,7 @@ func (s *BdsBdsInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, blockVolumeSizeInGBs int64, nodeType oci_bds.AddBlockStorageDetailsNodeTypeEnum) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, secretId interface{}, blockVolumeSizeInGBs int64, nodeType oci_bds.AddBlockStorageDetailsNodeTypeEnum) error {
 	addBlockStorageRequest := oci_bds.AddBlockStorageRequest{}
 
 	addBlockStorageRequest.BdsInstanceId = &id
@@ -2920,6 +3194,11 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 
 	tmpClusterAdminPassword := clusterAdminPassword.(string)
 	addBlockStorageRequest.ClusterAdminPassword = &tmpClusterAdminPassword
+
+	if secretId != nil && secretId != "" {
+		secretIdTmp := secretId.(string)
+		addBlockStorageRequest.SecretId = &secretIdTmp
+	}
 
 	addBlockStorageRequest.BlockVolumeSizeInGBs = &blockVolumeSizeInGBs
 
@@ -2933,7 +3212,7 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int, nodeType oci_bds.AddWorkerNodesDetailsNodeTypeEnum, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfWorker int, nodeType oci_bds.AddWorkerNodesDetailsNodeTypeEnum, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addWorkerNodesRequest := oci_bds.AddWorkerNodesRequest{}
 	addWorkerNodesRequest.BdsInstanceId = &id
 
@@ -2954,6 +3233,11 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPas
 	clusterAdminPasswordTmp := clusterAdminPassword.(string)
 	addWorkerNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
 
+	if secretId != nil && secretId != "" {
+		secretIdTmp := secretId.(string)
+		addWorkerNodesRequest.SecretId = &secretIdTmp
+	}
+
 	addWorkerNodesRequest.NumberOfWorkerNodes = &numberOfWorker
 
 	addWorkerNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2966,7 +3250,7 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPas
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPassword interface{}, numberOfMaster int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfMaster int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addMasterNodesRequest := oci_bds.AddMasterNodesRequest{}
 	addMasterNodesRequest.BdsInstanceId = &id
 
@@ -2985,6 +3269,11 @@ func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPas
 	clusterAdminPasswordTmp := clusterAdminPassword.(string)
 	addMasterNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
 
+	if secretId != nil && secretId != "" {
+		secretIdTmp := secretId.(string)
+		addMasterNodesRequest.SecretId = &secretIdTmp
+	}
+
 	addMasterNodesRequest.NumberOfMasterNodes = &numberOfMaster
 
 	addMasterNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2997,7 +3286,7 @@ func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPas
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPassword interface{}, numberOfUtility int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfUtility int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addUtilityNodesRequest := oci_bds.AddUtilityNodesRequest{}
 	addUtilityNodesRequest.BdsInstanceId = &id
 
@@ -3015,6 +3304,11 @@ func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPa
 
 	clusterAdminPasswordTmp := clusterAdminPassword.(string)
 	addUtilityNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
+
+	if secretId != nil && secretId != "" {
+		secretIdTmp := secretId.(string)
+		addUtilityNodesRequest.SecretId = &secretIdTmp
+	}
 
 	addUtilityNodesRequest.NumberOfUtilityNodes = &numberOfUtility
 

@@ -97,6 +97,10 @@ func (s *BdsAutoScalingConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("policy_details", nil)
 	}
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

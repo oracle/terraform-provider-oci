@@ -39,18 +39,23 @@ func BdsBdsInstanceResourcePrincipalConfigurationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"cluster_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 
 			// Optional
+			"cluster_admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"session_token_life_span_duration_in_hours": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -195,6 +200,11 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationResourceCrud) Create() erro
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	if sessionTokenLifeSpanDurationInHours, ok := s.D.GetOkExists("session_token_life_span_duration_in_hours"); ok {
@@ -410,6 +420,10 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationResourceCrud) SetData() err
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	if s.Res.SessionTokenLifeSpanDurationInHours != nil {
 		s.D.Set("session_token_life_span_duration_in_hours", *s.Res.SessionTokenLifeSpanDurationInHours)
 	}
@@ -471,6 +485,11 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationResourceCrud) ForceRefreshR
 		request.ClusterAdminPassword = &tmp
 	}
 
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.ForceRefreshResourcePrincipal(context.Background(), request)
@@ -500,6 +519,11 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationResourceCrud) Delete() erro
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")

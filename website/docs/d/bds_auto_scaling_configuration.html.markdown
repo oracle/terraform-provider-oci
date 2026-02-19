@@ -109,6 +109,7 @@ The following attributes are exported:
 			* `time_recurrence` - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
 	* `timezone` - The time zone of the execution schedule, in IANA time zone database name format
 	* `trigger_type` - The type of autoscaling trigger.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - The state of the autoscale configuration.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the autoscale configuration was updated, shown as an RFC 3339 formatted datetime string. 

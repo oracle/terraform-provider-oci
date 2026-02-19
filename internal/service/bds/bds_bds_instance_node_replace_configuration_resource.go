@@ -41,12 +41,6 @@ func BdsBdsInstanceNodeReplaceConfigurationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"cluster_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"duration_in_minutes": {
 				Type:     schema.TypeInt,
 				Required: true,
@@ -91,11 +85,26 @@ func BdsBdsInstanceNodeReplaceConfigurationResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
+
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
 			//	"remove_trigger": {
 			//		Type:     schema.TypeInt,
 			//		Optional: true,
@@ -255,6 +264,11 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Create() error {
 
 	if metricType, ok := s.D.GetOkExists("metric_type"); ok {
 		request.MetricType = oci_bds.NodeReplaceConfigurationMetricTypeEnum(metricType.(string))
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -494,6 +508,10 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) SetData() error {
 
 	s.D.Set("metric_type", s.Res.MetricType)
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -542,6 +560,11 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.NodeReplaceConfigurationId = &tmp
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 

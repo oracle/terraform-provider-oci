@@ -56,6 +56,7 @@ The following attributes are exported:
 * `id` - The ID of the metastore configuration
 * `metastore_id` - The OCID of the Data Catalog metastore. Set only if metastore's type is EXTERNAL.
 * `metastore_type` - The type of the metastore in the metastore configuration.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - the lifecycle state of the metastore configuration.
 * `time_created` - The time when the configuration was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time when the configuration was updated, shown as an RFC 3339 formatted datetime string.

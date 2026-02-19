@@ -122,6 +122,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_kafka_configured", *s.Res.IsKafkaConfigured)
 	}
 
+	if s.Res.IsSecretReused != nil {
+		s.D.Set("is_secret_reused", *s.Res.IsSecretReused)
+	}
+
 	if s.Res.IsSecure != nil {
 		s.D.Set("is_secure", *s.Res.IsSecure)
 	}
@@ -158,10 +162,18 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("number_of_nodes_requiring_maintenance_reboot", *s.Res.NumberOfNodesRequiringMaintenanceReboot)
 	}
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeEarliestCertificateExpiration != nil {
+		s.D.Set("time_earliest_certificate_expiration", s.Res.TimeEarliestCertificateExpiration.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

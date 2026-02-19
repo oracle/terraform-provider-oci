@@ -22,7 +22,6 @@ Add a nodeReplaceConfigurations to the cluster.
 resource "oci_bds_bds_instance_node_replace_configuration" "test_bds_instance_node_replace_configuration" {
 	#Required
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.bds_instance_node_replace_configuration_cluster_admin_password
 	duration_in_minutes = var.bds_instance_node_replace_configuration_duration_in_minutes
 	level_type_details {
 		#Required
@@ -35,7 +34,9 @@ resource "oci_bds_bds_instance_node_replace_configuration" "test_bds_instance_no
 	metric_type = var.bds_instance_node_replace_configuration_metric_type
 
 	#Optional
+	cluster_admin_password = var.bds_instance_node_replace_configuration_cluster_admin_password
 	display_name = var.bds_instance_node_replace_configuration_display_name
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -44,7 +45,7 @@ resource "oci_bds_bds_instance_node_replace_configuration" "test_bds_instance_no
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) Base-64 encoded password for the cluster admin user.
+* `cluster_admin_password` - (Optional) Base-64 encoded password for the cluster admin user.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 * `duration_in_minutes` - (Required) (Updatable) This value is the minimum period of time to wait before triggering node replacement. The value is in minutes.
 * `level_type_details` - (Required) (Updatable) Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
@@ -52,6 +53,7 @@ The following arguments are supported:
 	* `node_host_name` - (Required when level_type=NODE_LEVEL) (Updatable) Host name of the node to create backup configuration.
 	* `node_type` - (Required when level_type=NODE_TYPE_LEVEL) (Updatable) Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created.
 * `metric_type` - (Required) (Updatable) Type of compute instance health metric to use for node replacement
+* `secret_id` - (Optional) The secretId for the clusterAdminPassword.
 * `remove_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove. Could be set to any integer value.
 
 
@@ -65,12 +67,13 @@ The following attributes are exported:
 * `bds_instance_id` - The OCID of the bdsInstance which is the parent resource id.
 * `display_name` - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 * `duration_in_minutes` - This value is the minimum period of time to wait for metric emission before triggering node replacement. The value is in minutes.
-* `id` - The unique identifier for the NodeReplaceConfiguration.
+* `id` - The id of the NodeReplaceConfiguration defined under BDS resources, not OCID.
 * `level_type_details` - Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
 	* `level_type` - Type of level used to trigger the creation of a new node backup configuration or node replacement configuration. Accepted values are NODE_LEVEL and NODE_TYPE_LEVEL.
 	* `node_host_name` - Host name of the node to create backup configuration.
 	* `node_type` - Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created.
 * `metric_type` - Type of compute instance health metric to use for node replacement
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - The state of the NodeReplaceConfiguration.
 * `time_created` - The time the NodeReplaceConfiguration was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the NodeReplaceConfiguration was updated, shown as an RFC 3339 formatted datetime string. 
