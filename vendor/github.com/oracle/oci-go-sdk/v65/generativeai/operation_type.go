@@ -21,78 +21,105 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateModel              OperationTypeEnum = "CREATE_MODEL"
-	OperationTypeDeleteModel              OperationTypeEnum = "DELETE_MODEL"
-	OperationTypeMoveModel                OperationTypeEnum = "MOVE_MODEL"
-	OperationTypeCreateDedicatedAiCluster OperationTypeEnum = "CREATE_DEDICATED_AI_CLUSTER"
-	OperationTypeDeleteDedicatedAiCluster OperationTypeEnum = "DELETE_DEDICATED_AI_CLUSTER"
-	OperationTypeUpdateDedicatedAiCluster OperationTypeEnum = "UPDATE_DEDICATED_AI_CLUSTER"
-	OperationTypeMoveDedicatedAiCluster   OperationTypeEnum = "MOVE_DEDICATED_AI_CLUSTER"
-	OperationTypeCreateEndpoint           OperationTypeEnum = "CREATE_ENDPOINT"
-	OperationTypeDeleteEndpoint           OperationTypeEnum = "DELETE_ENDPOINT"
-	OperationTypeUpdateEndpoint           OperationTypeEnum = "UPDATE_ENDPOINT"
-	OperationTypeMoveEndpoint             OperationTypeEnum = "MOVE_ENDPOINT"
-	OperationTypeCreateImportedModel      OperationTypeEnum = "CREATE_IMPORTED_MODEL"
-	OperationTypeUpdateImportedModel      OperationTypeEnum = "UPDATE_IMPORTED_MODEL"
-	OperationTypeDeleteImportedModel      OperationTypeEnum = "DELETE_IMPORTED_MODEL"
-	OperationTypeCreatePrivateEndpoint    OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
-	OperationTypeDeletePrivateEndpoint    OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
-	OperationTypeUpdatePrivateEndpoint    OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
-	OperationTypeMovePrivateEndpoint      OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
-	OperationTypeCreateConversationStore  OperationTypeEnum = "CREATE_CONVERSATION_STORE"
-	OperationTypeDeleteConversationStore  OperationTypeEnum = "DELETE_CONVERSATION_STORE"
-	OperationTypeUpdateConversationStore  OperationTypeEnum = "UPDATE_CONVERSATION_STORE"
-	OperationTypeMoveConversationStore    OperationTypeEnum = "MOVE_CONVERSATION_STORE"
+	OperationTypeCreateModel                OperationTypeEnum = "CREATE_MODEL"
+	OperationTypeDeleteModel                OperationTypeEnum = "DELETE_MODEL"
+	OperationTypeMoveModel                  OperationTypeEnum = "MOVE_MODEL"
+	OperationTypeCreateDedicatedAiCluster   OperationTypeEnum = "CREATE_DEDICATED_AI_CLUSTER"
+	OperationTypeDeleteDedicatedAiCluster   OperationTypeEnum = "DELETE_DEDICATED_AI_CLUSTER"
+	OperationTypeUpdateDedicatedAiCluster   OperationTypeEnum = "UPDATE_DEDICATED_AI_CLUSTER"
+	OperationTypeMoveDedicatedAiCluster     OperationTypeEnum = "MOVE_DEDICATED_AI_CLUSTER"
+	OperationTypeCreateEndpoint             OperationTypeEnum = "CREATE_ENDPOINT"
+	OperationTypeDeleteEndpoint             OperationTypeEnum = "DELETE_ENDPOINT"
+	OperationTypeUpdateEndpoint             OperationTypeEnum = "UPDATE_ENDPOINT"
+	OperationTypeMoveEndpoint               OperationTypeEnum = "MOVE_ENDPOINT"
+	OperationTypeCreateImportedModel        OperationTypeEnum = "CREATE_IMPORTED_MODEL"
+	OperationTypeUpdateImportedModel        OperationTypeEnum = "UPDATE_IMPORTED_MODEL"
+	OperationTypeDeleteImportedModel        OperationTypeEnum = "DELETE_IMPORTED_MODEL"
+	OperationTypeCreatePrivateEndpoint      OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint      OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	OperationTypeUpdatePrivateEndpoint      OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint        OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeCreateConversationStore    OperationTypeEnum = "CREATE_CONVERSATION_STORE"
+	OperationTypeDeleteConversationStore    OperationTypeEnum = "DELETE_CONVERSATION_STORE"
+	OperationTypeUpdateConversationStore    OperationTypeEnum = "UPDATE_CONVERSATION_STORE"
+	OperationTypeMoveConversationStore      OperationTypeEnum = "MOVE_CONVERSATION_STORE"
+	OperationTypeCreateGenerativeAiProject  OperationTypeEnum = "CREATE_GENERATIVE_AI_PROJECT"
+	OperationTypeDeleteGenerativeAiProject  OperationTypeEnum = "DELETE_GENERATIVE_AI_PROJECT"
+	OperationTypeUpdateGenerativeAiProject  OperationTypeEnum = "UPDATE_GENERATIVE_AI_PROJECT"
+	OperationTypeMoveGenerativeAiProject    OperationTypeEnum = "MOVE_GENERATIVE_AI_PROJECT"
+	OperationTypeCreateVectorStoreConnector OperationTypeEnum = "CREATE_VECTOR_STORE_CONNECTOR"
+	OperationTypeUpdateVectorStoreConnector OperationTypeEnum = "UPDATE_VECTOR_STORE_CONNECTOR"
+	OperationTypeDeleteVectorStoreConnector OperationTypeEnum = "DELETE_VECTOR_STORE_CONNECTOR"
+	OperationTypeScheduleFileSync           OperationTypeEnum = "SCHEDULE_FILE_SYNC"
+	OperationTypeTriggerFileSync            OperationTypeEnum = "TRIGGER_FILE_SYNC"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_MODEL":                OperationTypeCreateModel,
-	"DELETE_MODEL":                OperationTypeDeleteModel,
-	"MOVE_MODEL":                  OperationTypeMoveModel,
-	"CREATE_DEDICATED_AI_CLUSTER": OperationTypeCreateDedicatedAiCluster,
-	"DELETE_DEDICATED_AI_CLUSTER": OperationTypeDeleteDedicatedAiCluster,
-	"UPDATE_DEDICATED_AI_CLUSTER": OperationTypeUpdateDedicatedAiCluster,
-	"MOVE_DEDICATED_AI_CLUSTER":   OperationTypeMoveDedicatedAiCluster,
-	"CREATE_ENDPOINT":             OperationTypeCreateEndpoint,
-	"DELETE_ENDPOINT":             OperationTypeDeleteEndpoint,
-	"UPDATE_ENDPOINT":             OperationTypeUpdateEndpoint,
-	"MOVE_ENDPOINT":               OperationTypeMoveEndpoint,
-	"CREATE_IMPORTED_MODEL":       OperationTypeCreateImportedModel,
-	"UPDATE_IMPORTED_MODEL":       OperationTypeUpdateImportedModel,
-	"DELETE_IMPORTED_MODEL":       OperationTypeDeleteImportedModel,
-	"CREATE_PRIVATE_ENDPOINT":     OperationTypeCreatePrivateEndpoint,
-	"DELETE_PRIVATE_ENDPOINT":     OperationTypeDeletePrivateEndpoint,
-	"UPDATE_PRIVATE_ENDPOINT":     OperationTypeUpdatePrivateEndpoint,
-	"MOVE_PRIVATE_ENDPOINT":       OperationTypeMovePrivateEndpoint,
-	"CREATE_CONVERSATION_STORE":   OperationTypeCreateConversationStore,
-	"DELETE_CONVERSATION_STORE":   OperationTypeDeleteConversationStore,
-	"UPDATE_CONVERSATION_STORE":   OperationTypeUpdateConversationStore,
-	"MOVE_CONVERSATION_STORE":     OperationTypeMoveConversationStore,
+	"CREATE_MODEL":                  OperationTypeCreateModel,
+	"DELETE_MODEL":                  OperationTypeDeleteModel,
+	"MOVE_MODEL":                    OperationTypeMoveModel,
+	"CREATE_DEDICATED_AI_CLUSTER":   OperationTypeCreateDedicatedAiCluster,
+	"DELETE_DEDICATED_AI_CLUSTER":   OperationTypeDeleteDedicatedAiCluster,
+	"UPDATE_DEDICATED_AI_CLUSTER":   OperationTypeUpdateDedicatedAiCluster,
+	"MOVE_DEDICATED_AI_CLUSTER":     OperationTypeMoveDedicatedAiCluster,
+	"CREATE_ENDPOINT":               OperationTypeCreateEndpoint,
+	"DELETE_ENDPOINT":               OperationTypeDeleteEndpoint,
+	"UPDATE_ENDPOINT":               OperationTypeUpdateEndpoint,
+	"MOVE_ENDPOINT":                 OperationTypeMoveEndpoint,
+	"CREATE_IMPORTED_MODEL":         OperationTypeCreateImportedModel,
+	"UPDATE_IMPORTED_MODEL":         OperationTypeUpdateImportedModel,
+	"DELETE_IMPORTED_MODEL":         OperationTypeDeleteImportedModel,
+	"CREATE_PRIVATE_ENDPOINT":       OperationTypeCreatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":       OperationTypeDeletePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":       OperationTypeUpdatePrivateEndpoint,
+	"MOVE_PRIVATE_ENDPOINT":         OperationTypeMovePrivateEndpoint,
+	"CREATE_CONVERSATION_STORE":     OperationTypeCreateConversationStore,
+	"DELETE_CONVERSATION_STORE":     OperationTypeDeleteConversationStore,
+	"UPDATE_CONVERSATION_STORE":     OperationTypeUpdateConversationStore,
+	"MOVE_CONVERSATION_STORE":       OperationTypeMoveConversationStore,
+	"CREATE_GENERATIVE_AI_PROJECT":  OperationTypeCreateGenerativeAiProject,
+	"DELETE_GENERATIVE_AI_PROJECT":  OperationTypeDeleteGenerativeAiProject,
+	"UPDATE_GENERATIVE_AI_PROJECT":  OperationTypeUpdateGenerativeAiProject,
+	"MOVE_GENERATIVE_AI_PROJECT":    OperationTypeMoveGenerativeAiProject,
+	"CREATE_VECTOR_STORE_CONNECTOR": OperationTypeCreateVectorStoreConnector,
+	"UPDATE_VECTOR_STORE_CONNECTOR": OperationTypeUpdateVectorStoreConnector,
+	"DELETE_VECTOR_STORE_CONNECTOR": OperationTypeDeleteVectorStoreConnector,
+	"SCHEDULE_FILE_SYNC":            OperationTypeScheduleFileSync,
+	"TRIGGER_FILE_SYNC":             OperationTypeTriggerFileSync,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_model":                OperationTypeCreateModel,
-	"delete_model":                OperationTypeDeleteModel,
-	"move_model":                  OperationTypeMoveModel,
-	"create_dedicated_ai_cluster": OperationTypeCreateDedicatedAiCluster,
-	"delete_dedicated_ai_cluster": OperationTypeDeleteDedicatedAiCluster,
-	"update_dedicated_ai_cluster": OperationTypeUpdateDedicatedAiCluster,
-	"move_dedicated_ai_cluster":   OperationTypeMoveDedicatedAiCluster,
-	"create_endpoint":             OperationTypeCreateEndpoint,
-	"delete_endpoint":             OperationTypeDeleteEndpoint,
-	"update_endpoint":             OperationTypeUpdateEndpoint,
-	"move_endpoint":               OperationTypeMoveEndpoint,
-	"create_imported_model":       OperationTypeCreateImportedModel,
-	"update_imported_model":       OperationTypeUpdateImportedModel,
-	"delete_imported_model":       OperationTypeDeleteImportedModel,
-	"create_private_endpoint":     OperationTypeCreatePrivateEndpoint,
-	"delete_private_endpoint":     OperationTypeDeletePrivateEndpoint,
-	"update_private_endpoint":     OperationTypeUpdatePrivateEndpoint,
-	"move_private_endpoint":       OperationTypeMovePrivateEndpoint,
-	"create_conversation_store":   OperationTypeCreateConversationStore,
-	"delete_conversation_store":   OperationTypeDeleteConversationStore,
-	"update_conversation_store":   OperationTypeUpdateConversationStore,
-	"move_conversation_store":     OperationTypeMoveConversationStore,
+	"create_model":                  OperationTypeCreateModel,
+	"delete_model":                  OperationTypeDeleteModel,
+	"move_model":                    OperationTypeMoveModel,
+	"create_dedicated_ai_cluster":   OperationTypeCreateDedicatedAiCluster,
+	"delete_dedicated_ai_cluster":   OperationTypeDeleteDedicatedAiCluster,
+	"update_dedicated_ai_cluster":   OperationTypeUpdateDedicatedAiCluster,
+	"move_dedicated_ai_cluster":     OperationTypeMoveDedicatedAiCluster,
+	"create_endpoint":               OperationTypeCreateEndpoint,
+	"delete_endpoint":               OperationTypeDeleteEndpoint,
+	"update_endpoint":               OperationTypeUpdateEndpoint,
+	"move_endpoint":                 OperationTypeMoveEndpoint,
+	"create_imported_model":         OperationTypeCreateImportedModel,
+	"update_imported_model":         OperationTypeUpdateImportedModel,
+	"delete_imported_model":         OperationTypeDeleteImportedModel,
+	"create_private_endpoint":       OperationTypeCreatePrivateEndpoint,
+	"delete_private_endpoint":       OperationTypeDeletePrivateEndpoint,
+	"update_private_endpoint":       OperationTypeUpdatePrivateEndpoint,
+	"move_private_endpoint":         OperationTypeMovePrivateEndpoint,
+	"create_conversation_store":     OperationTypeCreateConversationStore,
+	"delete_conversation_store":     OperationTypeDeleteConversationStore,
+	"update_conversation_store":     OperationTypeUpdateConversationStore,
+	"move_conversation_store":       OperationTypeMoveConversationStore,
+	"create_generative_ai_project":  OperationTypeCreateGenerativeAiProject,
+	"delete_generative_ai_project":  OperationTypeDeleteGenerativeAiProject,
+	"update_generative_ai_project":  OperationTypeUpdateGenerativeAiProject,
+	"move_generative_ai_project":    OperationTypeMoveGenerativeAiProject,
+	"create_vector_store_connector": OperationTypeCreateVectorStoreConnector,
+	"update_vector_store_connector": OperationTypeUpdateVectorStoreConnector,
+	"delete_vector_store_connector": OperationTypeDeleteVectorStoreConnector,
+	"schedule_file_sync":            OperationTypeScheduleFileSync,
+	"trigger_file_sync":             OperationTypeTriggerFileSync,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -129,6 +156,15 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_CONVERSATION_STORE",
 		"UPDATE_CONVERSATION_STORE",
 		"MOVE_CONVERSATION_STORE",
+		"CREATE_GENERATIVE_AI_PROJECT",
+		"DELETE_GENERATIVE_AI_PROJECT",
+		"UPDATE_GENERATIVE_AI_PROJECT",
+		"MOVE_GENERATIVE_AI_PROJECT",
+		"CREATE_VECTOR_STORE_CONNECTOR",
+		"UPDATE_VECTOR_STORE_CONNECTOR",
+		"DELETE_VECTOR_STORE_CONNECTOR",
+		"SCHEDULE_FILE_SYNC",
+		"TRIGGER_FILE_SYNC",
 	}
 }
 

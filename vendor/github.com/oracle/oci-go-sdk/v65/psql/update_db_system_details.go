@@ -48,6 +48,8 @@ type UpdateDbSystemDetails struct {
 
 	KerberosAuthDetails KerberosAuthDetails `mandatory:"false" json:"kerberosAuthDetails"`
 
+	OdspInsightDetails OdspInsightDetails `mandatory:"false" json:"odspInsightDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -87,6 +89,7 @@ func (m *UpdateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		ReplicationConfig       *UpdateReplicationConfigDetails   `json:"replicationConfig"`
 		NetworkDetails          *UpdateNetworkDetails             `json:"networkDetails"`
 		KerberosAuthDetails     kerberosauthdetails               `json:"kerberosAuthDetails"`
+		OdspInsightDetails      odspinsightdetails                `json:"odspInsightDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 	}{}
@@ -124,6 +127,16 @@ func (m *UpdateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		m.KerberosAuthDetails = nn.(KerberosAuthDetails)
 	} else {
 		m.KerberosAuthDetails = nil
+	}
+
+	nn, e = model.OdspInsightDetails.UnmarshalPolymorphicJSON(model.OdspInsightDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OdspInsightDetails = nn.(OdspInsightDetails)
+	} else {
+		m.OdspInsightDetails = nil
 	}
 
 	m.FreeformTags = model.FreeformTags

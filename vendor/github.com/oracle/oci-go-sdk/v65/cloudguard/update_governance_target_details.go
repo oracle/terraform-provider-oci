@@ -31,6 +31,9 @@ type UpdateGovernanceTargetDetails struct {
 	// List of detector recipes to be created in Subject Tenancies
 	GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipeId `mandatory:"false" json:"governanceTargetDetectorRecipes"`
 
+	// Security Zone Recipe Id, which will be used to create the similar recipe in the subject tenancies.
+	SecurityRecipeId *string `mandatory:"false" json:"securityRecipeId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
@@ -64,6 +67,7 @@ func (m *UpdateGovernanceTargetDetails) UnmarshalJSON(data []byte) (e error) {
 		Description                     *string                            `json:"description"`
 		GovernanceScope                 governancescope                    `json:"governanceScope"`
 		GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipeId `json:"governanceTargetDetectorRecipes"`
+		SecurityRecipeId                *string                            `json:"securityRecipeId"`
 		FreeformTags                    map[string]string                  `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{}  `json:"definedTags"`
 	}{}
@@ -89,6 +93,8 @@ func (m *UpdateGovernanceTargetDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.GovernanceTargetDetectorRecipes = make([]GovernanceTargetDetectorRecipeId, len(model.GovernanceTargetDetectorRecipes))
 	copy(m.GovernanceTargetDetectorRecipes, model.GovernanceTargetDetectorRecipes)
+	m.SecurityRecipeId = model.SecurityRecipeId
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

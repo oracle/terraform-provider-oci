@@ -18,6 +18,13 @@ type GetChargebackPlanReportContentRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Ops Insights chargeback plan report
 	ChargebackPlanReportId *string `mandatory:"true" contributesTo:"path" name:"chargebackPlanReportId"`
 
+	// Unique Ops insight identifier
+	Id *string `mandatory:"true" contributesTo:"query" name:"id"`
+
+	// Filter by resource type.
+	// Supported values are EXADATA_INSIGHT , HOST_INSIGHT, DATABASE_INSIGHT.
+	ResourceType *string `mandatory:"true" contributesTo:"query" name:"resourceType"`
+
 	// Analysis start time in UTC in ISO 8601 format(inclusive).
 	// Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
 	// The minimum allowed value is 2 years prior to the current day.

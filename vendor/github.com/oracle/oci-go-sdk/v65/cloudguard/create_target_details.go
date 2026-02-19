@@ -11,7 +11,6 @@
 package cloudguard
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -48,8 +47,6 @@ type CreateTargetDetails struct {
 
 	// Should problems be emitted to OCI Events service?
 	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
-
-	TargetDetails CreateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
 	// Governing tenant ID from governance target
 	GovernanceTenantId *string `mandatory:"false" json:"governanceTenantId"`
@@ -99,76 +96,4 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description                   *string                              `json:"description"`
-		TargetDetectorRecipes         []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
-		TargetResponderRecipes        []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
-		LifecycleState                LifecycleStateEnum                   `json:"lifecycleState"`
-		DoesEmitProblemsToEvents      *bool                                `json:"doesEmitProblemsToEvents"`
-		TargetDetails                 createtargetadditionaldetails        `json:"targetDetails"`
-		GovernanceTenantId            *string                              `json:"governanceTenantId"`
-		GovernanceTargetId            *string                              `json:"governanceTargetId"`
-		GovernanceTargetCompartmentId *string                              `json:"governanceTargetCompartmentId"`
-		ManageType                    ManageTypeEnum                       `json:"manageType"`
-		Locks                         []ResourceLock                       `json:"locks"`
-		FreeformTags                  map[string]string                    `json:"freeformTags"`
-		DefinedTags                   map[string]map[string]interface{}    `json:"definedTags"`
-		DisplayName                   *string                              `json:"displayName"`
-		CompartmentId                 *string                              `json:"compartmentId"`
-		TargetResourceType            TargetResourceTypeEnum               `json:"targetResourceType"`
-		TargetResourceId              *string                              `json:"targetResourceId"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.TargetDetectorRecipes = make([]CreateTargetDetectorRecipeDetails, len(model.TargetDetectorRecipes))
-	copy(m.TargetDetectorRecipes, model.TargetDetectorRecipes)
-	m.TargetResponderRecipes = make([]CreateTargetResponderRecipeDetails, len(model.TargetResponderRecipes))
-	copy(m.TargetResponderRecipes, model.TargetResponderRecipes)
-	m.LifecycleState = model.LifecycleState
-
-	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
-
-	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TargetDetails = nn.(CreateTargetAdditionalDetails)
-	} else {
-		m.TargetDetails = nil
-	}
-
-	m.GovernanceTenantId = model.GovernanceTenantId
-
-	m.GovernanceTargetId = model.GovernanceTargetId
-
-	m.GovernanceTargetCompartmentId = model.GovernanceTargetCompartmentId
-
-	m.ManageType = model.ManageType
-
-	m.Locks = make([]ResourceLock, len(model.Locks))
-	copy(m.Locks, model.Locks)
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.DisplayName = model.DisplayName
-
-	m.CompartmentId = model.CompartmentId
-
-	m.TargetResourceType = model.TargetResourceType
-
-	m.TargetResourceId = model.TargetResourceId
-
-	return
 }

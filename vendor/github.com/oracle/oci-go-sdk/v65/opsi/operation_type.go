@@ -93,6 +93,12 @@ const (
 	OperationTypeUpdateKubeClusterInsight                               OperationTypeEnum = "UPDATE_KUBE_CLUSTER_INSIGHT"
 	OperationTypeMoveKubeClusterInsight                                 OperationTypeEnum = "MOVE_KUBE_CLUSTER_INSIGHT"
 	OperationTypeDeleteKubeClusterInsight                               OperationTypeEnum = "DELETE_KUBE_CLUSTER_INSIGHT"
+	OperationTypeCreateChargeBack                                       OperationTypeEnum = "CREATE_CHARGE_BACK"
+	OperationTypeEnableChargeBack                                       OperationTypeEnum = "ENABLE_CHARGE_BACK"
+	OperationTypeDisableChargeBack                                      OperationTypeEnum = "DISABLE_CHARGE_BACK"
+	OperationTypeUpdateChargeBack                                       OperationTypeEnum = "UPDATE_CHARGE_BACK"
+	OperationTypeMoveChargeBack                                         OperationTypeEnum = "MOVE_CHARGE_BACK"
+	OperationTypeDeleteChargeBack                                       OperationTypeEnum = "DELETE_CHARGE_BACK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -169,6 +175,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeUpdateKubeClusterInsight,
 	"MOVE_KUBE_CLUSTER_INSIGHT":                                     OperationTypeMoveKubeClusterInsight,
 	"DELETE_KUBE_CLUSTER_INSIGHT":                                   OperationTypeDeleteKubeClusterInsight,
+	"CREATE_CHARGE_BACK":                                            OperationTypeCreateChargeBack,
+	"ENABLE_CHARGE_BACK":                                            OperationTypeEnableChargeBack,
+	"DISABLE_CHARGE_BACK":                                           OperationTypeDisableChargeBack,
+	"UPDATE_CHARGE_BACK":                                            OperationTypeUpdateChargeBack,
+	"MOVE_CHARGE_BACK":                                              OperationTypeMoveChargeBack,
+	"DELETE_CHARGE_BACK":                                            OperationTypeDeleteChargeBack,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -245,6 +257,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_kube_cluster_insight":                                   OperationTypeUpdateKubeClusterInsight,
 	"move_kube_cluster_insight":                                     OperationTypeMoveKubeClusterInsight,
 	"delete_kube_cluster_insight":                                   OperationTypeDeleteKubeClusterInsight,
+	"create_charge_back":                                            OperationTypeCreateChargeBack,
+	"enable_charge_back":                                            OperationTypeEnableChargeBack,
+	"disable_charge_back":                                           OperationTypeDisableChargeBack,
+	"update_charge_back":                                            OperationTypeUpdateChargeBack,
+	"move_charge_back":                                              OperationTypeMoveChargeBack,
+	"delete_charge_back":                                            OperationTypeDeleteChargeBack,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -332,6 +350,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_KUBE_CLUSTER_INSIGHT",
 		"MOVE_KUBE_CLUSTER_INSIGHT",
 		"DELETE_KUBE_CLUSTER_INSIGHT",
+		"CREATE_CHARGE_BACK",
+		"ENABLE_CHARGE_BACK",
+		"DISABLE_CHARGE_BACK",
+		"UPDATE_CHARGE_BACK",
+		"MOVE_CHARGE_BACK",
+		"DELETE_CHARGE_BACK",
 	}
 }
 

@@ -75,7 +75,7 @@ type AutoExecutionSummary struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Initiation type for Execution.
-	InitiationType AutoExecutionSummaryInitiationTypeEnum `mandatory:"false" json:"initiationType,omitempty"`
+	InitiationType AutoExecutionInitiationTypeEnum `mandatory:"false" json:"initiationType,omitempty"`
 }
 
 func (m AutoExecutionSummary) String() string {
@@ -91,53 +91,11 @@ func (m AutoExecutionSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutoExecutionLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingAutoExecutionSummaryInitiationTypeEnum(string(m.InitiationType)); !ok && m.InitiationType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitiationType: %s. Supported values are: %s.", m.InitiationType, strings.Join(GetAutoExecutionSummaryInitiationTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingAutoExecutionInitiationTypeEnum(string(m.InitiationType)); !ok && m.InitiationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitiationType: %s. Supported values are: %s.", m.InitiationType, strings.Join(GetAutoExecutionInitiationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// AutoExecutionSummaryInitiationTypeEnum Enum with underlying type: string
-type AutoExecutionSummaryInitiationTypeEnum string
-
-// Set of constants representing the allowable values for AutoExecutionSummaryInitiationTypeEnum
-const (
-	AutoExecutionSummaryInitiationTypeService AutoExecutionSummaryInitiationTypeEnum = "SERVICE"
-	AutoExecutionSummaryInitiationTypePlugin  AutoExecutionSummaryInitiationTypeEnum = "PLUGIN"
-)
-
-var mappingAutoExecutionSummaryInitiationTypeEnum = map[string]AutoExecutionSummaryInitiationTypeEnum{
-	"SERVICE": AutoExecutionSummaryInitiationTypeService,
-	"PLUGIN":  AutoExecutionSummaryInitiationTypePlugin,
-}
-
-var mappingAutoExecutionSummaryInitiationTypeEnumLowerCase = map[string]AutoExecutionSummaryInitiationTypeEnum{
-	"service": AutoExecutionSummaryInitiationTypeService,
-	"plugin":  AutoExecutionSummaryInitiationTypePlugin,
-}
-
-// GetAutoExecutionSummaryInitiationTypeEnumValues Enumerates the set of values for AutoExecutionSummaryInitiationTypeEnum
-func GetAutoExecutionSummaryInitiationTypeEnumValues() []AutoExecutionSummaryInitiationTypeEnum {
-	values := make([]AutoExecutionSummaryInitiationTypeEnum, 0)
-	for _, v := range mappingAutoExecutionSummaryInitiationTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutoExecutionSummaryInitiationTypeEnumStringValues Enumerates the set of values in String for AutoExecutionSummaryInitiationTypeEnum
-func GetAutoExecutionSummaryInitiationTypeEnumStringValues() []string {
-	return []string{
-		"SERVICE",
-		"PLUGIN",
-	}
-}
-
-// GetMappingAutoExecutionSummaryInitiationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutoExecutionSummaryInitiationTypeEnum(val string) (AutoExecutionSummaryInitiationTypeEnum, bool) {
-	enum, ok := mappingAutoExecutionSummaryInitiationTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

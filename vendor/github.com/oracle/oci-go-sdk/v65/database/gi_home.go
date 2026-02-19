@@ -30,23 +30,35 @@ type GiHome struct {
 	// The current state of the Grid Infrastructure Home.
 	LifecycleState GiHomeLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The time and date as an RFC3339 formatted string, e.g., 2024-04-11T01:59:07.032Z, when the grid infrastructure home was created
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
 	// The path of the Grid Infrastructure Home.
 	HomePath *string `mandatory:"true" json:"homePath"`
 
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
+	// The time and date as an RFC3339 formatted string, e.g., 2024-04-11T01:59:07.032Z, when the grid infrastructure home was updated
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// Indicates whether the grid infrastructure home is created by default.
 	IsDefaultCreated *bool `mandatory:"false" json:"isDefaultCreated"`
 
-	// The time and date as an RFC3339 formatted string, e.g., 2024-04-11T01:59:07.032Z, when the grid infrastructure home was created
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+	// Indicates whether the Grid Infrastructure Home is currently active for the cluster.
+	IsActive *bool `mandatory:"false" json:"isActive"`
+
+	// The possible Grid Infrastructure update actions that can be performed using this Grid Infrastructure Home.
+	AvailableActions []GiHomeAvailableActionsEnum `mandatory:"false" json:"availableActions,omitempty"`
+
+	// The type of update that the Grid Infrastructure Home can be used for.
+	AvailableType GiHomeAvailableTypeEnum `mandatory:"false" json:"availableType,omitempty"`
+
+	// Additional information about the current lifecycle state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The grid infrastructure home image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	GiImageId *string `mandatory:"false" json:"giImageId"`
-
-	// The time and date as an RFC3339 formatted string, e.g., 2024-04-11T01:59:07.032Z, when the grid infrastructure home was updated
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
@@ -78,6 +90,15 @@ func (m GiHome) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGiHomeLifecycleStateEnumStringValues(), ",")))
 	}
 
+	for _, val := range m.AvailableActions {
+		if _, ok := GetMappingGiHomeAvailableActionsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetGiHomeAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := GetMappingGiHomeAvailableTypeEnum(string(m.AvailableType)); !ok && m.AvailableType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableType: %s. Supported values are: %s.", m.AvailableType, strings.Join(GetGiHomeAvailableTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -143,5 +164,97 @@ func GetGiHomeLifecycleStateEnumStringValues() []string {
 // GetMappingGiHomeLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingGiHomeLifecycleStateEnum(val string) (GiHomeLifecycleStateEnum, bool) {
 	enum, ok := mappingGiHomeLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// GiHomeAvailableActionsEnum Enum with underlying type: string
+type GiHomeAvailableActionsEnum string
+
+// Set of constants representing the allowable values for GiHomeAvailableActionsEnum
+const (
+	GiHomeAvailableActionsPrecheck     GiHomeAvailableActionsEnum = "PRECHECK"
+	GiHomeAvailableActionsRollingApply GiHomeAvailableActionsEnum = "ROLLING_APPLY"
+	GiHomeAvailableActionsRetry        GiHomeAvailableActionsEnum = "RETRY"
+	GiHomeAvailableActionsRollback     GiHomeAvailableActionsEnum = "ROLLBACK"
+)
+
+var mappingGiHomeAvailableActionsEnum = map[string]GiHomeAvailableActionsEnum{
+	"PRECHECK":      GiHomeAvailableActionsPrecheck,
+	"ROLLING_APPLY": GiHomeAvailableActionsRollingApply,
+	"RETRY":         GiHomeAvailableActionsRetry,
+	"ROLLBACK":      GiHomeAvailableActionsRollback,
+}
+
+var mappingGiHomeAvailableActionsEnumLowerCase = map[string]GiHomeAvailableActionsEnum{
+	"precheck":      GiHomeAvailableActionsPrecheck,
+	"rolling_apply": GiHomeAvailableActionsRollingApply,
+	"retry":         GiHomeAvailableActionsRetry,
+	"rollback":      GiHomeAvailableActionsRollback,
+}
+
+// GetGiHomeAvailableActionsEnumValues Enumerates the set of values for GiHomeAvailableActionsEnum
+func GetGiHomeAvailableActionsEnumValues() []GiHomeAvailableActionsEnum {
+	values := make([]GiHomeAvailableActionsEnum, 0)
+	for _, v := range mappingGiHomeAvailableActionsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGiHomeAvailableActionsEnumStringValues Enumerates the set of values in String for GiHomeAvailableActionsEnum
+func GetGiHomeAvailableActionsEnumStringValues() []string {
+	return []string{
+		"PRECHECK",
+		"ROLLING_APPLY",
+		"RETRY",
+		"ROLLBACK",
+	}
+}
+
+// GetMappingGiHomeAvailableActionsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGiHomeAvailableActionsEnum(val string) (GiHomeAvailableActionsEnum, bool) {
+	enum, ok := mappingGiHomeAvailableActionsEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// GiHomeAvailableTypeEnum Enum with underlying type: string
+type GiHomeAvailableTypeEnum string
+
+// Set of constants representing the allowable values for GiHomeAvailableTypeEnum
+const (
+	GiHomeAvailableTypeUpgrade GiHomeAvailableTypeEnum = "GI_UPGRADE"
+	GiHomeAvailableTypePatch   GiHomeAvailableTypeEnum = "GI_PATCH"
+)
+
+var mappingGiHomeAvailableTypeEnum = map[string]GiHomeAvailableTypeEnum{
+	"GI_UPGRADE": GiHomeAvailableTypeUpgrade,
+	"GI_PATCH":   GiHomeAvailableTypePatch,
+}
+
+var mappingGiHomeAvailableTypeEnumLowerCase = map[string]GiHomeAvailableTypeEnum{
+	"gi_upgrade": GiHomeAvailableTypeUpgrade,
+	"gi_patch":   GiHomeAvailableTypePatch,
+}
+
+// GetGiHomeAvailableTypeEnumValues Enumerates the set of values for GiHomeAvailableTypeEnum
+func GetGiHomeAvailableTypeEnumValues() []GiHomeAvailableTypeEnum {
+	values := make([]GiHomeAvailableTypeEnum, 0)
+	for _, v := range mappingGiHomeAvailableTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGiHomeAvailableTypeEnumStringValues Enumerates the set of values in String for GiHomeAvailableTypeEnum
+func GetGiHomeAvailableTypeEnumStringValues() []string {
+	return []string{
+		"GI_UPGRADE",
+		"GI_PATCH",
+	}
+}
+
+// GetMappingGiHomeAvailableTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGiHomeAvailableTypeEnum(val string) (GiHomeAvailableTypeEnum, bool) {
+	enum, ok := mappingGiHomeAvailableTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

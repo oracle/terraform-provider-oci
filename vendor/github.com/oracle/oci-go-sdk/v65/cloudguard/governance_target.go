@@ -46,6 +46,9 @@ type GovernanceTarget struct {
 	// List of detector recipes to be created in Subject Tenancies
 	GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipe `mandatory:"false" json:"governanceTargetDetectorRecipes"`
 
+	// Security Zone Recipe Id, which will be used to create the similar recipe in the subject tenancies.
+	SecurityRecipeId *string `mandatory:"false" json:"securityRecipeId"`
+
 	// The date and time the governance target was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -96,6 +99,7 @@ func (m *GovernanceTarget) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                     *string                           `json:"displayName"`
 		Description                     *string                           `json:"description"`
 		GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipe  `json:"governanceTargetDetectorRecipes"`
+		SecurityRecipeId                *string                           `json:"securityRecipeId"`
 		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails                *string                           `json:"lifecycleDetails"`
 		Locks                           []ResourceLock                    `json:"locks"`
@@ -121,6 +125,8 @@ func (m *GovernanceTarget) UnmarshalJSON(data []byte) (e error) {
 
 	m.GovernanceTargetDetectorRecipes = make([]GovernanceTargetDetectorRecipe, len(model.GovernanceTargetDetectorRecipes))
 	copy(m.GovernanceTargetDetectorRecipes, model.GovernanceTargetDetectorRecipes)
+	m.SecurityRecipeId = model.SecurityRecipeId
+
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails

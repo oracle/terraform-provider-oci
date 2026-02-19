@@ -1060,6 +1060,60 @@ func (client PostgresqlClient) getDbSystem(ctx context.Context, request common.O
 	return response, err
 }
 
+// GetDbSystemInsight Retrieves PostgreSQL insight data for a database system based on the specified insightType and insightDataType.
+// A default retry strategy applies to this operation GetDbSystemInsight()
+func (client PostgresqlClient) GetDbSystemInsight(ctx context.Context, request GetDbSystemInsightRequest) (response GetDbSystemInsightResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbSystemInsight, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbSystemInsightResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbSystemInsightResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbSystemInsightResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbSystemInsightResponse")
+	}
+	return
+}
+
+// getDbSystemInsight implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) getDbSystemInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/insights/{insightType}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbSystemInsightResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystemInsight/GetDbSystemInsight"
+		err = common.PostProcessServiceError(err, "Postgresql", "GetDbSystemInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDefaultConfiguration Gets a default configuration by identifier.
 // A default retry strategy applies to this operation GetDefaultConfiguration()
 func (client PostgresqlClient) GetDefaultConfiguration(ctx context.Context, request GetDefaultConfigurationRequest) (response GetDefaultConfigurationResponse, err error) {
@@ -1485,6 +1539,65 @@ func (client PostgresqlClient) listDefaultConfigurations(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DefaultConfigurationCollection/ListDefaultConfigurations"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListDefaultConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInsightCapabilities Returns the supported insight types and their capabilities.
+// This API allows clients to discover:
+// - Supported insight types
+// - Supported insight data types for each insight type
+// - Filters, sorting, pagination, limits, and data contracts
+// required to use the unified insights API.
+// A default retry strategy applies to this operation ListInsightCapabilities()
+func (client PostgresqlClient) ListInsightCapabilities(ctx context.Context, request ListInsightCapabilitiesRequest) (response ListInsightCapabilitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInsightCapabilities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInsightCapabilitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInsightCapabilitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInsightCapabilitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInsightCapabilitiesResponse")
+	}
+	return
+}
+
+// listInsightCapabilities implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) listInsightCapabilities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/insightCapabilities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInsightCapabilitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/InsightCapabilitySummary/ListInsightCapabilities"
+		err = common.PostProcessServiceError(err, "Postgresql", "ListInsightCapabilities", apiReferenceLink)
 		return response, err
 	}
 

@@ -26,7 +26,7 @@
 // <br>
 // <b>AWS</b>:<br>
 // <b>Oracle AWS Connector Resource:</b>&nbsp;&nbsp;The Oracle AWS Connector Resource is used to install the AWS Identity Connector on an Exadata VM cluster in Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D).
-// <b>Google AWS Key Resource:</b>&nbsp;&nbsp;The Oracle AWS Key Resource is used to register and manage a AWS Key within Oracle Cloud Infrastructure (OCI).
+// <b>Oracle AWS Key Resource:</b>&nbsp;&nbsp;The Oracle AWS Key Resource is used to register and manage a AWS Key within Oracle Cloud Infrastructure (OCI).
 //
 
 package dbmulticloud
@@ -90,6 +90,12 @@ const (
 	OperationTypeUpdateAwsKey                   OperationTypeEnum = "UPDATE_AWS_KEY"
 	OperationTypeMoveAwsKey                     OperationTypeEnum = "MOVE_AWS_KEY"
 	OperationTypeRefreshAwsKey                  OperationTypeEnum = "REFRESH_AWS_KEY"
+	OperationTypeCreateReplicateResource        OperationTypeEnum = "CREATE_REPLICATE_RESOURCE"
+	OperationTypeUpdateReplicateResource        OperationTypeEnum = "UPDATE_REPLICATE_RESOURCE"
+	OperationTypeDeleteReplicateResource        OperationTypeEnum = "DELETE_REPLICATE_RESOURCE"
+	OperationTypeMoveReplicateResource          OperationTypeEnum = "MOVE_REPLICATE_RESOURCE"
+	OperationTypeRefreshReplicateResource       OperationTypeEnum = "REFRESH_REPLICATE_RESOURCE"
+	OperationTypeReplicate                      OperationTypeEnum = "REPLICATE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -143,6 +149,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_AWS_KEY":                    OperationTypeUpdateAwsKey,
 	"MOVE_AWS_KEY":                      OperationTypeMoveAwsKey,
 	"REFRESH_AWS_KEY":                   OperationTypeRefreshAwsKey,
+	"CREATE_REPLICATE_RESOURCE":         OperationTypeCreateReplicateResource,
+	"UPDATE_REPLICATE_RESOURCE":         OperationTypeUpdateReplicateResource,
+	"DELETE_REPLICATE_RESOURCE":         OperationTypeDeleteReplicateResource,
+	"MOVE_REPLICATE_RESOURCE":           OperationTypeMoveReplicateResource,
+	"REFRESH_REPLICATE_RESOURCE":        OperationTypeRefreshReplicateResource,
+	"REPLICATE":                         OperationTypeReplicate,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -196,6 +208,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_aws_key":                    OperationTypeUpdateAwsKey,
 	"move_aws_key":                      OperationTypeMoveAwsKey,
 	"refresh_aws_key":                   OperationTypeRefreshAwsKey,
+	"create_replicate_resource":         OperationTypeCreateReplicateResource,
+	"update_replicate_resource":         OperationTypeUpdateReplicateResource,
+	"delete_replicate_resource":         OperationTypeDeleteReplicateResource,
+	"move_replicate_resource":           OperationTypeMoveReplicateResource,
+	"refresh_replicate_resource":        OperationTypeRefreshReplicateResource,
+	"replicate":                         OperationTypeReplicate,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -260,6 +278,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_AWS_KEY",
 		"MOVE_AWS_KEY",
 		"REFRESH_AWS_KEY",
+		"CREATE_REPLICATE_RESOURCE",
+		"UPDATE_REPLICATE_RESOURCE",
+		"DELETE_REPLICATE_RESOURCE",
+		"MOVE_REPLICATE_RESOURCE",
+		"REFRESH_REPLICATE_RESOURCE",
+		"REPLICATE",
 	}
 }
 

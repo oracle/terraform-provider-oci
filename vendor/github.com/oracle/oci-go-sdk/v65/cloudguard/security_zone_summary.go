@@ -47,6 +47,12 @@ type SecurityZoneSummary struct {
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Indicates if upon deletion of the security zone the comparment should inherit parent security zone
+	IsInheritanceAfterDeleteEnabled *bool `mandatory:"false" json:"isInheritanceAfterDeleteEnabled"`
+
+	// Indicates if security zone was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
 	// Locks associated with this resource
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
@@ -78,6 +84,9 @@ func (m SecurityZoneSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

@@ -26,7 +26,7 @@ type ScheduledQueryDataSourceObjDetails struct {
 	// Description text for the query
 	Description *string `mandatory:"false" json:"description"`
 
-	// Interval in minutes which query is run periodically.
+	// Interval in seconds which query is run periodically.
 	IntervalInSeconds *int `mandatory:"false" json:"intervalInSeconds"`
 
 	// Target information in which scheduled query will be run

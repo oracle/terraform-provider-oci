@@ -35,7 +35,7 @@ type CreatePropertyDetails struct {
 	// Values of the property (must be a single value if selection = 'SINGLE_CHOICE').
 	Values []string `mandatory:"false" json:"values"`
 
-	// Property OCID on which the current property depends on.
+	// The OCID of the resource.
 	DependOn *string `mandatory:"false" json:"dependOn"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

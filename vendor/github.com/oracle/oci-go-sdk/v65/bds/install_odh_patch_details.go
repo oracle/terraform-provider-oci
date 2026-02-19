@@ -47,6 +47,9 @@ type InstallOdhPatchDetails struct {
 	IsCompatibilityCheck *bool `mandatory:"false" json:"isCompatibilityCheck"`
 
 	PatchingConfig OdhPatchingConfig `mandatory:"false" json:"patchingConfig"`
+
+	// List of services for which the patch needs to be applied.
+	Services []InstallOdhPatchDetailsServicesEnum `mandatory:"false" json:"services,omitempty"`
 }
 
 func (m InstallOdhPatchDetails) String() string {
@@ -62,6 +65,12 @@ func (m InstallOdhPatchDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum(string(m.CheckSumAlgo)); !ok && m.CheckSumAlgo != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CheckSumAlgo: %s. Supported values are: %s.", m.CheckSumAlgo, strings.Join(GetInstallOdhPatchDetailsCheckSumAlgoEnumStringValues(), ",")))
 	}
+	for _, val := range m.Services {
+		if _, ok := GetMappingInstallOdhPatchDetailsServicesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Services: %s. Supported values are: %s.", val, strings.Join(GetInstallOdhPatchDetailsServicesEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -77,6 +86,7 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 		SecretId             *string                                `json:"secretId"`
 		IsCompatibilityCheck *bool                                  `json:"isCompatibilityCheck"`
 		PatchingConfig       odhpatchingconfig                      `json:"patchingConfig"`
+		Services             []InstallOdhPatchDetailsServicesEnum   `json:"services"`
 		Version              *string                                `json:"version"`
 		OdhPatchName         *string                                `json:"odhPatchName"`
 		PaUrl                *string                                `json:"paUrl"`
@@ -108,6 +118,8 @@ func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
 		m.PatchingConfig = nil
 	}
 
+	m.Services = make([]InstallOdhPatchDetailsServicesEnum, len(model.Services))
+	copy(m.Services, model.Services)
 	m.Version = model.Version
 
 	m.OdhPatchName = model.OdhPatchName
@@ -154,5 +166,47 @@ func GetInstallOdhPatchDetailsCheckSumAlgoEnumStringValues() []string {
 // GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingInstallOdhPatchDetailsCheckSumAlgoEnum(val string) (InstallOdhPatchDetailsCheckSumAlgoEnum, bool) {
 	enum, ok := mappingInstallOdhPatchDetailsCheckSumAlgoEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InstallOdhPatchDetailsServicesEnum Enum with underlying type: string
+type InstallOdhPatchDetailsServicesEnum string
+
+// Set of constants representing the allowable values for InstallOdhPatchDetailsServicesEnum
+const (
+	InstallOdhPatchDetailsServicesAmbari   InstallOdhPatchDetailsServicesEnum = "AMBARI"
+	InstallOdhPatchDetailsServicesOdhStack InstallOdhPatchDetailsServicesEnum = "ODH_STACK"
+)
+
+var mappingInstallOdhPatchDetailsServicesEnum = map[string]InstallOdhPatchDetailsServicesEnum{
+	"AMBARI":    InstallOdhPatchDetailsServicesAmbari,
+	"ODH_STACK": InstallOdhPatchDetailsServicesOdhStack,
+}
+
+var mappingInstallOdhPatchDetailsServicesEnumLowerCase = map[string]InstallOdhPatchDetailsServicesEnum{
+	"ambari":    InstallOdhPatchDetailsServicesAmbari,
+	"odh_stack": InstallOdhPatchDetailsServicesOdhStack,
+}
+
+// GetInstallOdhPatchDetailsServicesEnumValues Enumerates the set of values for InstallOdhPatchDetailsServicesEnum
+func GetInstallOdhPatchDetailsServicesEnumValues() []InstallOdhPatchDetailsServicesEnum {
+	values := make([]InstallOdhPatchDetailsServicesEnum, 0)
+	for _, v := range mappingInstallOdhPatchDetailsServicesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstallOdhPatchDetailsServicesEnumStringValues Enumerates the set of values in String for InstallOdhPatchDetailsServicesEnum
+func GetInstallOdhPatchDetailsServicesEnumStringValues() []string {
+	return []string{
+		"AMBARI",
+		"ODH_STACK",
+	}
+}
+
+// GetMappingInstallOdhPatchDetailsServicesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstallOdhPatchDetailsServicesEnum(val string) (InstallOdhPatchDetailsServicesEnum, bool) {
+	enum, ok := mappingInstallOdhPatchDetailsServicesEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

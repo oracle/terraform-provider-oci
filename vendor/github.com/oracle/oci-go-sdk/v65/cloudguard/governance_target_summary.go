@@ -46,6 +46,9 @@ type GovernanceTargetSummary struct {
 	// List of detector recipes to be created in Subject Tenancies
 	GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipe `mandatory:"false" json:"governanceTargetDetectorRecipes"`
 
+	// Security Zone Recipe Id, which will be used to create the similar recipe in the subject tenancies.
+	SecurityRecipeId *string `mandatory:"false" json:"securityRecipeId"`
+
 	// The date and time the governance target was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

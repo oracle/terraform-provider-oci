@@ -34,6 +34,9 @@ type CreateGovernanceTargetDetails struct {
 	// List of detector recipes to be created in Subject Tenancies
 	GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipeId `mandatory:"false" json:"governanceTargetDetectorRecipes"`
 
+	// Security Zone Recipe Id, which will be used to create the similar recipe in the subject tenancies.
+	SecurityRecipeId *string `mandatory:"false" json:"securityRecipeId"`
+
 	// List of locks associated with this resource
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
@@ -68,6 +71,7 @@ func (m *CreateGovernanceTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                     *string                            `json:"description"`
 		GovernanceTargetDetectorRecipes []GovernanceTargetDetectorRecipeId `json:"governanceTargetDetectorRecipes"`
+		SecurityRecipeId                *string                            `json:"securityRecipeId"`
 		Locks                           []ResourceLock                     `json:"locks"`
 		FreeformTags                    map[string]string                  `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{}  `json:"definedTags"`
@@ -85,6 +89,8 @@ func (m *CreateGovernanceTargetDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.GovernanceTargetDetectorRecipes = make([]GovernanceTargetDetectorRecipeId, len(model.GovernanceTargetDetectorRecipes))
 	copy(m.GovernanceTargetDetectorRecipes, model.GovernanceTargetDetectorRecipes)
+	m.SecurityRecipeId = model.SecurityRecipeId
+
 	m.Locks = make([]ResourceLock, len(model.Locks))
 	copy(m.Locks, model.Locks)
 	m.FreeformTags = model.FreeformTags

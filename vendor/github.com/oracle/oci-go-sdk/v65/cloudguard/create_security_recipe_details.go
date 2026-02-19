@@ -32,6 +32,9 @@ type CreateSecurityRecipeDetails struct {
 	// The recipe's description
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates if security zone was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
 	// Locks associated with this resource
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
@@ -55,6 +58,9 @@ func (m CreateSecurityRecipeDetails) String() string {
 func (m CreateSecurityRecipeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

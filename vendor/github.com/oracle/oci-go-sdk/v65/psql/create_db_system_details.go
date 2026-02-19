@@ -67,6 +67,8 @@ type CreateDbSystemDetails struct {
 
 	ReplicationConfig *CreateReplicationConfigDetails `mandatory:"false" json:"replicationConfig"`
 
+	OdspInsightDetails OdspInsightDetails `mandatory:"false" json:"odspInsightDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -109,6 +111,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		ManagementPolicy        *ManagementPolicyDetails          `json:"managementPolicy"`
 		Source                  sourcedetails                     `json:"source"`
 		ReplicationConfig       *CreateReplicationConfigDetails   `json:"replicationConfig"`
+		OdspInsightDetails      odspinsightdetails                `json:"odspInsightDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName             *string                           `json:"displayName"`
@@ -153,6 +156,16 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ReplicationConfig = model.ReplicationConfig
+
+	nn, e = model.OdspInsightDetails.UnmarshalPolymorphicJSON(model.OdspInsightDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OdspInsightDetails = nn.(OdspInsightDetails)
+	} else {
+		m.OdspInsightDetails = nil
+	}
 
 	m.FreeformTags = model.FreeformTags
 

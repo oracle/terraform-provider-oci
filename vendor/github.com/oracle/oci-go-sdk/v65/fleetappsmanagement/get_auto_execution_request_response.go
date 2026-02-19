@@ -17,6 +17,9 @@ type GetAutoExecutionRequest struct {
 	// Execution Id
 	AutoExecutionId *string `mandatory:"true" contributesTo:"path" name:"autoExecutionId"`
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

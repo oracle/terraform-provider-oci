@@ -1495,6 +1495,122 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRuleSightingType(ctx 
 	return response, err
 }
 
+// CreateGovernanceBenchmark Creates a governance benchmark, using parameters passed in a CreateGovernanceBenchmarkDetails resource.
+func (client CloudGuardClient) CreateGovernanceBenchmark(ctx context.Context, request CreateGovernanceBenchmarkRequest) (response CreateGovernanceBenchmarkResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGovernanceBenchmark, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGovernanceBenchmarkResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGovernanceBenchmarkResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGovernanceBenchmarkResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGovernanceBenchmarkResponse")
+	}
+	return
+}
+
+// createGovernanceBenchmark implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createGovernanceBenchmark(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/governanceBenchmarks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGovernanceBenchmarkResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmark/CreateGovernanceBenchmark"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateGovernanceBenchmark", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateGovernanceBenchmarkAttachment Creates a governance benchmark attachment, using parameters passed in a CreateGovernanceBenchmarkAttachmentDetails resource.
+func (client CloudGuardClient) CreateGovernanceBenchmarkAttachment(ctx context.Context, request CreateGovernanceBenchmarkAttachmentRequest) (response CreateGovernanceBenchmarkAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGovernanceBenchmarkAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGovernanceBenchmarkAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGovernanceBenchmarkAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGovernanceBenchmarkAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGovernanceBenchmarkAttachmentResponse")
+	}
+	return
+}
+
+// createGovernanceBenchmarkAttachment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createGovernanceBenchmarkAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/governanceBenchmarkAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGovernanceBenchmarkAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmarkAttachment/CreateGovernanceBenchmarkAttachment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateGovernanceBenchmarkAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateGovernanceTarget Creates a governance target, using parameters passed in a CreateGovernanceTargetDetails resource.
 func (client CloudGuardClient) CreateGovernanceTarget(ctx context.Context, request CreateGovernanceTargetRequest) (response CreateGovernanceTargetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2460,6 +2576,122 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleSightingType(ctx 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingType/DeleteDetectorRecipeDetectorRuleSightingType"
 		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteDetectorRecipeDetectorRuleSightingType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteGovernanceBenchmark Deletes a governance benchmark identified by governanceBenchmarkId.
+func (client CloudGuardClient) DeleteGovernanceBenchmark(ctx context.Context, request DeleteGovernanceBenchmarkRequest) (response DeleteGovernanceBenchmarkResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteGovernanceBenchmark, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGovernanceBenchmarkResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGovernanceBenchmarkResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGovernanceBenchmarkResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGovernanceBenchmarkResponse")
+	}
+	return
+}
+
+// deleteGovernanceBenchmark implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteGovernanceBenchmark(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/governanceBenchmarks/{governanceBenchmarkId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGovernanceBenchmarkResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmark/DeleteGovernanceBenchmark"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteGovernanceBenchmark", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteGovernanceBenchmarkAttachment Deletes a governance benchmark attachment identified by governanceBenchmarkAttachmentId.
+func (client CloudGuardClient) DeleteGovernanceBenchmarkAttachment(ctx context.Context, request DeleteGovernanceBenchmarkAttachmentRequest) (response DeleteGovernanceBenchmarkAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteGovernanceBenchmarkAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGovernanceBenchmarkAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGovernanceBenchmarkAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGovernanceBenchmarkAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGovernanceBenchmarkAttachmentResponse")
+	}
+	return
+}
+
+// deleteGovernanceBenchmarkAttachment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteGovernanceBenchmarkAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/governanceBenchmarkAttachments/{governanceBenchmarkAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGovernanceBenchmarkAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmarkAttachment/DeleteGovernanceBenchmarkAttachment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteGovernanceBenchmarkAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -3655,6 +3887,112 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRule/GetDetectorRule"
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetDetectorRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGovernanceBenchmark Returns a governance benchmark identified by governanceBenchmarkId.
+func (client CloudGuardClient) GetGovernanceBenchmark(ctx context.Context, request GetGovernanceBenchmarkRequest) (response GetGovernanceBenchmarkResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGovernanceBenchmark, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGovernanceBenchmarkResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGovernanceBenchmarkResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGovernanceBenchmarkResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGovernanceBenchmarkResponse")
+	}
+	return
+}
+
+// getGovernanceBenchmark implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getGovernanceBenchmark(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/governanceBenchmarks/{governanceBenchmarkId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGovernanceBenchmarkResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmark/GetGovernanceBenchmark"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetGovernanceBenchmark", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGovernanceBenchmarkAttachment Returns a governance benchmark attachment identified by governanceBenchmarkAttachmentId.
+func (client CloudGuardClient) GetGovernanceBenchmarkAttachment(ctx context.Context, request GetGovernanceBenchmarkAttachmentRequest) (response GetGovernanceBenchmarkAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGovernanceBenchmarkAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGovernanceBenchmarkAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGovernanceBenchmarkAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGovernanceBenchmarkAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGovernanceBenchmarkAttachmentResponse")
+	}
+	return
+}
+
+// getGovernanceBenchmarkAttachment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getGovernanceBenchmarkAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/governanceBenchmarkAttachments/{governanceBenchmarkAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGovernanceBenchmarkAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmarkAttachment/GetGovernanceBenchmarkAttachment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetGovernanceBenchmarkAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -5556,6 +5894,112 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Detector/ListDetectors"
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListDetectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGovernanceBenchmarkAttachments Returns a list of governance benchmark attachments.
+func (client CloudGuardClient) ListGovernanceBenchmarkAttachments(ctx context.Context, request ListGovernanceBenchmarkAttachmentsRequest) (response ListGovernanceBenchmarkAttachmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGovernanceBenchmarkAttachments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGovernanceBenchmarkAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGovernanceBenchmarkAttachmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGovernanceBenchmarkAttachmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGovernanceBenchmarkAttachmentsResponse")
+	}
+	return
+}
+
+// listGovernanceBenchmarkAttachments implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listGovernanceBenchmarkAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/governanceBenchmarkAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGovernanceBenchmarkAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmarkAttachment/ListGovernanceBenchmarkAttachments"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListGovernanceBenchmarkAttachments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGovernanceBenchmarks Returns a list of governance benchmarks.
+func (client CloudGuardClient) ListGovernanceBenchmarks(ctx context.Context, request ListGovernanceBenchmarksRequest) (response ListGovernanceBenchmarksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGovernanceBenchmarks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGovernanceBenchmarksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGovernanceBenchmarksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGovernanceBenchmarksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGovernanceBenchmarksResponse")
+	}
+	return
+}
+
+// listGovernanceBenchmarks implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listGovernanceBenchmarks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/governanceBenchmarks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGovernanceBenchmarksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmark/ListGovernanceBenchmarks"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListGovernanceBenchmarks", apiReferenceLink)
 		return response, err
 	}
 
@@ -8697,6 +9141,64 @@ func (client CloudGuardClient) removeTargetLock(ctx context.Context, request com
 	return response, err
 }
 
+// RequestAssuranceScore Returns assurance score of the requested subject tenancy
+func (client CloudGuardClient) RequestAssuranceScore(ctx context.Context, request RequestAssuranceScoreRequest) (response RequestAssuranceScoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.requestAssuranceScore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestAssuranceScoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestAssuranceScoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestAssuranceScoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestAssuranceScoreResponse")
+	}
+	return
+}
+
+// requestAssuranceScore implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) requestAssuranceScore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/assuranceScore", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestAssuranceScoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AssuranceScore/RequestAssuranceScore"
+		err = common.PostProcessServiceError(err, "CloudGuard", "RequestAssuranceScore", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RequestRiskScores Returns a page of RiskScoreAggregation resources for a compartment,
 // identified by compartmentId.
 func (client CloudGuardClient) RequestRiskScores(ctx context.Context, request RequestRiskScoresRequest) (response RequestRiskScoresResponse, err error) {
@@ -9996,6 +10498,124 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRuleSightingType(ctx 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/DetectorRecipeDetectorRuleSightingType/UpdateDetectorRecipeDetectorRuleSightingType"
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateDetectorRecipeDetectorRuleSightingType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGovernanceBenchmark Updates a governance benchmark identified by governanceBenchmarkId, using parameters
+// passed in an UpdateGovernanceBenchmarkDetails resource.
+func (client CloudGuardClient) UpdateGovernanceBenchmark(ctx context.Context, request UpdateGovernanceBenchmarkRequest) (response UpdateGovernanceBenchmarkResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateGovernanceBenchmark, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGovernanceBenchmarkResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGovernanceBenchmarkResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGovernanceBenchmarkResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGovernanceBenchmarkResponse")
+	}
+	return
+}
+
+// updateGovernanceBenchmark implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateGovernanceBenchmark(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/governanceBenchmarks/{governanceBenchmarkId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGovernanceBenchmarkResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmark/UpdateGovernanceBenchmark"
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateGovernanceBenchmark", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGovernanceBenchmarkAttachment Updates a governance benchmark attachment identified by governanceBenchmarkAttachmentId, using parameters
+// passed in an UpdateGovernanceBenchmarkAttachmentDetails resource.
+func (client CloudGuardClient) UpdateGovernanceBenchmarkAttachment(ctx context.Context, request UpdateGovernanceBenchmarkAttachmentRequest) (response UpdateGovernanceBenchmarkAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateGovernanceBenchmarkAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGovernanceBenchmarkAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGovernanceBenchmarkAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGovernanceBenchmarkAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGovernanceBenchmarkAttachmentResponse")
+	}
+	return
+}
+
+// updateGovernanceBenchmarkAttachment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateGovernanceBenchmarkAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/governanceBenchmarkAttachments/{governanceBenchmarkAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGovernanceBenchmarkAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/GovernanceBenchmarkAttachment/UpdateGovernanceBenchmarkAttachment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateGovernanceBenchmarkAttachment", apiReferenceLink)
 		return response, err
 	}
 

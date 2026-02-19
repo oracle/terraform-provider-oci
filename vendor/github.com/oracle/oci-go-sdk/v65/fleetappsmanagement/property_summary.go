@@ -53,7 +53,7 @@ type PropertySummary struct {
 	// Values of the property (must be a single value if selection = 'SINGLE_CHOICE').
 	Values []string `mandatory:"false" json:"values"`
 
-	// Property OCID on which the current property depends on.
+	// The OCID of the resource.
 	DependOn *string `mandatory:"false" json:"dependOn"`
 
 	// The scope of the property.

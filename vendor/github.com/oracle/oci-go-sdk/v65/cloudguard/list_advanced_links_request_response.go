@@ -20,6 +20,9 @@ type ListAdvancedLinksRequest struct {
 	// The subject tenant name prefix
 	SubjectTenantNamePrefix *string `mandatory:"false" contributesTo:"query" name:"subjectTenantNamePrefix"`
 
+	// The OCID of the subject tenantId in which to list resources
+	SubjectTenantId *string `mandatory:"false" contributesTo:"query" name:"subjectTenantId"`
+
 	// The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListAdvancedLinksLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
