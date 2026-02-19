@@ -21,6 +21,10 @@ func CoreVcnDnsResolverAssociationDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"wait_for_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"dns_resolver_id": {
 				Type:     schema.TypeString,
@@ -74,6 +78,27 @@ func (s *CoreVcnDnsResolverAssociationDataSourceCrud) Get() error {
 func (s *CoreVcnDnsResolverAssociationDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
+	}
+
+	waitForState := ""
+	if v, ok := s.D.GetOkExists("wait_for_state"); ok {
+		waitForState = v.(string)
+	}
+
+	if waitForState != "" {
+		state := string(s.Res.LifecycleState)
+		if state != waitForState {
+			if err := tfresource.WaitForResourceCondition(
+				s,
+				func() bool {
+					return s.Res != nil &&
+						s.Res.LifecycleState == oci_core.VcnDnsResolverAssociationLifecycleStateEnum(waitForState)
+				},
+				s.D.Timeout(schema.TimeoutRead),
+			); err != nil {
+				return err
+			}
+		}
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("CoreVcnDnsResolverAssociationDataSource-", CoreVcnDnsResolverAssociationDataSource(), s.D))
