@@ -95,6 +95,10 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud) SetData() error {
 
 	s.D.Set("metric_type", s.Res.MetricType)
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

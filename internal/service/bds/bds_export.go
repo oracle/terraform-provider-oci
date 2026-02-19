@@ -11,6 +11,7 @@ import (
 func init() {
 	exportBdsBdsInstanceApiKeyHints.GetIdFn = getBdsBdsInstanceApiKeyId
 	exportBdsBdsInstanceIdentityConfigurationHints.GetIdFn = getBdsBdsInstanceIdentityConfigurationId
+	exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
 	exportBdsBdsInstanceApiKeyHints.ProcessDiscoveredResourcesFn = processBdsInstanceApiKeys
 	exportBdsBdsInstanceMetastoreConfigHints.ProcessDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
 	exportBdsBdsInstanceIdentityConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceIdentityConfigurations
@@ -81,11 +82,22 @@ func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) 
 }
 
 func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string, error) {
-
+	if resource.Parent == nil {
+		return "", fmt.Errorf("[ERROR] missing parent for Bds BdsInstanceMetastoreConfig")
+	}
 	bdsInstanceId := resource.Parent.Id
-	metastoreConfigId, ok := resource.SourceAttributes["metastore_config_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find metastoreConfigId for Bds BdsInstanceMetastoreConfig")
+
+	var metastoreConfigId string
+	if v, ok := resource.SourceAttributes["id"].(string); ok && v != "" {
+		metastoreConfigId = v
+	} else if v2, ok2 := resource.SourceAttributes["metastore_config_id"].(string); ok2 && v2 != "" {
+		metastoreConfigId = v2
+	} else {
+		metastoreConfigId = resource.Id
+	}
+
+	if metastoreConfigId == "" {
+		return "", fmt.Errorf("[ERROR] unable to determine metastoreConfigId for Bds BdsInstanceMetastoreConfig")
 	}
 	return GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId), nil
 }
@@ -151,10 +163,11 @@ var exportBdsBdsInstanceApiKeyHints = &tf_export.TerraformResourceHints{
 }
 
 var exportBdsBdsInstanceMetastoreConfigHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_bds_bds_instance_metastore_config",
-	DatasourceClass:      "oci_bds_bds_instance_metastore_configs",
-	DatasourceItemsAttr:  "bds_metastore_configurations",
-	ResourceAbbreviation: "bds_instance_metastore_config",
+	ResourceClass:          "oci_bds_bds_instance_metastore_config",
+	DatasourceClass:        "oci_bds_bds_instance_metastore_configs",
+	DatasourceItemsAttr:    "bds_metastore_configurations",
+	ResourceAbbreviation:   "bds_instance_metastore_config",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_bds.BdsMetastoreConfigurationLifecycleStateActive),
 	},

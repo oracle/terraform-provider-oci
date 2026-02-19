@@ -37,7 +37,8 @@ The following attributes are exported:
 
 * `bds_instance_id` - The OCID of the bdsInstance which is the parent resource id.
 * `display_name` - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
-* `id` - The id of the ResourcePrincipalConfiguration.
+* `id` - The id of the ResourcePrincipalConfiguration defined under BDS resources, not OCID.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `session_token_life_span_duration_in_hours` - Life span in hours of each resource principal session token.
 * `state` - The state of the ResourcePrincipalConfiguration.
 * `time_created` - The time the ResourcePrincipalConfiguration was created, shown as an RFC 3339 formatted datetime string.

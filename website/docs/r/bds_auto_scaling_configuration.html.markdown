@@ -22,11 +22,11 @@ Add an autoscale configuration to the cluster.
 resource "oci_bds_auto_scaling_configuration" "test_auto_scaling_configuration" {
 	#Required
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.auto_scaling_configuration_cluster_admin_password
 	is_enabled = var.auto_scaling_configuration_is_enabled
 	node_type = var.auto_scaling_configuration_node_type
 
 	#Optional
+	cluster_admin_password = var.auto_scaling_configuration_cluster_admin_password
 	display_name = var.auto_scaling_configuration_display_name
 	policy_details {
 		#Required
@@ -74,6 +74,7 @@ resource "oci_bds_auto_scaling_configuration" "test_auto_scaling_configuration" 
 			ocpu_step_size = var.auto_scaling_configuration_policy_details_scale_up_config_ocpu_step_size
 		}
 	}
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -82,7 +83,7 @@ resource "oci_bds_auto_scaling_configuration" "test_auto_scaling_configuration" 
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) (Updatable) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
+* `cluster_admin_password` - (Optional) (Updatable) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 * `display_name` - (Optional) (Updatable) A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 * `is_enabled` - (Required) (Updatable) Whether the autoscale configuration is enabled.
 * `node_type` - (Required) A node type that is managed by an autoscale configuration. The only supported types are WORKER, COMPUTE_ONLY_WORKER and KAFKA_BROKER.
@@ -159,6 +160,7 @@ The following arguments are supported:
 			* `target_shape` - (Optional) (Updatable) For nodes with [fixed compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes. 
 			* `time_recurrence` - (Optional) (Updatable) Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
 	* `timezone` - (Applicable when policy_type=SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY | SCHEDULE_BASED_VERTICAL_SCALING_POLICY) (Updatable) The time zone of the execution schedule, in IANA time zone database name format
+* `secret_id` - (Optional) (Updatable) The secretId for the clusterAdminPassword.
 
 
 ** IMPORTANT **
@@ -169,7 +171,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `display_name` - A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
-* `id` - The unique identifier for the autoscale configuration.
+* `id` - The ID of the autoscale configuration defined under BDS resources, not OCID.
 * `node_type` - A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
 * `policy` - This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the `AutoScalePolicyDetails` model to manage autoscale policy details for ODH clusters. 
 	* `policy_type` - Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)
@@ -242,6 +244,7 @@ The following attributes are exported:
 			* `time_recurrence` - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
 	* `timezone` - The time zone of the execution schedule, in IANA time zone database name format
 	* `trigger_type` - The type of autoscaling trigger.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - The state of the autoscale configuration.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the autoscale configuration was updated, shown as an RFC 3339 formatted datetime string. 

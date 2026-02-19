@@ -40,11 +40,6 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"cluster_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
 			"is_enabled": {
 				Type:     schema.TypeBool,
 				Required: true,
@@ -56,6 +51,12 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				Sensitive: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -598,6 +599,11 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 					},
 				},
 			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
@@ -730,6 +736,11 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
 			}
 			request.PolicyDetails = tmp
 		}
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -975,6 +986,11 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
 		}
 	}
 
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
@@ -1000,6 +1016,11 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Delete() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -1038,6 +1059,10 @@ func (s *BdsAutoScalingConfigurationResourceCrud) SetData() error {
 		s.D.Set("policy_details", policyDetailsArray)
 	} else {
 		s.D.Set("policy_details", nil)
+	}
+
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
