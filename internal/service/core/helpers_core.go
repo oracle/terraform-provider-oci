@@ -186,3 +186,62 @@ func Abs(x int) int {
 	}
 	return x
 }
+
+// This function computes the list of byoIpv6CidrBlocks present in a list of byoIpV6CidrDetails from config
+func computeIPv6BlocksFromBYOIPv6Details(byoIpV6CidrDetails interface{}) []string {
+	// Handle nil
+	if byoIpV6CidrDetails == nil {
+		return []string{}
+	}
+
+	// Convert the input interface to a slice of interfaces
+	items, ok := byoIpV6CidrDetails.([]interface{})
+	if !ok {
+		// If it's not a list, return empty
+		return []string{}
+	}
+	byoipv6Cidrs := make([]string, 0, len(items))
+
+	// Iterate over the slice
+	for _, item := range items {
+		// Assert that each item is a map
+		data, ok := item.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		if val, ok := data["ipv6cidr_block"]; ok {
+			// Assert the value is a string
+			if blockStr, ok := val.(string); ok && blockStr != "" {
+				byoipv6Cidrs = append(byoipv6Cidrs, blockStr)
+			}
+		}
+	}
+	return byoipv6Cidrs
+}
+
+func isIPv6CidrIdentical(elementToFind string) func(currentElement string) bool {
+	return func(currentElement string) bool {
+		return convertToCanonical(elementToFind) == convertToCanonical(currentElement)
+	}
+}
+
+func convertToCanonical(block string) string {
+	splitString := strings.Split(block, ":")
+
+	// Separate out prefix from the last octet
+	prefixSplit := strings.Split(splitString[len(splitString)-1], "/")
+
+	splitString[len(splitString)-1] = prefixSplit[0]
+
+	final := []string{"0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000"}
+
+	for i := 0; i < len(splitString); i++ {
+
+		// append 4 - len(i) 0's to the left, and add it to string along with :
+		final[i] = strings.Repeat("0", 4-len(splitString[i])) + splitString[i]
+	}
+	result := strings.Join(final, ":")
+
+	return result + "/" + prefixSplit[1]
+}

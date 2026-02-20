@@ -86,7 +86,8 @@ The following arguments are supported:
 
 * `byoipv6cidr_details` - (Optional) The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges. 
 	* `byoipv6range_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource to which the CIDR block belongs.
-	* `ipv6cidr_block` - (Required) An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in `byoipv6RangeId`, or a subrange. Example: `2001:0db8:0123::/48` 
+      * **DRIFT DETECTION:** When detecting drift, the range ID value is unknown and will display as `(known after apply)`. This can be safely ignored, as drift resolution will proceed without issues.
+	* `ipv6cidr_block` - (Required) An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in `byoipv6RangeId`, or a subrange. Example: `2001:0db8:0123::/48`
 * `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead. Example: `10.0.0.0/16` 
 * `cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
 	* The CIDR blocks must be valid.

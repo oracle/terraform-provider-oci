@@ -744,6 +744,35 @@ func terminateInstanceInRegion(clients *tf_client.OracleClients, region string, 
 	return nil
 }
 
+func addIpv6CidrToVcn(clients *tf_client.OracleClients, vcnId string, ipv6Cidr string, ipv6BlockRangeId string) error {
+	addIpv6VcnCidrRequest := oci_core.AddIpv6VcnCidrRequest{}
+	addVcnIpv6CidrDetails := oci_core.AddVcnIpv6CidrDetails{}
+	addByoIpV6CidrDetails := oci_core.Byoipv6CidrDetails{}
+	addIpv6VcnCidrRequest.VcnId = &vcnId
+	addIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
+	addByoIpV6CidrDetails.Ipv6CidrBlock = &ipv6Cidr
+	addByoIpV6CidrDetails.Byoipv6RangeId = &ipv6BlockRangeId
+	addVcnIpv6CidrDetails.Byoipv6CidrDetail = &addByoIpV6CidrDetails
+	addIpv6VcnCidrRequest.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
+	_, err := clients.VirtualNetworkClient().AddIpv6VcnCidr(context.Background(), addIpv6VcnCidrRequest)
+	if err != nil {
+		return err
+	}
+
+	acctest.WaitTillCondition(acctest.TestAccProvider, &vcnId, CoreVcnAddByoipv6WaitCondition, time.Duration(3*time.Minute),
+		CoreVcnSweepResponseFetchOperation, "core", true)
+	return nil
+}
+
+func CoreVcnAddByoipv6WaitCondition(response oci_common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
+		log.Printf("Response from get VCN is : %v", response)
+		return len(vcnResponse.Byoipv6CidrBlocks) == 2
+	}
+	return false
+}
+
 func bootVolumeAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
 	if bootVolumeResponse, ok := response.Response.(oci_core.GetBootVolumeResponse); ok {
 		return bootVolumeResponse.LifecycleState != oci_core.BootVolumeLifecycleStateAvailable
