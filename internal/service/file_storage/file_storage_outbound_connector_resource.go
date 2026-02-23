@@ -159,6 +159,18 @@ func FileStorageOutboundConnectorResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"trusted_certificate_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"trusted_certificate_secret_version": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"state": {
@@ -370,6 +382,14 @@ func (s *FileStorageOutboundConnectorResourceCrud) SetData() error {
 			s.D.Set("password_secret_version", *v.PasswordSecretVersion)
 		}
 
+		if v.TrustedCertificateSecretId != nil {
+			s.D.Set("trusted_certificate_secret_id", *v.TrustedCertificateSecretId)
+		}
+
+		if v.TrustedCertificateSecretVersion != nil {
+			s.D.Set("trusted_certificate_secret_version", *v.TrustedCertificateSecretVersion)
+		}
+
 		if v.AvailabilityDomain != nil {
 			s.D.Set("availability_domain", *v.AvailabilityDomain)
 		}
@@ -511,6 +531,14 @@ func (s *FileStorageOutboundConnectorResourceCrud) populateTopLevelPolymorphicCr
 		if passwordSecretVersion, ok := s.D.GetOkExists("password_secret_version"); ok {
 			tmp := passwordSecretVersion.(int)
 			details.PasswordSecretVersion = &tmp
+		}
+		if trustedCertificateSecretId, ok := s.D.GetOkExists("trusted_certificate_secret_id"); ok {
+			tmp := trustedCertificateSecretId.(string)
+			details.TrustedCertificateSecretId = &tmp
+		}
+		if trustedCertificateSecretVersion, ok := s.D.GetOkExists("trusted_certificate_secret_version"); ok {
+			tmp := trustedCertificateSecretVersion.(int)
+			details.TrustedCertificateSecretVersion = &tmp
 		}
 		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 			tmp := availabilityDomain.(string)
