@@ -49,17 +49,20 @@ var (
 	}
 
 	FileStorageOutboundConnectorRepresentation = map[string]interface{}{
-		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"bind_distinguished_name": acctest.Representation{RepType: acctest.Required, Create: `bindDistinguishedName`},
-		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"connector_type":          acctest.Representation{RepType: acctest.Required, Create: `LDAPBIND`},
-		"endpoints":               acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageOutboundConnectorEndpointsRepresentation},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `outbound-connector-4`, Update: `displayName2`},
-		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"password_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
-		"password_secret_version": acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		"availability_domain":                acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"bind_distinguished_name":            acctest.Representation{RepType: acctest.Required, Create: `bindDistinguishedName`},
+		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connector_type":                     acctest.Representation{RepType: acctest.Required, Create: `LDAPBIND`},
+		"endpoints":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageOutboundConnectorEndpointsRepresentation},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `outbound-connector-4`, Update: `displayName2`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageOutboundConnectorRepresentationWithFullLock},
+		"password_secret_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
+		"password_secret_version":            acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"trusted_certificate_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"trusted_certificate_secret_version": acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
 	FileStorageOutboundConnectorRepresentationWithFullLock = map[string]interface{}{
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -193,6 +196,8 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "trusted_certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "trusted_certificate_secret_version", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -232,6 +237,8 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "trusted_certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "trusted_certificate_secret_version", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -262,6 +269,8 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "trusted_certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "trusted_certificate_secret_version", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -328,6 +337,7 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "trusted_certificate_secret_version", "10"),
 			),
 		},
 		// delete before next Create
