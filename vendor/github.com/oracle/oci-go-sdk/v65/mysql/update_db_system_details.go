@@ -159,6 +159,8 @@ type UpdateDbSystemDetails struct {
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
 	ReadEndpoint *UpdateReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
+
+	TelemetryConfiguration *UpdateTelemetryConfigurationDetails `mandatory:"false" json:"telemetryConfiguration"`
 }
 
 func (m UpdateDbSystemDetails) String() string {

@@ -212,6 +212,69 @@ func (client ChannelsClient) deleteChannel(ctx context.Context, request common.O
 	return response, err
 }
 
+// GenerateChannelStatus Initiates an asynchronous request to collect the current status of the specified Channel.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateChannelStatus.go.html to see an example of how to use GenerateChannelStatus API.
+// A default retry strategy applies to this operation GenerateChannelStatus()
+func (client ChannelsClient) GenerateChannelStatus(ctx context.Context, request GenerateChannelStatusRequest) (response GenerateChannelStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateChannelStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateChannelStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateChannelStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateChannelStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateChannelStatusResponse")
+	}
+	return
+}
+
+// generateChannelStatus implements the OCIOperation interface (enables retrying operations)
+func (client ChannelsClient) generateChannelStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels/{channelId}/actions/generateChannelStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateChannelStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/ChannelStatus/GenerateChannelStatus"
+		err = common.PostProcessServiceError(err, "Channels", "GenerateChannelStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetChannel Gets the full details of the specified Channel, including the user-specified
 // configuration parameters (passwords are omitted), as well as information about
 // the state of the Channel, its sources and targets.
@@ -265,6 +328,64 @@ func (client ChannelsClient) getChannel(ctx context.Context, request common.OCIR
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/Channel/GetChannel"
 		err = common.PostProcessServiceError(err, "Channels", "GetChannel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetChannelStatus Returns the most up-to-date status of the specified Channel.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetChannelStatus.go.html to see an example of how to use GetChannelStatus API.
+// A default retry strategy applies to this operation GetChannelStatus()
+func (client ChannelsClient) GetChannelStatus(ctx context.Context, request GetChannelStatusRequest) (response GetChannelStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getChannelStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetChannelStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetChannelStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetChannelStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetChannelStatusResponse")
+	}
+	return
+}
+
+// getChannelStatus implements the OCIOperation interface (enables retrying operations)
+func (client ChannelsClient) getChannelStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/channels/{channelId}/channelStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetChannelStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/ChannelStatus/GetChannelStatus"
+		err = common.PostProcessServiceError(err, "Channels", "GetChannelStatus", apiReferenceLink)
 		return response, err
 	}
 

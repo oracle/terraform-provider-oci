@@ -179,6 +179,8 @@ type DbSystem struct {
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
 	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
+
+	TelemetryConfiguration *TelemetryConfigurationDetails `mandatory:"false" json:"telemetryConfiguration"`
 }
 
 func (m DbSystem) String() string {
@@ -247,6 +249,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		EncryptData                *EncryptDataDetails               `json:"encryptData"`
 		CustomerContacts           []CustomerContact                 `json:"customerContacts"`
 		ReadEndpoint               *ReadEndpointDetails              `json:"readEndpoint"`
+		TelemetryConfiguration     *TelemetryConfigurationDetails    `json:"telemetryConfiguration"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -339,6 +342,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
 	copy(m.CustomerContacts, model.CustomerContacts)
 	m.ReadEndpoint = model.ReadEndpoint
+
+	m.TelemetryConfiguration = model.TelemetryConfiguration
 
 	m.Id = model.Id
 

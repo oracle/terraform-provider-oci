@@ -44,6 +44,9 @@ type Zone struct {
 	// **Example:** `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// The resolution mode of a zone defines behavior related to how query responses can be handled.
+	ResolutionMode ZoneResolutionModeEnum `mandatory:"true" json:"resolutionMode"`
+
 	// The state of DNSSEC on the zone.
 	// For DNSSEC to function, every parent zone in the DNS tree up to the top-level domain (or an independent
 	// trust anchor) must also have DNSSEC correctly set up.
@@ -126,6 +129,9 @@ func (m Zone) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetScopeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingZoneResolutionModeEnum(string(m.ResolutionMode)); !ok && m.ResolutionMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResolutionMode: %s. Supported values are: %s.", m.ResolutionMode, strings.Join(GetZoneResolutionModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingZoneDnssecStateEnum(string(m.DnssecState)); !ok && m.DnssecState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DnssecState: %s. Supported values are: %s.", m.DnssecState, strings.Join(GetZoneDnssecStateEnumStringValues(), ",")))

@@ -95,6 +95,8 @@ type Replica struct {
 
 	ReplicaOverrides *ReplicaOverrides `mandatory:"false" json:"replicaOverrides"`
 
+	TelemetryConfiguration *TelemetryConfigurationDetails `mandatory:"false" json:"telemetryConfiguration"`
+
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 
 	EncryptData *EncryptDataDetails `mandatory:"false" json:"encryptData"`

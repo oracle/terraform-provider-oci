@@ -547,6 +547,7 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 // be attached to a domain for the policy to answer DNS queries for that domain.
 // For the purposes of access control, the attachment is automatically placed
 // into the same compartment as the domain's zone.
+// Attachments cannot be created for private zones.
 //
 // # See also
 //
@@ -747,6 +748,11 @@ func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneReques
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createZone, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -804,6 +810,11 @@ func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request Crea
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createZoneFromZoneFile, policy)
 	if err != nil {
 		if ociResponse != nil {

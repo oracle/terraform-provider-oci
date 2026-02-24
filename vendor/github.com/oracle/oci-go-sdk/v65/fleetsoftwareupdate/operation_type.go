@@ -43,6 +43,8 @@ const (
 	OperationTypeApplyAction                    OperationTypeEnum = "APPLY_ACTION"
 	OperationTypePrecheckAction                 OperationTypeEnum = "PRECHECK_ACTION"
 	OperationTypeStageAction                    OperationTypeEnum = "STAGE_ACTION"
+	OperationTypeCreateReadinessCheck           OperationTypeEnum = "CREATE_READINESS_CHECK"
+	OperationTypeDeleteReadinessCheck           OperationTypeEnum = "DELETE_READINESS_CHECK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -70,6 +72,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"APPLY_ACTION":                      OperationTypeApplyAction,
 	"PRECHECK_ACTION":                   OperationTypePrecheckAction,
 	"STAGE_ACTION":                      OperationTypeStageAction,
+	"CREATE_READINESS_CHECK":            OperationTypeCreateReadinessCheck,
+	"DELETE_READINESS_CHECK":            OperationTypeDeleteReadinessCheck,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -97,6 +101,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"apply_action":                      OperationTypeApplyAction,
 	"precheck_action":                   OperationTypePrecheckAction,
 	"stage_action":                      OperationTypeStageAction,
+	"create_readiness_check":            OperationTypeCreateReadinessCheck,
+	"delete_readiness_check":            OperationTypeDeleteReadinessCheck,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -135,6 +141,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"APPLY_ACTION",
 		"PRECHECK_ACTION",
 		"STAGE_ACTION",
+		"CREATE_READINESS_CHECK",
+		"DELETE_READINESS_CHECK",
 	}
 }
 

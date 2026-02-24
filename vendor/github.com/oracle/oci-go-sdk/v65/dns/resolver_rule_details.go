@@ -21,11 +21,12 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ResolverRuleDetails interface {
 
-	// A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action
-	// to apply.
+	// A list of CIDR blocks. In order for the rule action to apply, the query must come from a client within one of
+	// the CIDR blocks.
 	GetClientAddressConditions() []string
 
-	// A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
+	// A list of domain names. In order for the rule action to apply, the query must either match or be a subdomain
+	// of one of the listed domains.
 	GetQnameCoverConditions() []string
 }
 
