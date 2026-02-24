@@ -94,6 +94,8 @@ type ReplicaSummary struct {
 	ConfigurationId *string `mandatory:"false" json:"configurationId"`
 
 	ReplicaOverrides *ReplicaOverrides `mandatory:"false" json:"replicaOverrides"`
+
+	TelemetryConfiguration *TelemetryConfigurationDetails `mandatory:"false" json:"telemetryConfiguration"`
 }
 
 func (m ReplicaSummary) String() string {

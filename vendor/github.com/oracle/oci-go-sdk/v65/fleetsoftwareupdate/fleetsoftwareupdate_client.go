@@ -540,6 +540,70 @@ func (client FleetSoftwareUpdateClient) changeFsuDiscoveryCompartment(ctx contex
 	return response, err
 }
 
+// ChangeFsuReadinessCheckCompartment Moves a Exadata Fleet Update Readiness Check resource from one compartment identifier to another.
+// When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ChangeFsuReadinessCheckCompartment.go.html to see an example of how to use ChangeFsuReadinessCheckCompartment API.
+// A default retry strategy applies to this operation ChangeFsuReadinessCheckCompartment()
+func (client FleetSoftwareUpdateClient) ChangeFsuReadinessCheckCompartment(ctx context.Context, request ChangeFsuReadinessCheckCompartmentRequest) (response ChangeFsuReadinessCheckCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeFsuReadinessCheckCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeFsuReadinessCheckCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeFsuReadinessCheckCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeFsuReadinessCheckCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeFsuReadinessCheckCompartmentResponse")
+	}
+	return
+}
+
+// changeFsuReadinessCheckCompartment implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) changeFsuReadinessCheckCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fsuReadinessChecks/{fsuReadinessCheckId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeFsuReadinessCheckCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/ChangeFsuReadinessCheckCompartment"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuReadinessCheckCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CloneFsuCycle Clones existing Exadata Fleet Update Cycle details into a new Exadata Fleet Update Cycle resource.
 //
 // # See also
@@ -852,6 +916,69 @@ func (client FleetSoftwareUpdateClient) createFsuDiscovery(ctx context.Context, 
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateFsuReadinessCheck Creates a new Exadata Fleet Update Readiness Check.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/CreateFsuReadinessCheck.go.html to see an example of how to use CreateFsuReadinessCheck API.
+// A default retry strategy applies to this operation CreateFsuReadinessCheck()
+func (client FleetSoftwareUpdateClient) CreateFsuReadinessCheck(ctx context.Context, request CreateFsuReadinessCheckRequest) (response CreateFsuReadinessCheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createFsuReadinessCheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateFsuReadinessCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateFsuReadinessCheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateFsuReadinessCheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateFsuReadinessCheckResponse")
+	}
+	return
+}
+
+// createFsuReadinessCheck implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) createFsuReadinessCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fsuReadinessChecks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateFsuReadinessCheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "CreateFsuReadinessCheck", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &fsureadinesscheck{})
 	return response, err
 }
 
@@ -1198,6 +1325,64 @@ func (client FleetSoftwareUpdateClient) deleteFsuJob(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/DeleteFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteFsuReadinessCheck Deletes a Exadata Fleet Update Readiness Check resource by identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/DeleteFsuReadinessCheck.go.html to see an example of how to use DeleteFsuReadinessCheck API.
+// A default retry strategy applies to this operation DeleteFsuReadinessCheck()
+func (client FleetSoftwareUpdateClient) DeleteFsuReadinessCheck(ctx context.Context, request DeleteFsuReadinessCheckRequest) (response DeleteFsuReadinessCheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteFsuReadinessCheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteFsuReadinessCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteFsuReadinessCheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteFsuReadinessCheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteFsuReadinessCheckResponse")
+	}
+	return
+}
+
+// deleteFsuReadinessCheck implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) deleteFsuReadinessCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fsuReadinessChecks/{fsuReadinessCheckId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteFsuReadinessCheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/DeleteFsuReadinessCheck"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuReadinessCheck", apiReferenceLink)
 		return response, err
 	}
 
@@ -1665,6 +1850,64 @@ func (client FleetSoftwareUpdateClient) getFsuJobOutputContent(ctx context.Conte
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetFsuReadinessCheck Gets a Exadata Fleet Update Readiness Check by identifier.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/GetFsuReadinessCheck.go.html to see an example of how to use GetFsuReadinessCheck API.
+// A default retry strategy applies to this operation GetFsuReadinessCheck()
+func (client FleetSoftwareUpdateClient) GetFsuReadinessCheck(ctx context.Context, request GetFsuReadinessCheckRequest) (response GetFsuReadinessCheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFsuReadinessCheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFsuReadinessCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFsuReadinessCheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFsuReadinessCheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFsuReadinessCheckResponse")
+	}
+	return
+}
+
+// getFsuReadinessCheck implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) getFsuReadinessCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fsuReadinessChecks/{fsuReadinessCheckId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetFsuReadinessCheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/GetFsuReadinessCheck"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuReadinessCheck", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &fsureadinesscheck{})
 	return response, err
 }
 
@@ -2183,6 +2426,64 @@ func (client FleetSoftwareUpdateClient) listFsuJobs(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJobSummary/ListFsuJobs"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuJobs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFsuReadinessChecks Returns a list of Exadata Fleet Update Readiness Checks resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/ListFsuReadinessChecks.go.html to see an example of how to use ListFsuReadinessChecks API.
+// A default retry strategy applies to this operation ListFsuReadinessChecks()
+func (client FleetSoftwareUpdateClient) ListFsuReadinessChecks(ctx context.Context, request ListFsuReadinessChecksRequest) (response ListFsuReadinessChecksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFsuReadinessChecks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFsuReadinessChecksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFsuReadinessChecksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFsuReadinessChecksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFsuReadinessChecksResponse")
+	}
+	return
+}
+
+// listFsuReadinessChecks implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) listFsuReadinessChecks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fsuReadinessChecks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFsuReadinessChecksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheckSummary/ListFsuReadinessChecks"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuReadinessChecks", apiReferenceLink)
 		return response, err
 	}
 
@@ -2843,5 +3144,63 @@ func (client FleetSoftwareUpdateClient) updateFsuJob(ctx context.Context, reques
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &fsujob{})
+	return response, err
+}
+
+// UpdateFsuReadinessCheck Updates the Exadata Fleet Update Readiness Check identified by the ID.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetsoftwareupdate/UpdateFsuReadinessCheck.go.html to see an example of how to use UpdateFsuReadinessCheck API.
+// A default retry strategy applies to this operation UpdateFsuReadinessCheck()
+func (client FleetSoftwareUpdateClient) UpdateFsuReadinessCheck(ctx context.Context, request UpdateFsuReadinessCheckRequest) (response UpdateFsuReadinessCheckResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateFsuReadinessCheck, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateFsuReadinessCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateFsuReadinessCheckResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateFsuReadinessCheckResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateFsuReadinessCheckResponse")
+	}
+	return
+}
+
+// updateFsuReadinessCheck implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) updateFsuReadinessCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fsuReadinessChecks/{fsuReadinessCheckId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateFsuReadinessCheckResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/UpdateFsuReadinessCheck"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuReadinessCheck", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &fsureadinesscheck{})
 	return response, err
 }

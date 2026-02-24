@@ -77,7 +77,8 @@ type Resolver struct {
 	// The OCID of the default view.
 	DefaultViewId *string `mandatory:"false" json:"defaultViewId"`
 
-	// Rules for the resolver. Rules are evaluated in order.
+	// Rules for the resolver. Rules are evaluated in order, and only the first matching rule will have its action
+	// applied.
 	Rules []ResolverRule `mandatory:"false" json:"rules"`
 }
 

@@ -26,6 +26,14 @@ type CreateZoneRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A token that uniquely identifies a request so it can be retried in case
+	// of a timeout or server error without risk of executing that same action
+	// again. Retry tokens expire after 24 hours, but can be invalidated before
+	// then due to conflicting operations (for example, if a resource has been
+	// deleted and purged from the system, then a retry of the original creation
+	// request may be rejected).
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
 	// The OCID of the compartment the zone belongs to.
 	// This parameter is deprecated and should be omitted.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`

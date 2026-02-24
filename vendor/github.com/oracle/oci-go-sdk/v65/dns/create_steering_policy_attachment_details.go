@@ -24,7 +24,7 @@ type CreateSteeringPolicyAttachmentDetails struct {
 	// The OCID of the attached steering policy.
 	SteeringPolicyId *string `mandatory:"true" json:"steeringPolicyId"`
 
-	// The OCID of the attached zone.
+	// The OCID of the attached zone. Must be a public zone.
 	ZoneId *string `mandatory:"true" json:"zoneId"`
 
 	// The attached domain within the attached zone.

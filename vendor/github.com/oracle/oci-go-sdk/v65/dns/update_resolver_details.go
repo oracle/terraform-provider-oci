@@ -39,7 +39,8 @@ type UpdateResolverDetails struct {
 	// The attached views. Views are evaluated in order.
 	AttachedViews []AttachedViewDetails `mandatory:"false" json:"attachedViews"`
 
-	// Rules for the resolver. Rules are evaluated in order.
+	// Rules for the resolver. Rules are evaluated in order, and only the first matching rule will have its action
+	// applied.
 	Rules []ResolverRuleDetails `mandatory:"false" json:"rules"`
 }
 
