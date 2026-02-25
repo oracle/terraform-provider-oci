@@ -87,12 +87,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 
 ## Import
 
-For legacy ResolverEndpoints created without `scope`, these ResolverEndpoints can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_resolver_endpoint.test_resolver_endpoint "resolverId/{resolverId}/name/{resolverEndpointName}" 
-```
-
 For ResolverEndpoints created using `scope`, these ResolverEndpoints can be imported using the `id`, e.g.
 
 ```

@@ -52,10 +52,24 @@ var (
 	}
 	GenerativeAiAgentAgentLlmConfigRepresentation = map[string]interface{}{
 		"routing_llm_customization": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentLlmConfigRoutingLlmCustomizationRepresentation},
+		"runtime_version":           acctest.Representation{RepType: acctest.Optional, Create: `runtimeVersion`, Update: `runtimeVersion2`},
 	}
 	GenerativeAiAgentAgentLlmConfigRoutingLlmCustomizationRepresentation = map[string]interface{}{
-		"instruction": acctest.Representation{RepType: acctest.Optional, Create: `instruction`, Update: `instruction2`},
+		"instruction":          acctest.Representation{RepType: acctest.Optional, Create: `instruction`, Update: `instruction2`},
+		"llm_hyper_parameters": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"llmHyperParameters": "llmHyperParameters"}, Update: map[string]string{"llmHyperParameters2": "llmHyperParameters2"}},
+		"llm_selection":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentLlmConfigRoutingLlmCustomizationLlmSelectionRepresentation},
 	}
+	GenerativeAiAgentAgentLlmConfigRoutingLlmCustomizationLlmSelectionRepresentation = map[string]interface{}{
+		"llm_selection_type": acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`, Update: `CUSTOM_GEN_AI_MODEL`},
+		"endpoint_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_ai_language_endpoint.test_endpoint.id}`},
+		"model_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_ai_document_model.test_model.id}`},
+	}
+
+	GenerativeAiAgentAgentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_model", acctest.Required, acctest.Create, AiDocumentModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_document_project", "test_project", acctest.Required, acctest.Create, AiDocumentProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_endpoint", "test_endpoint", acctest.Required, acctest.Create, AiLanguageEndpointRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_model", "test_model", acctest.Required, acctest.Create, AiLanguageModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_project", "test_project", acctest.Required, acctest.Create, AiLanguageProjectRepresentation)
 )
 
 // issue-routing-tag: generative_ai_agent/default
@@ -112,6 +126,12 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "llm_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.instruction", "instruction"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_hyper_parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.endpoint_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.llm_selection_type", "DEFAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.runtime_version", "runtimeVersion"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "welcome_message", "dummy welcome message"),
@@ -144,6 +164,12 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "llm_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.instruction", "instruction"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_hyper_parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.endpoint_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.llm_selection_type", "DEFAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.runtime_version", "runtimeVersion"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "welcome_message", "dummy welcome message"),
@@ -171,6 +197,12 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "llm_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.instruction", "instruction2"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_hyper_parameters.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.endpoint_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.llm_selection_type", "CUSTOM_GEN_AI_MODEL"),
+				resource.TestCheckResourceAttrSet(resourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "llm_config.0.runtime_version", "runtimeVersion2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "welcome_message", "welcomeMessage2"),
@@ -215,6 +247,10 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.routing_llm_customization.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.routing_llm_customization.0.instruction", "instruction2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.routing_llm_customization.0.llm_hyper_parameters.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.routing_llm_customization.0.llm_selection.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.routing_llm_customization.0.llm_selection.0.llm_selection_type", "CUSTOM_GEN_AI_MODEL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "llm_config.0.runtime_version", "runtimeVersion2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

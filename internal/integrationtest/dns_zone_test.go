@@ -62,16 +62,15 @@ var (
 	}
 
 	DnsDnsZoneRepresentationPrimary = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
-		"zone_type":      acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
-		"view_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
+		"zone_type":       acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"resolution_mode": acctest.Representation{RepType: acctest.Optional, Create: `STATIC`, Update: `TRANSPARENT`},
+		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`, Update: `PRIVATE`},
+		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
-
-	DnsDnsZoneRepresentation = acctest.GetUpdatedRepresentationCopy("zone_type", acctest.Representation{RepType: acctest.Required, Create: `SECONDARY`}, DnsDnsZoneRepresentationPrimary)
 
 	DnsZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation) +
 		DefinedTagsDependencies + `
@@ -136,6 +135,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "resolution_mode", "STATIC"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "serial"),
@@ -171,6 +171,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
 				resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resolution_mode", "STATIC"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "serial"),
@@ -202,6 +203,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
 				resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resolution_mode", "TRANSPARENT"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "serial"),
@@ -233,7 +235,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.is_protected"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.scope", "PRIVATE"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.resolution_mode", "TRANSPARENT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.self"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.serial"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.time_created"),

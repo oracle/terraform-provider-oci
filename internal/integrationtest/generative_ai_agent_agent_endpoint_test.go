@@ -41,17 +41,20 @@ var (
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_generative_ai_agent_agent_endpoint.test_agent_endpoint.id}`}},
 	}
-
 	GenerativeAiAgentAgentEndpointRepresentation = map[string]interface{}{
-		"agent_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"content_moderation_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointContentModerationConfigRepresentation},
-		//"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":      acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint description`, Update: `description2`},
-		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint display name`, Update: `displayName2`},
-		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"guardrail_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigRepresentation},
-		//"output_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointOutputConfigRepresentation},
+		"agent_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_agent_agent.test_agent.id}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"content_moderation_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointContentModerationConfigRepresentation},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint description`, Update: `description2`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `agentendpoint display name`, Update: `displayName2`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"guardrail_config":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigRepresentation},
+		"human_input_config":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointHumanInputConfigRepresentation},
+		"metadata":                     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		"output_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointOutputConfigRepresentation},
+		"provisioned_capacity_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointProvisionedCapacityConfigRepresentation},
+		"session_config":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointSessionConfigRepresentation},
 		"should_enable_citation":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"should_enable_multi_language": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"should_enable_session":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -66,6 +69,21 @@ var (
 		"personally_identifiable_information_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigPersonallyIdentifiableInformationConfigRepresentation},
 		"prompt_injection_config":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointGuardrailConfigPromptInjectionConfigRepresentation},
 	}
+	GenerativeAiAgentAgentEndpointHumanInputConfigRepresentation = map[string]interface{}{
+		"should_enable_human_input": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+	}
+	GenerativeAiAgentAgentEndpointOutputConfigRepresentation = map[string]interface{}{
+		"output_location":             acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentAgentEndpointOutputConfigOutputLocationRepresentation},
+		"retention_period_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+	GenerativeAiAgentAgentEndpointProvisionedCapacityConfigRepresentation = map[string]interface{}{
+		"provisioned_capacity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_agent_provisioned_capacity.test_provisioned_capacity.id}`},
+		"platform_runtime_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointProvisionedCapacityConfigPlatformRuntimeConfigRepresentation},
+		"tool_runtime_configs":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentEndpointProvisionedCapacityConfigToolRuntimeConfigsRepresentation},
+	}
+	GenerativeAiAgentAgentEndpointSessionConfigRepresentation = map[string]interface{}{
+		"idle_timeout_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
 	GenerativeAiAgentAgentEndpointGuardrailConfigContentModerationConfigRepresentation = map[string]interface{}{
 		"input_guardrail_mode":  acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
 		"output_guardrail_mode": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
@@ -77,6 +95,28 @@ var (
 	GenerativeAiAgentAgentEndpointGuardrailConfigPromptInjectionConfigRepresentation = map[string]interface{}{
 		"input_guardrail_mode": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`, Update: `BLOCK`},
 	}
+	GenerativeAiAgentAgentEndpointOutputConfigOutputLocationRepresentation = map[string]interface{}{
+		"bucket":               acctest.Representation{RepType: acctest.Required, Create: `bucket`, Update: `bucket2`},
+		"namespace":            acctest.Representation{RepType: acctest.Required, Create: `namespace`, Update: `namespace2`},
+		"output_location_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_PREFIX`},
+		"prefix":               acctest.Representation{RepType: acctest.Optional, Create: `prefix`, Update: `prefix2`},
+	}
+	GenerativeAiAgentAgentEndpointProvisionedCapacityConfigPlatformRuntimeConfigRepresentation = map[string]interface{}{
+		"platform_runtime_config_type": acctest.Representation{RepType: acctest.Optional, Create: `AGENT_PLATFORM`, Update: `FUSION_REASONING`},
+		"version":                      acctest.Representation{RepType: acctest.Optional, Create: `version`, Update: `version2`},
+	}
+	GenerativeAiAgentAgentEndpointProvisionedCapacityConfigToolRuntimeConfigsRepresentation = map[string]interface{}{
+		"tool_runtime_config_type": acctest.Representation{RepType: acctest.Required, Create: `RAG`, Update: `SQL_SMALL`},
+		"version":                  acctest.Representation{RepType: acctest.Optional, Create: `version`, Update: `version2`},
+	}
+
+	GenerativeAiAgentAgentEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_model", acctest.Required, acctest.Create, AiDocumentModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_document_project", "test_project", acctest.Required, acctest.Create, AiDocumentProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_endpoint", "test_endpoint", acctest.Required, acctest.Create, AiLanguageEndpointRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_model", "test_model", acctest.Required, acctest.Create, AiLanguageModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_language_project", "test_project", acctest.Required, acctest.Create, AiLanguageProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent", "test_agent", acctest.Required, acctest.Create, GenerativeAiAgentAgentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_provisioned_capacity", "test_provisioned_capacity", acctest.Required, acctest.Create, GenerativeAiAgentProvisionedCapacityRepresentation)
 )
 
 // issue-routing-tag: generative_ai_agent/default
@@ -151,6 +191,24 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "human_input_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "human_input_config.0.should_enable_human_input", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.output_location_type", "OBJECT_STORAGE_PREFIX"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.prefix", "prefix"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.retention_period_in_minutes", "10"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.platform_runtime_config_type", "AGENT_PLATFORM"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.version", "version"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioned_capacity_config.0.provisioned_capacity_id"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.tool_runtime_config_type", "RAG"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
@@ -196,6 +254,24 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "DISABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.bucket", "bucket"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.output_location_type", "OBJECT_STORAGE_PREFIX"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.prefix", "prefix"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.retention_period_in_minutes", "10"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.platform_runtime_config_type", "AGENT_PLATFORM"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.version", "version"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioned_capacity_config.0.provisioned_capacity_id"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.tool_runtime_config_type", "RAG"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "false"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
@@ -236,6 +312,24 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "BLOCK"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.bucket", "bucket2"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.output_location_type", "OBJECT_STORAGE_PREFIX"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.output_location.0.prefix", "prefix2"),
+				resource.TestCheckResourceAttr(resourceName, "output_config.0.retention_period_in_minutes", "11"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.platform_runtime_config_type", "FUSION_REASONING"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.platform_runtime_config.0.version", "version2"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioned_capacity_config.0.provisioned_capacity_id"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.tool_runtime_config_type", "SQL_SMALL"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.version", "version2"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_config.0.idle_timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_citation", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_multi_language", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_enable_session", "false"),
@@ -293,6 +387,23 @@ func TestGenerativeAiAgentAgentEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.prompt_injection_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "guardrail_config.0.prompt_injection_config.0.input_guardrail_mode", "BLOCK"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.output_location.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.output_location.0.bucket", "bucket2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.output_location.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.output_location.0.output_location_type", "OBJECT_STORAGE_PREFIX"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.output_location.0.prefix", "prefix2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_config.0.retention_period_in_minutes", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.platform_runtime_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.platform_runtime_config.0.platform_runtime_config_type", "FUSION_REASONING"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.platform_runtime_config.0.version", "version2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.tool_runtime_configs.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.tool_runtime_config_type", "SQL_SMALL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provisioned_capacity_config.0.tool_runtime_configs.0.version", "version2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "session_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "session_config.0.idle_timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_citation", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_multi_language", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_enable_session", "false"),

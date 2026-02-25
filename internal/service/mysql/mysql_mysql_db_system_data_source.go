@@ -264,6 +264,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TelemetryConfiguration != nil {
+		s.D.Set("telemetry_configuration", []interface{}{TelemetryConfigurationDetailsToMap(s.Res.TelemetryConfiguration, true)})
+	} else {
+		s.D.Set("telemetry_configuration", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

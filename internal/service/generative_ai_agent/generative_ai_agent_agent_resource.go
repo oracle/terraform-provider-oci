@@ -10,9 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -25,11 +26,11 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGenerativeAiAgentAgent,
-		Read:     readGenerativeAiAgentAgent,
-		Update:   updateGenerativeAiAgentAgent,
-		Delete:   deleteGenerativeAiAgentAgent,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createGenerativeAiAgentAgentWithContext,
+		ReadContext:   readGenerativeAiAgentAgentWithContext,
+		UpdateContext: updateGenerativeAiAgentAgentWithContext,
+		DeleteContext: deleteGenerativeAiAgentAgentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -96,10 +97,57 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
 							},
+						},
+						"runtime_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -138,37 +186,37 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiAgentAgent(d *schema.ResourceData, m interface{}) error {
+func createGenerativeAiAgentAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiAgentAgent(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiAgentAgent(d *schema.ResourceData, m interface{}) error {
+func updateGenerativeAiAgentAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiAgentAgent(d *schema.ResourceData, m interface{}) error {
+func deleteGenerativeAiAgentAgentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentAgentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GenerativeAiAgentAgentResourceCrud struct {
@@ -206,7 +254,7 @@ func (s *GenerativeAiAgentAgentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
+func (s *GenerativeAiAgentAgentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.CreateAgentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -267,7 +315,7 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.CreateAgent(context.Background(), request)
+	response, err := s.Client.CreateAgent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -278,20 +326,20 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAgentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAgentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) getAgentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiAgentAgentResourceCrud) getAgentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai_agent.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	agentId, err := agentWaitForWorkRequest(workId, "agent",
+	agentId, err := agentWaitForWorkRequest(ctx, workId, "agent",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, agentId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_generative_ai_agent.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -305,7 +353,7 @@ func (s *GenerativeAiAgentAgentResourceCrud) getAgentFromWorkRequest(workId *str
 	}
 	s.D.SetId(*agentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func agentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -331,7 +379,7 @@ func agentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func agentWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
+func agentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai_agent.GenerativeAiAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai_agent")
 	retryPolicy.ShouldRetryOperation = agentWorkRequestShouldRetryFunc(timeout)
@@ -350,7 +398,7 @@ func agentWaitForWorkRequest(wId *string, entityType string, action oci_generati
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_generative_ai_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -379,14 +427,14 @@ func agentWaitForWorkRequest(wId *string, entityType string, action oci_generati
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai_agent.OperationStatusFailed || response.Status == oci_generative_ai_agent.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiAgentAgentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiAgentAgentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiAgentAgentWorkRequest(client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGenerativeAiAgentAgentWorkRequest(ctx context.Context, client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -408,7 +456,7 @@ func getErrorFromGenerativeAiAgentAgentWorkRequest(client *oci_generative_ai_age
 	return workRequestErr
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) Get() error {
+func (s *GenerativeAiAgentAgentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetAgentRequest{}
 
 	tmp := s.D.Id()
@@ -416,7 +464,7 @@ func (s *GenerativeAiAgentAgentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.GetAgent(context.Background(), request)
+	response, err := s.Client.GetAgent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -425,11 +473,11 @@ func (s *GenerativeAiAgentAgentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
+func (s *GenerativeAiAgentAgentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -493,16 +541,16 @@ func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.UpdateAgent(context.Background(), request)
+	response, err := s.Client.UpdateAgent(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAgentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAgentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) Delete() error {
+func (s *GenerativeAiAgentAgentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.DeleteAgentRequest{}
 
 	tmp := s.D.Id()
@@ -510,14 +558,14 @@ func (s *GenerativeAiAgentAgentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.DeleteAgent(context.Background(), request)
+	response, err := s.Client.DeleteAgent(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := agentWaitForWorkRequest(workId, "agent",
+	_, delWorkRequestErr := agentWaitForWorkRequest(ctx, workId, "agent",
 		oci_generative_ai_agent.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -644,6 +692,11 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmConfig(fieldKeyFormat strin
 		}
 	}
 
+	if runtimeVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "runtime_version")); ok {
+		tmp := runtimeVersion.(string)
+		result.RuntimeVersion = &tmp
+	}
+
 	return result, nil
 }
 
@@ -652,6 +705,10 @@ func LlmConfigToMap(obj *oci_generative_ai_agent.LlmConfig) map[string]interface
 
 	if obj.RoutingLlmCustomization != nil {
 		result["routing_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.RoutingLlmCustomization)}
+	}
+
+	if obj.RuntimeVersion != nil {
+		result["runtime_version"] = string(*obj.RuntimeVersion)
 	}
 
 	return result
@@ -665,6 +722,21 @@ func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyForma
 		result.Instruction = &tmp
 	}
 
+	if llmHyperParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_hyper_parameters")); ok {
+		result.LlmHyperParameters = llmHyperParameters.(map[string]interface{})
+	}
+
+	if llmSelection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection")); ok {
+		if tmpList := llmSelection.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "llm_selection"), 0)
+			tmp, err := s.mapToLlmSelection(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert llm_selection, encountered error: %v", err)
+			}
+			result.LlmSelection = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -675,10 +747,79 @@ func LlmCustomizationToMap(obj *oci_generative_ai_agent.LlmCustomization) map[st
 		result["instruction"] = string(*obj.Instruction)
 	}
 
+	result["llm_hyper_parameters"] = obj.LlmHyperParameters
+
+	if obj.LlmSelection != nil {
+		llmSelectionArray := []interface{}{}
+		if llmSelectionMap := LlmSelectionToMap(&obj.LlmSelection); llmSelectionMap != nil {
+			llmSelectionArray = append(llmSelectionArray, llmSelectionMap)
+		}
+		result["llm_selection"] = llmSelectionArray
+	}
+
 	return result
 }
 
-func (s *GenerativeAiAgentAgentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmSelection(fieldKeyFormat string) (oci_generative_ai_agent.LlmSelection, error) {
+	var baseObject oci_generative_ai_agent.LlmSelection
+	//discriminator
+	llmSelectionTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection_type"))
+	var llmSelectionType string
+	if ok {
+		llmSelectionType = llmSelectionTypeRaw.(string)
+	} else {
+		llmSelectionType = "" // default value
+	}
+	switch strings.ToLower(llmSelectionType) {
+	case strings.ToLower("CUSTOM_GEN_AI_ENDPOINT"):
+		details := oci_generative_ai_agent.CustomGenAiEndpointLlmSelection{}
+		if endpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_id")); ok {
+			tmp := endpointId.(string)
+			details.EndpointId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_GEN_AI_MODEL"):
+		details := oci_generative_ai_agent.CustomGenAiModelLlmSelection{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT"):
+		details := oci_generative_ai_agent.DefaultLlmSelection{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown llm_selection_type '%v' was specified", llmSelectionType)
+	}
+	return baseObject, nil
+}
+
+func LlmSelectionToMap(obj *oci_generative_ai_agent.LlmSelection) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_generative_ai_agent.CustomGenAiEndpointLlmSelection:
+		result["llm_selection_type"] = "CUSTOM_GEN_AI_ENDPOINT"
+
+		if v.EndpointId != nil {
+			result["endpoint_id"] = string(*v.EndpointId)
+		}
+	case oci_generative_ai_agent.CustomGenAiModelLlmSelection:
+		result["llm_selection_type"] = "CUSTOM_GEN_AI_MODEL"
+
+		if v.ModelId != nil {
+			result["model_id"] = string(*v.ModelId)
+		}
+	case oci_generative_ai_agent.DefaultLlmSelection:
+		result["llm_selection_type"] = "DEFAULT"
+	default:
+		log.Printf("[WARN] Received 'llm_selection_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_generative_ai_agent.ChangeAgentCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -689,11 +830,11 @@ func (s *GenerativeAiAgentAgentResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.ChangeAgentCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAgentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAgentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAgentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

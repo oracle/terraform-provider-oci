@@ -10,4 +10,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_fleet_software_update_fsu_collections", FleetSoftwareUpdateFsuCollectionsDataSource())
 	tfresource.RegisterDatasource("oci_fleet_software_update_fsu_cycle", FleetSoftwareUpdateFsuCycleDataSource())
 	tfresource.RegisterDatasource("oci_fleet_software_update_fsu_cycles", FleetSoftwareUpdateFsuCyclesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_software_update_fsu_readiness_check", FleetSoftwareUpdateFsuReadinessCheckDataSource())
+	tfresource.RegisterDatasource("oci_fleet_software_update_fsu_readiness_checks", FleetSoftwareUpdateFsuReadinessChecksDataSource())
 }

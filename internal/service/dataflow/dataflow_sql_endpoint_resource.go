@@ -250,6 +250,30 @@ func DataflowSqlEndpointResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"log_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"log_display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"log_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"log_retention_duration": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"spark_advanced_configurations": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -485,6 +509,26 @@ func (s *DataflowSqlEndpointResourceCrud) Create() error {
 		request.LakeId = &tmp
 	}
 
+	if logCompartmentId, ok := s.D.GetOkExists("log_compartment_id"); ok {
+		tmp := logCompartmentId.(string)
+		request.LogCompartmentId = &tmp
+	}
+
+	if logDisplayName, ok := s.D.GetOkExists("log_display_name"); ok {
+		tmp := logDisplayName.(string)
+		request.LogDisplayName = &tmp
+	}
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
+	if logRetentionDuration, ok := s.D.GetOkExists("log_retention_duration"); ok {
+		tmp := logRetentionDuration.(int)
+		request.LogRetentionDuration = &tmp
+	}
+
 	if maxExecutorCount, ok := s.D.GetOkExists("max_executor_count"); ok {
 		tmp := maxExecutorCount.(int)
 		request.MaxExecutorCount = &tmp
@@ -658,6 +702,30 @@ func (s *DataflowSqlEndpointResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if logCompartmentId, ok := s.D.GetOkExists("log_compartment_id"); ok {
+		tmp := logCompartmentId.(string)
+		request.LogCompartmentId = &tmp
+	}
+
+	if logDisplayName, ok := s.D.GetOkExists("log_display_name"); ok {
+		tmp := logDisplayName.(string)
+		request.LogDisplayName = &tmp
+	}
+
+	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
+		tmp := logGroupId.(string)
+		request.LogGroupId = &tmp
+	}
+
+	if logOperation, ok := s.D.GetOkExists("log_operation"); ok {
+		request.LogOperation = oci_dataflow.SqlEndpointLogOperationEnum(logOperation.(string))
+	}
+
+	if logRetentionDuration, ok := s.D.GetOkExists("log_retention_duration"); ok {
+		tmp := logRetentionDuration.(int)
+		request.LogRetentionDuration = &tmp
 	}
 
 	if maxExecutorCount, ok := s.D.GetOkExists("max_executor_count"); ok {

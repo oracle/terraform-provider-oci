@@ -107,6 +107,70 @@ func MysqlReplicaResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"telemetry_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 0,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"logs": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: false,
+										MinItems: 0,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"destination": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"destination_configurations": {
+													Type:     schema.TypeSet,
+													Required: true,
+													Set:      destinationConfigurationsHashCodeForSets,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"key": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"log_types": {
+													Type:     schema.TypeList,
+													Required: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -212,6 +276,65 @@ func MysqlReplicaResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"telemetry_configuration": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"logs": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"destination": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"destination_configurations": {
+										Type:     schema.TypeSet,
+										Computed: true,
+										Set:      destinationConfigurationsHashCodeForSets,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"log_types": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -540,6 +663,12 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.TelemetryConfiguration != nil {
+		s.D.Set("telemetry_configuration", []interface{}{TelemetryConfigurationDetailsToMap(s.Res.TelemetryConfiguration, false)})
+	} else {
+		s.D.Set("telemetry_configuration", nil)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -549,6 +678,63 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *MysqlReplicaResourceCrud) mapToDestinationConfiguration(fieldKeyFormat string) (oci_mysql.DestinationConfiguration, error) {
+	result := oci_mysql.DestinationConfiguration{}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *MysqlReplicaResourceCrud) mapToLoggingDestinationConfiguration(fieldKeyFormat string) (oci_mysql.LoggingDestinationConfiguration, error) {
+	result := oci_mysql.LoggingDestinationConfiguration{}
+
+	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok {
+		result.Destination = oci_mysql.LoggingDestinationConfigurationDestinationEnum(destination.(string))
+	}
+
+	if destinationConfigurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_configurations")); ok {
+		set := destinationConfigurations.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_mysql.DestinationConfiguration, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := destinationConfigurationsHashCodeForSets(interfaces[i])
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination_configurations"), stateDataIndex)
+			converted, err := s.mapToDestinationConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "destination_configurations")) {
+			result.DestinationConfigurations = tmp
+		}
+	}
+
+	if logTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_types")); ok {
+		interfaces := logTypes.([]interface{})
+		tmp := make([]oci_mysql.LoggingDestinationConfigurationLogTypesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_mysql.LoggingDestinationConfigurationLogTypesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "log_types")) {
+			result.LogTypes = tmp
+		}
+	}
+
+	return result, nil
 }
 
 func (s *MysqlReplicaResourceCrud) mapToReplicaOverrides(fieldKeyFormat string) (oci_mysql.ReplicaOverrides, error) {
@@ -591,6 +777,18 @@ func (s *MysqlReplicaResourceCrud) mapToReplicaOverrides(fieldKeyFormat string) 
 		result.ShapeName = &tmp
 	}
 
+	telemetryConfigurationField := fmt.Sprintf(fieldKeyFormat, "telemetry_configuration")
+	if telemetryConfiguration, ok := s.D.GetOkExists(telemetryConfigurationField); ok && s.D.HasChange(telemetryConfigurationField) {
+		if tmpList := telemetryConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", telemetryConfigurationField, 0)
+			tmp, err := s.mapToTelemetryConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert telemetry_configuration, encountered error: %v", err)
+			}
+			result.TelemetryConfiguration = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -623,5 +821,35 @@ func ReplicaOverridesToMap(obj *oci_mysql.ReplicaOverrides, datasource bool) map
 		result["shape_name"] = string(*obj.ShapeName)
 	}
 
+	if obj.TelemetryConfiguration != nil {
+		result["telemetry_configuration"] = []interface{}{TelemetryConfigurationDetailsToMap(obj.TelemetryConfiguration, datasource)}
+	}
+
 	return result
+}
+
+func (s *MysqlReplicaResourceCrud) mapToTelemetryConfigurationDetails(fieldKeyFormat string) (oci_mysql.TelemetryConfigurationDetails, error) {
+	result := oci_mysql.TelemetryConfigurationDetails{}
+
+	if logs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logs")); ok {
+		interfaces := logs.([]interface{})
+		tmp := make([]oci_mysql.LoggingDestinationConfiguration, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "logs"), stateDataIndex)
+			converted, err := s.mapToLoggingDestinationConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "logs")) {
+			result.Logs = tmp
+		}
+		if len(tmp) == 0 {
+			result.Logs = nil
+		}
+	}
+
+	return result, nil
 }

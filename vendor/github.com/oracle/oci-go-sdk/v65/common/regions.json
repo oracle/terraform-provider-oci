@@ -496,5 +496,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-kulai-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "lej",
+        "realmKey": "oc1",
+        "regionIdentifier": "af-casablanca-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
