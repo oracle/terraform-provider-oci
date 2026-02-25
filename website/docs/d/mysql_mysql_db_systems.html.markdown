@@ -257,6 +257,13 @@ The following attributes are exported:
 * `state` - The current state of the DB System.
 * `subnet_id` - The OCID of the subnet the DB System is associated with. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `telemetry_configuration` - Telemetry configuration details of a DB System or a read replica. 
+	* `logs` - Telemetry configuration details for logging.
+		* `destination` - Type of destination where MySQL telemetry is exposed to.
+		* `destination_configurations` - List of configuration variables for a given destination type.
+			* `key` - Name of the destination configuration variable.
+			* `value` - Value of the destination configuration variable.
+		* `log_types` - List of MySQL telemetry types that can be exposed on a telemetry destination
 * `time_created` - The date and time the DB System was created.
 * `time_updated` - The time the DB System was last updated.
 

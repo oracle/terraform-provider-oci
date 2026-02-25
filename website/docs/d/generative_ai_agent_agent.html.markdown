@@ -46,6 +46,12 @@ The following attributes are exported:
 * `llm_config` - Configuration to Agent LLM. 
 	* `routing_llm_customization` - Configuration to customize LLM. 
 		* `instruction` - If specified, the default instruction is replaced with provided instruction.
+		* `llm_hyper_parameters` - Hyper parameters for LLM configuration. Accepts Key-value pairs to configure various hyper parameters.  Refer to the guide for examples and the JSON Schema documentation for details on the format. 
+		* `llm_selection` - LLM selection configuration - either DEFAULT or CUSTOM. 
+			* `endpoint_id` - The OCID of the GenAI endpoint
+			* `llm_selection_type` - Type of LLM selection
+			* `model_id` - The OCID of the GenAI model
+	* `runtime_version` - The runtimeVersion of the system prompt.
 * `state` - The current state of the agent.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the agent was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

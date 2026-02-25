@@ -197,6 +197,69 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"embedding_llm_customization": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"instruction": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"function": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -244,6 +307,48 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -409,6 +514,137 @@ func GenerativeAiAgentToolResource() *schema.Resource {
 							},
 						},
 						"model_size": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"reasoning_llm_customization": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"instruction": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"reranking_llm_customization": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"instruction": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"llm_hyper_parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"llm_selection": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"llm_selection_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_GEN_AI_ENDPOINT",
+														"CUSTOM_GEN_AI_MODEL",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"model_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"runtime_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1377,7 +1613,56 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToLlmCustomization(fieldKeyFormat
 		result.Instruction = &tmp
 	}
 
+	if llmHyperParameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_hyper_parameters")); ok {
+		result.LlmHyperParameters = llmHyperParameters.(map[string]interface{})
+	}
+
+	if llmSelection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection")); ok {
+		if tmpList := llmSelection.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "llm_selection"), 0)
+			tmp, err := s.mapToLlmSelection(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert llm_selection, encountered error: %v", err)
+			}
+			result.LlmSelection = tmp
+		}
+	}
+
 	return result, nil
+}
+
+func (s *GenerativeAiAgentToolResourceCrud) mapToLlmSelection(fieldKeyFormat string) (oci_generative_ai_agent.LlmSelection, error) {
+	var baseObject oci_generative_ai_agent.LlmSelection
+	//discriminator
+	llmSelectionTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "llm_selection_type"))
+	var llmSelectionType string
+	if ok {
+		llmSelectionType = llmSelectionTypeRaw.(string)
+	} else {
+		llmSelectionType = "" // default value
+	}
+	switch strings.ToLower(llmSelectionType) {
+	case strings.ToLower("CUSTOM_GEN_AI_ENDPOINT"):
+		details := oci_generative_ai_agent.CustomGenAiEndpointLlmSelection{}
+		if endpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_id")); ok {
+			tmp := endpointId.(string)
+			details.EndpointId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_GEN_AI_MODEL"):
+		details := oci_generative_ai_agent.CustomGenAiModelLlmSelection{}
+		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+			tmp := modelId.(string)
+			details.ModelId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT"):
+		details := oci_generative_ai_agent.DefaultLlmSelection{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown llm_selection_type '%v' was specified", llmSelectionType)
+	}
+	return baseObject, nil
 }
 
 func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat string) (oci_generative_ai_agent.ToolConfig, error) {
@@ -1440,6 +1725,16 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 		baseObject = details
 	case strings.ToLower("RAG_TOOL_CONFIG"):
 		details := oci_generative_ai_agent.RagToolConfig{}
+		if embeddingLlmCustomization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "embedding_llm_customization")); ok {
+			if tmpList := embeddingLlmCustomization.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "embedding_llm_customization"), 0)
+				tmp, err := s.mapToLlmCustomization(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert embedding_llm_customization, encountered error: %v", err)
+				}
+				details.EmbeddingLlmCustomization = &tmp
+			}
+		}
 		if generationLlmCustomization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generation_llm_customization")); ok {
 			if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "generation_llm_customization"), 0)
@@ -1465,6 +1760,30 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "knowledge_base_configs")) {
 				details.KnowledgeBaseConfigs = tmp
 			}
+		}
+		if reasoningLlmCustomization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reasoning_llm_customization")); ok {
+			if tmpList := reasoningLlmCustomization.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "reasoning_llm_customization"), 0)
+				tmp, err := s.mapToLlmCustomization(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert reasoning_llm_customization, encountered error: %v", err)
+				}
+				details.ReasoningLlmCustomization = &tmp
+			}
+		}
+		if rerankingLlmCustomization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reranking_llm_customization")); ok {
+			if tmpList := rerankingLlmCustomization.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "reranking_llm_customization"), 0)
+				tmp, err := s.mapToLlmCustomization(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert reranking_llm_customization, encountered error: %v", err)
+				}
+				details.RerankingLlmCustomization = &tmp
+			}
+		}
+		if runtimeVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "runtime_version")); ok {
+			tmp := runtimeVersion.(string)
+			details.RuntimeVersion = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("SQL_TOOL_CONFIG"):
@@ -1514,6 +1833,10 @@ func (s *GenerativeAiAgentToolResourceCrud) mapToToolConfig(fieldKeyFormat strin
 		}
 		if modelSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_size")); ok {
 			details.ModelSize = oci_generative_ai_agent.SqlToolConfigModelSizeEnum(modelSize.(string))
+		}
+		if runtimeVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "runtime_version")); ok {
+			tmp := runtimeVersion.(string)
+			details.RuntimeVersion = &tmp
 		}
 		if shouldEnableSelfCorrection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_enable_self_correction")); ok {
 			tmp := shouldEnableSelfCorrection.(bool)
@@ -1576,6 +1899,10 @@ func ToolConfigToMap(obj *oci_generative_ai_agent.ToolConfig) map[string]interfa
 	case oci_generative_ai_agent.RagToolConfig:
 		result["tool_config_type"] = "RAG_TOOL_CONFIG"
 
+		if v.EmbeddingLlmCustomization != nil {
+			result["embedding_llm_customization"] = []interface{}{LlmCustomizationToMap(v.EmbeddingLlmCustomization)}
+		}
+
 		if v.GenerationLlmCustomization != nil {
 			result["generation_llm_customization"] = []interface{}{LlmCustomizationToMap(v.GenerationLlmCustomization)}
 		}
@@ -1585,6 +1912,18 @@ func ToolConfigToMap(obj *oci_generative_ai_agent.ToolConfig) map[string]interfa
 			knowledgeBaseConfigs = append(knowledgeBaseConfigs, KnowledgeBaseConfigToMap(item))
 		}
 		result["knowledge_base_configs"] = knowledgeBaseConfigs
+
+		if v.ReasoningLlmCustomization != nil {
+			result["reasoning_llm_customization"] = []interface{}{LlmCustomizationToMap(v.ReasoningLlmCustomization)}
+		}
+
+		if v.RerankingLlmCustomization != nil {
+			result["reranking_llm_customization"] = []interface{}{LlmCustomizationToMap(v.RerankingLlmCustomization)}
+		}
+
+		if v.RuntimeVersion != nil {
+			result["runtime_version"] = string(*v.RuntimeVersion)
+		}
 	case oci_generative_ai_agent.SqlToolConfig:
 		result["tool_config_type"] = "SQL_TOOL_CONFIG"
 
@@ -1619,6 +1958,10 @@ func ToolConfigToMap(obj *oci_generative_ai_agent.ToolConfig) map[string]interfa
 		}
 
 		result["model_size"] = string(v.ModelSize)
+
+		if v.RuntimeVersion != nil {
+			result["runtime_version"] = string(*v.RuntimeVersion)
+		}
 
 		if v.ShouldEnableSelfCorrection != nil {
 			result["should_enable_self_correction"] = bool(*v.ShouldEnableSelfCorrection)

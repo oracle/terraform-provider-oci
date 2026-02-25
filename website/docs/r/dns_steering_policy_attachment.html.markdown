@@ -20,6 +20,8 @@ be attached to a domain for the policy to answer DNS queries for that domain.
 For the purposes of access control, the attachment is automatically placed
 into the same compartment as the domain's zone.
 
+Attachments cannot be created for private zones.
+
 
 ## Example Usage
 
@@ -42,7 +44,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information. 
 * `domain_name` - (Required) The attached domain within the attached zone. `domain_name` is case insensitive.
 * `steering_policy_id` - (Required) The OCID of the attached steering policy.
-* `zone_id` - (Required) The OCID of the attached zone.
+* `zone_id` - (Required) The OCID of the attached zone. Must be a public zone.
 
 
 ** IMPORTANT **
@@ -63,7 +65,7 @@ The following attributes are exported:
 * `time_created` - The date and time the resource was created, expressed in RFC 3339 timestamp format.
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
-* `zone_id` - The OCID of the attached zone.
+* `zone_id` - The OCID of the attached zone. Must be a public zone.
 
 ## Timeouts
 

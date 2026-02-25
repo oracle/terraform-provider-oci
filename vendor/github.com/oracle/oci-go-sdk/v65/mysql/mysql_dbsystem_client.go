@@ -335,6 +335,70 @@ func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request 
 	return response, err
 }
 
+// GenerateDbSystemStatus Initiates an asynchronous request to collect the current status of the specified DB System,
+// including the status of any attached Channels (if requested).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateDbSystemStatus.go.html to see an example of how to use GenerateDbSystemStatus API.
+// A default retry strategy applies to this operation GenerateDbSystemStatus()
+func (client DbSystemClient) GenerateDbSystemStatus(ctx context.Context, request GenerateDbSystemStatusRequest) (response GenerateDbSystemStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateDbSystemStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateDbSystemStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateDbSystemStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateDbSystemStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateDbSystemStatusResponse")
+	}
+	return
+}
+
+// generateDbSystemStatus implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) generateDbSystemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/generateDbSystemStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateDbSystemStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystemStatus/GenerateDbSystemStatus"
+		err = common.PostProcessServiceError(err, "DbSystem", "GenerateDbSystemStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateHeatWaveClusterMemoryEstimate Sends a request to estimate the memory footprints of user tables when loaded to HeatWave cluster memory.
 //
 // # See also
@@ -449,6 +513,65 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/GetDbSystem"
 		err = common.PostProcessServiceError(err, "DbSystem", "GetDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDbSystemStatus Returns the most up-to-date status of the specified DB System,
+// including the status of any requested Channels.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetDbSystemStatus.go.html to see an example of how to use GetDbSystemStatus API.
+// A default retry strategy applies to this operation GetDbSystemStatus()
+func (client DbSystemClient) GetDbSystemStatus(ctx context.Context, request GetDbSystemStatusRequest) (response GetDbSystemStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbSystemStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbSystemStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbSystemStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbSystemStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbSystemStatusResponse")
+	}
+	return
+}
+
+// getDbSystemStatus implements the OCIOperation interface (enables retrying operations)
+func (client DbSystemClient) getDbSystemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/dbSystemStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbSystemStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystemStatus/GetDbSystemStatus"
+		err = common.PostProcessServiceError(err, "DbSystem", "GetDbSystemStatus", apiReferenceLink)
 		return response, err
 	}
 

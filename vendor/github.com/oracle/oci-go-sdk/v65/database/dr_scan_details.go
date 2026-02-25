@@ -26,6 +26,9 @@ type DrScanDetails struct {
 
 	// The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	Ips []string `mandatory:"true" json:"ips"`
+
+	// The DR SCAN TCPIP SSL port. Default is 2484.
+	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 }
 
 func (m DrScanDetails) String() string {

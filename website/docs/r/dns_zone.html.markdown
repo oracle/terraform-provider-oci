@@ -48,6 +48,7 @@ resource "oci_dns_zone" "test_zone" {
 		tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
 	}
 	freeform_tags = var.zone_freeform_tags
+	resolution_mode = var.zone_resolution_mode
 	scope = var.zone_scope
 	view_id = oci_dns_view.test_view.id
 }
@@ -86,14 +87,16 @@ The following arguments are supported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `name` - (Required) The name of the zone.
-* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
-This value will be null for zones in the global DNS and `PRIVATE` when creating a private zone.
-* `view_id` - (Optional) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
+* `resolution_mode` - (Optional) (Updatable) The resolution mode of a zone defines behavior related to how query responses can be handled. 
+* `scope` - (Required) Specifies to operate only on resources that have a matching DNS scope. 
+* `view_id` - (Required) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
 * `zone_type` - (Required) The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+When the zone is re-created, all DNS records managed for this zone via Terraform will also be re-created on the new zone
 
 ## Attributes Reference
 
@@ -190,10 +193,9 @@ The following attributes are exported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the zone.
-* `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
+* `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
 * `name` - The name of the zone.
-* `nameservers` - The authoritative nameservers for the zone.
-	* `hostname` - The hostname of the nameserver.
+* `resolution_mode` - The resolution mode of a zone defines behavior related to how query responses can be handled. 
 * `scope` - The scope of the zone.
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 

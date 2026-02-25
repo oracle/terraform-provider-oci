@@ -147,7 +147,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId3, dbSystemAvailableWaitCondition, time.Duration(10*time.Minute),
+			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId3, dbSystemAvailableWaitCondition, time.Duration(20*time.Minute),
 				dbSystemFetchOperation, "mysql", false),
 			Config: config + compartmentIdVariableStr + MysqlReplicaResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_replica", "test_replica", acctest.Optional, acctest.Create, MysqlReplicaRepresentation),
@@ -169,6 +169,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.0.35"),
 				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -186,7 +187,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId3, dbSystemAvailableWaitCondition, time.Duration(10*time.Minute),
+			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId3, dbSystemAvailableWaitCondition, time.Duration(20*time.Minute),
 				dbSystemFetchOperation, "mysql", false),
 			Config: config + compartmentIdVariableStr + MysqlReplicaResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_replica", "test_replica", acctest.Optional, acctest.Update, MysqlReplicaRepresentation),
@@ -208,6 +209,7 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.1.0"),
 				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -256,8 +258,10 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.mysql_version", "8.1.0"),
 				resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.replica_overrides.0.shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "replicas.0.telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.time_updated"),
 			),
@@ -287,9 +291,11 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				// TODO: fix unsupported versions
 				//resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.mysql_version", "8.1.0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "telemetry_configuration.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
@@ -434,10 +440,18 @@ func dbSystemAvailableWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func dbSystemFetchOperation(client *tf_client.OracleClients, dbSystemId *string, retryPolicy *common.RetryPolicy) error {
+	// We have a custom waiting mechanism (using WaitTillCondition in PreConfig) for certain test steps.
+	// It waits until the db system becomes "Active" after reconciliation
+	// The default retry policy seems way too aggressive - it does not wait for our specified timeout, but does retries in short succession
+	// and then gives up after 10 attempts, leading to test failures.
+	customRetryPolicy := *retryPolicy
+	customRetryPolicy.MinSleepBetween = 60 // seconds
+	customRetryPolicy.MaximumNumberAttempts = 20
+
 	_, err := client.DbSystemClient().GetDbSystem(context.Background(), oci_mysql.GetDbSystemRequest{
 		DbSystemId: dbSystemId,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
+			RetryPolicy: &customRetryPolicy,
 		},
 	})
 	return err

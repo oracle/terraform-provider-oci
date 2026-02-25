@@ -69,6 +69,10 @@ resource "oci_dataflow_sql_endpoint" "test_sql_endpoint" {
 		ocpus = var.sql_endpoint_executor_shape_config_ocpus
 	}
 	freeform_tags = {"Department"= "Finance"}
+	log_compartment_id = oci_identity_compartment.test_compartment.id
+	log_display_name = var.sql_endpoint_log_display_name
+	log_group_id = oci_logging_log_group.test_log_group.id
+	log_retention_duration = var.sql_endpoint_log_retention_duration
 	spark_advanced_configurations = var.sql_endpoint_spark_advanced_configurations
 }
 ```
@@ -90,6 +94,10 @@ The following arguments are supported:
 	* `memory_in_gbs` - (Optional) The amount of memory used for the driver or executors. 
 	* `ocpus` - (Optional) The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `log_compartment_id` - (Optional) (Updatable) The identifier of the log group compartment used with the SQL Endpoint.
+* `log_display_name` - (Optional) (Updatable) The friendly name of the log object used with the SQL Endpoint.
+* `log_group_id` - (Optional) (Updatable) The identifier of the log group used with the SQL Endpoint.
+* `log_retention_duration` - (Optional) (Updatable) Log retention duration in days
 * `lake_id` - (Required) Oracle Cloud Infrastructure lake OCID
 * `max_executor_count` - (Required) (Updatable) The maximum number of executors.
 * `metastore_id` - (Required) Metastore OCID

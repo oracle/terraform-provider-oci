@@ -221,6 +221,12 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 
 		replica["state"] = r.LifecycleState
 
+		if r.TelemetryConfiguration != nil {
+			replica["telemetry_configuration"] = []interface{}{TelemetryConfigurationDetailsToMap(r.TelemetryConfiguration, true)}
+		} else {
+			replica["telemetry_configuration"] = nil
+		}
+
 		if r.TimeCreated != nil {
 			replica["time_created"] = r.TimeCreated.String()
 		}

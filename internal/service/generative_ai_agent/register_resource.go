@@ -11,5 +11,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_generative_ai_agent_data_ingestion_job", GenerativeAiAgentDataIngestionJobResource())
 	tfresource.RegisterResource("oci_generative_ai_agent_data_source", GenerativeAiAgentDataSourceResource())
 	tfresource.RegisterResource("oci_generative_ai_agent_knowledge_base", GenerativeAiAgentKnowledgeBaseResource())
+	tfresource.RegisterResource("oci_generative_ai_agent_provisioned_capacity", GenerativeAiAgentProvisionedCapacityResource())
 	tfresource.RegisterResource("oci_generative_ai_agent_tool", GenerativeAiAgentToolResource())
 }

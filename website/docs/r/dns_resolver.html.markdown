@@ -15,8 +15,12 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 Updates the specified resolver with your new information.
 
-Note: Resolvers are associated with VCNs and created when a VCN is created. Wait until created VCN's state shows as Available in OCI console before updating DNS resolver properties.
-Also a VCN cannot be deleted while its resolver has resolver endpoints. Additionally a resolver endpoint cannot be deleted if it is referenced in the resolver's rules. To remove the rules from a resolver user needs to update the resolver resource. Since DNS Resolver gets deleted when VCN is deleted there is no support for Delete for DNS Resolver.
+Note: Resolvers are associated with VCNs and created when a VCN is created. Wait until the created VCN's state shows as Available in the OCI Console before updating DNS resolver properties.
+A VCN cannot be deleted while its resolver has resolver endpoints. Additionally, a resolver endpoint cannot be deleted if it is referenced in the resolver's rules. To remove rules from a resolver, update the resolver resource.
+
+Destroy behavior: This resource does not delete the underlying DNS Resolver. The resolver itself is deleted only when the attached VCN is deleted. When this Terraform resource is destroyed, managed properties on the resolver (for example, attached views and rules) are cleared so the VCN can be deleted.
+
+Default view behavior on VCN delete: If the resolver's default view contains customer-created zones, deleting the VCN (which deletes the resolver) can convert that default view into a non-protected regular view. That view may persist even if it was never imported into Terraform state. To avoid orphaned resources, either delete the zones from the default view before deleting the VCN, or plan to clean up the resulting view afterward.
 
 ## Example Usage
 
@@ -62,18 +66,14 @@ The following arguments are supported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `resolver_id` - (Required) The OCID of the target resolver.
-* `rules` - (Optional) (Updatable) Rules for the resolver. Rules are evaluated in order. 
+* `rules` - (Optional) (Updatable) Rules for the resolver. Rules are evaluated in order, and only the first matching rule will have its action applied. 
 	* `action` - (Required) (Updatable) The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
 		* `FORWARD` - Matching requests will be forwarded from the source interface to the destination address. 
-	* `client_address_conditions` - (Optional) (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply. 
+	* `client_address_conditions` - (Optional) (Updatable) A list of CIDR blocks. In order for the rule action to apply, the query must come from a client within one of the CIDR blocks. 
 	* `destination_addresses` - (Required) (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address. 
-	* `qname_cover_conditions` - (Optional) (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply. 
+	* `qname_cover_conditions` - (Optional) (Updatable) A list of domain names. In order for the rule action to apply, the query must either match or be a subdomain of one of the listed domains. 
 	* `source_endpoint_name` - (Required) (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
 * `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
-
-
-** IMPORTANT **
-Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
 
@@ -110,12 +110,12 @@ The following attributes are exported:
 	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the resolver.
 * `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. 
-* `rules` - Rules for the resolver. Rules are evaluated in order. 
+* `rules` - Rules for the resolver. Rules are evaluated in order, and only the first matching rule will have its action applied. 
 	* `action` - The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
 		* `FORWARD` - Matching requests will be forwarded from the source interface to the destination address. 
-	* `client_address_conditions` - A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply. 
+	* `client_address_conditions` - A list of CIDR blocks. In order for the rule action to apply, the query must come from a client within one of the CIDR blocks. 
 	* `destination_addresses` - IP addresses to which queries should be forwarded. Currently limited to a single address. 
-	* `qname_cover_conditions` - A list of domain names. The query must be covered by one of the domains in order for the rule action to apply. 
+	* `qname_cover_conditions` - A list of domain names. In order for the rule action to apply, the query must either match or be a subdomain of one of the listed domains. 
 	* `source_endpoint_name` - Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.
@@ -141,4 +141,3 @@ Resolvers can be imported using their OCID, e.g.
 ```
 $ terraform import oci_dns_resolver.test_resolver "id"
 ```
-

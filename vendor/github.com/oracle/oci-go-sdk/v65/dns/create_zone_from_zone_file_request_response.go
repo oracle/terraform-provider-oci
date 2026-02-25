@@ -30,6 +30,14 @@ type CreateZoneFromZoneFileRequest struct {
 	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A token that uniquely identifies a request so it can be retried in case
+	// of a timeout or server error without risk of executing that same action
+	// again. Retry tokens expire after 24 hours, but can be invalidated before
+	// then due to conflicting operations (for example, if a resource has been
+	// deleted and purged from the system, then a retry of the original creation
+	// request may be rejected).
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
 	// Specifies to operate only on resources that have a matching DNS scope.
 	Scope CreateZoneFromZoneFileScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
 

@@ -127,6 +127,8 @@ type DbSystemSnapshot struct {
 	Region *string `mandatory:"false" json:"region"`
 
 	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
+
+	TelemetryConfiguration *TelemetryConfigurationDetails `mandatory:"false" json:"telemetryConfiguration"`
 }
 
 func (m DbSystemSnapshot) String() string {

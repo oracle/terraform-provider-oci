@@ -47,6 +47,10 @@ var (
 		"sql_endpoint_version":          acctest.Representation{RepType: acctest.Required, Create: `3.2.1`},
 		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description updated`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"log_compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_id}`},
+		"log_display_name":              acctest.Representation{RepType: acctest.Optional, Create: `logDisplayName`},
+		"log_group_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${var.log_group_id}`},
+		"log_retention_duration":        acctest.Representation{RepType: acctest.Optional, Create: `30`},
 		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSqlEndpointDefinedTagsRepresentation},
 		"spark_advanced_configurations": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"testConfig": "testValue2"}, Update: map[string]string{"testConfig": "testValue"}},
 	}
@@ -88,19 +92,28 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 	nsgId := utils.GetEnvSettingWithBlankDefault("nsg_id")
 	nsgIdVariableStr := fmt.Sprintf("variable \"nsg_id\" { default = \"%s\" }\n", nsgId)
 
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyIdVariableStr := fmt.Sprintf("variable \"tenancy_id\" { default = \"%s\" }\n", tenancyId)
+
+	logGroupId := utils.GetEnvSettingWithBlankDefault("log_group_id")
+	logGroupIdVariableStr := fmt.Sprintf("variable \"log_group_id\" { default = \"%s\" }\n", logGroupId)
+
 	resourceName := "oci_dataflow_sql_endpoint.test_sql_endpoint"
 	datasourceName := "data.oci_dataflow_sql_endpoints.test_sql_endpoints"
 	singularDatasourceName := "data.oci_dataflow_sql_endpoint.test_sql_endpoint"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+metastoreIdVariableStr+vcnIdVariableStr+subnetIdVariableStr+nsgIdVariableStr+DataflowSqlEndpointResourceVCNDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+metastoreIdVariableStr+vcnIdVariableStr+subnetIdVariableStr+nsgIdVariableStr+tenancyIdVariableStr+logGroupIdVariableStr+DataflowSqlEndpointResourceVCNDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create, DataflowSqlEndpointWithVCNRepresentation), "dataflow", "sqlEndpoint", t)
 
 	acctest.ResourceTest(t, testAccCheckDataflowSqlEndpointDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
+			PreConfig: func() {
+				fmt.Println("Start Step 1")
+			},
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Required, acctest.Create, DataflowSqlEndpointWithVCNRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -125,11 +138,17 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies,
+			PreConfig: func() {
+				fmt.Println("Start Step 2")
+			},
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
+			PreConfig: func() {
+				fmt.Println("Start Step 3")
+			},
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create, DataflowSqlEndpointWithVCNRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -165,7 +184,10 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
+			PreConfig: func() {
+				fmt.Println("Start Step 4")
+			},
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointWithVCNRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -201,7 +223,10 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 
 		// verify updates to updatable parameters and switch the compartment back
 		{
-			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
+			PreConfig: func() {
+				fmt.Println("Start Step 5")
+			},
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointWithVCNRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
@@ -238,9 +263,12 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
+			PreConfig: func() {
+				fmt.Println("Start Step 6")
+			},
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_sql_endpoints", "test_sql_endpoints", acctest.Optional, acctest.Update, DataflowSqlEndpointVCNAccessDataSourceRepresentation) +
-				compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
+				compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointResourceVCNDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update, DataflowSqlEndpointWithVCNRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -252,9 +280,12 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
+			PreConfig: func() {
+				fmt.Println("Start Step 7")
+			},
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update, DataflowSqlEndpointVCNAccessSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + DataflowSqlEndpointVCNAccessResourceConfig,
+				compartmentIdVariableStr + metastoreIdVariableStr + vcnIdVariableStr + subnetIdVariableStr + nsgIdVariableStr + tenancyIdVariableStr + logGroupIdVariableStr + DataflowSqlEndpointVCNAccessResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sql_endpoint_id"),
 
@@ -283,11 +314,19 @@ func TestDataflowSqlEndpointVCNAccess_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DataflowSqlEndpointVCNAccessRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			PreConfig: func() {
+				fmt.Println("Start Step 8")
+			},
+			Config:            config + DataflowSqlEndpointVCNAccessRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"log_compartment_id",
+				"log_display_name",
+				"log_group_id",
+				"log_retention_duration",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }
