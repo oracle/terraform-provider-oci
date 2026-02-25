@@ -68,12 +68,13 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"init_variables": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:       schema.TypeList,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("init_variables", "options"),
+				MaxItems:   1,
+				MinItems:   1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -123,12 +124,13 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"variables": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:       schema.TypeList,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("variables", "options"),
+				MaxItems:   1,
+				MinItems:   1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
