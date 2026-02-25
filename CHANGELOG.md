@@ -1,3 +1,15 @@
+## 8.3.0 (February 24, 2026)
+
+### Added
+- Support for OCI Private DNS - Zone Transparency and bug fixes
+- Support for Exadata Fleet Update single patching support for Oracle assisted Patching on ExaDB-XS
+- Support for MySQL HeatWave Service: Telemetry configuration
+- Support for OCI Generative AI Agent - Model Selection Support at Agent and Tool level
+- Support for SQLEndpoint Logging integration with OCI Logging
+
+### Bug Fix
+- allow send recoveryWindowInDays as 0 in ACD creation
+
 ## 8.2.0 (February 18, 2026)
 
 ### Added
