@@ -18,13 +18,13 @@ import (
 // EnableAiFeatureDetails The data to enable Ai Feature for  AiDataPlatform.
 type EnableAiFeatureDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vector db ADW 23ai.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vector db Lakehouse 26ai.
 	VectorDbId *string `mandatory:"false" json:"vectorDbId"`
 
-	// The Vector DB ADW 23ai ADMIN user password.
+	// The Vector DB Lakehouse 26ai ADMIN user password.
 	VectorDbAdminCred *string `mandatory:"false" json:"vectorDbAdminCred"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db ADW 23ai Admin user password.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db Lakehouse 26ai Admin user password.
 	VectorDbAdminSecretId *string `mandatory:"false" json:"vectorDbAdminSecretId"`
 }
 

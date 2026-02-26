@@ -60,7 +60,7 @@ type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
 	RelatedResource *DatabaseToolsRelatedResource `mandatory:"false" json:"relatedResource"`
 
-	// The database user name.
+	// The database user name. When authenticationType is TOKEN, if provided, userName must be in square brackets (for example, [proxyClient]).
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordSummary `mandatory:"false" json:"userPassword"`
@@ -85,6 +85,9 @@ type DatabaseToolsConnectionOracleDatabaseSummary struct {
 
 	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
 	RuntimeIdentity RuntimeIdentityEnum `mandatory:"true" json:"runtimeIdentity"`
+
+	// Specifies the authentication type used by the Database Tools service to authenticate with the database.
+	AuthenticationType AuthenticationTypeEnum `mandatory:"true" json:"authenticationType"`
 }
 
 // GetId returns Id
@@ -176,6 +179,9 @@ func (m DatabaseToolsConnectionOracleDatabaseSummary) ValidateEnumValue() (bool,
 	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetAuthenticationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -221,6 +227,7 @@ func (m *DatabaseToolsConnectionOracleDatabaseSummary) UnmarshalJSON(data []byte
 		RuntimeEndpoint    *string                                                 `json:"runtimeEndpoint"`
 		RuntimeIdentity    RuntimeIdentityEnum                                     `json:"runtimeIdentity"`
 		ConnectionString   *string                                                 `json:"connectionString"`
+		AuthenticationType AuthenticationTypeEnum                                  `json:"authenticationType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -287,6 +294,8 @@ func (m *DatabaseToolsConnectionOracleDatabaseSummary) UnmarshalJSON(data []byte
 	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.ConnectionString = model.ConnectionString
+
+	m.AuthenticationType = model.AuthenticationType
 
 	return
 }

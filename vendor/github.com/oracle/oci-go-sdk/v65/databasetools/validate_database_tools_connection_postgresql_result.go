@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsConnectionPostgresqlResult Connection validaton result for the PostgreSQL Server.
+// ValidateDatabaseToolsConnectionPostgresqlResult Connection validation result for the PostgreSQL Server.
 type ValidateDatabaseToolsConnectionPostgresqlResult struct {
 
 	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.

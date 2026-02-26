@@ -34,6 +34,12 @@ type UpdateEsxiHostDetails struct {
 	// any update request fails with the error “Next SKU can’t be NULL or Hourly.”
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
+
+	// Indicates whether this host embedded VMware vSAN with BYOL Allocation.
+	IsVsanByolEnabled *bool `mandatory:"false" json:"isVsanByolEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

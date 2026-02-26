@@ -18,18 +18,21 @@ type ProxyAuthenticationTypeEnum string
 
 // Set of constants representing the allowable values for ProxyAuthenticationTypeEnum
 const (
-	ProxyAuthenticationTypeUserName ProxyAuthenticationTypeEnum = "USER_NAME"
-	ProxyAuthenticationTypeNoProxy  ProxyAuthenticationTypeEnum = "NO_PROXY"
+	ProxyAuthenticationTypeUserName           ProxyAuthenticationTypeEnum = "USER_NAME"
+	ProxyAuthenticationTypeUserNameAutoDetect ProxyAuthenticationTypeEnum = "USER_NAME_AUTO_DETECT"
+	ProxyAuthenticationTypeNoProxy            ProxyAuthenticationTypeEnum = "NO_PROXY"
 )
 
 var mappingProxyAuthenticationTypeEnum = map[string]ProxyAuthenticationTypeEnum{
-	"USER_NAME": ProxyAuthenticationTypeUserName,
-	"NO_PROXY":  ProxyAuthenticationTypeNoProxy,
+	"USER_NAME":             ProxyAuthenticationTypeUserName,
+	"USER_NAME_AUTO_DETECT": ProxyAuthenticationTypeUserNameAutoDetect,
+	"NO_PROXY":              ProxyAuthenticationTypeNoProxy,
 }
 
 var mappingProxyAuthenticationTypeEnumLowerCase = map[string]ProxyAuthenticationTypeEnum{
-	"user_name": ProxyAuthenticationTypeUserName,
-	"no_proxy":  ProxyAuthenticationTypeNoProxy,
+	"user_name":             ProxyAuthenticationTypeUserName,
+	"user_name_auto_detect": ProxyAuthenticationTypeUserNameAutoDetect,
+	"no_proxy":              ProxyAuthenticationTypeNoProxy,
 }
 
 // GetProxyAuthenticationTypeEnumValues Enumerates the set of values for ProxyAuthenticationTypeEnum
@@ -45,6 +48,7 @@ func GetProxyAuthenticationTypeEnumValues() []ProxyAuthenticationTypeEnum {
 func GetProxyAuthenticationTypeEnumStringValues() []string {
 	return []string{
 		"USER_NAME",
+		"USER_NAME_AUTO_DETECT",
 		"NO_PROXY",
 	}
 }

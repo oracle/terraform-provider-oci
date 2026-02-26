@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsConnectionMySqlResult Connection validaton result for the MySQL Server.
+// ValidateDatabaseToolsConnectionMySqlResult Connection validation result for the MySQL Server.
 type ValidateDatabaseToolsConnectionMySqlResult struct {
 
 	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.

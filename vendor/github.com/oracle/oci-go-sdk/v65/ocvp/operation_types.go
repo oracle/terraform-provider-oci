@@ -49,8 +49,17 @@ const (
 	OperationTypesUpdateManagementAppliance                OperationTypesEnum = "UPDATE_MANAGEMENT_APPLIANCE"
 	OperationTypesDeleteManagementAppliance                OperationTypesEnum = "DELETE_MANAGEMENT_APPLIANCE"
 	OperationTypesAbandonManagementApplianceJobs           OperationTypesEnum = "ABANDON_MANAGEMENT_APPLIANCE_JOBS"
+	OperationTypesBatchDeleteManagementApplianceJobs       OperationTypesEnum = "BATCH_DELETE_MANAGEMENT_APPLIANCE_JOBS"
 	OperationTypesManagementApplianceEsxiHostProvisioning  OperationTypesEnum = "MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING"
+	OperationTypesManagementApplianceEsxiHostDeletion      OperationTypesEnum = "MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION"
 	OperationTypesManagementApplianceDatastoreProvisioning OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING"
+	OperationTypesManagementApplianceDatastoreDelete       OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_DELETE"
+	OperationTypesCreateByol                               OperationTypesEnum = "CREATE_BYOL"
+	OperationTypesUpdateByol                               OperationTypesEnum = "UPDATE_BYOL"
+	OperationTypesDeleteByol                               OperationTypesEnum = "DELETE_BYOL"
+	OperationTypesCreateByolAllocation                     OperationTypesEnum = "CREATE_BYOL_ALLOCATION"
+	OperationTypesUpdateByolAllocation                     OperationTypesEnum = "UPDATE_BYOL_ALLOCATION"
+	OperationTypesDeleteByolAllocation                     OperationTypesEnum = "DELETE_BYOL_ALLOCATION"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -84,8 +93,17 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_MANAGEMENT_APPLIANCE":                 OperationTypesUpdateManagementAppliance,
 	"DELETE_MANAGEMENT_APPLIANCE":                 OperationTypesDeleteManagementAppliance,
 	"ABANDON_MANAGEMENT_APPLIANCE_JOBS":           OperationTypesAbandonManagementApplianceJobs,
+	"BATCH_DELETE_MANAGEMENT_APPLIANCE_JOBS":      OperationTypesBatchDeleteManagementApplianceJobs,
 	"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING": OperationTypesManagementApplianceEsxiHostProvisioning,
+	"MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION":     OperationTypesManagementApplianceEsxiHostDeletion,
 	"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING": OperationTypesManagementApplianceDatastoreProvisioning,
+	"MANAGEMENT_APPLIANCE_DATASTORE_DELETE":       OperationTypesManagementApplianceDatastoreDelete,
+	"CREATE_BYOL":                                 OperationTypesCreateByol,
+	"UPDATE_BYOL":                                 OperationTypesUpdateByol,
+	"DELETE_BYOL":                                 OperationTypesDeleteByol,
+	"CREATE_BYOL_ALLOCATION":                      OperationTypesCreateByolAllocation,
+	"UPDATE_BYOL_ALLOCATION":                      OperationTypesUpdateByolAllocation,
+	"DELETE_BYOL_ALLOCATION":                      OperationTypesDeleteByolAllocation,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -119,8 +137,17 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_management_appliance":                 OperationTypesUpdateManagementAppliance,
 	"delete_management_appliance":                 OperationTypesDeleteManagementAppliance,
 	"abandon_management_appliance_jobs":           OperationTypesAbandonManagementApplianceJobs,
+	"batch_delete_management_appliance_jobs":      OperationTypesBatchDeleteManagementApplianceJobs,
 	"management_appliance_esxi_host_provisioning": OperationTypesManagementApplianceEsxiHostProvisioning,
+	"management_appliance_esxi_host_deletion":     OperationTypesManagementApplianceEsxiHostDeletion,
 	"management_appliance_datastore_provisioning": OperationTypesManagementApplianceDatastoreProvisioning,
+	"management_appliance_datastore_delete":       OperationTypesManagementApplianceDatastoreDelete,
+	"create_byol":                                 OperationTypesCreateByol,
+	"update_byol":                                 OperationTypesUpdateByol,
+	"delete_byol":                                 OperationTypesDeleteByol,
+	"create_byol_allocation":                      OperationTypesCreateByolAllocation,
+	"update_byol_allocation":                      OperationTypesUpdateByolAllocation,
+	"delete_byol_allocation":                      OperationTypesDeleteByolAllocation,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -165,8 +192,17 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_MANAGEMENT_APPLIANCE",
 		"DELETE_MANAGEMENT_APPLIANCE",
 		"ABANDON_MANAGEMENT_APPLIANCE_JOBS",
+		"BATCH_DELETE_MANAGEMENT_APPLIANCE_JOBS",
 		"MANAGEMENT_APPLIANCE_ESXI_HOST_PROVISIONING",
+		"MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION",
 		"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING",
+		"MANAGEMENT_APPLIANCE_DATASTORE_DELETE",
+		"CREATE_BYOL",
+		"UPDATE_BYOL",
+		"DELETE_BYOL",
+		"CREATE_BYOL_ALLOCATION",
+		"UPDATE_BYOL_ALLOCATION",
+		"DELETE_BYOL_ALLOCATION",
 	}
 }
 

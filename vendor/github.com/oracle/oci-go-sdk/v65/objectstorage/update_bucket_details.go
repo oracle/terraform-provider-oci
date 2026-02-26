@@ -91,6 +91,8 @@ type UpdateBucketDetails struct {
 	// Updating bucket scope is possible only if the bucket name is valid and there is no existing regionally unique
 	// bucket with the same name.
 	BucketScope BucketBucketScopeEnum `mandatory:"false" json:"bucketScope,omitempty"`
+
+	SoftDeletePolicy *UpdateSoftDeletePolicyDetails `mandatory:"false" json:"softDeletePolicy"`
 }
 
 func (m UpdateBucketDetails) String() string {

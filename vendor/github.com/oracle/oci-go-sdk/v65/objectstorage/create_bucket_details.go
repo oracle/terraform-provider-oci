@@ -89,6 +89,8 @@ type CreateBucketDetails struct {
 	// Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
 	// same name and scope REGION.
 	BucketScope BucketBucketScopeEnum `mandatory:"false" json:"bucketScope,omitempty"`
+
+	SoftDeletePolicy *CreateSoftDeletePolicyDetails `mandatory:"false" json:"softDeletePolicy"`
 }
 
 func (m CreateBucketDetails) String() string {

@@ -74,6 +74,11 @@ type InitialClusterConfiguration struct {
 
 	// A list of datastore clusters.
 	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
+
+	ClusterByolAllocationDetails *ClusterByolAllocationDetails `mandatory:"false" json:"clusterByolAllocationDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
+	InitialVcfByolAllocationId *string `mandatory:"false" json:"initialVcfByolAllocationId"`
 }
 
 func (m InitialClusterConfiguration) String() string {

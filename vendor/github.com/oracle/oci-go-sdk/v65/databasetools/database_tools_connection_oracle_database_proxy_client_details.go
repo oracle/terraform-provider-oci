@@ -54,6 +54,10 @@ func (m *databasetoolsconnectionoracledatabaseproxyclientdetails) UnmarshalPolym
 		mm := DatabaseToolsConnectionOracleDatabaseProxyClientUserNameDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "USER_NAME_AUTO_DETECT":
+		mm := DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetectDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NO_PROXY":
 		mm := DatabaseToolsConnectionOracleDatabaseProxyClientNoProxyDetails{}
 		err = json.Unmarshal(data, &mm)

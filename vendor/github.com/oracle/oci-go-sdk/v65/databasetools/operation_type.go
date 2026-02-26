@@ -31,6 +31,12 @@ const (
 	OperationTypeDeleteDatabaseToolsIdentity            OperationTypeEnum = "DELETE_DATABASE_TOOLS_IDENTITY"
 	OperationTypeUpdateDatabaseToolsIdentity            OperationTypeEnum = "UPDATE_DATABASE_TOOLS_IDENTITY"
 	OperationTypeRefreshDatabaseToolsIdentityCredential OperationTypeEnum = "REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL"
+	OperationTypeCreateDatabaseToolsMcpServer           OperationTypeEnum = "CREATE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeDeleteDatabaseToolsMcpServer           OperationTypeEnum = "DELETE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeUpdateDatabaseToolsMcpServer           OperationTypeEnum = "UPDATE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeCreateDatabaseToolsMcpToolset          OperationTypeEnum = "CREATE_DATABASE_TOOLS_MCP_TOOLSET"
+	OperationTypeDeleteDatabaseToolsMcpToolset          OperationTypeEnum = "DELETE_DATABASE_TOOLS_MCP_TOOLSET"
+	OperationTypeUpdateDatabaseToolsMcpToolset          OperationTypeEnum = "UPDATE_DATABASE_TOOLS_MCP_TOOLSET"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -47,6 +53,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_DATABASE_TOOLS_IDENTITY":             OperationTypeDeleteDatabaseToolsIdentity,
 	"UPDATE_DATABASE_TOOLS_IDENTITY":             OperationTypeUpdateDatabaseToolsIdentity,
 	"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL": OperationTypeRefreshDatabaseToolsIdentityCredential,
+	"CREATE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeCreateDatabaseToolsMcpServer,
+	"DELETE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeDeleteDatabaseToolsMcpServer,
+	"UPDATE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeUpdateDatabaseToolsMcpServer,
+	"CREATE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeCreateDatabaseToolsMcpToolset,
+	"DELETE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeDeleteDatabaseToolsMcpToolset,
+	"UPDATE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeUpdateDatabaseToolsMcpToolset,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -63,6 +75,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_database_tools_identity":             OperationTypeDeleteDatabaseToolsIdentity,
 	"update_database_tools_identity":             OperationTypeUpdateDatabaseToolsIdentity,
 	"refresh_database_tools_identity_credential": OperationTypeRefreshDatabaseToolsIdentityCredential,
+	"create_database_tools_mcp_server":           OperationTypeCreateDatabaseToolsMcpServer,
+	"delete_database_tools_mcp_server":           OperationTypeDeleteDatabaseToolsMcpServer,
+	"update_database_tools_mcp_server":           OperationTypeUpdateDatabaseToolsMcpServer,
+	"create_database_tools_mcp_toolset":          OperationTypeCreateDatabaseToolsMcpToolset,
+	"delete_database_tools_mcp_toolset":          OperationTypeDeleteDatabaseToolsMcpToolset,
+	"update_database_tools_mcp_toolset":          OperationTypeUpdateDatabaseToolsMcpToolset,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -90,6 +108,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_DATABASE_TOOLS_IDENTITY",
 		"UPDATE_DATABASE_TOOLS_IDENTITY",
 		"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL",
+		"CREATE_DATABASE_TOOLS_MCP_SERVER",
+		"DELETE_DATABASE_TOOLS_MCP_SERVER",
+		"UPDATE_DATABASE_TOOLS_MCP_SERVER",
+		"CREATE_DATABASE_TOOLS_MCP_TOOLSET",
+		"DELETE_DATABASE_TOOLS_MCP_TOOLSET",
+		"UPDATE_DATABASE_TOOLS_MCP_TOOLSET",
 	}
 }
 

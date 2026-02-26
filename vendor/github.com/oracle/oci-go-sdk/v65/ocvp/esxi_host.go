@@ -147,6 +147,12 @@ type EsxiHost struct {
 
 	// MAC address of ESXi host's compute instance primary VNIC.
 	PrimaryVnicMacAddress *string `mandatory:"false" json:"primaryVnicMacAddress"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
+
+	// Indicates whether this host embedded VMware vSAN with BYOL Allocation.
+	IsVsanByolEnabled *bool `mandatory:"false" json:"isVsanByolEnabled"`
 }
 
 func (m EsxiHost) String() string {

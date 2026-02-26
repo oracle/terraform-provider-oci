@@ -94,9 +94,9 @@ func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// CancelVectorStoreConnectorFileSync Cancels a vectorStoreConnectorFileSync.
-// A default retry strategy applies to this operation CancelVectorStoreConnectorFileSync()
-func (client GenerativeAiClient) CancelVectorStoreConnectorFileSync(ctx context.Context, request CancelVectorStoreConnectorFileSyncRequest) (response CancelVectorStoreConnectorFileSyncResponse, err error) {
+// AddArtifact add image with isAutoDeploy flag.
+// A default retry strategy applies to this operation AddArtifact()
+func (client GenerativeAiClient) AddArtifact(ctx context.Context, request AddArtifactRequest) (response AddArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -105,42 +105,47 @@ func (client GenerativeAiClient) CancelVectorStoreConnectorFileSync(ctx context.
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.cancelVectorStoreConnectorFileSync, policy)
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addArtifact, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CancelVectorStoreConnectorFileSyncResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = AddArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = CancelVectorStoreConnectorFileSyncResponse{}
+				response = AddArtifactResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(CancelVectorStoreConnectorFileSyncResponse); ok {
+	if convertedResponse, ok := ociResponse.(AddArtifactResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CancelVectorStoreConnectorFileSyncResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into AddArtifactResponse")
 	}
 	return
 }
 
-// cancelVectorStoreConnectorFileSync implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) cancelVectorStoreConnectorFileSync(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// addArtifact implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) addArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vectorStoreConnectorFileSyncs/{vectorStoreConnectorFileSyncId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedDeployments/{hostedDeploymentId}/artifacts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response CancelVectorStoreConnectorFileSyncResponse
+	var response AddArtifactResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorFileSync/CancelVectorStoreConnectorFileSync"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "CancelVectorStoreConnectorFileSync", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/AddArtifact"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "AddArtifact", apiReferenceLink)
 		return response, err
 	}
 
@@ -495,6 +500,124 @@ func (client GenerativeAiClient) changeGenerativeAiProjectCompartment(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/GenerativeAiProject/ChangeGenerativeAiProjectCompartment"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeGenerativeAiProjectCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeHostedApplicationCompartment Moves a hosted application into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeHostedApplicationCompartment()
+func (client GenerativeAiClient) ChangeHostedApplicationCompartment(ctx context.Context, request ChangeHostedApplicationCompartmentRequest) (response ChangeHostedApplicationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeHostedApplicationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeHostedApplicationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeHostedApplicationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeHostedApplicationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeHostedApplicationCompartmentResponse")
+	}
+	return
+}
+
+// changeHostedApplicationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeHostedApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedApplications/{hostedApplicationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeHostedApplicationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplication/ChangeHostedApplicationCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeHostedApplicationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeHostedApplicationStorageCompartment Moves a hosted application storage into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeHostedApplicationStorageCompartment()
+func (client GenerativeAiClient) ChangeHostedApplicationStorageCompartment(ctx context.Context, request ChangeHostedApplicationStorageCompartmentRequest) (response ChangeHostedApplicationStorageCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeHostedApplicationStorageCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeHostedApplicationStorageCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeHostedApplicationStorageCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeHostedApplicationStorageCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeHostedApplicationStorageCompartmentResponse")
+	}
+	return
+}
+
+// changeHostedApplicationStorageCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeHostedApplicationStorageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedApplicationStorages/{hostedApplicationStorageId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeHostedApplicationStorageCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationStorage/ChangeHostedApplicationStorageCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeHostedApplicationStorageCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -977,6 +1100,183 @@ func (client GenerativeAiClient) createGenerativeAiProject(ctx context.Context, 
 	return response, err
 }
 
+// CreateHostedApplication Creates a hosted application.
+// A default retry strategy applies to this operation CreateHostedApplication()
+func (client GenerativeAiClient) CreateHostedApplication(ctx context.Context, request CreateHostedApplicationRequest) (response CreateHostedApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createHostedApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateHostedApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateHostedApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateHostedApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateHostedApplicationResponse")
+	}
+	return
+}
+
+// createHostedApplication implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createHostedApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateHostedApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplication/CreateHostedApplication"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateHostedApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateHostedApplicationStorage Creates a hosted application storage.
+// A default retry strategy applies to this operation CreateHostedApplicationStorage()
+func (client GenerativeAiClient) CreateHostedApplicationStorage(ctx context.Context, request CreateHostedApplicationStorageRequest) (response CreateHostedApplicationStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createHostedApplicationStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateHostedApplicationStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateHostedApplicationStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateHostedApplicationStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateHostedApplicationStorageResponse")
+	}
+	return
+}
+
+// createHostedApplicationStorage implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createHostedApplicationStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedApplicationStorages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateHostedApplicationStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationStorage/CreateHostedApplicationStorage"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateHostedApplicationStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateHostedDeployment Creates a hosted deployment.
+// A default retry strategy applies to this operation CreateHostedDeployment()
+func (client GenerativeAiClient) CreateHostedDeployment(ctx context.Context, request CreateHostedDeploymentRequest) (response CreateHostedDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createHostedDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateHostedDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateHostedDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateHostedDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateHostedDeploymentResponse")
+	}
+	return
+}
+
+// createHostedDeployment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createHostedDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostedDeployments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateHostedDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/CreateHostedDeployment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateHostedDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateImportedModel Import a model from ModelDataSource.
 // The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the importedModel creation progress.
 // A default retry strategy applies to this operation CreateImportedModel()
@@ -1090,126 +1390,6 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/CreateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateModel", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateVectorStoreConnector Creates a VectorStoreConnector.
-// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the vectorStoreConnector creation progress.
-// A default retry strategy applies to this operation CreateVectorStoreConnector()
-func (client GenerativeAiClient) CreateVectorStoreConnector(ctx context.Context, request CreateVectorStoreConnectorRequest) (response CreateVectorStoreConnectorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createVectorStoreConnector, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateVectorStoreConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateVectorStoreConnectorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateVectorStoreConnectorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateVectorStoreConnectorResponse")
-	}
-	return
-}
-
-// createVectorStoreConnector implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) createVectorStoreConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vectorStoreConnectors", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateVectorStoreConnectorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnector/CreateVectorStoreConnector"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateVectorStoreConnector", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateVectorStoreConnectorFileSync Creates a File Sync operation for a VectorStoreConnector.
-// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the vectorStoreConnectorFileSync creation progress.
-// A default retry strategy applies to this operation CreateVectorStoreConnectorFileSync()
-func (client GenerativeAiClient) CreateVectorStoreConnectorFileSync(ctx context.Context, request CreateVectorStoreConnectorFileSyncRequest) (response CreateVectorStoreConnectorFileSyncResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createVectorStoreConnectorFileSync, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateVectorStoreConnectorFileSyncResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateVectorStoreConnectorFileSyncResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateVectorStoreConnectorFileSyncResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateVectorStoreConnectorFileSyncResponse")
-	}
-	return
-}
-
-// createVectorStoreConnectorFileSync implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) createVectorStoreConnectorFileSync(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vectorStoreConnectorFileSyncs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateVectorStoreConnectorFileSyncResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorFileSync/CreateVectorStoreConnectorFileSync"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateVectorStoreConnectorFileSync", apiReferenceLink)
 		return response, err
 	}
 
@@ -1542,6 +1722,225 @@ func (client GenerativeAiClient) deleteGenerativeAiProject(ctx context.Context, 
 	return response, err
 }
 
+// DeleteHostedApplication Deletes a hosted application.
+// You can only delete hosted application without attached resources. Before you delete a hosting hosted application, you must delete the endpoints associated to that application. Before you delete a fine-tuning hosted application, you must delete the custom model on that application. The delete action permanently deletes the cluster. This action can't be undone.
+// A default retry strategy applies to this operation DeleteHostedApplication()
+func (client GenerativeAiClient) DeleteHostedApplication(ctx context.Context, request DeleteHostedApplicationRequest) (response DeleteHostedApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHostedApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHostedApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHostedApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHostedApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHostedApplicationResponse")
+	}
+	return
+}
+
+// deleteHostedApplication implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteHostedApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostedApplications/{hostedApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHostedApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplication/DeleteHostedApplication"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteHostedApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteHostedApplicationStorage Deletes a hosted application.
+// You can only delete hosted application without attached resources. Before you delete a hosting hosted application, you must delete the endpoints associated to that application. Before you delete a fine-tuning hosted application, you must delete the custom model on that application. The delete action permanently deletes the cluster. This action can't be undone.
+// A default retry strategy applies to this operation DeleteHostedApplicationStorage()
+func (client GenerativeAiClient) DeleteHostedApplicationStorage(ctx context.Context, request DeleteHostedApplicationStorageRequest) (response DeleteHostedApplicationStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHostedApplicationStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHostedApplicationStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHostedApplicationStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHostedApplicationStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHostedApplicationStorageResponse")
+	}
+	return
+}
+
+// deleteHostedApplicationStorage implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteHostedApplicationStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostedApplicationStorages/{hostedApplicationStorageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHostedApplicationStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationStorage/DeleteHostedApplicationStorage"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteHostedApplicationStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteHostedDeployment Deletes a hosted deployment.
+// You can only delete hosted deployment without attached resources. Before you delete a hosting hosted deployment, you must delete the endpoints associated to that deployment. Before you delete a fine-tuning hosted deployment, you must delete the custom model on that deployment. The delete action permanently deletes the cluster. This action can't be undone.
+// A default retry strategy applies to this operation DeleteHostedDeployment()
+func (client GenerativeAiClient) DeleteHostedDeployment(ctx context.Context, request DeleteHostedDeploymentRequest) (response DeleteHostedDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHostedDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHostedDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHostedDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHostedDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHostedDeploymentResponse")
+	}
+	return
+}
+
+// deleteHostedDeployment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteHostedDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostedDeployments/{hostedDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHostedDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/DeleteHostedDeployment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteHostedDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteHostedDeploymentArtifact delete artifact.
+// A default retry strategy applies to this operation DeleteHostedDeploymentArtifact()
+func (client GenerativeAiClient) DeleteHostedDeploymentArtifact(ctx context.Context, request DeleteHostedDeploymentArtifactRequest) (response DeleteHostedDeploymentArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteHostedDeploymentArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHostedDeploymentArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHostedDeploymentArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteHostedDeploymentArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteHostedDeploymentArtifactResponse")
+	}
+	return
+}
+
+// deleteHostedDeploymentArtifact implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteHostedDeploymentArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostedDeployments/{hostedDeploymentId}/artifacts/{artifactId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteHostedDeploymentArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/DeleteHostedDeploymentArtifact"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteHostedDeploymentArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteImportedModel Deletes an imported model. An imported model shouldn't be deleted if there's one or more active endpoints associated with that imported model.
 // A default retry strategy applies to this operation DeleteImportedModel()
 func (client GenerativeAiClient) DeleteImportedModel(ctx context.Context, request DeleteImportedModelRequest) (response DeleteImportedModelResponse, err error) {
@@ -1643,60 +2042,6 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteModel", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteVectorStoreConnector Deletes a vectorStoreConnector.
-// A default retry strategy applies to this operation DeleteVectorStoreConnector()
-func (client GenerativeAiClient) DeleteVectorStoreConnector(ctx context.Context, request DeleteVectorStoreConnectorRequest) (response DeleteVectorStoreConnectorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteVectorStoreConnector, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteVectorStoreConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteVectorStoreConnectorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteVectorStoreConnectorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteVectorStoreConnectorResponse")
-	}
-	return
-}
-
-// deleteVectorStoreConnector implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) deleteVectorStoreConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vectorStoreConnectors/{vectorStoreConnectorId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteVectorStoreConnectorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnector/DeleteVectorStoreConnector"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteVectorStoreConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -2028,6 +2373,168 @@ func (client GenerativeAiClient) getGenerativeAiProject(ctx context.Context, req
 	return response, err
 }
 
+// GetHostedApplication Gets information about a hosted application.
+// A default retry strategy applies to this operation GetHostedApplication()
+func (client GenerativeAiClient) GetHostedApplication(ctx context.Context, request GetHostedApplicationRequest) (response GetHostedApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHostedApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHostedApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHostedApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHostedApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHostedApplicationResponse")
+	}
+	return
+}
+
+// getHostedApplication implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getHostedApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedApplications/{hostedApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHostedApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplication/GetHostedApplication"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetHostedApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetHostedApplicationStorage Gets information about a hosted application storage.
+// A default retry strategy applies to this operation GetHostedApplicationStorage()
+func (client GenerativeAiClient) GetHostedApplicationStorage(ctx context.Context, request GetHostedApplicationStorageRequest) (response GetHostedApplicationStorageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHostedApplicationStorage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHostedApplicationStorageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHostedApplicationStorageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHostedApplicationStorageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHostedApplicationStorageResponse")
+	}
+	return
+}
+
+// getHostedApplicationStorage implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getHostedApplicationStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedApplicationStorages/{hostedApplicationStorageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHostedApplicationStorageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationStorage/GetHostedApplicationStorage"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetHostedApplicationStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetHostedDeployment Gets information about a hosted deployment.
+// A default retry strategy applies to this operation GetHostedDeployment()
+func (client GenerativeAiClient) GetHostedDeployment(ctx context.Context, request GetHostedDeploymentRequest) (response GetHostedDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHostedDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHostedDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHostedDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHostedDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHostedDeploymentResponse")
+	}
+	return
+}
+
+// getHostedDeployment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getHostedDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedDeployments/{hostedDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHostedDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/GetHostedDeployment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetHostedDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetImportedModel Gets information about an imported model.
 // A default retry strategy applies to this operation GetImportedModel()
 func (client GenerativeAiClient) GetImportedModel(ctx context.Context, request GetImportedModelRequest) (response GetImportedModelResponse, err error) {
@@ -2129,168 +2636,6 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/GetModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetModel", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetVectorStoreConnector Gets information about a vectorStoreConnector.
-// A default retry strategy applies to this operation GetVectorStoreConnector()
-func (client GenerativeAiClient) GetVectorStoreConnector(ctx context.Context, request GetVectorStoreConnectorRequest) (response GetVectorStoreConnectorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getVectorStoreConnector, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetVectorStoreConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetVectorStoreConnectorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetVectorStoreConnectorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetVectorStoreConnectorResponse")
-	}
-	return
-}
-
-// getVectorStoreConnector implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) getVectorStoreConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectors/{vectorStoreConnectorId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetVectorStoreConnectorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnector/GetVectorStoreConnector"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "GetVectorStoreConnector", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetVectorStoreConnectorFileSync Gets information about a vectorStoreConnectorFileSync.
-// A default retry strategy applies to this operation GetVectorStoreConnectorFileSync()
-func (client GenerativeAiClient) GetVectorStoreConnectorFileSync(ctx context.Context, request GetVectorStoreConnectorFileSyncRequest) (response GetVectorStoreConnectorFileSyncResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getVectorStoreConnectorFileSync, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetVectorStoreConnectorFileSyncResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetVectorStoreConnectorFileSyncResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetVectorStoreConnectorFileSyncResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetVectorStoreConnectorFileSyncResponse")
-	}
-	return
-}
-
-// getVectorStoreConnectorFileSync implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) getVectorStoreConnectorFileSync(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectorFileSyncs/{vectorStoreConnectorFileSyncId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetVectorStoreConnectorFileSyncResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorFileSync/GetVectorStoreConnectorFileSync"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "GetVectorStoreConnectorFileSync", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetVectorStoreConnectorStats Gets Sync statistics from a vectorStoreConnector.
-// A default retry strategy applies to this operation GetVectorStoreConnectorStats()
-func (client GenerativeAiClient) GetVectorStoreConnectorStats(ctx context.Context, request GetVectorStoreConnectorStatsRequest) (response GetVectorStoreConnectorStatsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getVectorStoreConnectorStats, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetVectorStoreConnectorStatsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetVectorStoreConnectorStatsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetVectorStoreConnectorStatsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetVectorStoreConnectorStatsResponse")
-	}
-	return
-}
-
-// getVectorStoreConnectorStats implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) getVectorStoreConnectorStats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectors/{vectorStoreConnectorId}/stats", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetVectorStoreConnectorStatsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorStats/GetVectorStoreConnectorStats"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "GetVectorStoreConnectorStats", apiReferenceLink)
 		return response, err
 	}
 
@@ -2676,6 +3021,168 @@ func (client GenerativeAiClient) listGenerativeAiProjects(ctx context.Context, r
 	return response, err
 }
 
+// ListHostedApplicationStorages Lists the hosted application storage in a specific compartment.
+// A default retry strategy applies to this operation ListHostedApplicationStorages()
+func (client GenerativeAiClient) ListHostedApplicationStorages(ctx context.Context, request ListHostedApplicationStoragesRequest) (response ListHostedApplicationStoragesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listHostedApplicationStorages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListHostedApplicationStoragesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListHostedApplicationStoragesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListHostedApplicationStoragesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListHostedApplicationStoragesResponse")
+	}
+	return
+}
+
+// listHostedApplicationStorages implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listHostedApplicationStorages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedApplicationStorages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListHostedApplicationStoragesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationStorageCollection/ListHostedApplicationStorages"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListHostedApplicationStorages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListHostedApplications Lists the hosted applications in a specific compartment.
+// A default retry strategy applies to this operation ListHostedApplications()
+func (client GenerativeAiClient) ListHostedApplications(ctx context.Context, request ListHostedApplicationsRequest) (response ListHostedApplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listHostedApplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListHostedApplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListHostedApplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListHostedApplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListHostedApplicationsResponse")
+	}
+	return
+}
+
+// listHostedApplications implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listHostedApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListHostedApplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplicationCollection/ListHostedApplications"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListHostedApplications", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListHostedDeployments Lists the hosted applications in a specific compartment.
+// A default retry strategy applies to this operation ListHostedDeployments()
+func (client GenerativeAiClient) ListHostedDeployments(ctx context.Context, request ListHostedDeploymentsRequest) (response ListHostedDeploymentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listHostedDeployments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListHostedDeploymentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListHostedDeploymentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListHostedDeploymentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListHostedDeploymentsResponse")
+	}
+	return
+}
+
+// listHostedDeployments implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listHostedDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostedDeployments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListHostedDeploymentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeploymentCollection/ListHostedDeployments"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListHostedDeployments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListImportedModels Lists imported models in a specific compartment.
 // A default retry strategy applies to this operation ListImportedModels()
 func (client GenerativeAiClient) ListImportedModels(ctx context.Context, request ListImportedModelsRequest) (response ListImportedModelsResponse, err error) {
@@ -2777,222 +3284,6 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ModelCollection/ListModels"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListModels", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListVectorStoreConnectorFileSyncIngestionLogs Gets Ingestion logs for a vectorStoreConnectorFileSync operation.
-// A default retry strategy applies to this operation ListVectorStoreConnectorFileSyncIngestionLogs()
-func (client GenerativeAiClient) ListVectorStoreConnectorFileSyncIngestionLogs(ctx context.Context, request ListVectorStoreConnectorFileSyncIngestionLogsRequest) (response ListVectorStoreConnectorFileSyncIngestionLogsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listVectorStoreConnectorFileSyncIngestionLogs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListVectorStoreConnectorFileSyncIngestionLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListVectorStoreConnectorFileSyncIngestionLogsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListVectorStoreConnectorFileSyncIngestionLogsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListVectorStoreConnectorFileSyncIngestionLogsResponse")
-	}
-	return
-}
-
-// listVectorStoreConnectorFileSyncIngestionLogs implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) listVectorStoreConnectorFileSyncIngestionLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectorFileSyncs/{vectorStoreConnectorFileSyncId}/ingestionLogs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListVectorStoreConnectorFileSyncIngestionLogsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/FileSyncIngestionLogsCollection/ListVectorStoreConnectorFileSyncIngestionLogs"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "ListVectorStoreConnectorFileSyncIngestionLogs", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListVectorStoreConnectorFileSyncs Lists the vectorStoreConnectorFileSyncs of a specific compartment.
-// A default retry strategy applies to this operation ListVectorStoreConnectorFileSyncs()
-func (client GenerativeAiClient) ListVectorStoreConnectorFileSyncs(ctx context.Context, request ListVectorStoreConnectorFileSyncsRequest) (response ListVectorStoreConnectorFileSyncsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listVectorStoreConnectorFileSyncs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListVectorStoreConnectorFileSyncsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListVectorStoreConnectorFileSyncsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListVectorStoreConnectorFileSyncsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListVectorStoreConnectorFileSyncsResponse")
-	}
-	return
-}
-
-// listVectorStoreConnectorFileSyncs implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) listVectorStoreConnectorFileSyncs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectorFileSyncs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListVectorStoreConnectorFileSyncsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorFileSyncCollection/ListVectorStoreConnectorFileSyncs"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "ListVectorStoreConnectorFileSyncs", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListVectorStoreConnectorIngestionLogs Gets Ingestion logs for a vectorStoreConnector.
-// A default retry strategy applies to this operation ListVectorStoreConnectorIngestionLogs()
-func (client GenerativeAiClient) ListVectorStoreConnectorIngestionLogs(ctx context.Context, request ListVectorStoreConnectorIngestionLogsRequest) (response ListVectorStoreConnectorIngestionLogsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listVectorStoreConnectorIngestionLogs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListVectorStoreConnectorIngestionLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListVectorStoreConnectorIngestionLogsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListVectorStoreConnectorIngestionLogsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListVectorStoreConnectorIngestionLogsResponse")
-	}
-	return
-}
-
-// listVectorStoreConnectorIngestionLogs implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) listVectorStoreConnectorIngestionLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectors/{vectorStoreConnectorId}/ingestionLogs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListVectorStoreConnectorIngestionLogsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorIngestionLogsCollection/ListVectorStoreConnectorIngestionLogs"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "ListVectorStoreConnectorIngestionLogs", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListVectorStoreConnectors Lists the vectorStoreConnectors of a specific compartment.
-// A default retry strategy applies to this operation ListVectorStoreConnectors()
-func (client GenerativeAiClient) ListVectorStoreConnectors(ctx context.Context, request ListVectorStoreConnectorsRequest) (response ListVectorStoreConnectorsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listVectorStoreConnectors, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListVectorStoreConnectorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListVectorStoreConnectorsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListVectorStoreConnectorsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListVectorStoreConnectorsResponse")
-	}
-	return
-}
-
-// listVectorStoreConnectors implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) listVectorStoreConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vectorStoreConnectors", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListVectorStoreConnectorsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnectorCollection/ListVectorStoreConnectors"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "ListVectorStoreConnectors", apiReferenceLink)
 		return response, err
 	}
 
@@ -3604,6 +3895,119 @@ func (client GenerativeAiClient) updateGenerativeAiProject(ctx context.Context, 
 	return response, err
 }
 
+// UpdateHostedApplication Updates a hosted application.
+// A default retry strategy applies to this operation UpdateHostedApplication()
+func (client GenerativeAiClient) UpdateHostedApplication(ctx context.Context, request UpdateHostedApplicationRequest) (response UpdateHostedApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateHostedApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateHostedApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateHostedApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateHostedApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateHostedApplicationResponse")
+	}
+	return
+}
+
+// updateHostedApplication implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateHostedApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/hostedApplications/{hostedApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateHostedApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedApplication/UpdateHostedApplication"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateHostedApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateHostedDeployment Updates a hosted deployment.
+// A default retry strategy applies to this operation UpdateHostedDeployment()
+func (client GenerativeAiClient) UpdateHostedDeployment(ctx context.Context, request UpdateHostedDeploymentRequest) (response UpdateHostedDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateHostedDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateHostedDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateHostedDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateHostedDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateHostedDeploymentResponse")
+	}
+	return
+}
+
+// updateHostedDeployment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateHostedDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/hostedDeployments/{hostedDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateHostedDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/HostedDeployment/UpdateHostedDeployment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateHostedDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateImportedModel Updates the properties of an imported model such as name, description, freeform tags, and defined tags.
 // A default retry strategy applies to this operation UpdateImportedModel()
 func (client GenerativeAiClient) UpdateImportedModel(ctx context.Context, request UpdateImportedModelRequest) (response UpdateImportedModelResponse, err error) {
@@ -3705,60 +4109,6 @@ func (client GenerativeAiClient) updateModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateModel", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateVectorStoreConnector Updates the properties of a vectorStoreConnector.
-// A default retry strategy applies to this operation UpdateVectorStoreConnector()
-func (client GenerativeAiClient) UpdateVectorStoreConnector(ctx context.Context, request UpdateVectorStoreConnectorRequest) (response UpdateVectorStoreConnectorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateVectorStoreConnector, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateVectorStoreConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateVectorStoreConnectorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateVectorStoreConnectorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateVectorStoreConnectorResponse")
-	}
-	return
-}
-
-// updateVectorStoreConnector implements the OCIOperation interface (enables retrying operations)
-func (client GenerativeAiClient) updateVectorStoreConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/vectorStoreConnectors/{vectorStoreConnectorId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateVectorStoreConnectorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/VectorStoreConnector/UpdateVectorStoreConnector"
-		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateVectorStoreConnector", apiReferenceLink)
 		return response, err
 	}
 

@@ -59,6 +59,9 @@ type ListObjectVersionsRequest struct {
 	// details about how pagination works, see List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// When set to true, applies the operation to soft-deleted objects
+	IsListSoftDeletedVersions *bool `mandatory:"false" contributesTo:"query" name:"isListSoftDeletedVersions"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

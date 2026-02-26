@@ -36,6 +36,10 @@ type DeleteObjectRequest struct {
 	// VersionId used to identify a particular version of the object
 	VersionId *string `mandatory:"false" contributesTo:"query" name:"versionId"`
 
+	// This refers to versionId used to identify a particular soft-deleted object version of the soft-deleted object
+	// that needs to be permanently deleted.
+	SoftDeletedVersionId *string `mandatory:"false" contributesTo:"query" name:"softDeletedVersionId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

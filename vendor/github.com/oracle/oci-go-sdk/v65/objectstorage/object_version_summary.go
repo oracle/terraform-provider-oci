@@ -44,6 +44,13 @@ type ObjectVersionSummary struct {
 	// The date and time the object was created, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The date and time the object was soft-deleted. The object can still be restored until it expires.
+	TimeSoftDeleted *common.SDKTime `mandatory:"false" json:"timeSoftDeleted"`
+
+	// The date and time when the soft-deleted object expires and becomes eligible for permanent removal.
+	// After this time, the object cannot be restored.
+	TimeSoftDeletedExpires *common.SDKTime `mandatory:"false" json:"timeSoftDeletedExpires"`
+
 	// The current entity tag (ETag) for the object.
 	Etag *string `mandatory:"false" json:"etag"`
 

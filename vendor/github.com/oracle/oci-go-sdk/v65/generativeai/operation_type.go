@@ -21,37 +21,51 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateModel                OperationTypeEnum = "CREATE_MODEL"
-	OperationTypeDeleteModel                OperationTypeEnum = "DELETE_MODEL"
-	OperationTypeMoveModel                  OperationTypeEnum = "MOVE_MODEL"
-	OperationTypeCreateDedicatedAiCluster   OperationTypeEnum = "CREATE_DEDICATED_AI_CLUSTER"
-	OperationTypeDeleteDedicatedAiCluster   OperationTypeEnum = "DELETE_DEDICATED_AI_CLUSTER"
-	OperationTypeUpdateDedicatedAiCluster   OperationTypeEnum = "UPDATE_DEDICATED_AI_CLUSTER"
-	OperationTypeMoveDedicatedAiCluster     OperationTypeEnum = "MOVE_DEDICATED_AI_CLUSTER"
-	OperationTypeCreateEndpoint             OperationTypeEnum = "CREATE_ENDPOINT"
-	OperationTypeDeleteEndpoint             OperationTypeEnum = "DELETE_ENDPOINT"
-	OperationTypeUpdateEndpoint             OperationTypeEnum = "UPDATE_ENDPOINT"
-	OperationTypeMoveEndpoint               OperationTypeEnum = "MOVE_ENDPOINT"
-	OperationTypeCreateImportedModel        OperationTypeEnum = "CREATE_IMPORTED_MODEL"
-	OperationTypeUpdateImportedModel        OperationTypeEnum = "UPDATE_IMPORTED_MODEL"
-	OperationTypeDeleteImportedModel        OperationTypeEnum = "DELETE_IMPORTED_MODEL"
-	OperationTypeCreatePrivateEndpoint      OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
-	OperationTypeDeletePrivateEndpoint      OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
-	OperationTypeUpdatePrivateEndpoint      OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
-	OperationTypeMovePrivateEndpoint        OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
-	OperationTypeCreateConversationStore    OperationTypeEnum = "CREATE_CONVERSATION_STORE"
-	OperationTypeDeleteConversationStore    OperationTypeEnum = "DELETE_CONVERSATION_STORE"
-	OperationTypeUpdateConversationStore    OperationTypeEnum = "UPDATE_CONVERSATION_STORE"
-	OperationTypeMoveConversationStore      OperationTypeEnum = "MOVE_CONVERSATION_STORE"
-	OperationTypeCreateGenerativeAiProject  OperationTypeEnum = "CREATE_GENERATIVE_AI_PROJECT"
-	OperationTypeDeleteGenerativeAiProject  OperationTypeEnum = "DELETE_GENERATIVE_AI_PROJECT"
-	OperationTypeUpdateGenerativeAiProject  OperationTypeEnum = "UPDATE_GENERATIVE_AI_PROJECT"
-	OperationTypeMoveGenerativeAiProject    OperationTypeEnum = "MOVE_GENERATIVE_AI_PROJECT"
-	OperationTypeCreateVectorStoreConnector OperationTypeEnum = "CREATE_VECTOR_STORE_CONNECTOR"
-	OperationTypeUpdateVectorStoreConnector OperationTypeEnum = "UPDATE_VECTOR_STORE_CONNECTOR"
-	OperationTypeDeleteVectorStoreConnector OperationTypeEnum = "DELETE_VECTOR_STORE_CONNECTOR"
-	OperationTypeScheduleFileSync           OperationTypeEnum = "SCHEDULE_FILE_SYNC"
-	OperationTypeTriggerFileSync            OperationTypeEnum = "TRIGGER_FILE_SYNC"
+	OperationTypeCreateModel                 OperationTypeEnum = "CREATE_MODEL"
+	OperationTypeDeleteModel                 OperationTypeEnum = "DELETE_MODEL"
+	OperationTypeMoveModel                   OperationTypeEnum = "MOVE_MODEL"
+	OperationTypeCreateDedicatedAiCluster    OperationTypeEnum = "CREATE_DEDICATED_AI_CLUSTER"
+	OperationTypeDeleteDedicatedAiCluster    OperationTypeEnum = "DELETE_DEDICATED_AI_CLUSTER"
+	OperationTypeUpdateDedicatedAiCluster    OperationTypeEnum = "UPDATE_DEDICATED_AI_CLUSTER"
+	OperationTypeMoveDedicatedAiCluster      OperationTypeEnum = "MOVE_DEDICATED_AI_CLUSTER"
+	OperationTypeCreateEndpoint              OperationTypeEnum = "CREATE_ENDPOINT"
+	OperationTypeDeleteEndpoint              OperationTypeEnum = "DELETE_ENDPOINT"
+	OperationTypeUpdateEndpoint              OperationTypeEnum = "UPDATE_ENDPOINT"
+	OperationTypeMoveEndpoint                OperationTypeEnum = "MOVE_ENDPOINT"
+	OperationTypeCreateImportedModel         OperationTypeEnum = "CREATE_IMPORTED_MODEL"
+	OperationTypeUpdateImportedModel         OperationTypeEnum = "UPDATE_IMPORTED_MODEL"
+	OperationTypeDeleteImportedModel         OperationTypeEnum = "DELETE_IMPORTED_MODEL"
+	OperationTypeCreatePrivateEndpoint       OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint       OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	OperationTypeUpdatePrivateEndpoint       OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint         OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeCreateConversationStore     OperationTypeEnum = "CREATE_CONVERSATION_STORE"
+	OperationTypeDeleteConversationStore     OperationTypeEnum = "DELETE_CONVERSATION_STORE"
+	OperationTypeUpdateConversationStore     OperationTypeEnum = "UPDATE_CONVERSATION_STORE"
+	OperationTypeMoveConversationStore       OperationTypeEnum = "MOVE_CONVERSATION_STORE"
+	OperationTypeCreateGenerativeAiProject   OperationTypeEnum = "CREATE_GENERATIVE_AI_PROJECT"
+	OperationTypeDeleteGenerativeAiProject   OperationTypeEnum = "DELETE_GENERATIVE_AI_PROJECT"
+	OperationTypeUpdateGenerativeAiProject   OperationTypeEnum = "UPDATE_GENERATIVE_AI_PROJECT"
+	OperationTypeMoveGenerativeAiProject     OperationTypeEnum = "MOVE_GENERATIVE_AI_PROJECT"
+	OperationTypeCreateVectorStoreConnector  OperationTypeEnum = "CREATE_VECTOR_STORE_CONNECTOR"
+	OperationTypeUpdateVectorStoreConnector  OperationTypeEnum = "UPDATE_VECTOR_STORE_CONNECTOR"
+	OperationTypeDeleteVectorStoreConnector  OperationTypeEnum = "DELETE_VECTOR_STORE_CONNECTOR"
+	OperationTypeScheduleFileSync            OperationTypeEnum = "SCHEDULE_FILE_SYNC"
+	OperationTypeTriggerFileSync             OperationTypeEnum = "TRIGGER_FILE_SYNC"
+	OperationTypeCreateApplicationDeployment OperationTypeEnum = "CREATE_APPLICATION_DEPLOYMENT"
+	OperationTypeUpdateApplicationDeployment OperationTypeEnum = "UPDATE_APPLICATION_DEPLOYMENT"
+	OperationTypeDeleteApplicationDeployment OperationTypeEnum = "DELETE_APPLICATION_DEPLOYMENT"
+	OperationTypeMoveApplicationDeployment   OperationTypeEnum = "MOVE_APPLICATION_DEPLOYMENT"
+	OperationTypeCreateHostedDeployment      OperationTypeEnum = "CREATE_HOSTED_DEPLOYMENT"
+	OperationTypeUpdateHostedDeployment      OperationTypeEnum = "UPDATE_HOSTED_DEPLOYMENT"
+	OperationTypeMoveHostedDeployment        OperationTypeEnum = "MOVE_HOSTED_DEPLOYMENT"
+	OperationTypeDeleteHostedDeployment      OperationTypeEnum = "DELETE_HOSTED_DEPLOYMENT"
+	OperationTypeStartLogging                OperationTypeEnum = "START_LOGGING"
+	OperationTypeStopLogging                 OperationTypeEnum = "STOP_LOGGING"
+	OperationTypeCreateApplicationStorage    OperationTypeEnum = "CREATE_APPLICATION_STORAGE"
+	OperationTypeUpdateApplicationStorage    OperationTypeEnum = "UPDATE_APPLICATION_STORAGE"
+	OperationTypeMoveApplicationStorage      OperationTypeEnum = "MOVE_APPLICATION_STORAGE"
+	OperationTypeDeleteApplicationStorage    OperationTypeEnum = "DELETE_APPLICATION_STORAGE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -86,6 +100,20 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_VECTOR_STORE_CONNECTOR": OperationTypeDeleteVectorStoreConnector,
 	"SCHEDULE_FILE_SYNC":            OperationTypeScheduleFileSync,
 	"TRIGGER_FILE_SYNC":             OperationTypeTriggerFileSync,
+	"CREATE_APPLICATION_DEPLOYMENT": OperationTypeCreateApplicationDeployment,
+	"UPDATE_APPLICATION_DEPLOYMENT": OperationTypeUpdateApplicationDeployment,
+	"DELETE_APPLICATION_DEPLOYMENT": OperationTypeDeleteApplicationDeployment,
+	"MOVE_APPLICATION_DEPLOYMENT":   OperationTypeMoveApplicationDeployment,
+	"CREATE_HOSTED_DEPLOYMENT":      OperationTypeCreateHostedDeployment,
+	"UPDATE_HOSTED_DEPLOYMENT":      OperationTypeUpdateHostedDeployment,
+	"MOVE_HOSTED_DEPLOYMENT":        OperationTypeMoveHostedDeployment,
+	"DELETE_HOSTED_DEPLOYMENT":      OperationTypeDeleteHostedDeployment,
+	"START_LOGGING":                 OperationTypeStartLogging,
+	"STOP_LOGGING":                  OperationTypeStopLogging,
+	"CREATE_APPLICATION_STORAGE":    OperationTypeCreateApplicationStorage,
+	"UPDATE_APPLICATION_STORAGE":    OperationTypeUpdateApplicationStorage,
+	"MOVE_APPLICATION_STORAGE":      OperationTypeMoveApplicationStorage,
+	"DELETE_APPLICATION_STORAGE":    OperationTypeDeleteApplicationStorage,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -120,6 +148,20 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_vector_store_connector": OperationTypeDeleteVectorStoreConnector,
 	"schedule_file_sync":            OperationTypeScheduleFileSync,
 	"trigger_file_sync":             OperationTypeTriggerFileSync,
+	"create_application_deployment": OperationTypeCreateApplicationDeployment,
+	"update_application_deployment": OperationTypeUpdateApplicationDeployment,
+	"delete_application_deployment": OperationTypeDeleteApplicationDeployment,
+	"move_application_deployment":   OperationTypeMoveApplicationDeployment,
+	"create_hosted_deployment":      OperationTypeCreateHostedDeployment,
+	"update_hosted_deployment":      OperationTypeUpdateHostedDeployment,
+	"move_hosted_deployment":        OperationTypeMoveHostedDeployment,
+	"delete_hosted_deployment":      OperationTypeDeleteHostedDeployment,
+	"start_logging":                 OperationTypeStartLogging,
+	"stop_logging":                  OperationTypeStopLogging,
+	"create_application_storage":    OperationTypeCreateApplicationStorage,
+	"update_application_storage":    OperationTypeUpdateApplicationStorage,
+	"move_application_storage":      OperationTypeMoveApplicationStorage,
+	"delete_application_storage":    OperationTypeDeleteApplicationStorage,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -165,6 +207,20 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_VECTOR_STORE_CONNECTOR",
 		"SCHEDULE_FILE_SYNC",
 		"TRIGGER_FILE_SYNC",
+		"CREATE_APPLICATION_DEPLOYMENT",
+		"UPDATE_APPLICATION_DEPLOYMENT",
+		"DELETE_APPLICATION_DEPLOYMENT",
+		"MOVE_APPLICATION_DEPLOYMENT",
+		"CREATE_HOSTED_DEPLOYMENT",
+		"UPDATE_HOSTED_DEPLOYMENT",
+		"MOVE_HOSTED_DEPLOYMENT",
+		"DELETE_HOSTED_DEPLOYMENT",
+		"START_LOGGING",
+		"STOP_LOGGING",
+		"CREATE_APPLICATION_STORAGE",
+		"UPDATE_APPLICATION_STORAGE",
+		"MOVE_APPLICATION_STORAGE",
+		"DELETE_APPLICATION_STORAGE",
 	}
 }
 

@@ -4674,6 +4674,71 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 	return response, err
 }
 
+// RestoreSoftDeletedObject Restores a specific version of a soft-deleted object. A new live version of the object is created upon restore,
+// while the original soft-deleted version remains in the bucket until its retention period expires.
+// Creating a copy of an object is an asynchronous operation. The API returns a work-request-id that can be queried
+// to determine the status of the restore.
+// A default retry strategy applies to this operation RestoreSoftDeletedObject()
+func (client ObjectStorageClient) RestoreSoftDeletedObject(ctx context.Context, request RestoreSoftDeletedObjectRequest) (response RestoreSoftDeletedObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.restoreSoftDeletedObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreSoftDeletedObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreSoftDeletedObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreSoftDeletedObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreSoftDeletedObjectResponse")
+	}
+	return
+}
+
+// restoreSoftDeletedObject implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) restoreSoftDeletedObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/restoreSoftDeletedObject", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(RestoreSoftDeletedObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response RestoreSoftDeletedObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/RestoreSoftDeletedObject"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "RestoreSoftDeletedObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartPrefixRename Rename prefix of all the objects in the given source prefix with destination prefix.
 // A default retry strategy applies to this operation StartPrefixRename()
 func (client ObjectStorageClient) StartPrefixRename(ctx context.Context, request StartPrefixRenameRequest) (response StartPrefixRenameResponse, err error) {

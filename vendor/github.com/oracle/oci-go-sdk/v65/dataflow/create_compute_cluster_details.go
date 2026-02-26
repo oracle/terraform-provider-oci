@@ -129,6 +129,9 @@ type CreateComputeClusterDetails struct {
 	OwnerServicePrincipalTenantId *string `mandatory:"false" json:"ownerServicePrincipalTenantId"`
 
 	Subscription []SubscriptionDetails `mandatory:"false" json:"subscription"`
+
+	// URL to give callback.
+	CallbackUrl *string `mandatory:"false" json:"callbackUrl"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

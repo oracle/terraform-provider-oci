@@ -27,13 +27,16 @@ type CreateAiDataPlatformDetails struct {
 	// The AiDataPlatform type.
 	AiDataPlatformType *string `mandatory:"false" json:"aiDataPlatformType"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vector db ADW 23ai.
+	// The flag to enable/disable AiFeatures for the instance.
+	IsEnableAiFeature *bool `mandatory:"false" json:"isEnableAiFeature"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vector db Lakehouse 26ai.
 	VectorDbId *string `mandatory:"false" json:"vectorDbId"`
 
-	// The Vector DB ADW 23ai ADMIN user password.
+	// The Vector DB Lakehouse 26ai ADMIN user password.
 	VectorDbAdminCred *string `mandatory:"false" json:"vectorDbAdminCred"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db ADW 23ai Admin user password.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db Lakehouse 26ai Admin user password.
 	VectorDbAdminSecretId *string `mandatory:"false" json:"vectorDbAdminSecretId"`
 
 	// The name for the default workspace for the AiDataPlatform

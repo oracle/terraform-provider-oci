@@ -144,6 +144,59 @@ func (client DatabaseToolsClient) addDatabaseToolsConnectionLock(ctx context.Con
 	return response, err
 }
 
+// AddDatabaseToolsDatabaseApiGatewayConfigLock Adds a lock to a DatabaseToolsDatabaseApiGatewayConfig resource.
+func (client DatabaseToolsClient) AddDatabaseToolsDatabaseApiGatewayConfigLock(ctx context.Context, request AddDatabaseToolsDatabaseApiGatewayConfigLockRequest) (response AddDatabaseToolsDatabaseApiGatewayConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsDatabaseApiGatewayConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsDatabaseApiGatewayConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsDatabaseApiGatewayConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsDatabaseApiGatewayConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsDatabaseApiGatewayConfigLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsDatabaseApiGatewayConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsDatabaseApiGatewayConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsDatabaseApiGatewayConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/AddDatabaseToolsDatabaseApiGatewayConfigLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsDatabaseApiGatewayConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsdatabaseapigatewayconfig{})
+	return response, err
+}
+
 // AddDatabaseToolsIdentityLock Adds a lock to a DatabaseToolsIdentity resource.
 func (client DatabaseToolsClient) AddDatabaseToolsIdentityLock(ctx context.Context, request AddDatabaseToolsIdentityLockRequest) (response AddDatabaseToolsIdentityLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -197,6 +250,112 @@ func (client DatabaseToolsClient) addDatabaseToolsIdentityLock(ctx context.Conte
 	return response, err
 }
 
+// AddDatabaseToolsMcpServerLock Adds a lock to a DatabaseToolsMcpServer resource.
+func (client DatabaseToolsClient) AddDatabaseToolsMcpServerLock(ctx context.Context, request AddDatabaseToolsMcpServerLockRequest) (response AddDatabaseToolsMcpServerLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsMcpServerLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsMcpServerLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsMcpServerLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsMcpServerLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsMcpServerLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsMcpServerLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsMcpServerLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpServers/{databaseToolsMcpServerId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsMcpServerLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/AddDatabaseToolsMcpServerLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsMcpServerLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcpserver{})
+	return response, err
+}
+
+// AddDatabaseToolsMcpToolsetLock Adds a lock to a DatabaseToolsMcpToolset resource.
+func (client DatabaseToolsClient) AddDatabaseToolsMcpToolsetLock(ctx context.Context, request AddDatabaseToolsMcpToolsetLockRequest) (response AddDatabaseToolsMcpToolsetLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsMcpToolsetLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsMcpToolsetLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsMcpToolsetLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsMcpToolsetLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsMcpToolsetLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsMcpToolsetLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsMcpToolsetLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsMcpToolsetLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/AddDatabaseToolsMcpToolsetLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsMcpToolsetLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcptoolset{})
+	return response, err
+}
+
 // AddDatabaseToolsPrivateEndpointLock Adds a lock to a DatabaseToolsPrivateEndpoint resource.
 func (client DatabaseToolsClient) AddDatabaseToolsPrivateEndpointLock(ctx context.Context, request AddDatabaseToolsPrivateEndpointLockRequest) (response AddDatabaseToolsPrivateEndpointLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -243,6 +402,112 @@ func (client DatabaseToolsClient) addDatabaseToolsPrivateEndpointLock(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/AddDatabaseToolsPrivateEndpointLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsPrivateEndpointLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddDatabaseToolsSqlReportLock Adds a lock to a DatabaseToolsSqlReport resource.
+func (client DatabaseToolsClient) AddDatabaseToolsSqlReportLock(ctx context.Context, request AddDatabaseToolsSqlReportLockRequest) (response AddDatabaseToolsSqlReportLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsSqlReportLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsSqlReportLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsSqlReportLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsSqlReportLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsSqlReportLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsSqlReportLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsSqlReportLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsSqlReports/{databaseToolsSqlReportId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsSqlReportLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/AddDatabaseToolsSqlReportLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsSqlReportLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolssqlreport{})
+	return response, err
+}
+
+// CascadingDeleteDatabaseToolsMcpServer Deletes Database Tools McpServer resource.
+func (client DatabaseToolsClient) CascadingDeleteDatabaseToolsMcpServer(ctx context.Context, request CascadingDeleteDatabaseToolsMcpServerRequest) (response CascadingDeleteDatabaseToolsMcpServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cascadingDeleteDatabaseToolsMcpServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadingDeleteDatabaseToolsMcpServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadingDeleteDatabaseToolsMcpServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadingDeleteDatabaseToolsMcpServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadingDeleteDatabaseToolsMcpServerResponse")
+	}
+	return
+}
+
+// cascadingDeleteDatabaseToolsMcpServer implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) cascadingDeleteDatabaseToolsMcpServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpServers/{databaseToolsMcpServerId}/actions/cascadingDelete", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadingDeleteDatabaseToolsMcpServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/CascadingDeleteDatabaseToolsMcpServer"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CascadingDeleteDatabaseToolsMcpServer", apiReferenceLink)
 		return response, err
 	}
 
@@ -305,6 +570,61 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 	return response, err
 }
 
+// ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment Moves the specified Database Tools database API gateway config to a different compartment in the same tenancy.
+// For information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/DbApiGatewayConfig/Tasks/managingcompartments.htm#moveRes).
+func (client DatabaseToolsClient) ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment(ctx context.Context, request ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentRequest) (response ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsDatabaseApiGatewayConfigCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse")
+	}
+	return
+}
+
+// changeDatabaseToolsDatabaseApiGatewayConfigCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) changeDatabaseToolsDatabaseApiGatewayConfigCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseToolsIdentityCompartment Moves the specified Database Tools identity to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -360,6 +680,112 @@ func (client DatabaseToolsClient) changeDatabaseToolsIdentityCompartment(ctx con
 	return response, err
 }
 
+// ChangeDatabaseToolsMcpServerCompartment Moves the specified Database Tools mcpserver to a different compartment in the same tenancy.
+func (client DatabaseToolsClient) ChangeDatabaseToolsMcpServerCompartment(ctx context.Context, request ChangeDatabaseToolsMcpServerCompartmentRequest) (response ChangeDatabaseToolsMcpServerCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsMcpServerCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDatabaseToolsMcpServerCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDatabaseToolsMcpServerCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDatabaseToolsMcpServerCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDatabaseToolsMcpServerCompartmentResponse")
+	}
+	return
+}
+
+// changeDatabaseToolsMcpServerCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) changeDatabaseToolsMcpServerCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpServers/{databaseToolsMcpServerId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDatabaseToolsMcpServerCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/ChangeDatabaseToolsMcpServerCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsMcpServerCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDatabaseToolsMcpToolsetCompartment Moves the specified Database Tools MCP Toolset to a different compartment in the same tenancy.
+func (client DatabaseToolsClient) ChangeDatabaseToolsMcpToolsetCompartment(ctx context.Context, request ChangeDatabaseToolsMcpToolsetCompartmentRequest) (response ChangeDatabaseToolsMcpToolsetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsMcpToolsetCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDatabaseToolsMcpToolsetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDatabaseToolsMcpToolsetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDatabaseToolsMcpToolsetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDatabaseToolsMcpToolsetCompartmentResponse")
+	}
+	return
+}
+
+// changeDatabaseToolsMcpToolsetCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) changeDatabaseToolsMcpToolsetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDatabaseToolsMcpToolsetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/ChangeDatabaseToolsMcpToolsetCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsMcpToolsetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseToolsPrivateEndpointCompartment Moves a Database Tools private endpoint into a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -408,6 +834,59 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/ChangeDatabaseToolsPrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsPrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDatabaseToolsSqlReportCompartment Moves the specified Database Tools SQL Report to a different compartment in the same tenancy.
+func (client DatabaseToolsClient) ChangeDatabaseToolsSqlReportCompartment(ctx context.Context, request ChangeDatabaseToolsSqlReportCompartmentRequest) (response ChangeDatabaseToolsSqlReportCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsSqlReportCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDatabaseToolsSqlReportCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDatabaseToolsSqlReportCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDatabaseToolsSqlReportCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDatabaseToolsSqlReportCompartmentResponse")
+	}
+	return
+}
+
+// changeDatabaseToolsSqlReportCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) changeDatabaseToolsSqlReportCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsSqlReports/{databaseToolsSqlReportId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDatabaseToolsSqlReportCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/ChangeDatabaseToolsSqlReportCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsSqlReportCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -474,6 +953,65 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
+// CreateDatabaseToolsDatabaseApiGatewayConfig Creates a new Database Tools database API gateway config.
+// A default retry strategy applies to this operation CreateDatabaseToolsDatabaseApiGatewayConfig()
+func (client DatabaseToolsClient) CreateDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request CreateDatabaseToolsDatabaseApiGatewayConfigRequest) (response CreateDatabaseToolsDatabaseApiGatewayConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatabaseToolsDatabaseApiGatewayConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatabaseToolsDatabaseApiGatewayConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatabaseToolsDatabaseApiGatewayConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatabaseToolsDatabaseApiGatewayConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatabaseToolsDatabaseApiGatewayConfigResponse")
+	}
+	return
+}
+
+// createDatabaseToolsDatabaseApiGatewayConfig implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) createDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsDatabaseApiGatewayConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatabaseToolsDatabaseApiGatewayConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/CreateDatabaseToolsDatabaseApiGatewayConfig"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsdatabaseapigatewayconfig{})
+	return response, err
+}
+
 // CreateDatabaseToolsIdentity Creates a new Database Tools identity.
 // A default retry strategy applies to this operation CreateDatabaseToolsIdentity()
 func (client DatabaseToolsClient) CreateDatabaseToolsIdentity(ctx context.Context, request CreateDatabaseToolsIdentityRequest) (response CreateDatabaseToolsIdentityResponse, err error) {
@@ -530,6 +1068,124 @@ func (client DatabaseToolsClient) createDatabaseToolsIdentity(ctx context.Contex
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsidentity{})
+	return response, err
+}
+
+// CreateDatabaseToolsMcpServer Creates a new Database Tools MCP server.
+// A default retry strategy applies to this operation CreateDatabaseToolsMcpServer()
+func (client DatabaseToolsClient) CreateDatabaseToolsMcpServer(ctx context.Context, request CreateDatabaseToolsMcpServerRequest) (response CreateDatabaseToolsMcpServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatabaseToolsMcpServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatabaseToolsMcpServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatabaseToolsMcpServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatabaseToolsMcpServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatabaseToolsMcpServerResponse")
+	}
+	return
+}
+
+// createDatabaseToolsMcpServer implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) createDatabaseToolsMcpServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpServers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatabaseToolsMcpServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsMcpServer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcpserver{})
+	return response, err
+}
+
+// CreateDatabaseToolsMcpToolset Creates a new Database Tools MCP Toolset.
+// A default retry strategy applies to this operation CreateDatabaseToolsMcpToolset()
+func (client DatabaseToolsClient) CreateDatabaseToolsMcpToolset(ctx context.Context, request CreateDatabaseToolsMcpToolsetRequest) (response CreateDatabaseToolsMcpToolsetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatabaseToolsMcpToolset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatabaseToolsMcpToolsetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatabaseToolsMcpToolsetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatabaseToolsMcpToolsetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatabaseToolsMcpToolsetResponse")
+	}
+	return
+}
+
+// createDatabaseToolsMcpToolset implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) createDatabaseToolsMcpToolset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpToolsets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatabaseToolsMcpToolsetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsMcpToolset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcptoolset{})
 	return response, err
 }
 
@@ -592,6 +1248,65 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 	return response, err
 }
 
+// CreateDatabaseToolsSqlReport Creates a new Database Tools  Sql Report.
+// A default retry strategy applies to this operation CreateDatabaseToolsSqlReport()
+func (client DatabaseToolsClient) CreateDatabaseToolsSqlReport(ctx context.Context, request CreateDatabaseToolsSqlReportRequest) (response CreateDatabaseToolsSqlReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatabaseToolsSqlReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatabaseToolsSqlReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatabaseToolsSqlReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatabaseToolsSqlReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatabaseToolsSqlReportResponse")
+	}
+	return
+}
+
+// createDatabaseToolsSqlReport implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) createDatabaseToolsSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsSqlReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatabaseToolsSqlReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/CreateDatabaseToolsSqlReport"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsSqlReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolssqlreport{})
+	return response, err
+}
+
 // DeleteDatabaseToolsConnection Deletes the specified Database Tools connection resource.
 func (client DatabaseToolsClient) DeleteDatabaseToolsConnection(ctx context.Context, request DeleteDatabaseToolsConnectionRequest) (response DeleteDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -638,6 +1353,59 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/DeleteDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDatabaseToolsDatabaseApiGatewayConfig Deletes the specified Database Tools database API gateway config resource.
+func (client DatabaseToolsClient) DeleteDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request DeleteDatabaseToolsDatabaseApiGatewayConfigRequest) (response DeleteDatabaseToolsDatabaseApiGatewayConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseToolsDatabaseApiGatewayConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatabaseToolsDatabaseApiGatewayConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatabaseToolsDatabaseApiGatewayConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatabaseToolsDatabaseApiGatewayConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseToolsDatabaseApiGatewayConfigResponse")
+	}
+	return
+}
+
+// deleteDatabaseToolsDatabaseApiGatewayConfig implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) deleteDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatabaseToolsDatabaseApiGatewayConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/DeleteDatabaseToolsDatabaseApiGatewayConfig"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -698,6 +1466,112 @@ func (client DatabaseToolsClient) deleteDatabaseToolsIdentity(ctx context.Contex
 	return response, err
 }
 
+// DeleteDatabaseToolsMcpServer Deletes the specified Database Tools MCP server resource.
+func (client DatabaseToolsClient) DeleteDatabaseToolsMcpServer(ctx context.Context, request DeleteDatabaseToolsMcpServerRequest) (response DeleteDatabaseToolsMcpServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseToolsMcpServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatabaseToolsMcpServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatabaseToolsMcpServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatabaseToolsMcpServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseToolsMcpServerResponse")
+	}
+	return
+}
+
+// deleteDatabaseToolsMcpServer implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) deleteDatabaseToolsMcpServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseToolsMcpServers/{databaseToolsMcpServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatabaseToolsMcpServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/DeleteDatabaseToolsMcpServer"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsMcpServer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDatabaseToolsMcpToolset Deletes the specified Database Tools MCP Toolset resource.
+func (client DatabaseToolsClient) DeleteDatabaseToolsMcpToolset(ctx context.Context, request DeleteDatabaseToolsMcpToolsetRequest) (response DeleteDatabaseToolsMcpToolsetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseToolsMcpToolset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatabaseToolsMcpToolsetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatabaseToolsMcpToolsetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatabaseToolsMcpToolsetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseToolsMcpToolsetResponse")
+	}
+	return
+}
+
+// deleteDatabaseToolsMcpToolset implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) deleteDatabaseToolsMcpToolset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatabaseToolsMcpToolsetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/DeleteDatabaseToolsMcpToolset"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsMcpToolset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDatabaseToolsPrivateEndpoint Deletes the specified Database Tools private endpoint.
 func (client DatabaseToolsClient) DeleteDatabaseToolsPrivateEndpoint(ctx context.Context, request DeleteDatabaseToolsPrivateEndpointRequest) (response DeleteDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -744,6 +1618,59 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/DeleteDatabaseToolsPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDatabaseToolsSqlReport Deletes the specified Database Tools SQL Report resource.
+func (client DatabaseToolsClient) DeleteDatabaseToolsSqlReport(ctx context.Context, request DeleteDatabaseToolsSqlReportRequest) (response DeleteDatabaseToolsSqlReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseToolsSqlReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatabaseToolsSqlReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatabaseToolsSqlReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatabaseToolsSqlReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseToolsSqlReportResponse")
+	}
+	return
+}
+
+// deleteDatabaseToolsSqlReport implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) deleteDatabaseToolsSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseToolsSqlReports/{databaseToolsSqlReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatabaseToolsSqlReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/DeleteDatabaseToolsSqlReport"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsSqlReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -802,6 +1729,60 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsconnection{})
+	return response, err
+}
+
+// GetDatabaseToolsDatabaseApiGatewayConfig Gets details of the specified Database Tools database API gateway config.
+// A default retry strategy applies to this operation GetDatabaseToolsDatabaseApiGatewayConfig()
+func (client DatabaseToolsClient) GetDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request GetDatabaseToolsDatabaseApiGatewayConfigRequest) (response GetDatabaseToolsDatabaseApiGatewayConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseToolsDatabaseApiGatewayConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseToolsDatabaseApiGatewayConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseToolsDatabaseApiGatewayConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseToolsDatabaseApiGatewayConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseToolsDatabaseApiGatewayConfigResponse")
+	}
+	return
+}
+
+// getDatabaseToolsDatabaseApiGatewayConfig implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) getDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseToolsDatabaseApiGatewayConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/GetDatabaseToolsDatabaseApiGatewayConfig"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsdatabaseapigatewayconfig{})
 	return response, err
 }
 
@@ -913,6 +1894,114 @@ func (client DatabaseToolsClient) getDatabaseToolsIdentity(ctx context.Context, 
 	return response, err
 }
 
+// GetDatabaseToolsMcpServer Gets details of the specified Database Tools mcpserver.
+// A default retry strategy applies to this operation GetDatabaseToolsMcpServer()
+func (client DatabaseToolsClient) GetDatabaseToolsMcpServer(ctx context.Context, request GetDatabaseToolsMcpServerRequest) (response GetDatabaseToolsMcpServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseToolsMcpServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseToolsMcpServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseToolsMcpServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseToolsMcpServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseToolsMcpServerResponse")
+	}
+	return
+}
+
+// getDatabaseToolsMcpServer implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) getDatabaseToolsMcpServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsMcpServers/{databaseToolsMcpServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseToolsMcpServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/GetDatabaseToolsMcpServer"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsMcpServer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcpserver{})
+	return response, err
+}
+
+// GetDatabaseToolsMcpToolset Gets details of the specified Database Tools MCP Toolset.
+// A default retry strategy applies to this operation GetDatabaseToolsMcpToolset()
+func (client DatabaseToolsClient) GetDatabaseToolsMcpToolset(ctx context.Context, request GetDatabaseToolsMcpToolsetRequest) (response GetDatabaseToolsMcpToolsetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseToolsMcpToolset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseToolsMcpToolsetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseToolsMcpToolsetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseToolsMcpToolsetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseToolsMcpToolsetResponse")
+	}
+	return
+}
+
+// getDatabaseToolsMcpToolset implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) getDatabaseToolsMcpToolset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseToolsMcpToolsetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/GetDatabaseToolsMcpToolset"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsMcpToolset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcptoolset{})
+	return response, err
+}
+
 // GetDatabaseToolsPrivateEndpoint Gets details of a specified Database Tools private endpoint.
 // A default retry strategy applies to this operation GetDatabaseToolsPrivateEndpoint()
 func (client DatabaseToolsClient) GetDatabaseToolsPrivateEndpoint(ctx context.Context, request GetDatabaseToolsPrivateEndpointRequest) (response GetDatabaseToolsPrivateEndpointResponse, err error) {
@@ -964,6 +2053,60 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatabaseToolsSqlReport Gets details of the specified Database Tools SQL report.
+// A default retry strategy applies to this operation GetDatabaseToolsSqlReport()
+func (client DatabaseToolsClient) GetDatabaseToolsSqlReport(ctx context.Context, request GetDatabaseToolsSqlReportRequest) (response GetDatabaseToolsSqlReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseToolsSqlReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseToolsSqlReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseToolsSqlReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseToolsSqlReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseToolsSqlReportResponse")
+	}
+	return
+}
+
+// getDatabaseToolsSqlReport implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) getDatabaseToolsSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsSqlReports/{databaseToolsSqlReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseToolsSqlReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/GetDatabaseToolsSqlReport"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsSqlReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolssqlreport{})
 	return response, err
 }
 
@@ -1068,6 +2211,60 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/ListDatabaseToolsConnections"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsConnections", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseToolsDatabaseApiGatewayConfigs Returns a list of Database Tools database API gateway configs.
+// A default retry strategy applies to this operation ListDatabaseToolsDatabaseApiGatewayConfigs()
+func (client DatabaseToolsClient) ListDatabaseToolsDatabaseApiGatewayConfigs(ctx context.Context, request ListDatabaseToolsDatabaseApiGatewayConfigsRequest) (response ListDatabaseToolsDatabaseApiGatewayConfigsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseToolsDatabaseApiGatewayConfigs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseToolsDatabaseApiGatewayConfigsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseToolsDatabaseApiGatewayConfigsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseToolsDatabaseApiGatewayConfigsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseToolsDatabaseApiGatewayConfigsResponse")
+	}
+	return
+}
+
+// listDatabaseToolsDatabaseApiGatewayConfigs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) listDatabaseToolsDatabaseApiGatewayConfigs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsDatabaseApiGatewayConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseToolsDatabaseApiGatewayConfigsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/ListDatabaseToolsDatabaseApiGatewayConfigs"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsDatabaseApiGatewayConfigs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1183,6 +2380,168 @@ func (client DatabaseToolsClient) listDatabaseToolsIdentities(ctx context.Contex
 	return response, err
 }
 
+// ListDatabaseToolsMcpServers Returns a list of Database Tools MCP servers.
+// A default retry strategy applies to this operation ListDatabaseToolsMcpServers()
+func (client DatabaseToolsClient) ListDatabaseToolsMcpServers(ctx context.Context, request ListDatabaseToolsMcpServersRequest) (response ListDatabaseToolsMcpServersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseToolsMcpServers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseToolsMcpServersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseToolsMcpServersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseToolsMcpServersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseToolsMcpServersResponse")
+	}
+	return
+}
+
+// listDatabaseToolsMcpServers implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) listDatabaseToolsMcpServers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsMcpServers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseToolsMcpServersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/ListDatabaseToolsMcpServers"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpServers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseToolsMcpToolsetVersions Returns a list of Database Tools Toolset versions
+// A default retry strategy applies to this operation ListDatabaseToolsMcpToolsetVersions()
+func (client DatabaseToolsClient) ListDatabaseToolsMcpToolsetVersions(ctx context.Context, request ListDatabaseToolsMcpToolsetVersionsRequest) (response ListDatabaseToolsMcpToolsetVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseToolsMcpToolsetVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseToolsMcpToolsetVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseToolsMcpToolsetVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseToolsMcpToolsetVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseToolsMcpToolsetVersionsResponse")
+	}
+	return
+}
+
+// listDatabaseToolsMcpToolsetVersions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) listDatabaseToolsMcpToolsetVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsMcpToolsetVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseToolsMcpToolsetVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolsetVersionCollection/ListDatabaseToolsMcpToolsetVersions"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpToolsetVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseToolsMcpToolsets Returns a list of Database Tools Toolsets.
+// A default retry strategy applies to this operation ListDatabaseToolsMcpToolsets()
+func (client DatabaseToolsClient) ListDatabaseToolsMcpToolsets(ctx context.Context, request ListDatabaseToolsMcpToolsetsRequest) (response ListDatabaseToolsMcpToolsetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseToolsMcpToolsets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseToolsMcpToolsetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseToolsMcpToolsetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseToolsMcpToolsetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseToolsMcpToolsetsResponse")
+	}
+	return
+}
+
+// listDatabaseToolsMcpToolsets implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) listDatabaseToolsMcpToolsets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsMcpToolsets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseToolsMcpToolsetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/ListDatabaseToolsMcpToolsets"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpToolsets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDatabaseToolsPrivateEndpoints Returns a list of Database Tools private endpoints.
 // A default retry strategy applies to this operation ListDatabaseToolsPrivateEndpoints()
 func (client DatabaseToolsClient) ListDatabaseToolsPrivateEndpoints(ctx context.Context, request ListDatabaseToolsPrivateEndpointsRequest) (response ListDatabaseToolsPrivateEndpointsResponse, err error) {
@@ -1230,6 +2589,60 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/ListDatabaseToolsPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseToolsSqlReports Returns a list of Database Tools SQL reports.
+// A default retry strategy applies to this operation ListDatabaseToolsSqlReports()
+func (client DatabaseToolsClient) ListDatabaseToolsSqlReports(ctx context.Context, request ListDatabaseToolsSqlReportsRequest) (response ListDatabaseToolsSqlReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseToolsSqlReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseToolsSqlReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseToolsSqlReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseToolsSqlReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseToolsSqlReportsResponse")
+	}
+	return
+}
+
+// listDatabaseToolsSqlReports implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) listDatabaseToolsSqlReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseToolsSqlReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseToolsSqlReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/ListDatabaseToolsSqlReports"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsSqlReports", apiReferenceLink)
 		return response, err
 	}
 
@@ -1505,6 +2918,59 @@ func (client DatabaseToolsClient) removeDatabaseToolsConnectionLock(ctx context.
 	return response, err
 }
 
+// RemoveDatabaseToolsDatabaseApiGatewayConfigLock Removes a lock from a DatabaseToolsDatabaseApiGatewayConfig resource.
+func (client DatabaseToolsClient) RemoveDatabaseToolsDatabaseApiGatewayConfigLock(ctx context.Context, request RemoveDatabaseToolsDatabaseApiGatewayConfigLockRequest) (response RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsDatabaseApiGatewayConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsDatabaseApiGatewayConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsDatabaseApiGatewayConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/RemoveDatabaseToolsDatabaseApiGatewayConfigLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsDatabaseApiGatewayConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsdatabaseapigatewayconfig{})
+	return response, err
+}
+
 // RemoveDatabaseToolsIdentityLock Removes a lock from a DatabaseToolsIdentity resource.
 func (client DatabaseToolsClient) RemoveDatabaseToolsIdentityLock(ctx context.Context, request RemoveDatabaseToolsIdentityLockRequest) (response RemoveDatabaseToolsIdentityLockResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1555,6 +3021,112 @@ func (client DatabaseToolsClient) removeDatabaseToolsIdentityLock(ctx context.Co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsidentity{})
+	return response, err
+}
+
+// RemoveDatabaseToolsMcpServerLock Removes a lock from a DatabaseToolsMcpServer resource.
+func (client DatabaseToolsClient) RemoveDatabaseToolsMcpServerLock(ctx context.Context, request RemoveDatabaseToolsMcpServerLockRequest) (response RemoveDatabaseToolsMcpServerLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsMcpServerLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsMcpServerLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsMcpServerLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsMcpServerLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsMcpServerLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsMcpServerLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsMcpServerLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpServers/{databaseToolsMcpServerId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsMcpServerLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/RemoveDatabaseToolsMcpServerLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsMcpServerLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcpserver{})
+	return response, err
+}
+
+// RemoveDatabaseToolsMcpToolsetLock Removes a lock from a DatabaseToolsMcpToolset resource.
+func (client DatabaseToolsClient) RemoveDatabaseToolsMcpToolsetLock(ctx context.Context, request RemoveDatabaseToolsMcpToolsetLockRequest) (response RemoveDatabaseToolsMcpToolsetLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsMcpToolsetLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsMcpToolsetLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsMcpToolsetLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsMcpToolsetLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsMcpToolsetLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsMcpToolsetLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsMcpToolsetLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsMcpToolsetLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/RemoveDatabaseToolsMcpToolsetLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsMcpToolsetLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsmcptoolset{})
 	return response, err
 }
 
@@ -1611,6 +3183,59 @@ func (client DatabaseToolsClient) removeDatabaseToolsPrivateEndpointLock(ctx con
 	return response, err
 }
 
+// RemoveDatabaseToolsSqlReportLock Removes a lock from a DatabaseToolsSqlReport resource.
+func (client DatabaseToolsClient) RemoveDatabaseToolsSqlReportLock(ctx context.Context, request RemoveDatabaseToolsSqlReportLockRequest) (response RemoveDatabaseToolsSqlReportLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsSqlReportLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsSqlReportLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsSqlReportLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsSqlReportLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsSqlReportLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsSqlReportLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsSqlReportLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsSqlReports/{databaseToolsSqlReportId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsSqlReportLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/RemoveDatabaseToolsSqlReportLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsSqlReportLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolssqlreport{})
+	return response, err
+}
+
 // UpdateDatabaseToolsConnection Updates the specified Database Tools connection.
 func (client DatabaseToolsClient) UpdateDatabaseToolsConnection(ctx context.Context, request UpdateDatabaseToolsConnectionRequest) (response UpdateDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1664,6 +3289,59 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 	return response, err
 }
 
+// UpdateDatabaseToolsDatabaseApiGatewayConfig Updates the specified Database Tools database API gateway config.
+func (client DatabaseToolsClient) UpdateDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request UpdateDatabaseToolsDatabaseApiGatewayConfigRequest) (response UpdateDatabaseToolsDatabaseApiGatewayConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseToolsDatabaseApiGatewayConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseToolsDatabaseApiGatewayConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseToolsDatabaseApiGatewayConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseToolsDatabaseApiGatewayConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseToolsDatabaseApiGatewayConfigResponse")
+	}
+	return
+}
+
+// updateDatabaseToolsDatabaseApiGatewayConfig implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) updateDatabaseToolsDatabaseApiGatewayConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseToolsDatabaseApiGatewayConfigs/{databaseToolsDatabaseApiGatewayConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseToolsDatabaseApiGatewayConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/UpdateDatabaseToolsDatabaseApiGatewayConfig"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsdatabaseapigatewayconfig{})
+	return response, err
+}
+
 // UpdateDatabaseToolsIdentity Updates the specified Database Tools identity.
 func (client DatabaseToolsClient) UpdateDatabaseToolsIdentity(ctx context.Context, request UpdateDatabaseToolsIdentityRequest) (response UpdateDatabaseToolsIdentityResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1710,6 +3388,112 @@ func (client DatabaseToolsClient) updateDatabaseToolsIdentity(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/UpdateDatabaseToolsIdentity"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsIdentity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDatabaseToolsMcpServer Updates the specified Database Tools MCP server.
+func (client DatabaseToolsClient) UpdateDatabaseToolsMcpServer(ctx context.Context, request UpdateDatabaseToolsMcpServerRequest) (response UpdateDatabaseToolsMcpServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseToolsMcpServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseToolsMcpServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseToolsMcpServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseToolsMcpServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseToolsMcpServerResponse")
+	}
+	return
+}
+
+// updateDatabaseToolsMcpServer implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) updateDatabaseToolsMcpServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseToolsMcpServers/{databaseToolsMcpServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseToolsMcpServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/UpdateDatabaseToolsMcpServer"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsMcpServer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDatabaseToolsMcpToolset Updates the specified Database Tools MCP Toolset.
+func (client DatabaseToolsClient) UpdateDatabaseToolsMcpToolset(ctx context.Context, request UpdateDatabaseToolsMcpToolsetRequest) (response UpdateDatabaseToolsMcpToolsetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseToolsMcpToolset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseToolsMcpToolsetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseToolsMcpToolsetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseToolsMcpToolsetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseToolsMcpToolsetResponse")
+	}
+	return
+}
+
+// updateDatabaseToolsMcpToolset implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) updateDatabaseToolsMcpToolset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseToolsMcpToolsets/{databaseToolsMcpToolsetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseToolsMcpToolsetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/UpdateDatabaseToolsMcpToolset"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsMcpToolset", apiReferenceLink)
 		return response, err
 	}
 
@@ -1767,6 +3551,59 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDatabaseToolsSqlReport Updates the specified Database Tools SQL Report.
+func (client DatabaseToolsClient) UpdateDatabaseToolsSqlReport(ctx context.Context, request UpdateDatabaseToolsSqlReportRequest) (response UpdateDatabaseToolsSqlReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseToolsSqlReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseToolsSqlReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseToolsSqlReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseToolsSqlReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseToolsSqlReportResponse")
+	}
+	return
+}
+
+// updateDatabaseToolsSqlReport implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) updateDatabaseToolsSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseToolsSqlReports/{databaseToolsSqlReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseToolsSqlReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/UpdateDatabaseToolsSqlReport"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsSqlReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolssqlreport{})
 	return response, err
 }
 

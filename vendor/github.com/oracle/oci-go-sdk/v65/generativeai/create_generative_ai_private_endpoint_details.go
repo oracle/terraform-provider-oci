@@ -42,6 +42,9 @@ type CreateGenerativeAiPrivateEndpointDetails struct {
 	// Flag that allows access to on-demand models using this private endpoint.
 	IsAllowOnDemand *bool `mandatory:"false" json:"isAllowOnDemand"`
 
+	// The resource type that Generative AI private endpoint can be used for.
+	ResourceType GenerativeAiPrivateEndpointResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -68,6 +71,9 @@ func (m CreateGenerativeAiPrivateEndpointDetails) String() string {
 func (m CreateGenerativeAiPrivateEndpointDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingGenerativeAiPrivateEndpointResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
