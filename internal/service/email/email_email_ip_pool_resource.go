@@ -66,6 +66,10 @@ func EmailEmailIpPoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_unassigned": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -88,6 +92,11 @@ func EmailEmailIpPoolResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"last_ip_drain_period_in_hours": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -241,6 +250,11 @@ func (s *EmailEmailIpPoolResourceCrud) CreateWithContext(ctx context.Context) er
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if lastIpDrainPeriodInHours, ok := s.D.GetOkExists("last_ip_drain_period_in_hours"); ok {
+		tmp := lastIpDrainPeriodInHours.(int)
+		request.LastIpDrainPeriodInHours = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -437,6 +451,16 @@ func (s *EmailEmailIpPoolResourceCrud) UpdateWithContext(ctx context.Context) er
 			}
 		}
 	}
+	// Avoid UpdateEmailIpPool call when No non-IP updates to apply (will give 409-conflict in INACTIVE state otherwise)
+	needsUpdate :=
+		s.D.HasChange("defined_tags") ||
+			s.D.HasChange("description") ||
+			s.D.HasChange("freeform_tags") ||
+			s.D.HasChange("last_ip_drain_period_in_hours")
+
+	if !needsUpdate {
+		return s.GetWithContext(ctx)
+	}
 	request := oci_email.UpdateEmailIpPoolRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -462,6 +486,11 @@ func (s *EmailEmailIpPoolResourceCrud) UpdateWithContext(ctx context.Context) er
 	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
 		tmp := isLockOverride.(bool)
 		request.IsLockOverride = &tmp
+	}
+
+	if lastIpDrainPeriodInHours, ok := s.D.GetOkExists("last_ip_drain_period_in_hours"); ok {
+		tmp := lastIpDrainPeriodInHours.(int)
+		request.LastIpDrainPeriodInHours = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "email")
@@ -552,6 +581,10 @@ func (s *EmailEmailIpPoolResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.LastIpDrainPeriodInHours != nil {
+		s.D.Set("last_ip_drain_period_in_hours", *s.Res.LastIpDrainPeriodInHours)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
