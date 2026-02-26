@@ -81,6 +81,10 @@ func (s *EmailEmailIpPoolDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.LastIpDrainPeriodInHours != nil {
+		s.D.Set("last_ip_drain_period_in_hours", *s.Res.LastIpDrainPeriodInHours)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

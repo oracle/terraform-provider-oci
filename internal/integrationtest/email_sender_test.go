@@ -61,17 +61,21 @@ var (
 
 	SenderEmailIpPoolRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `name_sender`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `tf-ip-pool-sender`},
 		"outbound_ips": acctest.Representation{
 			RepType: acctest.Required,
 			Create:  []string{`${var.ip1}`, `${var.ip2}`},
 			Update:  []string{`${var.ip1}`, `${var.ip2}`},
 		},
+		"last_ip_drain_period_in_hours": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  0,
+			Update:  0,
+		},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	EmailSenderResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Required, acctest.Create, SenderEmailIpPoolRepresentation) +
-		DefinedTagsDependencies
+	EmailSenderResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: email/default
@@ -228,6 +232,110 @@ func TestEmailSenderResource_basic(t *testing.T) {
 	})
 }
 
+func TestEmailSenderResource_withIpPoolId(t *testing.T) {
+	httpreplay.SetScenario("TestEmailSenderResource_withIpPoolId")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	// Dedicated IPs (same approach as ip pool test)
+	ip1 := utils.GetEnvSettingWithBlankDefault("OCI_EMAIL_IP_1")
+	ip2 := utils.GetEnvSettingWithBlankDefault("OCI_EMAIL_IP_2")
+	if ip1 == "" || ip2 == "" {
+		t.Skip("Skipping test: OCI_EMAIL_IP_1 and OCI_EMAIL_IP_2 env vars must be set with valid Dedicated IPs")
+	}
+
+	outboundIpVariableStr := fmt.Sprintf(`
+	variable "ip1" { default = "%s" }
+	variable "ip2" { default = "%s" }
+	`, ip1, ip2)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf(`variable "compartment_id" { default = "%s" }
+	`, compartmentId)
+
+	base := config + compartmentIdVariableStr + outboundIpVariableStr + DefinedTagsDependencies
+
+	baseConfig := config + compartmentIdVariableStr + outboundIpVariableStr + EmailEmailIpPoolResourceDependencies
+	ipPoolCreateConfig := baseConfig + `
+		resource "oci_email_email_ip_pool" "test_email_ip_pool" {
+		  compartment_id                = var.compartment_id
+		  name                          = "tf-sender-name"
+		  outbound_ips                  = [var.ip1, var.ip2]
+		  last_ip_drain_period_in_hours = 0
+		  description                   = "description"
+		  freeform_tags = {
+		    Department = "Finance"
+		  }
+		}
+	`
+	ipPoolDrainRep := map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `name_sender`},
+		"outbound_ips": acctest.Representation{
+			RepType: acctest.Required,
+			Create:  []string{},
+			Update:  []string{},
+		},
+		"last_ip_drain_period_in_hours": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  0,
+			Update:  0,
+		},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
+	}
+
+	ipPoolDrain := base + acctest.GenerateResourceFromRepresentationMap(
+		"oci_email_email_ip_pool",
+		"test_email_ip_pool",
+		acctest.Optional,
+		acctest.Update,
+		ipPoolDrainRep,
+	)
+
+	senderWithPoolRep := acctest.RepresentationCopyWithNewProperties(
+		EmailSenderRepresentation,
+		map[string]interface{}{
+			"email_ip_pool_id": acctest.Representation{
+				RepType: acctest.Optional,
+				Create:  `${oci_email_email_ip_pool.test_email_ip_pool.id}`,
+			},
+		},
+	)
+
+	senderWithPool := ipPoolCreateConfig + acctest.GenerateResourceFromRepresentationMap(
+		"oci_email_sender",
+		"test_sender",
+		acctest.Optional,
+		acctest.Create,
+		senderWithPoolRep,
+	)
+
+	resourceName := "oci_email_sender.test_sender"
+
+	acctest.ResourceTest(t, testAccCheckEmailSenderDestroy, []resource.TestStep{
+		// 1) Create pool + sender referencing pool
+		{
+			Config: senderWithPool,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "email_ip_pool_id"), // if exposed in state
+			),
+		},
+
+		// 2) Remove sender from config (destroys sender), keep pool
+		{
+			Config: ipPoolCreateConfig,
+		},
+
+		// 3) Drain pool to zero outbound IPs so it becomes INACTIVE (then deletion is allowed)
+		{
+			Config: ipPoolDrain,
+		},
+	})
+}
 func TestEmailEmailSenderDataSource_withLocks(t *testing.T) {
 	resource := emailpkg.EmailSendersDataSource()
 

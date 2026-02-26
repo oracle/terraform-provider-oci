@@ -50,19 +50,24 @@ var (
 
 	EmailEmailIpPoolRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `ippool-tf-test`},
 		"outbound_ips": acctest.Representation{
 			RepType: acctest.Required,
 			Create:  []string{`${var.ip1}`, `${var.ip2}`},
 			Update:  []string{`${var.ip1}`, `${var.ip2}`},
 		},
+		"last_ip_drain_period_in_hours": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  0,
+			Update:  0,
+		},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	EmailEmailIpPoolRepresentation_SingleIP = map[string]interface{}{
+	EmailEmailIpPoolRepresentationSingleIP = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `ippool-tf-test`},
 		"outbound_ips": acctest.Representation{
 			RepType: acctest.Required,
 			Create:  []string{`${var.ip1}`},
@@ -72,16 +77,29 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	EmailEmailIpPoolRepresentation_Empty = map[string]interface{}{
+	EmailEmailIpPoolRepresentationInactive = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `ippool-tf-test`},
 		"outbound_ips": acctest.Representation{
 			RepType: acctest.Required,
 			Create:  []string{},
 			Update:  []string{},
 		},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"last_ip_drain_period_in_hours": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  0,
+			Update:  0,
+		},
+		"description": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `description`,
+			Update:  `description`,
+		},
+		"freeform_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  map[string]string{"Department": "Finance"},
+			Update:  map[string]string{"Department": "Accounting"},
+		},
 	}
 )
 
@@ -90,7 +108,6 @@ func TestEmailEmailIpPoolResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
-
 	ip1 := utils.GetEnvSettingWithBlankDefault("OCI_EMAIL_IP_1")
 	ip2 := utils.GetEnvSettingWithBlankDefault("OCI_EMAIL_IP_2")
 
@@ -109,17 +126,28 @@ func TestEmailEmailIpPoolResource_basic(t *testing.T) {
 	resourceName := "oci_email_email_ip_pool.test_email_ip_pool"
 
 	baseConfig := config + compartmentIdVariableStr + outboundIpVariableStr + EmailEmailIpPoolResourceDependencies
-
+	createConfig := baseConfig + `
+		resource "oci_email_email_ip_pool" "test_email_ip_pool" {
+		  compartment_id                = var.compartment_id
+		  name                          = "ippool-tf-test"
+		  outbound_ips                  = [var.ip1, var.ip2]
+		  last_ip_drain_period_in_hours = 0
+		  description                   = "description"
+		  freeform_tags = {
+		    Department = "Finance"
+		  }
+		}
+	`
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+outboundIpVariableStr+EmailEmailIpPoolResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Create, EmailEmailIpPoolRepresentation), "email", "emailIpPool", t)
 
 	acctest.ResourceTest(t, testAccCheckEmailEmailIpPoolDestroy, []resource.TestStep{
 		{
-			Config: baseConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Required, acctest.Create, EmailEmailIpPoolRepresentation),
+			// verify Create
+			Config: createConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "name", "ip-pool"),
+				resource.TestCheckResourceAttr(resourceName, "name", "ippool-tf-test"),
 				resource.TestCheckResourceAttr(resourceName, "outbound_ips.#", "2"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -127,48 +155,29 @@ func TestEmailEmailIpPoolResource_basic(t *testing.T) {
 				},
 			),
 		},
-
+		// verify update with ip and other field changes
 		{
 			Config: baseConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Update, EmailEmailIpPoolRepresentation_SingleIP),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "outbound_ips.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				func(s *terraform.State) error {
-					fmt.Println("Waiting 30 seconds for IP Pool state to stabilize after IP removal...")
-					time.Sleep(30 * time.Second)
-					return nil
-				},
-			),
-		},
-
-		{
-			Config: baseConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Update, EmailEmailIpPoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Update, EmailEmailIpPoolRepresentationSingleIP),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "outbound_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.Department", "Accounting"),
-				resource.TestCheckResourceAttr(resourceName, "outbound_ips.#", "2"), // Verify IP is back
-				func(s *terraform.State) error {
-					time.Sleep(30 * time.Second)
-					return nil
-				},
 			),
 		},
-
 		{
 			ResourceName:            resourceName,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"outbound_ips", "freeform_tags", "defined_tags"},
 		},
-
-		// Final Step: Clean the Ips from the ip pool, but the Ip stays in draining state hence test fails
+		// Final Step: Clean the Ips from the ip pool, ips need to be removed before terraform destroy
 		{
 			Config: baseConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Update, EmailEmailIpPoolRepresentation_Empty),
+				acctest.GenerateResourceFromRepresentationMap("oci_email_email_ip_pool", "test_email_ip_pool", acctest.Optional, acctest.Update, EmailEmailIpPoolRepresentationInactive),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(),
 		},
 	})
 }

@@ -71,6 +71,10 @@ func EmailEmailOutboundIpsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_unassigned": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -185,6 +189,10 @@ func EmailOutboundIpSummaryToMap(obj oci_email.EmailOutboundIpSummary) map[strin
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeUnassigned != nil {
+		result["time_unassigned"] = obj.TimeUnassigned.String()
+	}
 
 	return result
 }
