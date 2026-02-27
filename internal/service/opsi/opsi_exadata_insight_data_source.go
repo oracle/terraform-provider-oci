@@ -98,6 +98,12 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
 		}
 
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -131,6 +137,10 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
+
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -156,6 +166,12 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 			s.D.Set("exadata_shape", *v.ExadataShape)
 		}
 
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -190,6 +206,10 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
+
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -215,6 +235,12 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 			s.D.Set("exadata_shape", *v.ExadataShape)
 		}
 
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -248,6 +274,10 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
+
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))

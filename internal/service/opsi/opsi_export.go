@@ -59,6 +59,7 @@ var exportOpsiExadataInsightHints = &tf_export.TerraformResourceHints{
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_opsi.ExadataInsightLifecycleStateActive),
+		string(oci_opsi.ExadataInsightLifecycleStateNeedsAttention),
 	},
 }
 
@@ -158,6 +159,18 @@ var exportOpsiAwrHubSourceHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOpsiChargebackPlanHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_opsi_chargeback_plan",
+	DatasourceClass:        "oci_opsi_chargeback_plans",
+	DatasourceItemsAttr:    "chargeback_plan_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "chargeback_plan",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_opsi.LifecycleStateActive),
+	},
+}
+
 var opsiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
@@ -168,6 +181,7 @@ var opsiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiOperationsInsightsPrivateEndpointHints},
 		{TerraformResourceHints: exportOpsiOpsiConfigurationHints},
 		{TerraformResourceHints: exportOpsiNewsReportHints},
+		{TerraformResourceHints: exportOpsiChargebackPlanHints},
 	},
 	"oci_opsi_awr_hub": {
 		{

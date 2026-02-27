@@ -1228,6 +1228,7 @@ opsi
 * oci\_opsi\_opsi\_configuration
 * oci\_opsi\_news\_report
 * oci\_opsi\_awr\_hub\_source
+* oci\_opsi\_chargeback\_plan
 
 optimizer
 
