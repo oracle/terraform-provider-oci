@@ -680,6 +680,31 @@ func OpsiExadataInsightResource() *schema.Resource {
 			},
 
 			// Computed
+			"chargeback_plan_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"plan_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"plan_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_enabled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"enterprise_manager_entity_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -725,6 +750,10 @@ func OpsiExadataInsightResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"status_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1171,6 +1200,12 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
 		}
 
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1209,6 +1244,10 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 
 		s.D.Set("status", v.Status)
 
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
+
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
@@ -1231,6 +1270,12 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 
 		if v.ExadataShape != nil {
 			s.D.Set("exadata_shape", *v.ExadataShape)
+		}
+
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
 		}
 
 		if v.CompartmentId != nil {
@@ -1266,6 +1311,10 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
+
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -1291,6 +1340,12 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 			s.D.Set("exadata_shape", *v.ExadataShape)
 		}
 
+		if v.ChargebackPlanDetails != nil {
+			s.D.Set("chargeback_plan_details", []interface{}{ChargebackPlanDetailsToMap(v.ChargebackPlanDetails)})
+		} else {
+			s.D.Set("chargeback_plan_details", nil)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -1325,6 +1380,10 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 
 		s.D.Set("status", v.Status)
 
+		if v.StatusDetails != nil {
+			s.D.Set("status_details", *v.StatusDetails)
+		}
+
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
@@ -1341,6 +1400,24 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 		return nil
 	}
 	return nil
+}
+
+func ChargebackPlanDetailsToMap(obj *oci_opsi.ChargebackPlanDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PlanId != nil {
+		result["plan_id"] = string(*obj.PlanId)
+	}
+
+	if obj.PlanType != nil {
+		result["plan_type"] = string(*obj.PlanType)
+	}
+
+	if obj.TimeEnabled != nil {
+		result["time_enabled"] = obj.TimeEnabled.String()
+	}
+
+	return result
 }
 
 func (s *OpsiExadataInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat string) (oci_opsi.ConnectionDetails, error) {
