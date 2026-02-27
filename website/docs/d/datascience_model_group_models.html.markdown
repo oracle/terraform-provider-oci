@@ -60,6 +60,7 @@ The following attributes are exported:
 * `is_model_by_reference` - Identifier to indicate whether a model artifact resides in the Service Tenancy or Customer Tenancy.
 * `lifecycle_details` - Details about the lifecycle state of the model.
 * `model_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
+* `inference_key` - SaaS friendly name of the model.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the model.
 * `state` - The state of the model.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

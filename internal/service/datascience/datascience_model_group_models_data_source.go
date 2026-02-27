@@ -95,6 +95,10 @@ func DatascienceModelGroupModelsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"inference_key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"project_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -239,6 +243,10 @@ func (s *DatascienceModelGroupModelsDataSourceCrud) SetData() error {
 
 		if r.ModelId != nil {
 			modelGroupModel["model_id"] = *r.ModelId
+		}
+
+		if r.InferenceKey != nil {
+			modelGroupModel["inference_key"] = *r.InferenceKey
 		}
 
 		if r.ProjectId != nil {
