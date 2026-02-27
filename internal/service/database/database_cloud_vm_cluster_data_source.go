@@ -203,6 +203,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
 	}
 
+	if s.Res.RecoStoragePercentage != nil {
+		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
 	if s.Res.ScanDnsName != nil {
 		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
 	}
@@ -227,6 +231,10 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseStoragePercentage != nil {
+		s.D.Set("sparse_storage_percentage", *s.Res.SparseStoragePercentage)
 	}
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)

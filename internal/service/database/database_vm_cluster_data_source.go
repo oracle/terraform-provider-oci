@@ -92,6 +92,10 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("data_collection_options", nil)
 	}
 
+	if s.Res.DataStoragePercentage != nil {
+		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -160,8 +164,16 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
+	if s.Res.RecoStoragePercentage != nil {
+		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseStoragePercentage != nil {
+		s.D.Set("sparse_storage_percentage", *s.Res.SparseStoragePercentage)
 	}
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)

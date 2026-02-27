@@ -39,6 +39,8 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
   private_zone_id                 = oci_dns_zone.test_zone.id
   subscription_id                 = var.tenant_subscription_id
+  reco_storage_percentage         = var.cloud_vm_cluster_reco_storage_percentage
+  sparse_storage_percentage       = var.cloud_vm_cluster_sparse_storage_percentage
 
   data_collection_options {
     #Optional

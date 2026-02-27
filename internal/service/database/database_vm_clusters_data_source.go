@@ -150,6 +150,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["data_collection_options"] = nil
 		}
 
+		if r.DataStoragePercentage != nil {
+			vmCluster["data_storage_percentage"] = *r.DataStoragePercentage
+		}
+
 		if r.DataStorageSizeInGBs != nil {
 			vmCluster["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
 		}
@@ -222,8 +226,16 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["ocpus_enabled"] = *r.OcpusEnabled
 		}
 
+		if r.RecoStoragePercentage != nil {
+			vmCluster["reco_storage_percentage"] = *r.RecoStoragePercentage
+		}
+
 		if r.Shape != nil {
 			vmCluster["shape"] = *r.Shape
+		}
+
+		if r.SparseStoragePercentage != nil {
+			vmCluster["sparse_storage_percentage"] = *r.SparseStoragePercentage
 		}
 
 		vmCluster["ssh_public_keys"] = r.SshPublicKeys

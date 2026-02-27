@@ -219,7 +219,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
@@ -292,13 +291,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"is_sparse_diskgroup_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -330,6 +327,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"reco_storage_percentage": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"scan_listener_port_tcp": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -347,6 +349,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"sparse_storage_percentage": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"subscription_id": {
 				Type:     schema.TypeString,
@@ -855,6 +862,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.PrivateZoneId = &tmp
 	}
 
+	if recoStoragePercentage, ok := s.D.GetOkExists("reco_storage_percentage"); ok {
+		tmp := recoStoragePercentage.(int)
+		request.RecoStoragePercentage = &tmp
+	}
+
 	if scanListenerPortTcp, ok := s.D.GetOkExists("scan_listener_port_tcp"); ok {
 		tmp := scanListenerPortTcp.(int)
 		request.ScanListenerPortTcp = &tmp
@@ -867,6 +879,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	if sparseStoragePercentage, ok := s.D.GetOkExists("sparse_storage_percentage"); ok {
+		tmp := sparseStoragePercentage.(int)
+		request.SparseStoragePercentage = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -1046,6 +1063,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+		tmp := dataStoragePercentage.(int)
+		request.DataStoragePercentage = &tmp
+	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(float64)
 		request.DataStorageSizeInTBs = &tmp
@@ -1090,6 +1112,16 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLocalBackupEnabled, ok := s.D.GetOkExists("is_local_backup_enabled"); ok {
+		tmp := isLocalBackupEnabled.(bool)
+		request.IsLocalBackupEnabled = &tmp
+	}
+
+	if isSparseDiskgroupEnabled, ok := s.D.GetOkExists("is_sparse_diskgroup_enabled"); ok {
+		tmp := isSparseDiskgroupEnabled.(bool)
+		request.IsSparseDiskgroupEnabled = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -1118,8 +1150,18 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.OcpuCount = &tmp
 	}
 
+	if recoStoragePercentage, ok := s.D.GetOkExists("reco_storage_percentage"); ok {
+		tmp := recoStoragePercentage.(int)
+		request.RecoStoragePercentage = &tmp
+	}
+
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	if sparseStoragePercentage, ok := s.D.GetOkExists("sparse_storage_percentage"); ok {
+		tmp := sparseStoragePercentage.(int)
+		request.SparseStoragePercentage = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -1351,6 +1393,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
+	if s.Res.RecoStoragePercentage != nil {
+		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
 	if s.Res.ScanDnsName != nil {
 		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
 	}
@@ -1375,6 +1421,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseStoragePercentage != nil {
+		s.D.Set("sparse_storage_percentage", *s.Res.SparseStoragePercentage)
 	}
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)

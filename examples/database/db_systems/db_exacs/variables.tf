@@ -170,3 +170,11 @@ variable "advanced_cluster_file_system_name" {
 variable "advanced_cluster_file_system_storage_in_gbs" {
   default = 10
 }
+
+variable "cloud_vm_cluster_reco_storage_percentage" {
+  default = 10
+}
+
+variable "cloud_vm_cluster_sparse_storage_percentage" {
+  default = 10
+}

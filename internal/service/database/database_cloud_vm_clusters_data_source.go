@@ -258,6 +258,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["ocpu_count"] = *r.OcpuCount
 		}
 
+		if r.RecoStoragePercentage != nil {
+			cloudVmCluster["reco_storage_percentage"] = *r.RecoStoragePercentage
+		}
+
 		if r.ScanDnsName != nil {
 			cloudVmCluster["scan_dns_name"] = *r.ScanDnsName
 		}
@@ -282,6 +286,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 
 		if r.Shape != nil {
 			cloudVmCluster["shape"] = *r.Shape
+		}
+
+		if r.SparseStoragePercentage != nil {
+			cloudVmCluster["sparse_storage_percentage"] = *r.SparseStoragePercentage
 		}
 
 		cloudVmCluster["ssh_public_keys"] = r.SshPublicKeys

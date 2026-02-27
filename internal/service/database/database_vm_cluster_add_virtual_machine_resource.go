@@ -166,6 +166,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 					},
 				},
 			},
+			"data_storage_percentage": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -245,8 +249,16 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"reco_storage_percentage": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sparse_storage_percentage": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"ssh_public_keys": {
@@ -402,6 +414,14 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("data_collection_options", nil)
 	}
 
+	if s.Res.DataStoragePercentage != nil {
+		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
+	}
+
+	if s.Res.DataStorageSizeInGBs != nil {
+		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
+	}
+
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
@@ -460,8 +480,16 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
 
+	if s.Res.RecoStoragePercentage != nil {
+		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseStoragePercentage != nil {
+		s.D.Set("sparse_storage_percentage", *s.Res.SparseStoragePercentage)
 	}
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)

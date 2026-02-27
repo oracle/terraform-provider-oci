@@ -180,6 +180,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"data_storage_percentage": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -251,13 +256,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"is_sparse_diskgroup_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -271,6 +274,16 @@ func DatabaseVmClusterResource() *schema.Resource {
 			},
 			"ocpu_count": {
 				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
+			"reco_storage_percentage": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"sparse_storage_percentage": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
@@ -474,6 +487,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		}
 	}
 
+	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+		tmp := dataStoragePercentage.(int)
+		request.DataStoragePercentage = &tmp
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(float64)
 		request.DataStorageSizeInGBs = &tmp
@@ -573,6 +591,16 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 		tmp := float32(ocpuCount.(float64))
 		request.OcpuCount = &tmp
+	}
+
+	if recoStoragePercentage, ok := s.D.GetOkExists("reco_storage_percentage"); ok {
+		tmp := recoStoragePercentage.(int)
+		request.RecoStoragePercentage = &tmp
+	}
+
+	if sparseStoragePercentage, ok := s.D.GetOkExists("sparse_storage_percentage"); ok {
+		tmp := sparseStoragePercentage.(int)
+		request.SparseStoragePercentage = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -684,6 +712,11 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
+		tmp := dataStoragePercentage.(int)
+		request.DataStoragePercentage = &tmp
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(float64)
 		request.DataStorageSizeInGBs = &tmp
@@ -728,6 +761,16 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLocalBackupEnabled, ok := s.D.GetOkExists("is_local_backup_enabled"); ok {
+		tmp := isLocalBackupEnabled.(bool)
+		request.IsLocalBackupEnabled = &tmp
+	}
+
+	if isSparseDiskgroupEnabled, ok := s.D.GetOkExists("is_sparse_diskgroup_enabled"); ok {
+		tmp := isSparseDiskgroupEnabled.(bool)
+		request.IsSparseDiskgroupEnabled = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -740,6 +783,16 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
 		tmp := float32(ocpuCount.(float64))
 		request.OcpuCount = &tmp
+	}
+
+	if recoStoragePercentage, ok := s.D.GetOkExists("reco_storage_percentage"); ok {
+		tmp := recoStoragePercentage.(int)
+		request.RecoStoragePercentage = &tmp
+	}
+
+	if sparseStoragePercentage, ok := s.D.GetOkExists("sparse_storage_percentage"); ok {
+		tmp := sparseStoragePercentage.(int)
+		request.SparseStoragePercentage = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
@@ -813,6 +866,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("data_collection_options", nil)
 	}
 
+	if s.Res.DataStoragePercentage != nil {
+		s.D.Set("data_storage_percentage", *s.Res.DataStoragePercentage)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -881,8 +938,16 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
+	if s.Res.RecoStoragePercentage != nil {
+		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseStoragePercentage != nil {
+		s.D.Set("sparse_storage_percentage", *s.Res.SparseStoragePercentage)
 	}
 
 	sshPublicKeys := []interface{}{}
