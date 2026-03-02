@@ -360,6 +360,7 @@ github.com/oracle/oci-go-sdk/v65/fleetappsmanagement
 github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate
 github.com/oracle/oci-go-sdk/v65/functions
 github.com/oracle/oci-go-sdk/v65/fusionapps
+github.com/oracle/oci-go-sdk/v65/gdp
 github.com/oracle/oci-go-sdk/v65/generativeai
 github.com/oracle/oci-go-sdk/v65/generativeaiagent
 github.com/oracle/oci-go-sdk/v65/genericartifactscontent
