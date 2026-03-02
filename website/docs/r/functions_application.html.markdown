@@ -41,6 +41,11 @@ resource "oci_functions_application" "test_application" {
 			kms_key_id = oci_kms_key.test_key.id
 		}
 	}
+	logging {
+
+		#Optional
+		line_format = var.application_logging_line_format
+	}
 	security_attributes = var.application_security_attributes
 	shape = var.application_shape
 	syslog_url = var.application_syslog_url
@@ -63,6 +68,8 @@ The following arguments are supported:
     The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) The display name of the application. The display name must be unique within the compartment containing the application. Avoid entering confidential information. 
+* `logging` - (Optional) (Updatable) Set logging configuration for an application. This is only used if Service Logs for the application are enabled in the Oracle Cloud Infrastructure Logging service. 
+	* `line_format` - (Optional) (Updatable) Specify the format of log lines emitted by functions in this application. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `image_policy_config` - (Optional) (Updatable) Define the image signature verification policy for an application.
     * `is_policy_enabled` - (Required) (Updatable) Define if image signature verification policy is enabled for the application.
@@ -93,6 +100,8 @@ The following attributes are exported:
 * `display_name` - The display name of the application. The display name is unique within the compartment containing the application. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application. 
+* `logging` - Set logging configuration for an application. This is only used if Service Logs for the application are enabled in the Oracle Cloud Infrastructure Logging service. 
+	* `line_format` - Specify the format of log lines emitted by functions in this application. 
 * `network_security_group_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 * `image_policy_config` - Define the image signature verification policy for an application.
     * `is_policy_enabled` - Define if image signature verification policy is enabled for the application. 

@@ -107,6 +107,27 @@ func FunctionsApplicationResource() *schema.Resource {
 					},
 				},
 			},
+			"logging": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"line_format": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -285,6 +306,17 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		}
 	}
 
+	if logging, ok := s.D.GetOkExists("logging"); ok {
+		if tmpList := logging.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "logging", 0)
+			tmp, err := s.mapToApplicationLoggingConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Logging = &tmp
+		}
+	}
+
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -406,6 +438,17 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		}
 	}
 
+	if logging, ok := s.D.GetOkExists("logging"); ok {
+		if tmpList := logging.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "logging", 0)
+			tmp, err := s.mapToApplicationLoggingConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Logging = &tmp
+		}
+	}
+
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -486,6 +529,12 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 		s.D.Set("image_policy_config", nil)
 	}
 
+	if s.Res.Logging != nil {
+		s.D.Set("logging", []interface{}{ApplicationLoggingConfigToMap(s.Res.Logging)})
+	} else {
+		s.D.Set("logging", nil)
+	}
+
 	networkSecurityGroupIds := []interface{}{}
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
@@ -519,6 +568,24 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *FunctionsApplicationResourceCrud) mapToApplicationLoggingConfig(fieldKeyFormat string) (oci_functions.ApplicationLoggingConfig, error) {
+	result := oci_functions.ApplicationLoggingConfig{}
+
+	if lineFormat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "line_format")); ok {
+		result.LineFormat = oci_functions.ApplicationLoggingConfigLineFormatEnum(lineFormat.(string))
+	}
+
+	return result, nil
+}
+
+func ApplicationLoggingConfigToMap(obj *oci_functions.ApplicationLoggingConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["line_format"] = string(obj.LineFormat)
+
+	return result
 }
 
 func (s *FunctionsApplicationResourceCrud) mapToApplicationTraceConfig(fieldKeyFormat string) (oci_functions.ApplicationTraceConfig, error) {

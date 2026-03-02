@@ -90,6 +90,12 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 		s.D.Set("image_policy_config", nil)
 	}
 
+	if s.Res.Logging != nil {
+		s.D.Set("logging", []interface{}{ApplicationLoggingConfigToMap(s.Res.Logging)})
+	} else {
+		s.D.Set("logging", nil)
+	}
+
 	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("shape", s.Res.Shape)

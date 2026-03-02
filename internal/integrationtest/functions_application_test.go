@@ -60,6 +60,7 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_policy_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationImagePolicyConfigRepresentation},
+		"logging":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationLoggingRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 		"security_attributes":        acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}, Update: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}},
 		"shape":                      acctest.Representation{RepType: acctest.Optional, Create: `GENERIC_X86`},
@@ -70,6 +71,9 @@ var (
 	FunctionsApplicationImagePolicyConfigRepresentation = map[string]interface{}{
 		"is_policy_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsApplicationImagePolicyConfigKeyDetailsRepresentation},
+	}
+	FunctionsApplicationLoggingRepresentation = map[string]interface{}{
+		"line_format": acctest.Representation{RepType: acctest.Optional, Create: `JSON`, Update: `PLAIN_TEXT`},
 	}
 	FunctionsApplicationTraceConfigRepresentation = map[string]interface{}{
 		"domain_id":  acctest.Representation{RepType: acctest.Optional, Create: "${oci_apm_apm_domain.test_apm_domain.id}"},
@@ -145,6 +149,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "logging.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "logging.0.line_format", "JSON"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
@@ -181,6 +187,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "logging.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "logging.0.line_format", "JSON"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
@@ -212,6 +220,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "logging.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "logging.0.line_format", "PLAIN_TEXT"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog2.test:80"),
@@ -249,6 +259,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.image_policy_config.0.is_policy_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.image_policy_config.0.key_details.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.logging.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.logging.0.line_format", "PLAIN_TEXT"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.subnet_ids.#", "1"),
@@ -275,6 +287,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.0.is_policy_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.0.key_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "logging.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "logging.0.line_format", "PLAIN_TEXT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "GENERIC_X86"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "syslog_url", "tcp://syslog2.test:80"),

@@ -95,6 +95,11 @@ resource "oci_functions_application" "test_application" {
     "oracle-zpr.sensitivity.value" = "low"
     "oracle-zpr.sensitivity.mode" = "enforce"
   }
+  logging {
+
+    #Optional
+    line_format = var.application_logging_line_format
+  }
 }
 
 data "oci_functions_applications" "test_applications" {

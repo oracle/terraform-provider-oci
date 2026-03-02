@@ -141,6 +141,12 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 			application["image_policy_config"] = nil
 		}
 
+		if r.Logging != nil {
+			application["logging"] = []interface{}{ApplicationLoggingConfigToMap(r.Logging)}
+		} else {
+			application["logging"] = nil
+		}
+
 		application["security_attributes"] = r.SecurityAttributes
 
 		application["shape"] = r.Shape

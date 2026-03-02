@@ -52,6 +52,10 @@ variable "application_image_policy_config_is_policy_enabled" {
   default = false
 }
 
+variable "application_logging_line_format" {
+  default = "JSON"
+}
+
 ##### Docker image ######
 # To use functions as a service, you need docker images of your functions in OCI registry which can be accessed by you
 #
