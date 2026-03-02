@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_management_managed_my_sql_database_query_detail
 This data source provides details about a specific Managed My Sql Database Query Detail resource in Oracle Cloud Infrastructure Database Management service.
 
-Retrieves query sample details, explain plan and potential warnings for a given digest.
+Retrieves query sample details, explain plan, and potential warnings for a given digest.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -35,19 +36,19 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `query_explain_plan` - The explain plan for a given MySQL query.
-	* `json_explain` - The json format of the explain plan.
-	* `json_explain_version` - The version of the Json format of MySQL Explain.
-* `query_messages` - The errors, warnings and notes that could be raised by the execution of the query.
-	* `code` - The MySQL code of the raised error, warning or note.
+* `query_explain_plan` - The explain plan for a given MySQL query. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
+	* `json_explain` - The JSON format of the explain plan.
+	* `json_explain_version` - The version of the JSON format of the MySQL explain plan.
+* `query_messages` - The errors, warnings, and notes that could be raised by the execution of the query.
+	* `code` - The MySQL code of the raised error, warning, or note.
 	* `level` - The level of severity of the MySQL message.
-	* `message_text` - The MySQL message text of the raised error, warning or note.
-* `query_sample_details` - The details of a query sample including the query text, execution time and other details.
+	* `message_text` - The MySQL message text of the raised error, warning, or note.
+* `query_sample_details` - The details of a query sample including the query text, execution time, and other details. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 	* `execution_time` - The total amount of time that has been spent executing the query sample.
 	* `host` - The host from which the query sample was run.
 	* `mysql_instance` - The MySQL instance against which the query sample was run.
 	* `query_sample_text` - The query sample mapped by MySQL to a given normalized query.
-	* `thread_id` - The thread id of the connection.
+	* `thread_id` - The thread ID of the connection.
 	* `time_query_sample_seen` - The date and time the query sample was last seen.
 	* `user` - The user who ran the query sample.
 

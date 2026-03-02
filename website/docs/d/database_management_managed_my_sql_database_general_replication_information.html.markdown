@@ -11,6 +11,7 @@ description: |-
 This data source provides details about a specific Managed My Sql Database General Replication Information resource in Oracle Cloud Infrastructure Database Management service.
 
 Retrieves general information regarding the replication of a specific MySQL server.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage

@@ -14,6 +14,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/database-ma
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/databasemanagement
 
 Creates an external MySQL connector resource.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -42,7 +43,7 @@ resource "oci_database_management_external_my_sql_database_connector" "test_exte
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) OCID of compartment for the External MySQL Database.
-* `connector_details` - (Required) (Updatable) Create Details of external database connector.
+* `connector_details` - (Required) (Updatable) Create Details of external database connector. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 	* `credential_type` - (Required) (Updatable) Type of the credential.
 	* `display_name` - (Required) (Updatable) External MySQL Database Connector Name.
 	* `external_database_id` - (Required) (Updatable) OCID of MySQL Database resource.

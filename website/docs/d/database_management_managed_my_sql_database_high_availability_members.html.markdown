@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Managed My Sql Database High Availability Members in Oracle Cloud Infrastructure Database Management service.
 
 Retrieves information about the high availability members of a specific MySQL server's replication group.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -51,9 +52,9 @@ The following attributes are exported:
 * `member_role` - The role of this server as a group replication member.
 * `member_state` - The state of this server as a group replication member.
 * `single_primary_mode` - Indicates if the replication group is running in single-primary mode.
-* `status_summary` - High availability status summary of a MySQL server.
+* `status_summary` - High availability status summary of a MySQL server. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 	* `channel_apply_errors` - A list of MySqlChannelApplyError records.
-		* `apply_error` - Error from the apply operation of a MySQL server replication channel.
+		* `apply_error` - Error from the apply operation of a MySQL server replication channel. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 			* `last_error_message` - The error message of the most recent error that caused the SQL or coordinator thread to stop.
 			* `last_error_number` - The error number of the most recent error that caused the SQL or coordinator thread to stop.
 			* `time_last_error` - The timestamp when the most recent SQL or coordinator error occurred.
@@ -64,7 +65,7 @@ The following attributes are exported:
 		* `channel_name` - The name of the replication channel.
 	* `channel_fetch_errors` - A list of MySqlChannelFetchError records.
 		* `channel_name` - The name of the replication channel.
-		* `fetch_error` - Error from the fetch operation of a MySQL server replication channel.
+		* `fetch_error` - Error from the fetch operation of a MySQL server replication channel. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 			* `last_error_message` - The error message of the most recent error that caused the I/O thread to stop.
 			* `last_error_number` - The error number of the most recent error that caused the I/O thread to stop.
 			* `time_last_error` - The timestamp when the most recent I/O error occurred.

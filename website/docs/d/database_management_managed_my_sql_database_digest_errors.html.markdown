@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Managed My Sql Database Digest Errors in Oracle Cloud Infrastructure Database Management service.
 
 Retrieves any potential errors for a given digest.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -42,9 +43,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - The unique set of errors for a given digest.
-	* `error` - The MySQL error, warning or note raised when a query is run, if any.
-		* `code` - The MySQL code of the raised error, warning or note.
+	* `error` - The MySQL error, warning, or note raised when a query is run, if any. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
+		* `code` - The MySQL code of the raised error, warning, or note.
 		* `level` - The level of severity of the MySQL message.
-		* `message_text` - The MySQL message text of the raised error, warning or note.
+		* `message_text` - The MySQL message text of the raised error, warning, or note.
 	* `occurrence_count` - The number of times a MySQL error is encountered.
 

@@ -10,7 +10,9 @@ description: |-
 # Data Source: oci_database_management_external_my_sql_databases
 This data source provides the list of External My Sql Databases in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of External MySQL Databases. 
+Gets the list of External MySQL Databases.
+
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage

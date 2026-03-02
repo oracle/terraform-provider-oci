@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Managed My Sql Database Inbound Replications in Oracle Cloud Infrastructure Database Management service.
 
 Retrieves information about the inbound replications of a specific MySQL server.
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -45,7 +46,7 @@ The following attributes are exported:
 		* `filter_name` - The type of replication filter that has been configured for the replication channel.
 		* `filter_rule` - The rules configured for the replication filter type.
 	* `apply_delay` - The time in seconds that the current transaction took between being committed on the source and being applied on the replica.
-	* `apply_error` - Error from the apply operation of a MySQL server replication channel.
+	* `apply_error` - Error from the apply operation of a MySQL server replication channel. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 		* `last_error_message` - The error message of the most recent error that caused the SQL or coordinator thread to stop.
 		* `last_error_number` - The error number of the most recent error that caused the SQL or coordinator thread to stop.
 		* `time_last_error` - The timestamp when the most recent SQL or coordinator error occurred.
@@ -57,7 +58,7 @@ The following attributes are exported:
 	* `busy_workers` - The number of workers currently busy applying transactions from the source server.
 	* `channel_name` - The name of the replication channel.
 	* `desired_delay_seconds` - The desired number of seconds that the replica must lag the source.
-	* `fetch_error` - Error from the fetch operation of a MySQL server replication channel.
+	* `fetch_error` - Error from the fetch operation of a MySQL server replication channel. MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 		* `last_error_message` - The error message of the most recent error that caused the I/O thread to stop.
 		* `last_error_number` - The error number of the most recent error that caused the I/O thread to stop.
 		* `time_last_error` - The timestamp when the most recent I/O error occurred.

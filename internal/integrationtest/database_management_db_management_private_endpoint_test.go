@@ -59,6 +59,7 @@ var (
 		"is_cluster":                acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_dns_resolution_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}, Update: []string{}},
+		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.value": "15", "oracle-zpr.sensitivity.mode": "enforce"}, Update: map[string]string{"oracle-zpr.sensitivity.value": "25", "oracle-zpr.sensitivity.mode": "enforce"}},
 	}
 
 	DatabaseManagementDbManagementPrivateEndpointResourceDependencies = ""
@@ -140,6 +141,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
@@ -171,6 +173,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -196,6 +199,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
@@ -243,6 +247,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

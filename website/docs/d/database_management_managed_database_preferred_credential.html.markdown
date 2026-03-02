@@ -27,7 +27,7 @@ data "oci_database_management_managed_database_preferred_credential" "test_manag
 
 The following arguments are supported:
 
-* `credential_name` - (Required) The name of the preferred credential.
+* `credential_name` - (Required) The name of the preferred credential. There are 3 built-in preferred credentials with display names and names as below:   Basic Monitoring(MONITORING) Advanced diagnostics(PC_READ) Administrator(PC_WRITE) 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 
 

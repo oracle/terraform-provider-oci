@@ -10,7 +10,9 @@ description: |-
 # Data Source: oci_database_management_managed_my_sql_database_configuration_data
 This data source provides the list of Managed My Sql Database Configuration Data in Oracle Cloud Infrastructure Database Management service.
 
-Retrieves Configuration Data for given MySQL Instance.
+Retrieves configuration data for a specific MySQL database.
+
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
