@@ -45,7 +45,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - An array of cloud databases.
-	* `cloud_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB home.
+	* `cloud_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB home.
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	* `database_platform_name` - The operating system of database.
 	* `database_sub_type` - The subtype of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or Non-container Database. 
@@ -58,7 +58,7 @@ The following attributes are exported:
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 		* `display_name` - The user-friendly name for the cloud DB system. The name does not have to be unique.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB system.
-	* `db_unique_name` - The `DB_UNIQUE_NAME` of the external database.
+	* `db_unique_name` - The `DB_UNIQUE_NAME` of the cloud database.
 	* `dbmgmt_feature_configs` - The list of feature configurations
 		* `connector_details` - The connector details required to connect to an Oracle cloud database.
 			* `connector_type` - The list of supported connection types:
@@ -92,13 +92,13 @@ The following attributes are exported:
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `display_name` - The user-friendly name for the database. The name does not have to be unique.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB system.
 	* `instance_details` - The list of database instances if the database is a RAC database.
 		* `host_name` - The name of the host machine.
 		* `instance_name` - The name of the database instance.
 		* `instance_number` - The instance number of the database instance.
 	* `parent_container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database (CDB) if this is a Pluggable Database (PDB). 
-	* `state` - The current lifecycle state of the external database resource.
+	* `state` - The current lifecycle state of the cloud database resource.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-	* `time_created` - The date and time the external DB system was created.
+	* `time_created` - The date and time the cloud DB system was created.
 

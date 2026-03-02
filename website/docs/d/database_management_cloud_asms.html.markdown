@@ -62,7 +62,7 @@ The following attributes are exported:
 	* `database_sub_type` - The subtype of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database. 
 	* `database_type` - The type of Oracle Database installation.
 	* `db_unique_name` - The unique name of the cloud database.
-	* `dbaas_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing Dbaas Oracle Cloud Infrastructure resource matching the discovered DB system component.
+	* `dbaas_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing DBaas Oracle Cloud Infrastructure resource matching the discovered DB system component.
 	* `disk_groups` - The list of ASM disk groups used by the database.
 	* `display_name` - The user-friendly name for the database. The name does not have to be unique.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud database.
