@@ -48,6 +48,12 @@ resource "oci_ocvp_cluster" "test_cluster" {
 
 	#Optional
 	capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+	cluster_byol_allocation_details {
+
+		#Optional
+		firewall_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
+		vsan_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
+	}
 	datastore_cluster_ids = var.cluster_datastore_cluster_ids
 	datastores {
 		#Required
@@ -61,6 +67,7 @@ resource "oci_ocvp_cluster" "test_cluster" {
 	initial_commitment = var.cluster_initial_commitment
 	initial_host_ocpu_count = var.cluster_initial_host_ocpu_count
 	initial_host_shape_name = oci_core_shape.test_shape.name
+	initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
 	instance_display_name_prefix = var.cluster_instance_display_name_prefix
 	is_shielded_instance_enabled = var.cluster_is_shielded_instance_enabled
 	vmware_software_version = var.cluster_vmware_software_version
@@ -73,6 +80,9 @@ resource "oci_ocvp_cluster" "test_cluster" {
 The following arguments are supported:
 
 * `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+* `cluster_byol_allocation_details` - (Optional) (Updatable) The BYOL allocations used for VMware Cluster provisioning. 
+	* `firewall_byol_allocation_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+	* `vsan_byol_allocation_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 * `compute_availability_domain` - (Required) The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
 * `datastore_cluster_ids` - (Optional) A list of datastore clusters. 
 * `datastores` - (Optional) A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
@@ -89,6 +99,7 @@ The following arguments are supported:
 * `initial_commitment` - (Optional) The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `initial_host_ocpu_count` - (Optional) The initial OCPU count of the Cluster's ESXi hosts. 
 * `initial_host_shape_name` - (Optional) The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+* `initial_vcf_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 * `instance_display_name_prefix` - (Optional) A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 	For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
@@ -150,6 +161,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+* `cluster_byol_allocation_details` - The BYOL allocations used for VMware Cluster provisioning. 
+	* `firewall_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+	* `vsan_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the Cluster. 
 * `compute_availability_domain` - The availability domain the ESXi hosts are running in. For Multi-AD Cluster, it is `multi-AD`.  Example: `Uocm:PHX-AD-1`, `multi-AD` 
 * `datastore_cluster_ids` - A list of datastore clusters. 
@@ -170,6 +184,7 @@ The following attributes are exported:
 * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 * `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+* `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 * `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 	For example, if the value is `MyCluster`, the ESXi hosts are named `MyCluster-1`, `MyCluster-2`, and so on. 

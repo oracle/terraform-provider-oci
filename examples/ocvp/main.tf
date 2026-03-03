@@ -24,7 +24,7 @@ variable "instance_ocpu_count" {
 }
 
 variable "vmware_software_version" {
-  default = "7.0 update 3"
+  default = "8.0 update 3"
 }
 
 provider "oci" {
@@ -43,6 +43,90 @@ data "oci_identity_availability_domains" "ADs" {
 
 data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_software_versions" {
   compartment_id = "${var.compartment_ocid}"
+}
+
+resource "oci_ocvp_byol" "test_vcf_byol" {
+  #Required
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_VCF_BYOL"
+  entitlement_key = "AAAAA-BBBBB-CCCCC-DDDDD-EEEEE"
+  software_type   = "VCF"
+  time_term_end   = "2029-03-23T01:23:45.678Z"
+  time_term_start = "2025-03-23T01:23:45.678Z"
+  total_units     = 1000
+
+  #Optional
+  #description   = var.byol_description
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_defined_tags_value)
+  #freeform_tags = var.byol_freeform_tags
+}
+
+resource "oci_ocvp_byol_allocation" "test_byol_vcf_allocation" {
+  #Required
+  allocated_units = 1000
+  byol_id         = oci_ocvp_byol.test_vcf_byol.id
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_VCF_BYOL_ALLOCATION"
+
+  #Optional
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_allocation_defined_tags_value)
+  #freeform_tags = var.byol_allocation_freeform_tags
+}
+
+resource "oci_ocvp_byol" "test_vdefend_byol" {
+  #Required
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_VDFEND_BYOL"
+  entitlement_key = "AAAAA-BBBBB-CCCCC-DDDDD-EEEEE"
+  software_type   = "VDEFEND"
+  time_term_end   = "2029-03-23T01:23:45.678Z"
+  time_term_start = "2025-03-23T01:23:45.678Z"
+  total_units     = 500
+
+  #Optional
+  #description   = var.byol_description
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_defined_tags_value)
+  #freeform_tags = var.byol_freeform_tags
+}
+
+resource "oci_ocvp_byol_allocation" "test_byol_vdefend_allocation" {
+  #Required
+  allocated_units = 500
+  byol_id         = oci_ocvp_byol.test_vdefend_byol.id
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_VDEFEND_BYOL_ALLOCATION"
+
+  #Optional
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_allocation_defined_tags_value)
+  #freeform_tags = var.byol_allocation_freeform_tags
+}
+
+resource "oci_ocvp_byol" "test_lb_byol" {
+  #Required
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_LB_BYOL"
+  entitlement_key = "AAAAA-BBBBB-CCCCC-DDDDD-EEEEE"
+  software_type   = "AVI_LOAD_BALANCER"
+  time_term_end   = "2029-03-23T01:23:45.678Z"
+  time_term_start = "2025-03-23T01:23:45.678Z"
+  total_units     = 20
+
+  #Optional
+  #description   = var.byol_description
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_defined_tags_value)
+  #freeform_tags = var.byol_freeform_tags
+}
+
+resource "oci_ocvp_byol_allocation" "test_byol_lb_allocation" {
+  #Required
+  allocated_units = 20
+  byol_id         = oci_ocvp_byol.test_lb_byol.id
+  compartment_id  = var.compartment_ocid
+  display_name    = "TEST_LB_BYOL_ALLOCATION"
+
+  #Optional
+  #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_allocation_defined_tags_value)
+  #freeform_tags = var.byol_allocation_freeform_tags
 }
 
 resource "oci_core_vcn" "test_vcn_ocvp" {
@@ -415,6 +499,11 @@ resource "oci_ocvp_sddc" "test_sddc" {
       initial_host_shape_name      = var.instance_shape
       instance_display_name_prefix = "prefix"
       is_shielded_instance_enabled = true
+      initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vcf_allocation.id
+      cluster_byol_allocation_details {
+        firewall_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vdefend_allocation.id
+        #vsan_byol_allocation_id    = oci_ocvp_byol_allocation.test_byol_vsan_allocation.id
+      }
       datastores {
         #Required
         block_volume_ids = ["${oci_core_volume.test_block_volume.id}"]
@@ -428,6 +517,10 @@ resource "oci_ocvp_sddc" "test_sddc" {
   is_hcx_enabled               = true
   hcx_action                   = "upgrade"
   refresh_hcx_license_status   = true
+  sddc_byol_allocation_details {
+    load_balancer_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_lb_allocation.id
+    load_balancer_instance_count     = "10"
+  }
   #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
   #display_name  = var.sddc_display_name
@@ -460,13 +553,17 @@ resource "oci_ocvp_cluster" "test_cluster" {
   initial_host_shape_name     = var.instance_shape
   capacity_reservation_id     = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
   is_shielded_instance_enabled = true
+  initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vcf_allocation.id
+  cluster_byol_allocation_details {
+    firewall_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vdefend_allocation.id
+    #vsan_byol_allocation_id    = oci_ocvp_byol_allocation.test_byol_vsan_allocation.id
+  }
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
   #display_name  = var.sddc_display_name
   #freeform_tags = var.sddc_freeform_tags
   #instance_display_name_prefix = "prefix"
   #workload_network_cidr = "172.20.0.0/24"
 }
-
 
 resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Required
@@ -475,6 +572,8 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   host_ocpu_count             = var.instance_ocpu_count
   host_shape_name             = var.instance_shape
+  vcf_byol_allocation_id      = oci_ocvp_byol_allocation.test_byol_vcf_allocation.id
+  is_vsan_byol_enabled        = false
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags

@@ -53,6 +53,12 @@ resource "oci_ocvp_sddc" "test_sddc" {
 
 			#Optional
 			capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+			cluster_byol_allocation_details {
+
+				#Optional
+				firewall_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
+				vsan_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
+			}
 			datastore_cluster_ids = var.sddc_initial_configuration_initial_cluster_configurations_datastore_cluster_ids
 			datastores {
 				#Required
@@ -63,6 +69,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
 			initial_commitment = var.sddc_initial_configuration_initial_cluster_configurations_initial_commitment
 			initial_host_ocpu_count = var.sddc_initial_configuration_initial_cluster_configurations_initial_host_ocpu_count
 			initial_host_shape_name = oci_core_shape.test_shape.name
+			initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
 			instance_display_name_prefix = var.sddc_initial_configuration_initial_cluster_configurations_instance_display_name_prefix
 			is_shielded_instance_enabled = var.sddc_initial_configuration_initial_cluster_configurations_is_shielded_instance_enabled
 			workload_network_cidr = var.sddc_initial_configuration_initial_cluster_configurations_workload_network_cidr
@@ -76,6 +83,12 @@ resource "oci_ocvp_sddc" "test_sddc" {
 	display_name = var.sddc_display_name
 	freeform_tags = {"Department"= "Finance"}
 	is_single_host_sddc = var.sddc_is_single_host_sddc
+	sddc_byol_allocation_details {
+
+		#Optional
+		load_balancer_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
+		load_balancer_instance_count = var.sddc_sddc_byol_allocation_details_load_balancer_instance_count
+	}
 	hcx_action = var.hcx_action
 	is_hcx_enabled = var.sddc_is_hcx_enabled
 }
@@ -112,6 +125,9 @@ The following arguments are supported:
 * `initial_configuration` - (Required) Details of SDDC initial configuration
 	* `initial_cluster_configurations` - (Required) The configurations for Clusters initially created in the SDDC. 
 		* `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+		* `cluster_byol_allocation_details` - (Optional) The BYOL allocations used for VMware Cluster provisioning. 
+			* `firewall_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+			* `vsan_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 		* `compute_availability_domain` - (Required) The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
 		* `datastore_cluster_ids` - (Optional) A list of datastore clusters. 
 		* `datastores` - (Optional) A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
@@ -124,6 +140,7 @@ The following arguments are supported:
 		* `initial_commitment` - (Optional) The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 		* `initial_host_ocpu_count` - (Optional) The initial OCPU count of the Cluster's ESXi hosts. 
 		* `initial_host_shape_name` - (Optional) The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+		* `initial_vcf_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 		* `instance_display_name_prefix` - (Optional) A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 			For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
@@ -175,6 +192,9 @@ The following arguments are supported:
 		* `vsphere_type` - (Required) vSphere Cluster types. 
 		* `workload_network_cidr` - (Optional) The CIDR block for the IP addresses that VMware VMs in the Cluster use to run application workloads. 
 * `is_single_host_sddc` - (Optional) Indicates whether this SDDC is designated for only single ESXi host.
+* `sddc_byol_allocation_details` - (Optional) (Updatable) The BYOL allocations used for VMware SDDC provisioning. 
+	* `load_balancer_byol_allocation_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware Avi Load Balancer. 
+	* `load_balancer_instance_count` - (Optional) (Updatable) The number of VMware Avi Load Balancer instances to be deployed on VMware SDDC.
 * `initial_host_ocpu_count` - (**Deprecated**) (Optional) The initial OCPU count of the SDDC's ESXi hosts. **Deprecated**. Please use `initial_host_ocpu_count` of `initial_cluster_configurations` instead.
 * `initial_host_shape_name` - (**Deprecated**) (Optional) The initial compute shape of the SDDC's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). **Deprecated**. Please use `initial_host_shape_name` of `initial_cluster_configurations` instead.
 * `initial_sku` - (**Deprecated**) (Optional) The billing option selected during SDDC creation. [ListSupportedSkus](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus). **Deprecated**. Please use  `initial_commitment` of `initial_cluster_configurations` instead.
@@ -247,6 +267,9 @@ The following attributes are exported:
 * `initial_configuration` - Details of SDDC initial configuration
 	* `initial_cluster_configurations` - The configurations for Clusters initially created in the SDDC. 
 		* `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+		* `cluster_byol_allocation_details` - The BYOL allocations used for VMware Cluster provisioning. 
+			* `firewall_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+			* `vsan_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 		* `compute_availability_domain` - The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
 		* `datastore_cluster_ids` - A list of datastore clusters. 
 		* `datastores` - A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
@@ -260,6 +283,7 @@ The following attributes are exported:
         * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 		* `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 		* `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+		* `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 		* `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 			For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
@@ -336,7 +360,10 @@ The following attributes are exported:
   Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the NSX Edge VTEP component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the SDDC's `nsxEdgeVTepVlanId` with that new VLAN's OCID. **Deprecated**. Please use `nsx_edge_vtep_vlan_id` of `network_configuration` instead.
 * `nsx_manager_fqdn` - The FQDN for NSX Manager.  Example: `nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 * `nsx_manager_private_ip_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateIp` object that is the virtual IP (VIP) for NSX Manager. For information about `PrivateIp` objects, see the Core Services API. 
-* `nsx_manager_username` - The SDDC includes an administrator username and initial password for NSX Manager. You can change this initial username to a different value in NSX Manager. 
+* `nsx_manager_username` - The SDDC includes an administrator username and initial password for NSX Manager. You can change this initial username to a different value in NSX Manager.
+* `sddc_byol_allocation_details` - The BYOL allocations used for VMware SDDC provisioning. 
+	* `load_balancer_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware Avi Load Balancer. 
+	* `load_balancer_instance_count` - The number of VMware Avi Load Balancer instances to be deployed on VMware SDDC.
 * `nsx_manager_initial_password` - (**Deprecated**) The SDDC includes an administrator username and initial password for NSX Manager. Make sure to change this initial NSX Manager password to a different value. **Deprecated**. Please use the `oci_ocvp_retrieve_password` data source instead.
 * `nsx_overlay_segment_name` - (**Deprecated**) The VMware NSX overlay workload segment to host your application. Connect to workload portgroup in vCenter to access this overlay segment. 
 * `nsx_vtep_vlan_id` - (**Deprecated**) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the NSX VTEP component of the VMware environment.

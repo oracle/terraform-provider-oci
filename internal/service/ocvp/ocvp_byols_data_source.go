@@ -14,11 +14,19 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func OcvpManagementAppliancesDataSource() *schema.Resource {
+func OcvpByolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readOcvpManagementAppliancesWithContext,
+		ReadContext: readOcvpByolsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"available_units_greater_than_or_equal_to": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
+			"byol_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,11 +35,7 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"management_appliance_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"sddc_id": {
+			"software_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -39,7 +43,7 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"management_appliance_collection": {
+			"byol_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -48,7 +52,7 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(OcvpManagementApplianceResource()),
+							Elem:     tfresource.GetDataSourceItemSchema(OcvpByolResource()),
 						},
 					},
 				},
@@ -57,26 +61,36 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpManagementAppliancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &OcvpManagementAppliancesDataSourceCrud{}
+func readOcvpByolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &OcvpByolsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
+	sync.Client = m.(*client.OracleClients).ByolClient()
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type OcvpManagementAppliancesDataSourceCrud struct {
+type OcvpByolsDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_ocvp.ManagementApplianceClient
-	Res    *oci_ocvp.ListManagementAppliancesResponse
+	Client *oci_ocvp.ByolClient
+	Res    *oci_ocvp.ListByolsResponse
 }
 
-func (s *OcvpManagementAppliancesDataSourceCrud) VoidState() {
+func (s *OcvpByolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpManagementAppliancesDataSourceCrud) GetWithContext(ctx context.Context) error {
-	request := oci_ocvp.ListManagementAppliancesRequest{}
+func (s *OcvpByolsDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_ocvp.ListByolsRequest{}
+
+	if availableUnitsGreaterThanOrEqualTo, ok := s.D.GetOkExists("available_units_greater_than_or_equal_to"); ok {
+		tmp := float32(availableUnitsGreaterThanOrEqualTo.(float64))
+		request.AvailableUnitsGreaterThanOrEqualTo = &tmp
+	}
+
+	if byolId, ok := s.D.GetOkExists("id"); ok {
+		tmp := byolId.(string)
+		request.ByolId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -88,23 +102,17 @@ func (s *OcvpManagementAppliancesDataSourceCrud) GetWithContext(ctx context.Cont
 		request.DisplayName = &tmp
 	}
 
-	if managementApplianceId, ok := s.D.GetOkExists("id"); ok {
-		tmp := managementApplianceId.(string)
-		request.ManagementApplianceId = &tmp
-	}
-
-	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
-		tmp := sddcId.(string)
-		request.SddcId = &tmp
+	if softwareType, ok := s.D.GetOkExists("software_type"); ok {
+		request.SoftwareType = oci_ocvp.ByolSoftwareTypeEnum(softwareType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_ocvp.ListManagementAppliancesLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_ocvp.ByolLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListManagementAppliances(ctx, request)
+	response, err := s.Client.ListByols(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +121,7 @@ func (s *OcvpManagementAppliancesDataSourceCrud) GetWithContext(ctx context.Cont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListManagementAppliances(ctx, request)
+		listResponse, err := s.Client.ListByols(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -125,28 +133,28 @@ func (s *OcvpManagementAppliancesDataSourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *OcvpManagementAppliancesDataSourceCrud) SetData() error {
+func (s *OcvpByolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("OcvpManagementAppliancesDataSource-", OcvpManagementAppliancesDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("OcvpByolsDataSource-", OcvpByolsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	managementAppliance := map[string]interface{}{}
+	byol := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, ManagementApplianceSummaryToMap(item))
+		items = append(items, ByolSummaryToMap(item))
 	}
-	managementAppliance["items"] = items
+	byol["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, OcvpManagementAppliancesDataSource().Schema["management_appliance_collection"].Elem.(*schema.Resource).Schema)
-		managementAppliance["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, OcvpByolsDataSource().Schema["byol_collection"].Elem.(*schema.Resource).Schema)
+		byol["items"] = items
 	}
 
-	resources = append(resources, managementAppliance)
-	if err := s.D.Set("management_appliance_collection", resources); err != nil {
+	resources = append(resources, byol)
+	if err := s.D.Set("byol_collection", resources); err != nil {
 		return err
 	}
 

@@ -120,6 +120,41 @@ func OcvpClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"cluster_byol_allocation_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"firewall_byol_allocation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vsan_byol_allocation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"datastore_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"datastores": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -193,6 +228,12 @@ func OcvpClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"initial_host_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"initial_vcf_byol_allocation_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -305,13 +346,6 @@ func OcvpClusterResource() *schema.Resource {
 					},
 				},
 			},
-			"datastore_cluster_ids": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 		},
 	}
 }
@@ -398,6 +432,17 @@ func (s *OcvpClusterResourceCrud) Create() error {
 		request.CapacityReservationId = &tmp
 	}
 
+	if clusterByolAllocationDetails, ok := s.D.GetOkExists("cluster_byol_allocation_details"); ok {
+		if tmpList := clusterByolAllocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cluster_byol_allocation_details", 0)
+			tmp, err := s.mapToClusterByolAllocationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ClusterByolAllocationDetails = &tmp
+		}
+	}
+
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
 		request.ComputeAvailabilityDomain = &tmp
@@ -472,6 +517,11 @@ func (s *OcvpClusterResourceCrud) Create() error {
 	if initialHostShapeName, ok := s.D.GetOkExists("initial_host_shape_name"); ok {
 		tmp := initialHostShapeName.(string)
 		request.InitialHostShapeName = &tmp
+	}
+
+	if initialVcfByolAllocationId, ok := s.D.GetOkExists("initial_vcf_byol_allocation_id"); ok {
+		tmp := initialVcfByolAllocationId.(string)
+		request.InitialVcfByolAllocationId = &tmp
 	}
 
 	if instanceDisplayNamePrefix, ok := s.D.GetOkExists("instance_display_name_prefix"); ok {
@@ -673,6 +723,17 @@ func (s *OcvpClusterResourceCrud) Get() error {
 func (s *OcvpClusterResourceCrud) Update() error {
 	request := oci_ocvp.UpdateClusterRequest{}
 
+	if clusterByolAllocationDetails, ok := s.D.GetOkExists("cluster_byol_allocation_details"); ok {
+		if tmpList := clusterByolAllocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cluster_byol_allocation_details", 0)
+			tmp, err := s.mapToClusterByolAllocationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ClusterByolAllocationDetails = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
 
@@ -752,6 +813,12 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
+	if s.Res.ClusterByolAllocationDetails != nil {
+		s.D.Set("cluster_byol_allocation_details", []interface{}{ClusterByolAllocationDetailsToMap(s.Res.ClusterByolAllocationDetails)})
+	} else {
+		s.D.Set("cluster_byol_allocation_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -807,6 +874,10 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
 	}
 
+	if s.Res.InitialVcfByolAllocationId != nil {
+		s.D.Set("initial_vcf_byol_allocation_id", *s.Res.InitialVcfByolAllocationId)
+	}
+
 	if s.Res.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
 	}
@@ -860,8 +931,42 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *OcvpClusterResourceCrud) mapToClusterByolAllocationDetails(fieldKeyFormat string) (oci_ocvp.ClusterByolAllocationDetails, error) {
+	result := oci_ocvp.ClusterByolAllocationDetails{}
+
+	if firewallByolAllocationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "firewall_byol_allocation_id")); ok {
+		tmp := firewallByolAllocationId.(string)
+		result.FirewallByolAllocationId = &tmp
+	}
+
+	if vsanByolAllocationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vsan_byol_allocation_id")); ok {
+		tmp := vsanByolAllocationId.(string)
+		result.VsanByolAllocationId = &tmp
+	}
+
+	return result, nil
+}
+
+func ClusterByolAllocationDetailsToMap(obj *oci_ocvp.ClusterByolAllocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FirewallByolAllocationId != nil {
+		result["firewall_byol_allocation_id"] = string(*obj.FirewallByolAllocationId)
+	}
+
+	if obj.VsanByolAllocationId != nil {
+		result["vsan_byol_allocation_id"] = string(*obj.VsanByolAllocationId)
+	}
+
+	return result
+}
+
 func ClusterSummaryToMap(obj oci_ocvp.ClusterSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.ClusterByolAllocationDetails != nil {
+		result["cluster_byol_allocation_details"] = []interface{}{ClusterByolAllocationDetailsToMap(obj.ClusterByolAllocationDetails)}
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -949,6 +1054,20 @@ func (s *OcvpClusterResourceCrud) mapToDatastoreInfo(fieldKeyFormat string) (oci
 	}
 
 	return result, nil
+}
+
+func ByolAllocationDetailsToMap(obj oci_ocvp.ClusterByolAllocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FirewallByolAllocationId != nil {
+		result["firewall_byol_allocation_id"] = obj.FirewallByolAllocationId
+	}
+
+	if obj.VsanByolAllocationId != nil {
+		result["vsan_byol_allocation_id"] = obj.VsanByolAllocationId
+	}
+
+	return result
 }
 
 func DatastoreDetailsToMap(obj oci_ocvp.DatastoreDetails) map[string]interface{} {

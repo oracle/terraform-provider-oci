@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -24,11 +24,11 @@ func OcvpManagementApplianceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOcvpManagementAppliance,
-		Read:     readOcvpManagementAppliance,
-		Update:   updateOcvpManagementAppliance,
-		Delete:   deleteOcvpManagementAppliance,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOcvpManagementApplianceWithContext,
+		ReadContext:   readOcvpManagementApplianceWithContext,
+		UpdateContext: updateOcvpManagementApplianceWithContext,
+		DeleteContext: deleteOcvpManagementApplianceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"configuration": {
@@ -161,6 +161,10 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"plugin_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -190,40 +194,40 @@ func OcvpManagementApplianceResource() *schema.Resource {
 	}
 }
 
-func createOcvpManagementAppliance(d *schema.ResourceData, m interface{}) error {
+func createOcvpManagementApplianceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementApplianceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOcvpManagementAppliance(d *schema.ResourceData, m interface{}) error {
+func readOcvpManagementApplianceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementApplianceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOcvpManagementAppliance(d *schema.ResourceData, m interface{}) error {
+func updateOcvpManagementApplianceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementApplianceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOcvpManagementAppliance(d *schema.ResourceData, m interface{}) error {
+func deleteOcvpManagementApplianceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementApplianceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OcvpManagementApplianceResourceCrud struct {
@@ -263,7 +267,7 @@ func (s *OcvpManagementApplianceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OcvpManagementApplianceResourceCrud) Create() error {
+func (s *OcvpManagementApplianceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ocvp.CreateManagementApplianceRequest{}
 
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
@@ -323,14 +327,14 @@ func (s *OcvpManagementApplianceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.CreateManagementAppliance(context.Background(), request)
+	response, err := s.Client.CreateManagementAppliance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -346,14 +350,14 @@ func (s *OcvpManagementApplianceResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getManagementApplianceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagementApplianceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OcvpManagementApplianceResourceCrud) getManagementApplianceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OcvpManagementApplianceResourceCrud) getManagementApplianceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ocvp.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managementApplianceId, err := managementApplianceWaitForWorkRequest(workId, "managementappliance",
+	managementApplianceId, err := managementApplianceWaitForWorkRequest(ctx, workId, "managementappliance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -361,7 +365,7 @@ func (s *OcvpManagementApplianceResourceCrud) getManagementApplianceFromWorkRequ
 	}
 	s.D.SetId(*managementApplianceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managementApplianceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -387,7 +391,7 @@ func managementApplianceWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 	}
 }
 
-func managementApplianceWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
+func managementApplianceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = managementApplianceWorkRequestShouldRetryFunc(timeout)
@@ -406,7 +410,7 @@ func managementApplianceWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ocvp.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -435,14 +439,14 @@ func managementApplianceWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpManagementApplianceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpManagementApplianceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOcvpManagementApplianceWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOcvpManagementApplianceWorkRequest(ctx context.Context, client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ocvp.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -464,7 +468,7 @@ func getErrorFromOcvpManagementApplianceWorkRequest(client *oci_ocvp.WorkRequest
 	return workRequestErr
 }
 
-func (s *OcvpManagementApplianceResourceCrud) Get() error {
+func (s *OcvpManagementApplianceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetManagementApplianceRequest{}
 
 	tmp := s.D.Id()
@@ -472,7 +476,7 @@ func (s *OcvpManagementApplianceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.GetManagementAppliance(context.Background(), request)
+	response, err := s.Client.GetManagementAppliance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -481,7 +485,7 @@ func (s *OcvpManagementApplianceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpManagementApplianceResourceCrud) Update() error {
+func (s *OcvpManagementApplianceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_ocvp.UpdateManagementApplianceRequest{}
 
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
@@ -534,16 +538,16 @@ func (s *OcvpManagementApplianceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.UpdateManagementAppliance(context.Background(), request)
+	response, err := s.Client.UpdateManagementAppliance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagementApplianceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getManagementApplianceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OcvpManagementApplianceResourceCrud) Delete() error {
+func (s *OcvpManagementApplianceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ocvp.DeleteManagementApplianceRequest{}
 
 	tmp := s.D.Id()
@@ -551,14 +555,14 @@ func (s *OcvpManagementApplianceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.DeleteManagementAppliance(context.Background(), request)
+	response, err := s.Client.DeleteManagementAppliance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := managementApplianceWaitForWorkRequest(workId, "managementappliance",
+	_, delWorkRequestErr := managementApplianceWaitForWorkRequest(ctx, workId, "managementappliance",
 		oci_ocvp.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -604,6 +608,10 @@ func (s *OcvpManagementApplianceResourceCrud) SetData() error {
 
 	if s.Res.ManagementAgentId != nil {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
+	}
+
+	if s.Res.PluginVersion != nil {
+		s.D.Set("plugin_version", *s.Res.PluginVersion)
 	}
 
 	if s.Res.SddcId != nil {
@@ -775,6 +783,10 @@ func ManagementApplianceSummaryToMap(obj oci_ocvp.ManagementApplianceSummary) ma
 
 	if obj.ManagementAgentId != nil {
 		result["management_agent_id"] = string(*obj.ManagementAgentId)
+	}
+
+	if obj.PluginVersion != nil {
+		result["plugin_version"] = string(*obj.PluginVersion)
 	}
 
 	if obj.SddcId != nil {

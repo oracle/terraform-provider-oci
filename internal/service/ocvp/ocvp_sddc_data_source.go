@@ -167,6 +167,12 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("nsx_manager_username", *s.Res.NsxManagerUsername)
 	}
 
+	if s.Res.SddcByolAllocationDetails != nil {
+		s.D.Set("sddc_byol_allocation_details", []interface{}{SddcByolAllocationDetailsToMap(s.Res.SddcByolAllocationDetails)})
+	} else {
+		s.D.Set("sddc_byol_allocation_details", nil)
+	}
+
 	if s.Res.SshAuthorizedKeys != nil {
 		s.D.Set("ssh_authorized_keys", *s.Res.SshAuthorizedKeys)
 	}

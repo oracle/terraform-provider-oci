@@ -54,7 +54,7 @@ var (
 		"connections":     acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpManagementApplianceConnectionsRepresentation},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"sddc_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
-		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: ocvpDefinedTag, Update: ocvpDefinedTagUpdate},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"public_ssh_keys": acctest.Representation{RepType: acctest.Optional, Create: `${var.public_ssh_keys}`},
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
@@ -113,7 +113,7 @@ func TestOcvpManagementApplianceResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_management_appliance", "test_management_appliance", acctest.Optional, acctest.Create, OcvpManagementApplianceRepresentation), "ocvp", "managementAppliance", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpManagementApplianceDestroy, []resource.TestStep{
-		//verify Create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + namespaceVariableStr + credentialsSecretIdVariableStr + publicSshKeysVariableStr + OcvpManagementApplianceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_management_appliance", "test_management_appliance", acctest.Required, acctest.Create, OcvpManagementApplianceRepresentation),
@@ -138,7 +138,7 @@ func TestOcvpManagementApplianceResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + namespaceVariableStr + credentialsSecretIdVariableStr + publicSshKeysVariableStr + OcvpManagementApplianceResourceDependencies,
 		},
-		//verify Create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + namespaceVariableStr + credentialsSecretIdVariableStr + publicSshKeysVariableStr + OcvpManagementApplianceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_management_appliance", "test_management_appliance", acctest.Optional, acctest.Create, OcvpManagementApplianceRepresentation),
@@ -171,7 +171,7 @@ func TestOcvpManagementApplianceResource_basic(t *testing.T) {
 			),
 		},
 
-		//verify updates to updatable parameters
+		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + namespaceVariableStr + credentialsSecretIdVariableStr + publicSshKeysVariableStr + OcvpManagementApplianceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_management_appliance", "test_management_appliance", acctest.Optional, acctest.Update, OcvpManagementApplianceRepresentation),
