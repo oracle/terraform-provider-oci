@@ -14,14 +14,16 @@ variable "private_key_path" {
 
 variable "region" {
   // Define the region where destination backup will be created.
- }
+}
 
 variable "compartment_ocid" {
 }
 
 provider "oci" {
-  # un-ignore to run backwards compatibility testing
-  #version = "6.32.0"
+  # uncomment to run backwards compatibility testing
+  # to avoid compatibility issues use the lastest version released:
+  # https://github.com/oracle/terraform-provider-oci/releases
+  # version = "8.7.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -67,7 +69,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_backup_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "MySQL.VM.Standard.E3.1.8GB"
+  shape_name          = "MySQL.4"
   subnet_id           = oci_core_subnet.test_subnet.id
 
   #Optional
@@ -77,17 +79,22 @@ resource "oci_mysql_mysql_db_system" "test_mysql_backup_db_system" {
 resource "oci_mysql_mysql_configuration" "test_mysql_configuration" {
 	#Required
 	compartment_id = var.compartment_ocid
-	shape_name = "MySQL.VM.Standard.E3.1.8GB"
+	shape_name = "MySQL.4"
 
 	#Optional
 	description = "test configuration created by terraform"
 	display_name = "terraform test configuration"
 	parent_configuration_id = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-	variables {
 
-		#Optional
-		max_connections = "501"
-	}
+    #Optional
+    options {
+      name  = "max_connections"
+      value = "501"
+    }
+}
+
+resource "time_static" "anchor" {
+  // Anchor the time to avoid drifting due to maintenance_disabled_windows value changes
 }
 
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
@@ -97,7 +104,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = oci_mysql_mysql_configuration.test_mysql_configuration.id
-  shape_name          = "MySQL.VM.Standard.E3.1.8GB"
+  shape_name          = "MySQL.4"
   subnet_id           = oci_core_subnet.test_subnet.id
 
   #Optional
@@ -131,8 +138,8 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     version_preference =        "OLDEST"
     version_track_preference =  "FOLLOW"
     maintenance_disabled_windows {
-      time_start = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "24h"))
-      time_end = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "48h"))
+      time_start = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(time_static.anchor.rfc3339, "24h"))
+      time_end = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(time_static.anchor.rfc3339, "48h"))
     }
   }
 
@@ -199,8 +206,8 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  shape_name   = "MySQL.VM.Standard.E3.1.8GB"
-  display_name = "MySQL.VM.Standard.E3.1.8GB.Standalone"
+  shape_name   = "MySQL.4"
+  display_name = "MySQL.4.Standalone"
 }
 
 data "oci_mysql_mysql_backups" "test_mysql_backups" {

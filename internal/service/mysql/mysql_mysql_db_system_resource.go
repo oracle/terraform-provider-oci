@@ -580,6 +580,7 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BACKUP",
+								"DBSYSTEM",
 								"IMPORTURL",
 								"NONE",
 								"PITR",
@@ -593,6 +594,79 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"channel": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"applier_username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"source_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										ForceNew:  true,
+										Sensitive: true,
+									},
+									"source_username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ssl_ca_certificate": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"certificate_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"PEM",
+													}, true),
+												},
+												"contents": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"ssl_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"db_system_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -605,6 +679,12 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Computed:         true,
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"source_url": {
 							Type:      schema.TypeString,
@@ -1907,11 +1987,14 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	}
 
 	if s.Res.Source != nil {
-		sourceArray := []interface{}{}
-		if sourceMap := DbSystemSourceToMap(&s.Res.Source); sourceMap != nil {
-			sourceArray = append(sourceArray, sourceMap)
+		// Skip DBSYSTEM sources because CREATE/GET shape them differently.
+		if !isDbSystemSourceFromDbSystem(&s.Res.Source) {
+			sourceArray := []interface{}{}
+			if sourceMap := DbSystemSourceToMap(&s.Res.Source); sourceMap != nil {
+				sourceArray = append(sourceArray, sourceMap)
+			}
+			s.D.Set("source", sourceArray)
 		}
-		s.D.Set("source", sourceArray)
 	} else {
 		result := map[string]interface{}{}
 		result["source_type"] = "NONE"
@@ -2377,6 +2460,27 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 			details.BackupId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("DBSYSTEM"):
+		details := oci_mysql.CreateDbSystemSourceFromDbSystemDetails{}
+		if channel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "channel")); ok {
+			if tmpList := channel.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "channel"), 0)
+				tmp, err := s.mapToCreateDbSystemSourceFromDbSystemChannelDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert channel, encountered error: %v", err)
+				}
+				details.Channel = &tmp
+			}
+		}
+		if dbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_id")); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("IMPORTURL"):
 		details := oci_mysql.CreateDbSystemSourceImportFromUrlDetails{}
 		if sourceUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_url")); ok {
@@ -2407,6 +2511,15 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceDetails(fieldK
 	return baseObject, nil
 }
 
+func isDbSystemSourceFromDbSystem(obj *oci_mysql.DbSystemSource) bool {
+	if obj == nil || *obj == nil {
+		return false
+	}
+
+	_, ok := (*obj).(oci_mysql.DbSystemSourceFromDbSystem)
+	return ok
+}
+
 func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -2415,6 +2528,12 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 
 		if v.BackupId != nil {
 			result["backup_id"] = string(*v.BackupId)
+		}
+	case oci_mysql.DbSystemSourceFromDbSystem:
+		result["source_type"] = "DBSYSTEM"
+
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
 		}
 	case oci_mysql.DbSystemSourceImportFromUrl:
 		result["source_type"] = "IMPORTURL"
@@ -2436,6 +2555,42 @@ func DbSystemSourceToMap(obj *oci_mysql.DbSystemSource) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDbSystemSourceFromDbSystemChannelDetails(fieldKeyFormat string) (oci_mysql.CreateDbSystemSourceFromDbSystemChannelDetails, error) {
+	result := oci_mysql.CreateDbSystemSourceFromDbSystemChannelDetails{}
+
+	if applierUsername, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "applier_username")); ok {
+		tmp := applierUsername.(string)
+		result.ApplierUsername = &tmp
+	}
+
+	if sourcePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_password")); ok {
+		tmp := sourcePassword.(string)
+		result.SourcePassword = &tmp
+	}
+
+	if sourceUsername, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_username")); ok {
+		tmp := sourceUsername.(string)
+		result.SourceUsername = &tmp
+	}
+
+	if sslCaCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate")); ok {
+		if tmpList := sslCaCertificate.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ssl_ca_certificate"), 0)
+			tmp, err := s.mapToCaCertificate(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert ssl_ca_certificate, encountered error: %v", err)
+			}
+			result.SslCaCertificate = tmp
+		}
+	}
+
+	if sslMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssl_mode")); ok {
+		result.SslMode = oci_mysql.SslModeEnum(sslMode.(string))
+	}
+
+	return result, nil
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateDeletionPolicyDetails(fieldKeyFormat string) (oci_mysql.CreateDeletionPolicyDetails, error) {
