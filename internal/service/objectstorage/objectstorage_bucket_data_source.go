@@ -124,6 +124,10 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsBucketKeyEnabled != nil {
+		s.D.Set("is_bucket_key_enabled", *s.Res.IsBucketKeyEnabled)
+	}
+
 	if s.Res.IsReadOnly != nil {
 		s.D.Set("is_read_only", *s.Res.IsReadOnly)
 	}
