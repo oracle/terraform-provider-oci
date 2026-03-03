@@ -75,8 +75,8 @@ var (
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                      acctest.Representation{RepType: acctest.Optional, Create: `idcsAt`},
 		"is_disaster_recovery_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_file_server_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_visual_builder_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_file_server_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_visual_builder_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}},
 		// STANDARD or ENTERPRISE only
 		"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
@@ -109,8 +109,8 @@ var (
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                      acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 		"is_disaster_recovery_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_file_server_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_visual_builder_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_file_server_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_visual_builder_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}},
 		// STANDARD or ENTERPRISE only
 		// "network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
@@ -204,6 +204,8 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	privateEndpointResourceName := "oci_integration_private_endpoint_outbound_connection.integration_private_endpoint"
 	managedCustomEndpointResourceName := "oci_integration_oracle_managed_custom_endpoint.integretion_custom_endpoint"
 	var resId, resId2 string
+
+	UNUSED(datasourceName, compartmentIdUVariableStr, singularDatasourceName, resId2)
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+instanceTypeVariableStr+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
@@ -524,7 +526,6 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_updated"),
 			),
 		},
-
 		// verify singular datasource
 		{
 			Config: config + instanceTypeVariableStr +
@@ -859,3 +860,5 @@ resource "oci_integration_oracle_managed_custom_endpoint" "integretion_custom_en
 }
 `
 }
+
+func UNUSED(v ...interface{}) {}
