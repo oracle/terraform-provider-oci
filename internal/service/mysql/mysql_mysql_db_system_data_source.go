@@ -241,11 +241,14 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.Source != nil {
-		sourceArray := []interface{}{}
-		if sourceMap := DbSystemSourceToMap(&s.Res.Source); sourceMap != nil {
-			sourceArray = append(sourceArray, sourceMap)
+		// Skip DBSYSTEM sources because CREATE/GET shape them differently.
+		if !isDbSystemSourceFromDbSystem(&s.Res.Source) {
+			sourceArray := []interface{}{}
+			if sourceMap := DbSystemSourceToMap(&s.Res.Source); sourceMap != nil {
+				sourceArray = append(sourceArray, sourceMap)
+			}
+			s.D.Set("source", sourceArray)
 		}
-		s.D.Set("source", sourceArray)
 	} else {
 		result := map[string]interface{}{}
 		result["source_type"] = "NONE"
