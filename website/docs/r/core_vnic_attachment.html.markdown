@@ -33,9 +33,16 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 		display_name = var.vnic_attachment_create_vnic_details_display_name
 		freeform_tags = var.vnic_attachment_create_vnic_details_freeform_tags
 		hostname_label = var.vnic_attachment_create_vnic_details_hostname_label
-		ipv6address_ipv6subnet_cidr_pair_details = var.vnic_attachment_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details
+		ipv6address_ipv6subnet_cidr_pair_details {
+
+			#Optional
+			ipv6address = var.vnic_attachment_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+			ipv6id = oci_core_ipv6.test_ipv6.id
+			ipv6subnet_cidr = var.vnic_attachment_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+		}
 		nsg_ids = var.vnic_attachment_create_vnic_details_nsg_ids
 		private_ip = var.vnic_attachment_create_vnic_details_private_ip
+		private_ip_id = oci_core_private_ip.test_private_ip.id
 		security_attributes = var.vnic_attachment_create_vnic_details_security_attributes
 		skip_source_dest_check = var.vnic_attachment_create_vnic_details_skip_source_dest_check
 		subnet_cidr = var.vnic_attachment_create_vnic_details_subnet_cidr
@@ -81,16 +88,24 @@ The following arguments are supported:
 		Example: `bminstance1`
 
 		If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN can not be assigned a hostname. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
-	* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
+	* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC is assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address within that range to use. 
+		* `ipv6address` - (Optional) An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix. If an IPv6 address is not provided:
+			* Oracle will automatically assign an IPv6 address from the subnet's IPv6 prefix if and only if there is only one IPv6 prefix on the subnet.
+			* Oracle will automatically assign an IPv6 address from the subnet's IPv6 Oracle GUA prefix if it exists on the subnet. 
+		* `ipv6id` - (Optional) An [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved ipv6 to use. 
+		* `ipv6subnet_cidr` - (Optional) The IPv6 prefix allocated to the subnet.
 	* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
 
 		If a `vlanId` is specified, the `nsgIds` cannot be specified. The `vlanId` indicates that the VNIC will belong to a VLAN instead of a subnet. With VLANs, all VNICs in the VLAN belong to the NSGs that are associated with the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
 	* `private_ip` - (Optional) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
 
 		 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
-	
-		Example: `10.0.3.3`
-	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}` 
+
+		If you specify a 'privateIpId', the 'privateIp' cannot be specified.
+
+		Example: `10.0.3.3` 
+	* `private_ip_id` - (Optional) An [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved IP address to use for this VNIC. 
+	* `security_attributes` - (Optional) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
