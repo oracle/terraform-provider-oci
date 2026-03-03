@@ -80,6 +80,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_bucket_key_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -301,6 +306,11 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isBucketKeyEnabled, ok := s.D.GetOkExists("is_bucket_key_enabled"); ok {
+		tmp := isBucketKeyEnabled.(bool)
+		request.IsBucketKeyEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -453,6 +463,11 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isBucketKeyEnabled, ok := s.D.GetOkExists("is_bucket_key_enabled"); ok {
+		tmp := isBucketKeyEnabled.(bool)
+		request.IsBucketKeyEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -561,6 +576,10 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsBucketKeyEnabled != nil {
+		s.D.Set("is_bucket_key_enabled", *s.Res.IsBucketKeyEnabled)
+	}
 
 	if s.Res.IsReadOnly != nil {
 		s.D.Set("is_read_only", *s.Res.IsReadOnly)
