@@ -6,6 +6,8 @@ package ocvp
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_ocvp_byol", OcvpByolResource())
+	tfresource.RegisterResource("oci_ocvp_byol_allocation", OcvpByolAllocationResource())
 	tfresource.RegisterResource("oci_ocvp_cluster", OcvpClusterResource())
 	tfresource.RegisterResource("oci_ocvp_datastore", OcvpDatastoreResource())
 	tfresource.RegisterResource("oci_ocvp_datastore_cluster", OcvpDatastoreClusterResource())

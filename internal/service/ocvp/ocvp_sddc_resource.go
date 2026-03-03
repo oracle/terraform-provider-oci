@@ -575,6 +575,35 @@ func OcvpSddcResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"cluster_byol_allocation_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"firewall_byol_allocation_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"vsan_byol_allocation_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"datastore_cluster_ids": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -636,6 +665,12 @@ func OcvpSddcResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"initial_vcf_byol_allocation_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"instance_display_name_prefix": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -672,6 +707,34 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"sddc_byol_allocation_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"load_balancer_byol_allocation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"load_balancer_instance_count": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+
+			// Computed
 			"clusters_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -782,10 +845,21 @@ func (s *OcvpSddcResourceCrud) getOkExistsNetworkConfigurationProperty(property 
 	return nil, false
 }
 
+func (s *OcvpSddcResourceCrud) getOkExistsClusterByolConfigurationProperty(property string) (interface{}, bool) {
+	if _, ok := s.getOkExistsClusterConfigurationProperty("cluster_byol_allocation_details"); ok {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%s.%d.%s.%d.%%s", "initial_configuration", 0, "initial_cluster_configurations", 0, "cluster_byol_allocation_details", 0)
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, property)); ok {
+			return value, ok
+		}
+	}
+	return nil, false
+}
+
 func (s *OcvpSddcResourceCrud) Create() error {
 	request := oci_ocvp.CreateSddcRequest{}
 	networkConfiguration := oci_ocvp.NetworkConfiguration{}
-	initialClusterConfiguration := oci_ocvp.InitialClusterConfiguration{NetworkConfiguration: &networkConfiguration}
+	clusterByolAllocationConfiguration := oci_ocvp.ClusterByolAllocationDetails{}
+	initialClusterConfiguration := oci_ocvp.InitialClusterConfiguration{NetworkConfiguration: &networkConfiguration, ClusterByolAllocationDetails: &clusterByolAllocationConfiguration}
 
 	capacityReservationIdDeprecated, okDeprecated := s.D.GetOkExists("capacity_reservation_id")
 	capacityReservationId, ok := s.getOkExistsClusterConfigurationProperty("capacity_reservation_id")
@@ -1023,6 +1097,32 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if isSingleHostSddc, ok := s.D.GetOkExists("is_single_host_sddc"); ok {
 		tmp := isSingleHostSddc.(bool)
 		request.IsSingleHostSddc = &tmp
+	}
+
+	if sddcByolAllocationDetails, ok := s.D.GetOkExists("sddc_byol_allocation_details"); ok {
+		if tmpList := sddcByolAllocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "sddc_byol_allocation_details", 0)
+			tmp, err := s.mapToSddcByolAllocationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SddcByolAllocationDetails = &tmp
+		}
+	}
+
+	if initialVcfByolAllocationId, ok := s.getOkExistsClusterConfigurationProperty("initial_vcf_byol_allocation_id"); ok {
+		tmp := initialVcfByolAllocationId.(string)
+		initialClusterConfiguration.InitialVcfByolAllocationId = &tmp
+	}
+
+	if firewallByolAllocationId, ok := s.getOkExistsClusterByolConfigurationProperty("firewall_byol_allocation_id"); ok {
+		tmp := firewallByolAllocationId.(string)
+		initialClusterConfiguration.ClusterByolAllocationDetails.FirewallByolAllocationId = &tmp
+	}
+
+	if vsanByolAllocationId, ok := s.getOkExistsClusterByolConfigurationProperty("vsan_byol_allocation_id"); ok {
+		tmp := vsanByolAllocationId.(string)
+		initialClusterConfiguration.ClusterByolAllocationDetails.VsanByolAllocationId = &tmp
 	}
 
 	nsxEdgeUplink1VlanIdDeprecated, okDeprecated := s.D.GetOkExists("nsx_edge_uplink1vlan_id")
@@ -1375,6 +1475,19 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if sddcByolAllocationDetails, ok := s.D.GetOkExists("sddc_byol_allocation_details"); ok {
+		if tmpList := sddcByolAllocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "sddc_byol_allocation_details", 0)
+			tmp, err := s.mapToSddcByolAllocationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SddcByolAllocationDetails = &tmp
+		}
+	}
+
+	tmp := s.D.Id()
+	request.SddcId = &tmp
 	if esxiSoftwareVersion, ok := s.D.GetOkExists("esxi_software_version"); ok {
 		tmp := esxiSoftwareVersion.(string)
 		request.EsxiSoftwareVersion = &tmp
@@ -1773,6 +1886,12 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("nsx_manager_username", *s.Res.NsxManagerUsername)
 	}
 
+	if s.Res.SddcByolAllocationDetails != nil {
+		s.D.Set("sddc_byol_allocation_details", []interface{}{SddcByolAllocationDetailsToMap(s.Res.SddcByolAllocationDetails)})
+	} else {
+		s.D.Set("sddc_byol_allocation_details", nil)
+	}
+
 	if s.Res.SshAuthorizedKeys != nil {
 		s.D.Set("ssh_authorized_keys", *s.Res.SshAuthorizedKeys)
 	}
@@ -1812,6 +1931,22 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *OcvpSddcResourceCrud) mapToClusterByolAllocationDetails(fieldKeyFormat string) (oci_ocvp.ClusterByolAllocationDetails, error) {
+	result := oci_ocvp.ClusterByolAllocationDetails{}
+
+	if firewallByolAllocationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "firewall_byol_allocation_id")); ok {
+		tmp := firewallByolAllocationId.(string)
+		result.FirewallByolAllocationId = &tmp
+	}
+
+	if vsanByolAllocationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vsan_byol_allocation_id")); ok {
+		tmp := vsanByolAllocationId.(string)
+		result.VsanByolAllocationId = &tmp
+	}
+
+	return result, nil
 }
 
 func GetSddcPassword(sddcClient *oci_ocvp.SddcClient, sddcId string, passwordType oci_ocvp.RetrievePasswordTypeEnum) (*string, error) {
@@ -1887,6 +2022,10 @@ func (s *OcvpSddcResourceCrud) SetDataClusterValues(sddcId *string, compartmentI
 		return err
 	}
 
+	if clusterResponse.ClusterByolAllocationDetails != nil {
+		s.D.Set("cluster_byol_allocation_details", ByolAllocationDetailsToMap(*clusterResponse.ClusterByolAllocationDetails))
+	}
+
 	if len(vsphereUpgradeObjects) > 0 {
 		s.D.Set("vsphere_upgrade_guide", "vsphereUpgradeGuide_place_holder")
 	}
@@ -1927,6 +2066,10 @@ func (s *OcvpSddcResourceCrud) SetDataClusterValues(sddcId *string, compartmentI
 
 	if clusterResponse.InstanceDisplayNamePrefix != nil {
 		s.D.Set("instance_display_name_prefix", clusterResponse.InstanceDisplayNamePrefix)
+	}
+
+	if clusterResponse.InitialVcfByolAllocationId != nil {
+		s.D.Set("initial_vcf_byol_allocation_id", clusterResponse.InitialVcfByolAllocationId)
 	}
 
 	if clusterResponse.IsShieldedInstanceEnabled != nil {
@@ -1997,6 +2140,10 @@ func InitialClusterConfigurationToMap(obj oci_ocvp.InitialClusterConfiguration,
 		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
+	if obj.ClusterByolAllocationDetails != nil {
+		result["cluster_byol_allocation_details"] = []interface{}{ClusterByolAllocationDetailsToMap(obj.ClusterByolAllocationDetails)}
+	}
+
 	if obj.ComputeAvailabilityDomain != nil {
 		result["compute_availability_domain"] = string(*obj.ComputeAvailabilityDomain)
 	}
@@ -2037,6 +2184,18 @@ func InitialClusterConfigurationToMap(obj oci_ocvp.InitialClusterConfiguration,
 	}
 
 	result["initial_commitment"] = string(obj.InitialCommitment)
+
+	if obj.InitialHostOcpuCount != nil {
+		result["initial_host_ocpu_count"] = float32(*obj.InitialHostOcpuCount)
+	}
+
+	if obj.InitialHostShapeName != nil {
+		result["initial_host_shape_name"] = string(*obj.InitialHostShapeName)
+	}
+
+	if obj.InitialVcfByolAllocationId != nil {
+		result["initial_vcf_byol_allocation_id"] = string(*obj.InitialVcfByolAllocationId)
+	}
 
 	if obj.InstanceDisplayNamePrefix != nil {
 		result["instance_display_name_prefix"] = string(*obj.InstanceDisplayNamePrefix)
@@ -2115,6 +2274,36 @@ func HcxLicenseSummaryToMap(obj oci_ocvp.HcxLicenseSummary) map[string]interface
 	return result
 }
 
+func (s *OcvpSddcResourceCrud) mapToSddcByolAllocationDetails(fieldKeyFormat string) (oci_ocvp.SddcByolAllocationDetails, error) {
+	result := oci_ocvp.SddcByolAllocationDetails{}
+
+	if loadBalancerByolAllocationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_byol_allocation_id")); ok {
+		tmp := loadBalancerByolAllocationId.(string)
+		result.LoadBalancerByolAllocationId = &tmp
+	}
+
+	if loadBalancerInstanceCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_instance_count")); ok {
+		tmp := loadBalancerInstanceCount.(int)
+		result.LoadBalancerInstanceCount = &tmp
+	}
+
+	return result, nil
+}
+
+func SddcByolAllocationDetailsToMap(obj *oci_ocvp.SddcByolAllocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LoadBalancerByolAllocationId != nil {
+		result["load_balancer_byol_allocation_id"] = string(*obj.LoadBalancerByolAllocationId)
+	}
+
+	if obj.LoadBalancerInstanceCount != nil {
+		result["load_balancer_instance_count"] = int(*obj.LoadBalancerInstanceCount)
+	}
+
+	return result
+}
+
 func SddcSummaryToMap(obj oci_ocvp.SddcSummary, sddcClient *oci_ocvp.SddcClient, clusterClient *oci_ocvp.ClusterClient) (map[string]interface{}, error) {
 	result := map[string]interface{}{}
 
@@ -2166,6 +2355,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary, sddcClient *oci_ocvp.SddcClient,
 
 	if obj.NsxManagerFqdn != nil {
 		result["nsx_manager_fqdn"] = string(*obj.NsxManagerFqdn)
+	}
+
+	if obj.SddcByolAllocationDetails != nil {
+		result["sddc_byol_allocation_details"] = []interface{}{SddcByolAllocationDetailsToMap(obj.SddcByolAllocationDetails)}
 	}
 
 	result["state"] = string(obj.LifecycleState)

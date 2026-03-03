@@ -89,13 +89,39 @@ var exportOcvpManagementApplianceHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOcvpByolAllocationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ocvp_byol_allocation",
+	DatasourceClass:        "oci_ocvp_byol_allocations",
+	DatasourceItemsAttr:    "byol_allocation_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "byol_allocation",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ocvp.ByolAllocationLifecycleStateActive),
+	},
+}
+
+var exportOcvpByolHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ocvp_byol",
+	DatasourceClass:        "oci_ocvp_byols",
+	DatasourceItemsAttr:    "byol_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "byol",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ocvp.ByolLifecycleStateActive),
+	},
+}
+
 var ocvpResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOcvpSddcHints},
 		{TerraformResourceHints: exportOcvpClusterHints},
 		{TerraformResourceHints: exportOcvpDatastoreClusterHints},
-		{TerraformResourceHints: exportOcvpDatastoreHints},
 		{TerraformResourceHints: exportOcvpManagementApplianceHints},
+		{TerraformResourceHints: exportOcvpByolAllocationHints},
+		{TerraformResourceHints: exportOcvpByolHints},
+		{TerraformResourceHints: exportOcvpDatastoreHints},
 	},
 	"oci_ocvp_sddc": {
 		{
