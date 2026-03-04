@@ -56,6 +56,7 @@ The following attributes are exported:
 	* `ogg_version` - Version of OGG 
 	* `source_technologies` - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ] 
 	* `supported_capabilities` - Specifies supported capabilities or features by a deployment type . 
+	* `supported_license_types` - The list of Oracle license models supported by the deployment type. 
 	* `supported_technologies_url` - The URL to the webpage listing the supported technologies. 
 	* `target_technologies` - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ] 
 
