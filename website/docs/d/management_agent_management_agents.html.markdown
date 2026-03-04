@@ -11,7 +11,7 @@ description: |-
 This data source provides the list of Management Agents in Oracle Cloud Infrastructure Management Agent service.
 
 Returns a list of Management Agents.
-If no explicit page size limit is specified, it will default to 1000 when compartmentIdInSubtree is true and 5000 otherwise.
+If no explicit page size limit is specified, it will default to 1000.
 The response is limited to maximum 1000 records when compartmentIdInSubtree is true.
 
 
