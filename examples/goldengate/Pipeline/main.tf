@@ -17,6 +17,12 @@ variable "license_model" {
 variable "recipe_type" {
   default = "ZERO_ETL"
 }
+variable "pipeline_cpu_core_count" {
+  default = 1
+}
+variable "pipeline_is_auto_scaling_enabled" {
+  default = false
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -41,6 +47,8 @@ resource "oci_golden_gate_pipeline" "test_pipeline" {
 
   # Optional
   subnet_id = var.test_subnet_id
+  is_auto_scaling_enabled = var.pipeline_is_auto_scaling_enabled
+  cpu_core_count          = var.pipeline_cpu_core_count
 }
 
 data "oci_golden_gate_pipeline" "test_pipelines" {

@@ -35,9 +35,11 @@ resource "oci_golden_gate_pipeline" "test_pipeline" {
 	}
 
 	#Optional
+	cpu_core_count = var.pipeline_cpu_core_count
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.pipeline_description
 	freeform_tags = {"bar-key"= "value"}
+	is_auto_scaling_enabled = var.pipeline_is_auto_scaling_enabled
 	locks {
 		#Required
 		type = var.pipeline_locks_type
@@ -55,6 +57,12 @@ resource "oci_golden_gate_pipeline" "test_pipeline" {
 
 			#Optional
 			action_on_existing_table = var.pipeline_process_options_initial_data_load_action_on_existing_table
+			adb_wallet_path = var.pipeline_process_options_initial_data_load_adb_wallet_path
+			bucket = var.pipeline_process_options_initial_data_load_bucket
+			initial_load_type = var.pipeline_process_options_initial_data_load_initial_load_type
+			namespace = var.pipeline_process_options_initial_data_load_namespace
+			source_wallet_path = var.pipeline_process_options_initial_data_load_source_wallet_path
+			target_wallet_path = var.pipeline_process_options_initial_data_load_target_wallet_path
 		}
 		replicate_schema_change {
 			#Required
@@ -78,10 +86,12 @@ resource "oci_golden_gate_pipeline" "test_pipeline" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
+* `cpu_core_count` - (Optional) (Updatable) The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
+* `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
 * `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment. 
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
@@ -91,7 +101,13 @@ The following arguments are supported:
 * `process_options` - (Optional) (Updatable) Required pipeline options to configure the replication process (Extract or Replicat). 
 	* `initial_data_load` - (Required) (Updatable) Options required for the pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_existing_table` - (Optional) (Updatable) Action upon existing tables in target when initial Data Load is set i.e., isInitialLoad=true. 
+		* `adb_wallet_path` - (Optional) (Updatable) Directory path of ADB wallet locally available in Non-ADB target DB. Required for ADB to non-ADB DBLink type initial load only. If not provided the default wallet path "/u01/targetwallet" will be used. 
+		* `bucket` - (Optional) (Updatable) Name of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `initial_load_type` - (Optional) (Updatable) Type of Initial load, which can be objectStorage or dbLink. 
 		* `is_initial_load` - (Required) (Updatable) If ENABLED, then existing source data is also synchronized to the target when creating or updating the pipeline. 
+		* `namespace` - (Optional) (Updatable) Namespace that serves as a container of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `source_wallet_path` - (Optional) (Updatable) Directory path of ObjectStorage wallet locally available in Non-ADB source DB. Required for Object Storage type initial load only if source DB is Non-ADB type. 
+		* `target_wallet_path` - (Optional) (Updatable) Directory path of ObjectStorage wallet locally available in Non-ADB target DB. Required for Object Storage type initial load only if target DB is Non-ADB type. 
 	* `replicate_schema_change` - (Required) (Updatable) Options required for pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_ddl_error` - (Optional) (Updatable) Action upon DDL Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
 		* `action_on_dml_error` - (Optional) (Updatable) Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
@@ -144,7 +160,13 @@ The following attributes are exported:
 * `process_options` - Required pipeline options to configure the replication process (Extract or Replicat). 
 	* `initial_data_load` - Options required for the pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_existing_table` - Action upon existing tables in target when initial Data Load is set i.e., isInitialLoad=true. 
+		* `adb_wallet_path` - Directory path of ADB wallet locally available in Non-ADB target DB. Required for ADB to non-ADB DBLink type initial load only. If not provided the default wallet path "/u01/targetwallet" will be used. 
+		* `bucket` - Name of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `initial_load_type` - Type of Initial load, which can be objectStorage or dbLink. 
 		* `is_initial_load` - If ENABLED, then existing source data is also synchronized to the target when creating or updating the pipeline. 
+		* `namespace` - Namespace that serves as a container of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `source_wallet_path` - Directory path of ObjectStorage wallet locally available in Non-ADB source DB. Required for Object Storage type initial load only if source DB is Non-ADB type. 
+		* `target_wallet_path` - Directory path of ObjectStorage wallet locally available in Non-ADB target DB. Required for Object Storage type initial load only if target DB is Non-ADB type. 
 	* `replicate_schema_change` - Options required for pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_ddl_error` - Action upon DDL Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
 		* `action_on_dml_error` - Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
