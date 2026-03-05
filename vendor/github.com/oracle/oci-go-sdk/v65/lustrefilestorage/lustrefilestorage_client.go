@@ -746,6 +746,122 @@ func (client LustreFileStorageClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
+// ListAvailableMaintenanceScheduleStartTimes Gets the list of available maintenance schedule start times for both Create and Update operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/lustrefilestorage/ListAvailableMaintenanceScheduleStartTimes.go.html to see an example of how to use ListAvailableMaintenanceScheduleStartTimes API.
+// A default retry strategy applies to this operation ListAvailableMaintenanceScheduleStartTimes()
+func (client LustreFileStorageClient) ListAvailableMaintenanceScheduleStartTimes(ctx context.Context, request ListAvailableMaintenanceScheduleStartTimesRequest) (response ListAvailableMaintenanceScheduleStartTimesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAvailableMaintenanceScheduleStartTimes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableMaintenanceScheduleStartTimesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableMaintenanceScheduleStartTimesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAvailableMaintenanceScheduleStartTimesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAvailableMaintenanceScheduleStartTimesResponse")
+	}
+	return
+}
+
+// listAvailableMaintenanceScheduleStartTimes implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) listAvailableMaintenanceScheduleStartTimes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/availableMaintenanceScheduleStartTimes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAvailableMaintenanceScheduleStartTimesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/AvailableMaintenanceScheduleStartTimeCollection/ListAvailableMaintenanceScheduleStartTimes"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListAvailableMaintenanceScheduleStartTimes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAvailableOverrideMaintenanceStartTimes Gets the list of available maintenance start times for Override operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/lustrefilestorage/ListAvailableOverrideMaintenanceStartTimes.go.html to see an example of how to use ListAvailableOverrideMaintenanceStartTimes API.
+// A default retry strategy applies to this operation ListAvailableOverrideMaintenanceStartTimes()
+func (client LustreFileStorageClient) ListAvailableOverrideMaintenanceStartTimes(ctx context.Context, request ListAvailableOverrideMaintenanceStartTimesRequest) (response ListAvailableOverrideMaintenanceStartTimesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAvailableOverrideMaintenanceStartTimes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableOverrideMaintenanceStartTimesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableOverrideMaintenanceStartTimesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAvailableOverrideMaintenanceStartTimesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAvailableOverrideMaintenanceStartTimesResponse")
+	}
+	return
+}
+
+// listAvailableOverrideMaintenanceStartTimes implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) listAvailableOverrideMaintenanceStartTimes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/availableOverrideMaintenanceStartTimes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAvailableOverrideMaintenanceStartTimesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/AvailableOverrideMaintenanceStartTimeCollection/ListAvailableOverrideMaintenanceStartTimes"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListAvailableOverrideMaintenanceStartTimes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListLustreFileSystems Gets a list of Lustre file systems.
 //
 // # See also
@@ -1087,6 +1203,64 @@ func (client LustreFileStorageClient) listWorkRequests(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// OverrideMaintenance Overrides the upcoming maintenance to the value provided by user
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/lustrefilestorage/OverrideMaintenance.go.html to see an example of how to use OverrideMaintenance API.
+// A default retry strategy applies to this operation OverrideMaintenance()
+func (client LustreFileStorageClient) OverrideMaintenance(ctx context.Context, request OverrideMaintenanceRequest) (response OverrideMaintenanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.overrideMaintenance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = OverrideMaintenanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = OverrideMaintenanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(OverrideMaintenanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into OverrideMaintenanceResponse")
+	}
+	return
+}
+
+// overrideMaintenance implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) overrideMaintenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/lustreFileSystems/{lustreFileSystemId}/actions/overrideMaintenance", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response OverrideMaintenanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/OverrideMaintenance"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "OverrideMaintenance", apiReferenceLink)
 		return response, err
 	}
 

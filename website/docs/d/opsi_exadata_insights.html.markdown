@@ -53,6 +53,10 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `chargeback_plan_details` - Object containing chargeback plan details 
+	* `plan_id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI Chargeback plan resource. 
+	* `plan_type` - Chargeback Plan type of the chargeback entity. For an Exadata it can be WEIGHTED_ALLOCATION, EQUAL_ALLOCATION, UNUSED_ALLOCATION. 
+	* `time_enabled` - The date and time the chargeback plan was enabled on the resource, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `compartment_id` - Compartment identifier of the Exadata insight resource
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
@@ -76,6 +80,7 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `state` - The current state of the Exadata insight.
 * `status` - Indicates the status of an Exadata insight in Operations Insights
+* `status_details` - A message describing the status of the Exadata Resource. For example, it can be used to provide actionable information about the policies needed to access the Exadata Resource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the Exadata insight was first enabled. An RFC3339 formatted datetime string
 * `time_updated` - The time the Exadata insight was updated. An RFC3339 formatted datetime string

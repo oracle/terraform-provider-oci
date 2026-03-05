@@ -189,6 +189,10 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) SetData() error {
 
 		targetDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			targetDatabase["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			targetDatabase["time_created"] = r.TimeCreated.String()
 		}

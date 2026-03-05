@@ -50,4 +50,4 @@ data "oci_lustre_file_storage_lustre_file_systems" "lustre_file_systems" {
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
-}g
+}

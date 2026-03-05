@@ -33,6 +33,7 @@ type AutonomousDbPreviewVersionSummary struct {
 	// - AJD - indicates an Autonomous AI JSON Database
 	// - APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	// - LH - indicates an Oracle Autonomous AI Lakehouse database
+	// **Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
 	//
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`

@@ -130,6 +130,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IsOsPatchRebootRequired != nil {
+		s.D.Set("is_os_patch_reboot_required", *s.Res.IsOsPatchRebootRequired)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
