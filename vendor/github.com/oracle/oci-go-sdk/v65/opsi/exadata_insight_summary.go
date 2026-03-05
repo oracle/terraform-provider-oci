@@ -60,30 +60,37 @@ type ExadataInsightSummary interface {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
 
+	GetChargebackPlanDetails() *ChargebackPlanDetails
+
 	// The time the Exadata insight was updated. An RFC3339 formatted datetime string
 	GetTimeUpdated() *common.SDKTime
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
+
+	// A message describing the status of the Exadata Resource. For example, it can be used to provide actionable information about the policies needed to access the Exadata Resource.
+	GetStatusDetails() *string
 }
 
 type exadatainsightsummary struct {
-	JsonData           []byte
-	ExadataDisplayName *string                           `mandatory:"false" json:"exadataDisplayName"`
-	ExadataType        ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
-	ExadataRackType    ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
-	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated        *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails   *string                           `mandatory:"false" json:"lifecycleDetails"`
-	Id                 *string                           `mandatory:"true" json:"id"`
-	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
-	ExadataName        *string                           `mandatory:"true" json:"exadataName"`
-	FreeformTags       map[string]string                 `mandatory:"true" json:"freeformTags"`
-	DefinedTags        map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	Status             ResourceStatusEnum                `mandatory:"true" json:"status"`
-	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState     ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
-	EntitySource       string                            `json:"entitySource"`
+	JsonData              []byte
+	ExadataDisplayName    *string                           `mandatory:"false" json:"exadataDisplayName"`
+	ExadataType           ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
+	ExadataRackType       ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
+	SystemTags            map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	ChargebackPlanDetails *ChargebackPlanDetails            `mandatory:"false" json:"chargebackPlanDetails"`
+	TimeUpdated           *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails      *string                           `mandatory:"false" json:"lifecycleDetails"`
+	StatusDetails         *string                           `mandatory:"false" json:"statusDetails"`
+	Id                    *string                           `mandatory:"true" json:"id"`
+	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
+	ExadataName           *string                           `mandatory:"true" json:"exadataName"`
+	FreeformTags          map[string]string                 `mandatory:"true" json:"freeformTags"`
+	DefinedTags           map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	Status                ResourceStatusEnum                `mandatory:"true" json:"status"`
+	TimeCreated           *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState        ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
+	EntitySource          string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -109,8 +116,10 @@ func (m *exadatainsightsummary) UnmarshalJSON(data []byte) error {
 	m.ExadataType = s.Model.ExadataType
 	m.ExadataRackType = s.Model.ExadataRackType
 	m.SystemTags = s.Model.SystemTags
+	m.ChargebackPlanDetails = s.Model.ChargebackPlanDetails
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.StatusDetails = s.Model.StatusDetails
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -163,6 +172,11 @@ func (m exadatainsightsummary) GetSystemTags() map[string]map[string]interface{}
 	return m.SystemTags
 }
 
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m exadatainsightsummary) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
+}
+
 // GetTimeUpdated returns TimeUpdated
 func (m exadatainsightsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
@@ -171,6 +185,11 @@ func (m exadatainsightsummary) GetTimeUpdated() *common.SDKTime {
 // GetLifecycleDetails returns LifecycleDetails
 func (m exadatainsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetStatusDetails returns StatusDetails
+func (m exadatainsightsummary) GetStatusDetails() *string {
+	return m.StatusDetails
 }
 
 // GetId returns Id

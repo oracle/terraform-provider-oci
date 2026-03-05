@@ -194,18 +194,21 @@ const (
 	RedisClusterSoftwareVersionV705     RedisClusterSoftwareVersionEnum = "V7_0_5"
 	RedisClusterSoftwareVersionRedis70  RedisClusterSoftwareVersionEnum = "REDIS_7_0"
 	RedisClusterSoftwareVersionValkey72 RedisClusterSoftwareVersionEnum = "VALKEY_7_2"
+	RedisClusterSoftwareVersionValkey81 RedisClusterSoftwareVersionEnum = "VALKEY_8_1"
 )
 
 var mappingRedisClusterSoftwareVersionEnum = map[string]RedisClusterSoftwareVersionEnum{
 	"V7_0_5":     RedisClusterSoftwareVersionV705,
 	"REDIS_7_0":  RedisClusterSoftwareVersionRedis70,
 	"VALKEY_7_2": RedisClusterSoftwareVersionValkey72,
+	"VALKEY_8_1": RedisClusterSoftwareVersionValkey81,
 }
 
 var mappingRedisClusterSoftwareVersionEnumLowerCase = map[string]RedisClusterSoftwareVersionEnum{
 	"v7_0_5":     RedisClusterSoftwareVersionV705,
 	"redis_7_0":  RedisClusterSoftwareVersionRedis70,
 	"valkey_7_2": RedisClusterSoftwareVersionValkey72,
+	"valkey_8_1": RedisClusterSoftwareVersionValkey81,
 }
 
 // GetRedisClusterSoftwareVersionEnumValues Enumerates the set of values for RedisClusterSoftwareVersionEnum
@@ -223,6 +226,7 @@ func GetRedisClusterSoftwareVersionEnumStringValues() []string {
 		"V7_0_5",
 		"REDIS_7_0",
 		"VALKEY_7_2",
+		"VALKEY_8_1",
 	}
 }
 

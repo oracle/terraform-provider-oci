@@ -63,11 +63,16 @@ type EmManagedExternalExadataInsightSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	ChargebackPlanDetails *ChargebackPlanDetails `mandatory:"false" json:"chargebackPlanDetails"`
+
 	// The time the Exadata insight was updated. An RFC3339 formatted datetime string
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// A message describing the status of the Exadata Resource. For example, it can be used to provide actionable information about the policies needed to access the Exadata Resource.
+	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
 	// Enterprise Manager Entity Display Name
 	EnterpriseManagerEntityDisplayName *string `mandatory:"false" json:"enterpriseManagerEntityDisplayName"`
@@ -135,6 +140,11 @@ func (m EmManagedExternalExadataInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m EmManagedExternalExadataInsightSummary) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
+}
+
 // GetTimeCreated returns TimeCreated
 func (m EmManagedExternalExadataInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
@@ -153,6 +163,11 @@ func (m EmManagedExternalExadataInsightSummary) GetLifecycleState() ExadataInsig
 // GetLifecycleDetails returns LifecycleDetails
 func (m EmManagedExternalExadataInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetStatusDetails returns StatusDetails
+func (m EmManagedExternalExadataInsightSummary) GetStatusDetails() *string {
+	return m.StatusDetails
 }
 
 func (m EmManagedExternalExadataInsightSummary) String() string {
