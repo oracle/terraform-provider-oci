@@ -87,6 +87,12 @@ const (
 	OperationTypeChangeMacsManagedAdbConnectionDetails                  OperationTypeEnum = "CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS"
 	OperationTypeTestMacsManagedAdbConnectionDetails                    OperationTypeEnum = "TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS"
 	OperationTypeSynchronizeAutonomousDatabaseToExadata                 OperationTypeEnum = "SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA"
+	OperationTypeCreateChargeBack                                       OperationTypeEnum = "CREATE_CHARGE_BACK"
+	OperationTypeEnableChargeBack                                       OperationTypeEnum = "ENABLE_CHARGE_BACK"
+	OperationTypeDisableChargeBack                                      OperationTypeEnum = "DISABLE_CHARGE_BACK"
+	OperationTypeUpdateChargeBack                                       OperationTypeEnum = "UPDATE_CHARGE_BACK"
+	OperationTypeMoveChargeBack                                         OperationTypeEnum = "MOVE_CHARGE_BACK"
+	OperationTypeDeleteChargeBack                                       OperationTypeEnum = "DELETE_CHARGE_BACK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -157,6 +163,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
 	"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS":                      OperationTypeTestMacsManagedAdbConnectionDetails,
 	"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
+	"CREATE_CHARGE_BACK":  OperationTypeCreateChargeBack,
+	"ENABLE_CHARGE_BACK":  OperationTypeEnableChargeBack,
+	"DISABLE_CHARGE_BACK": OperationTypeDisableChargeBack,
+	"UPDATE_CHARGE_BACK":  OperationTypeUpdateChargeBack,
+	"MOVE_CHARGE_BACK":    OperationTypeMoveChargeBack,
+	"DELETE_CHARGE_BACK":  OperationTypeDeleteChargeBack,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -227,6 +239,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"change_macs_managed_adb_connection_details":                    OperationTypeChangeMacsManagedAdbConnectionDetails,
 	"test_macs_managed_adb_connection_details":                      OperationTypeTestMacsManagedAdbConnectionDetails,
 	"synchronize_autonomous_database_to_exadata":                    OperationTypeSynchronizeAutonomousDatabaseToExadata,
+	"create_charge_back":  OperationTypeCreateChargeBack,
+	"enable_charge_back":  OperationTypeEnableChargeBack,
+	"disable_charge_back": OperationTypeDisableChargeBack,
+	"update_charge_back":  OperationTypeUpdateChargeBack,
+	"move_charge_back":    OperationTypeMoveChargeBack,
+	"delete_charge_back":  OperationTypeDeleteChargeBack,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -308,6 +326,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"CHANGE_MACS_MANAGED_ADB_CONNECTION_DETAILS",
 		"TEST_MACS_MANAGED_ADB_CONNECTION_DETAILS",
 		"SYNCHRONIZE_AUTONOMOUS_DATABASE_TO_EXADATA",
+		"CREATE_CHARGE_BACK",
+		"ENABLE_CHARGE_BACK",
+		"DISABLE_CHARGE_BACK",
+		"UPDATE_CHARGE_BACK",
+		"MOVE_CHARGE_BACK",
+		"DELETE_CHARGE_BACK",
 	}
 }
 

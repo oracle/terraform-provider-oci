@@ -50,6 +50,8 @@ type UpdateLustreFileSystemDetails struct {
 	CapacityInGBs *int `mandatory:"false" json:"capacityInGBs"`
 
 	RootSquashConfiguration *RootSquashConfiguration `mandatory:"false" json:"rootSquashConfiguration"`
+
+	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 }
 
 func (m UpdateLustreFileSystemDetails) String() string {

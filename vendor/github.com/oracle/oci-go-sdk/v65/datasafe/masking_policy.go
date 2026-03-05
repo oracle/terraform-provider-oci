@@ -85,6 +85,9 @@ type MaskingPolicy struct {
 
 	ColumnSource ColumnSourceDetails `mandatory:"false" json:"columnSource"`
 
+	// Specifies whether target database credentials are required to perform masking with this policy
+	AreTargetCredentialsRequired *bool `mandatory:"false" json:"areTargetCredentialsRequired"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -119,23 +122,24 @@ func (m MaskingPolicy) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MaskingPolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description             *string                           `json:"description"`
-		PreMaskingScript        *string                           `json:"preMaskingScript"`
-		PostMaskingScript       *string                           `json:"postMaskingScript"`
-		ColumnSource            columnsourcedetails               `json:"columnSource"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		Id                      *string                           `json:"id"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		DisplayName             *string                           `json:"displayName"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState          MaskingLifecycleStateEnum         `json:"lifecycleState"`
-		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
-		IsDropTempTablesEnabled *bool                             `json:"isDropTempTablesEnabled"`
-		IsRedoLoggingEnabled    *bool                             `json:"isRedoLoggingEnabled"`
-		IsRefreshStatsEnabled   *bool                             `json:"isRefreshStatsEnabled"`
-		ParallelDegree          *string                           `json:"parallelDegree"`
-		Recompile               MaskingPolicyRecompileEnum        `json:"recompile"`
+		Description                  *string                           `json:"description"`
+		PreMaskingScript             *string                           `json:"preMaskingScript"`
+		PostMaskingScript            *string                           `json:"postMaskingScript"`
+		ColumnSource                 columnsourcedetails               `json:"columnSource"`
+		AreTargetCredentialsRequired *bool                             `json:"areTargetCredentialsRequired"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		Id                           *string                           `json:"id"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		DisplayName                  *string                           `json:"displayName"`
+		TimeCreated                  *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState               MaskingLifecycleStateEnum         `json:"lifecycleState"`
+		TimeUpdated                  *common.SDKTime                   `json:"timeUpdated"`
+		IsDropTempTablesEnabled      *bool                             `json:"isDropTempTablesEnabled"`
+		IsRedoLoggingEnabled         *bool                             `json:"isRedoLoggingEnabled"`
+		IsRefreshStatsEnabled        *bool                             `json:"isRefreshStatsEnabled"`
+		ParallelDegree               *string                           `json:"parallelDegree"`
+		Recompile                    MaskingPolicyRecompileEnum        `json:"recompile"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -158,6 +162,8 @@ func (m *MaskingPolicy) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ColumnSource = nil
 	}
+
+	m.AreTargetCredentialsRequired = model.AreTargetCredentialsRequired
 
 	m.FreeformTags = model.FreeformTags
 

@@ -41,6 +41,11 @@ type ExadataExaccConfigurationSummary struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
+	// The shape of the Exadata Infrastructure.
+	ExadataShape *string `mandatory:"true" json:"exadataShape"`
+
+	ChargebackPlanDetails *ChargebackPlanDetails `mandatory:"true" json:"chargebackPlanDetails"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
 
@@ -100,6 +105,16 @@ func (m ExadataExaccConfigurationSummary) GetFreeformTags() map[string]string {
 // GetVmclusterDetails returns VmclusterDetails
 func (m ExadataExaccConfigurationSummary) GetVmclusterDetails() []VmClusterSummary {
 	return m.VmclusterDetails
+}
+
+// GetExadataShape returns ExadataShape
+func (m ExadataExaccConfigurationSummary) GetExadataShape() *string {
+	return m.ExadataShape
+}
+
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m ExadataExaccConfigurationSummary) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
 }
 
 func (m ExadataExaccConfigurationSummary) String() string {
