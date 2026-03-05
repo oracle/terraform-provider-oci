@@ -223,6 +223,7 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_insight_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "chargeback_plan_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),

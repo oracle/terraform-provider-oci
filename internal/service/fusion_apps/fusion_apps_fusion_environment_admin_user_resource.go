@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fusion_apps "github.com/oracle/oci-go-sdk/v65/fusionapps"
 
@@ -27,10 +27,10 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFusionAppsFusionEnvironmentAdminUser,
-		Read:     readFusionAppsFusionEnvironmentAdminUser,
-		Delete:   deleteFusionAppsFusionEnvironmentAdminUser,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFusionAppsFusionEnvironmentAdminUserWithContext,
+		ReadContext:   readFusionAppsFusionEnvironmentAdminUserWithContext,
+		DeleteContext: deleteFusionAppsFusionEnvironmentAdminUserWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"email_address": {
@@ -60,14 +60,6 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 			},
 
 			// Optional
-			"password": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Computed:   true,
-				ForceNew:   true,
-				Sensitive:  true,
-				Deprecated: "The 'password' field is deprecated. Please use the OCI Console or email link to reset the password.",
-			},
 
 			// Computed
 			"items": {
@@ -103,29 +95,29 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 	}
 }
 
-func createFusionAppsFusionEnvironmentAdminUser(d *schema.ResourceData, m interface{}) error {
+func createFusionAppsFusionEnvironmentAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFusionAppsFusionEnvironmentAdminUser(d *schema.ResourceData, m interface{}) error {
+func readFusionAppsFusionEnvironmentAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteFusionAppsFusionEnvironmentAdminUser(d *schema.ResourceData, m interface{}) error {
+func deleteFusionAppsFusionEnvironmentAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FusionAppsFusionEnvironmentAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FusionApplicationsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FusionAppsFusionEnvironmentAdminUserResourceCrud struct {
@@ -139,7 +131,7 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) ID() string {
 	return GetFusionEnvironmentAdminUserCompositeId(s.D.Get("username").(string), s.D.Get("fusion_environment_id").(string))
 }
 
-func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Create() error {
+func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.CreateFusionEnvironmentAdminUserRequest{}
 
 	if emailAddress, ok := s.D.GetOkExists("email_address"); ok {
@@ -162,11 +154,6 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Create() error {
 		request.LastName = &tmp
 	}
 
-	if password, ok := s.D.GetOkExists("password"); ok {
-		tmp := password.(string)
-		request.Password = &tmp
-	}
-
 	if username, ok := s.D.GetOkExists("username"); ok {
 		tmp := username.(string)
 		request.Username = &tmp
@@ -174,21 +161,21 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.CreateFusionEnvironmentAdminUser(context.Background(), request)
+	response, err := s.Client.CreateFusionEnvironmentAdminUser(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	s.D.SetId(s.ID())
-	return s.getFusionEnvironmentAdminUserFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFusionEnvironmentAdminUserFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) getFusionEnvironmentAdminUserFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) getFusionEnvironmentAdminUserFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fusion_apps.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fusionEnvironmentAdminUserId, err := fusionEnvironmentAdminUserWaitForWorkRequest(workId, "fusionenvironment",
+	fusionEnvironmentAdminUserId, err := fusionEnvironmentAdminUserWaitForWorkRequest(ctx, workId, "fusionenvironment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -196,7 +183,7 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) getFusionEnvironmentA
 	}
 	s.D.SetId(*fusionEnvironmentAdminUserId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func fusionEnvironmentAdminUserWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -222,7 +209,7 @@ func fusionEnvironmentAdminUserWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func fusionEnvironmentAdminUserWaitForWorkRequest(wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
+func fusionEnvironmentAdminUserWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fusion_apps.FusionApplicationsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fusion_apps")
 	retryPolicy.ShouldRetryOperation = fusionEnvironmentAdminUserWorkRequestShouldRetryFunc(timeout)
@@ -241,7 +228,7 @@ func fusionEnvironmentAdminUserWaitForWorkRequest(wId *string, entityType string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fusion_apps.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -270,14 +257,14 @@ func fusionEnvironmentAdminUserWaitForWorkRequest(wId *string, entityType string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fusion_apps.WorkRequestStatusFailed || response.Status == oci_fusion_apps.WorkRequestStatusCanceled {
-		return nil, getErrorFromFusionAppsFusionEnvironmentAdminUserWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFusionAppsFusionEnvironmentAdminUserWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFusionAppsFusionEnvironmentAdminUserWorkRequest(client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFusionAppsFusionEnvironmentAdminUserWorkRequest(ctx context.Context, client *oci_fusion_apps.FusionApplicationsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fusion_apps.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fusion_apps.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -299,7 +286,7 @@ func getErrorFromFusionAppsFusionEnvironmentAdminUserWorkRequest(client *oci_fus
 	return workRequestErr
 }
 
-func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Get() error {
+func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.ListAdminUsersRequest{}
 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
@@ -316,7 +303,7 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.ListAdminUsers(context.Background(), request)
+	response, err := s.Client.ListAdminUsers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -325,7 +312,7 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Delete() error {
+func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.DeleteFusionEnvironmentAdminUserRequest{}
 
 	if adminUsername, ok := s.D.GetOkExists("username"); ok {
@@ -340,14 +327,14 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps")
 
-	response, err := s.Client.DeleteFusionEnvironmentAdminUser(context.Background(), request)
+	response, err := s.Client.DeleteFusionEnvironmentAdminUser(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := fusionEnvironmentAdminUserWaitForWorkRequest(workId, "fusionenvironment",
+	_, delWorkRequestErr := fusionEnvironmentAdminUserWaitForWorkRequest(ctx, workId, "fusionenvironment",
 		oci_fusion_apps.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -44,6 +44,8 @@ resource "oci_database_db_system" "test_db_system" {
 			backup_id = oci_database_backup.test_backup.id
 			backup_tde_password = var.db_system_db_home_database_backup_tde_password
 			character_set = var.db_system_db_home_database_character_set
+			database_defined_tags = var.db_system_db_home_database_database_defined_tags
+			database_freeform_tags = var.db_system_db_home_database_database_freeform_tags
 			database_id = oci_database_database.test_database.id
 			database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 			db_backup_config {
@@ -81,12 +83,14 @@ resource "oci_database_db_system" "test_db_system" {
 				hsm_password = var.db_system_db_home_database_encryption_key_location_details_hsm_password
 			}
 			freeform_tags = var.db_system_db_home_database_freeform_tags
+			is_active_data_guard_enabled = var.db_system_db_home_database_is_active_data_guard_enabled
 			key_store_id = oci_database_key_store.test_key_store.id
 			kms_key_id = oci_kms_key.test_key.id
 			kms_key_version_id = oci_kms_key_version.test_key_version.id
 			ncharacter_set = var.db_system_db_home_database_ncharacter_set
 			pdb_name = var.db_system_db_home_database_pdb_name
 			pluggable_databases = var.db_system_db_home_database_pluggable_databases
+			protection_mode = var.db_system_db_home_database_protection_mode
 			sid_prefix = var.db_system_db_home_database_sid_prefix
 			source_encryption_key_location_details {
 				#Required
@@ -98,6 +102,7 @@ resource "oci_database_db_system" "test_db_system" {
 			}
 			tde_wallet_password = var.db_system_db_home_database_tde_wallet_password
 			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
+			transport_type = var.db_system_db_home_database_transport_type
 			vault_id = oci_kms_vault.test_vault.id
 		}
 
@@ -170,6 +175,8 @@ resource "oci_database_db_system" "test_db_system" {
 	}
 	node_count = var.db_system_node_count
 	nsg_ids = var.db_system_nsg_ids
+	opc_dry_run = var.db_system_opc_dry_run
+	primary_db_system_id = oci_database_db_system.test_db_system.id
 	private_ip = var.db_system_private_ip
 	private_ip_v6 = var.db_system_private_ip_v6
 	security_attributes = var.db_system_security_attributes
@@ -226,56 +233,72 @@ The following arguments are supported:
 		* `character_set` - (Applicable when source=NONE) The character set for the database.  The default is AL32UTF8. Allowed values are:
 
 			AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
+		* `database_defined_tags` - (Applicable when source=DATAGUARD) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `database_freeform_tags` - (Applicable when source=DATAGUARD) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `database_id` - (Required when source=DATABASE) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-		* `database_software_image_id` - (Applicable when source=NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-		* `db_backup_config` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
-			* `auto_backup_enabled` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
-			* `auto_backup_window` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
-			* `auto_full_backup_day` - (Applicable when source=DB_SYSTEM | NONE) Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.
-			* `auto_full_backup_window` - (Applicable when source=DB_SYSTEM | NONE) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
-			* `backup_deletion_policy` - (Applicable when source=DB_SYSTEM | NONE) This defines when the backups will be deleted. - DELETE_IMMEDIATELY option keep the backup for predefined time i.e 72 hours and then delete permanently... - DELETE_AFTER_RETENTION_PERIOD will keep the backups as per the policy defined for database backups.
-			* `backup_destination_details` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup destination details.
-				* `backup_retention_policy_on_terminate` - (Applicable when source=DB_SYSTEM | NONE) Defines the automatic and manual backup retention policy for the Autonomous Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
-				* `dbrs_policy_id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
-				* `id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
-				* `is_remote` - (Applicable when source=DB_SYSTEM | NONE) Indicates whether the backup destination is cross-region or local.
-				* `is_retention_lock_enabled` - (Applicable when source=DB_SYSTEM | NONE) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.
-				* `remote_region` - (Applicable when source=DB_SYSTEM | NONE) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
-				* `type` - (Required when source=DB_SYSTEM | NONE) Type of the database backup destination.
-			* `recovery_window_in_days` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
-			* `run_immediate_full_backup` - (Applicable when source=DB_SYSTEM | NONE) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
-		* `db_domain` - (Applicable when source=DB_SYSTEM) The database domain. In a distributed database system, DB_DOMAIN specifies the logical location of the database within the network structure.
-		* `db_name` - (Optional) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+		* `database_software_image_id` - (Applicable when source=DATAGUARD | NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+		* `db_backup_config` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
+			* `auto_backup_enabled` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+			* `auto_backup_window` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+			* `auto_full_backup_day` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.
+			* `auto_full_backup_window` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+			* `backup_deletion_policy` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) This defines when the backups will be deleted. - DELETE_IMMEDIATELY option keep the backup for predefined time i.e 72 hours and then delete permanently... - DELETE_AFTER_RETENTION_PERIOD will keep the backups as per the policy defined for database backups.
+			* `backup_destination_details` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) (Updatable) Backup destination details.
+				* `backup_retention_policy_on_terminate` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) Defines the automatic and manual backup retention policy for the Autonomous AI Database termination.  The retention policy set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. Options are 'RETAIN_PER_RETENTION_WINDOW' or 'RETAIN_FOR_72_HOURS'.The default value is 'RETAIN_FOR_72_HOURS'. 
+				* `dbrs_policy_id` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
+				* `id` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+				* `is_remote` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) Indicates whether the backup destination is cross-region or local.
+				* `is_retention_lock_enabled` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. 
+				* `remote_region` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
+				* `type` - (Required when source=DATAGUARD | DB_SYSTEM | NONE) Type of the database backup destination.
+			* `recovery_window_in_days` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+			* `run_immediate_full_backup` - (Applicable when source=DATAGUARD | DB_SYSTEM | NONE) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
+		* `db_domain` - (Applicable when source=DATAGUARD | DB_SYSTEM) The database domain. In a distributed database system, DB_DOMAIN specifies the logical location of the database within the network structure.
+		* `db_name` - (Applicable when source=DATABASE | DB_BACKUP | DB_SYSTEM | NONE) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 		* `db_workload` - (Applicable when source=NONE) **Deprecated.** The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service. Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.
 
 			The database workload type. 
-		* `defined_tags` - (Applicable when source=DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `defined_tags` - (Applicable when source=DATABASE | DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 		* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
 			* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
 			* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
-		* `freeform_tags` - (Applicable when source=DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. Use 'AWS' for creating a new database or migrating a database key to Aws. 
+		* `freeform_tags` - (Applicable when source=DATABASE | DB_BACKUP | DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+		* `is_active_data_guard_enabled` - (Applicable when source=DATAGUARD) True if active Data Guard is enabled.
 		* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 		* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 		* `kms_key_version_id` - (Applicable when source=NONE) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances. 
 		* `ncharacter_set` - (Applicable when source=NONE) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 		* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 		* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
-		* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
-		* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
+		* `protection_mode` - (Required when source=DATAGUARD) The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
+		* `sid_prefix` - (Applicable when source=DATABASE | DATAGUARD | DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
+		* `source_encryption_key_location_details` - (Applicable when source=DATABASE | DATAGUARD | DB_BACKUP) Types of providers supported for managing database encryption keys
+			* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
 			* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
 			* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
-			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. 
-		* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure. Use 'AWS' for creating a new database or migrating a database key to Aws. 
+		* `storage_size_details` - (Applicable when source=DATABASE | DB_BACKUP | NONE) The database storage size details. This database option is supported for the Exadata VM cluster on Exascale Infrastructure. 
+			* `data_storage_size_in_gb` - (Required when source=DATABASE | DB_BACKUP | NONE) The DATA storage size, in gigabytes, that is applicable for the database. Required for VMDBs.
+			* `reco_storage_size_in_gbs` - (Required when source=DATABASE | DB_BACKUP | NONE) The RECO storage size, in gigabytes, that is applicable for the database. 
+		* `tde_wallet_password` - (Applicable when source=DATAGUARD | NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
+		* `transport_type` - (Required when source=DATAGUARD) The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+			* MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
+			* MAXIMUM_PERFORMANCE - ASYNC
+			* MAXIMUM_PROTECTION - SYNC
+
+			For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
+
+			**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
 		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	* `database_software_image_id` - (Applicable when source=DB_BACKUP | NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to restore a database.
 	* `db_version` - (Required when source=NONE) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 
 		This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
-	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+	* `defined_tags` - (Applicable when source=DATABASE | DB_BACKUP | DB_SYSTEM | NONE) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `display_name` - (Optional) The user-provided name of the Database Home.
-	* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `freeform_tags` - (Applicable when source=DATABASE | DB_BACKUP | DB_SYSTEM | NONE) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `is_unified_auditing_enabled` - (Applicable when source=DATABASE | DB_BACKUP | NONE) Indicates whether unified auditing is enabled or not 
 * `db_system_options` - (Optional) The DB system options.
 	* `storage_management` - (Optional) The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
@@ -319,7 +342,9 @@ The following arguments are supported:
 	* `weeks_of_month` - (Applicable when source=NONE) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `node_count` - (Optional) The number of nodes to launch for a virtual machine DB system. Specify either 1 or 2. By default this will be set to 1. 
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty. 
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
+* `opc_dry_run` - (Optional) (Updatable) Indicates that the request is a dry run, if set to "true". A dry run request does not actually  creating or updating a resource and is used only to perform validation on the submitted data. 
+* `primary_db_system_id` - (Required when source=DATAGUARD) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `private_ip` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. Supported for VM BM shape.
 * `private_ip_v6` - (Optional) A private IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet. 
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
@@ -341,6 +366,7 @@ The following arguments are supported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet. 
 * `time_zone` - (Optional) The time zone to use for the DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Os Patch. Could be set to any integer value.
 
 
 ** IMPORTANT **

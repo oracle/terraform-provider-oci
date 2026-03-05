@@ -19,10 +19,6 @@ variable "fusion_environment_admin_user_last_name" {
   default = "lastName"
 }
 
-variable "fusion_environment_admin_user_password" {
-  default = "BEstrO0ng_#11"
-}
-
 variable "fusion_environment_admin_user_username" {
   default = "usernametest"
 }
@@ -40,10 +36,9 @@ resource "oci_fusion_apps_fusion_environment_admin_user" "test_fusion_environmen
   email_address         = var.fusion_environment_admin_user_email_address
   first_name            = var.fusion_environment_admin_user_first_name
   fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
-  last_name             = var.fusion_environment_admin_user_last_name 
+  last_name             = var.fusion_environment_admin_user_last_name
   username              = var.fusion_environment_admin_user_username
-  #Optional
-  password              = var.fusion_environment_admin_user_password
+
 }
 
 data "oci_fusion_apps_fusion_environment_admin_users" "test_fusion_environment_admin_users" {
