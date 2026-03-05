@@ -43,6 +43,9 @@ type UpdateVolumeBackupDetails struct {
 	// Overview of Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
+	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m UpdateVolumeBackupDetails) String() string {

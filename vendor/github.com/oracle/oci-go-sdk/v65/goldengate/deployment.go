@@ -218,6 +218,10 @@ type Deployment struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// Indicates if disaster recovery is enabled for a deployment.
+	// If not specified, disaster recovery is ENABLED when no clusterPlacementGroupId is provided, and DISABLED when a clusterPlacementGroupId is provided.
+	DisasterRecoveryStatus DisasterRecoveryStatusEnum `mandatory:"false" json:"disasterRecoveryStatus,omitempty"`
 }
 
 func (m Deployment) String() string {
@@ -253,6 +257,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingMaintenanceActionTypeEnum(string(m.NextMaintenanceActionType)); !ok && m.NextMaintenanceActionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextMaintenanceActionType: %s. Supported values are: %s.", m.NextMaintenanceActionType, strings.Join(GetMaintenanceActionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDisasterRecoveryStatusEnum(string(m.DisasterRecoveryStatus)); !ok && m.DisasterRecoveryStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryStatus: %s. Supported values are: %s.", m.DisasterRecoveryStatus, strings.Join(GetDisasterRecoveryStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

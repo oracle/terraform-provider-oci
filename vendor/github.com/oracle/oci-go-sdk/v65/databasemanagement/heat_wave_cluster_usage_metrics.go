@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// HeatWaveClusterUsageMetrics The list of aggregated metrics for a HeatWave cluster in the fleet.
+// HeatWaveClusterUsageMetrics The list of aggregated metrics for a HeatWave cluster in the fleet. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type HeatWaveClusterUsageMetrics struct {
 
 	// The status of the HeatWave cluster. Indicates whether the status of the cluster is UP, DOWN, or UNKNOWN at the current time.

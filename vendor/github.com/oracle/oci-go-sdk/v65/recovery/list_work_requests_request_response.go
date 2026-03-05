@@ -15,7 +15,7 @@ import (
 type ListWorkRequestsRequest struct {
 
 	// The compartment OCID.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique Oracle-assigned identifier of the work request.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`

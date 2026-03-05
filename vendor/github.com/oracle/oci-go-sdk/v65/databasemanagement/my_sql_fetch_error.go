@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlFetchError Error from the fetch operation of a MySQL server replication channel.
+// MySqlFetchError Error from the fetch operation of a MySQL server replication channel. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlFetchError struct {
 
 	// The error number of the most recent error that caused the I/O thread to stop.

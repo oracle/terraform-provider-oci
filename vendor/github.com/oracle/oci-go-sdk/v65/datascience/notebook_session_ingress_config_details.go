@@ -18,16 +18,26 @@ import (
 // NotebookSessionIngressConfigDetails Notebook Session Ingress configuration details.
 type NotebookSessionIngressConfigDetails struct {
 
-	// This is a collection of key-value pairs where the key represents a URI path prefix, and the value specifies the corresponding port.
-	// The port must be exposed by the Notebook container.
-	// For example, a key-value pair like,
-	//   Key: /api/custom-path , Value: 9999
-	// If a customer attempts to access /api/custom-path/{xyz}, the traffic will be routed to port 9999.
+	// This is a collection of port mapping pairs, where the route represents a URI path prefix, and the port specifies the corresponding port.
+	// For example, a PortMapping entity like,
+	//   { "route": "/exampleRoute", "port": 9999 }
+	// If a customer attempts to access /exampleRoute/{xyz}, the traffic will be routed to port 9999, equivalent to request host:9999/{xyz}.
 	// Constraints:
 	//   Key: Must be a valid URI path and cannot exceed 128 characters in length.
 	//   Value: Must be within the valid port range.
 	// Maximum accepted key-value pairs is 5.
 	PortMappings []PortMapping `mandatory:"false" json:"portMappings"`
+
+	// This is a list of SSH users allowed to access the Notebook session.
+	// Each entry includes the user's OCID and their respective full public key in PEM format.
+	// For example, an object like,
+	//   { "userId": "ocid1.user.oc1..exampleuniqueID",
+	//   "pubKey": "-----BEGIN RSA PUBLIC KEY-----\nMIIBIjANBgkq...\n -----END RSA PUBLIC KEY-----"}
+	// Constraints:
+	//   - userId: Must be a string of a valid user ocid.
+	//   - pubKey : Must be a full public key in PEM format, and match an API key associated with the user.
+	//   - Maximum accepted entities is 10.
+	SshUsers []SshUser `mandatory:"false" json:"sshUsers"`
 }
 
 func (m NotebookSessionIngressConfigDetails) String() string {

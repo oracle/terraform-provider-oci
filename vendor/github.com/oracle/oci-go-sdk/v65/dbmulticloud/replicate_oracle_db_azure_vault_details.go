@@ -44,7 +44,7 @@ type ReplicateOracleDbAzureVaultDetails struct {
 	TargetRegion *string `mandatory:"true" json:"targetRegion"`
 
 	// Action for replicate Resource.
-	Action ReplicateOracleDbAzureVaultDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
+	Action ReplicationActionsEnum `mandatory:"false" json:"action,omitempty"`
 }
 
 func (m ReplicateOracleDbAzureVaultDetails) String() string {
@@ -57,53 +57,11 @@ func (m ReplicateOracleDbAzureVaultDetails) String() string {
 func (m ReplicateOracleDbAzureVaultDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingReplicateOracleDbAzureVaultDetailsActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicateOracleDbAzureVaultDetailsActionEnumStringValues(), ",")))
+	if _, ok := GetMappingReplicationActionsEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicationActionsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ReplicateOracleDbAzureVaultDetailsActionEnum Enum with underlying type: string
-type ReplicateOracleDbAzureVaultDetailsActionEnum string
-
-// Set of constants representing the allowable values for ReplicateOracleDbAzureVaultDetailsActionEnum
-const (
-	ReplicateOracleDbAzureVaultDetailsActionCreate ReplicateOracleDbAzureVaultDetailsActionEnum = "CREATE"
-	ReplicateOracleDbAzureVaultDetailsActionDelete ReplicateOracleDbAzureVaultDetailsActionEnum = "DELETE"
-)
-
-var mappingReplicateOracleDbAzureVaultDetailsActionEnum = map[string]ReplicateOracleDbAzureVaultDetailsActionEnum{
-	"CREATE": ReplicateOracleDbAzureVaultDetailsActionCreate,
-	"DELETE": ReplicateOracleDbAzureVaultDetailsActionDelete,
-}
-
-var mappingReplicateOracleDbAzureVaultDetailsActionEnumLowerCase = map[string]ReplicateOracleDbAzureVaultDetailsActionEnum{
-	"create": ReplicateOracleDbAzureVaultDetailsActionCreate,
-	"delete": ReplicateOracleDbAzureVaultDetailsActionDelete,
-}
-
-// GetReplicateOracleDbAzureVaultDetailsActionEnumValues Enumerates the set of values for ReplicateOracleDbAzureVaultDetailsActionEnum
-func GetReplicateOracleDbAzureVaultDetailsActionEnumValues() []ReplicateOracleDbAzureVaultDetailsActionEnum {
-	values := make([]ReplicateOracleDbAzureVaultDetailsActionEnum, 0)
-	for _, v := range mappingReplicateOracleDbAzureVaultDetailsActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReplicateOracleDbAzureVaultDetailsActionEnumStringValues Enumerates the set of values in String for ReplicateOracleDbAzureVaultDetailsActionEnum
-func GetReplicateOracleDbAzureVaultDetailsActionEnumStringValues() []string {
-	return []string{
-		"CREATE",
-		"DELETE",
-	}
-}
-
-// GetMappingReplicateOracleDbAzureVaultDetailsActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReplicateOracleDbAzureVaultDetailsActionEnum(val string) (ReplicateOracleDbAzureVaultDetailsActionEnum, bool) {
-	enum, ok := mappingReplicateOracleDbAzureVaultDetailsActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

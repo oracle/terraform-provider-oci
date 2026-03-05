@@ -45,6 +45,9 @@ type IpAnycastSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP Anycast Object.
 	AnycastId *string `mandatory:"false" json:"anycastId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP Anycast Object.
+	Id *string `mandatory:"false" json:"id"`
+
 	// Brief summary about the details of Anycast resource being created.
 	Description *string `mandatory:"false" json:"description"`
 

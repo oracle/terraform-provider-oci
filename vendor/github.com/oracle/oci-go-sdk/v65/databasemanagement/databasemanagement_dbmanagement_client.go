@@ -1149,6 +1149,7 @@ func (client DbManagementClient) checkExternalExadataStorageConnector(ctx contex
 
 // CheckExternalMySqlDatabaseConnectorConnectionStatus Check the status of the external database connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation CheckExternalMySqlDatabaseConnectorConnectionStatus()
 func (client DbManagementClient) CheckExternalMySqlDatabaseConnectorConnectionStatus(ctx context.Context, request CheckExternalMySqlDatabaseConnectorConnectionStatusRequest) (response CheckExternalMySqlDatabaseConnectorConnectionStatusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1979,6 +1980,7 @@ func (client DbManagementClient) createExternalExadataStorageConnector(ctx conte
 }
 
 // CreateExternalMySqlDatabase Creates an external MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation CreateExternalMySqlDatabase()
 func (client DbManagementClient) CreateExternalMySqlDatabase(ctx context.Context, request CreateExternalMySqlDatabaseRequest) (response CreateExternalMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2038,6 +2040,7 @@ func (client DbManagementClient) createExternalMySqlDatabase(ctx context.Context
 }
 
 // CreateExternalMySqlDatabaseConnector Creates an external MySQL connector resource.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation CreateExternalMySqlDatabaseConnector()
 func (client DbManagementClient) CreateExternalMySqlDatabaseConnector(ctx context.Context, request CreateExternalMySqlDatabaseConnectorRequest) (response CreateExternalMySqlDatabaseConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2915,6 +2918,7 @@ func (client DbManagementClient) deleteExternalExadataStorageConnector(ctx conte
 }
 
 // DeleteExternalMySqlDatabase Deletes the Oracle Cloud Infrastructure resource representing an external MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) DeleteExternalMySqlDatabase(ctx context.Context, request DeleteExternalMySqlDatabaseRequest) (response DeleteExternalMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2968,6 +2972,7 @@ func (client DbManagementClient) deleteExternalMySqlDatabase(ctx context.Context
 }
 
 // DeleteExternalMySqlDatabaseConnector Deletes the Oracle Cloud Infrastructure resource representing an external MySQL database connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) DeleteExternalMySqlDatabaseConnector(ctx context.Context, request DeleteExternalMySqlDatabaseConnectorRequest) (response DeleteExternalMySqlDatabaseConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3887,6 +3892,7 @@ func (client DbManagementClient) disableExternalExadataInfrastructureManagement(
 }
 
 // DisableExternalMySqlDatabaseManagement Disables Database Management for an external MySQL Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation DisableExternalMySqlDatabaseManagement()
 func (client DbManagementClient) DisableExternalMySqlDatabaseManagement(ctx context.Context, request DisableExternalMySqlDatabaseManagementRequest) (response DisableExternalMySqlDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5156,6 +5162,7 @@ func (client DbManagementClient) enableExternalExadataInfrastructureManagement(c
 }
 
 // EnableExternalMySqlDatabaseManagement Enables Database Management for an external MySQL Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation EnableExternalMySqlDatabaseManagement()
 func (client DbManagementClient) EnableExternalMySqlDatabaseManagement(ctx context.Context, request EnableExternalMySqlDatabaseManagementRequest) (response EnableExternalMySqlDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7954,6 +7961,7 @@ func (client DbManagementClient) getExternalListener(ctx context.Context, reques
 }
 
 // GetExternalMySqlDatabase Retrieves the external MySQL database information.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation GetExternalMySqlDatabase()
 func (client DbManagementClient) GetExternalMySqlDatabase(ctx context.Context, request GetExternalMySqlDatabaseRequest) (response GetExternalMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8008,6 +8016,7 @@ func (client DbManagementClient) getExternalMySqlDatabase(ctx context.Context, r
 }
 
 // GetExternalMySqlDatabaseConnector Retrieves the MySQL database connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation GetExternalMySqlDatabaseConnector()
 func (client DbManagementClient) GetExternalMySqlDatabaseConnector(ctx context.Context, request GetExternalMySqlDatabaseConnectorRequest) (response GetExternalMySqlDatabaseConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11515,6 +11524,7 @@ func (client DbManagementClient) listExternalListeners(ctx context.Context, requ
 }
 
 // ListExternalMySqlDatabases Gets the list of External MySQL Databases.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) ListExternalMySqlDatabases(ctx context.Context, request ListExternalMySqlDatabasesRequest) (response ListExternalMySqlDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11850,6 +11860,7 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 }
 
 // ListMySqlDatabaseConnectors Gets the list of External MySQL Database connectors.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) ListMySqlDatabaseConnectors(ctx context.Context, request ListMySqlDatabaseConnectorsRequest) (response ListMySqlDatabaseConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16567,6 +16578,7 @@ func (client DbManagementClient) updateExternalListener(ctx context.Context, req
 }
 
 // UpdateExternalMysqlDatabase Updates the External Mysql Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) UpdateExternalMysqlDatabase(ctx context.Context, request UpdateExternalMysqlDatabaseRequest) (response UpdateExternalMysqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16620,6 +16632,7 @@ func (client DbManagementClient) updateExternalMysqlDatabase(ctx context.Context
 }
 
 // UpdateExternalMysqlDatabaseConnector Updates the External Mysql Database Connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client DbManagementClient) UpdateExternalMysqlDatabaseConnector(ctx context.Context, request UpdateExternalMysqlDatabaseConnectorRequest) (response UpdateExternalMysqlDatabaseConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

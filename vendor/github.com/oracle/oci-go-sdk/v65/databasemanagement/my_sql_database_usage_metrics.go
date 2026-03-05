@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlDatabaseUsageMetrics The list of aggregated metrics for Managed MySQL Databases in the fleet.
+// MySqlDatabaseUsageMetrics The list of aggregated metrics for Managed MySQL Databases in the fleet. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlDatabaseUsageMetrics struct {
 
 	// The OCID of the compartment where the Managed MySQL Database resides.
@@ -48,7 +48,7 @@ type MySqlDatabaseUsageMetrics struct {
 	// A list of the database health metrics like CPU, Storage, and Memory.
 	Metrics []MySqlFleetMetricDefinition `mandatory:"true" json:"metrics"`
 
-	// The customer's selected type for HeatWave management.
+	// The selected management type for a HeatWave MySQL DB system.
 	HeatWaveManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"false" json:"heatWaveManagementType,omitempty"`
 
 	// Indicates whether HeatWave is enabled for the MySQL Database System or not.

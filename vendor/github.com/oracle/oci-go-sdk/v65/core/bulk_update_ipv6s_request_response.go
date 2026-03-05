@@ -14,7 +14,7 @@ import (
 // BulkUpdateIpv6sRequest wrapper for the BulkUpdateIpv6s operation
 type BulkUpdateIpv6sRequest struct {
 
-	// Update IPv6s details.
+	// Details of the IPv6s to update.
 	BulkUpdateIpv6sDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

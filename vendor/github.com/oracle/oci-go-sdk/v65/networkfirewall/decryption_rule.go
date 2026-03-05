@@ -4,7 +4,7 @@
 
 // Network Firewall API
 //
-// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs.
+// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs. For more information, see Overview of Network Firewall (https://docs.oracle.com/iaas/Content/network-firewall/overview.htm).
 //
 
 package networkfirewall
@@ -37,6 +37,9 @@ type DecryptionRule struct {
 
 	// The name of a mapped secret. Its `type` must match that of the specified decryption profile.
 	Secret *string `mandatory:"false" json:"secret"`
+
+	// An array of mapped secrets.
+	Secrets []string `mandatory:"false" json:"secrets"`
 
 	Position *RulePosition `mandatory:"false" json:"position"`
 

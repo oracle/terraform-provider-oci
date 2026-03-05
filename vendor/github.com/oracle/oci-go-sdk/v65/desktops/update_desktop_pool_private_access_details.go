@@ -18,9 +18,11 @@ import (
 // UpdateDesktopPoolPrivateAccessDetails The details of the desktop's private access network connectivity to be set up for the desktop pool.
 type UpdateDesktopPoolPrivateAccessDetails struct {
 
-	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes)
-	// applied to private access endpoint VNIC.
-	SecurityAttributes *interface{} `mandatory:"false" json:"securityAttributes"`
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) for this resource.
+	// Each attribute can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
+	// (ZPR) policy to control access to ZPR-supported resources.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m UpdateDesktopPoolPrivateAccessDetails) String() string {

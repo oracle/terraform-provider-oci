@@ -57,6 +57,12 @@ type Report struct {
 	// Details about the current state of the report in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID of the previous report generated.
+	PreviousReportId *string `mandatory:"false" json:"previousReportId"`
+
+	// The OCID of the next report generated.
+	NextReportId *string `mandatory:"false" json:"nextReportId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

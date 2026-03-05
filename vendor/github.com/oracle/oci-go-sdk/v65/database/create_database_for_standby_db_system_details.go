@@ -68,6 +68,8 @@ type CreateDatabaseForStandbyDbSystemDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DatabaseDefinedTags map[string]map[string]interface{} `mandatory:"false" json:"databaseDefinedTags"`
+
+	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
 }
 
 func (m CreateDatabaseForStandbyDbSystemDetails) String() string {
@@ -105,6 +107,7 @@ func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e 
 		DbBackupConfig                     *DbBackupConfig                                           `json:"dbBackupConfig"`
 		DatabaseFreeformTags               map[string]string                                         `json:"databaseFreeformTags"`
 		DatabaseDefinedTags                map[string]map[string]interface{}                         `json:"databaseDefinedTags"`
+		AutoFailoverConfiguration          *AutoFailoverConfiguration                                `json:"autoFailoverConfiguration"`
 		AdminPassword                      *string                                                   `json:"adminPassword"`
 		ProtectionMode                     CreateDatabaseForStandbyDbSystemDetailsProtectionModeEnum `json:"protectionMode"`
 		TransportType                      CreateDatabaseForStandbyDbSystemDetailsTransportTypeEnum  `json:"transportType"`
@@ -142,6 +145,8 @@ func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e 
 	m.DatabaseFreeformTags = model.DatabaseFreeformTags
 
 	m.DatabaseDefinedTags = model.DatabaseDefinedTags
+
+	m.AutoFailoverConfiguration = model.AutoFailoverConfiguration
 
 	m.AdminPassword = model.AdminPassword
 

@@ -19,15 +19,13 @@ import (
 // UpdateByolDetails The details to update BYOL.
 type UpdateByolDetails struct {
 
-	// A descriptive name for the BYOL. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Total quantity of licensed units for the specified `softwareType`:
-	// - VCF, VDEFEND, VDEFEND_WITH_ADVANCED_THREAT_PREVENTION, ADVANCED_THREAT_PREVENTION: number of OCPUs
+	// - VCF, VDEFEND: number of OCPUs
 	// - VSAN: storage capacity in TiB (tebibytes)
-	// - AVI_LOAD_BALANCER, ADVANCED_CYBER_COMPLIANCE: number of instances
+	// - AVI_LOAD_BALANCER: number of instances
 	TotalUnits *int `mandatory:"false" json:"totalUnits"`
 
 	// A description of the BYOL.
@@ -38,10 +36,7 @@ type UpdateByolDetails struct {
 	// - VCF (VMware Cloud Foundation)
 	// - VSAN (VMware vSAN)
 	// - VDEFEND (VMware vDefend Firewall)
-	// - VDEFEND_WITH_ADVANCED_THREAT_PREVENTION (VMware vDefend Firewall with Advanced Threat Prevention)
-	// - ADVANCED_THREAT_PREVENTION (VMware Advanced Threat Prevention Add-on)
 	// - AVI_LOAD_BALANCER (VMware Avi Load Balancer)
-	// - ADVANCED_CYBER_COMPLIANCE (Advanced Cyber Compliance - ACC)
 	SoftwareType ByolSoftwareTypeEnum `mandatory:"false" json:"softwareType,omitempty"`
 
 	// The date and time when the BYOL becomes active. VMware software functionality cannot begin before this time.
@@ -55,12 +50,6 @@ type UpdateByolDetails struct {
 
 	// The Broadcom-supplied identifier of a BYOL license.
 	EntitlementKey *string `mandatory:"false" json:"entitlementKey"`
-
-	// Customer name used when consuming Broadcom licenses.
-	CustomerName *string `mandatory:"false" json:"customerName"`
-
-	// Country where the Broadcom licenses were sold and consumed to host customer.
-	SaleCountry *string `mandatory:"false" json:"saleCountry"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

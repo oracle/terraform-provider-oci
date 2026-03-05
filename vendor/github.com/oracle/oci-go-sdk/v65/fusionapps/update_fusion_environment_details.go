@@ -36,6 +36,9 @@ type UpdateFusionEnvironmentDetails struct {
 	// Network access control rules to limit internet traffic that can access the environment. For more information, see AllowRule.
 	Rules []Rule `mandatory:"false" json:"rules"`
 
+	// Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	AdditionalEgressRules []AdditionalEgressRule `mandatory:"false" json:"additionalEgressRules"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -70,6 +73,7 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 		AdditionalLanguagePacks []string                          `json:"additionalLanguagePacks"`
 		IsIPv6DualStackEnabled  *bool                             `json:"isIPv6DualStackEnabled"`
 		Rules                   []rule                            `json:"rules"`
+		AdditionalEgressRules   []AdditionalEgressRule            `json:"additionalEgressRules"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 	}{}
@@ -101,6 +105,8 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Rules[i] = nil
 		}
 	}
+	m.AdditionalEgressRules = make([]AdditionalEgressRule, len(model.AdditionalEgressRules))
+	copy(m.AdditionalEgressRules, model.AdditionalEgressRules)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

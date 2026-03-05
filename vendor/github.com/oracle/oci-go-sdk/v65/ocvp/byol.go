@@ -27,9 +27,7 @@ type Byol struct {
 	// contains the BYOL.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A descriptive name for the BYOL. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The current state of the BYOL.
@@ -40,16 +38,13 @@ type Byol struct {
 	// - VCF (VMware Cloud Foundation)
 	// - VSAN (VMware vSAN)
 	// - VDEFEND (VMware vDefend Firewall)
-	// - VDEFEND_WITH_ADVANCED_THREAT_PREVENTION (VMware vDefend Firewall with Advanced Threat Prevention)
-	// - ADVANCED_THREAT_PREVENTION (VMware Advanced Threat Prevention Add-on)
 	// - AVI_LOAD_BALANCER (VMware Avi Load Balancer)
-	// - ADVANCED_CYBER_COMPLIANCE (Advanced Cyber Compliance - ACC)
 	SoftwareType ByolSoftwareTypeEnum `mandatory:"true" json:"softwareType"`
 
 	// Total quantity of licensed units for the specified `softwareType`:
-	// - VCF, VDEFEND, VDEFEND_WITH_ADVANCED_THREAT_PREVENTION, ADVANCED_THREAT_PREVENTION: number of OCPUs
+	// - VCF, VDEFEND: number of OCPUs
 	// - VSAN: storage capacity in TiB (tebibytes)
-	// - AVI_LOAD_BALANCER, ADVANCED_CYBER_COMPLIANCE: number of instances
+	// - AVI_LOAD_BALANCER: number of instances
 	TotalUnits *int `mandatory:"true" json:"totalUnits"`
 
 	// The quantity of licensed units that not yet allocated to specific region.
@@ -92,12 +87,6 @@ type Byol struct {
 
 	// A description of the BYOL.
 	Description *string `mandatory:"false" json:"description"`
-
-	// Customer name used when consuming Broadcom licenses.
-	CustomerName *string `mandatory:"false" json:"customerName"`
-
-	// Country where the Broadcom licenses were sold and consumed to host customer.
-	SaleCountry *string `mandatory:"false" json:"saleCountry"`
 }
 
 func (m Byol) String() string {
@@ -189,33 +178,24 @@ type ByolSoftwareTypeEnum string
 
 // Set of constants representing the allowable values for ByolSoftwareTypeEnum
 const (
-	ByolSoftwareTypeVcf                                 ByolSoftwareTypeEnum = "VCF"
-	ByolSoftwareTypeVsan                                ByolSoftwareTypeEnum = "VSAN"
-	ByolSoftwareTypeVdefend                             ByolSoftwareTypeEnum = "VDEFEND"
-	ByolSoftwareTypeVdefendWithAdvancedThreatPrevention ByolSoftwareTypeEnum = "VDEFEND_WITH_ADVANCED_THREAT_PREVENTION"
-	ByolSoftwareTypeAdvancedThreatPrevention            ByolSoftwareTypeEnum = "ADVANCED_THREAT_PREVENTION"
-	ByolSoftwareTypeAviLoadBalancer                     ByolSoftwareTypeEnum = "AVI_LOAD_BALANCER"
-	ByolSoftwareTypeAdvancedCyberCompliance             ByolSoftwareTypeEnum = "ADVANCED_CYBER_COMPLIANCE"
+	ByolSoftwareTypeVcf             ByolSoftwareTypeEnum = "VCF"
+	ByolSoftwareTypeVsan            ByolSoftwareTypeEnum = "VSAN"
+	ByolSoftwareTypeVdefend         ByolSoftwareTypeEnum = "VDEFEND"
+	ByolSoftwareTypeAviLoadBalancer ByolSoftwareTypeEnum = "AVI_LOAD_BALANCER"
 )
 
 var mappingByolSoftwareTypeEnum = map[string]ByolSoftwareTypeEnum{
-	"VCF":     ByolSoftwareTypeVcf,
-	"VSAN":    ByolSoftwareTypeVsan,
-	"VDEFEND": ByolSoftwareTypeVdefend,
-	"VDEFEND_WITH_ADVANCED_THREAT_PREVENTION": ByolSoftwareTypeVdefendWithAdvancedThreatPrevention,
-	"ADVANCED_THREAT_PREVENTION":              ByolSoftwareTypeAdvancedThreatPrevention,
-	"AVI_LOAD_BALANCER":                       ByolSoftwareTypeAviLoadBalancer,
-	"ADVANCED_CYBER_COMPLIANCE":               ByolSoftwareTypeAdvancedCyberCompliance,
+	"VCF":               ByolSoftwareTypeVcf,
+	"VSAN":              ByolSoftwareTypeVsan,
+	"VDEFEND":           ByolSoftwareTypeVdefend,
+	"AVI_LOAD_BALANCER": ByolSoftwareTypeAviLoadBalancer,
 }
 
 var mappingByolSoftwareTypeEnumLowerCase = map[string]ByolSoftwareTypeEnum{
-	"vcf":     ByolSoftwareTypeVcf,
-	"vsan":    ByolSoftwareTypeVsan,
-	"vdefend": ByolSoftwareTypeVdefend,
-	"vdefend_with_advanced_threat_prevention": ByolSoftwareTypeVdefendWithAdvancedThreatPrevention,
-	"advanced_threat_prevention":              ByolSoftwareTypeAdvancedThreatPrevention,
-	"avi_load_balancer":                       ByolSoftwareTypeAviLoadBalancer,
-	"advanced_cyber_compliance":               ByolSoftwareTypeAdvancedCyberCompliance,
+	"vcf":               ByolSoftwareTypeVcf,
+	"vsan":              ByolSoftwareTypeVsan,
+	"vdefend":           ByolSoftwareTypeVdefend,
+	"avi_load_balancer": ByolSoftwareTypeAviLoadBalancer,
 }
 
 // GetByolSoftwareTypeEnumValues Enumerates the set of values for ByolSoftwareTypeEnum
@@ -233,10 +213,7 @@ func GetByolSoftwareTypeEnumStringValues() []string {
 		"VCF",
 		"VSAN",
 		"VDEFEND",
-		"VDEFEND_WITH_ADVANCED_THREAT_PREVENTION",
-		"ADVANCED_THREAT_PREVENTION",
 		"AVI_LOAD_BALANCER",
-		"ADVANCED_CYBER_COMPLIANCE",
 	}
 }
 

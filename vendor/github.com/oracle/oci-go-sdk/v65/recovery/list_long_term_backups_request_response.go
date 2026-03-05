@@ -15,7 +15,7 @@ import (
 type ListLongTermBackupsRequest struct {
 
 	// The compartment OCID.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The long-term backup OCID. Use longTermBackupId to filter a long-term backup based on its unique identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`

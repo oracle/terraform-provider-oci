@@ -27,9 +27,7 @@ type ByolAllocationSummary struct {
 	// contains the BYOL Allocation.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A descriptive name for the BYOL Allocation. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL Allocation.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The current state of the BYOL Allocation.
@@ -48,10 +46,7 @@ type ByolAllocationSummary struct {
 	// - VCF (VMware Cloud Foundation)
 	// - VSAN (VMware vSAN)
 	// - VDEFEND (VMware vDefend Firewall)
-	// - VDEFEND_WITH_ADVANCED_THREAT_PREVENTION (VMware vDefend Firewall with Advanced Threat Prevention)
-	// - ADVANCED_THREAT_PREVENTION (VMware Advanced Threat Prevention Add-on)
 	// - AVI_LOAD_BALANCER (VMware Avi Load Balancer)
-	// - ADVANCED_CYBER_COMPLIANCE (Advanced Cyber Compliance - ACC)
 	SoftwareType ByolAllocationSoftwareTypeEnum `mandatory:"true" json:"softwareType"`
 
 	// The quantity of licensed units that allocated to this region.

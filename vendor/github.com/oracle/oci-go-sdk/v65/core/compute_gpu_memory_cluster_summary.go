@@ -24,18 +24,18 @@ import (
 // ComputeGpuMemoryClusterSummary Summary model for listing Compute GPU Memory Clusters.
 type ComputeGpuMemoryClusterSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU Memory Cluster
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU memory cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU Memory Cluster.
 	// compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The availability domain of GPU memory cluster.
+	// The availability domain of GPU Memory Cluster.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The current state of the compute GPU memory cluster.
+	// The current state of the compute GPU Memory Cluster.
 	LifecycleState ComputeGpuMemoryClusterLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the boot volume was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).

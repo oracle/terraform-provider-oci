@@ -15,7 +15,7 @@ import (
 type ListProtectionPoliciesRequest struct {
 
 	// The compartment OCID.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources their lifecycleState matches the given lifecycleState.
 	LifecycleState ListProtectionPoliciesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
@@ -28,6 +28,9 @@ type ListProtectionPoliciesRequest struct {
 
 	// A filter to return only the policies that match the owner as 'Customer' or 'Oracle'.
 	Owner ListProtectionPoliciesOwnerEnum `mandatory:"false" contributesTo:"query" name:"owner" omitEmpty:"true"`
+
+	// A filter to return only the protection policies that enforce backup colocation (mustEnforceCloudLocality is set to TRUE).
+	MustEnforceCloudLocality *bool `mandatory:"false" contributesTo:"query" name:"mustEnforceCloudLocality"`
 
 	// The maximum number of items to return. Specify a value greater than 4.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

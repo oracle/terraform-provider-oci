@@ -14,7 +14,7 @@ import (
 // CreateCloudDbSystemDiscoveryRequest wrapper for the CreateCloudDbSystemDiscovery operation
 type CreateCloudDbSystemDiscoveryRequest struct {
 
-	// The details required to create an cloud DB system discovery.
+	// The details required to create a cloud DB system discovery.
 	CreateCloudDbSystemDiscoveryDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

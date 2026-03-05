@@ -142,6 +142,27 @@ type PrivateEndpoint struct {
 	// UpdatePrivateEndpointDetails).
 	AdditionalFqdns []string `mandatory:"false" json:"additionalFqdns"`
 
+	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are
+	// updated with this FQDN.This field will accept only dual stack Fqdns either starting with "ds." or having ".ds".
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// This fqdn resolves to IPv6 address when configured in single stack IPv6 subnet.
+	// For important information about how this attribute is used, see the discussion
+	// of DNS and FQDNs in PrivateEndpoint.
+	// Example: `xyz.ds.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
+	// A list of additional three-label FQDNs that you can provide along with endpointDualStackFqdn. The customer VCN's DNS
+	// records are updated with these FQDNs. Note that you can provide value for this field only when either PE
+	// already has endpointDualStackFQDN or the update payload has `endpointDualStackFqdn` attribute. For more information,
+	// see the discussion of DNS and FQDNs in PrivateEndpoint.
+	AdditionalDualStackFqdns []string `mandatory:"false" json:"additionalDualStackFqdns"`
+
+	// The CIDR IPv6 address block of the Subnet. The CIDR length is always /64.
+	// This field is applicable only once during the upgrade of SingleStack IPv4 to DualStack PrivateEndpoint.
+	// This field shouldn't be populated when PrivateEndpoint is already Dualstack.
+	// Example: `2001:0db8:0123:4567::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
 	// A list of the OCIDs of the network security groups that the private endpoint's VNIC belongs to.
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.

@@ -30,6 +30,8 @@ import (
 type RedirectRule struct {
 	Conditions []RuleCondition `mandatory:"true" json:"conditions"`
 
+	RedirectUri *RedirectUri `mandatory:"true" json:"redirectUri"`
+
 	// The HTTP status code to return when the incoming request is redirected.
 	// The status line returned with the code is mapped from the standard HTTP specification. Valid response
 	// codes for redirection are:
@@ -41,8 +43,6 @@ type RedirectRule struct {
 	// The default value is `302` (Found).
 	// Example: `301`
 	ResponseCode *int `mandatory:"false" json:"responseCode"`
-
-	RedirectUri *RedirectUri `mandatory:"false" json:"redirectUri"`
 }
 
 func (m RedirectRule) String() string {
@@ -79,8 +79,8 @@ func (m RedirectRule) MarshalJSON() (buff []byte, e error) {
 func (m *RedirectRule) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ResponseCode *int            `json:"responseCode"`
-		RedirectUri  *RedirectUri    `json:"redirectUri"`
 		Conditions   []rulecondition `json:"conditions"`
+		RedirectUri  *RedirectUri    `json:"redirectUri"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -89,8 +89,6 @@ func (m *RedirectRule) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.ResponseCode = model.ResponseCode
-
-	m.RedirectUri = model.RedirectUri
 
 	m.Conditions = make([]RuleCondition, len(model.Conditions))
 	for i, n := range model.Conditions {
@@ -104,5 +102,7 @@ func (m *RedirectRule) UnmarshalJSON(data []byte) (e error) {
 			m.Conditions[i] = nil
 		}
 	}
+	m.RedirectUri = model.RedirectUri
+
 	return
 }

@@ -56,6 +56,9 @@ type DeploymentTypeSummary struct {
 
 	// Specifies supported capabilities or features by a deployment type .
 	SupportedCapabilities []SupportedCapabilitiesEnum `mandatory:"false" json:"supportedCapabilities,omitempty"`
+
+	// The list of Oracle license models supported by the deployment type.
+	SupportedLicenseTypes []LicenseModelEnum `mandatory:"false" json:"supportedLicenseTypes"`
 }
 
 func (m DeploymentTypeSummary) String() string {

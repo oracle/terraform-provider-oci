@@ -52,6 +52,9 @@ const (
 	OperationTypeDeleteVectorStoreConnector  OperationTypeEnum = "DELETE_VECTOR_STORE_CONNECTOR"
 	OperationTypeScheduleFileSync            OperationTypeEnum = "SCHEDULE_FILE_SYNC"
 	OperationTypeTriggerFileSync             OperationTypeEnum = "TRIGGER_FILE_SYNC"
+	OperationTypeCreateSemanticStore         OperationTypeEnum = "CREATE_SEMANTIC_STORE"
+	OperationTypeDeleteSemanticStore         OperationTypeEnum = "DELETE_SEMANTIC_STORE"
+	OperationTypeMoveSemanticStore           OperationTypeEnum = "MOVE_SEMANTIC_STORE"
 	OperationTypeCreateApplicationDeployment OperationTypeEnum = "CREATE_APPLICATION_DEPLOYMENT"
 	OperationTypeUpdateApplicationDeployment OperationTypeEnum = "UPDATE_APPLICATION_DEPLOYMENT"
 	OperationTypeDeleteApplicationDeployment OperationTypeEnum = "DELETE_APPLICATION_DEPLOYMENT"
@@ -100,6 +103,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_VECTOR_STORE_CONNECTOR": OperationTypeDeleteVectorStoreConnector,
 	"SCHEDULE_FILE_SYNC":            OperationTypeScheduleFileSync,
 	"TRIGGER_FILE_SYNC":             OperationTypeTriggerFileSync,
+	"CREATE_SEMANTIC_STORE":         OperationTypeCreateSemanticStore,
+	"DELETE_SEMANTIC_STORE":         OperationTypeDeleteSemanticStore,
+	"MOVE_SEMANTIC_STORE":           OperationTypeMoveSemanticStore,
 	"CREATE_APPLICATION_DEPLOYMENT": OperationTypeCreateApplicationDeployment,
 	"UPDATE_APPLICATION_DEPLOYMENT": OperationTypeUpdateApplicationDeployment,
 	"DELETE_APPLICATION_DEPLOYMENT": OperationTypeDeleteApplicationDeployment,
@@ -148,6 +154,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_vector_store_connector": OperationTypeDeleteVectorStoreConnector,
 	"schedule_file_sync":            OperationTypeScheduleFileSync,
 	"trigger_file_sync":             OperationTypeTriggerFileSync,
+	"create_semantic_store":         OperationTypeCreateSemanticStore,
+	"delete_semantic_store":         OperationTypeDeleteSemanticStore,
+	"move_semantic_store":           OperationTypeMoveSemanticStore,
 	"create_application_deployment": OperationTypeCreateApplicationDeployment,
 	"update_application_deployment": OperationTypeUpdateApplicationDeployment,
 	"delete_application_deployment": OperationTypeDeleteApplicationDeployment,
@@ -207,6 +216,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_VECTOR_STORE_CONNECTOR",
 		"SCHEDULE_FILE_SYNC",
 		"TRIGGER_FILE_SYNC",
+		"CREATE_SEMANTIC_STORE",
+		"DELETE_SEMANTIC_STORE",
+		"MOVE_SEMANTIC_STORE",
 		"CREATE_APPLICATION_DEPLOYMENT",
 		"UPDATE_APPLICATION_DEPLOYMENT",
 		"DELETE_APPLICATION_DEPLOYMENT",

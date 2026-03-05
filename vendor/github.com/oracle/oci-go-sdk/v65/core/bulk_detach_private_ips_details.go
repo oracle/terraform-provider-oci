@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// BulkDetachPrivateIpsDetails Bulk Secondary IPv4 addresses detach object.
+// BulkDetachPrivateIpsDetails An object used to detatch Secondary IPv4 addresses with a bulk operation.
 type BulkDetachPrivateIpsDetails struct {
 
-	// Secondary IPv4 addresses to detached.
+	// Secondary IPv4 addresses to detach.
 	BulkDetachPrivateIpItem []BulkDetachPrivateIpItem `mandatory:"true" json:"bulkDetachPrivateIpItem"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC of which private IPs should be detached. The VNIC and private IPs must be in the same subnet.

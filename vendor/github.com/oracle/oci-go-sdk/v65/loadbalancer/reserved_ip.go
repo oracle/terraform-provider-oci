@@ -19,12 +19,14 @@ import (
 // ReservedIp The representation of ReservedIp
 type ReservedIp struct {
 
-	// Ocid of the Reserved IP/Public Ip created with VCN.
+	// Ocid of the Reserved IP (Public IP or Private IP) created with VCN.
 	// Reserved IPs are IPs which already registered using VCN API.
-	// Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this
-	// field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+	// For public load balancers, create a reserved Public IP and pass the OCID in this field.
+	// For private load balancers, create a reserved Private IP and pass the OCID in this field.
+	// Load balancer will be configured to listen to traffic on this IP.
 	// Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
-	// Example: "ocid1.publicip.oc1.phx.unique_ID"
+	// Public IP Example: "ocid1.publicip.oc1.phx.unique_ID"
+	// Private IP Example: "ocid1.privateip.oc1.phx.unique_ID"
 	// IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID"
 	Id *string `mandatory:"false" json:"id"`
 }

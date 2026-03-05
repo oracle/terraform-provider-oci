@@ -30,6 +30,8 @@ const (
 	WorkRequestOperationTypeDeleteDbSystem                    WorkRequestOperationTypeEnum = "DELETE_DB_SYSTEM"
 	WorkRequestOperationTypeUpdateExternalDbSystemConnector   WorkRequestOperationTypeEnum = "UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR"
 	WorkRequestOperationTypeChangeExternalDbSystemCompartment WorkRequestOperationTypeEnum = "CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT"
+	WorkRequestOperationTypeUpdateCloudDbSystemConnector      WorkRequestOperationTypeEnum = "UPDATE_CLOUD_DB_SYSTEM_CONNECTOR"
+	WorkRequestOperationTypeChangeCloudDbSystemCompartment    WorkRequestOperationTypeEnum = "CHANGE_CLOUD_DB_SYSTEM_COMPARTMENT"
 	WorkRequestOperationTypeDisableExadataInfrasturcture      WorkRequestOperationTypeEnum = "DISABLE_EXADATA_INFRASTURCTURE"
 	WorkRequestOperationTypeEnableExadataInfrastructure       WorkRequestOperationTypeEnum = "ENABLE_EXADATA_INFRASTRUCTURE"
 	WorkRequestOperationTypeDeleteExadataInfrastructure       WorkRequestOperationTypeEnum = "DELETE_EXADATA_INFRASTRUCTURE"
@@ -61,6 +63,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_DB_SYSTEM":                      WorkRequestOperationTypeDeleteDbSystem,
 	"UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR":   WorkRequestOperationTypeUpdateExternalDbSystemConnector,
 	"CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT": WorkRequestOperationTypeChangeExternalDbSystemCompartment,
+	"UPDATE_CLOUD_DB_SYSTEM_CONNECTOR":      WorkRequestOperationTypeUpdateCloudDbSystemConnector,
+	"CHANGE_CLOUD_DB_SYSTEM_COMPARTMENT":    WorkRequestOperationTypeChangeCloudDbSystemCompartment,
 	"DISABLE_EXADATA_INFRASTURCTURE":        WorkRequestOperationTypeDisableExadataInfrasturcture,
 	"ENABLE_EXADATA_INFRASTRUCTURE":         WorkRequestOperationTypeEnableExadataInfrastructure,
 	"DELETE_EXADATA_INFRASTRUCTURE":         WorkRequestOperationTypeDeleteExadataInfrastructure,
@@ -92,6 +96,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_db_system":                      WorkRequestOperationTypeDeleteDbSystem,
 	"update_external_db_system_connector":   WorkRequestOperationTypeUpdateExternalDbSystemConnector,
 	"change_external_db_system_compartment": WorkRequestOperationTypeChangeExternalDbSystemCompartment,
+	"update_cloud_db_system_connector":      WorkRequestOperationTypeUpdateCloudDbSystemConnector,
+	"change_cloud_db_system_compartment":    WorkRequestOperationTypeChangeCloudDbSystemCompartment,
 	"disable_exadata_infrasturcture":        WorkRequestOperationTypeDisableExadataInfrasturcture,
 	"enable_exadata_infrastructure":         WorkRequestOperationTypeEnableExadataInfrastructure,
 	"delete_exadata_infrastructure":         WorkRequestOperationTypeDeleteExadataInfrastructure,
@@ -134,6 +140,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_DB_SYSTEM",
 		"UPDATE_EXTERNAL_DB_SYSTEM_CONNECTOR",
 		"CHANGE_EXTERNAL_DB_SYSTEM_COMPARTMENT",
+		"UPDATE_CLOUD_DB_SYSTEM_CONNECTOR",
+		"CHANGE_CLOUD_DB_SYSTEM_COMPARTMENT",
 		"DISABLE_EXADATA_INFRASTURCTURE",
 		"ENABLE_EXADATA_INFRASTRUCTURE",
 		"DELETE_EXADATA_INFRASTRUCTURE",

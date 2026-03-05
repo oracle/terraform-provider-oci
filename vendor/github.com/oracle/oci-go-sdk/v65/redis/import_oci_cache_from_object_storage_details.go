@@ -24,9 +24,6 @@ type ImportOciCacheFromObjectStorageDetails struct {
 	// The Object Storage bucket name.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// The canonical region identifier where the bucket resides (for example, 'us-ashburn-1').
-	Region *string `mandatory:"true" json:"region"`
-
 	// The list of objects to import from the specified bucket.
 	Objects []ImportOciCacheFromObjectStorageObject `mandatory:"true" json:"objects"`
 }

@@ -17897,7 +17897,7 @@ func (client DatabaseClient) listDbServers(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListDbSystemComputePerformances Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration.
+// ListDbSystemComputePerformances Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration. Adding compartmentId does not affect results.
 func (client DatabaseClient) ListDbSystemComputePerformances(ctx context.Context, request ListDbSystemComputePerformancesRequest) (response ListDbSystemComputePerformancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

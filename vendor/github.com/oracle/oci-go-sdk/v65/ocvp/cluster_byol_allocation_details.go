@@ -24,12 +24,6 @@ type ClusterByolAllocationDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall.
 	FirewallByolAllocationId *string `mandatory:"false" json:"firewallByolAllocationId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall with Advanced Threat Prevention.
-	FirewallWithAtpByolAllocationId *string `mandatory:"false" json:"firewallWithAtpByolAllocationId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware Advanced Threat Prevention Add-on.
-	AtpByolAllocationId *string `mandatory:"false" json:"atpByolAllocationId"`
 }
 
 func (m ClusterByolAllocationDetails) String() string {

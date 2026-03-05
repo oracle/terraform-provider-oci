@@ -63,6 +63,9 @@ type CreateDatabaseFromAnotherDatabaseDetails struct {
 
 	// The password for the VPC user that is used to access the Recovery Appliance, if the given backup is from a backup destination of type RECOVERY_APPLIANCE.
 	RecoveryApplianceVpcPassword *string `mandatory:"false" json:"recoveryApplianceVpcPassword"`
+
+	// Specifies whether to register the database with Data Safe.
+	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
 }
 
 func (m CreateDatabaseFromAnotherDatabaseDetails) String() string {
@@ -97,6 +100,7 @@ func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e
 		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
 		VmClusterId                        *string                            `json:"vmClusterId"`
 		RecoveryApplianceVpcPassword       *string                            `json:"recoveryApplianceVpcPassword"`
+		IsDataSafeRegistered               *bool                              `json:"isDataSafeRegistered"`
 		DatabaseId                         *string                            `json:"databaseId"`
 		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
@@ -139,6 +143,8 @@ func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e
 	m.VmClusterId = model.VmClusterId
 
 	m.RecoveryApplianceVpcPassword = model.RecoveryApplianceVpcPassword
+
+	m.IsDataSafeRegistered = model.IsDataSafeRegistered
 
 	m.DatabaseId = model.DatabaseId
 

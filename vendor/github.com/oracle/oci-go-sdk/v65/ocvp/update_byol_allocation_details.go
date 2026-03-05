@@ -19,9 +19,7 @@ import (
 // UpdateByolAllocationDetails The details to update BYOL.
 type UpdateByolAllocationDetails struct {
 
-	// A descriptive name for the BYOL Allocation. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL Allocation.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The quantity of licensed units that allocated to this region.

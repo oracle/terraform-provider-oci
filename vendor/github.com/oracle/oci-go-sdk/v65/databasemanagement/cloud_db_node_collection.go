@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// CloudDbNodeCollection A collection of cloud database nodes.
+// CloudDbNodeCollection A collection of cloud DB nodes.
 type CloudDbNodeCollection struct {
 
 	// An array of cloud DB nodes.

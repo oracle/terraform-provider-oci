@@ -44,7 +44,7 @@ type ReplicateOracleDbGcpKeyRingDetails struct {
 	TargetRegion *string `mandatory:"true" json:"targetRegion"`
 
 	// Action for replicate Resource.
-	Action ReplicateOracleDbGcpKeyRingDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
+	Action ReplicationActionsEnum `mandatory:"false" json:"action,omitempty"`
 }
 
 func (m ReplicateOracleDbGcpKeyRingDetails) String() string {
@@ -57,53 +57,11 @@ func (m ReplicateOracleDbGcpKeyRingDetails) String() string {
 func (m ReplicateOracleDbGcpKeyRingDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingReplicateOracleDbGcpKeyRingDetailsActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicateOracleDbGcpKeyRingDetailsActionEnumStringValues(), ",")))
+	if _, ok := GetMappingReplicationActionsEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicationActionsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ReplicateOracleDbGcpKeyRingDetailsActionEnum Enum with underlying type: string
-type ReplicateOracleDbGcpKeyRingDetailsActionEnum string
-
-// Set of constants representing the allowable values for ReplicateOracleDbGcpKeyRingDetailsActionEnum
-const (
-	ReplicateOracleDbGcpKeyRingDetailsActionCreate ReplicateOracleDbGcpKeyRingDetailsActionEnum = "CREATE"
-	ReplicateOracleDbGcpKeyRingDetailsActionDelete ReplicateOracleDbGcpKeyRingDetailsActionEnum = "DELETE"
-)
-
-var mappingReplicateOracleDbGcpKeyRingDetailsActionEnum = map[string]ReplicateOracleDbGcpKeyRingDetailsActionEnum{
-	"CREATE": ReplicateOracleDbGcpKeyRingDetailsActionCreate,
-	"DELETE": ReplicateOracleDbGcpKeyRingDetailsActionDelete,
-}
-
-var mappingReplicateOracleDbGcpKeyRingDetailsActionEnumLowerCase = map[string]ReplicateOracleDbGcpKeyRingDetailsActionEnum{
-	"create": ReplicateOracleDbGcpKeyRingDetailsActionCreate,
-	"delete": ReplicateOracleDbGcpKeyRingDetailsActionDelete,
-}
-
-// GetReplicateOracleDbGcpKeyRingDetailsActionEnumValues Enumerates the set of values for ReplicateOracleDbGcpKeyRingDetailsActionEnum
-func GetReplicateOracleDbGcpKeyRingDetailsActionEnumValues() []ReplicateOracleDbGcpKeyRingDetailsActionEnum {
-	values := make([]ReplicateOracleDbGcpKeyRingDetailsActionEnum, 0)
-	for _, v := range mappingReplicateOracleDbGcpKeyRingDetailsActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReplicateOracleDbGcpKeyRingDetailsActionEnumStringValues Enumerates the set of values in String for ReplicateOracleDbGcpKeyRingDetailsActionEnum
-func GetReplicateOracleDbGcpKeyRingDetailsActionEnumStringValues() []string {
-	return []string{
-		"CREATE",
-		"DELETE",
-	}
-}
-
-// GetMappingReplicateOracleDbGcpKeyRingDetailsActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReplicateOracleDbGcpKeyRingDetailsActionEnum(val string) (ReplicateOracleDbGcpKeyRingDetailsActionEnum, bool) {
-	enum, ok := mappingReplicateOracleDbGcpKeyRingDetailsActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

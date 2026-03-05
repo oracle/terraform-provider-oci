@@ -39,7 +39,7 @@ type DiscoveredCloudDatabase struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing Dbaas OCI resource matching the discovered DB system component.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing DBaas OCI resource matching the discovered DB system component.
 	DbaasId *string `mandatory:"false" json:"dbaasId"`
 
 	// Indicates whether the DB system component should be provisioned as an OCI resource or not.

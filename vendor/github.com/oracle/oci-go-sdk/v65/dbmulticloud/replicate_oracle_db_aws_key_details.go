@@ -44,7 +44,7 @@ type ReplicateOracleDbAwsKeyDetails struct {
 	TargetRegion *string `mandatory:"true" json:"targetRegion"`
 
 	// Action for replicate Resource.
-	Action ReplicateOracleDbAwsKeyDetailsActionEnum `mandatory:"true" json:"action"`
+	Action ReplicationActionsEnum `mandatory:"true" json:"action"`
 }
 
 func (m ReplicateOracleDbAwsKeyDetails) String() string {
@@ -56,54 +56,12 @@ func (m ReplicateOracleDbAwsKeyDetails) String() string {
 // Not recommended for calling this function directly
 func (m ReplicateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingReplicateOracleDbAwsKeyDetailsActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicateOracleDbAwsKeyDetailsActionEnumStringValues(), ",")))
+	if _, ok := GetMappingReplicationActionsEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicationActionsEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ReplicateOracleDbAwsKeyDetailsActionEnum Enum with underlying type: string
-type ReplicateOracleDbAwsKeyDetailsActionEnum string
-
-// Set of constants representing the allowable values for ReplicateOracleDbAwsKeyDetailsActionEnum
-const (
-	ReplicateOracleDbAwsKeyDetailsActionCreate ReplicateOracleDbAwsKeyDetailsActionEnum = "CREATE"
-	ReplicateOracleDbAwsKeyDetailsActionDelete ReplicateOracleDbAwsKeyDetailsActionEnum = "DELETE"
-)
-
-var mappingReplicateOracleDbAwsKeyDetailsActionEnum = map[string]ReplicateOracleDbAwsKeyDetailsActionEnum{
-	"CREATE": ReplicateOracleDbAwsKeyDetailsActionCreate,
-	"DELETE": ReplicateOracleDbAwsKeyDetailsActionDelete,
-}
-
-var mappingReplicateOracleDbAwsKeyDetailsActionEnumLowerCase = map[string]ReplicateOracleDbAwsKeyDetailsActionEnum{
-	"create": ReplicateOracleDbAwsKeyDetailsActionCreate,
-	"delete": ReplicateOracleDbAwsKeyDetailsActionDelete,
-}
-
-// GetReplicateOracleDbAwsKeyDetailsActionEnumValues Enumerates the set of values for ReplicateOracleDbAwsKeyDetailsActionEnum
-func GetReplicateOracleDbAwsKeyDetailsActionEnumValues() []ReplicateOracleDbAwsKeyDetailsActionEnum {
-	values := make([]ReplicateOracleDbAwsKeyDetailsActionEnum, 0)
-	for _, v := range mappingReplicateOracleDbAwsKeyDetailsActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetReplicateOracleDbAwsKeyDetailsActionEnumStringValues Enumerates the set of values in String for ReplicateOracleDbAwsKeyDetailsActionEnum
-func GetReplicateOracleDbAwsKeyDetailsActionEnumStringValues() []string {
-	return []string{
-		"CREATE",
-		"DELETE",
-	}
-}
-
-// GetMappingReplicateOracleDbAwsKeyDetailsActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingReplicateOracleDbAwsKeyDetailsActionEnum(val string) (ReplicateOracleDbAwsKeyDetailsActionEnum, bool) {
-	enum, ok := mappingReplicateOracleDbAwsKeyDetailsActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// BulkCreatePrivateIpsDetails Bulk Secondary IPv4 addresses creation object.
+// BulkCreatePrivateIpsDetails Details used to create secondary private IPv4 addresses in a bulk operation.
 type BulkCreatePrivateIpsDetails struct {
 
-	// Secondary IPv4 addresses to assign.
+	// A secondary IPv4 address to assign.
 	BulkCreatePrivateIpItem []BulkCreatePrivateIpItem `mandatory:"true" json:"bulkCreatePrivateIpItem"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the private IPs to. The VNIC and private IPs must be in the same subnet.

@@ -15,7 +15,7 @@ import (
 type ListRecoveryServiceSubnetsRequest struct {
 
 	// The compartment OCID.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only the resources that match the specified lifecycle state.
 	LifecycleState ListRecoveryServiceSubnetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`

@@ -68,7 +68,7 @@ func newManagementAgentClientFromBaseClient(baseClient common.BaseClient, config
 
 // SetRegion overrides the region of this client.
 func (client *ManagementAgentClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("managementagent", "https://management-agent.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("managementagent", "https://management-agent.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "management-agent")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +90,12 @@ func (client *ManagementAgentClient) setConfigurationProvider(configProvider com
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ManagementAgentClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *ManagementAgentClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // CreateDataSource Datasource creation request to given Management Agent.
@@ -134,6 +140,13 @@ func (client ManagementAgentClient) createDataSource(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDataSourceResponse
 	var httpResponse *http.Response
@@ -193,6 +206,13 @@ func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -251,6 +271,13 @@ func (client ManagementAgentClient) createNamedCredential(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateNamedCredentialResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -303,6 +330,13 @@ func (client ManagementAgentClient) deleteDataSource(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteDataSourceResponse
 	var httpResponse *http.Response
@@ -357,6 +391,13 @@ func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteManagementAgentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -409,6 +450,13 @@ func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
@@ -463,6 +511,13 @@ func (client ManagementAgentClient) deleteNamedCredential(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteNamedCredentialResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -515,6 +570,13 @@ func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteWorkRequestResponse
 	var httpResponse *http.Response
@@ -574,6 +636,13 @@ func (client ManagementAgentClient) deployPlugins(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeployPluginsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -627,6 +696,13 @@ func (client ManagementAgentClient) getAutoUpgradableConfig(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetAutoUpgradableConfigResponse
 	var httpResponse *http.Response
@@ -686,6 +762,13 @@ func (client ManagementAgentClient) getDataSource(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDataSourceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -738,6 +821,13 @@ func (client ManagementAgentClient) getManagementAgent(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetManagementAgentResponse
 	var httpResponse *http.Response
@@ -792,6 +882,13 @@ func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -844,6 +941,13 @@ func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetManagementAgentInstallKeyContentResponse
 	var httpResponse *http.Response
@@ -902,6 +1006,13 @@ func (client ManagementAgentClient) getNamedCredential(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetNamedCredentialResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -954,6 +1065,13 @@ func (client ManagementAgentClient) getNamedCredentialsMetadatum(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetNamedCredentialsMetadatumResponse
 	var httpResponse *http.Response
@@ -1008,6 +1126,13 @@ func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1060,6 +1185,13 @@ func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAvailabilityHistoriesResponse
 	var httpResponse *http.Response
@@ -1130,6 +1262,13 @@ func (client ManagementAgentClient) listDataSources(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDataSourcesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1188,6 +1327,13 @@ func (client ManagementAgentClient) listManagementAgentImages(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListManagementAgentImagesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1240,6 +1386,13 @@ func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.C
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListManagementAgentInstallKeysResponse
 	var httpResponse *http.Response
@@ -1294,6 +1447,13 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListManagementAgentPluginsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1310,7 +1470,7 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 }
 
 // ListManagementAgents Returns a list of Management Agents.
-// If no explicit page size limit is specified, it will default to 1000 when compartmentIdInSubtree is true and 5000 otherwise.
+// If no explicit page size limit is specified, it will default to 1000.
 // The response is limited to maximum 1000 records when compartmentIdInSubtree is true.
 func (client ManagementAgentClient) ListManagementAgents(ctx context.Context, request ListManagementAgentsRequest) (response ListManagementAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1348,6 +1508,13 @@ func (client ManagementAgentClient) listManagementAgents(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListManagementAgentsResponse
 	var httpResponse *http.Response
@@ -1402,6 +1569,13 @@ func (client ManagementAgentClient) listNamedCredentials(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListNamedCredentialsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1454,6 +1628,13 @@ func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
@@ -1508,6 +1689,13 @@ func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1560,6 +1748,13 @@ func (client ManagementAgentClient) listWorkRequests(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -1620,6 +1815,13 @@ func (client ManagementAgentClient) setAutoUpgradableConfig(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SetAutoUpgradableConfigResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1674,6 +1876,13 @@ func (client ManagementAgentClient) summarizeManagementAgentCounts(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeManagementAgentCountsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1727,6 +1936,13 @@ func (client ManagementAgentClient) summarizeManagementAgentPluginCounts(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeManagementAgentPluginCountsResponse
 	var httpResponse *http.Response
@@ -1786,6 +2002,13 @@ func (client ManagementAgentClient) updateDataSource(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDataSourceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1843,6 +2066,13 @@ func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateManagementAgentResponse
 	var httpResponse *http.Response
@@ -1902,6 +2132,13 @@ func (client ManagementAgentClient) updateManagementAgentInstallKey(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1959,6 +2196,13 @@ func (client ManagementAgentClient) updateNamedCredential(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateNamedCredentialResponse
 	var httpResponse *http.Response

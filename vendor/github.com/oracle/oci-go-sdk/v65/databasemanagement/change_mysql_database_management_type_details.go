@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// ChangeMysqlDatabaseManagementTypeDetails Details to change managed MySQL database management type.
+// ChangeMysqlDatabaseManagementTypeDetails Details required to change the management type for a HeatWave MySQL instance, from BASIC to FULL and vice versa. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ChangeMysqlDatabaseManagementTypeDetails struct {
 
 	// The type of HeatWave management.
 	ManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"true" json:"managementType"`
 
-	// The type of operation to perform: update managementType, enable or disable database management.
+	// The type of operation to perform: Update managementType, enable, or disable Database Management.
 	Operation ChangeMysqlDatabaseManagementTypeDetailsOperationEnum `mandatory:"false" json:"operation,omitempty"`
 }
 

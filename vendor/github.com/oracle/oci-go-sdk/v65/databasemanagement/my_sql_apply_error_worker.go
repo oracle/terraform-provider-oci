@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlApplyErrorWorker If the replica is multi-threaded, error from worker threads. Otherwise, error from the applier thread.
+// MySqlApplyErrorWorker If the replica is multi-threaded, error from worker threads. Otherwise, error from the applier thread. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlApplyErrorWorker struct {
 
 	// The error number of the most recent error that caused the worker thread to stop.

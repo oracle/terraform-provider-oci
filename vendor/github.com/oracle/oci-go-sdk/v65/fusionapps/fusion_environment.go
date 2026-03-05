@@ -110,6 +110,9 @@ type FusionEnvironment struct {
 
 	// Environment suspended status
 	IsSuspended *bool `mandatory:"false" json:"isSuspended"`
+
+	// Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	AdditionalEgressRules []AdditionalEgressRule `mandatory:"false" json:"additionalEgressRules"`
 }
 
 func (m FusionEnvironment) String() string {
@@ -163,6 +166,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags              map[string]string                          `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{}          `json:"definedTags"`
 		IsSuspended               *bool                                      `json:"isSuspended"`
+		AdditionalEgressRules     []AdditionalEgressRule                     `json:"additionalEgressRules"`
 		Id                        *string                                    `json:"id"`
 		DisplayName               *string                                    `json:"displayName"`
 		CompartmentId             *string                                    `json:"compartmentId"`
@@ -237,6 +241,8 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsSuspended = model.IsSuspended
 
+	m.AdditionalEgressRules = make([]AdditionalEgressRule, len(model.AdditionalEgressRules))
+	copy(m.AdditionalEgressRules, model.AdditionalEgressRules)
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

@@ -152,6 +152,13 @@ type DeploymentSummary struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// Indicates if disaster recovery is enabled for a deployment.
+	// If not specified, disaster recovery is ENABLED when no clusterPlacementGroupId is provided, and DISABLED when a clusterPlacementGroupId is provided.
+	DisasterRecoveryStatus DisasterRecoveryStatusEnum `mandatory:"false" json:"disasterRecoveryStatus,omitempty"`
+
+	// The type of the deployment role.
+	DeploymentRole DeploymentRoleEnum `mandatory:"false" json:"deploymentRole,omitempty"`
+
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
@@ -183,6 +190,12 @@ func (m DeploymentSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDisasterRecoveryStatusEnum(string(m.DisasterRecoveryStatus)); !ok && m.DisasterRecoveryStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryStatus: %s. Supported values are: %s.", m.DisasterRecoveryStatus, strings.Join(GetDisasterRecoveryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDeploymentRoleEnum(string(m.DeploymentRole)); !ok && m.DeploymentRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentRole: %s. Supported values are: %s.", m.DeploymentRole, strings.Join(GetDeploymentRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

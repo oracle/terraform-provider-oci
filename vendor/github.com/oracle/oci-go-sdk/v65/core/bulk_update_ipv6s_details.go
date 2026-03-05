@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// BulkUpdateIpv6sDetails Bulk Secondary IPv6 addresses update object.
+// BulkUpdateIpv6sDetails Address details to update for a Secondary IPv6 object.
 type BulkUpdateIpv6sDetails struct {
 
-	// Secondary IPv6 addresses to updated.
+	// A secondary IPv6 address to update.
 	BulkUpdateIpv6sItem []BulkUpdateIpv6sItem `mandatory:"true" json:"bulkUpdateIpv6sItem"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to move the IPv6s to.

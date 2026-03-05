@@ -486,6 +486,114 @@ func (client LustreFileStorageClient) deleteObjectStorageLink(ctx context.Contex
 	return response, err
 }
 
+// GetComputeAndBlockPlacementValidation Validate compute and block placement from Compute and Block API
+// A default retry strategy applies to this operation GetComputeAndBlockPlacementValidation()
+func (client LustreFileStorageClient) GetComputeAndBlockPlacementValidation(ctx context.Context, request GetComputeAndBlockPlacementValidationRequest) (response GetComputeAndBlockPlacementValidationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeAndBlockPlacementValidation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeAndBlockPlacementValidationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeAndBlockPlacementValidationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeAndBlockPlacementValidationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeAndBlockPlacementValidationResponse")
+	}
+	return
+}
+
+// getComputeAndBlockPlacementValidation implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) getComputeAndBlockPlacementValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/computeAndBlockPlacementValidation/{lustreFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeAndBlockPlacementValidationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/GetComputeAndBlockPlacementValidationResult/GetComputeAndBlockPlacementValidation"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetComputeAndBlockPlacementValidation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetLogging Get logging configuration for a given log ID.
+// A default retry strategy applies to this operation GetLogging()
+func (client LustreFileStorageClient) GetLogging(ctx context.Context, request GetLoggingRequest) (response GetLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLoggingResponse")
+	}
+	return
+}
+
+// getLogging implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) getLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190909/logging/{logId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/OciServiceLoggingConfig/GetLogging"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetLustreFileSystem Gets information about a Lustre file system.
 // A default retry strategy applies to this operation GetLustreFileSystem()
 func (client LustreFileStorageClient) GetLustreFileSystem(ctx context.Context, request GetLustreFileSystemRequest) (response GetLustreFileSystemResponse, err error) {
@@ -587,6 +695,60 @@ func (client LustreFileStorageClient) getObjectStorageLink(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/GetObjectStorageLink"
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetObjectStorageLink", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetResourcePlacementValidation Validate resource placement from CPG info saved in MP Kiev
+// A default retry strategy applies to this operation GetResourcePlacementValidation()
+func (client LustreFileStorageClient) GetResourcePlacementValidation(ctx context.Context, request GetResourcePlacementValidationRequest) (response GetResourcePlacementValidationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourcePlacementValidation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourcePlacementValidationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourcePlacementValidationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourcePlacementValidationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourcePlacementValidationResponse")
+	}
+	return
+}
+
+// getResourcePlacementValidation implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) getResourcePlacementValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/resourcePlacementValidation/{lustreFileSystemId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourcePlacementValidationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ResourcePlacementValidationResult/GetResourcePlacementValidation"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "GetResourcePlacementValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1368,6 +1530,65 @@ func (client LustreFileStorageClient) startImportFromObject(ctx context.Context,
 	return response, err
 }
 
+// StartLogging Notifies OCI service to enable logging for the specific resource.
+// A default retry strategy applies to this operation StartLogging()
+func (client LustreFileStorageClient) StartLogging(ctx context.Context, request StartLoggingRequest) (response StartLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartLoggingResponse")
+	}
+	return
+}
+
+// startLogging implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) startLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20190909/logging", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/OciServiceLoggingConfig/StartLogging"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "StartLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StopExportToObject Stops the export of data from the Lustre file system to Object Storage.
 // The Lustre file system path and Object Storage object prefix are defined in the Object Storage link resource.
 // A default retry strategy applies to this operation StopExportToObject()
@@ -1488,6 +1709,65 @@ func (client LustreFileStorageClient) stopImportFromObject(ctx context.Context, 
 	return response, err
 }
 
+// StopLogging Disable logging to the log object.
+// A default retry strategy applies to this operation StopLogging()
+func (client LustreFileStorageClient) StopLogging(ctx context.Context, request StopLoggingRequest) (response StopLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopLoggingResponse")
+	}
+	return
+}
+
+// stopLogging implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) stopLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/20190909/logging/{logId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/OciServiceLoggingConfig/StopLogging"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "StopLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnpauseSyncJob Unpauses the object sync job in progress. The object sync job can either have Object Storage or Lustre File
 // System as either source or target.
 // A default retry strategy applies to this operation UnpauseSyncJob()
@@ -1541,6 +1821,65 @@ func (client LustreFileStorageClient) unpauseSyncJob(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/UnpauseSyncJob"
 		err = common.PostProcessServiceError(err, "LustreFileStorage", "UnpauseSyncJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateLogging Updates category parameters in the logging resource.
+// A default retry strategy applies to this operation UpdateLogging()
+func (client LustreFileStorageClient) UpdateLogging(ctx context.Context, request UpdateLoggingRequest) (response UpdateLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLoggingResponse")
+	}
+	return
+}
+
+// updateLogging implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) updateLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20190909/logging", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/OciServiceLoggingConfig/UpdateLogging"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "UpdateLogging", apiReferenceLink)
 		return response, err
 	}
 

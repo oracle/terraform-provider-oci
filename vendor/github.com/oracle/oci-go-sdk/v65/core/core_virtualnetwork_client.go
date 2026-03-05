@@ -1715,7 +1715,7 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 	return response, err
 }
 
-// BulkCreateIpv6s Create new IPv6s for a VNIC or Subnet.
+// BulkCreateIpv6s Create new IPv6s in bulk for a VNIC or subnet.
 // A default retry strategy applies to this operation BulkCreateIpv6s()
 func (client VirtualNetworkClient) BulkCreateIpv6s(ctx context.Context, request BulkCreateIpv6sRequest) (response BulkCreateIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1847,7 +1847,7 @@ func (client VirtualNetworkClient) bulkCreatePrivateIps(ctx context.Context, req
 	return response, err
 }
 
-// BulkDeleteIpv6s Unassigns and deletes IPv6s for a VNIC.
+// BulkDeleteIpv6s Unassign and delete IPv6s for a VNIC in bulk.
 // A default retry strategy applies to this operation BulkDeleteIpv6s()
 func (client VirtualNetworkClient) BulkDeleteIpv6s(ctx context.Context, request BulkDeleteIpv6sRequest) (response BulkDeleteIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1913,7 +1913,7 @@ func (client VirtualNetworkClient) bulkDeleteIpv6s(ctx context.Context, request 
 	return response, err
 }
 
-// BulkDeletePrivateIps Unassigns and deletes secondary private IPv4s for a VNIC.
+// BulkDeletePrivateIps Unassign and delete secondary private IPv4s for a VNIC.
 // A default retry strategy applies to this operation BulkDeletePrivateIps()
 func (client VirtualNetworkClient) BulkDeletePrivateIps(ctx context.Context, request BulkDeletePrivateIpsRequest) (response BulkDeletePrivateIpsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2038,7 +2038,7 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	return response, err
 }
 
-// BulkDetachIpv6s detach the specified IPv6s.
+// BulkDetachIpv6s Detach the specified IPv6s.
 // A default retry strategy applies to this operation BulkDetachIpv6s()
 func (client VirtualNetworkClient) BulkDetachIpv6s(ctx context.Context, request BulkDetachIpv6sRequest) (response BulkDetachIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2104,7 +2104,7 @@ func (client VirtualNetworkClient) bulkDetachIpv6s(ctx context.Context, request 
 	return response, err
 }
 
-// BulkDetachPrivateIps Unassign the specified PrivateIP address from Virtual Network Interface Card (VNIC). You must specify the PrivateIP OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// BulkDetachPrivateIps Unassign the specified private IP addresses from the Virtual Network Interface Card (VNIC). You must specify the PrivateIP object's OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation BulkDetachPrivateIps()
 func (client VirtualNetworkClient) BulkDetachPrivateIps(ctx context.Context, request BulkDetachPrivateIpsRequest) (response BulkDetachPrivateIpsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2235,7 +2235,7 @@ func (client VirtualNetworkClient) bulkMigration(ctx context.Context, request co
 	return response, err
 }
 
-// BulkUpdateIpv6s Updates the specified IPv6s.
+// BulkUpdateIpv6s Updates the specified IPv6s in bulk.
 // A default retry strategy applies to this operation BulkUpdateIpv6s()
 func (client VirtualNetworkClient) BulkUpdateIpv6s(ctx context.Context, request BulkUpdateIpv6sRequest) (response BulkUpdateIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2301,7 +2301,7 @@ func (client VirtualNetworkClient) bulkUpdateIpv6s(ctx context.Context, request 
 	return response, err
 }
 
-// BulkUpdatePrivateIps Updates existing secondary Private IPv4s for a VNIC.
+// BulkUpdatePrivateIps Update existing secondary private IPv4s for a VNIC.
 // A default retry strategy applies to this operation BulkUpdatePrivateIps()
 func (client VirtualNetworkClient) BulkUpdatePrivateIps(ctx context.Context, request BulkUpdatePrivateIpsRequest) (response BulkUpdatePrivateIpsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4772,6 +4772,67 @@ func (client VirtualNetworkClient) changeVtapCompartment(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vtap/ChangeVtapCompartment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeVtapCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CheckDeviceReachabilityInternal Device Reachability check from prometheus
+// A default retry strategy applies to this operation CheckDeviceReachabilityInternal()
+func (client VirtualNetworkClient) CheckDeviceReachabilityInternal(ctx context.Context, request CheckDeviceReachabilityInternalRequest) (response CheckDeviceReachabilityInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.checkDeviceReachabilityInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckDeviceReachabilityInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckDeviceReachabilityInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckDeviceReachabilityInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckDeviceReachabilityInternalResponse")
+	}
+	return
+}
+
+// checkDeviceReachabilityInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) checkDeviceReachabilityInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/edgePop/devices/{deviceName}/deviceReachabilityInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CheckDeviceReachabilityInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DeviceReachabilityInternal/CheckDeviceReachabilityInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CheckDeviceReachabilityInternal", apiReferenceLink)
 		return response, err
 	}
 

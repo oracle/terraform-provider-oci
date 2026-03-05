@@ -111,6 +111,12 @@ type SecurityRule struct {
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
+
+	// Type of action for the rule.
+	//   Allowed values:
+	//     * `ALLOW`: Any traffic matching the rule will be forwarded/routed. This is Default action.
+	//     * `DENY`: Any traffic matching this deny rule will be dropped.
+	Action SecurityRuleActionEnum `mandatory:"false" json:"action,omitempty"`
 }
 
 func (m SecurityRule) String() string {
@@ -131,6 +137,9 @@ func (m SecurityRule) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingSecurityRuleSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSecurityRuleSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSecurityRuleActionEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetSecurityRuleActionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -269,5 +278,47 @@ func GetSecurityRuleSourceTypeEnumStringValues() []string {
 // GetMappingSecurityRuleSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSecurityRuleSourceTypeEnum(val string) (SecurityRuleSourceTypeEnum, bool) {
 	enum, ok := mappingSecurityRuleSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SecurityRuleActionEnum Enum with underlying type: string
+type SecurityRuleActionEnum string
+
+// Set of constants representing the allowable values for SecurityRuleActionEnum
+const (
+	SecurityRuleActionAllow SecurityRuleActionEnum = "ALLOW"
+	SecurityRuleActionDeny  SecurityRuleActionEnum = "DENY"
+)
+
+var mappingSecurityRuleActionEnum = map[string]SecurityRuleActionEnum{
+	"ALLOW": SecurityRuleActionAllow,
+	"DENY":  SecurityRuleActionDeny,
+}
+
+var mappingSecurityRuleActionEnumLowerCase = map[string]SecurityRuleActionEnum{
+	"allow": SecurityRuleActionAllow,
+	"deny":  SecurityRuleActionDeny,
+}
+
+// GetSecurityRuleActionEnumValues Enumerates the set of values for SecurityRuleActionEnum
+func GetSecurityRuleActionEnumValues() []SecurityRuleActionEnum {
+	values := make([]SecurityRuleActionEnum, 0)
+	for _, v := range mappingSecurityRuleActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSecurityRuleActionEnumStringValues Enumerates the set of values in String for SecurityRuleActionEnum
+func GetSecurityRuleActionEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"DENY",
+	}
+}
+
+// GetMappingSecurityRuleActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSecurityRuleActionEnum(val string) (SecurityRuleActionEnum, bool) {
+	enum, ok := mappingSecurityRuleActionEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

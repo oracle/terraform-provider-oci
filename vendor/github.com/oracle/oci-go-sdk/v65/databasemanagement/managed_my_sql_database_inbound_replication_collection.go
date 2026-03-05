@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseInboundReplicationCollection The collection of inbound replication records for a specific MySQL server.
+// ManagedMySqlDatabaseInboundReplicationCollection The collection of inbound replication records for a specific MySQL server. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabaseInboundReplicationCollection struct {
 
 	// A list of ManagedMySqlDatabaseInboundReplicationSummary records.

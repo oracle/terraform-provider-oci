@@ -38,9 +38,9 @@ type UpdateNotebookSessionDetails struct {
 
 	NotebookSessionEnvironmentConfigDetails NotebookSessionEnvironmentConfigDetails `mandatory:"false" json:"notebookSessionEnvironmentConfigDetails"`
 
-	NotebookSessionIngressConfigDetails *NotebookSessionIngressConfigDetails `mandatory:"false" json:"notebookSessionIngressConfigDetails"`
-
 	NotebookSessionLogConfigDetails *NotebookSessionLogConfigDetails `mandatory:"false" json:"notebookSessionLogConfigDetails"`
+
+	NotebookSessionIngressConfigDetails *NotebookSessionIngressConfigDetails `mandatory:"false" json:"notebookSessionIngressConfigDetails"`
 
 	// Collection of NotebookSessionStorageMountConfigurationDetails.
 	NotebookSessionStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"notebookSessionStorageMountConfigurationDetailsList"`
@@ -71,8 +71,8 @@ func (m *UpdateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                                         map[string]map[string]interface{}       `json:"definedTags"`
 		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails    `json:"notebookSessionRuntimeConfigDetails"`
 		NotebookSessionEnvironmentConfigDetails             notebooksessionenvironmentconfigdetails `json:"notebookSessionEnvironmentConfigDetails"`
-		NotebookSessionIngressConfigDetails                 *NotebookSessionIngressConfigDetails    `json:"notebookSessionIngressConfigDetails"`
 		NotebookSessionLogConfigDetails                     *NotebookSessionLogConfigDetails        `json:"notebookSessionLogConfigDetails"`
+		NotebookSessionIngressConfigDetails                 *NotebookSessionIngressConfigDetails    `json:"notebookSessionIngressConfigDetails"`
 		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails      `json:"notebookSessionStorageMountConfigurationDetailsList"`
 	}{}
 
@@ -101,9 +101,9 @@ func (m *UpdateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 		m.NotebookSessionEnvironmentConfigDetails = nil
 	}
 
-	m.NotebookSessionIngressConfigDetails = model.NotebookSessionIngressConfigDetails
-
 	m.NotebookSessionLogConfigDetails = model.NotebookSessionLogConfigDetails
+
+	m.NotebookSessionIngressConfigDetails = model.NotebookSessionIngressConfigDetails
 
 	m.NotebookSessionStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.NotebookSessionStorageMountConfigurationDetailsList))
 	for i, n := range model.NotebookSessionStorageMountConfigurationDetailsList {

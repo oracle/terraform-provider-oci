@@ -14,7 +14,7 @@ import (
 // BulkDeleteIpv6sRequest wrapper for the BulkDeleteIpv6s operation
 type BulkDeleteIpv6sRequest struct {
 
-	// Delete IPv6s details.
+	// Details of the IPv6s to delete.
 	BulkDeleteIpv6sDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

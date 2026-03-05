@@ -736,6 +736,7 @@ func (client DatabaseRecoveryClient) deleteLongTermBackup(ctx context.Context, r
 }
 
 // DeleteProtectedDatabase Deletes a protected database based on the specified protected database ID.
+// Only the user or the Oracle Database service that created the protected database is allowed to modify or delete it.
 // A default retry strategy applies to this operation DeleteProtectedDatabase()
 func (client DatabaseRecoveryClient) DeleteProtectedDatabase(ctx context.Context, request DeleteProtectedDatabaseRequest) (response DeleteProtectedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1605,6 +1606,7 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 }
 
 // ScheduleProtectedDatabaseDeletion Defines a preferred schedule to delete a protected database after you terminate the source database.
+// Only the user or the Oracle Database service that created the protected database is allowed to modify or delete it.
 // The default schedule is DELETE_AFTER_72_HOURS, so that the delete operation can occur 72 hours (3 days) after the source database is terminated.
 // The alternate schedule is DELETE_AFTER_RETENTION_PERIOD. Specify this option if you want to delete a protected database only after the policy-defined backup retention period expires.
 // A default retry strategy applies to this operation ScheduleProtectedDatabaseDeletion()

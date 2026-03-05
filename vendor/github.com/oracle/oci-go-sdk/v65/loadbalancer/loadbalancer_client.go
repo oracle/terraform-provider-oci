@@ -3435,6 +3435,144 @@ func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
+// RenewCertificates Triggers an asynchronous certificate renewal for a specific load balancer. The request contains the list
+// of OCI Certificate OCIDs and their expectedVersion as observed by GAXCP. Control Plane creates exactly one
+// work request per load balancer; legs (per-DP container operations) are internal.
+// Behavior (Phase 1):
+// - Instance Principal only (internal preview; allow-listed tenancies/compartments).
+// - Duplicate request protection via opc-retry-token; identical payload + same token returns the original 202.
+// - One WR per LB; caller polls standard WR APIs for status.
+// - DP/UHA applies delta-only cert updates with atomic apply semantics per LB.
+// Do not include any certificate material (PEMs/keys) in this request—metadata only.
+func (client LoadBalancerClient) RenewCertificates(ctx context.Context, request RenewCertificatesRequest) (response RenewCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.renewCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RenewCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RenewCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RenewCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RenewCertificatesResponse")
+	}
+	return
+}
+
+// renewCertificates implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) renewCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/actions/renewCertificates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response RenewCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/RenewCertificates"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "RenewCertificates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ResumeLoadBalancer Resume Load balancer will remove the load balancer from suspend state
+func (client LoadBalancerClient) ResumeLoadBalancer(ctx context.Context, request ResumeLoadBalancerRequest) (response ResumeLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.resumeLoadBalancer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ResumeLoadBalancerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ResumeLoadBalancerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResumeLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResumeLoadBalancerResponse")
+	}
+	return
+}
+
+// resumeLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) resumeLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/actions/resume", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ResumeLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/ResumeLoadBalancer"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "ResumeLoadBalancer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartLogging Starts logging for the specified category and parameters for the specified loadbalancer.
 func (client LoadBalancerClient) StartLogging(ctx context.Context, request StartLoggingRequest) (response StartLoggingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3558,6 +3696,71 @@ func (client LoadBalancerClient) stopLogging(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/OciServiceLoggingConfig/StopLogging"
 		err = common.PostProcessServiceError(err, "LoadBalancer", "StopLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SuspendLoadBalancer Suspend Load balancer will help us blackhole load balancer traffic for prolonged periods
+func (client LoadBalancerClient) SuspendLoadBalancer(ctx context.Context, request SuspendLoadBalancerRequest) (response SuspendLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.suspendLoadBalancer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SuspendLoadBalancerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SuspendLoadBalancerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SuspendLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SuspendLoadBalancerResponse")
+	}
+	return
+}
+
+// suspendLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) suspendLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/actions/suspend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response SuspendLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/SuspendLoadBalancer"
+		err = common.PostProcessServiceError(err, "LoadBalancer", "SuspendLoadBalancer", apiReferenceLink)
 		return response, err
 	}
 

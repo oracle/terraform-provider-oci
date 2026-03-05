@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// CloudDbNode The details of a cloud database node.
+// CloudDbNode The details of a cloud DB node.
 type CloudDbNode struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB node.
@@ -66,7 +66,7 @@ type CloudDbNode struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Name of the domain.
+	// The name of the domain.
 	DomainName *string `mandatory:"false" json:"domainName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

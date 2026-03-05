@@ -14,7 +14,7 @@ import (
 // BulkDeletePrivateIpsRequest wrapper for the BulkDeletePrivateIps operation
 type BulkDeletePrivateIpsRequest struct {
 
-	// Details of secondary IPv4 addresses to deleted.
+	// Details of the secondary IPv4 addresses to delete.
 	BulkDeletePrivateIpsDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

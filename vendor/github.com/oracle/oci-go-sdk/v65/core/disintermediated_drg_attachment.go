@@ -159,7 +159,7 @@ type DisintermediatedDrgAttachment struct {
 	RegionName *string `mandatory:"false" json:"regionName"`
 
 	// Is Global Fast Connect
-	// Example: `true`'
+	// Example: `true`
 	IsGfc *bool `mandatory:"false" json:"isGfc"`
 
 	// Indicates whether the backdoor API was used to override the exportRouteDistributionId value so no

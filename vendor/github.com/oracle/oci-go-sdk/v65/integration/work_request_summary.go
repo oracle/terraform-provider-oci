@@ -93,6 +93,9 @@ const (
 	WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup                 WorkRequestSummaryOperationTypeEnum = "ADD_LOG_ANALYTICS_LOG_GROUP"
 	WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup              WorkRequestSummaryOperationTypeEnum = "DELETE_LOG_ANALYTICS_LOG_GROUP"
 	WorkRequestSummaryOperationTypeConvertInstance                         WorkRequestSummaryOperationTypeEnum = "CONVERT_INSTANCE"
+	WorkRequestSummaryOperationTypeBeginMigration                          WorkRequestSummaryOperationTypeEnum = "BEGIN_MIGRATION"
+	WorkRequestSummaryOperationTypeCompleteMigration                       WorkRequestSummaryOperationTypeEnum = "COMPLETE_MIGRATION"
+	WorkRequestSummaryOperationTypeRollbackMigration                       WorkRequestSummaryOperationTypeEnum = "ROLLBACK_MIGRATION"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
 	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 	WorkRequestSummaryOperationTypeCreateCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "CREATE_CUSTOM_ENDPOINT"
@@ -111,6 +114,9 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"ADD_LOG_ANALYTICS_LOG_GROUP":                 WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup,
 	"DELETE_LOG_ANALYTICS_LOG_GROUP":              WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup,
 	"CONVERT_INSTANCE":                            WorkRequestSummaryOperationTypeConvertInstance,
+	"BEGIN_MIGRATION":                             WorkRequestSummaryOperationTypeBeginMigration,
+	"COMPLETE_MIGRATION":                          WorkRequestSummaryOperationTypeCompleteMigration,
+	"ROLLBACK_MIGRATION":                          WorkRequestSummaryOperationTypeRollbackMigration,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"CREATE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
@@ -129,6 +135,9 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"add_log_analytics_log_group":                 WorkRequestSummaryOperationTypeAddLogAnalyticsLogGroup,
 	"delete_log_analytics_log_group":              WorkRequestSummaryOperationTypeDeleteLogAnalyticsLogGroup,
 	"convert_instance":                            WorkRequestSummaryOperationTypeConvertInstance,
+	"begin_migration":                             WorkRequestSummaryOperationTypeBeginMigration,
+	"complete_migration":                          WorkRequestSummaryOperationTypeCompleteMigration,
+	"rollback_migration":                          WorkRequestSummaryOperationTypeRollbackMigration,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"create_custom_endpoint":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
@@ -158,6 +167,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"ADD_LOG_ANALYTICS_LOG_GROUP",
 		"DELETE_LOG_ANALYTICS_LOG_GROUP",
 		"CONVERT_INSTANCE",
+		"BEGIN_MIGRATION",
+		"COMPLETE_MIGRATION",
+		"ROLLBACK_MIGRATION",
 		"EXTEND_DATA_RETENTION",
 		"DISASTER_RECOVERY_FAILOVER",
 		"CREATE_CUSTOM_ENDPOINT",

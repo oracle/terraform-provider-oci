@@ -27,9 +27,7 @@ type ByolSummary struct {
 	// contains the BYOL.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A descriptive name for the BYOL. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The current state of the BYOL.
@@ -48,16 +46,13 @@ type ByolSummary struct {
 	// - VCF (VMware Cloud Foundation)
 	// - VSAN (VMware vSAN)
 	// - VDEFEND (VMware vDefend Firewall)
-	// - VDEFEND_WITH_ADVANCED_THREAT_PREVENTION (VMware vDefend Firewall with Advanced Threat Prevention)
-	// - ADVANCED_THREAT_PREVENTION (VMware Advanced Threat Prevention Add-on)
 	// - AVI_LOAD_BALANCER (VMware Avi Load Balancer)
-	// - ADVANCED_CYBER_COMPLIANCE (Advanced Cyber Compliance - ACC)
 	SoftwareType ByolSoftwareTypeEnum `mandatory:"true" json:"softwareType"`
 
 	// Total quantity of licensed units for the specified `softwareType`:
-	// - VCF, VDEFEND, VDEFEND_WITH_ADVANCED_THREAT_PREVENTION, ADVANCED_THREAT_PREVENTION: number of OCPUs
+	// - VCF, VDEFEND: number of OCPUs
 	// - VSAN: storage capacity in TiB (tebibytes)
-	// - AVI_LOAD_BALANCER, ADVANCED_CYBER_COMPLIANCE: number of instances
+	// - AVI_LOAD_BALANCER: number of instances
 	TotalUnits *int `mandatory:"true" json:"totalUnits"`
 
 	// The quantity of licensed units that not yet allocated to specific region.

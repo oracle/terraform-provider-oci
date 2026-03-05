@@ -52,6 +52,9 @@ type CreateVolumeBackupDetails struct {
 
 	// The type of backup to create. If omitted, defaults to INCREMENTAL.
 	Type CreateVolumeBackupDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
+	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m CreateVolumeBackupDetails) String() string {

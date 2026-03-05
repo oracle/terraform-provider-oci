@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// BulkCreateIpv6sItem Secondary IPv6 object to creation as part of bulk creation .
+// BulkCreateIpv6sItem Secondary IPv6 object to use as part of bulk IPv6 object creation.
 type BulkCreateIpv6sItem struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -61,7 +61,7 @@ type BulkCreateIpv6sItem struct {
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
-	// Length of cidr range. Optional field to specify flexible cidr.
+	// Length of the CIDR range. Optional field to specify a flexible CIDR.
 	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
 }
 

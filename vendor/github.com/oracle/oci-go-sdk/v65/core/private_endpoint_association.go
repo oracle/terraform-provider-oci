@@ -51,6 +51,28 @@ type PrivateEndpointAssociation struct {
 	// PrivateEndpoint.
 	AdditionalFqdns []string `mandatory:"false" json:"additionalFqdns"`
 
+	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records use
+	// this FQDN. This field will accept only dual stack Fqdns either starting with "ds." or having ".ds.".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// For important information about how this attribute is used, see the discussion
+	// of DNS and FQDNs in PrivateEndpoint.
+	// Example: `xyz.ds.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
+	// A list of additional FQDNs that you can provide along with endpointDualStackFqdn.
+	// This field will accept only dual stack Fqdns either starting with "ds." or having ".ds.".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// These FQDNs are added to the customer VCN's DNS record.
+	// For more information, see the discussion of DNS and FQDNs in PrivateEndpoint.
+	AdditionalDualStackFqdns []string `mandatory:"false" json:"additionalDualStackFqdns"`
+
+	// The CIDR IPv6 address block of the Subnet. The CIDR length is always /64.
+	// This field will not be populated when PrivateEndpoint is SingleStack IPv4.
+	// Example: `2001:0db8:0123:4567::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
 	ReverseConnectionConfiguration *ReverseConnectionConfiguration `mandatory:"false" json:"reverseConnectionConfiguration"`
 }
 

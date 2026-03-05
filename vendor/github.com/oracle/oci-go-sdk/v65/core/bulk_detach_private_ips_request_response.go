@@ -14,7 +14,7 @@ import (
 // BulkDetachPrivateIpsRequest wrapper for the BulkDetachPrivateIps operation
 type BulkDetachPrivateIpsRequest struct {
 
-	// Secondary IPv4 addresses to detach.
+	// The secondary IPv4 addresses to detach.
 	BulkDetachPrivateIpsDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

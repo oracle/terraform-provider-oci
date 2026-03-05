@@ -96,7 +96,7 @@ type CreateVirtualCircuitDetails struct {
 	// ListFastConnectProviderServices.
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`
 
-	// The service key name offered by the provider (if the customer is connecting via a provider).
+	// The service key name or activation key offered by the provider (if the customer is connecting via a provider).
 	ProviderServiceKeyName *string `mandatory:"false" json:"providerServiceKeyName"`
 
 	// Deprecated. Instead use `providerServiceId`.

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseHighAvailabilityMemberCollection Information pertaining to high availability of a MySQL server.
+// ManagedMySqlDatabaseHighAvailabilityMemberCollection Information pertaining to high availability of a MySQL server. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabaseHighAvailabilityMemberCollection struct {
 
 	// A list of MySqlHighAvailabilityMember records.

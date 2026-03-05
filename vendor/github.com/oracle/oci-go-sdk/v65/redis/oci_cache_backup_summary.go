@@ -59,6 +59,9 @@ type OciCacheBackupSummary struct {
 	// Backup size in GB.
 	BackupSizeInGBs *float32 `mandatory:"false" json:"backupSizeInGBs"`
 
+	// Backup Type.
+	BackupType OciCacheBackupSummaryBackupTypeEnum `mandatory:"false" json:"backupType,omitempty"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -83,8 +86,53 @@ func (m OciCacheBackupSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingOciCacheBackupBackupSourceEnum(string(m.BackupSource)); !ok && m.BackupSource != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupSource: %s. Supported values are: %s.", m.BackupSource, strings.Join(GetOciCacheBackupBackupSourceEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingOciCacheBackupSummaryBackupTypeEnum(string(m.BackupType)); !ok && m.BackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetOciCacheBackupSummaryBackupTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// OciCacheBackupSummaryBackupTypeEnum Enum with underlying type: string
+type OciCacheBackupSummaryBackupTypeEnum string
+
+// Set of constants representing the allowable values for OciCacheBackupSummaryBackupTypeEnum
+const (
+	OciCacheBackupSummaryBackupTypeManual    OciCacheBackupSummaryBackupTypeEnum = "MANUAL"
+	OciCacheBackupSummaryBackupTypeAutomated OciCacheBackupSummaryBackupTypeEnum = "AUTOMATED"
+)
+
+var mappingOciCacheBackupSummaryBackupTypeEnum = map[string]OciCacheBackupSummaryBackupTypeEnum{
+	"MANUAL":    OciCacheBackupSummaryBackupTypeManual,
+	"AUTOMATED": OciCacheBackupSummaryBackupTypeAutomated,
+}
+
+var mappingOciCacheBackupSummaryBackupTypeEnumLowerCase = map[string]OciCacheBackupSummaryBackupTypeEnum{
+	"manual":    OciCacheBackupSummaryBackupTypeManual,
+	"automated": OciCacheBackupSummaryBackupTypeAutomated,
+}
+
+// GetOciCacheBackupSummaryBackupTypeEnumValues Enumerates the set of values for OciCacheBackupSummaryBackupTypeEnum
+func GetOciCacheBackupSummaryBackupTypeEnumValues() []OciCacheBackupSummaryBackupTypeEnum {
+	values := make([]OciCacheBackupSummaryBackupTypeEnum, 0)
+	for _, v := range mappingOciCacheBackupSummaryBackupTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOciCacheBackupSummaryBackupTypeEnumStringValues Enumerates the set of values in String for OciCacheBackupSummaryBackupTypeEnum
+func GetOciCacheBackupSummaryBackupTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATED",
+	}
+}
+
+// GetMappingOciCacheBackupSummaryBackupTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOciCacheBackupSummaryBackupTypeEnum(val string) (OciCacheBackupSummaryBackupTypeEnum, bool) {
+	enum, ok := mappingOciCacheBackupSummaryBackupTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

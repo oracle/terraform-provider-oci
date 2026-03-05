@@ -70,6 +70,9 @@ type UpdateDatabaseDetails struct {
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
 	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
+
+	// If true, registers the database with Data Safe; if false, deregisters; when unspecified, no change
+	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
 }
 
 func (m UpdateDatabaseDetails) String() string {

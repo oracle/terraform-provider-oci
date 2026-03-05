@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdateMySqlDatabaseConnectorDetails Update Details of external database connector.
+// UpdateMySqlDatabaseConnectorDetails Update Details of external database connector. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type UpdateMySqlDatabaseConnectorDetails struct {
 
 	// Agent Id of the MACS agent.

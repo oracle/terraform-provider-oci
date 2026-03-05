@@ -66,6 +66,13 @@ type DeploymentPeerSummary struct {
 	// Only applicable for multicloud subscriptions. The cluster placement group id must be provided when a multicloud
 	// subscription id is provided. Otherwise the cluster placement group must not be provided.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Status of the DR precheck result.
+	PrecheckStatus PrecheckStatusEnum `mandatory:"false" json:"precheckStatus,omitempty"`
+
+	// The timestamp when pre-check started. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`.
+	TimeLastPrecheckPerformed *common.SDKTime `mandatory:"false" json:"timeLastPrecheckPerformed"`
 }
 
 func (m DeploymentPeerSummary) String() string {
@@ -87,6 +94,9 @@ func (m DeploymentPeerSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDeploymentPeerSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPrecheckStatusEnum(string(m.PrecheckStatus)); !ok && m.PrecheckStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrecheckStatus: %s. Supported values are: %s.", m.PrecheckStatus, strings.Join(GetPrecheckStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -103,6 +113,7 @@ const (
 	DeploymentPeerSummaryLifecycleStateFailed   DeploymentPeerSummaryLifecycleStateEnum = "FAILED"
 	DeploymentPeerSummaryLifecycleStateUpdating DeploymentPeerSummaryLifecycleStateEnum = "UPDATING"
 	DeploymentPeerSummaryLifecycleStateDeleting DeploymentPeerSummaryLifecycleStateEnum = "DELETING"
+	DeploymentPeerSummaryLifecycleStateInactive DeploymentPeerSummaryLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingDeploymentPeerSummaryLifecycleStateEnum = map[string]DeploymentPeerSummaryLifecycleStateEnum{
@@ -111,6 +122,7 @@ var mappingDeploymentPeerSummaryLifecycleStateEnum = map[string]DeploymentPeerSu
 	"FAILED":   DeploymentPeerSummaryLifecycleStateFailed,
 	"UPDATING": DeploymentPeerSummaryLifecycleStateUpdating,
 	"DELETING": DeploymentPeerSummaryLifecycleStateDeleting,
+	"INACTIVE": DeploymentPeerSummaryLifecycleStateInactive,
 }
 
 var mappingDeploymentPeerSummaryLifecycleStateEnumLowerCase = map[string]DeploymentPeerSummaryLifecycleStateEnum{
@@ -119,6 +131,7 @@ var mappingDeploymentPeerSummaryLifecycleStateEnumLowerCase = map[string]Deploym
 	"failed":   DeploymentPeerSummaryLifecycleStateFailed,
 	"updating": DeploymentPeerSummaryLifecycleStateUpdating,
 	"deleting": DeploymentPeerSummaryLifecycleStateDeleting,
+	"inactive": DeploymentPeerSummaryLifecycleStateInactive,
 }
 
 // GetDeploymentPeerSummaryLifecycleStateEnumValues Enumerates the set of values for DeploymentPeerSummaryLifecycleStateEnum
@@ -138,6 +151,7 @@ func GetDeploymentPeerSummaryLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"UPDATING",
 		"DELETING",
+		"INACTIVE",
 	}
 }
 

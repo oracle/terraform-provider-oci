@@ -2339,78 +2339,6 @@ func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context,
 	return response, err
 }
 
-// CreateInstanceScreenshot Captures the most recent screenshot data for the specified instance.
-// The `createInstanceScreenshot` operation works with the other screenshot operations
-// as described below.
-// 1. Use `createInstanceScreenshot` to request the capture of the current instance
-// screen state. The object will have a state of CREATING.
-// 2. Optionally, use `GetInstanceScreenshot` to get the metadata of the screen capture.
-// 3. Use `GetInstanceScreenshotContent` to get the actual screenshot data in base64
-// encoded string.
-func (client ComputeClient) CreateInstanceScreenshot(ctx context.Context, request CreateInstanceScreenshotRequest) (response CreateInstanceScreenshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createInstanceScreenshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateInstanceScreenshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateInstanceScreenshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateInstanceScreenshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateInstanceScreenshotResponse")
-	}
-	return
-}
-
-// createInstanceScreenshot implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createInstanceScreenshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}/screenshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response CreateInstanceScreenshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/CreateInstanceScreenshot"
-		err = common.PostProcessServiceError(err, "Compute", "CreateInstanceScreenshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteAppCatalogSubscription Delete a subscription for a listing resource version for a compartment.
 func (client ComputeClient) DeleteAppCatalogSubscription(ctx context.Context, request DeleteAppCatalogSubscriptionRequest) (response DeleteAppCatalogSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4198,6 +4126,67 @@ func (client ComputeClient) getComputeGpuMemoryFabric(ctx context.Context, reque
 	return response, err
 }
 
+// GetComputeHost Gets information about the specified compute host
+// A default retry strategy applies to this operation GetComputeHost()
+func (client ComputeClient) GetComputeHost(ctx context.Context, request GetComputeHostRequest) (response GetComputeHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeHostResponse")
+	}
+	return
+}
+
+// getComputeHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getComputeHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetComputeHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/GetComputeHost"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetComputeHostGroup Gets information about the specified compute host group
 // A default retry strategy applies to this operation GetComputeHostGroup()
 func (client ComputeClient) GetComputeHostGroup(ctx context.Context, request GetComputeHostGroupRequest) (response GetComputeHostGroupResponse, err error) {
@@ -4252,67 +4241,6 @@ func (client ComputeClient) getComputeHostGroup(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/GetComputeHostGroup"
 		err = common.PostProcessServiceError(err, "Compute", "GetComputeHostGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetComputeHosts Gets information about the specified compute host
-// A default retry strategy applies to this operation GetComputeHosts()
-func (client ComputeClient) GetComputeHosts(ctx context.Context, request GetComputeHostsRequest) (response GetComputeHostsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getComputeHosts, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetComputeHostsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetComputeHostsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetComputeHostsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetComputeHostsResponse")
-	}
-	return
-}
-
-// getComputeHosts implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getComputeHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response GetComputeHostsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/GetComputeHosts"
-		err = common.PostProcessServiceError(err, "Compute", "GetComputeHosts", apiReferenceLink)
 		return response, err
 	}
 
@@ -5044,125 +4972,6 @@ func (client ComputeClient) getInstanceMaintenanceReboot(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceReboot/GetInstanceMaintenanceReboot"
 		err = common.PostProcessServiceError(err, "Compute", "GetInstanceMaintenanceReboot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetInstanceScreenshot Retrieves the metadata of the specified screenshot taken for the specified instance.
-func (client ComputeClient) GetInstanceScreenshot(ctx context.Context, request GetInstanceScreenshotRequest) (response GetInstanceScreenshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceScreenshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceScreenshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceScreenshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceScreenshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceScreenshotResponse")
-	}
-	return
-}
-
-// getInstanceScreenshot implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceScreenshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots/{instanceScreenshotId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response GetInstanceScreenshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceScreenshot/GetInstanceScreenshot"
-		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetInstanceScreenshotContent Retrieves the data of the specified screenshot taken for the specified instance.
-func (client ComputeClient) GetInstanceScreenshotContent(ctx context.Context, request GetInstanceScreenshotContentRequest) (response GetInstanceScreenshotContentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceScreenshotContent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceScreenshotContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceScreenshotContentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceScreenshotContentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceScreenshotContentResponse")
-	}
-	return
-}
-
-// getInstanceScreenshotContent implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceScreenshotContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots/{instanceScreenshotId}/content", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response GetInstanceScreenshotContentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshotContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -7752,66 +7561,6 @@ func (client ComputeClient) listInstanceMaintenanceEvents(ctx context.Context, r
 	return response, err
 }
 
-// ListInstanceScreenshots Lists the last screenshots taken for the specified instance.
-func (client ComputeClient) ListInstanceScreenshots(ctx context.Context, request ListInstanceScreenshotsRequest) (response ListInstanceScreenshotsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInstanceScreenshots, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInstanceScreenshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInstanceScreenshotsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInstanceScreenshotsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceScreenshotsResponse")
-	}
-	return
-}
-
-// listInstanceScreenshots implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceScreenshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response ListInstanceScreenshotsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ListInstanceScreenshots"
-		err = common.PostProcessServiceError(err, "Compute", "ListInstanceScreenshots", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListInstances Lists the instances in the specified compartment and the specified availability domain.
 // You can filter the results by specifying an instance name (the list will include all the identically-named
 // instances in the compartment).
@@ -8664,6 +8413,72 @@ func (client ComputeClient) updateComputeGpuMemoryFabric(ctx context.Context, re
 	return response, err
 }
 
+// UpdateComputeHost Customer can update the some fields for ComputeHost record
+// A default retry strategy applies to this operation UpdateComputeHost()
+func (client ComputeClient) UpdateComputeHost(ctx context.Context, request UpdateComputeHostRequest) (response UpdateComputeHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeHostResponse")
+	}
+	return
+}
+
+// updateComputeHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateComputeHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateComputeHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/UpdateComputeHost"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateComputeHostGroup Updates the specified compute host group details.
 // A default retry strategy applies to this operation UpdateComputeHostGroup()
 func (client ComputeClient) UpdateComputeHostGroup(ctx context.Context, request UpdateComputeHostGroupRequest) (response UpdateComputeHostGroupResponse, err error) {
@@ -8723,72 +8538,6 @@ func (client ComputeClient) updateComputeHostGroup(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHostGroup/UpdateComputeHostGroup"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHostGroup", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateComputeHosts Customer can update the some fields for ComputeHost record
-// A default retry strategy applies to this operation UpdateComputeHosts()
-func (client ComputeClient) UpdateComputeHosts(ctx context.Context, request UpdateComputeHostsRequest) (response UpdateComputeHostsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateComputeHosts, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateComputeHostsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateComputeHostsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateComputeHostsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeHostsResponse")
-	}
-	return
-}
-
-// updateComputeHosts implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateComputeHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response UpdateComputeHostsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/UpdateComputeHosts"
-		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHosts", apiReferenceLink)
 		return response, err
 	}
 

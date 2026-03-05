@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlDigestErrorsCollection The collection of errors for a given digest.
+// MySqlDigestErrorsCollection The collection of errors for a given digest. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlDigestErrorsCollection struct {
 
 	// The unique set of errors for a given digest.

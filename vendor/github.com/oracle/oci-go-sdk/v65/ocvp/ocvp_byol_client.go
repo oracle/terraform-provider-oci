@@ -105,11 +105,6 @@ func (client ByolClient) ChangeByolCompartment(ctx context.Context, request Chan
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.changeByolCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -388,11 +383,6 @@ func (client ByolClient) RetrieveByolRealmAllocations(ctx context.Context, reque
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.retrieveByolRealmAllocations, policy)
 	if err != nil {
 		if ociResponse != nil {

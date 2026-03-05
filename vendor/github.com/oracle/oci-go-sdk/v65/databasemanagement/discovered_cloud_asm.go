@@ -33,7 +33,7 @@ type DiscoveredCloudAsm struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing OCI resource matching the discovered DB system component.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing Dbaas OCI resource matching the discovered DB system component.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing DBaas OCI resource matching the discovered DB system component.
 	DbaasId *string `mandatory:"false" json:"dbaasId"`
 
 	// Indicates whether the DB system component should be provisioned as an OCI resource or not.
@@ -51,7 +51,7 @@ type DiscoveredCloudAsm struct {
 	// The ASM version.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The list of asm instances for the cloud Asm.
+	// The list of ASM instances for the cloud Asm.
 	AsmInstances []DiscoveredCloudAsmInstance `mandatory:"false" json:"asmInstances"`
 
 	Connector CloudDbSystemDiscoveryConnector `mandatory:"false" json:"connector"`

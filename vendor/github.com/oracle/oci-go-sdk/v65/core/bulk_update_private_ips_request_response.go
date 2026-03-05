@@ -14,7 +14,7 @@ import (
 // BulkUpdatePrivateIpsRequest wrapper for the BulkUpdatePrivateIps operation
 type BulkUpdatePrivateIpsRequest struct {
 
-	// Details of secondary IPv4 addresses to be updated.
+	// Details of the secondary IPv4 addresses to update.
 	BulkUpdatePrivateIpsDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

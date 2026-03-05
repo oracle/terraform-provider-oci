@@ -85,6 +85,18 @@ type EndpointService struct {
 	// List of service IPv6 addresses (in the service VCN) that handle requests to the endpoint service. (Optional field)
 	ServiceIpv6s []EndpointServiceIpDetails `mandatory:"false" json:"serviceIpv6s"`
 
+	// The three-label FQDN to use for all private endpoints associated with this endpoint
+	// service. This attribute's value cannot be changed. This field will accept only dual stack Fqdns either starting with "ds." or having ".ds.".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// This fqdn resolves to IPv6 address when configured in single stack IPv6 subnet.
+	//
+	// For important information about how this attribute is used, see the discussion
+	// of DNS and FQDNs in PrivateEndpoint.
+	//
+	// Example: `xyz.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
 	// ES from substrate or not
 	IsSubstrate *bool `mandatory:"false" json:"isSubstrate"`
 

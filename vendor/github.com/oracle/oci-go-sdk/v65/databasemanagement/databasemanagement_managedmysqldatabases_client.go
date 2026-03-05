@@ -94,7 +94,8 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 }
 
 // ChangeMysqlDatabaseManagementType Changes the management type for a HeatWave MySQL instance, from BASIC to FULL and vice versa.
-// It can also be used to enable or disable database management.
+// It can also be used to enable or disable Database Management.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ChangeMysqlDatabaseManagementType()
 func (client ManagedMySqlDatabasesClient) ChangeMysqlDatabaseManagementType(ctx context.Context, request ChangeMysqlDatabaseManagementTypeRequest) (response ChangeMysqlDatabaseManagementTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,6 +155,7 @@ func (client ManagedMySqlDatabasesClient) changeMysqlDatabaseManagementType(ctx 
 }
 
 // GetBinaryLogInformation Retrieves information pertaining to the binary log of a specific MySQL server.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation GetBinaryLogInformation()
 func (client ManagedMySqlDatabasesClient) GetBinaryLogInformation(ctx context.Context, request GetBinaryLogInformationRequest) (response GetBinaryLogInformationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -208,6 +210,7 @@ func (client ManagedMySqlDatabasesClient) getBinaryLogInformation(ctx context.Co
 }
 
 // GetGeneralReplicationInformation Retrieves general information regarding the replication of a specific MySQL server.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation GetGeneralReplicationInformation()
 func (client ManagedMySqlDatabasesClient) GetGeneralReplicationInformation(ctx context.Context, request GetGeneralReplicationInformationRequest) (response GetGeneralReplicationInformationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -262,6 +265,7 @@ func (client ManagedMySqlDatabasesClient) getGeneralReplicationInformation(ctx c
 }
 
 // GetHeatWaveFleetMetric Gets the health metrics for a fleet of HeatWave clusters in a compartment.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client ManagedMySqlDatabasesClient) GetHeatWaveFleetMetric(ctx context.Context, request GetHeatWaveFleetMetricRequest) (response GetHeatWaveFleetMetricResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -315,6 +319,7 @@ func (client ManagedMySqlDatabasesClient) getHeatWaveFleetMetric(ctx context.Con
 }
 
 // GetManagedMySqlDatabase Retrieves the general information for a specific MySQL Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client ManagedMySqlDatabasesClient) GetManagedMySqlDatabase(ctx context.Context, request GetManagedMySqlDatabaseRequest) (response GetManagedMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -368,6 +373,7 @@ func (client ManagedMySqlDatabasesClient) getManagedMySqlDatabase(ctx context.Co
 }
 
 // GetMySqlFleetMetric Gets the health metrics for a fleet of MySQL Databases in a compartment.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client ManagedMySqlDatabasesClient) GetMySqlFleetMetric(ctx context.Context, request GetMySqlFleetMetricRequest) (response GetMySqlFleetMetricResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -420,7 +426,8 @@ func (client ManagedMySqlDatabasesClient) getMySqlFleetMetric(ctx context.Contex
 	return response, err
 }
 
-// GetMySqlQueryDetails Retrieves query sample details, explain plan and potential warnings for a given digest.
+// GetMySqlQueryDetails Retrieves query sample details, explain plan, and potential warnings for a given digest.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation GetMySqlQueryDetails()
 func (client ManagedMySqlDatabasesClient) GetMySqlQueryDetails(ctx context.Context, request GetMySqlQueryDetailsRequest) (response GetMySqlQueryDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -475,6 +482,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlQueryDetails(ctx context.Conte
 }
 
 // ListHighAvailabilityMembers Retrieves information about the high availability members of a specific MySQL server's replication group.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListHighAvailabilityMembers()
 func (client ManagedMySqlDatabasesClient) ListHighAvailabilityMembers(ctx context.Context, request ListHighAvailabilityMembersRequest) (response ListHighAvailabilityMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -529,6 +537,7 @@ func (client ManagedMySqlDatabasesClient) listHighAvailabilityMembers(ctx contex
 }
 
 // ListInboundReplications Retrieves information about the inbound replications of a specific MySQL server.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListInboundReplications()
 func (client ManagedMySqlDatabasesClient) ListInboundReplications(ctx context.Context, request ListInboundReplicationsRequest) (response ListInboundReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -583,6 +592,7 @@ func (client ManagedMySqlDatabasesClient) listInboundReplications(ctx context.Co
 }
 
 // ListManagedMySqlDatabaseConfigurationData Retrieves configuration data for a specific MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseConfigurationData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseConfigurationData(ctx context.Context, request ListManagedMySqlDatabaseConfigurationDataRequest) (response ListManagedMySqlDatabaseConfigurationDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -637,6 +647,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseConfigurationD
 }
 
 // ListManagedMySqlDatabaseSqlData Retrieves the SQL performance data for a specific MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseSqlData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseSqlData(ctx context.Context, request ListManagedMySqlDatabaseSqlDataRequest) (response ListManagedMySqlDatabaseSqlDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -691,6 +702,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseSqlData(ctx co
 }
 
 // ListManagedMySqlDatabases Gets the list of Managed MySQL Databases in a specific compartment.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabases(ctx context.Context, request ListManagedMySqlDatabasesRequest) (response ListManagedMySqlDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -744,6 +756,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabases(ctx context.
 }
 
 // ListMySqlDigestErrors Retrieves any potential errors for a given digest.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListMySqlDigestErrors()
 func (client ManagedMySqlDatabasesClient) ListMySqlDigestErrors(ctx context.Context, request ListMySqlDigestErrorsRequest) (response ListMySqlDigestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -798,6 +811,7 @@ func (client ManagedMySqlDatabasesClient) listMySqlDigestErrors(ctx context.Cont
 }
 
 // ListOutboundReplications Retrieves information pertaining to the outbound replications of a specific MySQL server.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation ListOutboundReplications()
 func (client ManagedMySqlDatabasesClient) ListOutboundReplications(ctx context.Context, request ListOutboundReplicationsRequest) (response ListOutboundReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -852,6 +866,7 @@ func (client ManagedMySqlDatabasesClient) listOutboundReplications(ctx context.C
 }
 
 // SummarizeManagedMySqlDatabaseAvailabilityMetrics Gets the availability metrics for the MySQL Database specified by managedMySqlDatabaseId.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 // A default retry strategy applies to this operation SummarizeManagedMySqlDatabaseAvailabilityMetrics()
 func (client ManagedMySqlDatabasesClient) SummarizeManagedMySqlDatabaseAvailabilityMetrics(ctx context.Context, request SummarizeManagedMySqlDatabaseAvailabilityMetricsRequest) (response SummarizeManagedMySqlDatabaseAvailabilityMetricsResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -63,6 +63,9 @@ type OciCacheBackup struct {
 	// The date and time the backup was updated. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Backup Type.
+	BackupType OciCacheBackupBackupTypeEnum `mandatory:"false" json:"backupType,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -97,6 +100,9 @@ func (m OciCacheBackup) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingOciCacheBackupBackupSourceEnum(string(m.BackupSource)); !ok && m.BackupSource != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupSource: %s. Supported values are: %s.", m.BackupSource, strings.Join(GetOciCacheBackupBackupSourceEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOciCacheBackupBackupTypeEnum(string(m.BackupType)); !ok && m.BackupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetOciCacheBackupBackupTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -201,5 +207,47 @@ func GetOciCacheBackupLifecycleStateEnumStringValues() []string {
 // GetMappingOciCacheBackupLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingOciCacheBackupLifecycleStateEnum(val string) (OciCacheBackupLifecycleStateEnum, bool) {
 	enum, ok := mappingOciCacheBackupLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// OciCacheBackupBackupTypeEnum Enum with underlying type: string
+type OciCacheBackupBackupTypeEnum string
+
+// Set of constants representing the allowable values for OciCacheBackupBackupTypeEnum
+const (
+	OciCacheBackupBackupTypeManual    OciCacheBackupBackupTypeEnum = "MANUAL"
+	OciCacheBackupBackupTypeAutomated OciCacheBackupBackupTypeEnum = "AUTOMATED"
+)
+
+var mappingOciCacheBackupBackupTypeEnum = map[string]OciCacheBackupBackupTypeEnum{
+	"MANUAL":    OciCacheBackupBackupTypeManual,
+	"AUTOMATED": OciCacheBackupBackupTypeAutomated,
+}
+
+var mappingOciCacheBackupBackupTypeEnumLowerCase = map[string]OciCacheBackupBackupTypeEnum{
+	"manual":    OciCacheBackupBackupTypeManual,
+	"automated": OciCacheBackupBackupTypeAutomated,
+}
+
+// GetOciCacheBackupBackupTypeEnumValues Enumerates the set of values for OciCacheBackupBackupTypeEnum
+func GetOciCacheBackupBackupTypeEnumValues() []OciCacheBackupBackupTypeEnum {
+	values := make([]OciCacheBackupBackupTypeEnum, 0)
+	for _, v := range mappingOciCacheBackupBackupTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOciCacheBackupBackupTypeEnumStringValues Enumerates the set of values in String for OciCacheBackupBackupTypeEnum
+func GetOciCacheBackupBackupTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATED",
+	}
+}
+
+// GetMappingOciCacheBackupBackupTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOciCacheBackupBackupTypeEnum(val string) (OciCacheBackupBackupTypeEnum, bool) {
+	enum, ok := mappingOciCacheBackupBackupTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

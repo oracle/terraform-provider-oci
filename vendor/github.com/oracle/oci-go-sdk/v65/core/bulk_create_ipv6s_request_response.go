@@ -14,7 +14,7 @@ import (
 // BulkCreateIpv6sRequest wrapper for the BulkCreateIpv6s operation
 type BulkCreateIpv6sRequest struct {
 
-	// Bulk Create Ipv6s.
+	// Create Ipv6s in bulk.
 	BulkCreateIpv6sDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

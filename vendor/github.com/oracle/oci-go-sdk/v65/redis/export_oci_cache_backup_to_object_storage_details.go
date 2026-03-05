@@ -24,9 +24,6 @@ type ExportOciCacheBackupToObjectStorageDetails struct {
 	// The target Object Storage bucket name.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// The canonical region identifier where the bucket resides (for example, us-ashburn-1).
-	Region *string `mandatory:"true" json:"region"`
-
 	// Optional prefix under which the service will place the exported object(s).
 	Prefix *string `mandatory:"false" json:"prefix"`
 }

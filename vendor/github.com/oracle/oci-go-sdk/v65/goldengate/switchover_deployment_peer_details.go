@@ -23,6 +23,9 @@ type SwitchoverDeploymentPeerDetails struct {
 
 	// The fault domain of a placement.
 	FaultDomain *string `mandatory:"true" json:"faultDomain"`
+
+	// Specifies the switchover mode. SWITCHOVER performs a planned role transition to the standby; FAILOVER performs a forced promotion when the primary is not available.
+	Mode SwitchoverDeploymentPeerDetailsModeEnum `mandatory:"false" json:"mode,omitempty"`
 }
 
 func (m SwitchoverDeploymentPeerDetails) String() string {
@@ -35,8 +38,53 @@ func (m SwitchoverDeploymentPeerDetails) String() string {
 func (m SwitchoverDeploymentPeerDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSwitchoverDeploymentPeerDetailsModeEnum(string(m.Mode)); !ok && m.Mode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Mode: %s. Supported values are: %s.", m.Mode, strings.Join(GetSwitchoverDeploymentPeerDetailsModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// SwitchoverDeploymentPeerDetailsModeEnum Enum with underlying type: string
+type SwitchoverDeploymentPeerDetailsModeEnum string
+
+// Set of constants representing the allowable values for SwitchoverDeploymentPeerDetailsModeEnum
+const (
+	SwitchoverDeploymentPeerDetailsModeSwitchover SwitchoverDeploymentPeerDetailsModeEnum = "SWITCHOVER"
+	SwitchoverDeploymentPeerDetailsModeFailover   SwitchoverDeploymentPeerDetailsModeEnum = "FAILOVER"
+)
+
+var mappingSwitchoverDeploymentPeerDetailsModeEnum = map[string]SwitchoverDeploymentPeerDetailsModeEnum{
+	"SWITCHOVER": SwitchoverDeploymentPeerDetailsModeSwitchover,
+	"FAILOVER":   SwitchoverDeploymentPeerDetailsModeFailover,
+}
+
+var mappingSwitchoverDeploymentPeerDetailsModeEnumLowerCase = map[string]SwitchoverDeploymentPeerDetailsModeEnum{
+	"switchover": SwitchoverDeploymentPeerDetailsModeSwitchover,
+	"failover":   SwitchoverDeploymentPeerDetailsModeFailover,
+}
+
+// GetSwitchoverDeploymentPeerDetailsModeEnumValues Enumerates the set of values for SwitchoverDeploymentPeerDetailsModeEnum
+func GetSwitchoverDeploymentPeerDetailsModeEnumValues() []SwitchoverDeploymentPeerDetailsModeEnum {
+	values := make([]SwitchoverDeploymentPeerDetailsModeEnum, 0)
+	for _, v := range mappingSwitchoverDeploymentPeerDetailsModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSwitchoverDeploymentPeerDetailsModeEnumStringValues Enumerates the set of values in String for SwitchoverDeploymentPeerDetailsModeEnum
+func GetSwitchoverDeploymentPeerDetailsModeEnumStringValues() []string {
+	return []string{
+		"SWITCHOVER",
+		"FAILOVER",
+	}
+}
+
+// GetMappingSwitchoverDeploymentPeerDetailsModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSwitchoverDeploymentPeerDetailsModeEnum(val string) (SwitchoverDeploymentPeerDetailsModeEnum, bool) {
+	enum, ok := mappingSwitchoverDeploymentPeerDetailsModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

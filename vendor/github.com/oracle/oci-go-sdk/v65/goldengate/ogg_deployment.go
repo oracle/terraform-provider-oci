@@ -40,6 +40,9 @@ type OggDeployment struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format.
+	KeySecretId *string `mandatory:"false" json:"keySecretId"`
+
 	GroupToRolesMapping *GroupToRolesMappingDetails `mandatory:"false" json:"groupToRolesMapping"`
 }
 

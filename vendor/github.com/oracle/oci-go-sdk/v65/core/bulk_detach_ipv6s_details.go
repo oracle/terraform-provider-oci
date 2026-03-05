@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// BulkDetachIpv6sDetails Bulk Secondary IPv6 addresses detach object.
+// BulkDetachIpv6sDetails Details needed to bulk detach secondary IPv6 addresses.
 type BulkDetachIpv6sDetails struct {
 
-	// Secondary IPv6 addresses to detached.
+	// A secondary IPv6 address to detach.
 	BulkDetachIpv6sItem []BulkDetachIpv6sItem `mandatory:"true" json:"bulkDetachIpv6sItem"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC of which IPv6s should be detached. The VNIC and IPv6s must be in the same subnet.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC from which multiple IPv6s should be detached. The VNIC and IPv6s must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }
 

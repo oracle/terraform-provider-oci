@@ -57,6 +57,15 @@ type DataSecurityRule struct {
 	DestinationVcnLabel *LabelDetails `mandatory:"false" json:"destinationVcnLabel"`
 
 	GatewayLabel *LabelDetails `mandatory:"false" json:"gatewayLabel"`
+
+	// isBidirectional controls whether a DENY rule blocks traffic in one direction only or in both directions.
+	IsBidirectional *bool `mandatory:"false" json:"isBidirectional"`
+
+	// Type of action for the rule.
+	//   Allowed values:
+	//     * `ALLOW`: Any traffic matching the rule will be forwarded/routed. This is Default action.
+	//     * `DENY`: Any traffic matching this deny rule will be dropped.
+	Action DataSecurityRuleActionEnum `mandatory:"false" json:"action,omitempty"`
 }
 
 func (m DataSecurityRule) String() string {
@@ -69,8 +78,53 @@ func (m DataSecurityRule) String() string {
 func (m DataSecurityRule) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDataSecurityRuleActionEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetDataSecurityRuleActionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DataSecurityRuleActionEnum Enum with underlying type: string
+type DataSecurityRuleActionEnum string
+
+// Set of constants representing the allowable values for DataSecurityRuleActionEnum
+const (
+	DataSecurityRuleActionAllow DataSecurityRuleActionEnum = "ALLOW"
+	DataSecurityRuleActionDeny  DataSecurityRuleActionEnum = "DENY"
+)
+
+var mappingDataSecurityRuleActionEnum = map[string]DataSecurityRuleActionEnum{
+	"ALLOW": DataSecurityRuleActionAllow,
+	"DENY":  DataSecurityRuleActionDeny,
+}
+
+var mappingDataSecurityRuleActionEnumLowerCase = map[string]DataSecurityRuleActionEnum{
+	"allow": DataSecurityRuleActionAllow,
+	"deny":  DataSecurityRuleActionDeny,
+}
+
+// GetDataSecurityRuleActionEnumValues Enumerates the set of values for DataSecurityRuleActionEnum
+func GetDataSecurityRuleActionEnumValues() []DataSecurityRuleActionEnum {
+	values := make([]DataSecurityRuleActionEnum, 0)
+	for _, v := range mappingDataSecurityRuleActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataSecurityRuleActionEnumStringValues Enumerates the set of values in String for DataSecurityRuleActionEnum
+func GetDataSecurityRuleActionEnumStringValues() []string {
+	return []string{
+		"ALLOW",
+		"DENY",
+	}
+}
+
+// GetMappingDataSecurityRuleActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataSecurityRuleActionEnum(val string) (DataSecurityRuleActionEnum, bool) {
+	enum, ok := mappingDataSecurityRuleActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

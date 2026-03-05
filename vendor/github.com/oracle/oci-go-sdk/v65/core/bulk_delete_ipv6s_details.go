@@ -21,17 +21,17 @@ import (
 	"strings"
 )
 
-// BulkDeleteIpv6sDetails Bulk Secondary IPv6 addresses deletion object.
+// BulkDeleteIpv6sDetails A secondary IPv6 address bulk deletion object.
 type BulkDeleteIpv6sDetails struct {
 
-	// IPv6 addresses to deleted.
+	// An IPv6 address to delete.
 	BulkDeleteIpv6sItem []BulkDeleteIpv6sItem `mandatory:"true" json:"bulkDeleteIpv6sItem"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6s to. The
 	// IPv6 will be in the VNIC's subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the IPv6s addresses are to be deleted.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the IPv6s addresses are deleted.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 }
 

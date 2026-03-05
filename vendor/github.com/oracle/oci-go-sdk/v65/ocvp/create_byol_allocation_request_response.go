@@ -76,12 +76,6 @@ type CreateByolAllocationResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ByolAllocation instance
-	ByolAllocation `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
 	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

@@ -14,7 +14,7 @@ import (
 // CreateCloudDbSystemConnectorRequest wrapper for the CreateCloudDbSystemConnector operation
 type CreateCloudDbSystemConnectorRequest struct {
 
-	// The details required to create an cloud connector.
+	// The details required to create a cloud connector.
 	CreateCloudDbSystemConnectorDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

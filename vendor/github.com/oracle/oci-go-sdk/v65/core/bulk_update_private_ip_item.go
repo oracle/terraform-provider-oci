@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// BulkUpdatePrivateIpItem secondary private IPv4 address object to update as part of bulk update.
+// BulkUpdatePrivateIpItem A secondary private IPv4 address object to update as part of a bulk operation.
 type BulkUpdatePrivateIpItem struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secondary Private IP.

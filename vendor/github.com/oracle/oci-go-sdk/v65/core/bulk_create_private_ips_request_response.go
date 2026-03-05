@@ -14,7 +14,7 @@ import (
 // BulkCreatePrivateIpsRequest wrapper for the BulkCreatePrivateIps operation
 type BulkCreatePrivateIpsRequest struct {
 
-	// Create private IPs details.
+	// Details used to create secondary private IPs.
 	BulkCreatePrivateIpsDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

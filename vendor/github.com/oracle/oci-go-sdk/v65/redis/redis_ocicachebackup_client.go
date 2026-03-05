@@ -263,7 +263,7 @@ func (client OciCacheBackupClient) deleteOciCacheBackup(ctx context.Context, req
 	return response, err
 }
 
-// ExportOciCacheBackupToObjectStorage Initiates an asynchronous export of the backup’s RDB file(s) to the specified Object Storage bucket in the given region. The service generates the object names. For sharded backups, one object is written per shard under the optional prefix.
+// ExportOciCacheBackupToObjectStorage Initiates an asynchronous export of the backup’s RDB file(s) to the specified Object Storage bucket. The service generates the object names. For sharded backups, one object is written per shard under the optional prefix.
 // A default retry strategy applies to this operation ExportOciCacheBackupToObjectStorage()
 func (client OciCacheBackupClient) ExportOciCacheBackupToObjectStorage(ctx context.Context, request ExportOciCacheBackupToObjectStorageRequest) (response ExportOciCacheBackupToObjectStorageResponse, err error) {
 	var ociResponse common.OCIResponse

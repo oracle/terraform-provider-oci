@@ -27,9 +27,7 @@ type ByolAllocation struct {
 	// contains the BYOL Allocation.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A descriptive name for the BYOL Allocation. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL Allocation.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The current state of the BYOL Allocation.
@@ -40,10 +38,7 @@ type ByolAllocation struct {
 	// - VCF (VMware Cloud Foundation)
 	// - VSAN (VMware vSAN)
 	// - VDEFEND (VMware vDefend Firewall)
-	// - VDEFEND_WITH_ADVANCED_THREAT_PREVENTION (VMware vDefend Firewall with Advanced Threat Prevention)
-	// - ADVANCED_THREAT_PREVENTION (VMware Advanced Threat Prevention Add-on)
 	// - AVI_LOAD_BALANCER (VMware Avi Load Balancer)
-	// - ADVANCED_CYBER_COMPLIANCE (Advanced Cyber Compliance - ACC)
 	SoftwareType ByolAllocationSoftwareTypeEnum `mandatory:"true" json:"softwareType"`
 
 	// The quantity of licensed units that allocated to this region.
@@ -180,33 +175,24 @@ type ByolAllocationSoftwareTypeEnum string
 
 // Set of constants representing the allowable values for ByolAllocationSoftwareTypeEnum
 const (
-	ByolAllocationSoftwareTypeVcf                                 ByolAllocationSoftwareTypeEnum = "VCF"
-	ByolAllocationSoftwareTypeVsan                                ByolAllocationSoftwareTypeEnum = "VSAN"
-	ByolAllocationSoftwareTypeVdefend                             ByolAllocationSoftwareTypeEnum = "VDEFEND"
-	ByolAllocationSoftwareTypeVdefendWithAdvancedThreatPrevention ByolAllocationSoftwareTypeEnum = "VDEFEND_WITH_ADVANCED_THREAT_PREVENTION"
-	ByolAllocationSoftwareTypeAdvancedThreatPrevention            ByolAllocationSoftwareTypeEnum = "ADVANCED_THREAT_PREVENTION"
-	ByolAllocationSoftwareTypeAviLoadBalancer                     ByolAllocationSoftwareTypeEnum = "AVI_LOAD_BALANCER"
-	ByolAllocationSoftwareTypeAdvancedCyberCompliance             ByolAllocationSoftwareTypeEnum = "ADVANCED_CYBER_COMPLIANCE"
+	ByolAllocationSoftwareTypeVcf             ByolAllocationSoftwareTypeEnum = "VCF"
+	ByolAllocationSoftwareTypeVsan            ByolAllocationSoftwareTypeEnum = "VSAN"
+	ByolAllocationSoftwareTypeVdefend         ByolAllocationSoftwareTypeEnum = "VDEFEND"
+	ByolAllocationSoftwareTypeAviLoadBalancer ByolAllocationSoftwareTypeEnum = "AVI_LOAD_BALANCER"
 )
 
 var mappingByolAllocationSoftwareTypeEnum = map[string]ByolAllocationSoftwareTypeEnum{
-	"VCF":     ByolAllocationSoftwareTypeVcf,
-	"VSAN":    ByolAllocationSoftwareTypeVsan,
-	"VDEFEND": ByolAllocationSoftwareTypeVdefend,
-	"VDEFEND_WITH_ADVANCED_THREAT_PREVENTION": ByolAllocationSoftwareTypeVdefendWithAdvancedThreatPrevention,
-	"ADVANCED_THREAT_PREVENTION":              ByolAllocationSoftwareTypeAdvancedThreatPrevention,
-	"AVI_LOAD_BALANCER":                       ByolAllocationSoftwareTypeAviLoadBalancer,
-	"ADVANCED_CYBER_COMPLIANCE":               ByolAllocationSoftwareTypeAdvancedCyberCompliance,
+	"VCF":               ByolAllocationSoftwareTypeVcf,
+	"VSAN":              ByolAllocationSoftwareTypeVsan,
+	"VDEFEND":           ByolAllocationSoftwareTypeVdefend,
+	"AVI_LOAD_BALANCER": ByolAllocationSoftwareTypeAviLoadBalancer,
 }
 
 var mappingByolAllocationSoftwareTypeEnumLowerCase = map[string]ByolAllocationSoftwareTypeEnum{
-	"vcf":     ByolAllocationSoftwareTypeVcf,
-	"vsan":    ByolAllocationSoftwareTypeVsan,
-	"vdefend": ByolAllocationSoftwareTypeVdefend,
-	"vdefend_with_advanced_threat_prevention": ByolAllocationSoftwareTypeVdefendWithAdvancedThreatPrevention,
-	"advanced_threat_prevention":              ByolAllocationSoftwareTypeAdvancedThreatPrevention,
-	"avi_load_balancer":                       ByolAllocationSoftwareTypeAviLoadBalancer,
-	"advanced_cyber_compliance":               ByolAllocationSoftwareTypeAdvancedCyberCompliance,
+	"vcf":               ByolAllocationSoftwareTypeVcf,
+	"vsan":              ByolAllocationSoftwareTypeVsan,
+	"vdefend":           ByolAllocationSoftwareTypeVdefend,
+	"avi_load_balancer": ByolAllocationSoftwareTypeAviLoadBalancer,
 }
 
 // GetByolAllocationSoftwareTypeEnumValues Enumerates the set of values for ByolAllocationSoftwareTypeEnum
@@ -224,10 +210,7 @@ func GetByolAllocationSoftwareTypeEnumStringValues() []string {
 		"VCF",
 		"VSAN",
 		"VDEFEND",
-		"VDEFEND_WITH_ADVANCED_THREAT_PREVENTION",
-		"ADVANCED_THREAT_PREVENTION",
 		"AVI_LOAD_BALANCER",
-		"ADVANCED_CYBER_COMPLIANCE",
 	}
 }
 

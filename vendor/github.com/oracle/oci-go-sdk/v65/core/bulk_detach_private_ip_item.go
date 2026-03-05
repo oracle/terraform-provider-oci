@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// BulkDetachPrivateIpItem Secondary private IPv4 address object to detach as part of bulk detach operation.
+// BulkDetachPrivateIpItem An object used to detatch secondary private IPv4 addresses with a bulk operation.
 type BulkDetachPrivateIpItem struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secondary Private IP.

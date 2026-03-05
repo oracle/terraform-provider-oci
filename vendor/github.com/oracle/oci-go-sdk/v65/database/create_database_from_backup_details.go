@@ -60,6 +60,9 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The password for the VPC user that is used to access the Recovery Appliance, if the given backup is from a backup destination of type RECOVERY_APPLIANCE.
 	RecoveryApplianceVpcPassword *string `mandatory:"false" json:"recoveryApplianceVpcPassword"`
+
+	// Specifies whether to register the database with Data Safe.
+	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -93,6 +96,7 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                       map[string]string                  `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
 		RecoveryApplianceVpcPassword       *string                            `json:"recoveryApplianceVpcPassword"`
+		IsDataSafeRegistered               *bool                              `json:"isDataSafeRegistered"`
 		BackupId                           *string                            `json:"backupId"`
 		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
@@ -133,6 +137,8 @@ func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.RecoveryApplianceVpcPassword = model.RecoveryApplianceVpcPassword
+
+	m.IsDataSafeRegistered = model.IsDataSafeRegistered
 
 	m.BackupId = model.BackupId
 

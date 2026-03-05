@@ -21,20 +21,20 @@ import (
 	"strings"
 )
 
-// ComputeGpuMemoryClusterInstanceSummary The customer facing GPU memory cluster instance object details.
+// ComputeGpuMemoryClusterInstanceSummary The customer facing GPU Memory Cluster instance object details.
 type ComputeGpuMemoryClusterInstanceSummary struct {
 
-	// The availability domain of the GPU memory cluster instance.
+	// The availability domain of the GPU Memory Cluster instance.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster instance
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU Memory Cluster instance
 	Id *string `mandatory:"false" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment
 	// compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The fault domain the GPU memory cluster instance is running in.
+	// The fault domain the GPU Memory Cluster instance is running in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	// Configuration to be used for this GPU Memory Cluster instance.
@@ -49,14 +49,14 @@ type ComputeGpuMemoryClusterInstanceSummary struct {
 	// You can list all available shapes by calling ListShapes.
 	InstanceShape *string `mandatory:"false" json:"instanceShape"`
 
-	// The lifecycle state of the GPU memory cluster instance
+	// The lifecycle state of the GPU Memory Cluster instance
 	LifecycleState ComputeGpuMemoryClusterInstanceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The date and time the GPU memory cluster instance was created.
+	// The date and time the GPU Memory Cluster instance was created.
 	// Example: `2016-09-15T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// BulkCreatePrivateIpItem Secondary private IPv4 address object to create as part of bulk creation.
+// BulkCreatePrivateIpItem An object used to create secondary private IPv4 addresses in a bulk operation.
 type BulkCreatePrivateIpItem struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

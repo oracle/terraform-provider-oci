@@ -259,6 +259,10 @@ const (
 	WorkRequestSummaryOperationTypeUpdateAttributeSet                            WorkRequestSummaryOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
 	WorkRequestSummaryOperationTypeDeleteAttributeSet                            WorkRequestSummaryOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
 	WorkRequestSummaryOperationTypeChangeAttributeSetCompartment                 WorkRequestSummaryOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreateRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "CREATE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeUpdateRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "UPDATE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeDeleteRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "DELETE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_REGISTRATION_POLICY_COMPARTMENT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -448,6 +452,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_ATTRIBUTE_SET":                               WorkRequestSummaryOperationTypeUpdateAttributeSet,
 	"DELETE_ATTRIBUTE_SET":                               WorkRequestSummaryOperationTypeDeleteAttributeSet,
 	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":                   WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
+	"CREATE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeCreateRegistrationPolicy,
+	"UPDATE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeUpdateRegistrationPolicy,
+	"DELETE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeDeleteRegistrationPolicy,
+	"CHANGE_REGISTRATION_POLICY_COMPARTMENT":             WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -637,6 +645,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_attribute_set":                               WorkRequestSummaryOperationTypeUpdateAttributeSet,
 	"delete_attribute_set":                               WorkRequestSummaryOperationTypeDeleteAttributeSet,
 	"change_attribute_set_compartment":                   WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
+	"create_registration_policy":                         WorkRequestSummaryOperationTypeCreateRegistrationPolicy,
+	"update_registration_policy":                         WorkRequestSummaryOperationTypeUpdateRegistrationPolicy,
+	"delete_registration_policy":                         WorkRequestSummaryOperationTypeDeleteRegistrationPolicy,
+	"change_registration_policy_compartment":             WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -837,6 +849,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_ATTRIBUTE_SET",
 		"DELETE_ATTRIBUTE_SET",
 		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
+		"CREATE_REGISTRATION_POLICY",
+		"UPDATE_REGISTRATION_POLICY",
+		"DELETE_REGISTRATION_POLICY",
+		"CHANGE_REGISTRATION_POLICY_COMPARTMENT",
 	}
 }
 

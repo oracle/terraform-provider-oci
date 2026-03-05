@@ -4,7 +4,7 @@
 
 // Network Firewall API
 //
-// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs.
+// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs. For more information, see Overview of Network Firewall (https://docs.oracle.com/iaas/Content/network-firewall/overview.htm).
 //
 
 package networkfirewall
@@ -3096,6 +3096,60 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/GetNetworkFirewall"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewall", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetNetworkFirewallHealthStatus Get Overall health status of Network Firewall
+// A default retry strategy applies to this operation GetNetworkFirewallHealthStatus()
+func (client NetworkFirewallClient) GetNetworkFirewallHealthStatus(ctx context.Context, request GetNetworkFirewallHealthStatusRequest) (response GetNetworkFirewallHealthStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getNetworkFirewallHealthStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNetworkFirewallHealthStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNetworkFirewallHealthStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNetworkFirewallHealthStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNetworkFirewallHealthStatusResponse")
+	}
+	return
+}
+
+// getNetworkFirewallHealthStatus implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) getNetworkFirewallHealthStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkFirewalls/{networkFirewallId}/healthStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNetworkFirewallHealthStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallHealthStatus/GetNetworkFirewallHealthStatus"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewallHealthStatus", apiReferenceLink)
 		return response, err
 	}
 

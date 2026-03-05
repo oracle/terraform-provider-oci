@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// CreateComputeGpuMemoryClusterDetails The customer facing object includes GPU memory cluster details.
+// CreateComputeGpuMemoryClusterDetails The customer facing object includes GPU Memory Cluster details.
 type CreateComputeGpuMemoryClusterDetails struct {
 
-	// The availability domain of the GPU memory cluster.
+	// The availability domain of the GPU Memory Cluster.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU memory cluster.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU Memory Cluster.
 	// compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -40,7 +40,7 @@ type CreateComputeGpuMemoryClusterDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric.
 	GpuMemoryFabricId *string `mandatory:"false" json:"gpuMemoryFabricId"`
 
-	// The number of instances currently running in the GpuMemoryCluster
+	// The desired number of instances for the GPU Memory Cluster.
 	Size *int64 `mandatory:"false" json:"size"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

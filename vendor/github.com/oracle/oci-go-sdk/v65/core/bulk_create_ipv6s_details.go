@@ -21,14 +21,14 @@ import (
 	"strings"
 )
 
-// BulkCreateIpv6sDetails Bulk Secondary IPv6 addresses creation object.
+// BulkCreateIpv6sDetails Details needed to create secondary IPv6 addresses with a bulk operation.
 type BulkCreateIpv6sDetails struct {
 
-	// Secondary IPv6 addresses to assign.
+	// A secondary IPv6 address to assign.
 	BulkCreateIpv6sItem []BulkCreateIpv6sItem `mandatory:"true" json:"bulkCreateIpv6sItem"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6s to. The
-	// IPv6 will be in the VNIC's subnet.
+	// IPv6s will be in the VNIC's subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the IPv6s are to be drawn. The IP addresses,

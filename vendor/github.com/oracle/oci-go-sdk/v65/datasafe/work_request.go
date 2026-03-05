@@ -260,6 +260,10 @@ const (
 	WorkRequestOperationTypeUpdateAttributeSet                            WorkRequestOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
 	WorkRequestOperationTypeDeleteAttributeSet                            WorkRequestOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
 	WorkRequestOperationTypeChangeAttributeSetCompartment                 WorkRequestOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
+	WorkRequestOperationTypeCreateRegistrationPolicy                      WorkRequestOperationTypeEnum = "CREATE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeUpdateRegistrationPolicy                      WorkRequestOperationTypeEnum = "UPDATE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeDeleteRegistrationPolicy                      WorkRequestOperationTypeEnum = "DELETE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeChangeRegistrationPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_REGISTRATION_POLICY_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -450,6 +454,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_ATTRIBUTE_SET":                               WorkRequestOperationTypeUpdateAttributeSet,
 	"DELETE_ATTRIBUTE_SET":                               WorkRequestOperationTypeDeleteAttributeSet,
 	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
+	"CREATE_REGISTRATION_POLICY":                         WorkRequestOperationTypeCreateRegistrationPolicy,
+	"UPDATE_REGISTRATION_POLICY":                         WorkRequestOperationTypeUpdateRegistrationPolicy,
+	"DELETE_REGISTRATION_POLICY":                         WorkRequestOperationTypeDeleteRegistrationPolicy,
+	"CHANGE_REGISTRATION_POLICY_COMPARTMENT":             WorkRequestOperationTypeChangeRegistrationPolicyCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -640,6 +648,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_attribute_set":                               WorkRequestOperationTypeUpdateAttributeSet,
 	"delete_attribute_set":                               WorkRequestOperationTypeDeleteAttributeSet,
 	"change_attribute_set_compartment":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
+	"create_registration_policy":                         WorkRequestOperationTypeCreateRegistrationPolicy,
+	"update_registration_policy":                         WorkRequestOperationTypeUpdateRegistrationPolicy,
+	"delete_registration_policy":                         WorkRequestOperationTypeDeleteRegistrationPolicy,
+	"change_registration_policy_compartment":             WorkRequestOperationTypeChangeRegistrationPolicyCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -841,6 +853,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_ATTRIBUTE_SET",
 		"DELETE_ATTRIBUTE_SET",
 		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
+		"CREATE_REGISTRATION_POLICY",
+		"UPDATE_REGISTRATION_POLICY",
+		"DELETE_REGISTRATION_POLICY",
+		"CHANGE_REGISTRATION_POLICY_COMPARTMENT",
 	}
 }
 

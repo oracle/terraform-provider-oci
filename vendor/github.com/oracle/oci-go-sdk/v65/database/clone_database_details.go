@@ -76,6 +76,9 @@ type CloneDatabaseDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Specifies whether to register the database with Data Safe.
+	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
 }
 
 func (m CloneDatabaseDetails) String() string {
@@ -111,6 +114,7 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		VmClusterId                        *string                            `json:"vmClusterId"`
 		FreeformTags                       map[string]string                  `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
+		IsDataSafeRegistered               *bool                              `json:"isDataSafeRegistered"`
 		SourceDatabaseId                   *string                            `json:"sourceDatabaseId"`
 		SourceTdePassword                  *string                            `json:"sourceTdePassword"`
 		TdeWalletPassword                  *string                            `json:"tdeWalletPassword"`
@@ -158,6 +162,8 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsDataSafeRegistered = model.IsDataSafeRegistered
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

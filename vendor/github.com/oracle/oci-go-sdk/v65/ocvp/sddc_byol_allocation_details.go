@@ -24,12 +24,6 @@ type SddcByolAllocationDetails struct {
 
 	// The number of VMware Avi Load Balancer instances to be deployed on VMware SDDC.
 	LoadBalancerInstanceCount *int `mandatory:"false" json:"loadBalancerInstanceCount"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy Advanced Cyber Compliance (ACC).
-	AccByolAllocationId *string `mandatory:"false" json:"accByolAllocationId"`
-
-	// The number of Advanced Cyber Compliance (ACC) instances to be deployed on VMware SDDC.
-	AccInstanceCount *int `mandatory:"false" json:"accInstanceCount"`
 }
 
 func (m SddcByolAllocationDetails) String() string {

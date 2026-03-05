@@ -14,7 +14,7 @@ import (
 // CreateCloudDbSystemRequest wrapper for the CreateCloudDbSystem operation
 type CreateCloudDbSystemRequest struct {
 
-	// The details required to create an cloud DB system.
+	// The details required to create a cloud DB system.
 	CreateCloudDbSystemDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

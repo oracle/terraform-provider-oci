@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// UpdateComputeGpuMemoryClusterDetails Updates compute GPU memory cluster details.
+// UpdateComputeGpuMemoryClusterDetails Updates compute GPU Memory Cluster details.
 type UpdateComputeGpuMemoryClusterDetails struct {
 
 	// Instance Configuration to be used for this GPU Memory Cluster
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
-	// The number of instances currently running in the GpuMemoryCluster
+	// The desired number of instances for the GPU Memory Cluster.
 	Size *int64 `mandatory:"false" json:"size"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

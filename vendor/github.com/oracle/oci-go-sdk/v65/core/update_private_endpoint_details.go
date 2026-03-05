@@ -68,6 +68,29 @@ type UpdatePrivateEndpointDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records use
+	// this FQDN. This field will accept only dual stack Fqdns either starting with "ds." or having ".ds".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// This fqdn resolves to IPv6 address when configured in single stack IPv6 subnet.
+	// For important information about how this attribute is used, see the discussion
+	// of DNS and FQDNs in PrivateEndpoint.
+	// Example: `xyz.ds.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
+	// A list of additional FQDNs that you can provide along with endpointFqdn.
+	// This field will accept only dual stack Fqdns either starting with "ds." or having ".ds.".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// These FQDNs are added to the customer VCN's DNS record.
+	// For more information, see the discussion of DNS and FQDNs in PrivateEndpoint.
+	AdditionalDualStackFqdns []string `mandatory:"false" json:"additionalDualStackFqdns"`
+
+	// The CIDR IPv6 address block of the Subnet. The CIDR length is always /64.
+	// This field will not be populated when PrivateEndpoint is SingleStack IPv4.
+	// Example: `2001:0db8:0123:4567::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
 	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels
 	// for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
 	// (ZPR) policy to control access to ZPR-supported resources.

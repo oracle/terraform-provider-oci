@@ -45,6 +45,11 @@ type GenerateReportDetails struct {
 
 	// Specifies the limit on the number of rows in the report.
 	RowLimit *int `mandatory:"false" json:"rowLimit"`
+
+	// Indicates if the reports being generated should be pagination enabled.
+	// If set to true, multiple reports can be generated and the details of next and previous report are present in Report.
+	// Values can either be 'true' or 'false'.
+	IsPaginationEnabled *bool `mandatory:"false" json:"isPaginationEnabled"`
 }
 
 func (m GenerateReportDetails) String() string {

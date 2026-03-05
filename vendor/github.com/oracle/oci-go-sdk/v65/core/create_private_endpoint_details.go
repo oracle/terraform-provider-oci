@@ -71,6 +71,29 @@ type CreatePrivateEndpointDetails struct {
 	// PrivateEndpoint.
 	AdditionalFqdns []string `mandatory:"false" json:"additionalFqdns"`
 
+	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are
+	// updated with this FQDN.This field will accept only dual stack Fqdns either starting with "ds." or having ".ds".
+	// This fqdn resolves to both IPv4 and IPv6 addresses when PE is configured in a dual stack subnet and
+	// resolves to IPv6 address when PE is configured in single stack IPv6 subnet.
+	// For important information about how this attribute is used, see the discussion
+	// of DNS and FQDNs in PrivateEndpoint.
+	// Example: `xyz.ds.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
+	// A list of additional FQDNs that you can provide along with endpointFqdn.
+	// This field will accept only dual stack Fqdns either starting with "ds." or having ".ds".
+	// This fqdn resolves to both IPv4 and IPv6 addresses when PE is configured in a dual stack subnet and
+	// resolves to IPv6 address when PE is configured in single stack IPv6 subnet. These FQDNs are added to the
+	// customer VCN's DNS record. For more information, see the discussion of DNS and FQDNs in
+	// PrivateEndpoint.
+	AdditionalDualStackFqdns []string `mandatory:"false" json:"additionalDualStackFqdns"`
+
+	// The CIDR IPv6 address block of the Subnet. The CIDR length is always /64. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
+	// b. CIDR block should be one of existing IPv6 Cidr of the subnet.
+	// Example: `2001:0db8:0123:4567::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
 	// A list of the OCIDs of the network security groups (NSGs) to add the private endpoint's VNIC to.
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.

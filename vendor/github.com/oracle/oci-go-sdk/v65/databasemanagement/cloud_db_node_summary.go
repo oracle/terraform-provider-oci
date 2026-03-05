@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// CloudDbNodeSummary The summary of a cloud database node.
+// CloudDbNodeSummary The summary of a cloud DB node.
 type CloudDbNodeSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB node.

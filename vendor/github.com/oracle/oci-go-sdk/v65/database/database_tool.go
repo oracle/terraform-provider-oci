@@ -29,6 +29,9 @@ type DatabaseTool struct {
 
 	// The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	MaxIdleTimeInMinutes *int `mandatory:"false" json:"maxIdleTimeInMinutes"`
+
+	// Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
+	EstimatedConcurrentSessions *int `mandatory:"false" json:"estimatedConcurrentSessions"`
 }
 
 func (m DatabaseTool) String() string {

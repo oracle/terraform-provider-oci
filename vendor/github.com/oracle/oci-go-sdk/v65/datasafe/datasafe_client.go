@@ -1606,6 +1606,65 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 	return response, err
 }
 
+// ChangeRegistrationPolicyCompartment Moves the registration policy to the specified compartment.
+// A default retry strategy applies to this operation ChangeRegistrationPolicyCompartment()
+func (client DataSafeClient) ChangeRegistrationPolicyCompartment(ctx context.Context, request ChangeRegistrationPolicyCompartmentRequest) (response ChangeRegistrationPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRegistrationPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRegistrationPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRegistrationPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRegistrationPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRegistrationPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeRegistrationPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeRegistrationPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/registrationPolicies/{registrationPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRegistrationPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/ChangeRegistrationPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeRegistrationPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeReportCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeReportCompartment()
 func (client DataSafeClient) ChangeReportCompartment(ctx context.Context, request ChangeReportCompartmentRequest) (response ChangeReportCompartmentResponse, err error) {
@@ -3778,6 +3837,65 @@ func (client DataSafeClient) createReferentialRelation(ctx context.Context, requ
 	return response, err
 }
 
+// CreateRegistrationPolicy Creates a new OptIn/Registration Policy
+// A default retry strategy applies to this operation CreateRegistrationPolicy()
+func (client DataSafeClient) CreateRegistrationPolicy(ctx context.Context, request CreateRegistrationPolicyRequest) (response CreateRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRegistrationPolicyResponse")
+	}
+	return
+}
+
+// createRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/registrationPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/CreateRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateRegistrationPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReportDefinition Creates a new report definition with parameters specified in the body. The report definition is stored in the specified compartment.
 // A default retry strategy applies to this operation CreateReportDefinition()
 func (client DataSafeClient) CreateReportDefinition(ctx context.Context, request CreateReportDefinitionRequest) (response CreateReportDefinitionResponse, err error) {
@@ -5767,6 +5885,60 @@ func (client DataSafeClient) deleteReferentialRelation(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/DeleteReferentialRelation"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteReferentialRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRegistrationPolicy Deletes the specified registration policy.
+// A default retry strategy applies to this operation DeleteRegistrationPolicy()
+func (client DataSafeClient) DeleteRegistrationPolicy(ctx context.Context, request DeleteRegistrationPolicyRequest) (response DeleteRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRegistrationPolicyResponse")
+	}
+	return
+}
+
+// deleteRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/DeleteRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteRegistrationPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -9642,6 +9814,60 @@ func (client DataSafeClient) getReferentialRelation(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/GetReferentialRelation"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetReferentialRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRegistrationPolicy Returns the details of the specified Registration Policy.
+// A default retry strategy applies to this operation GetRegistrationPolicy()
+func (client DataSafeClient) GetRegistrationPolicy(ctx context.Context, request GetRegistrationPolicyRequest) (response GetRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRegistrationPolicyResponse")
+	}
+	return
+}
+
+// getRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/GetRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetRegistrationPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -14032,6 +14258,60 @@ func (client DataSafeClient) listReferentialRelations(ctx context.Context, reque
 	return response, err
 }
 
+// ListRegistrationPolicies Retrieves a list of registration policies according to the specified query parameters.
+// A default retry strategy applies to this operation ListRegistrationPolicies()
+func (client DataSafeClient) ListRegistrationPolicies(ctx context.Context, request ListRegistrationPoliciesRequest) (response ListRegistrationPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRegistrationPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRegistrationPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRegistrationPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRegistrationPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRegistrationPoliciesResponse")
+	}
+	return
+}
+
+// listRegistrationPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listRegistrationPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registrationPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRegistrationPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicySummary/ListRegistrationPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListRegistrationPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListReportDefinitions Gets a list of report definitions.
 // The ListReportDefinitions operation returns only the report definitions in the specified `compartmentId`.
 // It also returns the seeded report definitions which are available to all the compartments.
@@ -16818,6 +17098,65 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ManagePrivileges Updates the Data Safe target database Privileges.
+// A default retry strategy applies to this operation ManagePrivileges()
+func (client DataSafeClient) ManagePrivileges(ctx context.Context, request ManagePrivilegesRequest) (response ManagePrivilegesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.managePrivileges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManagePrivilegesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManagePrivilegesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManagePrivilegesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManagePrivilegesResponse")
+	}
+	return
+}
+
+// managePrivileges implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) managePrivileges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/managePrivileges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManagePrivilegesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ManagePrivileges"
+		err = common.PostProcessServiceError(err, "DataSafe", "ManagePrivileges", apiReferenceLink)
 		return response, err
 	}
 
@@ -19773,6 +20112,65 @@ func (client DataSafeClient) updatePeerTargetDatabase(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/UpdatePeerTargetDatabase"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdatePeerTargetDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRegistrationPolicy Updates one or more attributes of the specified registration policy.
+// A default retry strategy applies to this operation UpdateRegistrationPolicy()
+func (client DataSafeClient) UpdateRegistrationPolicy(ctx context.Context, request UpdateRegistrationPolicyRequest) (response UpdateRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRegistrationPolicyResponse")
+	}
+	return
+}
+
+// updateRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/UpdateRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateRegistrationPolicy", apiReferenceLink)
 		return response, err
 	}
 

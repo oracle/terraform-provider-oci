@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// BulkDeleteIpv6sItem secondary ip object to delete as part of bulk deletion .
+// BulkDeleteIpv6sItem A secondary IPv6 object to delete as part of a bulk deletion.
 type BulkDeleteIpv6sItem struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6 to be deleted.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6 to delete.
 	Ipv6Id *string `mandatory:"true" json:"ipv6Id"`
 }
 

@@ -4,7 +4,7 @@
 
 // Network Firewall API
 //
-// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs.
+// Use the Network Firewall API to create network firewalls and configure policies that regulates network traffic in and across VCNs. For more information, see Overview of Network Firewall (https://docs.oracle.com/iaas/Content/network-firewall/overview.htm).
 //
 
 package networkfirewall
@@ -19,10 +19,10 @@ import (
 // A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic.
 type SecurityRuleMatchCriteria struct {
 
-	// An array of IP address list names to be evaluated against the traffic source address.
+	// An array of address list names to be evaluated against the traffic source address.
 	SourceAddress []string `mandatory:"false" json:"sourceAddress"`
 
-	// An array of IP address list names to be evaluated against the traffic destination address.
+	// An array of address list names to be evaluated against the traffic destination address.
 	DestinationAddress []string `mandatory:"false" json:"destinationAddress"`
 
 	// An array of application list names to be evaluated against the traffic protocol and protocol-specific parameters.

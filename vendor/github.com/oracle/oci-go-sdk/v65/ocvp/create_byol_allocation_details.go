@@ -29,9 +29,7 @@ type CreateByolAllocationDetails struct {
 	// contains the BYOL Allocation.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A descriptive name for the BYOL Allocation. It must be unique within a compartment, start with a letter, and contain only letters, digits,
-	// whitespaces, dashes and underscores.
-	// Avoid entering confidential information.
+	// A descriptive name for the BYOL Allocation.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

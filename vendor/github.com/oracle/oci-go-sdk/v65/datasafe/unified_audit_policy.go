@@ -58,6 +58,12 @@ type UnifiedAuditPolicy struct {
 	// Lists the audit policy provisioning conditions.
 	Conditions []PolicyCondition `mandatory:"false" json:"conditions"`
 
+	// Indicates whether the unified audit policy overrides the enabled conditions on the target database during deployment.
+	// When set to YES, This overrides both the enabled conditions and the status (enabled/disabled) on the target during security policy deployment.
+	// If the same unified audit policy definition is referenced by another unified audit policy under a different security policy,
+	// this value also takes precedence and overrides its enabled conditions if both are deployed on the same target database.
+	OverrideTargetEnabledConditions UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum `mandatory:"false" json:"overrideTargetEnabledConditions,omitempty"`
+
 	// The last date and time the unified audit policy was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -93,6 +99,9 @@ func (m UnifiedAuditPolicy) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUnifiedAuditPolicyEnabledEntitiesEnum(string(m.EnabledEntities)); !ok && m.EnabledEntities != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnabledEntities: %s. Supported values are: %s.", m.EnabledEntities, strings.Join(GetUnifiedAuditPolicyEnabledEntitiesEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnum(string(m.OverrideTargetEnabledConditions)); !ok && m.OverrideTargetEnabledConditions != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OverrideTargetEnabledConditions: %s. Supported values are: %s.", m.OverrideTargetEnabledConditions, strings.Join(GetUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -102,23 +111,24 @@ func (m UnifiedAuditPolicy) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UnifiedAuditPolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                    *string                               `json:"description"`
-		SecurityPolicyId               *string                               `json:"securityPolicyId"`
-		UnifiedAuditPolicyDefinitionId *string                               `json:"unifiedAuditPolicyDefinitionId"`
-		LifecycleDetails               *string                               `json:"lifecycleDetails"`
-		IsSeeded                       *bool                                 `json:"isSeeded"`
-		Status                         UnifiedAuditPolicyStatusEnum          `json:"status"`
-		EnabledEntities                UnifiedAuditPolicyEnabledEntitiesEnum `json:"enabledEntities"`
-		Conditions                     []policycondition                     `json:"conditions"`
-		TimeUpdated                    *common.SDKTime                       `json:"timeUpdated"`
-		FreeformTags                   map[string]string                     `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{}     `json:"definedTags"`
-		SystemTags                     map[string]map[string]interface{}     `json:"systemTags"`
-		Id                             *string                               `json:"id"`
-		CompartmentId                  *string                               `json:"compartmentId"`
-		DisplayName                    *string                               `json:"displayName"`
-		LifecycleState                 UnifiedAuditPolicyLifecycleStateEnum  `json:"lifecycleState"`
-		TimeCreated                    *common.SDKTime                       `json:"timeCreated"`
+		Description                     *string                                               `json:"description"`
+		SecurityPolicyId                *string                                               `json:"securityPolicyId"`
+		UnifiedAuditPolicyDefinitionId  *string                                               `json:"unifiedAuditPolicyDefinitionId"`
+		LifecycleDetails                *string                                               `json:"lifecycleDetails"`
+		IsSeeded                        *bool                                                 `json:"isSeeded"`
+		Status                          UnifiedAuditPolicyStatusEnum                          `json:"status"`
+		EnabledEntities                 UnifiedAuditPolicyEnabledEntitiesEnum                 `json:"enabledEntities"`
+		Conditions                      []policycondition                                     `json:"conditions"`
+		OverrideTargetEnabledConditions UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum `json:"overrideTargetEnabledConditions"`
+		TimeUpdated                     *common.SDKTime                                       `json:"timeUpdated"`
+		FreeformTags                    map[string]string                                     `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{}                     `json:"definedTags"`
+		SystemTags                      map[string]map[string]interface{}                     `json:"systemTags"`
+		Id                              *string                                               `json:"id"`
+		CompartmentId                   *string                                               `json:"compartmentId"`
+		DisplayName                     *string                                               `json:"displayName"`
+		LifecycleState                  UnifiedAuditPolicyLifecycleStateEnum                  `json:"lifecycleState"`
+		TimeCreated                     *common.SDKTime                                       `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -152,6 +162,8 @@ func (m *UnifiedAuditPolicy) UnmarshalJSON(data []byte) (e error) {
 			m.Conditions[i] = nil
 		}
 	}
+	m.OverrideTargetEnabledConditions = model.OverrideTargetEnabledConditions
+
 	m.TimeUpdated = model.TimeUpdated
 
 	m.FreeformTags = model.FreeformTags
@@ -270,5 +282,47 @@ func GetUnifiedAuditPolicyEnabledEntitiesEnumStringValues() []string {
 // GetMappingUnifiedAuditPolicyEnabledEntitiesEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUnifiedAuditPolicyEnabledEntitiesEnum(val string) (UnifiedAuditPolicyEnabledEntitiesEnum, bool) {
 	enum, ok := mappingUnifiedAuditPolicyEnabledEntitiesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum Enum with underlying type: string
+type UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum string
+
+// Set of constants representing the allowable values for UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum
+const (
+	UnifiedAuditPolicyOverrideTargetEnabledConditionsYes UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum = "YES"
+	UnifiedAuditPolicyOverrideTargetEnabledConditionsNo  UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum = "NO"
+)
+
+var mappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnum = map[string]UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum{
+	"YES": UnifiedAuditPolicyOverrideTargetEnabledConditionsYes,
+	"NO":  UnifiedAuditPolicyOverrideTargetEnabledConditionsNo,
+}
+
+var mappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumLowerCase = map[string]UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum{
+	"yes": UnifiedAuditPolicyOverrideTargetEnabledConditionsYes,
+	"no":  UnifiedAuditPolicyOverrideTargetEnabledConditionsNo,
+}
+
+// GetUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumValues Enumerates the set of values for UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum
+func GetUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumValues() []UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum {
+	values := make([]UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum, 0)
+	for _, v := range mappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumStringValues Enumerates the set of values in String for UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum
+func GetUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumStringValues() []string {
+	return []string{
+		"YES",
+		"NO",
+	}
+}
+
+// GetMappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnum(val string) (UnifiedAuditPolicyOverrideTargetEnabledConditionsEnum, bool) {
+	enum, ok := mappingUnifiedAuditPolicyOverrideTargetEnabledConditionsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

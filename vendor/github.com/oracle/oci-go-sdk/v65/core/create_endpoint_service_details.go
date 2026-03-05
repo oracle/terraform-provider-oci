@@ -71,6 +71,17 @@ type CreateEndpointServiceDetails struct {
 	// Example: `xyz.oraclecloud.com`
 	EndpointFqdn *string `mandatory:"false" json:"endpointFqdn"`
 
+	// The optional dualstack FQDN to use for all dualstack private endpoints associated with this endpoint
+	// service. This field will accept only dual stack Fqdns either starting with "ds." or having ".ds".
+	// When the intent is to create dual stack private endpoints, this field can be populated.
+	// This fqdn resolves to both IPv4 and IPv6 addresses when configured in a dual stack subnet.
+	// This fqdn resolves to IPv6 address when configured in single stack IPv6 subnet.
+	// Also, For important information about how this attribute is used, see the discussion of DNS
+	// and FQDNs in PrivateEndpoint.
+	// If `areMultiplePrivateEndpointsPerVcnAllowed` is `true`, `endpointDualStackFqdn` cannot have a value.
+	// Example: `xyz.ds.oraclecloud.com`
+	EndpointDualStackFqdn *string `mandatory:"false" json:"endpointDualStackFqdn"`
+
 	// The Endpoint Service belong to a substrate or not
 	IsSubstrate *bool `mandatory:"false" json:"isSubstrate"`
 

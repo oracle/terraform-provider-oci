@@ -67,7 +67,7 @@ func newOccDemandSignalClientFromBaseClient(baseClient common.BaseClient, config
 
 // SetRegion overrides the region of this client.
 func (client *OccDemandSignalClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("demandsignal", "https://control-center-ds.{region}.oci.{secondLevelDomain}", "control-center-ds")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("demandsignal", "https://control-center-ds${dash_stage_suffix}.{region}.oci.{secondLevelDomain}", "control-center-ds${dash_stage_suffix}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// HeatWaveFleetMetricDefinition An aggregated metric for a HeatWave cluster.
+// HeatWaveFleetMetricDefinition An aggregated metric for a HeatWave cluster. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type HeatWaveFleetMetricDefinition struct {
 
 	// The name of the metric.

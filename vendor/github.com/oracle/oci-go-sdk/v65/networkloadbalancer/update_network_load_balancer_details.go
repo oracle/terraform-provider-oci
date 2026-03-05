@@ -52,6 +52,10 @@ type UpdateNetworkLoadBalancerDetails struct {
 	// Example: "fc00:9b80:9a0a:9a7e:abcd::/80"
 	Nat46Ipv6CidrPrefix *string `mandatory:"false" json:"nat46Ipv6CidrPrefix"`
 
+	// The reservedIpv6Id field is used to specify the OCID of a reserved IPv6 address to be used only when updating NLB from single-stack IPv4 to dual-stack.
+	// This field should not be used for any other scenario
+	ReservedIpv6Id *string `mandatory:"false" json:"reservedIpv6Id"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
