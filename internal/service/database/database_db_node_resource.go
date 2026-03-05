@@ -113,6 +113,10 @@ func DatabaseDbNodeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_os_patch_reboot_required": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -402,6 +406,10 @@ func (s *DatabaseDbNodeResourceCrud) SetData() error {
 
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.IsOsPatchRebootRequired != nil {
+		s.D.Set("is_os_patch_reboot_required", *s.Res.IsOsPatchRebootRequired)
 	}
 
 	if s.Res.LifecycleDetails != nil {

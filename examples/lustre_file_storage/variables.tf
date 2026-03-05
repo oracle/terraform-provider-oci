@@ -8,7 +8,10 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "subnet_id" {}
-
+variable "availability_domain" {}
+variable "display_name" { default = "maintenance_window_test_lfs" }
+# Must be increased to run override again
+variable "override_maintenance_trigger" { default = 1 }
 
 variable "lustre_file_system_availability_domain" {
   default = "availabilityDomain"

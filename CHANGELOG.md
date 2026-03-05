@@ -1,3 +1,21 @@
+## 8.4.0 (March 4, 2026)
+
+### Added
+- support for preserving state file on 404 for CRUD operations when ENV Var is set
+- Support for User Managed Maintenance Schedules.
+- 03/04 -  Support for OCI Cache with Valkey 8.1
+- Support for Create Multiple Standby Databases in DG environment. | BaseDB
+- Support for OS Patching Support Base DB
+- Support for Data Safe - Accept TargetDatabase user credentials while running Data Masking
+- Support for Ops Insights: Exadata Cost Management (Chargeback)
+
+### Deprecation
+- Removed password
+
+### Bug Fix
+- Removing unused service_configurations parameter from Cloud Guard Configuration documentation
+- inference_key fix
+
 ## 8.3.0 (February 24, 2026)
 
 ### Added

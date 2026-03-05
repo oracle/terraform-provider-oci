@@ -45,7 +45,6 @@ var (
 		"first_name":            acctest.Representation{RepType: acctest.Required, Create: `firstNamenew`},
 		"fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.environment_id}`},
 		"last_name":             acctest.Representation{RepType: acctest.Required, Create: `lastNamenew`},
-		"password":              acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
 		"username":              acctest.Representation{RepType: acctest.Required, Create: `terraformTest`},
 	}
 
@@ -72,9 +71,9 @@ func TestFusionAppsFusionEnvironmentAdminUserResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_fusion_apps_fusion_environment_admin_user.test_fusion_environment_admin_user"
 
 	var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+fusionEnvIdVariableStr+FusionAppsFusionEnvironmentAdminUserResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_admin_user", "test_fusion_environment_admin_user", acctest.Optional, acctest.Create, FusionAppsFusionEnvironmentAdminUserRepresentation), "fusionapps", "fusionEnvironmentAdminUser", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_admin_user", "test_fusion_environment_admin_user", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentAdminUserRepresentation), "fusionapps", "fusionEnvironmentAdminUser", t)
 
 	acctest.ResourceTest(t, testAccCheckFusionAppsFusionEnvironmentAdminUserDestroy, []resource.TestStep{
 		// verify Create
@@ -94,7 +93,7 @@ func TestFusionAppsFusionEnvironmentAdminUserResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + fusionEnvIdVariableStr + FusionAppsFusionEnvironmentAdminUserResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with required
 		{
 			Config: config + compartmentIdVariableStr + fusionEnvIdVariableStr + FusionAppsFusionEnvironmentAdminUserResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_admin_user", "test_fusion_environment_admin_user", acctest.Optional, acctest.Create, FusionAppsFusionEnvironmentAdminUserRepresentation),
@@ -104,7 +103,6 @@ func TestFusionAppsFusionEnvironmentAdminUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fusion_environment_id"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "last_name", "lastNamenew"),
-				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "username", "terraformTest"),
 
 				func(s *terraform.State) (err error) {

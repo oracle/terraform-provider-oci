@@ -9,6 +9,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_opsi_awr_hub", OpsiAwrHubResource())
 	tfresource.RegisterResource("oci_opsi_awr_hub_source", OpsiAwrHubSourceResource())
 	tfresource.RegisterResource("oci_opsi_awr_hub_source_awrhubsources_management", OpsiAwrHubSourceAwrhubsourcesManagementResource())
+	tfresource.RegisterResource("oci_opsi_chargeback_plan", OpsiChargebackPlanResource())
 	tfresource.RegisterResource("oci_opsi_database_insight", OpsiDatabaseInsightResource())
 	tfresource.RegisterResource("oci_opsi_enterprise_manager_bridge", OpsiEnterpriseManagerBridgeResource())
 	tfresource.RegisterResource("oci_opsi_exadata_insight", OpsiExadataInsightResource())

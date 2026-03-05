@@ -48,6 +48,14 @@ The following attributes are exported:
 * `maintenance_window` - The preferred day and time to perform maintenance.
 	* `day_of_week` - Day of the week when the maintainence window starts. 
 	* `time_start` - The time to start the maintenance window. The format is 'HH:MM', 'HH:MM' represents the time in UTC.   Example: `22:00` 
+* `maintenance_window_metadata` - The meta-data for maintenance window.
+	* `active_or_next_planned_maintenance` - A generic object to show date and time in the below specified format
+		* `date` - A user-friendly date. Example: `2025-04-25` 
+		* `time` - A user-friendly time. The format is 'HH:MM', 'HH:MM' represents the time in UTC. Example: `22:00` 
+	* `finished_maintenance` - A generic object to show date and time in the below specified format
+		* `date` - A user-friendly date. Example: `2025-04-25` 
+		* `time` - A user-friendly time. The format is 'HH:MM', 'HH:MM' represents the time in UTC. Example: `22:00` 
+	* `is_maintenance_in_progress` - whether or not an active maintenance is going on for the LustreFileSystem
 * `major_version` - Major version of Lustre running in the Lustre file system.  Example: `2.15` 
 * `management_service_address` - The IPv4 address of MGS (Lustre Management Service) used by clients to mount the file system. For example '10.0.0.4'.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this lustre file system. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the lustre file system from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 

@@ -20,30 +20,33 @@ type ExadataInsightLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ExadataInsightLifecycleStateEnum
 const (
-	ExadataInsightLifecycleStateCreating ExadataInsightLifecycleStateEnum = "CREATING"
-	ExadataInsightLifecycleStateUpdating ExadataInsightLifecycleStateEnum = "UPDATING"
-	ExadataInsightLifecycleStateActive   ExadataInsightLifecycleStateEnum = "ACTIVE"
-	ExadataInsightLifecycleStateDeleting ExadataInsightLifecycleStateEnum = "DELETING"
-	ExadataInsightLifecycleStateDeleted  ExadataInsightLifecycleStateEnum = "DELETED"
-	ExadataInsightLifecycleStateFailed   ExadataInsightLifecycleStateEnum = "FAILED"
+	ExadataInsightLifecycleStateCreating       ExadataInsightLifecycleStateEnum = "CREATING"
+	ExadataInsightLifecycleStateUpdating       ExadataInsightLifecycleStateEnum = "UPDATING"
+	ExadataInsightLifecycleStateActive         ExadataInsightLifecycleStateEnum = "ACTIVE"
+	ExadataInsightLifecycleStateDeleting       ExadataInsightLifecycleStateEnum = "DELETING"
+	ExadataInsightLifecycleStateDeleted        ExadataInsightLifecycleStateEnum = "DELETED"
+	ExadataInsightLifecycleStateFailed         ExadataInsightLifecycleStateEnum = "FAILED"
+	ExadataInsightLifecycleStateNeedsAttention ExadataInsightLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingExadataInsightLifecycleStateEnum = map[string]ExadataInsightLifecycleStateEnum{
-	"CREATING": ExadataInsightLifecycleStateCreating,
-	"UPDATING": ExadataInsightLifecycleStateUpdating,
-	"ACTIVE":   ExadataInsightLifecycleStateActive,
-	"DELETING": ExadataInsightLifecycleStateDeleting,
-	"DELETED":  ExadataInsightLifecycleStateDeleted,
-	"FAILED":   ExadataInsightLifecycleStateFailed,
+	"CREATING":        ExadataInsightLifecycleStateCreating,
+	"UPDATING":        ExadataInsightLifecycleStateUpdating,
+	"ACTIVE":          ExadataInsightLifecycleStateActive,
+	"DELETING":        ExadataInsightLifecycleStateDeleting,
+	"DELETED":         ExadataInsightLifecycleStateDeleted,
+	"FAILED":          ExadataInsightLifecycleStateFailed,
+	"NEEDS_ATTENTION": ExadataInsightLifecycleStateNeedsAttention,
 }
 
 var mappingExadataInsightLifecycleStateEnumLowerCase = map[string]ExadataInsightLifecycleStateEnum{
-	"creating": ExadataInsightLifecycleStateCreating,
-	"updating": ExadataInsightLifecycleStateUpdating,
-	"active":   ExadataInsightLifecycleStateActive,
-	"deleting": ExadataInsightLifecycleStateDeleting,
-	"deleted":  ExadataInsightLifecycleStateDeleted,
-	"failed":   ExadataInsightLifecycleStateFailed,
+	"creating":        ExadataInsightLifecycleStateCreating,
+	"updating":        ExadataInsightLifecycleStateUpdating,
+	"active":          ExadataInsightLifecycleStateActive,
+	"deleting":        ExadataInsightLifecycleStateDeleting,
+	"deleted":         ExadataInsightLifecycleStateDeleted,
+	"failed":          ExadataInsightLifecycleStateFailed,
+	"needs_attention": ExadataInsightLifecycleStateNeedsAttention,
 }
 
 // GetExadataInsightLifecycleStateEnumValues Enumerates the set of values for ExadataInsightLifecycleStateEnum
@@ -64,6 +67,7 @@ func GetExadataInsightLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

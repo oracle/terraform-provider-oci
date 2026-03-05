@@ -40,6 +40,31 @@ func DataSafeMaskDataResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"target_credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"password": {
+							Type:      schema.TypeString,
+							Required:  true,
+							Sensitive: true,
+						},
+						"user_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 
 			// Optional
 
@@ -105,6 +130,17 @@ func (s *DataSafeMaskDataResourceCrud) Create() error {
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if credentials, ok := s.D.GetOkExists("target_credentials"); ok {
+		if tmpList := credentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "target_credentials", 0)
+			tmp, err := s.mapToCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TargetCredentials = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
@@ -233,4 +269,20 @@ func getErrorFromDataSafeMaskDataWorkRequest(client *oci_data_safe.DataSafeClien
 
 func (s *DataSafeMaskDataResourceCrud) SetData() error {
 	return nil
+}
+
+func (s *DataSafeMaskDataResourceCrud) mapToCredentials(fieldKeyFormat string) (oci_data_safe.Credentials, error) {
+	result := oci_data_safe.Credentials{}
+
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		tmp := password.(string)
+		result.Password = &tmp
+	}
+
+	if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
+		tmp := userName.(string)
+		result.UserName = &tmp
+	}
+
+	return result, nil
 }

@@ -118,6 +118,12 @@ func (s *LustreFileStorageLustreFileSystemDataSourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MaintenanceWindowMetadata != nil {
+		s.D.Set("maintenance_window_metadata", []interface{}{MaintenanceWindowMetadataDetailsToMap(s.Res.MaintenanceWindowMetadata)})
+	} else {
+		s.D.Set("maintenance_window_metadata", nil)
+	}
+
 	if s.Res.MajorVersion != nil {
 		s.D.Set("major_version", *s.Res.MajorVersion)
 	}

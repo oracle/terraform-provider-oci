@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -202,7 +203,10 @@ func handleMissingResourceError(sync ResourceVoider, err *error, readResource ..
 			strings.Contains(strings.ToLower((*err).Error()), "status code: 404") { // status code: 404 is not enough because the load balancer error responses don't include it for some reason
 			log.Printf("[DEBUG] Object does not exist. The error is\n %s\n", *err)
 			if sync != nil {
-				if len(readResource) > 0 {
+				if preserve, _ := strconv.ParseBool(os.Getenv("TF_PRESERVE_STATE_ON_404")); preserve {
+					log.Println("[DEBUG] 404 NotFound/NotAuthorized detected. Ignoring the error and skipping clearing up state file as TF_PRESERVE_STATE_ON_404 is set to true")
+					*err = nil
+				} else if len(readResource) > 0 {
 					var readResp = readResource[0]
 					log.Printf("[DEBUG] Read object response obtained is %s\n", readResp)
 					if readResp != nil {

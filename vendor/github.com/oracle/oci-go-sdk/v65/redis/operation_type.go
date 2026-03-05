@@ -39,6 +39,8 @@ const (
 	OperationTypeDeleteOciCacheConfigSet            OperationTypeEnum = "DELETE_OCI_CACHE_CONFIG_SET"
 	OperationTypeChangeOciCacheConfigSetCompartment OperationTypeEnum = "CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT"
 	OperationTypeChangeOciCacheUserCompartment      OperationTypeEnum = "CHANGE_OCI_CACHE_USER_COMPARTMENT"
+	OperationTypePatchOciCacheCluster               OperationTypeEnum = "PATCH_OCI_CACHE_CLUSTER"
+	OperationTypeReplaceOciCacheNode                OperationTypeEnum = "REPLACE_OCI_CACHE_NODE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -63,6 +65,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_OCI_CACHE_CONFIG_SET":             OperationTypeDeleteOciCacheConfigSet,
 	"CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT": OperationTypeChangeOciCacheConfigSetCompartment,
 	"CHANGE_OCI_CACHE_USER_COMPARTMENT":       OperationTypeChangeOciCacheUserCompartment,
+	"PATCH_OCI_CACHE_CLUSTER":                 OperationTypePatchOciCacheCluster,
+	"REPLACE_OCI_CACHE_NODE":                  OperationTypeReplaceOciCacheNode,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -87,6 +91,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_oci_cache_config_set":             OperationTypeDeleteOciCacheConfigSet,
 	"change_oci_cache_config_set_compartment": OperationTypeChangeOciCacheConfigSetCompartment,
 	"change_oci_cache_user_compartment":       OperationTypeChangeOciCacheUserCompartment,
+	"patch_oci_cache_cluster":                 OperationTypePatchOciCacheCluster,
+	"replace_oci_cache_node":                  OperationTypeReplaceOciCacheNode,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -122,6 +128,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_OCI_CACHE_CONFIG_SET",
 		"CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT",
 		"CHANGE_OCI_CACHE_USER_COMPARTMENT",
+		"PATCH_OCI_CACHE_CLUSTER",
+		"REPLACE_OCI_CACHE_NODE",
 	}
 }
 

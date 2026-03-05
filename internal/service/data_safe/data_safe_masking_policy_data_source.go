@@ -66,6 +66,10 @@ func (s *DataSafeMaskingPolicyDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AreTargetCredentialsRequired != nil {
+		s.D.Set("are_target_credentials_required", *s.Res.AreTargetCredentialsRequired)
+	}
+
 	if s.Res.ColumnSource != nil {
 		columnSourceArray := []interface{}{}
 		if columnSourceMap := ColumnSourceDetailsToMap(&s.Res.ColumnSource); columnSourceMap != nil {
