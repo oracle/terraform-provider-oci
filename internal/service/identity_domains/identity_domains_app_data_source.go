@@ -568,7 +568,7 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	s.D.Set("trust_scope", s.Res.TrustScope)
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", nil)
 	}

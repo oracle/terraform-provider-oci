@@ -148,8 +148,11 @@ func TestIdentityDomainsDynamicResourceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.key", "freeformKey"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.value", "freeformValue"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags", map[string]string{
+					"key":   "freeformKey",
+					"value": "freeformValue",
+				},
+					[]string{}),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -185,8 +188,11 @@ func TestIdentityDomainsDynamicResourceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value2"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.key", "freeformKey2"),
-				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.value", "freeformValue2"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags", map[string]string{
+					"key":   "freeformKey2",
+					"value": "freeformValue2",
+				},
+					[]string{}),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -227,8 +233,11 @@ func TestIdentityDomainsDynamicResourceGroupResource_basic(t *testing.T) {
 				resource.TestMatchResourceAttr(singularDatasourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.key", "freeformKey2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.0.value", "freeformValue2"),
+				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags", map[string]string{
+					"key":   "freeformKey2",
+					"value": "freeformValue2",
+				},
+					[]string{}),
 			),
 		},
 

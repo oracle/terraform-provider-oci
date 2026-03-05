@@ -282,7 +282,7 @@ func (s *IdentityDomainsUserDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, true)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", nil)
 	}

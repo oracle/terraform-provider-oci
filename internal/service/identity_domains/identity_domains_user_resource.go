@@ -544,10 +544,11 @@ func IdentityDomainsUserResource() *schema.Resource {
 
 						// Optional
 						"defined_tags": {
-							Type:             schema.TypeList,
+							Type:             schema.TypeSet,
 							Optional:         true,
 							Computed:         true,
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+							Set:              definedTagsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -571,9 +572,10 @@ func IdentityDomainsUserResource() *schema.Resource {
 							},
 						},
 						"freeform_tags": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      freeformTagsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -3678,7 +3680,7 @@ func (s *IdentityDomainsUserResourceCrud) SetData() error {
 	}
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", nil)
 	}
@@ -4279,10 +4281,11 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionOCITags(fieldKeyFormat s
 	result := oci_identity_domains.ExtensionOciTags{}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		interfaces := definedTags.([]interface{})
+		set := definedTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.DefinedTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := definedTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "defined_tags"), stateDataIndex)
 			converted, err := s.mapTodefinedTags(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -4296,10 +4299,11 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionOCITags(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		interfaces := freeformTags.([]interface{})
+		set := freeformTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.FreeformTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := freeformTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeform_tags"), stateDataIndex)
 			converted, err := s.mapTofreeformTags(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -4319,7 +4323,7 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionOCITags(fieldKeyFormat s
 	return result, nil
 }
 
-func ExtensionOCITagsToMap(obj *oci_identity_domains.ExtensionOciTags) map[string]interface{} {
+func ExtensionOCITagsToMap(obj *oci_identity_domains.ExtensionOciTags, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	definedTags := []interface{}{}
@@ -4332,7 +4336,11 @@ func ExtensionOCITagsToMap(obj *oci_identity_domains.ExtensionOciTags) map[strin
 	for _, item := range obj.FreeformTags {
 		freeformTags = append(freeformTags, freeformTagsToMap(item))
 	}
-	result["freeform_tags"] = freeformTags
+	if datasource {
+		result["freeform_tags"] = freeformTags
+	} else {
+		result["freeform_tags"] = schema.NewSet(freeformTagsHashCodeForSets, freeformTags)
+	}
 
 	if obj.TagSlug != nil {
 		result["tag_slug"] = fmt.Sprintf("%v", *obj.TagSlug)
@@ -5229,7 +5237,7 @@ func UserToMap(obj oci_identity_domains.User, datasource bool) map[string]interf
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		result["urnietfparamsscimschemasoracleidcsextension_oci_tags"] = []interface{}{ExtensionOCITagsToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)}
+		result["urnietfparamsscimschemasoracleidcsextension_oci_tags"] = []interface{}{ExtensionOCITagsToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionAdaptiveUser != nil {
@@ -7267,6 +7275,34 @@ func emailsHashCodeForSets(v interface{}) int {
 	}
 	if verified, ok := m["verified"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", verified))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func freeformTagsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func definedTagsHashCodeForSets(v interface{}) int {
+	m := v.(map[string]interface{})
+	var buf bytes.Buffer
+
+	if ns, ok := m["namespace"]; ok && ns != "" {
+		buf.WriteString(fmt.Sprintf("%v-", ns))
+	}
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if val, ok := m["value"]; ok && val != "" {
+		buf.WriteString(fmt.Sprintf("%v-", val))
 	}
 	return utils.GetStringHashcode(buf.String())
 }

@@ -203,7 +203,7 @@ func (s *IdentityDomainsDynamicResourceGroupsDataSourceCrud) SetData() error {
 
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {
-		resources = append(resources, DynamicResourceGroupToMap(item))
+		resources = append(resources, DynamicResourceGroupToMap(item, true))
 	}
 	s.D.Set("dynamic_resource_groups", resources)
 

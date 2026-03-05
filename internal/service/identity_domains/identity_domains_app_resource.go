@@ -988,10 +988,11 @@ func IdentityDomainsAppResource() *schema.Resource {
 
 						// Optional
 						"defined_tags": {
-							Type:             schema.TypeList,
+							Type:             schema.TypeSet,
 							Optional:         true,
 							Computed:         true,
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+							Set:              definedTagsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -1015,9 +1016,10 @@ func IdentityDomainsAppResource() *schema.Resource {
 							},
 						},
 						"freeform_tags": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
+							Set:      freeformTagsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -4973,7 +4975,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	s.D.Set("trust_scope", s.Res.TrustScope)
 
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)})
+		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", []interface{}{ExtensionOCITagsToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, false)})
 	} else {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextension_oci_tags", nil)
 	}
@@ -5600,7 +5602,7 @@ func AppToMap(obj oci_identity_domains.App, datasource bool) map[string]interfac
 	result["trust_scope"] = string(obj.TrustScope)
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags != nil {
-		result["urnietfparamsscimschemasoracleidcsextension_oci_tags"] = []interface{}{ExtensionOCITagsToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags)}
+		result["urnietfparamsscimschemasoracleidcsextension_oci_tags"] = []interface{}{ExtensionOCITagsToMap(obj.UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags, datasource)}
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionDbcsApp != nil {
@@ -8802,10 +8804,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToExtensionOCITags(fieldKeyFormat st
 	result := oci_identity_domains.ExtensionOciTags{}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		interfaces := definedTags.([]interface{})
+		set := definedTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.DefinedTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := definedTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "defined_tags"), stateDataIndex)
 			converted, err := s.mapTodefinedTags(fieldKeyFormatNextLevel)
 			if err != nil {
@@ -8819,10 +8822,11 @@ func (s *IdentityDomainsAppResourceCrud) mapToExtensionOCITags(fieldKeyFormat st
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		interfaces := freeformTags.([]interface{})
+		set := freeformTags.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.FreeformTags, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := freeformTagsHashCodeForSets(interfaces[i])
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "freeform_tags"), stateDataIndex)
 			converted, err := s.mapTofreeformTags(fieldKeyFormatNextLevel)
 			if err != nil {
