@@ -125,6 +125,10 @@ type DbNodeSummary struct {
 
 	// The number of compute servers for the DB system.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
+	// Indicates whether the database node must be rebooted after applying Operating System patches.
+	// This flag becomes true after operations such as OS/kernel updates to indicate that a reboot of the node is required. After a successful reboot, this value is expected to return to false.
+	IsOsPatchRebootRequired *bool `mandatory:"false" json:"isOsPatchRebootRequired"`
 }
 
 func (m DbNodeSummary) String() string {

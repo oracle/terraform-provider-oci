@@ -24,10 +24,6 @@ variable "fusion_environment_create_fusion_environment_admin_user_details_last_n
   default = "lastName"
 }
 
-variable "fusion_environment_create_fusion_environment_admin_user_details_password" {
-  default = "BEstrO0ng_#11"
-}
-
 variable "fusion_environment_create_fusion_environment_admin_user_details_username" {
   default = "usernametest1"
 }
@@ -104,8 +100,6 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
     first_name    = var.fusion_environment_create_fusion_environment_admin_user_details_first_name
     last_name     = var.fusion_environment_create_fusion_environment_admin_user_details_last_name
     username      = var.fusion_environment_create_fusion_environment_admin_user_details_username
-    #Optional
-    password      = var.fusion_environment_create_fusion_environment_admin_user_details_password
   }
   display_name                 = var.fusion_environment_display_name
   fusion_environment_family_id = var.test_fusion_environment_family_id

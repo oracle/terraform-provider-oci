@@ -17,7 +17,8 @@ import (
 	"strings"
 )
 
-// ChangeExternalMysqlDatabaseInsightConnectionDetails Connection details of an External MySQL database insight.
+// ChangeExternalMysqlDatabaseInsightConnectionDetails MySQL support within the OCI Ops Insights service has been deprecated as of January 29, 2026.
+// Connection details of an External MySQL database insight.
 type ChangeExternalMysqlDatabaseInsightConnectionDetails struct {
 
 	// The DBM owned database connector OCID (https://docs.oracle.com/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.

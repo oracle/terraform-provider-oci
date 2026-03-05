@@ -97,6 +97,8 @@ type MaskDataDetails struct {
 	// attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes.
 	// If it's not provided, the value of the parallelDegree attribute in the MaskingPolicy resource is used.
 	Recompile *string `mandatory:"false" json:"recompile"`
+
+	TargetCredentials *Credentials `mandatory:"false" json:"targetCredentials"`
 }
 
 func (m MaskDataDetails) String() string {

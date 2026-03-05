@@ -62,6 +62,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `are_target_credentials_required` - Specifies whether target database credentials are required to perform masking with this policy
 * `column_source` - The source of masking columns.
 	* `column_source` - The source of masking columns.
 	* `sensitive_data_model_id` - The OCID of the sensitive data model that's used as the source of masking columns.

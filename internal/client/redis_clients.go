@@ -12,6 +12,7 @@ import (
 func init() {
 	RegisterOracleClient("oci_redis.OciCacheConfigSetClient", &OracleClient{InitClientFn: initRedisOciCacheConfigSetClient})
 	RegisterOracleClient("oci_redis.OciCacheDefaultConfigSetClient", &OracleClient{InitClientFn: initRedisOciCacheDefaultConfigSetClient})
+	RegisterOracleClient("oci_redis.OciCacheEngineOptionsClient", &OracleClient{InitClientFn: initRedisOciCacheEngineOptionsClient})
 	RegisterOracleClient("oci_redis.OciCacheUserClient", &OracleClient{InitClientFn: initRedisOciCacheUserClient})
 	RegisterOracleClient("oci_redis.RedisClusterClient", &OracleClient{InitClientFn: initRedisRedisClusterClient})
 	RegisterOracleClient("oci_redis.RedisIdentityClient", &OracleClient{InitClientFn: initRedisRedisIdentityClient})
@@ -55,6 +56,26 @@ func initRedisOciCacheDefaultConfigSetClient(configProvider oci_common.Configura
 
 func (m *OracleClients) OciCacheDefaultConfigSetClient() *oci_redis.OciCacheDefaultConfigSetClient {
 	return m.GetClient("oci_redis.OciCacheDefaultConfigSetClient").(*oci_redis.OciCacheDefaultConfigSetClient)
+}
+
+func initRedisOciCacheEngineOptionsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_redis.NewOciCacheEngineOptionsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) OciCacheEngineOptionsClient() *oci_redis.OciCacheEngineOptionsClient {
+	return m.GetClient("oci_redis.OciCacheEngineOptionsClient").(*oci_redis.OciCacheEngineOptionsClient)
 }
 
 func initRedisOciCacheUserClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

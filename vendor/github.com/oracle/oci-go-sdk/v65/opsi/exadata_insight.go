@@ -59,6 +59,8 @@ type ExadataInsight interface {
 	// true if virtualization is used in the Exadata system
 	GetIsVirtualizedExadata() *bool
 
+	GetChargebackPlanDetails() *ChargebackPlanDetails
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
@@ -68,26 +70,31 @@ type ExadataInsight interface {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
+
+	// A message describing the status of the Exadata Resource. For example, it can be used to provide actionable information about the policies needed to access the Exadata Resource.
+	GetStatusDetails() *string
 }
 
 type exadatainsight struct {
-	JsonData             []byte
-	ExadataDisplayName   *string                           `mandatory:"false" json:"exadataDisplayName"`
-	ExadataType          ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
-	ExadataRackType      ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
-	IsVirtualizedExadata *bool                             `mandatory:"false" json:"isVirtualizedExadata"`
-	SystemTags           map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated          *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails     *string                           `mandatory:"false" json:"lifecycleDetails"`
-	Id                   *string                           `mandatory:"true" json:"id"`
-	CompartmentId        *string                           `mandatory:"true" json:"compartmentId"`
-	ExadataName          *string                           `mandatory:"true" json:"exadataName"`
-	Status               ResourceStatusEnum                `mandatory:"true" json:"status"`
-	FreeformTags         map[string]string                 `mandatory:"true" json:"freeformTags"`
-	DefinedTags          map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	TimeCreated          *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState       ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
-	EntitySource         string                            `json:"entitySource"`
+	JsonData              []byte
+	ExadataDisplayName    *string                           `mandatory:"false" json:"exadataDisplayName"`
+	ExadataType           ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
+	ExadataRackType       ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
+	IsVirtualizedExadata  *bool                             `mandatory:"false" json:"isVirtualizedExadata"`
+	ChargebackPlanDetails *ChargebackPlanDetails            `mandatory:"false" json:"chargebackPlanDetails"`
+	SystemTags            map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	TimeUpdated           *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails      *string                           `mandatory:"false" json:"lifecycleDetails"`
+	StatusDetails         *string                           `mandatory:"false" json:"statusDetails"`
+	Id                    *string                           `mandatory:"true" json:"id"`
+	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
+	ExadataName           *string                           `mandatory:"true" json:"exadataName"`
+	Status                ResourceStatusEnum                `mandatory:"true" json:"status"`
+	FreeformTags          map[string]string                 `mandatory:"true" json:"freeformTags"`
+	DefinedTags           map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	TimeCreated           *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState        ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
+	EntitySource          string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -113,9 +120,11 @@ func (m *exadatainsight) UnmarshalJSON(data []byte) error {
 	m.ExadataType = s.Model.ExadataType
 	m.ExadataRackType = s.Model.ExadataRackType
 	m.IsVirtualizedExadata = s.Model.IsVirtualizedExadata
+	m.ChargebackPlanDetails = s.Model.ChargebackPlanDetails
 	m.SystemTags = s.Model.SystemTags
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.StatusDetails = s.Model.StatusDetails
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -168,6 +177,11 @@ func (m exadatainsight) GetIsVirtualizedExadata() *bool {
 	return m.IsVirtualizedExadata
 }
 
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m exadatainsight) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
+}
+
 // GetSystemTags returns SystemTags
 func (m exadatainsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
@@ -181,6 +195,11 @@ func (m exadatainsight) GetTimeUpdated() *common.SDKTime {
 // GetLifecycleDetails returns LifecycleDetails
 func (m exadatainsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetStatusDetails returns StatusDetails
+func (m exadatainsight) GetStatusDetails() *string {
+	return m.StatusDetails
 }
 
 // GetId returns Id

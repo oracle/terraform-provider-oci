@@ -47,22 +47,29 @@ type ExadataConfigurationSummary interface {
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
 
+	// The shape of the Exadata Infrastructure.
+	GetExadataShape() *string
+
+	GetChargebackPlanDetails() *ChargebackPlanDetails
+
 	// Array of objects containing VM cluster information.
 	GetVmclusterDetails() []VmClusterSummary
 }
 
 type exadataconfigurationsummary struct {
-	JsonData           []byte
-	VmclusterDetails   []VmClusterSummary                `mandatory:"false" json:"vmclusterDetails"`
-	ExadataInsightId   *string                           `mandatory:"true" json:"exadataInsightId"`
-	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
-	ExadataName        *string                           `mandatory:"true" json:"exadataName"`
-	ExadataDisplayName *string                           `mandatory:"true" json:"exadataDisplayName"`
-	ExadataType        ExadataTypeEnum                   `mandatory:"true" json:"exadataType"`
-	ExadataRackType    ExadataRackTypeEnum               `mandatory:"true" json:"exadataRackType"`
-	DefinedTags        map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	FreeformTags       map[string]string                 `mandatory:"true" json:"freeformTags"`
-	EntitySource       string                            `json:"entitySource"`
+	JsonData              []byte
+	VmclusterDetails      []VmClusterSummary                `mandatory:"false" json:"vmclusterDetails"`
+	ExadataInsightId      *string                           `mandatory:"true" json:"exadataInsightId"`
+	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
+	ExadataName           *string                           `mandatory:"true" json:"exadataName"`
+	ExadataDisplayName    *string                           `mandatory:"true" json:"exadataDisplayName"`
+	ExadataType           ExadataTypeEnum                   `mandatory:"true" json:"exadataType"`
+	ExadataRackType       ExadataRackTypeEnum               `mandatory:"true" json:"exadataRackType"`
+	DefinedTags           map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	FreeformTags          map[string]string                 `mandatory:"true" json:"freeformTags"`
+	ExadataShape          *string                           `mandatory:"true" json:"exadataShape"`
+	ChargebackPlanDetails *ChargebackPlanDetails            `mandatory:"true" json:"chargebackPlanDetails"`
+	EntitySource          string                            `json:"entitySource"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -84,6 +91,8 @@ func (m *exadataconfigurationsummary) UnmarshalJSON(data []byte) error {
 	m.ExadataRackType = s.Model.ExadataRackType
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
+	m.ExadataShape = s.Model.ExadataShape
+	m.ChargebackPlanDetails = s.Model.ChargebackPlanDetails
 	m.VmclusterDetails = s.Model.VmclusterDetails
 	m.EntitySource = s.Model.EntitySource
 
@@ -160,6 +169,16 @@ func (m exadataconfigurationsummary) GetDefinedTags() map[string]map[string]inte
 // GetFreeformTags returns FreeformTags
 func (m exadataconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetExadataShape returns ExadataShape
+func (m exadataconfigurationsummary) GetExadataShape() *string {
+	return m.ExadataShape
+}
+
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m exadataconfigurationsummary) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
 }
 
 func (m exadataconfigurationsummary) String() string {

@@ -148,18 +148,21 @@ const (
 	OciCacheConfigSetSoftwareVersionV705     OciCacheConfigSetSoftwareVersionEnum = "V7_0_5"
 	OciCacheConfigSetSoftwareVersionRedis70  OciCacheConfigSetSoftwareVersionEnum = "REDIS_7_0"
 	OciCacheConfigSetSoftwareVersionValkey72 OciCacheConfigSetSoftwareVersionEnum = "VALKEY_7_2"
+	OciCacheConfigSetSoftwareVersionValkey81 OciCacheConfigSetSoftwareVersionEnum = "VALKEY_8_1"
 )
 
 var mappingOciCacheConfigSetSoftwareVersionEnum = map[string]OciCacheConfigSetSoftwareVersionEnum{
 	"V7_0_5":     OciCacheConfigSetSoftwareVersionV705,
 	"REDIS_7_0":  OciCacheConfigSetSoftwareVersionRedis70,
 	"VALKEY_7_2": OciCacheConfigSetSoftwareVersionValkey72,
+	"VALKEY_8_1": OciCacheConfigSetSoftwareVersionValkey81,
 }
 
 var mappingOciCacheConfigSetSoftwareVersionEnumLowerCase = map[string]OciCacheConfigSetSoftwareVersionEnum{
 	"v7_0_5":     OciCacheConfigSetSoftwareVersionV705,
 	"redis_7_0":  OciCacheConfigSetSoftwareVersionRedis70,
 	"valkey_7_2": OciCacheConfigSetSoftwareVersionValkey72,
+	"valkey_8_1": OciCacheConfigSetSoftwareVersionValkey81,
 }
 
 // GetOciCacheConfigSetSoftwareVersionEnumValues Enumerates the set of values for OciCacheConfigSetSoftwareVersionEnum
@@ -177,6 +180,7 @@ func GetOciCacheConfigSetSoftwareVersionEnumStringValues() []string {
 		"V7_0_5",
 		"REDIS_7_0",
 		"VALKEY_7_2",
+		"VALKEY_8_1",
 	}
 }
 

@@ -41,6 +41,11 @@ type ExadataDatabaseMachineConfigurationSummary struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
 
+	// The shape of the Exadata Infrastructure.
+	ExadataShape *string `mandatory:"true" json:"exadataShape"`
+
+	ChargebackPlanDetails *ChargebackPlanDetails `mandatory:"true" json:"chargebackPlanDetails"`
+
 	// Enterprise Manager Unique Identifier
 	EnterpriseManagerIdentifier *string `mandatory:"true" json:"enterpriseManagerIdentifier"`
 
@@ -118,6 +123,16 @@ func (m ExadataDatabaseMachineConfigurationSummary) GetFreeformTags() map[string
 // GetVmclusterDetails returns VmclusterDetails
 func (m ExadataDatabaseMachineConfigurationSummary) GetVmclusterDetails() []VmClusterSummary {
 	return m.VmclusterDetails
+}
+
+// GetExadataShape returns ExadataShape
+func (m ExadataDatabaseMachineConfigurationSummary) GetExadataShape() *string {
+	return m.ExadataShape
+}
+
+// GetChargebackPlanDetails returns ChargebackPlanDetails
+func (m ExadataDatabaseMachineConfigurationSummary) GetChargebackPlanDetails() *ChargebackPlanDetails {
+	return m.ChargebackPlanDetails
 }
 
 func (m ExadataDatabaseMachineConfigurationSummary) String() string {

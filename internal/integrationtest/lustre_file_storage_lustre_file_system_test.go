@@ -63,8 +63,10 @@ var (
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"nsg_ids":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}, Update: []string{`nsgIds2`}},
+		"maintenance_window":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: LustreFileStorageLustreFileSystemMaintenanceWindowRepresentation},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreLfstSystemTagsChangesRep},
 	}
+
 	IgnoreLfstSystemTagsChangesRep = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`}},
 	}
@@ -74,6 +76,15 @@ var (
 		"identity_squash":   acctest.Representation{RepType: acctest.Required, Create: `NONE`, Update: `NONE`},
 		"squash_gid":        acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 		"squash_uid":        acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+	}
+	LustreFileStorageLustreFileSystemMaintenanceWindowRepresentation = map[string]interface{}{
+		"day_of_week": acctest.Representation{RepType: acctest.Optional, Create: `MONDAY`, Update: `TUESDAY`},
+		"time_start":  acctest.Representation{RepType: acctest.Optional, Create: `00:00`, Update: `08:00`},
+	}
+
+	LustreFileStorageLustreFileSystemDateTimeDetailsRepresentation = map[string]interface{}{
+		"date": acctest.Representation{RepType: acctest.Optional, Create: getFutureDate(16), Update: getFutureDate(16)},
+		"time": acctest.Representation{RepType: acctest.Optional, Create: `08:00`, Update: `00:00`},
 	}
 
 	LustreFileStorageLustreFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cluster_placement_groups_cluster_placement_group", "test_cluster_placement_group", acctest.Required, acctest.Create, ClusterPlacementGroupsClusterPlacementGroupRepresentation) +
@@ -85,6 +96,12 @@ var (
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 )
+
+// getFutureDate returns a date string in YYYY-MM-DD format that is 'days' days from now
+func getFutureDate(days int) string {
+	futureDate := time.Now().AddDate(0, 0, days)
+	return futureDate.Format("2006-01-02")
+}
 
 // issue-routing-tag: lustre_file_storage/default
 func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
@@ -150,6 +167,8 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "lnet"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day_of_week", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.time_start", "00:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "major_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_service_address"),
 				resource.TestCheckResourceAttr(resourceName, "performance_tier", "MBPS_PER_TB_125"),
@@ -196,6 +215,8 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "lnet"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day_of_week", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.time_start", "00:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "major_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_service_address"),
 				resource.TestCheckResourceAttr(resourceName, "performance_tier", "MBPS_PER_TB_125"),
@@ -222,8 +243,17 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + LustreFileStorageLustreFileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Update, LustreFileStorageLustreFileSystemRepresentation),
+			// wait 10 minutes to allow maintenance metadata to become available before triggering override
+			PreConfig: func() {
+				fmt.Println("Sleeping 10 minutes for maintenance metadata propagation...")
+				time.Sleep(10 * time.Minute)
+			},
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(LustreFileStorageLustreFileSystemRepresentation, map[string]interface{}{
+						"override_maintenance_trigger": acctest.Representation{RepType: acctest.Optional, Update: `1`},
+						"date_time_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: LustreFileStorageLustreFileSystemDateTimeDetailsRepresentation},
+					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "capacity_in_gbs", "31200"),
@@ -237,6 +267,8 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "lnet"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day_of_week", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.time_start", "08:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "major_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_service_address"),
 				resource.TestCheckResourceAttr(resourceName, "performance_tier", "MBPS_PER_TB_125"),
@@ -291,6 +323,9 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lnet"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.day_of_week", "TUESDAY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.time_start", "08:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_metadata.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "major_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_service_address"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "performance_tier", "MBPS_PER_TB_125"),
@@ -310,7 +345,7 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 			Config:                  config + LustreFileStorageLustreFileSystemRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"date_time_details", "override_maintenance_trigger"},
 			ResourceName:            resourceName,
 		},
 	})

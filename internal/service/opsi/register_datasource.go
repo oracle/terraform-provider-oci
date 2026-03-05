@@ -13,6 +13,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_opsi_awr_hub_source", OpsiAwrHubSourceDataSource())
 	tfresource.RegisterDatasource("oci_opsi_awr_hub_sources", OpsiAwrHubSourcesDataSource())
 	tfresource.RegisterDatasource("oci_opsi_awr_hubs", OpsiAwrHubsDataSource())
+	tfresource.RegisterDatasource("oci_opsi_chargeback_plan", OpsiChargebackPlanDataSource())
+	tfresource.RegisterDatasource("oci_opsi_chargeback_plans", OpsiChargebackPlansDataSource())
 	tfresource.RegisterDatasource("oci_opsi_database_insight", OpsiDatabaseInsightDataSource())
 	tfresource.RegisterDatasource("oci_opsi_database_insights", OpsiDatabaseInsightsDataSource())
 	tfresource.RegisterDatasource("oci_opsi_enterprise_manager_bridge", OpsiEnterpriseManagerBridgeDataSource())
