@@ -530,7 +530,6 @@ func (s *DevopsDeployPipelineResourceCrud) Get() error {
 
 func (s *DevopsDeployPipelineResourceCrud) Update() error {
 	request := oci_devops.UpdateDeployPipelineRequest{}
-
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -542,14 +541,21 @@ func (s *DevopsDeployPipelineResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DeployPipelineId = &tmp
 
-	if deployPipelineParameters, ok := s.D.GetOkExists("deploy_pipeline_parameters"); ok {
-		if tmpList := deployPipelineParameters.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_pipeline_parameters", 0)
-			tmp, err := s.mapToDeployPipelineParameterCollection(fieldKeyFormat)
-			if err != nil {
-				return err
+	if s.D.HasChange("deploy_pipeline_parameters") {
+		if deployPipelineParameters, ok := s.D.GetOkExists("deploy_pipeline_parameters"); ok {
+			if tmpList := deployPipelineParameters.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_pipeline_parameters", 0)
+				tmp, err := s.mapToDeployPipelineParameterCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				// Only set the `items` field if it is not empty,else setting the field as nil
+				// results in error, as we cannot have `deploy_pipeline_parameters` with empty items.
+				// check the deploy_pipeline_parameters schema in this file.
+				if len(tmp.Items) > 0 {
+					request.DeployPipelineParameters = &tmp
+				}
 			}
-			request.DeployPipelineParameters = &tmp
 		}
 	}
 
