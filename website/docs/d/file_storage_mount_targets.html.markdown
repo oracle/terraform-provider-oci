@@ -80,6 +80,7 @@ The following attributes are exported:
 	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
+* `mount_target_ipv6ids` - The OCIDs of the IPv6 addresses associated with this mount target.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `observed_throughput` - Current billed throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.

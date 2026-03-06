@@ -365,6 +365,7 @@ github.com/oracle/oci-go-sdk/v65/gdp
 github.com/oracle/oci-go-sdk/v65/generativeai
 github.com/oracle/oci-go-sdk/v65/generativeaiagent
 github.com/oracle/oci-go-sdk/v65/genericartifactscontent
+github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase
 github.com/oracle/oci-go-sdk/v65/goldengate
 github.com/oracle/oci-go-sdk/v65/healthchecks
 github.com/oracle/oci-go-sdk/v65/identity

@@ -105,45 +105,47 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain in which to create the mount target.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Required) The availability domain in which to create the mount target.  Example: `Uocm:PHX-AD-1`
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to create the mount target.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My mount target` 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
+* `display_name` - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My mount target`
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `hostname_label` - (Optional) The hostname for the mount target's IP address, used for DNS resolution. The value is the hostname portion of the private IP address's fully qualified domain name (FQDN). For example, `files-1` in the FQDN `files-1.subnet123.vcn1.oraclevcn.com`. Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123).
 
-	Note: This attribute value is stored in the [PrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource, not in the `mountTarget` resource. To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's private IPs (`privateIpIds`). Then, you can use [UpdatePrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp) to update the `hostnameLabel` value.
+	If the IP address is IPv4, this attribute value is stored in the [PrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource, not in the `mountTarget` resource. To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's private IPs (`privateIpIds`). Then, you can use [UpdatePrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp) to update the `hostnameLabel` value.
+
+	If the IP address is IPv6, it is stored in the [Ipv6] (https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6) resource To update the `hostnameLabel`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's IPv6 address (`mountTargetIpv6Ids`). Then, you can use [UpdateIpv6](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6) to update the `hostnameLabel` value.
 
 	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
-	Example: `files-1` 
+	Example: `files-1`
 * `idmap_type` - (Optional) (Updatable) The method used to map a Unix UID to secondary groups, if any.
-* `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
+* `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3`
 * `is_lock_override` - (Optional) (Updatable) Whether to override locks (if any exist).
-* `kerberos` - (Optional) (Updatable) Kerberos details needed to create configuration. 
+* `kerberos` - (Optional) (Updatable) Kerberos details needed to create configuration.
 	* `backup_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use as a backup.
 	* `current_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use.
 	* `is_kerberos_enabled` - (Optional) (Updatable) Specifies whether to enable or disable Kerberos.
 	* `kerberos_realm` - (Required) (Updatable) The Kerberos realm that the mount target will join.
 	* `key_tab_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab Secret in the Vault.
-* `ldap_idmap` - (Optional) (Updatable) Mount target details about the LDAP ID mapping configuration. 
+* `ldap_idmap` - (Optional) (Updatable) Mount target details about the LDAP ID mapping configuration.
 	* `cache_lifetime_seconds` - (Optional) (Updatable) The maximum amount of time the mount target is allowed to use a cached entry.
 	* `cache_refresh_interval_seconds` - (Optional) (Updatable) The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
-	* `group_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com` 
+	* `group_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com`
 	* `negative_cache_lifetime_seconds` - (Optional) (Updatable) The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
 	* `outbound_connector1id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
 	* `outbound_connector2id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
 	* `schema_type` - (Optional) (Updatable) Schema type of the LDAP account.
-	* `user_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
+	* `user_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com`
 * `locks` - (Optional) Locks associated with this resource.
-	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
-	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	* `time_created` - (Optional) When the lock was created.
 	* `type` - (Required) Type of the lock.
-* `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
-* `requested_throughput` - (Optional) (Updatable) Throughput for mount target in Gbps. Currently only 1 Gbps of requestedThroughput is supported during create MountTarget. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
-* `security_attributes` - (Optional) (Updatable) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
-* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which to create the mount target. 
+* `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
+* `requested_throughput` - (Optional) (Updatable) Throughput for mount target in Gbps. Currently only 1 Gbps of requestedThroughput is supported during create MountTarget. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
+* `security_attributes` - (Optional) (Updatable) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which to create the mount target.
 
 
 ** IMPORTANT **
@@ -153,48 +155,49 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain the mount target is in. May be unset as a blank or NULL value.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain the mount target is in. May be unset as a blank or NULL value.  Example: `Uocm:PHX-AD-1`
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the mount target.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My mount target` 
-* `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
+* `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My mount target`
+* `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
 * `idmap_type` - The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
-* `kerberos` - Allows administrator to configure a mount target to interact with the administrator's Kerberos infrastructure. 
+* `kerberos` - Allows administrator to configure a mount target to interact with the administrator's Kerberos infrastructure.
 	* `backup_key_tab_secret_version` - Version of the keytab secert in the Vault to use as a backup.
 	* `current_key_tab_secret_version` - Version of the keytab secret in the Vault to use.
 	* `is_kerberos_enabled` - Specifies whether to enable or disable Kerberos.
 	* `kerberos_realm` - The Kerberos realm that the mount target will join.
 	* `key_tab_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab secret in the Vault.
-* `ldap_idmap` - Mount target details about the LDAP ID mapping configuration. 
+* `ldap_idmap` - Mount target details about the LDAP ID mapping configuration.
 	* `cache_lifetime_seconds` - The maximum amount of time the mount target is allowed to use a cached entry.
 	* `cache_refresh_interval_seconds` - The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
-	* `group_search_base` - All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com` 
+	* `group_search_base` - All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com`
 	* `negative_cache_lifetime_seconds` - The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
 	* `outbound_connector1id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
 	* `outbound_connector2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
 	* `schema_type` - Schema type of the LDAP account.
-	* `user_search_base` - All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
+	* `user_search_base` - All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com`
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
 * `locks` - Locks associated with this resource.
-	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
-	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
-* `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
-* `observed_throughput` - Current billed throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
+* `mount_target_ipv6ids` - The OCIDs of the IPv6 addresses associated with this mount target.
+* `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm).
+* `observed_throughput` - Current billed throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.
-* `requested_throughput` - 
-	* New throughput for mount target at the end of billing cycle in Gbps. 
-* `reserved_storage_capacity` - 
-	* Reserved capacity (GB) associated with this mount target. Reserved capacity depends on observedThroughput value of mount target. Value is listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
-* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
+* `requested_throughput` -
+	* New throughput for mount target at the end of billing cycle in Gbps.
+* `reserved_storage_capacity` -
+	* Reserved capacity (GB) associated with this mount target. Reserved capacity depends on observedThroughput value of mount target. Value is listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
+* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 * `state` - The current state of the mount target.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the mount target is in.
-* `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
-* `time_billing_cycle_end` - The date and time the mount target current billing cycle will end, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format. Once a cycle ends, it is updated automatically to next timestamp which is after 30 days.  Example: `2016-08-25T21:10:29.600Z` 
-* `time_created` - The date and time the mount target was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services.
+* `time_billing_cycle_end` - The date and time the mount target current billing cycle will end, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format. Once a cycle ends, it is updated automatically to next timestamp which is after 30 days.  Example: `2016-08-25T21:10:29.600Z`
+* `time_created` - The date and time the mount target was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
 
 ## Timeouts
 
