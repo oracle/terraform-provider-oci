@@ -124,6 +124,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"image_signature_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"server_port": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -195,6 +200,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 															// Computed
 														},
 													},
+												},
+												"network_access_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
 												},
 												"private_endpoint_id": {
 													Type:     schema.TypeString,
@@ -471,6 +481,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 															// Computed
 														},
 													},
+												},
+												"network_access_type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
 												},
 												"private_endpoint_id": {
 													Type:     schema.TypeString,
@@ -1749,6 +1764,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		}
 	}
 
+	if networkAccessType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_access_type")); ok {
+		result.NetworkAccessType = oci_datascience.InstanceConfigurationNetworkAccessTypeEnum(networkAccessType.(string))
+	}
+
 	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
 		tmp := privateEndpointId.(string)
 		if tmp != "" {
@@ -1774,6 +1793,8 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
 		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
 	}
+
+	result["network_access_type"] = string(obj.NetworkAccessType)
 
 	if obj.PrivateEndpointId != nil {
 		if *obj.PrivateEndpointId == "" {
@@ -2311,6 +2332,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentEnvironment
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
 		}
+		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
+			tmp := imageSignatureId.(string)
+			details.ImageSignatureId = &tmp
+		}
 		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
 			tmp := serverPort.(int)
 			details.ServerPort = &tmp
@@ -2380,6 +2405,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentEnvir
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
 		}
+		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
+			tmp := imageSignatureId.(string)
+			details.ImageSignatureId = &tmp
+		}
 		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
 			tmp := serverPort.(int)
 			details.ServerPort = &tmp
@@ -2421,6 +2450,10 @@ func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.Mo
 
 		if v.ImageDigest != nil {
 			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.ImageSignatureId != nil {
+			result["image_signature_id"] = string(*v.ImageSignatureId)
 		}
 
 		if v.ServerPort != nil {
@@ -2750,6 +2783,10 @@ func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascie
 
 		if v.ImageDigest != nil {
 			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.ImageSignatureId != nil {
+			result["image_signature_id"] = string(*v.ImageSignatureId)
 		}
 
 		if v.ServerPort != nil {
