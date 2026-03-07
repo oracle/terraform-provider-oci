@@ -30,6 +30,7 @@ resource "oci_cloud_guard_security_zone" "test_security_zone" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.security_zone_description
 	freeform_tags = {"bar-key"= "value"}
+	is_inheritance_after_delete_enabled = var.security_zone_is_inheritance_after_delete_enabled
 }
 ```
 
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
+* `is_inheritance_after_delete_enabled` - (Optional) (Updatable) Indicates if upon deletion of the security zone the comparment should inherit parent security zone
 * `security_zone_recipe_id` - (Required) (Updatable) The OCID of the security zone recipe (`SecurityRecipe` resource) for the security zone
 
 
@@ -63,6 +65,7 @@ The following attributes are exported:
 	Avoid entering confidential information. 
 * `id` - Unique identifier that can’t be changed after creation
 * `inherited_by_compartments` - List of inherited compartments
+* `is_inheritance_after_delete_enabled` - Indicates if upon deletion of the security zone the comparment should inherit parent security zone
 * `lifecycle_details` - A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.
 * `security_zone_recipe_id` - The OCID of the recipe (`SecurityRecipe` resource) for the security zone
 * `security_zone_target_id` - The OCID of the target associated with the security zone

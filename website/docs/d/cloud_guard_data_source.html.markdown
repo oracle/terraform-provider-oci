@@ -38,14 +38,14 @@ The following attributes are exported:
 	* `data_source_feed_provider` - Type of data source feed provider (LoggingQuery)
 	* `description` - Description text for the query
 	* `interval_in_minutes` - Interval in minutes that query is run periodically.
-	* `interval_in_seconds` - Interval in minutes which query is run periodically.
+	* `interval_in_seconds` - Interval in seconds which query is run periodically.
 	* `logging_query_details` - Details for a logging query for a data source.
 		* `key_entities_count` - The key entities count used for data source query
 		* `logging_query_type` - Logging query type for data source
 	* `logging_query_type` - Type of logging query for data source (Sighting/Insight)
-	* `operator` - Operator used in data source
+	* `operator` - DEPRECATED - Operator used in data source
 	* `query` - The continuous query expression that is run periodically.
-	* `query_start_time` - Start policy for continuous query
+	* `query_start_time` - DEPRECATED - Start policy for continuous query
 		* `query_start_time` - Time when the query can start. If not specified it can start immediately
 		* `start_policy_type` - Start policy delay timing
 	* `regions` - List of logging query regions
@@ -53,7 +53,7 @@ The following attributes are exported:
 		* `region` - region on which scheduled query needs to be run
 		* `resource_ids` - List of OCIDs on scheduled query needs to run
 		* `resource_type` - Type of resource
-	* `threshold` - The integer value that must be exceeded, fall below or equal to (depending on the operator), for the query result to trigger an event
+	* `threshold` - DEPRECATED - The integer value that must be exceeded, fall below or equal to (depending on the operator), for the query result to trigger an event
 * `data_source_detector_mapping_info` - Information about the detector recipe and rule attached
 	* `detector_recipe_id` - ID of the detector recipe attached to the data source
 	* `detector_rule_id` - ID of the detector rule attached to the data source

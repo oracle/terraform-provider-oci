@@ -87,6 +87,10 @@ func (s *CloudGuardSecurityZoneDataSourceCrud) SetData() error {
 
 	s.D.Set("inherited_by_compartments", s.Res.InheritedByCompartments)
 
+	if s.Res.IsInheritanceAfterDeleteEnabled != nil {
+		s.D.Set("is_inheritance_after_delete_enabled", *s.Res.IsInheritanceAfterDeleteEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

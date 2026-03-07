@@ -41,6 +41,7 @@ The following attributes are exported:
 	Avoid entering confidential information. 
 * `id` - Unique identifier that can’t be changed after creation
 * `inherited_by_compartments` - List of inherited compartments
+* `is_inheritance_after_delete_enabled` - Indicates if upon deletion of the security zone the comparment should inherit parent security zone
 * `lifecycle_details` - A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.
 * `security_zone_recipe_id` - The OCID of the recipe (`SecurityRecipe` resource) for the security zone
 * `security_zone_target_id` - The OCID of the target associated with the security zone

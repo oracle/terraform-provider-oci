@@ -58,6 +58,11 @@ func CloudGuardSecurityZoneResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_inheritance_after_delete_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"inherited_by_compartments": {
@@ -189,6 +194,11 @@ func (s *CloudGuardSecurityZoneResourceCrud) CreateWithContext(ctx context.Conte
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isInheritanceAfterDeleteEnabled, ok := s.D.GetOkExists("is_inheritance_after_delete_enabled"); ok {
+		tmp := isInheritanceAfterDeleteEnabled.(bool)
+		request.IsInheritanceAfterDeleteEnabled = &tmp
+	}
+
 	if securityZoneRecipeId, ok := s.D.GetOkExists("security_zone_recipe_id"); ok {
 		tmp := securityZoneRecipeId.(string)
 		request.SecurityZoneRecipeId = &tmp
@@ -256,6 +266,11 @@ func (s *CloudGuardSecurityZoneResourceCrud) UpdateWithContext(ctx context.Conte
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isInheritanceAfterDeleteEnabled, ok := s.D.GetOkExists("is_inheritance_after_delete_enabled"); ok {
+		tmp := isInheritanceAfterDeleteEnabled.(bool)
+		request.IsInheritanceAfterDeleteEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.SecurityZoneId = &tmp
 
@@ -308,6 +323,10 @@ func (s *CloudGuardSecurityZoneResourceCrud) SetData() error {
 
 	s.D.Set("inherited_by_compartments", s.Res.InheritedByCompartments)
 
+	if s.Res.IsInheritanceAfterDeleteEnabled != nil {
+		s.D.Set("is_inheritance_after_delete_enabled", *s.Res.IsInheritanceAfterDeleteEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -356,6 +375,10 @@ func SecurityZoneSummaryToMap(obj oci_cloud_guard.SecurityZoneSummary) map[strin
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsInheritanceAfterDeleteEnabled != nil {
+		result["is_inheritance_after_delete_enabled"] = bool(*obj.IsInheritanceAfterDeleteEnabled)
 	}
 
 	if obj.LifecycleDetails != nil {
