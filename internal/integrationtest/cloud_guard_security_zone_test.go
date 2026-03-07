@@ -25,6 +25,9 @@ import (
 )
 
 var (
+	ignoreSecurityZoneDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 	CloudGuardSecurityZoneRequiredOnlyResource = CloudGuardSecurityZoneResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Required, acctest.Create, CloudGuardSecurityZoneRepresentation)
 
@@ -49,12 +52,14 @@ var (
 	}
 
 	CloudGuardSecurityZoneRepresentation = map[string]interface{}{
-		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"security_zone_recipe_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"security_zone_recipe_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_security_recipe.test_security_recipe.id}`},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_inheritance_after_delete_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"lifecycle":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSecurityZoneDefinedTagsChangesRepresentation},
 	}
 
 	CloudGuardSecurityZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_recipe", "test_security_recipe", acctest.Required, acctest.Create, CloudGuardSecurityRecipeRepresentation) +
@@ -76,6 +81,14 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 	datasourceName := "data.oci_cloud_guard_security_zones.test_security_zones"
 	singularDatasourceName := "data.oci_cloud_guard_security_zone.test_security_zone"
 
+	securityZoneRepresentationWithoutInheritanceAfterDeleteEnabled := map[string]interface{}{}
+	for k, v := range CloudGuardSecurityZoneRepresentation {
+		if k == "is_inheritance_after_delete_enabled" {
+			continue
+		}
+		securityZoneRepresentationWithoutInheritanceAfterDeleteEnabled[k] = v
+	}
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardSecurityZoneResourceDependencies+
@@ -89,6 +102,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "is_inheritance_after_delete_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_zone_recipe_id"),
 
 				func(s *terraform.State) (err error) {
@@ -102,6 +116,25 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies,
 		},
+		// verify Create with optionals, but omitting is_inheritance_after_delete_enabled to validate default=true
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_security_zone", "test_security_zone", acctest.Optional, acctest.Create, securityZoneRepresentationWithoutInheritanceAfterDeleteEnabled),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_inheritance_after_delete_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_zone_recipe_id"),
+			),
+		},
+
+		// delete before explicit false Create
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies,
+		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardSecurityZoneResourceDependencies +
@@ -112,6 +145,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_inheritance_after_delete_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_zone_recipe_id"),
 
 				func(s *terraform.State) (err error) {
@@ -139,6 +173,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_inheritance_after_delete_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_zone_recipe_id"),
 
 				func(s *terraform.State) (err error) {
@@ -161,6 +196,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_inheritance_after_delete_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_zone_recipe_id"),
 
 				func(s *terraform.State) (err error) {
@@ -204,6 +240,7 @@ func TestCloudGuardSecurityZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inherited_by_compartments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_inheritance_after_delete_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_zone_target_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
