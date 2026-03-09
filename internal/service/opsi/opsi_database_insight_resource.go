@@ -2646,6 +2646,10 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 			tmp := opsiPrivateEndpointId.(string)
 			details.OpsiPrivateEndpointId = &tmp
 		}
+		if isAdvancedFeaturesEnabled, ok := s.D.GetOkExists("is_advanced_features_enabled"); ok {
+			tmp := isAdvancedFeaturesEnabled.(bool)
+			details.IsAdvancedFeaturesEnabled = &tmp
+		}
 		if credentialDetails, ok := s.D.GetOkExists("credential_details"); ok {
 			if tmpList := credentialDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "credential_details", 0)
