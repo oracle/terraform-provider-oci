@@ -40,7 +40,12 @@ install_go_ol9:
 	GOFLAGS= go install golang.org/x/tools/cmd/goimports@v0.24.0
 	@echo "goimports and errcheck installed in $(GOBIN)"
 
-checkall: install_go_ol9 fmtcheck errcheck
+checkall: install_go_ol9 fmtcheck errcheck integrationtest-initcheck
+
+# Quick non-acceptance init check to catch issues that fail at package init time
+# (e.g., duplicate sweeper registrations) without requiring TF_ACC credentials.
+integrationtest-initcheck:
+	TF_ACC= GO111MODULE=on GOFLAGS=-mod=vendor go test ./$(TEST_PKG_NAME) -run 'TestCoreInstanceResource_basic'
 
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
 build: fmtcheck errcheck gomodenv
