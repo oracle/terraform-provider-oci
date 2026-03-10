@@ -1981,3 +1981,25 @@ func DbHomeNestedDbSuppressfunc(k string, old, new string, d *schema.ResourceDat
 	}
 	return false
 }
+
+func StringToJsonObject(str string) (*interface{}, error) {
+	var result interface{}
+
+	err := json.Unmarshal([]byte(str), &result)
+
+	return &result, err
+}
+
+func JsonObjectToString(obj *interface{}) (string, error) {
+	var result string
+
+	if obj != nil {
+		data, err := json.Marshal(obj)
+		if err != nil {
+			return "", err
+		}
+		result = string(data)
+	}
+
+	return result, nil
+}
