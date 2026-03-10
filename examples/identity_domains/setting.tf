@@ -325,7 +325,7 @@ resource "oci_identity_domains_setting" "test_setting" {
     display = var.setting_images_display
   }
   is_hosted_page = var.setting_is_hosted_page
-  issuer         = var.setting_issuer
+  # issuer         = var.setting_issuer
   locale         = var.setting_locale
   login_texts {
     #Required
