@@ -74,6 +74,10 @@ func init() {
 	exportIdentityDomainsSocialIdentityProviderHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsMappedAttributeHints.GetIdFn = getGetIdFn("mappedAttributes")
 	exportIdentityDomainsMappedAttributeHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsIdentityProofingProviderHints.GetIdFn = getGetIdFn("identityProofingProviders")
+	exportIdentityDomainsIdentityProofingProviderHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsIdentityProofingProviderTemplateHints.GetIdFn = getGetIdFn("identityProofingProviderTemplates")
+	exportIdentityDomainsIdentityProofingProviderTemplateHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 
 	//// User sub-resources
 	exportIdentityDomainsApiKeyHints.GetIdFn = getUserSubResourceGetIdFn("apiKeys")
@@ -122,7 +126,6 @@ func init() {
 	exportIdentityDomainsMyRequestHints.FindResourcesOverrideFn = getFindMyResources("myRequests")
 
 	tf_export.RegisterCompartmentGraphs("identity_domains", identityDomainsResourceGraph)
-
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
@@ -578,6 +581,20 @@ var exportIdentityDomainsMappedAttributeHints = &tf_export.TerraformResourceHint
 	ResourceAbbreviation: "mapped_attribute",
 }
 
+var exportIdentityDomainsIdentityProofingProviderHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_identity_proofing_provider",
+	DatasourceClass:      "oci_identity_domains_identity_proofing_providers",
+	DatasourceItemsAttr:  "identity_proofing_providers",
+	ResourceAbbreviation: "identity_proofing_provider",
+}
+
+var exportIdentityDomainsIdentityProofingProviderTemplateHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_identity_proofing_provider_template",
+	DatasourceClass:      "oci_identity_domains_identity_proofing_provider_templates",
+	DatasourceItemsAttr:  "identity_proofing_provider_templates",
+	ResourceAbbreviation: "identity_proofing_provider_template",
+}
+
 var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportIdentityDomainHints},
@@ -813,6 +830,18 @@ var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentityDomainsMappedAttributeHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsIdentityProofingProviderHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsIdentityProofingProviderTemplateHints,
 			DatasourceQueryParams: map[string]string{
 				"idcs_endpoint": "url",
 			},

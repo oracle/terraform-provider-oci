@@ -1004,6 +1004,9 @@ identity_domains
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
 * oci\_identity\_domains\_social\_identity\_provider
+* oci\_identity\_domains\_mapped\_attribute
+* oci\_identity\_domains\_identity\_proofing\_provider
+* oci\_identity\_domains\_identity\_proofing\_provider\_template
 
 integration
 

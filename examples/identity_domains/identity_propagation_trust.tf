@@ -61,8 +61,9 @@ variable "identity_propagation_trust_public_certificate" {
   default = "publicCertificate"
 }
 
+# should be a valid endpoint that can be connected
 variable "identity_propagation_trust_public_key_endpoint" {
-  default = "publicKeyEndpoint"
+  default = ""
 }
 
 variable "identity_propagation_trust_start_index" {
