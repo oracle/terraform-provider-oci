@@ -42,7 +42,7 @@ func getIdcsEndpointForRead(d *schema.ResourceData, resourceName string) (string
 		d.SetId(tokens[2])
 		err = nil
 	} else {
-		err = fmt.Errorf("IdcsEndpointHelperForRead: idcs_endpoint missing. Format of id might be wrong. id: %s", id)
+		err = fmt.Errorf("IdcsEndpointHelperForRead: Format of id might be wrong. id: %s", id)
 	}
 
 	if err != nil {

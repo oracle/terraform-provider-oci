@@ -19,6 +19,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
+func privateIpIdOrIpv6IdDiffSuppress(k, old, new string, d *schema.ResourceData) bool {
+	return old == "" && new != ""
+}
+
 func CoreInstanceConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -559,6 +563,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"ipv6id": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+															},
 															"ipv6subnet_cidr": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -584,6 +595,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"private_ip_id": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
 												},
 												"security_attributes": {
 													Type:     schema.TypeMap,
@@ -1642,6 +1660,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																			Computed: true,
 																			ForceNew: true,
 																		},
+																		"ipv6id": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+																		},
 																		"ipv6subnet_cidr": {
 																			Type:     schema.TypeString,
 																			Optional: true,
@@ -1668,6 +1693,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"private_ip_id": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
 															},
 															"security_attributes": {
 																Type:     schema.TypeMap,
@@ -2310,6 +2342,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																			Computed: true,
 																			ForceNew: true,
 																		},
+																		"ipv6id": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+																		},
 																		"ipv6subnet_cidr": {
 																			Type:     schema.TypeString,
 																			Optional: true,
@@ -2336,6 +2375,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"private_ip_id": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
 															},
 															"security_attributes": {
 																Type:     schema.TypeMap,
@@ -2472,6 +2518,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"ipv6id": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+															},
 															"ipv6subnet_cidr": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -2497,6 +2550,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"private_ip_id": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
 												},
 												"security_attributes": {
 													Type:     schema.TypeMap,
@@ -3256,6 +3316,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.PrivateIp = &tmp
 	}
 
+	if privateIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip_id")); ok {
+		tmp := privateIpId.(string)
+		result.PrivateIpId = &tmp
+	}
+
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
 		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
@@ -3327,6 +3392,10 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
+	}
+
+	if obj.PrivateIpId != nil {
+		result["private_ip_id"] = string(*obj.PrivateIpId)
 	}
 
 	result["security_attributes"] = obj.SecurityAttributes
@@ -3824,6 +3893,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationIpv6Ad
 		result.Ipv6Address = &tmp
 	}
 
+	if ipv6Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6id")); ok {
+		tmp := ipv6Id.(string)
+		result.Ipv6Id = &tmp
+	}
+
 	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
 		tmp := ipv6SubnetCidr.(string)
 		result.Ipv6SubnetCidr = &tmp
@@ -3859,6 +3933,10 @@ func InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core
 
 	if obj.Ipv6Address != nil {
 		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6Id != nil {
+		result["ipv6id"] = string(*obj.Ipv6Id)
 	}
 
 	if obj.Ipv6SubnetCidr != nil {

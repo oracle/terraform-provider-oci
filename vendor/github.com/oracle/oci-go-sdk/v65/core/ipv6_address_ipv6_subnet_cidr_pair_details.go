@@ -24,6 +24,9 @@ import (
 // Ipv6AddressIpv6SubnetCidrPairDetails Details to assign an IPv6 subnet prefix and IPv6 address on VNIC creation.
 type Ipv6AddressIpv6SubnetCidrPairDetails struct {
 
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved ipv6 to use.
+	Ipv6Id *string `mandatory:"false" json:"ipv6Id"`
+
 	// The IPv6 prefix allocated to the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 

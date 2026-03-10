@@ -88,6 +88,10 @@ type InstanceConfigurationCreateVnicDetails struct {
 	// See the `privateIp` attribute of CreateVnicDetails for more information.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved IP address to use for this VNIC.
+	// See the `privateIpId` attribute of CreateVnicDetails for more information.
+	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
+
 	// Whether the source/destination check is disabled on the VNIC.
 	// See the `skipSourceDestCheck` attribute of CreateVnicDetails for more information.
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`

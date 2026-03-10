@@ -85,6 +85,11 @@ type CreateClusterDetails struct {
 	// ListSupportedVmwareSoftwareVersions.
 	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
+	ClusterByolAllocationDetails *ClusterByolAllocationDetails `mandatory:"false" json:"clusterByolAllocationDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
+	InitialVcfByolAllocationId *string `mandatory:"false" json:"initialVcfByolAllocationId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

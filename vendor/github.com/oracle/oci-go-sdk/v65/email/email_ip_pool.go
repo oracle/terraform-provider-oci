@@ -45,6 +45,9 @@ type EmailIpPool struct {
 	// Summary of outbound IPs assigned to the IpPool.
 	OutboundIps []EmailOutboundIpSummary `mandatory:"false" json:"outboundIps"`
 
+	// Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+	LastIpDrainPeriodInHours *int `mandatory:"false" json:"lastIpDrainPeriodInHours"`
+
 	// The time the IpPool was created.
 	// Times are expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format, "YYYY-MM-ddThh:mmZ".

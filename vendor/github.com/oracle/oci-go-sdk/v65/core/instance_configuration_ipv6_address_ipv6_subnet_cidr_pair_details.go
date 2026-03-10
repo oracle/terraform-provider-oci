@@ -29,6 +29,9 @@ type InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails struct {
 
 	// Optional. An available IPv6 address of your subnet from a valid IPv6 prefix on the subnet (otherwise the IP address is automatically assigned).
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
+
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved ipv6 to use.
+	Ipv6Id *string `mandatory:"false" json:"ipv6Id"`
 }
 
 func (m InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails) String() string {
