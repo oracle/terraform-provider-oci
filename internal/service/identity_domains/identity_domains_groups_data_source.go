@@ -193,7 +193,7 @@ func (s *IdentityDomainsGroupsDataSourceCrud) SetData() error {
 
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {
-		resources = append(resources, GroupToMap(item))
+		resources = append(resources, GroupToMap(item, true))
 	}
 	s.D.Set("groups", resources)
 

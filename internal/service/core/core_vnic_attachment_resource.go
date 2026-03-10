@@ -101,11 +101,17 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"ipv6_subnet_cidr": {
+									"ipv6address": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									"ipv6_address": {
+									"ipv6id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ipv6subnet_cidr": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -121,6 +127,12 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							},
 						},
 						"private_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"private_ip_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -553,6 +565,11 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 		result.PrivateIp = &tmp
 	}
 
+	if privateIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip_id")); ok {
+		tmp := privateIpId.(string)
+		result.PrivateIpId = &tmp
+	}
+
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
 		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
@@ -692,6 +709,10 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
 
+	if createVnicDetails != nil {
+		result["private_ip_id"] = createVnicDetails["privateIpId"]
+	}
+
 	if obj.SecurityAttributes != nil {
 		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
@@ -717,15 +738,19 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 func (s *CoreVnicAttachmentResourceCrud) mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_core.Ipv6AddressIpv6SubnetCidrPairDetails, error) {
 	result := oci_core.Ipv6AddressIpv6SubnetCidrPairDetails{}
-
-	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6_subnet_cidr")); ok {
-		tmp := ipv6SubnetCidr.(string)
-		result.Ipv6SubnetCidr = &tmp
-	}
-
-	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6_address")); ok {
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok {
 		tmp := ipv6Address.(string)
 		result.Ipv6Address = &tmp
+	}
+
+	if ipv6Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6id")); ok {
+		tmp := ipv6Id.(string)
+		result.Ipv6Id = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
 	}
 
 	return result, nil
@@ -733,6 +758,18 @@ func (s *CoreVnicAttachmentResourceCrud) mapToIpv6AddressIpv6SubnetCidrPairDetai
 
 func Ipv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core.Ipv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6Id != nil {
+		result["ipv6id"] = string(*obj.Ipv6Id)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
+	}
 
 	return result
 }

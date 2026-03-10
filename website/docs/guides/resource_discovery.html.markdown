@@ -176,6 +176,7 @@ Make sure the `output_path` is empty before running resource discovery
   * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
   * `functions` - Discovers functions resources within the specified compartment
   * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
+  * `gdp` - Discovers gdp resources within the specified compartment
   * `generative_ai` - Discovers generative_ai resources within the specified compartment
   * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
   * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
@@ -887,6 +888,10 @@ fusion_apps
 * oci\_fusion\_apps\_fusion\_environment
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
 
+gdp
+    
+* oci\_gdp\_gdp\_pipeline
+
 generative_ai
 
 * oci\_generative\_ai\_dedicated\_ai\_cluster
@@ -999,6 +1004,9 @@ identity_domains
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
 * oci\_identity\_domains\_social\_identity\_provider
+* oci\_identity\_domains\_mapped\_attribute
+* oci\_identity\_domains\_identity\_proofing\_provider
+* oci\_identity\_domains\_identity\_proofing\_provider\_template
 
 integration
 

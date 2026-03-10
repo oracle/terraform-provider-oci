@@ -242,7 +242,7 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) getAiDataPlatformFromWorkRequ
 	actionTypeEnum oci_ai_data_platform.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	aiDataPlatformId, err := aiDataPlatformWaitForWorkRequest(ctx, workId, "datahub",
+	aiDataPlatformId, err := aiDataPlatformWaitForWorkRequest(ctx, workId, "aidataplatform",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -459,7 +459,7 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) DeleteWithContext(ctx context
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := aiDataPlatformWaitForWorkRequest(ctx, workId, "datahub",
+	_, delWorkRequestErr := aiDataPlatformWaitForWorkRequest(ctx, workId, "aidataplatform",
 		oci_ai_data_platform.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
