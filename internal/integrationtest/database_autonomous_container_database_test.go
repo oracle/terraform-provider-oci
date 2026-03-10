@@ -30,8 +30,6 @@ var (
 	DatabaseAutonomousContainerDatabaseRequiredOnlyResource = DatabaseAutonomousContainerDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseRepresentation)
 
-	ExaccAcdResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ACDatabaseRepresentation)
-
 	DatabaseAutonomousContainerDatabaseResourceConfig = ATPDAutonomousContainerDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseRepresentation)
 
@@ -112,6 +110,11 @@ var (
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
+	DatabaseAutonomousContainerDatabaseBackupConfigRealRepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ExaccAutonomousDatabaseBackupDestinationDetailsRealRepresentation},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+
 	DatabaseAutonomousContainerDatabaseBackupConfigRepresentationDisableRetentionOnUpdate = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation1},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -121,6 +124,21 @@ var (
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
+
+	DatabaseAutonomousContainerDatabaseBackupConfigWithRARealRepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRealRepresentation},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+
+	autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRealRepresentation = map[string]interface{}{
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `NFS`, Update: `RECOVERY_APPLIANCE`},
+		"id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${var.nfs_backup_destination_id}`, Update: `${var.ra_backup_destination_id}`},
+		"vpc_password":                         acctest.Representation{RepType: acctest.Optional, Create: `${var.ra_vpc_password}`, Update: `${var.ra_vpc_password}`},
+		"backup_retention_policy_on_terminate": acctest.Representation{RepType: acctest.Optional, Create: `RETAIN_PER_RETENTION_WINDOW`},
+		"is_retention_lock_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"vpc_user":                             acctest.Representation{RepType: acctest.Optional, Create: `${var.ra_vpc_user_id}`},
+	}
+
 	DatabaseAutonomousContainerDatabaseBackupConfigWithRARepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRARepresentation},
 	}

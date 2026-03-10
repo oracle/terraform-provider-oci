@@ -136,8 +136,12 @@ type CreateVnicDetails struct {
 	//
 	// If you specify a `vlanId`, the `privateIp` cannot be specified.
 	// See Vlan.
+	// If you specify a 'privateIpId', the 'privateIp' cannot be specified.
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that specifies a previously-reserved IP address to use for this VNIC.
+	PrivateIpId *string `mandatory:"false" json:"privateIpId"`
 
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information

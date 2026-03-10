@@ -25,6 +25,7 @@ resource "oci_email_email_ip_pool" "test_email_ip_pool" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.email_ip_pool_description
 	freeform_tags = {"Department"= "Finance"}
+	last_ip_drain_period_in_hours = var.email_ip_pool_last_ip_drain_period_in_hours
 }
 ```
 
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the IpPool. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `last_ip_drain_period_in_hours` - (Optional) (Updatable) Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours. 
 * `name` - (Required) The name of the IpPool. The name must be unique within a region.  The name is case sensitive and supported characters include alphanumeric, hyphens ("-") and underscore ("_") characters.  Example: green_pool-1 
 * `outbound_ips` - (Required) A list of outbound public IPs for assignment to the IpPool. These IPs must be in the AVAILABLE state to be eligible for assignment.
 
@@ -52,6 +54,7 @@ The following attributes are exported:
 * `description` - The description of the IpPool. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The unique [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IpPool resource that is immutable on creation.
+* `last_ip_drain_period_in_hours` - Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'INACTIVE' state. 
 * `locks` - Locks associated with this resource.
 	* `compartment_id` - The lock compartment ID.
@@ -65,6 +68,7 @@ The following attributes are exported:
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'DRAINING' state. 
 	* `outbound_ip` - The public IP address assigned to the tenancy.
 	* `state` - The current state of the Email Outbound Public IP.
+	* `time_unassigned` - The time IP was removed from IP Pool. Times are expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, "YYYY-MM-ddThh:mmZ". Example: `2021-02-12T22:47:12.613Z` 
 * `state` - The current state of the IpPool.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the IpPool was created. Times are expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, "YYYY-MM-ddThh:mmZ".  Example: `2021-02-12T22:47:12.613Z` 

@@ -127,6 +127,15 @@ type EsxiHostSummary struct {
 	// A list of datastore clusters.
 	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
 
+	// MAC address of ESXi host's compute instance primary VNIC.
+	PrimaryVnicMacAddress *string `mandatory:"false" json:"primaryVnicMacAddress"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
+
+	// Indicates whether this host embedded VMware vSAN with BYOL Allocation.
+	IsVsanByolEnabled *bool `mandatory:"false" json:"isVsanByolEnabled"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

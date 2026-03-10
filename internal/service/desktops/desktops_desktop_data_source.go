@@ -306,3 +306,17 @@ func (s *DesktopsDesktopDataSourceCrud) SetData() error {
 
 	return nil
 }
+
+func HostingOptionsToMap(obj *oci_desktops.HostingOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConnectAddress != nil {
+		result["connect_address"] = string(*obj.ConnectAddress)
+	}
+
+	if obj.Image != nil {
+		result["image"] = []interface{}{DesktopsDesktopImageToMap(obj.Image)}
+	}
+
+	return result
+}

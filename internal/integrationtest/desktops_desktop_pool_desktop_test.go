@@ -61,6 +61,7 @@ func TestDesktopsDesktopPoolDesktopResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "desktop_pool_desktop_collection.0.items.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "desktop_pool_desktop_collection.0.items.0.instance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "desktop_pool_desktop_collection.0.items.0.desktop_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "desktop_pool_desktop_collection.0.items.0.image.0.image_id"),
 			),
 		},
 	})

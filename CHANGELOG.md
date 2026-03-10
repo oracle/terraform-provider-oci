@@ -1,3 +1,20 @@
+## 8.5.0 (March 10, 2026)
+
+### Added
+- Support for OCI IAM Identity Verification
+- Support for Guarded Data Pipelines - GDP
+- Support for IP Pool self serve API enhancements
+- Support for CCCP - API changes to support VCNIP IP Lifetime feature
+
+### Deprecation
+- variables and init_variables fields in resource oci_mysql_mysql_configuration
+
+### Bug Fix
+- added support for real resource for ADBCC
+- AIDP resource should wait for work request to succeed with proper entitytype
+- for mising Image field in desktops collection list
+- Support for IdentityDomains tags ordering and Group Members issue fix
+
 ## 8.4.0 (March 4, 2026)
 
 ### Added
