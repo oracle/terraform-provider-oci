@@ -82,6 +82,15 @@ var (
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTags},
 	}
 
+	CoreInstanceConfigurationRepresentationPrivateIpIdAndIpv6Id = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsRepresentationPrivateIpIdAndIpv6Id},
+		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTags},
+	}
+
 	CoreInstanceConfigurationRepresentationAie = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `TestInstanceConfiguration`},
@@ -168,6 +177,10 @@ var (
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationWithIpv6SubnetCidrAndRange},
 	}
+	CoreInstanceConfigurationInstanceDetailsRepresentationPrivateIpIdAndIpv6Id = map[string]interface{}{
+		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationPrivateIpIdAndIpv6Id},
+	}
 	CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation = map[string]interface{}{
 		"create_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation},
 		"volume_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
@@ -209,7 +222,6 @@ var (
 		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceLaunchOptionsRepresentation},
 		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceOptionsRepresentation},
 		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"dedicated_vm_host_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 		"launch_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `NATIVE`},
 		"placement_constraint_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsPlacementConstraintDetailsRepresentation},
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
@@ -267,6 +279,22 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
+	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
+		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"security_attributes":    acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
+		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_cidr":            acctest.Representation{RepType: acctest.Optional, Create: `subnetCidr`},
+		"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
 	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationWithIpv6SubnetCidrAndRange = map[string]interface{}{
 		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationIpv6SubnetCidrAndRange},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
@@ -274,6 +302,11 @@ var (
 	}
 	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationIpv6WithIpv6SubnetCidr = map[string]interface{}{
 		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationIpv6SubnetCidr},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationPrivateIpIdAndIpv6Id = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationPrivateIpIdAndIpv6Id},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
@@ -311,15 +344,33 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `display_name`},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation = map[string]interface{}{
-		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
-		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
-		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"private_ip":                acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
-		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
-		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_private_dns_record":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"assign_public_ip":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"display_name":                             acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"hostname_label":                           acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"nsg_ids":                                  acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}},
+		"private_ip":                               acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"security_attributes":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
+		"skip_source_dest_check":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_cidr":                              acctest.Representation{RepType: acctest.Optional, Create: `subnetCidr`},
+		"subnet_id":                                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsInstanceOptionsRepresentation = map[string]interface{}{
+		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLaunchOptionsRepresentation = map[string]interface{}{
+		"boot_volume_type":                    acctest.Representation{RepType: acctest.Optional, Create: `ISCSI`},
+		"firmware":                            acctest.Representation{RepType: acctest.Optional, Create: `BIOS`},
+		"is_consistent_volume_naming_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"network_type":                        acctest.Representation{RepType: acctest.Optional, Create: `E1000`},
+		"remote_data_volume_type":             acctest.Representation{RepType: acctest.Optional, Create: `ISCSI`},
+		"nsg_ids":                             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"private_ip":                          acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
+		"skip_source_dest_check":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLicensingConfigsRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
@@ -349,19 +400,6 @@ var (
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("image_id",
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`},
 		CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)
-
-	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
-		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
-		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"private_ip":                acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
-		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
-	}
 	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationIpv6SubnetCidrAndRange = map[string]interface{}{
 		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -372,11 +410,18 @@ var (
 		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation},
 		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"private_ip_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_private_ip.test_private_ip.id}`},
 		"security_attributes":    acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
+	CoreInstanceConfigurationVnicAttachmentsDependency = `
+		data "oci_core_vnic_attachments" "t" {
+			availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+			compartment_id = "${var.compartment_id}"
+			instance_id = "${oci_core_instance.test_instance.id}"
+		}
+	`
 	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationIpv6SubnetCidr = map[string]interface{}{
 		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -386,16 +431,29 @@ var (
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentationClusterNetwork},
-		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentationPrivateIpIdAndIpv6Id = map[string]interface{}{
+		"assign_ipv6ip":                            acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"assign_private_dns_record":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"assign_public_ip":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"display_name":                             acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"freeform_tags":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"hostname_label":                           acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"nsg_ids":                                  acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"private_ip_id":                            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_private_ip.test_private_ip.id}`},
+		"skip_source_dest_check":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_id":                                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentationClusterNetwork = map[string]interface{}{
 		"ipv6subnet_cidr": acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 	}
 	CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation = map[string]interface{}{
 		"ipv6subnet_cidr": acctest.Representation{RepType: acctest.Optional, Create: `2607:f590:0000:1600:0000:0000:0000:0000/64`},
+		"ipv6id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_ipv6.test_ipv6.id}`},
 		"ipv6address":     acctest.Representation{RepType: acctest.Optional, Create: `2607:f590:0000:1600:3000:0000:0000:0000`},
 	}
 	CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation = map[string]interface{}{
@@ -405,12 +463,20 @@ var (
 
 	CoreInstanceConfigurationResourceDependenciesWithoutKms = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, CoreBootVolumeRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Required, acctest.Create, CoreDedicatedVmHostRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"ipv6cidr_block": acctest.Representation{RepType: acctest.Required, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		})) +
 		utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		CoreInstanceConfigurationVnicAttachmentsDependency +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", acctest.Required, acctest.Create, CorePrivateIpRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Required, acctest.Create, CoreIpv6Representation) +
 		utils.VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -450,18 +516,21 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	computeHostGroupId := utils.GetEnvSettingWithBlankDefault("compute_host_group_id")
 	computeHostGroupIdVariableStr := fmt.Sprintf("variable \"compute_host_group_id\" { default = \"%s\" }\n", computeHostGroupId)
 
+	availabilityDomain := utils.GetEnvSettingWithBlankDefault("availability_domain")
+	availabilityDomainVariableStr := fmt.Sprintf("variable \"availability_domain\" { default = \"%s\" }\n", availabilityDomain)
+
 	resourceName := "oci_core_instance_configuration.test_instance_configuration"
 	datasourceName := "data.oci_core_instance_configurations.test_instance_configurations"
 	singularDatasourceName := "data.oci_core_instance_configuration.test_instance_configuration"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
-	acctest.SaveConfigContent(config+vaultIdVariableStr+kmsKeyIdVariableStr+compartmentIdVariableStr+CoreInstanceConfigurationResourceDependencies+
+	acctest.SaveConfigContent(config+vaultIdVariableStr+kmsKeyIdVariableStr+compartmentIdVariableStr+availabilityDomainVariableStr+CoreInstanceConfigurationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation), "core", "instanceConfiguration", t)
 	acctest.ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -477,11 +546,11 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify create regular instance configuration with imageFilter details
 		{
-			Config: config + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithFilterDetails}, CoreInstanceConfigurationRepresentationImageFilters)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -524,11 +593,11 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create from instance_id
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationFromInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -545,12 +614,12 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 
 		// verify Create with optionals launch_details for E3 flex micro shape
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies + utils.FlexVmImageIdsVariable +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies + utils.FlexVmImageIdsVariable +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -609,12 +678,12 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 
 		// verify Create with optionals launch_details for E4 dense shape
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + imageIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + imageIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -661,11 +730,11 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create with optionals launch_details
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -709,7 +778,6 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_options.0.network_type", "PARAVIRTUALIZED"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.is_pv_encryption_in_transit_enabled", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.dedicated_vm_host_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.launch_mode", "NATIVE"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.preferred_maintenance_action", "LIVE_MIGRATE"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape_config.0.ocpus", "1"),
@@ -730,7 +798,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + compartmentIdUVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation),
 					map[string]interface{}{"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`}})),
@@ -777,7 +845,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -815,7 +883,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation}, CoreInstanceConfigurationInstanceDetailsBlockRepresentation)}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -846,7 +914,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details-paravirtualized
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("block_volumes", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation},
 						CoreInstanceConfigurationInstanceDetailsBlockRepresentation)},
@@ -880,11 +948,11 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create with optionals secondary_vnics
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -916,7 +984,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -951,7 +1019,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Optional, acctest.Update, CoreCoreInstanceConfigurationDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Update, CoreInstanceConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -968,8 +1036,8 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				vaultIdVariableStr + kmsKeyIdVariableStr + computeHostGroupIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreInstanceConfigurationResourceDependenciesWithoutKms +
+				vaultIdVariableStr + kmsKeyIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependenciesWithoutKms +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
 					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -1001,7 +1069,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + CoreInstanceConfigurationRequiredOnlyResource,
+			Config:            config + availabilityDomainVariableStr + CoreInstanceConfigurationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -1315,10 +1383,14 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "ipv6Address"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "ipv6SubnetCidr"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "2607:f590:0000:1600:3000:0000:0000:0000"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "2607:f590:0000:1600:0000:0000:0000:0000/64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.subnet_id"),
@@ -1371,6 +1443,38 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.nic_index", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+	})
+}
+
+func TestCoreInstanceConfigurationResource_PrivateIpIdAndIpv6Id_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceConfigurationResourceIsolatedPrivateIpAndIpv6Id_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance_configuration.test_instance_configuration"
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstanceConfigurationResourceDependenciesWithoutKms+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationPrivateIpIdAndIpv6Id), "core", "instanceConfiguration", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependenciesWithoutKms +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationPrivateIpIdAndIpv6Id),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.#", "1"),
+				// In current API/provider round-trip these IDs come back empty for this path.
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id", ""),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6id", ""),
 			),
 		},
 	})

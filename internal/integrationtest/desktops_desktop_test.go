@@ -110,6 +110,7 @@ func TestDesktopsDesktopResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "desktop_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "desktop_collection.0.items.0.image.0.image_id"),
 			),
 		},
 		// verify singular datasource
@@ -127,6 +128,7 @@ func TestDesktopsDesktopResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.#", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hosting_options.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hosting_options.0.image.0.image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pool_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -138,6 +140,8 @@ func TestDesktopsDesktopResource_basic(t *testing.T) {
 }
 
 // issue-routing-tag: desktops/default
+
+// Important!! This test requires to set a "pool_id" terraform envar for a pool that has active desktops with connection history
 func TestDesktopsDesktopResource_connection_history(t *testing.T) {
 
 	httpreplay.SetScenario("TestDesktopsDesktopResource_basic")
@@ -165,11 +169,11 @@ func TestDesktopsDesktopResource_connection_history(t *testing.T) {
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "desktop_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "desktop_connection.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "device_policy.#", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hosting_options.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hosting_options.0.image.0.image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pool_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

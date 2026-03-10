@@ -144,6 +144,11 @@ type Cluster struct {
 	// A list of datastore clusters.
 	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
 
+	ClusterByolAllocationDetails *ClusterByolAllocationDetails `mandatory:"false" json:"clusterByolAllocationDetails"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
+	InitialVcfByolAllocationId *string `mandatory:"false" json:"initialVcfByolAllocationId"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

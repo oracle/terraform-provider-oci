@@ -51,4 +51,5 @@ The following attributes are exported:
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'DRAINING' state. 
 	* `outbound_ip` - The public IP address assigned to the tenancy.
 	* `state` - The current state of the Email Outbound Public IP.
+	* `time_unassigned` - The time IP was removed from IP Pool. Times are expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, "YYYY-MM-ddThh:mmZ". Example: `2021-02-12T22:47:12.613Z` 
 

@@ -137,6 +137,31 @@ func DesktopsDesktopsDataSource() *schema.Resource {
 											},
 										},
 									},
+									"image": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"image_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"image_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"operating_system": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -380,20 +405,6 @@ func DesktopSummaryToMap(obj oci_desktops.DesktopSummary) map[string]interface{}
 
 	if obj.UserName != nil {
 		result["user_name"] = string(*obj.UserName)
-	}
-
-	return result
-}
-
-func HostingOptionsToMap(obj *oci_desktops.HostingOptions) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.ConnectAddress != nil {
-		result["connect_address"] = string(*obj.ConnectAddress)
-	}
-
-	if obj.Image != nil {
-		result["image"] = []interface{}{DesktopsDesktopImageToMap(obj.Image)}
 	}
 
 	return result

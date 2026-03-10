@@ -46,6 +46,8 @@ type UpdateSddcDetails struct {
 	// The SSH keys must be in the format required for the `authorized_keys` file.
 	SshAuthorizedKeys *string `mandatory:"false" json:"sshAuthorizedKeys"`
 
+	SddcByolAllocationDetails *SddcByolAllocationDetails `mandatory:"false" json:"sddcByolAllocationDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

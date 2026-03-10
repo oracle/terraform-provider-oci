@@ -20,11 +20,15 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseAutonomousVmCluster,
-		Read:     readDatabaseAutonomousVmCluster,
-		Update:   updateDatabaseAutonomousVmCluster,
-		Delete:   deleteDatabaseAutonomousVmCluster,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("12h"),
+			Update: tfresource.GetTimeoutDuration("12h"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
+		},
+		Create: createDatabaseAutonomousVmCluster,
+		Read:   readDatabaseAutonomousVmCluster,
+		Update: updateDatabaseAutonomousVmCluster,
+		Delete: deleteDatabaseAutonomousVmCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {

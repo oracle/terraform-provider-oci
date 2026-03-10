@@ -128,7 +128,7 @@ variable "desktop_pool_subnet_id" {
 
 variable "desktop_pool_shape_name" {
   description = ""
-  default = "Flex Low"
+  default = "VM.Standard.E4.Flex"
 }
 
 variable "desktop_pool_image_id" {

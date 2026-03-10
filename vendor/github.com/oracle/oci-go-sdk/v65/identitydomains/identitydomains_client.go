@@ -1073,6 +1073,130 @@ func (client IdentityDomainsClient) createGroup(ctx context.Context, request com
 	return response, err
 }
 
+// CreateIdentityProofingProvider Create an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateIdentityProofingProvider.go.html to see an example of how to use CreateIdentityProofingProvider API.
+func (client IdentityDomainsClient) CreateIdentityProofingProvider(ctx context.Context, request CreateIdentityProofingProviderRequest) (response CreateIdentityProofingProviderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIdentityProofingProvider, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIdentityProofingProviderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIdentityProofingProviderResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIdentityProofingProviderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIdentityProofingProviderResponse")
+	}
+	return
+}
+
+// createIdentityProofingProvider implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createIdentityProofingProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/IdentityProofingProviders", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIdentityProofingProviderResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateIdentityProofingProvider", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateIdentityProofingProviderTemplate Create an Identity Proofing Provider Configuration template.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateIdentityProofingProviderTemplate.go.html to see an example of how to use CreateIdentityProofingProviderTemplate API.
+func (client IdentityDomainsClient) CreateIdentityProofingProviderTemplate(ctx context.Context, request CreateIdentityProofingProviderTemplateRequest) (response CreateIdentityProofingProviderTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIdentityProofingProviderTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIdentityProofingProviderTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIdentityProofingProviderTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIdentityProofingProviderTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIdentityProofingProviderTemplateResponse")
+	}
+	return
+}
+
+// createIdentityProofingProviderTemplate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createIdentityProofingProviderTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/IdentityProofingProviderTemplates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIdentityProofingProviderTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateIdentityProofingProviderTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateIdentityPropagationTrust Register a new Identity Propagation Trust configuration.
 //
 // # See also
@@ -2809,6 +2933,68 @@ func (client IdentityDomainsClient) createUserDbCredential(ctx context.Context, 
 	return response, err
 }
 
+// CreateVerificationClaim Create Verification Claims of IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateVerificationClaim.go.html to see an example of how to use CreateVerificationClaim API.
+func (client IdentityDomainsClient) CreateVerificationClaim(ctx context.Context, request CreateVerificationClaimRequest) (response CreateVerificationClaimResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVerificationClaim, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVerificationClaimResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVerificationClaimResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVerificationClaimResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVerificationClaimResponse")
+	}
+	return
+}
+
+// createVerificationClaim implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createVerificationClaim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/VerificationClaims", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVerificationClaimResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateVerificationClaim", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteApiKey Delete a user's API key.
 //
 // # See also
@@ -3732,6 +3918,130 @@ func (client IdentityDomainsClient) deleteGroup(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/DeleteGroup"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIdentityProofingProvider Delete an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteIdentityProofingProvider.go.html to see an example of how to use DeleteIdentityProofingProvider API.
+func (client IdentityDomainsClient) DeleteIdentityProofingProvider(ctx context.Context, request DeleteIdentityProofingProviderRequest) (response DeleteIdentityProofingProviderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteIdentityProofingProvider, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIdentityProofingProviderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIdentityProofingProviderResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIdentityProofingProviderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIdentityProofingProviderResponse")
+	}
+	return
+}
+
+// deleteIdentityProofingProvider implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteIdentityProofingProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/IdentityProofingProviders/{identityProofingProviderId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIdentityProofingProviderResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/DeleteIdentityProofingProvider"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityProofingProvider", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIdentityProofingProviderTemplate Delete an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteIdentityProofingProviderTemplate.go.html to see an example of how to use DeleteIdentityProofingProviderTemplate API.
+func (client IdentityDomainsClient) DeleteIdentityProofingProviderTemplate(ctx context.Context, request DeleteIdentityProofingProviderTemplateRequest) (response DeleteIdentityProofingProviderTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteIdentityProofingProviderTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIdentityProofingProviderTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIdentityProofingProviderTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIdentityProofingProviderTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIdentityProofingProviderTemplateResponse")
+	}
+	return
+}
+
+// deleteIdentityProofingProviderTemplate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteIdentityProofingProviderTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/IdentityProofingProviderTemplates/{identityProofingProviderTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIdentityProofingProviderTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/DeleteIdentityProofingProviderTemplate"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -6398,6 +6708,130 @@ func (client IdentityDomainsClient) getGroup(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/GetGroup"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIdentityProofingProvider Get an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentityProofingProvider.go.html to see an example of how to use GetIdentityProofingProvider API.
+func (client IdentityDomainsClient) GetIdentityProofingProvider(ctx context.Context, request GetIdentityProofingProviderRequest) (response GetIdentityProofingProviderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getIdentityProofingProvider, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIdentityProofingProviderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIdentityProofingProviderResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIdentityProofingProviderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIdentityProofingProviderResponse")
+	}
+	return
+}
+
+// getIdentityProofingProvider implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getIdentityProofingProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/IdentityProofingProviders/{identityProofingProviderId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIdentityProofingProviderResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/GetIdentityProofingProvider"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityProofingProvider", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIdentityProofingProviderTemplate Get Identity Proofing Provider Configuration template.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentityProofingProviderTemplate.go.html to see an example of how to use GetIdentityProofingProviderTemplate API.
+func (client IdentityDomainsClient) GetIdentityProofingProviderTemplate(ctx context.Context, request GetIdentityProofingProviderTemplateRequest) (response GetIdentityProofingProviderTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getIdentityProofingProviderTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIdentityProofingProviderTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIdentityProofingProviderTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIdentityProofingProviderTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIdentityProofingProviderTemplateResponse")
+	}
+	return
+}
+
+// getIdentityProofingProviderTemplate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getIdentityProofingProviderTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/IdentityProofingProviderTemplates/{identityProofingProviderTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIdentityProofingProviderTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/GetIdentityProofingProviderTemplate"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -9877,6 +10311,130 @@ func (client IdentityDomainsClient) listGroups(ctx context.Context, request comm
 	return response, err
 }
 
+// ListIdentityProofingProviderTemplates Search Identity Proofing Provider Configuration templates..
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListIdentityProofingProviderTemplates.go.html to see an example of how to use ListIdentityProofingProviderTemplates API.
+func (client IdentityDomainsClient) ListIdentityProofingProviderTemplates(ctx context.Context, request ListIdentityProofingProviderTemplatesRequest) (response ListIdentityProofingProviderTemplatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listIdentityProofingProviderTemplates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIdentityProofingProviderTemplatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIdentityProofingProviderTemplatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIdentityProofingProviderTemplatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIdentityProofingProviderTemplatesResponse")
+	}
+	return
+}
+
+// listIdentityProofingProviderTemplates implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listIdentityProofingProviderTemplates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/IdentityProofingProviderTemplates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIdentityProofingProviderTemplatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/ListIdentityProofingProviderTemplates"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityProofingProviderTemplates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListIdentityProofingProviders Search IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListIdentityProofingProviders.go.html to see an example of how to use ListIdentityProofingProviders API.
+func (client IdentityDomainsClient) ListIdentityProofingProviders(ctx context.Context, request ListIdentityProofingProvidersRequest) (response ListIdentityProofingProvidersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listIdentityProofingProviders, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIdentityProofingProvidersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIdentityProofingProvidersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIdentityProofingProvidersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIdentityProofingProvidersResponse")
+	}
+	return
+}
+
+// listIdentityProofingProviders implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listIdentityProofingProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/IdentityProofingProviders", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIdentityProofingProvidersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/ListIdentityProofingProviders"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityProofingProviders", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListIdentityPropagationTrusts List the Identity Propagation Trust configurations.
 //
 // # See also
@@ -13287,6 +13845,130 @@ func (client IdentityDomainsClient) patchGroup(ctx context.Context, request comm
 	return response, err
 }
 
+// PatchIdentityProofingProvider Update an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityProofingProvider.go.html to see an example of how to use PatchIdentityProofingProvider API.
+func (client IdentityDomainsClient) PatchIdentityProofingProvider(ctx context.Context, request PatchIdentityProofingProviderRequest) (response PatchIdentityProofingProviderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchIdentityProofingProvider, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchIdentityProofingProviderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchIdentityProofingProviderResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchIdentityProofingProviderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchIdentityProofingProviderResponse")
+	}
+	return
+}
+
+// patchIdentityProofingProvider implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchIdentityProofingProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/admin/v1/IdentityProofingProviders/{identityProofingProviderId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchIdentityProofingProviderResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/PatchIdentityProofingProvider"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityProofingProvider", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchIdentityProofingProviderTemplate Update an Identity Proofing Provider Configuration template.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityProofingProviderTemplate.go.html to see an example of how to use PatchIdentityProofingProviderTemplate API.
+func (client IdentityDomainsClient) PatchIdentityProofingProviderTemplate(ctx context.Context, request PatchIdentityProofingProviderTemplateRequest) (response PatchIdentityProofingProviderTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchIdentityProofingProviderTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchIdentityProofingProviderTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchIdentityProofingProviderTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchIdentityProofingProviderTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchIdentityProofingProviderTemplateResponse")
+	}
+	return
+}
+
+// patchIdentityProofingProviderTemplate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchIdentityProofingProviderTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/admin/v1/IdentityProofingProviderTemplates/{identityProofingProviderTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchIdentityProofingProviderTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/PatchIdentityProofingProviderTemplate"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityProofingProviderTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PatchIdentityPropagationTrust Update an existing Identity Propagation Trust configuration.
 //
 // # See also
@@ -15705,6 +16387,130 @@ func (client IdentityDomainsClient) putGroup(ctx context.Context, request common
 	return response, err
 }
 
+// PutIdentityProofingProvider Replace an IdentityProofingProvider.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentityProofingProvider.go.html to see an example of how to use PutIdentityProofingProvider API.
+func (client IdentityDomainsClient) PutIdentityProofingProvider(ctx context.Context, request PutIdentityProofingProviderRequest) (response PutIdentityProofingProviderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putIdentityProofingProvider, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutIdentityProofingProviderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutIdentityProofingProviderResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutIdentityProofingProviderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutIdentityProofingProviderResponse")
+	}
+	return
+}
+
+// putIdentityProofingProvider implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putIdentityProofingProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/admin/v1/IdentityProofingProviders/{identityProofingProviderId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutIdentityProofingProviderResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/PutIdentityProofingProvider"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityProofingProvider", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutIdentityProofingProviderTemplate Replace an Identity Proofing Provider Configuration template.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentityProofingProviderTemplate.go.html to see an example of how to use PutIdentityProofingProviderTemplate API.
+func (client IdentityDomainsClient) PutIdentityProofingProviderTemplate(ctx context.Context, request PutIdentityProofingProviderTemplateRequest) (response PutIdentityProofingProviderTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putIdentityProofingProviderTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutIdentityProofingProviderTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutIdentityProofingProviderTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutIdentityProofingProviderTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutIdentityProofingProviderTemplateResponse")
+	}
+	return
+}
+
+// putIdentityProofingProviderTemplate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putIdentityProofingProviderTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/admin/v1/IdentityProofingProviderTemplates/{identityProofingProviderTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutIdentityProofingProviderTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/PutIdentityProofingProviderTemplate"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityProofingProviderTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PutIdentityPropagationTrust Replace an existing Identity Propagation Trust configuration.
 //
 // # See also
@@ -17930,6 +18736,68 @@ func (client IdentityDomainsClient) searchGroups(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Groups/SearchGroups"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchIdentityProofingProviders Search IdentityProofingProvider Using POST.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchIdentityProofingProviders.go.html to see an example of how to use SearchIdentityProofingProviders API.
+func (client IdentityDomainsClient) SearchIdentityProofingProviders(ctx context.Context, request SearchIdentityProofingProvidersRequest) (response SearchIdentityProofingProvidersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchIdentityProofingProviders, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchIdentityProofingProvidersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchIdentityProofingProvidersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchIdentityProofingProvidersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchIdentityProofingProvidersResponse")
+	}
+	return
+}
+
+// searchIdentityProofingProviders implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchIdentityProofingProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/IdentityProofingProviders/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchIdentityProofingProvidersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/SearchIdentityProofingProviders"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchIdentityProofingProviders", apiReferenceLink)
 		return response, err
 	}
 

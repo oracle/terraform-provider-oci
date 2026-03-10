@@ -35,6 +35,9 @@ type CreateEmailIpPoolDetails struct {
 	// The description of the IpPool. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+	LastIpDrainPeriodInHours *int `mandatory:"false" json:"lastIpDrainPeriodInHours"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
