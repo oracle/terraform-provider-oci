@@ -23,6 +23,7 @@ const (
 	ManagementApplianceHeartbeatConnectionTypeAdminVcenter         ManagementApplianceHeartbeatConnectionTypeEnum = "ADMIN_VCENTER"
 	ManagementApplianceHeartbeatConnectionTypeUiPluginRegistration ManagementApplianceHeartbeatConnectionTypeEnum = "UI_PLUGIN_REGISTRATION"
 	ManagementApplianceHeartbeatConnectionTypeNsx                  ManagementApplianceHeartbeatConnectionTypeEnum = "NSX"
+	ManagementApplianceHeartbeatConnectionTypeExportMetrics        ManagementApplianceHeartbeatConnectionTypeEnum = "EXPORT_METRICS"
 )
 
 var mappingManagementApplianceHeartbeatConnectionTypeEnum = map[string]ManagementApplianceHeartbeatConnectionTypeEnum{
@@ -30,6 +31,7 @@ var mappingManagementApplianceHeartbeatConnectionTypeEnum = map[string]Managemen
 	"ADMIN_VCENTER":          ManagementApplianceHeartbeatConnectionTypeAdminVcenter,
 	"UI_PLUGIN_REGISTRATION": ManagementApplianceHeartbeatConnectionTypeUiPluginRegistration,
 	"NSX":                    ManagementApplianceHeartbeatConnectionTypeNsx,
+	"EXPORT_METRICS":         ManagementApplianceHeartbeatConnectionTypeExportMetrics,
 }
 
 var mappingManagementApplianceHeartbeatConnectionTypeEnumLowerCase = map[string]ManagementApplianceHeartbeatConnectionTypeEnum{
@@ -37,6 +39,7 @@ var mappingManagementApplianceHeartbeatConnectionTypeEnumLowerCase = map[string]
 	"admin_vcenter":          ManagementApplianceHeartbeatConnectionTypeAdminVcenter,
 	"ui_plugin_registration": ManagementApplianceHeartbeatConnectionTypeUiPluginRegistration,
 	"nsx":                    ManagementApplianceHeartbeatConnectionTypeNsx,
+	"export_metrics":         ManagementApplianceHeartbeatConnectionTypeExportMetrics,
 }
 
 // GetManagementApplianceHeartbeatConnectionTypeEnumValues Enumerates the set of values for ManagementApplianceHeartbeatConnectionTypeEnum
@@ -55,6 +58,7 @@ func GetManagementApplianceHeartbeatConnectionTypeEnumStringValues() []string {
 		"ADMIN_VCENTER",
 		"UI_PLUGIN_REGISTRATION",
 		"NSX",
+		"EXPORT_METRICS",
 	}
 }
 

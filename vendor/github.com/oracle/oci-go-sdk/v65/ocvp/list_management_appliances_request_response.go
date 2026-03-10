@@ -24,6 +24,9 @@ type ListManagementAppliancesRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management appliance.
 	ManagementApplianceId *string `mandatory:"false" contributesTo:"query" name:"managementApplianceId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC.
+	SddcId *string `mandatory:"false" contributesTo:"query" name:"sddcId"`
+
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
