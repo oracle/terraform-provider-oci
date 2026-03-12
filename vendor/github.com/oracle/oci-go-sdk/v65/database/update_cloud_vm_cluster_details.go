@@ -117,6 +117,12 @@ type UpdateCloudVmClusterDetails struct {
 
 	// If true, sparse disk group is configured for the cloud VM cluster. If false, sparse disk group is not created.
 	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
+
+	// Defines the SELinux mode for the VM cluster/Cloud VM cluster.
+	SelinuxMode UpdateCloudVmClusterDetailsSelinuxModeEnum `mandatory:"false" json:"selinuxMode,omitempty"`
+
+	// Specifies the SELinux module file provided by the customer, in base64-encoded byte format.
+	SelinuxModule []byte `mandatory:"false" json:"selinuxModule"`
 }
 
 func (m UpdateCloudVmClusterDetails) String() string {
@@ -134,6 +140,9 @@ func (m UpdateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum(string(m.VmBackupStorageType)); !ok && m.VmBackupStorageType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmBackupStorageType: %s. Supported values are: %s.", m.VmBackupStorageType, strings.Join(GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateCloudVmClusterDetailsSelinuxModeEnum(string(m.SelinuxMode)); !ok && m.SelinuxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SelinuxMode: %s. Supported values are: %s.", m.SelinuxMode, strings.Join(GetUpdateCloudVmClusterDetailsSelinuxModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -222,5 +231,51 @@ func GetUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumStringValues() []strin
 // GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnum(val string) (UpdateCloudVmClusterDetailsVmBackupStorageTypeEnum, bool) {
 	enum, ok := mappingUpdateCloudVmClusterDetailsVmBackupStorageTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateCloudVmClusterDetailsSelinuxModeEnum Enum with underlying type: string
+type UpdateCloudVmClusterDetailsSelinuxModeEnum string
+
+// Set of constants representing the allowable values for UpdateCloudVmClusterDetailsSelinuxModeEnum
+const (
+	UpdateCloudVmClusterDetailsSelinuxModeDisabled   UpdateCloudVmClusterDetailsSelinuxModeEnum = "DISABLED"
+	UpdateCloudVmClusterDetailsSelinuxModePermissive UpdateCloudVmClusterDetailsSelinuxModeEnum = "PERMISSIVE"
+	UpdateCloudVmClusterDetailsSelinuxModeEnforcing  UpdateCloudVmClusterDetailsSelinuxModeEnum = "ENFORCING"
+)
+
+var mappingUpdateCloudVmClusterDetailsSelinuxModeEnum = map[string]UpdateCloudVmClusterDetailsSelinuxModeEnum{
+	"DISABLED":   UpdateCloudVmClusterDetailsSelinuxModeDisabled,
+	"PERMISSIVE": UpdateCloudVmClusterDetailsSelinuxModePermissive,
+	"ENFORCING":  UpdateCloudVmClusterDetailsSelinuxModeEnforcing,
+}
+
+var mappingUpdateCloudVmClusterDetailsSelinuxModeEnumLowerCase = map[string]UpdateCloudVmClusterDetailsSelinuxModeEnum{
+	"disabled":   UpdateCloudVmClusterDetailsSelinuxModeDisabled,
+	"permissive": UpdateCloudVmClusterDetailsSelinuxModePermissive,
+	"enforcing":  UpdateCloudVmClusterDetailsSelinuxModeEnforcing,
+}
+
+// GetUpdateCloudVmClusterDetailsSelinuxModeEnumValues Enumerates the set of values for UpdateCloudVmClusterDetailsSelinuxModeEnum
+func GetUpdateCloudVmClusterDetailsSelinuxModeEnumValues() []UpdateCloudVmClusterDetailsSelinuxModeEnum {
+	values := make([]UpdateCloudVmClusterDetailsSelinuxModeEnum, 0)
+	for _, v := range mappingUpdateCloudVmClusterDetailsSelinuxModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateCloudVmClusterDetailsSelinuxModeEnumStringValues Enumerates the set of values in String for UpdateCloudVmClusterDetailsSelinuxModeEnum
+func GetUpdateCloudVmClusterDetailsSelinuxModeEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"PERMISSIVE",
+		"ENFORCING",
+	}
+}
+
+// GetMappingUpdateCloudVmClusterDetailsSelinuxModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateCloudVmClusterDetailsSelinuxModeEnum(val string) (UpdateCloudVmClusterDetailsSelinuxModeEnum, bool) {
+	enum, ok := mappingUpdateCloudVmClusterDetailsSelinuxModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

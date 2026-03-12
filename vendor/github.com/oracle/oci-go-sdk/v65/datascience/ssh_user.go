@@ -23,6 +23,9 @@ type SshUser struct {
 
 	// The full public key associated with the user. Must be a full public key in PEM format, and match an API key associated with the user.
 	PubKey *string `mandatory:"true" json:"pubKey"`
+
+	// The tenancy OCID for a cross-tenancy user. If absent, the tenancy of the notebook will be used. If used, must be a string of a valid tenancy ocid.
+	UserTenancy *string `mandatory:"false" json:"userTenancy"`
 }
 
 func (m SshUser) String() string {

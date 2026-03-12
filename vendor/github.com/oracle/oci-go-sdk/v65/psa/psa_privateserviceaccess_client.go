@@ -4,7 +4,7 @@
 
 // PrivateServiceAccess Control Plane API
 //
-// Use the PrivateServiceAccess Control Plane API to manage privateServiceAccess.
+// Use the PrivateServiceAccess Control Plane API to manage Private Service Access (PSA) endpoints. PSA endpoints are used to create private access between resources in a VCN or on-premises and services in Oracle services network. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 //
 
 package psa
@@ -145,7 +145,7 @@ func (client PrivateServiceAccessClient) cancelPsaWorkRequest(ctx context.Contex
 	return response, err
 }
 
-// ChangePrivateServiceAccessCompartment Moves a PrivateServiceAccess into a different compartment within the same tenancy. For information about moving resources between
+// ChangePrivateServiceAccessCompartment Moves a Private Service Access endpoint to a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangePrivateServiceAccessCompartment()
 func (client PrivateServiceAccessClient) ChangePrivateServiceAccessCompartment(ctx context.Context, request ChangePrivateServiceAccessCompartmentRequest) (response ChangePrivateServiceAccessCompartmentResponse, err error) {
@@ -205,7 +205,7 @@ func (client PrivateServiceAccessClient) changePrivateServiceAccessCompartment(c
 	return response, err
 }
 
-// CreatePrivateServiceAccess Creates a private service access in the specified subnet (in the consumer's VCN) and the specified
+// CreatePrivateServiceAccess Creates a Private Service Access endpoint in the specified subnet (in the VCN) and the specified
 // compartment for a particular service.
 // A default retry strategy applies to this operation CreatePrivateServiceAccess()
 func (client PrivateServiceAccessClient) CreatePrivateServiceAccess(ctx context.Context, request CreatePrivateServiceAccessRequest) (response CreatePrivateServiceAccessResponse, err error) {
@@ -265,7 +265,7 @@ func (client PrivateServiceAccessClient) createPrivateServiceAccess(ctx context.
 	return response, err
 }
 
-// DeletePrivateServiceAccess Deletes a PrivateServiceAccess.
+// DeletePrivateServiceAccess Deletes a Private Service Access endpoint.
 // A default retry strategy applies to this operation DeletePrivateServiceAccess()
 func (client PrivateServiceAccessClient) DeletePrivateServiceAccess(ctx context.Context, request DeletePrivateServiceAccessRequest) (response DeletePrivateServiceAccessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -319,7 +319,7 @@ func (client PrivateServiceAccessClient) deletePrivateServiceAccess(ctx context.
 	return response, err
 }
 
-// GetPrivateServiceAccess Gets information about a PrivateServiceAccess.
+// GetPrivateServiceAccess Gets information about a Private Service Access endpoint.
 // A default retry strategy applies to this operation GetPrivateServiceAccess()
 func (client PrivateServiceAccessClient) GetPrivateServiceAccess(ctx context.Context, request GetPrivateServiceAccessRequest) (response GetPrivateServiceAccessResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -427,8 +427,8 @@ func (client PrivateServiceAccessClient) getPsaWorkRequest(ctx context.Context, 
 	return response, err
 }
 
-// ListPrivateServiceAccesses List the private service accesses in the specified compartment. You can optionally filter the list by
-// specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a subnet in the cunsumer's VCN.
+// ListPrivateServiceAccesses List the Private Service Access endpoints in the specified compartment. You can optionally filter the list by
+// specifying the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a subnet in the VCN.
 // A default retry strategy applies to this operation ListPrivateServiceAccesses()
 func (client PrivateServiceAccessClient) ListPrivateServiceAccesses(ctx context.Context, request ListPrivateServiceAccessesRequest) (response ListPrivateServiceAccessesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -482,7 +482,7 @@ func (client PrivateServiceAccessClient) listPrivateServiceAccesses(ctx context.
 	return response, err
 }
 
-// ListPsaServices List the OCI services available for Private Service Access catalog in the region, sorted by service name.
+// ListPsaServices List the OCI services available in the Private Service Access catalog for the region, sorted by service name.
 // A default retry strategy applies to this operation ListPsaServices()
 func (client PrivateServiceAccessClient) ListPsaServices(ctx context.Context, request ListPsaServicesRequest) (response ListPsaServicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -698,7 +698,7 @@ func (client PrivateServiceAccessClient) listPsaWorkRequests(ctx context.Context
 	return response, err
 }
 
-// UpdatePrivateServiceAccess Updates a PrivateServiceAccess.
+// UpdatePrivateServiceAccess Updates a Private Service Access endpoint.
 // A default retry strategy applies to this operation UpdatePrivateServiceAccess()
 func (client PrivateServiceAccessClient) UpdatePrivateServiceAccess(ctx context.Context, request UpdatePrivateServiceAccessRequest) (response UpdatePrivateServiceAccessResponse, err error) {
 	var ociResponse common.OCIResponse

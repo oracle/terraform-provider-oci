@@ -168,39 +168,42 @@ type DbNodeLifecycleStateEnum string
 
 // Set of constants representing the allowable values for DbNodeLifecycleStateEnum
 const (
-	DbNodeLifecycleStateProvisioning DbNodeLifecycleStateEnum = "PROVISIONING"
-	DbNodeLifecycleStateAvailable    DbNodeLifecycleStateEnum = "AVAILABLE"
-	DbNodeLifecycleStateUpdating     DbNodeLifecycleStateEnum = "UPDATING"
-	DbNodeLifecycleStateStopping     DbNodeLifecycleStateEnum = "STOPPING"
-	DbNodeLifecycleStateStopped      DbNodeLifecycleStateEnum = "STOPPED"
-	DbNodeLifecycleStateStarting     DbNodeLifecycleStateEnum = "STARTING"
-	DbNodeLifecycleStateTerminating  DbNodeLifecycleStateEnum = "TERMINATING"
-	DbNodeLifecycleStateTerminated   DbNodeLifecycleStateEnum = "TERMINATED"
-	DbNodeLifecycleStateFailed       DbNodeLifecycleStateEnum = "FAILED"
+	DbNodeLifecycleStateProvisioning   DbNodeLifecycleStateEnum = "PROVISIONING"
+	DbNodeLifecycleStateAvailable      DbNodeLifecycleStateEnum = "AVAILABLE"
+	DbNodeLifecycleStateUpdating       DbNodeLifecycleStateEnum = "UPDATING"
+	DbNodeLifecycleStateStopping       DbNodeLifecycleStateEnum = "STOPPING"
+	DbNodeLifecycleStateStopped        DbNodeLifecycleStateEnum = "STOPPED"
+	DbNodeLifecycleStateStarting       DbNodeLifecycleStateEnum = "STARTING"
+	DbNodeLifecycleStateTerminating    DbNodeLifecycleStateEnum = "TERMINATING"
+	DbNodeLifecycleStateTerminated     DbNodeLifecycleStateEnum = "TERMINATED"
+	DbNodeLifecycleStateFailed         DbNodeLifecycleStateEnum = "FAILED"
+	DbNodeLifecycleStateNeedsAttention DbNodeLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingDbNodeLifecycleStateEnum = map[string]DbNodeLifecycleStateEnum{
-	"PROVISIONING": DbNodeLifecycleStateProvisioning,
-	"AVAILABLE":    DbNodeLifecycleStateAvailable,
-	"UPDATING":     DbNodeLifecycleStateUpdating,
-	"STOPPING":     DbNodeLifecycleStateStopping,
-	"STOPPED":      DbNodeLifecycleStateStopped,
-	"STARTING":     DbNodeLifecycleStateStarting,
-	"TERMINATING":  DbNodeLifecycleStateTerminating,
-	"TERMINATED":   DbNodeLifecycleStateTerminated,
-	"FAILED":       DbNodeLifecycleStateFailed,
+	"PROVISIONING":    DbNodeLifecycleStateProvisioning,
+	"AVAILABLE":       DbNodeLifecycleStateAvailable,
+	"UPDATING":        DbNodeLifecycleStateUpdating,
+	"STOPPING":        DbNodeLifecycleStateStopping,
+	"STOPPED":         DbNodeLifecycleStateStopped,
+	"STARTING":        DbNodeLifecycleStateStarting,
+	"TERMINATING":     DbNodeLifecycleStateTerminating,
+	"TERMINATED":      DbNodeLifecycleStateTerminated,
+	"FAILED":          DbNodeLifecycleStateFailed,
+	"NEEDS_ATTENTION": DbNodeLifecycleStateNeedsAttention,
 }
 
 var mappingDbNodeLifecycleStateEnumLowerCase = map[string]DbNodeLifecycleStateEnum{
-	"provisioning": DbNodeLifecycleStateProvisioning,
-	"available":    DbNodeLifecycleStateAvailable,
-	"updating":     DbNodeLifecycleStateUpdating,
-	"stopping":     DbNodeLifecycleStateStopping,
-	"stopped":      DbNodeLifecycleStateStopped,
-	"starting":     DbNodeLifecycleStateStarting,
-	"terminating":  DbNodeLifecycleStateTerminating,
-	"terminated":   DbNodeLifecycleStateTerminated,
-	"failed":       DbNodeLifecycleStateFailed,
+	"provisioning":    DbNodeLifecycleStateProvisioning,
+	"available":       DbNodeLifecycleStateAvailable,
+	"updating":        DbNodeLifecycleStateUpdating,
+	"stopping":        DbNodeLifecycleStateStopping,
+	"stopped":         DbNodeLifecycleStateStopped,
+	"starting":        DbNodeLifecycleStateStarting,
+	"terminating":     DbNodeLifecycleStateTerminating,
+	"terminated":      DbNodeLifecycleStateTerminated,
+	"failed":          DbNodeLifecycleStateFailed,
+	"needs_attention": DbNodeLifecycleStateNeedsAttention,
 }
 
 // GetDbNodeLifecycleStateEnumValues Enumerates the set of values for DbNodeLifecycleStateEnum
@@ -224,6 +227,7 @@ func GetDbNodeLifecycleStateEnumStringValues() []string {
 		"TERMINATING",
 		"TERMINATED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

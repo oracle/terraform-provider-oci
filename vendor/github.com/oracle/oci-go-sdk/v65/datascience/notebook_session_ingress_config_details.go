@@ -36,6 +36,7 @@ type NotebookSessionIngressConfigDetails struct {
 	// Constraints:
 	//   - userId: Must be a string of a valid user ocid.
 	//   - pubKey : Must be a full public key in PEM format, and match an API key associated with the user.
+	//   - userTenancy: Optional value supplied if the user belongs to a tenancy other than the notebook. Must be a string of a valid tenancy ocid.
 	//   - Maximum accepted entities is 10.
 	SshUsers []SshUser `mandatory:"false" json:"sshUsers"`
 }

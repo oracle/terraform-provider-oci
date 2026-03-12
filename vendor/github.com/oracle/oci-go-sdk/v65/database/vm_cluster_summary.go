@@ -123,6 +123,12 @@ type VmClusterSummary struct {
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
+	// Defines the SELinux mode for the VM cluster/Cloud VM cluster.
+	SelinuxMode VmClusterSummarySelinuxModeEnum `mandatory:"false" json:"selinuxMode,omitempty"`
+
+	// Provides additional details or context about the selected SELinux mode.
+	SelinuxModeDetails *string `mandatory:"false" json:"selinuxModeDetails"`
+
 	// The vmcluster type for the VM cluster/Cloud VM cluster.
 	VmClusterType VmClusterSummaryVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
 
@@ -159,6 +165,9 @@ func (m VmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetVmClusterSummaryLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterSummarySelinuxModeEnum(string(m.SelinuxMode)); !ok && m.SelinuxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SelinuxMode: %s. Supported values are: %s.", m.SelinuxMode, strings.Join(GetVmClusterSummarySelinuxModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingVmClusterSummaryVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetVmClusterSummaryVmClusterTypeEnumStringValues(), ",")))
@@ -282,6 +291,52 @@ func GetVmClusterSummaryLicenseModelEnumStringValues() []string {
 // GetMappingVmClusterSummaryLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterSummaryLicenseModelEnum(val string) (VmClusterSummaryLicenseModelEnum, bool) {
 	enum, ok := mappingVmClusterSummaryLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterSummarySelinuxModeEnum Enum with underlying type: string
+type VmClusterSummarySelinuxModeEnum string
+
+// Set of constants representing the allowable values for VmClusterSummarySelinuxModeEnum
+const (
+	VmClusterSummarySelinuxModeDisabled   VmClusterSummarySelinuxModeEnum = "DISABLED"
+	VmClusterSummarySelinuxModePermissive VmClusterSummarySelinuxModeEnum = "PERMISSIVE"
+	VmClusterSummarySelinuxModeEnforcing  VmClusterSummarySelinuxModeEnum = "ENFORCING"
+)
+
+var mappingVmClusterSummarySelinuxModeEnum = map[string]VmClusterSummarySelinuxModeEnum{
+	"DISABLED":   VmClusterSummarySelinuxModeDisabled,
+	"PERMISSIVE": VmClusterSummarySelinuxModePermissive,
+	"ENFORCING":  VmClusterSummarySelinuxModeEnforcing,
+}
+
+var mappingVmClusterSummarySelinuxModeEnumLowerCase = map[string]VmClusterSummarySelinuxModeEnum{
+	"disabled":   VmClusterSummarySelinuxModeDisabled,
+	"permissive": VmClusterSummarySelinuxModePermissive,
+	"enforcing":  VmClusterSummarySelinuxModeEnforcing,
+}
+
+// GetVmClusterSummarySelinuxModeEnumValues Enumerates the set of values for VmClusterSummarySelinuxModeEnum
+func GetVmClusterSummarySelinuxModeEnumValues() []VmClusterSummarySelinuxModeEnum {
+	values := make([]VmClusterSummarySelinuxModeEnum, 0)
+	for _, v := range mappingVmClusterSummarySelinuxModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterSummarySelinuxModeEnumStringValues Enumerates the set of values in String for VmClusterSummarySelinuxModeEnum
+func GetVmClusterSummarySelinuxModeEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"PERMISSIVE",
+		"ENFORCING",
+	}
+}
+
+// GetMappingVmClusterSummarySelinuxModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterSummarySelinuxModeEnum(val string) (VmClusterSummarySelinuxModeEnum, bool) {
+	enum, ok := mappingVmClusterSummarySelinuxModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

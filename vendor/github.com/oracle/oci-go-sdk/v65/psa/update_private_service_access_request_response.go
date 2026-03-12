@@ -14,10 +14,10 @@ import (
 // UpdatePrivateServiceAccessRequest wrapper for the UpdatePrivateServiceAccess operation
 type UpdatePrivateServiceAccessRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PrivateServiceAccess.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateServiceAccess` object.
 	PrivateServiceAccessId *string `mandatory:"true" contributesTo:"path" name:"privateServiceAccessId"`
 
-	// PrivateServiceAccess information to be updated.
+	// The Private Service Access endpoint information to update.
 	UpdatePrivateServiceAccessDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

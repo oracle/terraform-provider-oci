@@ -23,6 +23,9 @@ type NotifyJobStart struct {
 
 	// The broker job type in the notification.
 	JobType *string `mandatory:"false" json:"jobType"`
+
+	// Optional. The broker job sub type in the notification.
+	JobSubType *string `mandatory:"false" json:"jobSubType"`
 }
 
 func (m NotifyJobStart) String() string {

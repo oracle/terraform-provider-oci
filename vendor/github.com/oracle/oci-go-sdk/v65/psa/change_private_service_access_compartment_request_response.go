@@ -14,7 +14,7 @@ import (
 // ChangePrivateServiceAccessCompartmentRequest wrapper for the ChangePrivateServiceAccessCompartment operation
 type ChangePrivateServiceAccessCompartmentRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PrivateServiceAccess.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateServiceAccess` object.
 	PrivateServiceAccessId *string `mandatory:"true" contributesTo:"path" name:"privateServiceAccessId"`
 
 	// The information to be updated.

@@ -14,7 +14,7 @@ import (
 // GetPrivateServiceAccessRequest wrapper for the GetPrivateServiceAccess operation
 type GetPrivateServiceAccessRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PrivateServiceAccess.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateServiceAccess` object.
 	PrivateServiceAccessId *string `mandatory:"true" contributesTo:"path" name:"privateServiceAccessId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

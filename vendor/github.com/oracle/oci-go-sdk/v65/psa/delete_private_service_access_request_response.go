@@ -14,7 +14,7 @@ import (
 // DeletePrivateServiceAccessRequest wrapper for the DeletePrivateServiceAccess operation
 type DeletePrivateServiceAccessRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PrivateServiceAccess.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `PrivateServiceAccess` object.
 	PrivateServiceAccessId *string `mandatory:"true" contributesTo:"path" name:"privateServiceAccessId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

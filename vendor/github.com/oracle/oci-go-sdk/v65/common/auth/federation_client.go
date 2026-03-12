@@ -848,7 +848,18 @@ type tokenExchangeFederationClient struct {
 func newTokenExchangeFederationClient(issuer TokenIssuer, host string,
 	authCode string, requestData map[string][]string,
 	instancePrincipalProvider common.ConfigurationProvider) *tokenExchangeFederationClient {
-	client := newIDAuthClient(host, "/oauth2/v1/token")
+	defaultGenericHeaders := []string{"date", "(request-target)", "host"}
+	bodyHeaders := []string{"content-length", "content-type", "x-content-sha256"}
+	var client *common.BaseClient
+	if instancePrincipalProvider != nil {
+		signer := common.RequestSigner(instancePrincipalProvider, defaultGenericHeaders, bodyHeaders)
+		baseClient := common.DefaultBaseClientWithSigner(signer)
+		client = &baseClient
+		client.Host = host
+		client.BasePath = "oauth2/v1/token"
+	} else {
+		client = newIDAuthClient(host, "/oauth2/v1/token")
+	}
 	fc := tokenExchangeFederationClient{
 		tokenIssuer:               issuer,
 		client:                    client,
@@ -985,15 +996,8 @@ func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
 		}
 
 		httpRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		httpRequest.Header.Set("Accept", "application/json")
-
 		if fc.instancePrincipalProvider != nil {
-			signer := common.RequestSigner(fc.instancePrincipalProvider, genericHeaders, bodyHeaders)
-
-			err := signer.Sign(httpRequest)
-			if err != nil {
-				return t, fmt.Errorf("failed to sign request: %w", err)
-			}
+			httpRequest.Header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
 		} else if fc.authCode != "" {
 			httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
 		}

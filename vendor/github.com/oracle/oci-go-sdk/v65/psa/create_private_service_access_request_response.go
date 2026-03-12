@@ -14,7 +14,7 @@ import (
 // CreatePrivateServiceAccessRequest wrapper for the CreatePrivateServiceAccess operation
 type CreatePrivateServiceAccessRequest struct {
 
-	// Details for the new PrivateServiceAccess.
+	// Details used to create the new Private Service Access endpoint.
 	CreatePrivateServiceAccessDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -81,7 +81,7 @@ type CreatePrivateServiceAccessResponse struct {
 	// The PrivateServiceAccess instance
 	PrivateServiceAccess `presentIn:"body"`
 
-	// URL for the created privateServiceAccess. The privateServiceAccess OCID is generated after this request is sent.
+	// URL for the created Private Service Access endpoint. The Private Service Access endpoint OCID is generated after this request is sent.
 	Location *string `presentIn:"header" name:"location"`
 
 	// Same as location.

@@ -4,7 +4,7 @@
 
 // PrivateServiceAccess Control Plane API
 //
-// Use the PrivateServiceAccess Control Plane API to manage privateServiceAccess.
+// Use the PrivateServiceAccess Control Plane API to manage Private Service Access (PSA) endpoints. PSA endpoints are used to create private access between resources in a VCN or on-premises and services in Oracle services network. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 //
 
 package psa
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdatePrivateServiceAccessDetails Details to update a private service access.
+// UpdatePrivateServiceAccessDetails Details needed to update a Private Service Access endpoint.
 type UpdatePrivateServiceAccessDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -38,10 +38,10 @@ type UpdatePrivateServiceAccessDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A description of this private service.
+	// A description of this Private Service Access endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A list of the OCIDs of the network security groups (NSGs) to add the private service access's VNIC to.
+	// A list of the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the network security groups (NSGs) to add the private service access's VNIC to.
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`

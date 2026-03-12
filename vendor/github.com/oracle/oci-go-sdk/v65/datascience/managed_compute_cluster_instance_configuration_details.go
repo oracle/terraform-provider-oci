@@ -21,9 +21,6 @@ type ManagedComputeClusterInstanceConfigurationDetails struct {
 	// The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
 	InstanceShape *string `mandatory:"true" json:"instanceShape"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
-	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
-
 	// The list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
 	CapacityReservationIds []string `mandatory:"false" json:"capacityReservationIds"`
 

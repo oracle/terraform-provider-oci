@@ -4,7 +4,7 @@
 
 // PrivateServiceAccess Control Plane API
 //
-// Use the PrivateServiceAccess Control Plane API to manage privateServiceAccess.
+// Use the PrivateServiceAccess Control Plane API to manage Private Service Access (PSA) endpoints. PSA endpoints are used to create private access between resources in a VCN or on-premises and services in Oracle services network. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 //
 
 package psa
@@ -69,6 +69,9 @@ type PsaEndpointService struct {
 	// List of IPv6-enabled FQDNs to be used by customers to access the service. These FQDNs will be
 	// registered in customer's VCNs DNS. If provided, PSA will have an IPv6 address.
 	PublicFqdnsV6 []string `mandatory:"false" json:"publicFqdnsV6"`
+
+	// The Private Service Access endpoint's catalogs.
+	Catalogs []PsaEndpointServiceCatalogEnum `mandatory:"false" json:"catalogs"`
 
 	// The date and time the PSA endpoint service was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`

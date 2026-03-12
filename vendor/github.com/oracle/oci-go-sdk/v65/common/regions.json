@@ -670,5 +670,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-lenexa-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "fbb",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-sanantonio-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

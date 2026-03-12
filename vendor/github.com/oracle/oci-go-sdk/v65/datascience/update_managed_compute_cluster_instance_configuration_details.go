@@ -18,9 +18,6 @@ import (
 // UpdateManagedComputeClusterInstanceConfigurationDetails The compute target instance configuration details for managed compute cluster type compute target.
 type UpdateManagedComputeClusterInstanceConfigurationDetails struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
-	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
-
 	// The list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
 	CapacityReservationIds []string `mandatory:"false" json:"capacityReservationIds"`
 

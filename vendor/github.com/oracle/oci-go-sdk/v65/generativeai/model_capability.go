@@ -28,26 +28,53 @@ const (
 	ModelCapabilityChat              ModelCapabilityEnum = "CHAT"
 	ModelCapabilityTextRerank        ModelCapabilityEnum = "TEXT_RERANK"
 	ModelCapabilityTextToImage       ModelCapabilityEnum = "TEXT_TO_IMAGE"
+	ModelCapabilityImageTextToImage  ModelCapabilityEnum = "IMAGE_TEXT_TO_IMAGE"
+	ModelCapabilityImageTextToText   ModelCapabilityEnum = "IMAGE_TEXT_TO_TEXT"
+	ModelCapabilityImageTextToVideo  ModelCapabilityEnum = "IMAGE_TEXT_TO_VIDEO"
+	ModelCapabilityImageToImage      ModelCapabilityEnum = "IMAGE_TO_IMAGE"
+	ModelCapabilityRealtime          ModelCapabilityEnum = "REALTIME"
+	ModelCapabilityAudioToAudio      ModelCapabilityEnum = "AUDIO_TO_AUDIO"
+	ModelCapabilityAudioToText       ModelCapabilityEnum = "AUDIO_TO_TEXT"
+	ModelCapabilityTextToAudio       ModelCapabilityEnum = "TEXT_TO_AUDIO"
+	ModelCapabilityTextToVideo       ModelCapabilityEnum = "TEXT_TO_VIDEO"
 )
 
 var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
-	"TEXT_GENERATION":    ModelCapabilityTextGeneration,
-	"TEXT_SUMMARIZATION": ModelCapabilityTextSummarization,
-	"TEXT_EMBEDDINGS":    ModelCapabilityTextEmbeddings,
-	"FINE_TUNE":          ModelCapabilityFineTune,
-	"CHAT":               ModelCapabilityChat,
-	"TEXT_RERANK":        ModelCapabilityTextRerank,
-	"TEXT_TO_IMAGE":      ModelCapabilityTextToImage,
+	"TEXT_GENERATION":     ModelCapabilityTextGeneration,
+	"TEXT_SUMMARIZATION":  ModelCapabilityTextSummarization,
+	"TEXT_EMBEDDINGS":     ModelCapabilityTextEmbeddings,
+	"FINE_TUNE":           ModelCapabilityFineTune,
+	"CHAT":                ModelCapabilityChat,
+	"TEXT_RERANK":         ModelCapabilityTextRerank,
+	"TEXT_TO_IMAGE":       ModelCapabilityTextToImage,
+	"IMAGE_TEXT_TO_IMAGE": ModelCapabilityImageTextToImage,
+	"IMAGE_TEXT_TO_TEXT":  ModelCapabilityImageTextToText,
+	"IMAGE_TEXT_TO_VIDEO": ModelCapabilityImageTextToVideo,
+	"IMAGE_TO_IMAGE":      ModelCapabilityImageToImage,
+	"REALTIME":            ModelCapabilityRealtime,
+	"AUDIO_TO_AUDIO":      ModelCapabilityAudioToAudio,
+	"AUDIO_TO_TEXT":       ModelCapabilityAudioToText,
+	"TEXT_TO_AUDIO":       ModelCapabilityTextToAudio,
+	"TEXT_TO_VIDEO":       ModelCapabilityTextToVideo,
 }
 
 var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
-	"text_generation":    ModelCapabilityTextGeneration,
-	"text_summarization": ModelCapabilityTextSummarization,
-	"text_embeddings":    ModelCapabilityTextEmbeddings,
-	"fine_tune":          ModelCapabilityFineTune,
-	"chat":               ModelCapabilityChat,
-	"text_rerank":        ModelCapabilityTextRerank,
-	"text_to_image":      ModelCapabilityTextToImage,
+	"text_generation":     ModelCapabilityTextGeneration,
+	"text_summarization":  ModelCapabilityTextSummarization,
+	"text_embeddings":     ModelCapabilityTextEmbeddings,
+	"fine_tune":           ModelCapabilityFineTune,
+	"chat":                ModelCapabilityChat,
+	"text_rerank":         ModelCapabilityTextRerank,
+	"text_to_image":       ModelCapabilityTextToImage,
+	"image_text_to_image": ModelCapabilityImageTextToImage,
+	"image_text_to_text":  ModelCapabilityImageTextToText,
+	"image_text_to_video": ModelCapabilityImageTextToVideo,
+	"image_to_image":      ModelCapabilityImageToImage,
+	"realtime":            ModelCapabilityRealtime,
+	"audio_to_audio":      ModelCapabilityAudioToAudio,
+	"audio_to_text":       ModelCapabilityAudioToText,
+	"text_to_audio":       ModelCapabilityTextToAudio,
+	"text_to_video":       ModelCapabilityTextToVideo,
 }
 
 // GetModelCapabilityEnumValues Enumerates the set of values for ModelCapabilityEnum
@@ -69,6 +96,15 @@ func GetModelCapabilityEnumStringValues() []string {
 		"CHAT",
 		"TEXT_RERANK",
 		"TEXT_TO_IMAGE",
+		"IMAGE_TEXT_TO_IMAGE",
+		"IMAGE_TEXT_TO_TEXT",
+		"IMAGE_TEXT_TO_VIDEO",
+		"IMAGE_TO_IMAGE",
+		"REALTIME",
+		"AUDIO_TO_AUDIO",
+		"AUDIO_TO_TEXT",
+		"TEXT_TO_AUDIO",
+		"TEXT_TO_VIDEO",
 	}
 }
 

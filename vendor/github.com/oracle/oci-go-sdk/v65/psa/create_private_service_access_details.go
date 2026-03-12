@@ -4,7 +4,7 @@
 
 // PrivateServiceAccess Control Plane API
 //
-// Use the PrivateServiceAccess Control Plane API to manage privateServiceAccess.
+// Use the PrivateServiceAccess Control Plane API to manage Private Service Access (PSA) endpoints. PSA endpoints are used to create private access between resources in a VCN or on-premises and services in Oracle services network. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 //
 
 package psa
@@ -15,18 +15,18 @@ import (
 	"strings"
 )
 
-// CreatePrivateServiceAccessDetails Details to create a private service access.
+// CreatePrivateServiceAccessDetails Details required to create a Private Service Access endpoint.
 type CreatePrivateServiceAccessDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the
-	// private service access.
+	// Private Service Access endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN's
-	// subnet where the private service access's VNIC will reside.
+	// subnet where the Private Service Access endpoint's VNIC will reside.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// A unique service identifier for which the private service access was created.
+	// A unique identifier for the service the Private Service Access endpoint was created for.
 	ServiceId *string `mandatory:"true" json:"serviceId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
@@ -49,23 +49,23 @@ type CreatePrivateServiceAccessDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// This optional field will indicate to assign IPv6 address to the private endpoint when it is created in Dualstack subnet.
+	// This optional field will indicate the IPv6 address to assign to the privateservice access endpoint when it is created in dual stack (both IPv4 and IPv6) subnet.
 	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
 
-	// A description of this private service accesss.
+	// A description of this private service accesss endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A list of the OCIDs of the network security groups (NSGs) to add the private
+	// A list of the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the network security groups (NSGs) to add the private
 	// service access's VNIC to.
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The private IPv4 address (in the consumer's VCN) that represents the access point for the
+	// The private IPv4 address (in the VCN) that represents the access point for the
 	// associated service.
 	Ipv4Ip *string `mandatory:"false" json:"ipv4Ip"`
 
-	// The private IPv6 address (in the consumer's VCN) that represents the access point for the
+	// The private IPv6 address (in the VCN) that represents the access point for the
 	// associated service. (Optional field)
 	Ipv6Ip *string `mandatory:"false" json:"ipv6Ip"`
 }

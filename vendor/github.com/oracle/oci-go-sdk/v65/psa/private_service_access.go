@@ -4,7 +4,7 @@
 
 // PrivateServiceAccess Control Plane API
 //
-// Use the PrivateServiceAccess Control Plane API to manage privateServiceAccess.
+// Use the PrivateServiceAccess Control Plane API to manage Private Service Access (PSA) endpoints. PSA endpoints are used to create private access between resources in a VCN or on-premises and services in Oracle services network. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 //
 
 package psa
@@ -15,39 +15,38 @@ import (
 	"strings"
 )
 
-// PrivateServiceAccess Private Service Access (PSA) is a new way to create private accesss for a service.
+// PrivateServiceAccess Private Service Access (PSA) endpoints are a new way to create private accesss to Oracle services. For important details about how PSA endpoints work, see Access to Oracle Services: Private Service Access Endpoints (https://docs.oracle.com/iaas/Content/Network/Concepts/private-service-access.htm).
 type PrivateServiceAccess struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the
-	// private service access.
+	// Private Service Access endpoint.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private service access.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Private Service Access endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN that the private
-	// service access belongs to.
+	// service access endpoint belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the private service access
-	// belongs to.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet that the Private Service Access endpoint belongs to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private service access's VNIC, which
-	// resides in the private service access's VCN .
+	// An OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Private Service Access endpoint's VNIC, which
+	// resides in the Private Service Access endpoint's VCN.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
-	// The private service access's current lifecycle state.
+	// The Private Service Access endpoint's current lifecycle state.
 	LifecycleState PrivateServiceAccessLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A unique service identifier for which the private service access was created.
+	// A unique identifier for the service for which the Private Service Access endpoint was created.
 	ServiceId *string `mandatory:"true" json:"serviceId"`
 
-	// The private service access FQDNs, which are going to be used to access the service.
+	// The Private Service Access endpoint's FQDN, which can be used to access the associated service.
 	// Example: `xyz.oraclecloud.com`
 	Fqdns []string `mandatory:"true" json:"fqdns"`
 
@@ -71,34 +70,34 @@ type PrivateServiceAccess struct {
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
-	// This optional field will indicate to assign IPv6 address to the private endpoint when it is created in Dualstack subnet.
+	// This optional field will indicate to assign IPv6 address to the Private Service Access endpoint when it is created in a dual stack (both IPv4 and IPv6) subnet.
 	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
 
-	// A description of this private service access.
+	// A description of this Private Service Access endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The date and time the private service access was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the Private Service Access endpoint was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the PrivateServiceAccess was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the Private Service Access endpoint was last updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A list of the OCIDs of the network security groups that the private service access's VNIC belongs to.
+	// A list of the OCIDs of the network security groups that the Private Service Access endpoint's VNIC belongs to.
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The private service access IPv6 FQDNs, which are going to be used to access the service.
+	// The Private Service Access endpoint's IPv6 FQDN, which can be used to access the associated service.
 	// Example: `xyz.oraclecloud.com`
 	FqdnsV6 []string `mandatory:"false" json:"fqdnsV6"`
 
-	// The private IPv4 address (in the consumer's VCN) that represents the access point for the
+	// The private IPv4 address (in the VCN) that represents the access point for the
 	// associated service.
 	Ipv4Ip *string `mandatory:"false" json:"ipv4Ip"`
 
-	// The private IPv6 address (in the consumer's VCN) that represents the access point for the
+	// The private IPv6 address (in the VCN) that represents the access point for the
 	// associated service. (Optional field)
 	Ipv6Ip *string `mandatory:"false" json:"ipv6Ip"`
 }

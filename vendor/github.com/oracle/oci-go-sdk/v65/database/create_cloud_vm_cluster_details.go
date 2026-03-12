@@ -94,6 +94,12 @@ type CreateCloudVmClusterDetails struct {
 	// Indicates if the Accelerated Networking feature is enabled or disabled for provisioning an Exadata VM cluster. The default value is FALSE.
 	IsAcceleratedNetworkEnabled *bool `mandatory:"false" json:"isAcceleratedNetworkEnabled"`
 
+	// Defines the SELinux mode for the VM cluster/Cloud VM cluster.
+	SelinuxMode CreateCloudVmClusterDetailsSelinuxModeEnum `mandatory:"false" json:"selinuxMode,omitempty"`
+
+	// Specifies the SELinux module file provided by the customer, in base64-encoded byte format.
+	SelinuxModule []byte `mandatory:"false" json:"selinuxModule"`
+
 	// A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
@@ -176,6 +182,9 @@ func (m CreateCloudVmClusterDetails) String() string {
 func (m CreateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateCloudVmClusterDetailsSelinuxModeEnum(string(m.SelinuxMode)); !ok && m.SelinuxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SelinuxMode: %s. Supported values are: %s.", m.SelinuxMode, strings.Join(GetCreateCloudVmClusterDetailsSelinuxModeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateCloudVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetCreateCloudVmClusterDetailsLicenseModelEnumStringValues(), ",")))
 	}
@@ -192,6 +201,52 @@ func (m CreateCloudVmClusterDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateCloudVmClusterDetailsSelinuxModeEnum Enum with underlying type: string
+type CreateCloudVmClusterDetailsSelinuxModeEnum string
+
+// Set of constants representing the allowable values for CreateCloudVmClusterDetailsSelinuxModeEnum
+const (
+	CreateCloudVmClusterDetailsSelinuxModeDisabled   CreateCloudVmClusterDetailsSelinuxModeEnum = "DISABLED"
+	CreateCloudVmClusterDetailsSelinuxModePermissive CreateCloudVmClusterDetailsSelinuxModeEnum = "PERMISSIVE"
+	CreateCloudVmClusterDetailsSelinuxModeEnforcing  CreateCloudVmClusterDetailsSelinuxModeEnum = "ENFORCING"
+)
+
+var mappingCreateCloudVmClusterDetailsSelinuxModeEnum = map[string]CreateCloudVmClusterDetailsSelinuxModeEnum{
+	"DISABLED":   CreateCloudVmClusterDetailsSelinuxModeDisabled,
+	"PERMISSIVE": CreateCloudVmClusterDetailsSelinuxModePermissive,
+	"ENFORCING":  CreateCloudVmClusterDetailsSelinuxModeEnforcing,
+}
+
+var mappingCreateCloudVmClusterDetailsSelinuxModeEnumLowerCase = map[string]CreateCloudVmClusterDetailsSelinuxModeEnum{
+	"disabled":   CreateCloudVmClusterDetailsSelinuxModeDisabled,
+	"permissive": CreateCloudVmClusterDetailsSelinuxModePermissive,
+	"enforcing":  CreateCloudVmClusterDetailsSelinuxModeEnforcing,
+}
+
+// GetCreateCloudVmClusterDetailsSelinuxModeEnumValues Enumerates the set of values for CreateCloudVmClusterDetailsSelinuxModeEnum
+func GetCreateCloudVmClusterDetailsSelinuxModeEnumValues() []CreateCloudVmClusterDetailsSelinuxModeEnum {
+	values := make([]CreateCloudVmClusterDetailsSelinuxModeEnum, 0)
+	for _, v := range mappingCreateCloudVmClusterDetailsSelinuxModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateCloudVmClusterDetailsSelinuxModeEnumStringValues Enumerates the set of values in String for CreateCloudVmClusterDetailsSelinuxModeEnum
+func GetCreateCloudVmClusterDetailsSelinuxModeEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"PERMISSIVE",
+		"ENFORCING",
+	}
+}
+
+// GetMappingCreateCloudVmClusterDetailsSelinuxModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateCloudVmClusterDetailsSelinuxModeEnum(val string) (CreateCloudVmClusterDetailsSelinuxModeEnum, bool) {
+	enum, ok := mappingCreateCloudVmClusterDetailsSelinuxModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // CreateCloudVmClusterDetailsLicenseModelEnum Enum with underlying type: string

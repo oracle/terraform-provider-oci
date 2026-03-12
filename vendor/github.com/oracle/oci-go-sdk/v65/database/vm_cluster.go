@@ -123,6 +123,12 @@ type VmCluster struct {
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
+	// Defines the SELinux mode for the VM cluster/Cloud VM cluster.
+	SelinuxMode VmClusterSelinuxModeEnum `mandatory:"false" json:"selinuxMode,omitempty"`
+
+	// Provides additional details or context about the selected SELinux mode.
+	SelinuxModeDetails *string `mandatory:"false" json:"selinuxModeDetails"`
+
 	// The vmcluster type for the VM cluster/Cloud VM cluster.
 	VmClusterType VmClusterVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
 
@@ -159,6 +165,9 @@ func (m VmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetVmClusterLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterSelinuxModeEnum(string(m.SelinuxMode)); !ok && m.SelinuxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SelinuxMode: %s. Supported values are: %s.", m.SelinuxMode, strings.Join(GetVmClusterSelinuxModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingVmClusterVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetVmClusterVmClusterTypeEnumStringValues(), ",")))
@@ -282,6 +291,52 @@ func GetVmClusterLicenseModelEnumStringValues() []string {
 // GetMappingVmClusterLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterLicenseModelEnum(val string) (VmClusterLicenseModelEnum, bool) {
 	enum, ok := mappingVmClusterLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterSelinuxModeEnum Enum with underlying type: string
+type VmClusterSelinuxModeEnum string
+
+// Set of constants representing the allowable values for VmClusterSelinuxModeEnum
+const (
+	VmClusterSelinuxModeDisabled   VmClusterSelinuxModeEnum = "DISABLED"
+	VmClusterSelinuxModePermissive VmClusterSelinuxModeEnum = "PERMISSIVE"
+	VmClusterSelinuxModeEnforcing  VmClusterSelinuxModeEnum = "ENFORCING"
+)
+
+var mappingVmClusterSelinuxModeEnum = map[string]VmClusterSelinuxModeEnum{
+	"DISABLED":   VmClusterSelinuxModeDisabled,
+	"PERMISSIVE": VmClusterSelinuxModePermissive,
+	"ENFORCING":  VmClusterSelinuxModeEnforcing,
+}
+
+var mappingVmClusterSelinuxModeEnumLowerCase = map[string]VmClusterSelinuxModeEnum{
+	"disabled":   VmClusterSelinuxModeDisabled,
+	"permissive": VmClusterSelinuxModePermissive,
+	"enforcing":  VmClusterSelinuxModeEnforcing,
+}
+
+// GetVmClusterSelinuxModeEnumValues Enumerates the set of values for VmClusterSelinuxModeEnum
+func GetVmClusterSelinuxModeEnumValues() []VmClusterSelinuxModeEnum {
+	values := make([]VmClusterSelinuxModeEnum, 0)
+	for _, v := range mappingVmClusterSelinuxModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterSelinuxModeEnumStringValues Enumerates the set of values in String for VmClusterSelinuxModeEnum
+func GetVmClusterSelinuxModeEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+		"PERMISSIVE",
+		"ENFORCING",
+	}
+}
+
+// GetMappingVmClusterSelinuxModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterSelinuxModeEnum(val string) (VmClusterSelinuxModeEnum, bool) {
+	enum, ok := mappingVmClusterSelinuxModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
