@@ -575,9 +575,13 @@ func getLifecycleStateReflect(sync interface{}) (string, error) {
 	for _, key := range []string{"Res", "Resource", "WorkRequest"} {
 		if field := v.FieldByName(key); field.IsValid() {
 			rv := field
-			if rv.Kind() == reflect.Ptr || rv.Kind() == reflect.Interface {
+			// Loop until reaching to the underlying struct. When the outer value is a pointer to an
+			// interface, it should be able to strip the pointer followed by the interface to get to the struct.
+			// See - https://jira.oci.oraclecorp.com/browse/TER-8911
+			for rv.IsValid() && (rv.Kind() == reflect.Ptr || rv.Kind() == reflect.Interface) {
 				if rv.IsNil() {
-					continue
+					rv = reflect.Value{}
+					break
 				}
 				rv = rv.Elem()
 			}
