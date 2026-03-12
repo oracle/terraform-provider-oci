@@ -56,6 +56,10 @@ func ResourceAnalyticsTenancyAttachmentResource() *schema.Resource {
 			},
 
 			// Computed
+			"data_population_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_reporting_tenancy": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -63,6 +67,60 @@ func ResourceAnalyticsTenancyAttachmentResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"monitored_regions": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"data_population": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"in_progress_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"succeeded_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"time_ended": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_started": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"total_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"region_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -74,6 +132,14 @@ func ResourceAnalyticsTenancyAttachmentResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_data_population_ended": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_data_population_started": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -396,6 +462,8 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Delete() error {
 }
 
 func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) SetData() error {
+	s.D.Set("data_population_status", s.Res.DataPopulationStatus)
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -407,6 +475,12 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	monitoredRegions := []interface{}{}
+	for _, item := range s.Res.MonitoredRegions {
+		monitoredRegions = append(monitoredRegions, TenancyAttachmentMonitoredRegionSummaryToMap(item))
+	}
+	s.D.Set("monitored_regions", monitoredRegions)
 
 	if s.Res.ResourceAnalyticsInstanceId != nil {
 		s.D.Set("resource_analytics_instance_id", *s.Res.ResourceAnalyticsInstanceId)
@@ -428,6 +502,14 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeDataPopulationEnded != nil {
+		s.D.Set("time_data_population_ended", s.Res.TimeDataPopulationEnded.String())
+	}
+
+	if s.Res.TimeDataPopulationStarted != nil {
+		s.D.Set("time_data_population_started", s.Res.TimeDataPopulationStarted.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
@@ -435,8 +517,52 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
+func TenancyAttachmentDataPopulationToMap(obj *oci_resource_analytics.TenancyAttachmentDataPopulation) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.InProgressCount != nil {
+		result["in_progress_count"] = int(*obj.InProgressCount)
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.SucceededCount != nil {
+		result["succeeded_count"] = int(*obj.SucceededCount)
+	}
+
+	if obj.TimeEnded != nil {
+		result["time_ended"] = obj.TimeEnded.String()
+	}
+
+	if obj.TimeStarted != nil {
+		result["time_started"] = obj.TimeStarted.String()
+	}
+
+	if obj.TotalCount != nil {
+		result["total_count"] = int(*obj.TotalCount)
+	}
+
+	return result
+}
+
+func TenancyAttachmentMonitoredRegionSummaryToMap(obj oci_resource_analytics.TenancyAttachmentMonitoredRegionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DataPopulation != nil {
+		result["data_population"] = []interface{}{TenancyAttachmentDataPopulationToMap(obj.DataPopulation)}
+	}
+
+	if obj.RegionId != nil {
+		result["region_id"] = string(*obj.RegionId)
+	}
+
+	return result
+}
+
 func TenancyAttachmentSummaryToMap(obj oci_resource_analytics.TenancyAttachmentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["data_population_status"] = string(obj.DataPopulationStatus)
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
@@ -470,6 +596,14 @@ func TenancyAttachmentSummaryToMap(obj oci_resource_analytics.TenancyAttachmentS
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeDataPopulationEnded != nil {
+		result["time_data_population_ended"] = obj.TimeDataPopulationEnded.String()
+	}
+
+	if obj.TimeDataPopulationStarted != nil {
+		result["time_data_population_started"] = obj.TimeDataPopulationStarted.String()
 	}
 
 	if obj.TimeUpdated != nil {

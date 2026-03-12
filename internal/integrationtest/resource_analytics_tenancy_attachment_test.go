@@ -105,9 +105,11 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 			Config: config + defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Optional, acctest.Create, ResourceAnalyticsTenancyAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "data_population_status"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_reporting_tenancy"),
+				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_analytics_instance_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -131,9 +133,11 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 			Config: config + defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Optional, acctest.Update, ResourceAnalyticsTenancyAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "data_population_status"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_reporting_tenancy"),
+				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_analytics_instance_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -172,11 +176,15 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_attachment_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_population_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reporting_tenancy"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitored_regions.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_data_population_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_data_population_started"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},

@@ -66,6 +66,8 @@ func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("data_population_status", s.Res.DataPopulationStatus)
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -77,6 +79,12 @@ func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	monitoredRegions := []interface{}{}
+	for _, item := range s.Res.MonitoredRegions {
+		monitoredRegions = append(monitoredRegions, TenancyAttachmentMonitoredRegionSummaryToMap(item))
+	}
+	s.D.Set("monitored_regions", monitoredRegions)
 
 	if s.Res.ResourceAnalyticsInstanceId != nil {
 		s.D.Set("resource_analytics_instance_id", *s.Res.ResourceAnalyticsInstanceId)
@@ -96,6 +104,14 @@ func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDataPopulationEnded != nil {
+		s.D.Set("time_data_population_ended", s.Res.TimeDataPopulationEnded.String())
+	}
+
+	if s.Res.TimeDataPopulationStarted != nil {
+		s.D.Set("time_data_population_started", s.Res.TimeDataPopulationStarted.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
