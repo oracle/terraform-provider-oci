@@ -351,6 +351,7 @@ github.com/oracle/oci-go-sdk/v65/desktops
 github.com/oracle/oci-go-sdk/v65/devops
 github.com/oracle/oci-go-sdk/v65/dif
 github.com/oracle/oci-go-sdk/v65/disasterrecovery
+github.com/oracle/oci-go-sdk/v65/distributeddatabase
 github.com/oracle/oci-go-sdk/v65/dns
 github.com/oracle/oci-go-sdk/v65/email
 github.com/oracle/oci-go-sdk/v65/emwarehouse
