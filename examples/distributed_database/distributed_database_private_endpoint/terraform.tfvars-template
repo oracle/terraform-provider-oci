@@ -1,0 +1,19 @@
+
+#############################
+# DISTRIBUTED DB PRIVATE ENDPOINT
+#############################
+
+compartment_id = "ocid1.compartment.oc1..."
+display_name   = "tf-ddb-private-endpoint"
+subnet_id      = "ocid1.subnet.oc1..."
+
+# Optional
+# description = "Created by Terraform example"
+# nsg_ids = ["ocid1.networksecuritygroup.oc1..."]
+
+freeform_tags = {
+  team = "osd-qa"
+}
+
+# Optional action trigger
+# reinstate_proxy_instance_trigger = 1
