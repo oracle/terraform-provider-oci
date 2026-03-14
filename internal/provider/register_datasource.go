@@ -126,6 +126,7 @@ import (
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
 	tf_security_attribute "github.com/oracle/terraform-provider-oci/internal/service/security_attribute"
+	tf_self "github.com/oracle/terraform-provider-oci/internal/service/self"
 	tf_service_catalog "github.com/oracle/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/oracle/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_stack_monitoring "github.com/oracle/terraform-provider-oci/internal/service/stack_monitoring"
@@ -510,6 +511,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("securityattribute") {
 		tf_security_attribute.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("self") {
+		tf_self.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("servicecatalog") {
 		tf_service_catalog.RegisterDatasource()
