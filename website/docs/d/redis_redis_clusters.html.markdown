@@ -46,6 +46,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `backup_id` - The ID of the Oracle Cloud Infrastructure Cache Backup from which this cluster was created.
 * `cluster_mode` - Specifies whether the cluster is sharded or non-sharded.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -54,6 +55,11 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+* `import_from_object_storage_details` - Details for importing Oracle Cloud Infrastructure Cache data from Object Storage RDB file(s) during cluster creation.
+	* `bucket` - The Object Storage bucket name.
+	* `namespace` - The Object Storage namespace name.
+	* `objects` - The list of objects to import from the specified bucket.
+		* `object` - The name of the object in the bucket (for example, 'customerA/exports/backup_ocid/dump.rdb').
 * `lifecycle_details` - A message describing the current state in more detail. For example, the message might provide actionable information for a resource in `FAILED` state.
 * `node_collection` - The collection of  cluster nodes.
 	* `items` - Collection of node objects.

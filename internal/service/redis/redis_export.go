@@ -49,10 +49,23 @@ var exportRedisOciCacheConfigSetHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportRedisOciCacheBackupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_redis_oci_cache_backup",
+	DatasourceClass:        "oci_redis_oci_cache_backups",
+	DatasourceItemsAttr:    "oci_cache_backup_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "oci_cache_backup",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_redis.OciCacheBackupLifecycleStateActive),
+	},
+}
+
 var redisResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportRedisRedisClusterHints},
 		{TerraformResourceHints: exportRedisOciCacheUserHints},
 		{TerraformResourceHints: exportRedisOciCacheConfigSetHints},
+		{TerraformResourceHints: exportRedisOciCacheBackupHints},
 	},
 }
