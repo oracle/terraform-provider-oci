@@ -106,6 +106,8 @@ func (s *ObjectStorageBucketsDataSourceCrud) SetData() error {
 			"namespace":      *r.Namespace,
 		}
 
+		bucket["bucket_scope"] = r.BucketScope
+
 		if r.CreatedBy != nil {
 			bucket["created_by"] = *r.CreatedBy
 		}
