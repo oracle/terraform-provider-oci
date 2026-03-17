@@ -66,6 +66,10 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BackupId != nil {
+		s.D.Set("backup_id", *s.Res.BackupId)
+	}
+
 	s.D.Set("cluster_mode", s.Res.ClusterMode)
 
 	if s.Res.CompartmentId != nil {
@@ -89,6 +93,12 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.ImportFromObjectStorageDetails != nil {
+		s.D.Set("import_from_object_storage_details", []interface{}{ImportOciCacheFromObjectStorageDetailsToMap(s.Res.ImportFromObjectStorageDetails)})
+	} else {
+		s.D.Set("import_from_object_storage_details", nil)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
