@@ -108,6 +108,24 @@ type CreateOpensearchClusterDetails struct {
 	// The amount of storage in GB, to configure per node for the cluster's search nodes.
 	SearchNodeStorageGB *int `mandatory:"false" json:"searchNodeStorageGB"`
 
+	// The number of ML nodes configured for the cluster.
+	MlNodeCount *int `mandatory:"false" json:"mlNodeCount"`
+
+	// The instance type for the cluster's ML nodes.
+	MlNodeHostType MlNodeHostTypeEnum `mandatory:"false" json:"mlNodeHostType,omitempty"`
+
+	// The node shape for the cluster's ML nodes.
+	MlNodeHostShape *string `mandatory:"false" json:"mlNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's ML nodes.
+	MlNodeHostOcpuCount *int `mandatory:"false" json:"mlNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's ML nodes.
+	MlNodeHostMemoryGB *int `mandatory:"false" json:"mlNodeHostMemoryGB"`
+
+	// The amount of storage in GB, to configure per node for the cluster's ML nodes.
+	MlNodeStorageGB *int `mandatory:"false" json:"mlNodeStorageGB"`
+
 	// The security mode of the cluster.
 	SecurityMode SecurityModeEnum `mandatory:"false" json:"securityMode,omitempty"`
 
@@ -174,6 +192,9 @@ func (m CreateOpensearchClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingSearchNodeHostTypeEnum(string(m.SearchNodeHostType)); !ok && m.SearchNodeHostType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SearchNodeHostType: %s. Supported values are: %s.", m.SearchNodeHostType, strings.Join(GetSearchNodeHostTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMlNodeHostTypeEnum(string(m.MlNodeHostType)); !ok && m.MlNodeHostType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MlNodeHostType: %s. Supported values are: %s.", m.MlNodeHostType, strings.Join(GetMlNodeHostTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingSecurityModeEnum(string(m.SecurityMode)); !ok && m.SecurityMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityMode: %s. Supported values are: %s.", m.SecurityMode, strings.Join(GetSecurityModeEnumStringValues(), ",")))
