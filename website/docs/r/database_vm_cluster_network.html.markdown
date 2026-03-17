@@ -65,6 +65,9 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
 		hostname = var.vm_cluster_network_dr_scans_hostname
 		ips = var.vm_cluster_network_dr_scans_ips
 		scan_listener_port_tcp = var.vm_cluster_network_dr_scans_scan_listener_port_tcp
+
+		#Optional
+		scan_listener_port_tcp_ssl = var.vm_cluster_network_dr_scans_scan_listener_port_tcp_ssl
 	}
 	freeform_tags = {"Department"= "Finance"}
 	ntp = var.vm_cluster_network_ntp
@@ -84,6 +87,7 @@ The following arguments are supported:
 	* `hostname` - (Required) (Updatable) The Disaster recovery SCAN hostname.
 	* `ips` - (Required) (Updatable) The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	* `scan_listener_port_tcp` - (Required) (Updatable) The Disaster recovery SCAN TCPIP port. Default is 1521.
+	* `scan_listener_port_tcp_ssl` - (Optional) (Updatable) The DR SCAN TCPIP SSL port. Default is 2484.
 * `exadata_infrastructure_id` - (Required) The Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ntp` - (Optional) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
@@ -124,6 +128,7 @@ The following attributes are exported:
 	* `hostname` - The Disaster recovery SCAN hostname.
 	* `ips` - The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	* `scan_listener_port_tcp` - The Disaster recovery SCAN TCPIP port. Default is 1521.
+	* `scan_listener_port_tcp_ssl` - The DR SCAN TCPIP SSL port. Default is 2484.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.

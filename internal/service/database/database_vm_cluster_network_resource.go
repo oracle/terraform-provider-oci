@@ -209,6 +209,11 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 						},
 
 						// Optional
+						"scan_listener_port_tcp_ssl": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -860,6 +865,11 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToDrScanDetails(fieldKeyFormat
 	if scanListenerPortTcp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_listener_port_tcp")); ok {
 		tmp := scanListenerPortTcp.(int)
 		result.ScanListenerPortTcp = &tmp
+	}
+
+	if scanListenerPortTcpSsl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_listener_port_tcp_ssl")); ok {
+		tmp := scanListenerPortTcpSsl.(int)
+		result.ScanListenerPortTcpSsl = &tmp
 	}
 
 	return result, nil
