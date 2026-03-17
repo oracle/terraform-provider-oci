@@ -238,6 +238,39 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"resource_groups": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"capacity": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"service_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -844,6 +877,15 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	if s.Res.ResourceGroups != nil {
+		resourceGroups := []interface{}{}
+		for _, item := range s.Res.ResourceGroups {
+			resourceGroups = append(resourceGroups, InstanceResourceGroupToMap(item))
+		}
+		s.D.Set("resource_groups", resourceGroups)
+	} else {
+		s.D.Set("resource_groups", nil)
+	}
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}
@@ -925,6 +967,32 @@ func AnalyticsCapacityToMap(obj *oci_analytics.Capacity) map[string]interface{} 
 
 	if obj.CapacityValue != nil {
 		result["capacity_value"] = int(*obj.CapacityValue)
+	}
+
+	return result
+}
+
+func InstanceResourceGroupToMap(obj oci_analytics.InstanceResourceGroup) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Capacity != nil {
+		result["capacity"] = int(*obj.Capacity)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.ResourceName != nil {
+		result["resource_name"] = string(*obj.ResourceName)
 	}
 
 	return result
