@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -32,7 +33,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, ObjectStorageBucketRepresentation)
 
 	// Based on Bucket name specifications used in Object Storage Lifecycle policy
-	testBucketName  = utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket")
+	// bucket with scope as Region cannot have capital letters
+	testBucketName  = strings.ToLower(utils.RandomStringOrHttpReplayValue(32, utils.Charset, "bucket"))
 	testBucketName2 = testBucketName + "2"
 
 	ObjectStorageObjectStorageBucketSingularDataSourceRepresentation = map[string]interface{}{
@@ -55,6 +57,7 @@ var (
 		"namespace":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"access_type":           acctest.Representation{RepType: acctest.Optional, Create: `NoPublicAccess`, Update: `ObjectRead`},
 		"auto_tiering":          acctest.Representation{RepType: acctest.Optional, Create: `Disabled`, Update: `InfrequentAccess`},
+		"bucket_scope":          acctest.Representation{RepType: acctest.Optional, Create: `NAMESPACE`, Update: `REGION`},
 		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"kms_key_id":            acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
@@ -120,6 +123,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
+				resource.TestCheckResourceAttr(resourceName, "bucket_scope", "NAMESPACE"),
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -193,6 +197,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
+				resource.TestCheckResourceAttr(resourceName, "bucket_scope", "REGION"),
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -228,6 +233,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.bucket_scope", "REGION"),
 				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.created_by"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.etag"),
@@ -250,6 +256,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "auto_tiering", "InfrequentAccess"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket_scope", "REGION"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
