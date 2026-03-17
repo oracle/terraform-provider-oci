@@ -13,7 +13,9 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/redis/lates
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/redis
 
-Creates a new Oracle Cloud Infrastructure Cache cluster. A cluster is a memory-based storage solution. For more information, see [OCI Cache](https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
+Creates a new Oracle Cloud Infrastructure Cache cluster. A cluster is a memory-based storage solution.
+You can optionally initialize the cluster data by restoring from an Oracle Cloud Infrastructure Cache Backup (backupId) or by importing from Object Storage RDB file(s) (importFromObjectStorageDetails).
+For more information, see [OCI Cache](https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 
 
 ## Example Usage
@@ -29,9 +31,19 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	backup_id = oci_database_backup.test_backup.id
 	cluster_mode = var.redis_cluster_cluster_mode
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	import_from_object_storage_details {
+		#Required
+		bucket = var.redis_cluster_import_from_object_storage_details_bucket
+		namespace = var.redis_cluster_import_from_object_storage_details_namespace
+		objects {
+			#Required
+			object = var.redis_cluster_import_from_object_storage_details_objects_object
+		}
+	}
 	nsg_ids = var.redis_cluster_nsg_ids
 	oci_cache_config_set_id = oci_redis_oci_cache_config_set.test_oci_cache_config_set.id
 	security_attributes = var.redis_cluster_security_attributes
@@ -43,11 +55,17 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
 
 The following arguments are supported:
 
+* `backup_id` - (Optional) The ID of the Oracle Cloud Infrastructure Cache Backup from which this cluster was created.Mutually exclusive with 'importFromObjectStorageDetails'.
 * `cluster_mode` - (Optional) Specifies whether the cluster is sharded or non-sharded.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `import_from_object_storage_details` - (Optional) Details for importing Oracle Cloud Infrastructure Cache data from Object Storage RDB file(s) during cluster creation.
+	* `bucket` - (Required) The Object Storage bucket name.
+	* `namespace` - (Required) The Object Storage namespace name.
+	* `objects` - (Required) The list of objects to import from the specified bucket.
+		* `object` - (Required) The name of the object in the bucket (for example, 'customerA/exports/backup_ocid/dump.rdb').
 * `node_count` - (Required) (Updatable) The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 * `node_memory_in_gbs` - (Required) (Updatable) The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
@@ -65,6 +83,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `backup_id` - The ID of the Oracle Cloud Infrastructure Cache Backup from which this cluster was created.
 * `cluster_mode` - Specifies whether the cluster is sharded or non-sharded.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -73,6 +92,11 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
+* `import_from_object_storage_details` - Details for importing Oracle Cloud Infrastructure Cache data from Object Storage RDB file(s) during cluster creation.
+	* `bucket` - The Object Storage bucket name.
+	* `namespace` - The Object Storage namespace name.
+	* `objects` - The list of objects to import from the specified bucket.
+		* `object` - The name of the object in the bucket (for example, 'customerA/exports/backup_ocid/dump.rdb').
 * `lifecycle_details` - A message describing the current state in more detail. For example, the message might provide actionable information for a resource in `FAILED` state.
 * `node_collection` - The collection of  cluster nodes.
 	* `items` - Collection of node objects.

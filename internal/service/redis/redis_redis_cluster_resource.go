@@ -63,6 +63,12 @@ func RedisRedisClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cluster_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +87,52 @@ func RedisRedisClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"import_from_object_storage_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"bucket": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"objects": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"object": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -267,6 +319,11 @@ func (s *RedisRedisClusterResourceCrud) DeletedTarget() []string {
 func (s *RedisRedisClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_redis.CreateRedisClusterRequest{}
 
+	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
+		tmp := backupId.(string)
+		request.BackupId = &tmp
+	}
+
 	if clusterMode, ok := s.D.GetOkExists("cluster_mode"); ok {
 		request.ClusterMode = oci_redis.RedisClusterClusterModeEnum(clusterMode.(string))
 	}
@@ -291,6 +348,17 @@ func (s *RedisRedisClusterResourceCrud) CreateWithContext(ctx context.Context) e
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if importFromObjectStorageDetails, ok := s.D.GetOkExists("import_from_object_storage_details"); ok {
+		if tmpList := importFromObjectStorageDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "import_from_object_storage_details", 0)
+			tmp, err := s.mapToImportOciCacheFromObjectStorageDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImportFromObjectStorageDetails = &tmp
+		}
 	}
 
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
@@ -656,6 +724,10 @@ func (s *RedisRedisClusterResourceCrud) DeleteWithContext(ctx context.Context) e
 }
 
 func (s *RedisRedisClusterResourceCrud) SetData() error {
+	if s.Res.BackupId != nil {
+		s.D.Set("backup_id", *s.Res.BackupId)
+	}
+
 	s.D.Set("cluster_mode", s.Res.ClusterMode)
 
 	if s.Res.CompartmentId != nil {
@@ -679,6 +751,12 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.ImportFromObjectStorageDetails != nil {
+		s.D.Set("import_from_object_storage_details", []interface{}{ImportOciCacheFromObjectStorageDetailsToMap(s.Res.ImportFromObjectStorageDetails)})
+	} else {
+		s.D.Set("import_from_object_storage_details", nil)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -757,6 +835,80 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *RedisRedisClusterResourceCrud) mapToImportOciCacheFromObjectStorageDetails(fieldKeyFormat string) (oci_redis.ImportOciCacheFromObjectStorageDetails, error) {
+	result := oci_redis.ImportOciCacheFromObjectStorageDetails{}
+
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.BucketName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	if objects, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "objects")); ok {
+		interfaces := objects.([]interface{})
+		tmp := make([]oci_redis.ImportOciCacheFromObjectStorageObject, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "objects"), stateDataIndex)
+			converted, err := s.mapToImportOciCacheFromObjectStorageObject(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "objects")) {
+			result.Objects = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ImportOciCacheFromObjectStorageDetailsToMap(obj *oci_redis.ImportOciCacheFromObjectStorageDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	objects := []interface{}{}
+	for _, item := range obj.Objects {
+		objects = append(objects, ImportOciCacheFromObjectStorageObjectToMap(item))
+	}
+	result["objects"] = objects
+
+	return result
+}
+
+func (s *RedisRedisClusterResourceCrud) mapToImportOciCacheFromObjectStorageObject(fieldKeyFormat string) (oci_redis.ImportOciCacheFromObjectStorageObject, error) {
+	result := oci_redis.ImportOciCacheFromObjectStorageObject{}
+
+	if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
+		tmp := object.(string)
+		result.ObjectName = &tmp
+	}
+
+	return result, nil
+}
+
+func ImportOciCacheFromObjectStorageObjectToMap(obj oci_redis.ImportOciCacheFromObjectStorageObject) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	return result
+}
+
 func NodeToMap(obj oci_redis.Node) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -789,6 +941,10 @@ func NodeCollectionToMap(obj *oci_redis.NodeCollection) map[string]interface{} {
 
 func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BackupId != nil {
+		result["backup_id"] = string(*obj.BackupId)
+	}
 
 	result["cluster_mode"] = string(obj.ClusterMode)
 
