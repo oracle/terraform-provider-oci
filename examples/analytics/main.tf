@@ -77,6 +77,16 @@ resource "oci_analytics_analytics_instance" "test_oce_instance_public" {
   kms_key_id = var.kms_key_id
 }
 
+
+resource "oci_analytics_analytics_instance_resource_group" "test_oce_instance_public_with_rg_resource_group" {
+  analytics_instance_id = oci_analytics_analytics_instance.test_oce_instance_public.id
+  capacity              = 4
+  resource_name         = "test-resource-group"
+
+  description = "Example resource group"
+  display_name = "ExampleResourceGroup"
+}
+
 # Create a private access channel for the instance
 resource "oci_analytics_analytics_instance_private_access_channel" "test_private_access_channel" {
 #Required

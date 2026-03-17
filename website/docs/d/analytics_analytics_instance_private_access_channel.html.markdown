@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_analytics_analytics_instance_private_access_channel
 This data source provides details about a specific Analytics Instance Private Access Channel resource in Oracle Cloud Infrastructure Analytics service.
 
-Retrieve private access channel in the specified Analytics Instance.
+Retrieve private access channel for the specified Analytics Instance.
 
 
 ## Example Usage
@@ -27,26 +27,26 @@ data "oci_analytics_analytics_instance_private_access_channel" "test_analytics_i
 
 The following arguments are supported:
 
-* `analytics_instance_id` - (Required) The OCID of the AnalyticsInstance. 
-* `private_access_channel_key` - (Required) The unique identifier key of the Private Access Channel. 
+* `analytics_instance_id` - (Required) The OCID of the Analytics instance. 
+* `private_access_channel_key` - (Required) The unique identifier key of the private access channel. 
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `display_name` - Display Name of the Private Access Channel. 
-* `egress_source_ip_addresses` - The list of IP addresses from the customer subnet connected to private access channel, used as a source Ip by Private Access Channel for network traffic from the AnalyticsInstance to Private Sources. 
-* `ip_address` - IP Address of the Private Access channel. 
-* `key` - Private Access Channel unique identifier key. 
-* `network_security_group_ids` - Network Security Group OCIDs for an Analytics instance. 
-* `private_source_dns_zones` - List of Private Source DNS zones registered with Private Access Channel, where datasource hostnames from these dns zones / domains will be resolved in the peered VCN for access from Analytics Instance. Min of 1 is required and Max of 30 Private Source DNS zones can be registered. 
-	* `description` - Description of private source dns zone. 
-	* `dns_zone` - Private Source DNS Zone. Ex: example-vcn.oraclevcn.com, corp.example.com. 
-* `private_source_scan_hosts` - List of Private Source DB SCAN hosts registered with Private Access Channel for access from Analytics Instance. 
-	* `description` - Description of private source scan host zone. 
-	* `scan_hostname` - Private Source Scan hostname. Ex: db01-scan.corp.example.com, prd-db01-scan.mycompany.com. 
-	* `scan_port` - Private Source Scan host port. This is the source port where SCAN protocol will get connected (e.g. 1521). 
-* `subnet_id` - OCID of the customer subnet connected to private access channel. 
-* `vcn_id` - OCID of the customer VCN peered with private access channel. 
+* `display_name` - Display name of the private access channel. 
+* `egress_source_ip_addresses` - List of IP addresses from the customer subnet connected to the private access channel, used as a source IP by the private access channel for network traffic from the Analytics instance to the private sources. 
+* `ip_address` - IP address of the private access channel. 
+* `key` - Private access channel unique identifier key. 
+* `network_security_group_ids` - Network Security Group OCIDs for the Analytics instance. 
+* `private_source_dns_zones` - List of private source DNS zones registered with the private access channel. The datasource hostnames from these DNS zones / domains will be resolved in the peered VCN for access from  the Analytics instance. Minimum 1 private source is required. Maximum 30 private source DNS zones can be registered. 
+	* `description` - Description of the private source DNS zone. 
+	* `dns_zone` - Private source DNS zone. For example: example-vcn.oraclevcn.com, corp.example.com. 
+* `private_source_scan_hosts` - List of private source database SCAN hosts registered with the private access channel for access from the Analytics instance. 
+	* `description` - Description of private source SCAN host zone. 
+	* `scan_hostname` - Private source SCAN hostname. For example: db01-scan.corp.example.com, prd-db01-scan.mycompany.com. 
+	* `scan_port` - Private source SCAN host port. This is the source port where the SCAN protocol connects (for example, 1521). 
+* `subnet_id` - OCID of the customer subnet connected to the private access channel. 
+* `vcn_id` - OCID of the customer VCN peered with the private access channel. 
 

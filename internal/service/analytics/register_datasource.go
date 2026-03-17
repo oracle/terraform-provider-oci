@@ -8,5 +8,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceDataSource())
 	tfresource.RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
+	tfresource.RegisterDatasource("oci_analytics_analytics_instance_resource_group", AnalyticsAnalyticsInstanceResourceGroupDataSource())
+	tfresource.RegisterDatasource("oci_analytics_analytics_instance_resource_groups", AnalyticsAnalyticsInstanceResourceGroupsDataSource())
 	tfresource.RegisterDatasource("oci_analytics_analytics_instances", AnalyticsAnalyticsInstancesDataSource())
 }

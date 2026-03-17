@@ -393,6 +393,7 @@ ai_vision
 analytics
 
 * oci\_analytics\_analytics\_instance
+* oci\_analytics\_analytics\_instance\_resource\_group
 
 announcements_service
 
