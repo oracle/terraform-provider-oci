@@ -39,6 +39,10 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"dr_scan_listener_port_tcp_ssl": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"exadata_infrastructure_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -146,6 +150,10 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 							},
 						},
 						"scan_listener_port_tcp": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"scan_listener_port_tcp_ssl": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -332,6 +340,11 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		request.DrScanListenerPortTcp = &tmp
 	}
 
+	if drScanListenerPortTcpSsl, ok := s.D.GetOkExists("dr_scan_listener_port_tcp_ssl"); ok {
+		tmp := drScanListenerPortTcpSsl.(int)
+		request.DrScanListenerPortTcpSsl = &tmp
+	}
+
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
@@ -442,6 +455,10 @@ func DrScanDetailsToMap(obj oci_database.DrScanDetails) map[string]interface{} {
 
 	if obj.ScanListenerPortTcp != nil {
 		result["scan_listener_port_tcp"] = int(*obj.ScanListenerPortTcp)
+	}
+
+	if obj.ScanListenerPortTcpSsl != nil {
+		result["scan_listener_port_tcp_ssl"] = int(*obj.ScanListenerPortTcpSsl)
 	}
 
 	return result
