@@ -37,6 +37,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 	defined_tags = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.vm_cluster_recommended_network_defined_tags_value)
 	dns = var.vm_cluster_recommended_network_dns
 	dr_scan_listener_port_tcp = var.vm_cluster_recommended_network_dr_scan_listener_port_tcp
+	dr_scan_listener_port_tcp_ssl = var.vm_cluster_recommended_network_dr_scan_listener_port_tcp_ssl
 	freeform_tags = var.vm_cluster_recommended_network_freeform_tags
 	ntp = var.vm_cluster_recommended_network_ntp
 	scan_listener_port_tcp = var.vm_cluster_recommended_network_scan_listener_port_tcp
@@ -54,6 +55,7 @@ The following arguments are supported:
 * `display_name` - (Required) The user-friendly name for the VM cluster network. The name does not need to be unique.
 * `dns` - (Optional) The list of DNS server IP addresses. Maximum of 3 allowed.
 * `dr_scan_listener_port_tcp` - (Optional) The DR SCAN TCPIP port. Default is 1521.
+* `dr_scan_listener_port_tcp_ssl` - (Optional) The DR SCAN TCPIP SSL port. Default is 2484.
 * `exadata_infrastructure_id` - (Required) The Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `networks` - (Required) List of parameters for generation of the client and backup networks.
@@ -81,6 +83,7 @@ The following attributes are exported:
 	* `hostname` - The Disaster recovery SCAN hostname.
 	* `ips` - The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	* `scan_listener_port_tcp` - The Disaster recovery SCAN TCPIP port. Default is 1521.
+	* `scan_listener_port_tcp_ssl` - The DR SCAN TCPIP SSL port. Default is 2484.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ntp` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `scans` - The SCAN details.
