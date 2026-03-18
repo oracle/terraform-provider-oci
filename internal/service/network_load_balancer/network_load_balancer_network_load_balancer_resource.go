@@ -6,8 +6,11 @@ package network_load_balancer
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -103,8 +106,7 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 			"reserved_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Computed: false,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -114,7 +116,6 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -199,7 +200,244 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 				Computed: true,
 			},
 		},
+		CustomizeDiff: customdiff.All(
+			// force change for certain reserved ips combination
+			func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+				return forceNewReservedIps(ctx, d, meta)
+			},
+		),
 	}
+}
+
+// forceNewReservedIps decides whether a change to reserved_ips should force recreation
+// of the NLB resource or can be handled by an in-place Update.
+//
+// Rules:
+// - Force NEW (destroy + create):
+//  1. Any change in reserved IPv4 (both private and public) for single-stack IPv4 and dual-stack
+//  2. Any change in reserved IPv6 for single-stack IPv6 and dual-stack
+//  3. Mixed case: single-stack IPv4 → dual-stack AND IPv4 changes → force new (IPv4 change wins)
+//
+// - ALLOW UPDATE (no recreate):
+//  1. NLB is updated from single-stack IPv4 to dual-stack using a reserved IPv6
+//     (IPv4 unchanged, only IPv6 added/changed)
+//  2. NLB is updated from dual-stack (created using reserved IPv6) to single-stack IPv4
+//     (IPv4 unchanged, effectively just dropping IPv6)
+func forceNewReservedIps(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+	// Name of the Terraform attribute that holds reserved IPs
+	const attrReservedIps = "reserved_ips"
+	// Name of the Terraform attribute that holds the NLB IP version ("IPV4", "IPV4_AND_IPV6", "IPV6")
+	const attrNlbIpVersion = "nlb_ip_version"
+
+	// If reserved_ips didn't change in this plan, we don't need to do anything
+	if !d.HasChange(attrReservedIps) {
+		return nil
+	}
+
+	// Get old and new values of reserved_ips from the diff
+	oldRaw, newRaw := d.GetChange(attrReservedIps)
+
+	// Cast old value to []interface{} (Terraform internal type for list)
+	oldList, _ := oldRaw.([]interface{})
+	// Cast new value to []interface{}
+	newList, _ := newRaw.([]interface{})
+
+	// DEBUG: log the raw reserved_ips diff shape
+	log.Printf("[DEBUG] forceNewReservedIps: old reserved_ips=%#v", oldList)
+	log.Printf("[DEBUG] forceNewReservedIps: new reserved_ips=%#v", newList)
+
+	// Helper: classify OCID as IPv6 if it starts with "ocid1.ipv6."
+	// Otherwise treat it as IPv4 (covers both privateip and publicip).
+	isIPv6ID := func(id string) bool {
+		return strings.HasPrefix(id, "ocid1.ipv6.")
+	}
+
+	// Tiny enum type to tag an ID as none/IPv4/IPv6
+	type ipType int
+
+	const (
+		ipNone ipType = iota // not used in logic, just a base value
+		ipv4                 // represents an IPv4 OCID
+		ipv6                 // represents an IPv6 OCID
+	)
+
+	// Convert Terraform list of reserved_ips into map[id] -> ipType
+	toMap := func(list []interface{}) map[string]ipType {
+		// Initialize an empty map
+		m := make(map[string]ipType)
+		// Iterate over each element in the list
+		for _, v := range list {
+			// Skip nil entries
+			if v == nil {
+				continue
+			}
+			// Each element should be map[string]interface{} (object with "id")
+			mv, ok := v.(map[string]interface{})
+			if !ok {
+				continue
+			}
+			// Extract "id" as string
+			id, ok := mv["id"].(string)
+			if !ok || id == "" {
+				continue
+			}
+			// Classify the ID
+			if isIPv6ID(id) {
+				m[id] = ipv6
+			} else {
+				m[id] = ipv4
+			}
+		}
+		// Return the populated map
+		return m
+	}
+
+	// Map of old reserved IPs: id -> type (ipv4/ipv6)
+	oldMap := toMap(oldList)
+	// Map of new reserved IPs: id -> type (ipv4/ipv6)
+	newMap := toMap(newList)
+
+	// Flags to indicate whether any IPv4 or IPv6 reserved IP changed
+	var ipv4Changed, ipv6Changed bool
+	var ipv4Removed bool
+
+	// Find IDs that were present before but are missing now (removed IDs)
+	for id, t := range oldMap {
+		if _, exists := newMap[id]; !exists {
+			// This ID was removed; mark IPv4 or IPv6 as changed
+			if t == ipv6 {
+				ipv6Changed = true
+			} else {
+				ipv4Changed = true
+				ipv4Removed = true // <-- explicitly track removals
+			}
+		}
+	}
+
+	// Find IDs that are newly added (present now, absent before)
+	for id, t := range newMap {
+		if _, exists := oldMap[id]; !exists {
+			// This ID was added; mark IPv4 or IPv6 as changed
+			if t == ipv6 {
+				ipv6Changed = true
+			} else {
+				ipv4Changed = true
+			}
+		}
+	}
+
+	// Now determine old and new values of nlb_ip_version
+	var oldVer, newVer string
+
+	// If nlb_ip_version changed in this plan
+	if d.HasChange(attrNlbIpVersion) {
+		// Get old and new values from diff
+		ov, nv := d.GetChange(attrNlbIpVersion)
+		// Cast old value to string if possible
+		if s, ok := ov.(string); ok {
+			oldVer = s
+		}
+		// Cast new value to string if possible
+		if s, ok := nv.(string); ok {
+			newVer = s
+		}
+	} else {
+		// If nlb_ip_version didn't change, take current value (if set) as both old and new
+		if v, ok := d.GetOkExists(attrNlbIpVersion); ok {
+			if s, ok := v.(string); ok {
+				oldVer, newVer = s, s
+			}
+		}
+	}
+
+	// If only newVer is set, copy it into oldVer so they match
+	if oldVer == "" && newVer != "" {
+		oldVer = newVer
+	}
+	// If only oldVer is set, copy it into newVer so they match
+	if newVer == "" && oldVer != "" {
+		newVer = oldVer
+	}
+
+	// Helper to test specific version values
+	isIPv4Only := func(v string) bool { return v == "IPV4" }
+	isIPv6Only := func(v string) bool { return v == "IPV6" }
+	isDual := func(v string) bool { return v == "IPV4_AND_IPV6" }
+
+	// DEBUG: log the versions and change flags
+	log.Printf("[DEBUG] forceNewReservedIps: oldVer=%q newVer=%q ipv4Changed=%v ipv6Changed=%v",
+		oldVer, newVer, ipv4Changed, ipv6Changed)
+
+	// --- Allowed UPDATE scenario #1 ---
+	// single-stack IPv4 -> dual-stack using reserved IPv6
+	// - oldVer must be IPV4
+	// - newVer must be IPV4_AND_IPV6
+	// - IPv4 must NOT change
+	// - IPv6 MUST change
+	if isIPv4Only(oldVer) && isDual(newVer) && !ipv4Changed && ipv6Changed {
+		log.Printf("[DEBUG] forceNewReservedIps: allowing update (IPV4 -> IPV4_AND_IPV6, only IPv6 changed)")
+		// No ForceNew: Terraform will use the Update path
+		return nil
+	}
+
+	// --- Allowed UPDATE scenario #2 ---
+	// dual-stack (created using reserved IPv6) -> single-stack IPv4
+	// - oldVer must be IPV4_AND_IPV6
+	// - newVer must be IPV4
+	// - IPv4 unchanged (we are effectively dropping IPv6)
+	if isDual(oldVer) && isIPv4Only(newVer) && !ipv4Changed {
+		log.Printf("[DEBUG] forceNewReservedIps: allowing update (IPV4_AND_IPV6 -> IPV4, dropping IPv6)")
+		// No ForceNew: Terraform will use the Update path
+		return nil
+	}
+
+	// Special: if an IPv4 entry was *removed*, force new on parent "reserved_ips"
+	if ipv4Removed {
+		log.Printf("[DEBUG] forceNewReservedIps: IPv4 reserved IP removed, forcing new on %q", attrReservedIps)
+		return d.ForceNew(attrReservedIps)
+	}
+
+	// --- All other scenarios fall under "force new" logic ---
+
+	// Helper: for any index where reserved_ips.<i>.id changed, mark that path ForceNew.
+	forceNewIds := func() error {
+		maxLen := len(oldList)
+		if len(newList) > maxLen {
+			maxLen = len(newList)
+		}
+		for i := 0; i < maxLen; i++ {
+			key := fmt.Sprintf("reserved_ips.%d.id", i)
+
+			// Only bother if Terraform thinks this specific key changed
+			if d.HasChange(key) {
+				log.Printf("[DEBUG] forceNewReservedIps: forcing new on %q", key)
+				if err := d.ForceNew(key); err != nil {
+					return err
+				}
+			}
+		}
+		return nil
+	}
+
+	// Rule: Any IPv4 change takes precedence and forces recreation.
+	if ipv4Changed {
+		log.Printf("[DEBUG] forceNewReservedIps: forcing new (IPv4 reserved IP changed)")
+		// Mark reserved_ips as requiring a new resource
+		// return d.ForceNew("reserved_ips")
+		return forceNewIds()
+	}
+
+	// Rule: Any IPv6 change for single-stack IPv6 or dual-stack forces recreation,
+	// unless already handled by allowed-update cases above.
+	if ipv6Changed && (isIPv6Only(newVer) || isDual(newVer)) {
+		log.Printf("[DEBUG] forceNewReservedIps: forcing new (IPv6 reserved IP changed for IPv6/dual-stack)")
+		return forceNewIds()
+	}
+
+	log.Printf("[DEBUG] forceNewReservedIps: no ForceNew required for this change")
+	// If none of the above conditions matched, do not force new.
+	// Terraform will proceed with an in-place Update.
+	return nil
 }
 
 func createNetworkLoadBalancerNetworkLoadBalancer(d *schema.ResourceData, m interface{}) error {
@@ -574,13 +812,62 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.NetworkLoadBalancerId = &tmp
+
+	// 1. Guard: disallow dual-stack -> IPV4 if reserved IPv6 exists
+	if s.D.HasChange("nlb_ip_version") {
+		log.Printf("[DEBUG] nlb ip version has changed")
+		oldRaw, newRaw := s.D.GetChange("nlb_ip_version")
+		oldVer, _ := oldRaw.(string)
+		newVer, _ := newRaw.(string)
+
+		if oldVer == "IPV4_AND_IPV6" && newVer == "IPV4" {
+			if reservedIps, ok := s.D.GetOkExists("reserved_ips"); ok {
+				interfaces := reservedIps.([]interface{})
+				for _, v := range interfaces {
+					if v == nil {
+						continue
+					}
+					mv, ok := v.(map[string]interface{})
+					if !ok {
+						continue
+					}
+					id, ok := mv["id"].(string)
+					if !ok || id == "" {
+						continue
+					}
+					if strings.HasPrefix(id, "ocid1.ipv6.") {
+						log.Printf("[DEBUG] reserved ips list contains ipv6 ocid")
+						return fmt.Errorf(
+							"cannot update nlb_ip_version from IPV4_AND_IPV6 to IPV4 while an IPv6 reserved IP (%s) "+
+								"is still configured in reserved_ips; remove the IPv6 entry first", id)
+					}
+				}
+			}
+		}
+	}
+
 	if nlbIpVersion, ok := s.D.GetOkExists("nlb_ip_version"); ok {
 		request.NlbIpVersion = oci_network_load_balancer.NlbIpVersionEnum(nlbIpVersion.(string))
 	}
 
-	//if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-	//request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
-	//}
+	if reservedIps, ok := s.D.GetOkExists("reserved_ips"); ok && s.D.HasChange("reserved_ips") {
+		interfaces := reservedIps.([]interface{})
+
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "reserved_ips", stateDataIndex)
+			converted, err := s.mapToNetworkLoadBalancerReservedIp(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+
+			if converted.Id != nil && strings.Contains(strings.ToLower(*converted.Id), "ipv6") {
+				// Only one ipv6 is expected: set it and stop scanning
+				request.ReservedIpv6Id = converted.Id
+				break
+			}
+		}
+	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
