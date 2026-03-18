@@ -122,125 +122,123 @@ Make sure the `output_path` is empty before running resource discovery
 * `retry_timeout` - The time duration for which API calls will wait and retry operation in case of API errors. By default, the retry timeout duration is 15s
 * `custom_api_timeout` - Specifies the maximum duration an API call will wait for a response before timing out. The default value is 60 seconds.
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
-  * `adm` - Discovers adm resources within the specified compartment
-  * `ai_data_platform` - Discovers ai_data_platform resources within the specified compartment
-  * `ai_document` - Discovers ai_document resources within the specified compartment
-  * `ai_language` - Discovers ai_language resources within the specified compartment
-  * `ai_vision` - Discovers ai_vision resources within the specified compartment
-  * `analytics` - Discovers analytics resources within the specified compartment
-  * `announcements_service` - Discovers announcements_service resources within the specified compartment
-  * `api_platform` - Discovers api_platform resources within the specified compartment
-  * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
-  * `apigateway` - Discovers apigateway resources within the specified compartment
-  * `apm` - Discovers apm resources within the specified compartment
-  * `apm_config` - Discovers apm_config resources within the specified compartment
-  * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
-  * `apm_traces` - Discovers apm_traces resources within the specified compartment
-  * `artifacts` - Discovers artifacts resources within the specified compartment
-  * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
-  * `bastion` - Discovers bastion resources within the specified compartment
-  * `bds` - Discovers big data service resources within the specified compartment
-  * `blockchain` - Discovers blockchain resources within the specified compartment
-  * `budget` - Discovers budget resources across the entire tenancy
-  * `capacity_management` - Discovers capacity_management resources within the specified compartment
-  * `certificates_management` - Discovers certificates_management resources within the specified compartment
-  * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
-  * `cloud_guard` - Discovers cloud guard resources within the specified compartment
-  * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
-  * `cluster_placement_groups` - Discovers cluster_placement_groups resources within the specified compartment
-  * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
-  * `container_instances` - Discovers container_instances resources within the specified compartment
-  * `containerengine` - Discovers containerengine resources within the specified compartment
-  * `core` - Discovers compute, block storage, and networking resources within the specified compartment
-  * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
-  * `data_safe` - Discovers data_safe resources within the specified compartment
-  * `database` - Discovers database resources within the specified compartment
-  * `database_migration` - Discovers database_migration resources within the specified compartment
-  * `database_tools` - Discovers database_tools resources within the specified compartment
-  * `datacatalog` - Discovers datacatalog resources within the specified compartment
-  * `dataflow` - Discovers dataflow resources within the specified compartment
-  * `dataintegration` - Discovers dataintegration resources within the specified compartment
-  * `datascience` - Discovers datascience resources within the specified compartment
-  * `dblm` - Discovers dblm resources within the specified compartment
-  * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
-  * `demand_signal` - Discovers demand_signal resources within the specified compartment
-  * `desktops` - Discovers desktop pool resources within the specified compartment
-  * `devops` - Discovers devops resources within the specified compartment
-  * `dif` - Discovers dif resources within the specified compartment
-  * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
-  * `dns` - Discovers dns resources (except record) within the specified compartment
-  * `email` - Discovers email_sender resources within the specified compartment
-  * `events` - Discovers events resources within the specified compartment
-  * `file_storage` - Discovers file_storage resources within the specified compartment
-  * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
-  * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
-  * `functions` - Discovers functions resources within the specified compartment
-  * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
-  * `gdp` - Discovers gdp resources within the specified compartment
-  * `generative_ai` - Discovers generative_ai resources within the specified compartment
-  * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
-  * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
-  * `golden_gate` - Discovers golden_gate resources within the specified compartment
-  * `health_checks` - Discovers health_checks resources within the specified compartment
-  * `identity` - Discovers identity resources across the entire tenancy
-  * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
-  * `identity_domains` - Discovers identity_domains resources within the specified compartment
-  * `integration` - Discovers integration resources within the specified compartment
-  * `iot` - Discovers iot resources within the specified compartment
-  * `jms` - Discovers jms resources within the specified compartment
-  * `jms_utils` - Discovers jms_utils resources within the specified compartment
-  * `kms` - Discovers kms resources within the specified compartment
-  * `license_manager` - Discovers license_manager resources within the specified compartment
-  * `limits` - Discovers limits resources across the entire tenancy
-  * `load_balancer` - Discovers load balancer resources within the specified compartment
-  * `log_analytics` - Discovers log_analytics resources within the specified compartment
-  * `logging` - Discovers logging resources within the specified compartment
-  * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
-  * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
-  * `management_agent` - Discovers management_agent resources within the specified compartment
-  * `marketplace` - Discovers marketplace resources within the specified compartment
-  * `media_services` - Discovers media_services resources within the specified compartment
-  * `metering_computation` - Discovers metering_computation resources within the specified compartment
-  * `monitoring` - Discovers monitoring resources within the specified compartment
-  * `mysql` - Discovers mysql resources within the specified compartment
-  * `network_firewall` - Discovers network_firewall resources within the specified compartment
-  * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
-  * `nosql` - Discovers nosql resources within the specified compartment
-  * `object_storage` - Discovers object storage resources within the specified compartment
-  * `oce` - Discovers oce resources within the specified compartment
-  * `ocvp` - Discovers ocvp resources within the specified compartment
-  * `oda` - Discovers oda resources within the specified compartment
-  * `ons` - Discovers ons resources within the specified compartment
-  * `opa` - Discovers opa resources within the specified compartment
-  * `opensearch` - Discovers opensearch resources within the specified compartment
-  * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
-  * `opsi` - Discovers opsi resources within the specified compartment
-  * `optimizer` - Discovers optimizer resources within the specified compartment
-  * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
-  * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
-  * `psa` - Discovers psa resources within the specified compartment
-  * `psql` - Discovers psql resources within the specified compartment
-  * `queue` - Discovers queue resources within the specified compartment
-  * `recovery` - Discovers recovery resources within the specified compartment
-  * `redis` - Discovers redis resources within the specified compartment
-  * `resource_analytics` - Discovers resource_analytics resources within the specified compartment
-  * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
-  * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
-  * `sch` - Discovers sch resources within the specified compartment
-  * `security_attribute` - Discovers security attribute resources across the entire tenancy
-  * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
-  * `streaming` - Discovers streaming resources within the specified compartment
-  * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
-  * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
-  * `vault` - Discovers vault resources within the specified compartment
-  * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
-  * `visual_builder` - Discovers visual_builder resources within the specified compartment
-  * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
-  * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
-  * `waa` - Discovers waa resources within the specified compartment
-  * `waas` - Discovers waas resources within the specified compartment
-  * `waf` - Discovers waf resources within the specified compartment
-  * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
+    * `adm` - Discovers adm resources within the specified compartment
+    * `ai_data_platform` - Discovers ai_data_platform resources within the specified compartment
+    * `ai_document` - Discovers ai_document resources within the specified compartment
+    * `ai_language` - Discovers ai_language resources within the specified compartment
+    * `ai_vision` - Discovers ai_vision resources within the specified compartment
+    * `analytics` - Discovers analytics resources within the specified compartment
+    * `announcements_service` - Discovers announcements_service resources within the specified compartment
+    * `api_platform` - Discovers api_platform resources within the specified compartment
+    * `apiaccesscontrol` - Discovers apiaccesscontrol resources within the specified compartment
+    * `apigateway` - Discovers apigateway resources within the specified compartment
+    * `apm` - Discovers apm resources within the specified compartment
+    * `apm_config` - Discovers apm_config resources within the specified compartment
+    * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
+    * `apm_traces` - Discovers apm_traces resources within the specified compartment
+    * `artifacts` - Discovers artifacts resources within the specified compartment
+    * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
+    * `bastion` - Discovers bastion resources within the specified compartment
+    * `batch` - Discovers batch resources within the specified compartment
+    * `bds` - Discovers big data service resources within the specified compartment
+    * `blockchain` - Discovers blockchain resources within the specified compartment
+    * `budget` - Discovers budget resources across the entire tenancy
+    * `capacity_management` - Discovers capacity_management resources within the specified compartment
+    * `certificates_management` - Discovers certificates_management resources within the specified compartment
+    * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
+    * `cloud_guard` - Discovers cloud guard resources within the specified compartment
+    * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+    * `cluster_placement_groups` - Discovers cluster_placement_groups resources within the specified compartment
+    * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
+    * `container_instances` - Discovers container_instances resources within the specified compartment
+    * `containerengine` - Discovers containerengine resources within the specified compartment
+    * `core` - Discovers compute, block storage, and networking resources within the specified compartment
+    * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
+    * `data_safe` - Discovers data_safe resources within the specified compartment
+    * `database` - Discovers database resources within the specified compartment
+    * `database_migration` - Discovers database_migration resources within the specified compartment
+    * `database_tools` - Discovers database_tools resources within the specified compartment
+    * `datacatalog` - Discovers datacatalog resources within the specified compartment
+    * `dataflow` - Discovers dataflow resources within the specified compartment
+    * `dataintegration` - Discovers dataintegration resources within the specified compartment
+    * `datascience` - Discovers datascience resources within the specified compartment
+    * `dblm` - Discovers dblm resources within the specified compartment
+    * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
+    * `demand_signal` - Discovers demand_signal resources within the specified compartment
+    * `desktops` - Discovers desktop pool resources within the specified compartment
+    * `devops` - Discovers devops resources within the specified compartment
+    * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
+    * `distributed_database` - Discovers distributed_database resources within the specified compartment
+    * `dns` - Discovers dns resources (except record) within the specified compartment
+    * `email` - Discovers email_sender resources within the specified compartment
+    * `events` - Discovers events resources within the specified compartment
+    * `file_storage` - Discovers file_storage resources within the specified compartment
+    * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
+    * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
+    * `functions` - Discovers functions resources within the specified compartment
+    * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
+    * `generative_ai` - Discovers generative_ai resources within the specified compartment
+    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
+    * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
+    * `golden_gate` - Discovers golden_gate resources within the specified compartment
+    * `health_checks` - Discovers health_checks resources within the specified compartment
+    * `identity` - Discovers identity resources across the entire tenancy
+    * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
+    * `identity_domains` - Discovers identity_domains resources within the specified compartment
+    * `integration` - Discovers integration resources within the specified compartment
+    * `iot` - Discovers iot resources within the specified compartment
+    * `jms` - Discovers jms resources within the specified compartment
+    * `kms` - Discovers kms resources within the specified compartment
+    * `license_manager` - Discovers license_manager resources within the specified compartment
+    * `limits` - Discovers limits resources across the entire tenancy
+    * `load_balancer` - Discovers load balancer resources within the specified compartment
+    * `log_analytics` - Discovers log_analytics resources within the specified compartment
+    * `logging` - Discovers logging resources within the specified compartment
+    * `lustre_file_storage` - Discovers lustre_file_storage resources within the specified compartment
+    * `managed_kafka` - Discovers managed_kafka resources within the specified compartment
+    * `management_agent` - Discovers management_agent resources within the specified compartment
+    * `marketplace` - Discovers marketplace resources within the specified compartment
+    * `media_services` - Discovers media_services resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources within the specified compartment
+    * `monitoring` - Discovers monitoring resources within the specified compartment
+    * `mysql` - Discovers mysql resources within the specified compartment
+    * `network_firewall` - Discovers network_firewall resources within the specified compartment
+    * `network_load_balancer` - Discovers network load balancer resources within the specified compartment
+    * `nosql` - Discovers nosql resources within the specified compartment
+    * `object_storage` - Discovers object storage resources within the specified compartment
+    * `oce` - Discovers oce resources within the specified compartment
+    * `ocvp` - Discovers ocvp resources within the specified compartment
+    * `oda` - Discovers oda resources within the specified compartment
+    * `ons` - Discovers ons resources within the specified compartment
+    * `opa` - Discovers opa resources within the specified compartment
+    * `opensearch` - Discovers opensearch resources within the specified compartment
+    * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
+    * `opsi` - Discovers opsi resources within the specified compartment
+    * `optimizer` - Discovers optimizer resources within the specified compartment
+    * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
+    * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `psql` - Discovers psql resources within the specified compartment
+    * `queue` - Discovers queue resources within the specified compartment
+    * `recovery` - Discovers recovery resources within the specified compartment
+    * `redis` - Discovers redis resources within the specified compartment
+    * `resource_analytics` - Discovers resource_analytics resources within the specified compartment
+    * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
+    * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
+    * `sch` - Discovers sch resources within the specified compartment
+    * `security_attribute` - Discovers security attribute resources across the entire tenancy
+    * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
+    * `streaming` - Discovers streaming resources within the specified compartment
+    * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
+    * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
+    * `vault` - Discovers vault resources within the specified compartment
+    * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
+    * `visual_builder` - Discovers visual_builder resources within the specified compartment
+    * `vn_monitoring` - Discovers vn_monitoring resources within the specified compartment
+    * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
+    * `waa` - Discovers waa resources within the specified compartment
+    * `waas` - Discovers waas resources within the specified compartment
+    * `waf` - Discovers waf resources within the specified compartment
+    * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
   * 0.11
   * 0.12
@@ -819,6 +817,12 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
 
+distributed_database
+    
+* oci\_distributed\_database\_distributed\_database
+* oci\_distributed\_database\_distributed\_database\_private\_endpoint
+* oci\_distributed\_database\_distributed\_autonomous\_database
+
 dns
 
 * oci\_dns\_zone
@@ -887,10 +891,6 @@ fusion_apps
 * oci\_fusion\_apps\_fusion\_environment\_family
 * oci\_fusion\_apps\_fusion\_environment
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
-
-gdp
-    
-* oci\_gdp\_gdp\_pipeline
 
 generative_ai
 
@@ -1004,9 +1004,6 @@ identity_domains
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
 * oci\_identity\_domains\_social\_identity\_provider
-* oci\_identity\_domains\_mapped\_attribute
-* oci\_identity\_domains\_identity\_proofing\_provider
-* oci\_identity\_domains\_identity\_proofing\_provider\_template
 
 integration
 

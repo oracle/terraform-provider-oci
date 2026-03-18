@@ -82,6 +82,29 @@ var (
 		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Required, Create: `2484`, Update: `2484`},
 	}
 
+	DatabaseVmClusterNetworkVmNetworksRepresentation = map[string]interface{}{
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CLIENT`, Update: `BACKUP`},
+		"nodes":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterNetworkVmNetworksNodesRepresentation},
+		"domain_name":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_domain.test_domain.name}`},
+		"gateway":      acctest.Representation{RepType: acctest.Optional, Create: `192.169.20.1`, Update: `192.169.20.2`},
+		"netmask":      acctest.Representation{RepType: acctest.Optional, Create: `255.255.0.0`, Update: `255.255.192.0`},
+		"vlan_id":      acctest.Representation{RepType: acctest.Optional, Create: `100`},
+	}
+	DatabaseVmClusterNetworkDrScansRepresentation = map[string]interface{}{
+		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `sea2410c4-scan`, Update: `hostname2`},
+		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`ips`}, Update: []string{`ips2`}},
+		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+	DatabaseVmClusterNetworkVmNetworksNodesRepresentation = map[string]interface{}{
+		"hostname":     acctest.Representation{RepType: acctest.Required, Create: `sea2410c4-scan`, Update: `hostname2`},
+		"ip":           acctest.Representation{RepType: acctest.Required, Create: `10.0.20.14`, Update: `10.0.20.16`},
+		"db_server_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_server.test_db_server.id}`},
+		"state":        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`, Update: `REQUIRES_VALIDATION`},
+		"vip":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.20.15`, Update: `10.0.20.17`},
+		"vip_hostname": acctest.Representation{RepType: acctest.Optional, Create: `sea2410c4n7-vip`, Update: `vipHostname2`},
+	}
+
 	DatabaseVmClusterNetwork2ScansRepresentation = map[string]interface{}{
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix4-ivmmj-scan`, Update: `myprefix3-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.26`, `192.168.19.27`, `192.168.19.28`}, Update: []string{`192.168.19.27`, `192.168.19.28`, `192.168.19.29`}},
@@ -320,6 +343,11 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.hostname", "sea2410c4-scan"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.scan_listener_port_tcp", "1511"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.scan_listener_port_tcp_ssl", "1512"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -364,6 +392,11 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.scan_listener_port_tcp", "1511"),
+				resource.TestCheckResourceAttr(resourceName, "dr_scans.0.scan_listener_port_tcp_ssl", "1512"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -411,6 +444,11 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dns.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dr_scans.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dr_scans.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dr_scans.0.ips.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dr_scans.0.scan_listener_port_tcp", "1511"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dr_scans.0.scan_listener_port_tcp_ssl", "1512"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.system_tags.%", "0"),
@@ -449,6 +487,11 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scans.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scans.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scans.0.ips.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scans.0.scan_listener_port_tcp", "1511"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scans.0.scan_listener_port_tcp_ssl", "1512"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

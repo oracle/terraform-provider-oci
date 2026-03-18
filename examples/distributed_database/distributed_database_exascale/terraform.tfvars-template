@@ -1,0 +1,83 @@
+############################
+# COMPARTMENT & NETWORKING
+############################
+
+compartment_id = "ocid1.compartment.oc1..."
+
+# Existing Distributed Database Private Endpoint OCID(s)
+private_endpoint_ids = ["ocid1.osddistributeddbprivateendpoint.oc1..."]
+
+###########################################
+# DISTRIBUTED DATABASE (EXADB_XS)
+###########################################
+
+display_name = "tf-exadbxs"
+prefix       = "tf01"
+
+listener_port   = 1521
+ons_port_local  = 6200
+ons_port_remote = 6200
+sharding_method = "SYSTEM"
+chunks          = 120
+
+# Optional overrides (defaults are already set in variables.tf)
+# db_deployment_type = "EXADB_XS"
+# character_set      = "AL32UTF8"
+# ncharacter_set     = "AL16UTF16"
+# database_version   = "19c"
+
+##################################
+# CATALOG DETAILS (EXADB_XS)
+##################################
+
+catalog_vm_cluster_id  = "ocid1.exadbvmcluster.oc1..."
+catalog_admin_password = "..."
+
+##################################
+# SHARD DETAILS (EXADB_XS)
+##################################
+
+shard_vm_cluster_id1 = "ocid1.exadbvmcluster.oc1..."
+shard_vm_cluster_id2 = "ocid1.exadbvmcluster.oc1..."
+shard_vm_cluster_id3 = "ocid1.exadbvmcluster.oc1..."
+shard_admin_password = "..."
+
+###############################
+# ENCRYPTION DETAILS
+###############################
+
+kms_key_id = "ocid1.key.oc1..."
+vault_id   = "ocid1.vault.oc1..."
+
+############################
+# OPTIONAL
+############################
+
+freeform_tags = {
+  team = "osd-qa"
+}
+
+# Optional triggers/actions
+configure_sharding_trigger                            = null
+configure_sharding_is_rebalance_required              = null
+
+start_database_trigger                                = null
+stop_database_trigger                                 = null
+
+validate_network_trigger                              = null
+
+generate_wallet_trigger                               = null
+generate_wallet_password                              = null
+
+change_db_backup_config_trigger                       = null
+upload_signed_certificate_and_generate_wallet_trigger = null
+
+generate_gsm_certificate_signing_request_trigger      = null
+download_gsm_certificate_signing_request_trigger      = null
+
+# Optional validate-network action payload
+# validate_network_details = {
+#   is_surrogate  = false
+#   resource_name = "resource-name"
+#   shard_group   = "SHARDGROUPA"
+# }

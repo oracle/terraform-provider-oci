@@ -267,6 +267,37 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ml_node_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"ml_node_host_memory_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"ml_node_host_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"ml_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"ml_node_host_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"ml_node_storage_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"nsg_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -784,6 +815,35 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.MasterNodeHostType = oci_opensearch.MasterNodeHostTypeEnum(masterNodeHostType.(string))
 	}
 
+	if mlNodeCount, ok := s.D.GetOkExists("ml_node_count"); ok {
+		tmp := mlNodeCount.(int)
+		request.MlNodeCount = &tmp
+	}
+
+	if mlNodeHostMemoryGB, ok := s.D.GetOkExists("ml_node_host_memory_gb"); ok {
+		tmp := mlNodeHostMemoryGB.(int)
+		request.MlNodeHostMemoryGB = &tmp
+	}
+
+	if mlNodeHostOcpuCount, ok := s.D.GetOkExists("ml_node_host_ocpu_count"); ok {
+		tmp := mlNodeHostOcpuCount.(int)
+		request.MlNodeHostOcpuCount = &tmp
+	}
+
+	if mlNodeHostShape, ok := s.D.GetOkExists("ml_node_host_shape"); ok {
+		tmp := mlNodeHostShape.(string)
+		request.MlNodeHostShape = &tmp
+	}
+
+	if mlNodeHostType, ok := s.D.GetOkExists("ml_node_host_type"); ok {
+		request.MlNodeHostType = oci_opensearch.MlNodeHostTypeEnum(mlNodeHostType.(string))
+	}
+
+	if mlNodeStorageGB, ok := s.D.GetOkExists("ml_node_storage_gb"); ok {
+		tmp := mlNodeStorageGB.(int)
+		request.MlNodeStorageGB = &tmp
+	}
+
 	if nsgId, ok := s.D.GetOkExists("nsg_id"); ok {
 		tmp := nsgId.(string)
 		request.NsgId = &tmp
@@ -1093,6 +1153,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) HorizontalConditionMet() (resu
 		return true
 	} else if _, ok := s.D.GetOkExists("search_node_count"); ok && s.D.HasChange("search_node_count") {
 		return true
+	} else if _, ok := s.D.GetOkExists("ml_node_count"); ok && s.D.HasChange("ml_node_count") {
+		return true
 	}
 	return false
 }
@@ -1112,11 +1174,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result
 		return true
 	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok && s.D.HasChange("opendashboard_node_host_memory_gb") {
 		return true
-	} else if _, ok := s.D.GetOkExists("search_node_host_memory_ocpu_count"); ok && s.D.HasChange("search_node_host_memory_ocpu_count") {
+	} else if _, ok := s.D.GetOkExists("search_node_host_ocpu_count"); ok && s.D.HasChange("search_node_host_ocpu_count") {
 		return true
 	} else if _, ok := s.D.GetOkExists("search_node_host_memory_gb"); ok && s.D.HasChange("search_node_host_memory_gb") {
 		return true
 	} else if _, ok := s.D.GetOkExists("search_node_storage_gb"); ok && s.D.HasChange("search_node_storage_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("ml_node_host_ocpu_count"); ok && s.D.HasChange("ml_node_host_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("ml_node_host_memory_gb"); ok && s.D.HasChange("ml_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("ml_node_storage_gb"); ok && s.D.HasChange("ml_node_storage_gb") {
 		return true
 	} else if _, ok := s.D.GetOkExists("master_node_host_shape"); ok && s.D.HasChange("master_node_host_shape") {
 		return true
@@ -1125,6 +1193,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result
 	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_shape"); ok && s.D.HasChange("opendashboard_node_host_shape") {
 		return true
 	} else if _, ok := s.D.GetOkExists("search_node_host_shape"); ok && s.D.HasChange("search_node_host_shape") {
+		return true
+	} else if _, ok := s.D.GetOkExists("ml_node_host_shape"); ok && s.D.HasChange("ml_node_host_shape") {
 		return true
 	}
 	return false
@@ -1388,6 +1458,28 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	s.D.Set("master_node_host_type", s.Res.MasterNodeHostType)
 
+	if s.Res.MlNodeCount != nil {
+		s.D.Set("ml_node_count", *s.Res.MlNodeCount)
+	}
+
+	if s.Res.MlNodeHostMemoryGB != nil {
+		s.D.Set("ml_node_host_memory_gb", *s.Res.MlNodeHostMemoryGB)
+	}
+
+	if s.Res.MlNodeHostOcpuCount != nil {
+		s.D.Set("ml_node_host_ocpu_count", *s.Res.MlNodeHostOcpuCount)
+	}
+
+	if s.Res.MlNodeHostShape != nil {
+		s.D.Set("ml_node_host_shape", *s.Res.MlNodeHostShape)
+	}
+
+	s.D.Set("ml_node_host_type", s.Res.MlNodeHostType)
+
+	if s.Res.MlNodeStorageGB != nil {
+		s.D.Set("ml_node_storage_gb", *s.Res.MlNodeStorageGB)
+	}
+
 	if s.Res.NsgId != nil {
 		s.D.Set("nsg_id", *s.Res.NsgId)
 	}
@@ -1625,6 +1717,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizon
 		request.MasterNodeCount = &tmp
 	}
 
+	if mlNodeCount, ok := s.D.GetOkExists("ml_node_count"); ok {
+		tmp := mlNodeCount.(int)
+		request.MlNodeCount = &tmp
+	}
+
 	if opendashboardNodeCount, ok := s.D.GetOkExists("opendashboard_node_count"); ok {
 		tmp := opendashboardNodeCount.(int)
 		request.OpendashboardNodeCount = &tmp
@@ -1689,6 +1786,26 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 	if masterNodeHostShape, ok := s.D.GetOkExists("master_node_host_shape"); ok {
 		tmp := masterNodeHostShape.(string)
 		request.MasterNodeHostShape = &tmp
+	}
+
+	if mlNodeHostMemoryGB, ok := s.D.GetOkExists("ml_node_host_memory_gb"); ok {
+		tmp := mlNodeHostMemoryGB.(int)
+		request.MlNodeHostMemoryGB = &tmp
+	}
+
+	if mlNodeHostOcpuCount, ok := s.D.GetOkExists("ml_node_host_ocpu_count"); ok {
+		tmp := mlNodeHostOcpuCount.(int)
+		request.MlNodeHostOcpuCount = &tmp
+	}
+
+	if mlNodeHostShape, ok := s.D.GetOkExists("ml_node_host_shape"); ok {
+		tmp := mlNodeHostShape.(string)
+		request.MlNodeHostShape = &tmp
+	}
+
+	if mlNodeStorageGB, ok := s.D.GetOkExists("ml_node_storage_gb"); ok {
+		tmp := mlNodeStorageGB.(int)
+		request.MlNodeStorageGB = &tmp
 	}
 
 	if opendashboardNodeHostMemoryGB, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok {
