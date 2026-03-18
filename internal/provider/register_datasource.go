@@ -57,6 +57,7 @@ import (
 	tf_devops "github.com/oracle/terraform-provider-oci/internal/service/devops"
 	tf_dif "github.com/oracle/terraform-provider-oci/internal/service/dif"
 	tf_disaster_recovery "github.com/oracle/terraform-provider-oci/internal/service/disaster_recovery"
+	tf_distributed_database "github.com/oracle/terraform-provider-oci/internal/service/distributed_database"
 	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/oracle/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
@@ -65,7 +66,6 @@ import (
 	tf_fleet_software_update "github.com/oracle/terraform-provider-oci/internal/service/fleet_software_update"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
-	tf_gdp "github.com/oracle/terraform-provider-oci/internal/service/gdp"
 	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
 	tf_generative_ai_agent "github.com/oracle/terraform-provider-oci/internal/service/generative_ai_agent"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -304,6 +304,9 @@ func init() {
 	if common.CheckForEnabledServices("disasterrecovery") {
 		tf_disaster_recovery.RegisterDatasource()
 	}
+	if common.CheckForEnabledServices("distributeddatabase") {
+		tf_distributed_database.RegisterDatasource()
+	}
 	if common.CheckForEnabledServices("dns") {
 		tf_dns.RegisterDatasource()
 	}
@@ -327,9 +330,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("fusionapps") {
 		tf_fusion_apps.RegisterDatasource()
-	}
-	if common.CheckForEnabledServices("gdp") {
-		tf_gdp.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("generativeai") {
 		tf_generative_ai.RegisterDatasource()

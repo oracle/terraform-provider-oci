@@ -48,6 +48,15 @@ type UpdateClusterSpecsDetails struct {
 	// The amount of memory in GB, for the cluster's search nodes.
 	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
 
+	// The node shape for the cluster's ML nodes.
+	MlNodeHostShape *string `mandatory:"false" json:"mlNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's ML nodes.
+	MlNodeHostOcpuCount *int `mandatory:"false" json:"mlNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's ML nodes.
+	MlNodeHostMemoryGB *int `mandatory:"false" json:"mlNodeHostMemoryGB"`
+
 	// Updated version of the software the cluster is currently running.
 	SoftwareVersion *string `mandatory:"false" json:"softwareVersion"`
 

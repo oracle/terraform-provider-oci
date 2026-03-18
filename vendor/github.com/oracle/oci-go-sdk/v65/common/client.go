@@ -711,12 +711,55 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
 }
 
-// RefreshableTokenWrappedCallWithDetails wraps the CallWithDetails with retry on 401 for Refreshable Toekn (Instance Principal, Resource Principal etc.)
-// This is to intimitate the race condition on refresh
+// RefreshableTokenWrappedCallWithDetails wraps the CallWithDetails with retry on 401 for Refreshable Token (Instance Principal, Resource Principal, etc.)
+// This retry reduces transient 401s that can occur due to concurrent token refresh
 func (client BaseClient) RefreshableTokenWrappedCallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
-	for i := 0; i < maxAttemptsForRefreshableRetry; i++ {
+	var (
+		rsc         *OCIReadSeekCloser
+		isSeekable  bool
+		curPos      int64
+		initialSize int64
+	)
+
+	// Prepare request body for potential retries
+	if request != nil && request.Body != nil && request.Body != http.NoBody {
+		rsc = NewOCIReadSeekCloser(request.Body)
+		request.Body = rsc
+
+		if rsc.Seekable() {
+			isSeekable = true
+
+			// Capture current position and total size so we can restore Content-Length on retries
+			curPos, _ = rsc.Seek(0, io.SeekCurrent)
+			if end, seekErr := rsc.Seek(0, io.SeekEnd); seekErr == nil {
+				initialSize = end
+				_, _ = rsc.Seek(curPos, io.SeekStart)
+			}
+		}
+	}
+
+	for attempt := 0; attempt < maxAttemptsForRefreshableRetry; attempt++ {
+		// On retries, rewind request body and restore content length/header if seekable
+		if attempt > 0 && request != nil && request.Body != nil && request.Body != http.NoBody {
+			if !isSeekable {
+				return response, NonSeekableRequestRetryFailure{err}
+			}
+
+			rsc = NewOCIReadSeekCloser(rsc.rc)
+			_, _ = rsc.Seek(curPos, io.SeekStart)
+			request.Body = rsc
+
+			if initialSize > 0 {
+				request.ContentLength = initialSize - curPos
+				if request.Header == nil {
+					request.Header = make(http.Header)
+				}
+				request.Header.Set(requestHeaderContentLength, strconv.FormatInt(request.ContentLength, 10))
+			}
+		}
+
 		response, err = client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
-		if response != nil && response.StatusCode != 401 {
+		if response != nil && response.StatusCode != http.StatusUnauthorized {
 			return response, err
 		}
 		time.Sleep(1 * time.Second)

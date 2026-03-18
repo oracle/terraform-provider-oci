@@ -78,6 +78,8 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scan_listener_port_tcp", "1511"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dr_scan_listener_port_tcp_ssl", "1512"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "networks.#", "2"),
@@ -91,7 +93,6 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp", "1521"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp_ssl", "2484"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),

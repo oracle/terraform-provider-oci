@@ -1,3 +1,14 @@
+## 8.6.0 (March 17, 2026)
+
+### Added
+- Support for ExaDB-C@C Custom TLS Scan Listener Port
+- Support to Globally Distributed Database on Autonomous and Exascale Infrastructure and UI redwood migration
+- Support for ML nodes
+
+### Bug Fix
+- getLifecycleStateReflect() fails to get to struct when the object is a pointer to an interface
+- deploy_pipeline_parameters update fix
+
 ## 8.5.0 (March 10, 2026)
 
 ### Added
