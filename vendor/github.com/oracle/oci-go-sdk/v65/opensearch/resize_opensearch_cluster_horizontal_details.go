@@ -30,6 +30,9 @@ type ResizeOpensearchClusterHorizontalDetails struct {
 	// The number of search nodes configured for the cluster.
 	SearchNodeCount *int `mandatory:"false" json:"searchNodeCount"`
 
+	// The number of ML nodes configured for the cluster.
+	MlNodeCount *int `mandatory:"false" json:"mlNodeCount"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
