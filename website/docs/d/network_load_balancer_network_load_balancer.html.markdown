@@ -33,17 +33,17 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `backend_sets` - Backend sets associated with the network load balancer.
-	* `are_operationally_active_backends_preferred` - If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy. 
+	* `are_operationally_active_backends_preferred` - If enabled, NLB supports active-standby backends, with the initial standby being the configured backup backend. The standby backend becomes active and takes over serving traffic when the current active backend becomes unhealthy.   The new active backend continues to serve the traffic while healthy even when the old active backend becomes healthy. 
 	* `backends` - An array of backends. 
 		* `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
 		* `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
-		* `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
+		* `is_drain` - Whether the network load balancer should drain this server.  Servers marked "isDrain" stop receiving new connections but will continue to receive traffic on existing connections until the connection is terminated or times out.  Example: `false` 
 		* `is_offline` - Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 		* `name` - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
 		* `port` - The communication port for the backend server.  Example: `8080` 
 		* `target_id` - The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
 		* `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancing policies, see [Network Load Balancer Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies).  Example: `3` 
-	* `health_checker` - The health check policy configuration. For more information, see [Editing Network Load Balancer Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-management.htm). 
+	* `health_checker` - The health check policy configuration. For more information, see [Editing Network Load Balancer Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-policy.htm). 
 		* `dns` - DNS healthcheck configurations.
 			* `domain_name` - The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query. 
 			* `query_class` - The class the dns health check query to use; either IN or CH.  Example: `IN` 
@@ -61,9 +61,9 @@ The following attributes are exported:
 		* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
 		* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
 	* `ip_version` - IP version associated with the backend set.
-	* `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
-	* `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
-	* `is_instant_failover_tcp_reset_enabled` - If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
+	* `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default.
+	* `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy. 
+	* `is_instant_failover_tcp_reset_enabled` - This only applies when using instant failover. If enabled, the network load balancer will send TCP RST to clients when a backend becomes unhealthy and the traffic is moved to a healthy backend.  If disabled, the network load balancer will not send TCP RST before moving traffic to a healthy backend.  By default, TCP RST is enabled.
 	* `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 	* `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
 
@@ -83,17 +83,17 @@ The following attributes are exported:
 
         If "true", then the IP address is public and accessible from the internet.
 
-        If "false", then the IP address is private and accessible only from within the associated virtual cloud network. 
-    * `reserved_ip` - An object representing a reserved IP address to be attached or that is already attached to a network load balancer. 
-        * `id` - OCID of the reserved public IP address created with the virtual cloud network.
+		If "false", then the IP address is private and accessible only from within the associated virtual cloud network. 
+	* `reserved_ip` - An object representing a reserved IP address to be attached or that is already attached to a network load balancer. 
+		* `id` - Ocid of the Reserved IP (Public IP, Private IP or IPv6) created with VCN.
 
-            Reserved public IP addresses are IP addresses that are registered using the virtual cloud network API.
+			Reserved IPs are IPs which are already registered using VCN API.
 
-            Create a reserved public IP address. When you create the network load balancer, enter the OCID of the reserved public IP address in the reservedIp field to attach the IP address to the network load balancer. This task configures the network load balancer to listen to traffic on this IP address.
+			For public Network load balancers, customer can create a reserved Public IP and/or reserved private IP and/or reserved IPv6 and pass the OCID's in the reservedIps array field to attach the IP addresses to the network load balancer during create For private Network load balancers, customer can create a reserved Private IP and/or reserved IPv6 and pass the OCID's in the  reservedIps array field to attach the IP addresses to the network load balancer during create
 
-            Reserved public IP addresses are not deleted when the network load balancer is deleted. The IP addresses become unattached from the network load balancer.
+			Reserved IPs will not be deleted when the Network Load balancer is deleted. They will be detached from the Network Load balancer.
 
-            Example: "ocid1.publicip.oc1.phx.unique_ID" 
+			Public IP Example: "ocid1.publicip.oc1.phx.unique_ID" Private IP Example: "ocid1.privateip.oc1.phx.unique_ID" IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID"
 * `is_preserve_source_destination` - When enabled, the skipSourceDestinationCheck parameter is automatically enabled on the load balancer VNIC. Packets are sent to the backend set without any changes to the source and destination IP. 
 * `is_private` - Whether the network load balancer has a virtual cloud network-local (private) IP address.
 

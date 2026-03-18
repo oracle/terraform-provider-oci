@@ -1,18 +1,18 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
+# variable "tenancy_ocid" {
+# }
+#
+# variable "user_ocid" {
+# }
+#
+# variable "fingerprint" {
+# }
+#
+# variable "private_key_path" {
+# }
+#
 variable "compartment_ocid" {
 }
 
@@ -45,15 +45,16 @@ locals {
 }
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  # tenancy_ocid     = var.tenancy_ocid
+  # user_ocid        = var.user_ocid
+  # fingerprint      = var.fingerprint
+  # private_key_path = var.private_key_path
   region           = var.region
+  #version          = "8.1.0"
 }
 
 data "oci_identity_availability_domain" "ad1" {
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_ocid
   ad_number      = 1
 }
 
@@ -87,11 +88,11 @@ resource "oci_core_subnet" "subnet1" {
   }
 }
 
-resource "oci_core_ipv6" "nlb-ipv6-addr" {
-  #Required
-  vnic_id = oci_core_vnic_attachment.vnic-ipv6.vnic_id
-  depends_on = [oci_core_vcn.vcn1]
-}
+# resource "oci_core_ipv6" "nlb-ipv6-addr" {
+#   #Required
+#   vnic_id = oci_core_vnic_attachment.vnic-ipv6.vnic_id
+#   depends_on = [oci_core_vcn.vcn1]
+# }
 
 resource "oci_core_subnet" "subnet-ipv6" {
   cidr_block          = "10.1.21.0/24"
@@ -125,28 +126,28 @@ resource "oci_core_subnet" "subnet-ipv62" {
   }
 }
 
-resource "oci_core_vnic_attachment" "vnic-ipv6" {
-  #Required
-  create_vnic_details {
-    #Optional
-    assign_public_ip = false
-    display_name = "vnic-ipv6"
-    subnet_id = oci_core_subnet.subnet-ipv6.id
-  }
-  instance_id = oci_core_instance.instance1.id
-  lifecycle {
-    ignore_changes = all
-  }
-}
+# resource "oci_core_vnic_attachment" "vnic-ipv6" {
+#   #Required
+#   create_vnic_details {
+#     #Optional
+#     assign_public_ip = false
+#     display_name = "vnic-ipv6"
+#     subnet_id = oci_core_subnet.subnet-ipv6.id
+#   }
+#   instance_id = oci_core_instance.instance1.id
+#   lifecycle {
+#     ignore_changes = all
+#   }
+# }
 
-resource "oci_core_public_ip" "test_reserved_ip" {
-  compartment_id = "${var.compartment_ocid}"
-  lifetime       = "RESERVED"
-
-  lifecycle {
-    ignore_changes = [private_ip_id]
-  }
-}
+# resource "oci_core_public_ip" "test_reserved_ip" {
+#   compartment_id = "${var.compartment_ocid}"
+#   lifetime       = "RESERVED"
+#
+#   lifecycle {
+#     ignore_changes = [private_ip_id]
+#   }
+# }
 
 resource "oci_core_internet_gateway" "internetgateway1" {
   compartment_id = var.compartment_ocid
@@ -220,26 +221,26 @@ resource "oci_core_security_list" "securitylist1" {
 
 /* Instances */
 
-resource "oci_core_instance" "instance1" {
-  availability_domain = data.oci_identity_availability_domain.ad1.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "be-instance1"
-  shape               = var.instance_shape
-
-  metadata = {
-    user_data = base64encode(var.user-data)
-  }
-
-  create_vnic_details {
-    subnet_id      = oci_core_subnet.subnet1.id
-    hostname_label = "be-instance1"
-  }
-
-  source_details {
-    source_type = "image"
-    source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
-  }
-}
+# resource "oci_core_instance" "instance1" {
+#   availability_domain = data.oci_identity_availability_domain.ad1.name
+#   compartment_id      = var.compartment_ocid
+#   display_name        = "be-instance1"
+#   shape               = var.instance_shape
+#
+#   metadata = {
+#     user_data = base64encode(var.user-data)
+#   }
+#
+#   create_vnic_details {
+#     subnet_id      = oci_core_subnet.subnet1.id
+#     hostname_label = "be-instance1"
+#   }
+#
+#   source_details {
+#     source_type = "image"
+#     source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
+#   }
+# }
 
 variable "user-data" {
   default = <<EOF
@@ -290,10 +291,10 @@ resource "oci_network_load_balancer_network_load_balancer" "nlb-symmetic" {
   is_preserve_source_destination = true
   is_symmetric_hash_enabled = true
 
-  security_attributes = {
-    "secAttriZprNlb.secAttri.mode" = "enforce"
-    "secAttriZprNlb.secAttri.value" = "someVal"
-  }
+  # security_attributes = {
+  #   "secAttriZprNlb.secAttri.mode" = "enforce"
+  #   "secAttriZprNlb.secAttri.value" = "someVal"
+  # }
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes-symmetric" {
@@ -393,7 +394,7 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
   policy                   = "THREE_TUPLE"
   is_fail_open = false
   is_instant_failover_enabled = true
-  are_operationally_active_backends_preferred = true
+  are_operationally_active_backends_preferred = false
 
 
   health_checker {
@@ -498,7 +499,7 @@ resource "oci_network_load_balancer_backend" "nlb-be1" {
 resource "oci_network_load_balancer_backend" "nlb-be2" {
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
   backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes2.name
-  target_id                = oci_core_instance.instance1.id
+  ip_address                = "10.1.20.13"
   port                     = 22
   is_backup                = false
   is_drain                 = false
@@ -603,4 +604,46 @@ resource "oci_network_load_balancer_backend" "nlb-be-ipv6" {
   is_offline               = false
   weight                   = 1
   depends_on = [oci_network_load_balancer_listener.nlb-listener-ipv6]
+}
+
+
+/* Reserved Private IP testing */
+
+resource "oci_core_private_ip" "oci_reserved_private_ip" {
+  display_name = "reservedPrivateIp"
+  subnet_id = oci_core_subnet.subnet-ipv6.id
+  lifetime = "RESERVED"
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
+resource "oci_core_ipv6" "oci_reserved_ipv6" {
+  display_name = "reservedIpv6"
+  subnet_id = oci_core_subnet.subnet-ipv6.id
+  lifetime = "RESERVED"
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
+resource "oci_network_load_balancer_network_load_balancer" "nlb-reserved-private-ip" {
+  compartment_id = var.compartment_ocid
+
+  subnet_id = oci_core_subnet.subnet-ipv6.id
+
+  display_name = "nlb-reserved-private-ip"
+
+  is_preserve_source_destination = true
+
+  nlb_ip_version = "IPV4_AND_IPV6"
+
+  reserved_ips {
+    id = oci_core_private_ip.oci_reserved_private_ip.id
+  }
+
+  reserved_ips {
+    id = oci_core_ipv6.oci_reserved_ipv6.id
+  }
+
 }
