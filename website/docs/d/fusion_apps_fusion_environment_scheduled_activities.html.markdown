@@ -52,15 +52,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `actions` - List of actions
-	* `action_type` - Type of action
-	* `artifact` - patch that delivered the vertex update prerequisite
-	* `category` - patch artifact category
+	* `action_type` - Type of action.
+	* `artifact` - Patch that delivered the Vertex update prerequisite.
+	* `category` - Patch artifact category.
 	* `description` - A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
-	* `mode` - A string that describes whether the change is applied hot or cold
-	* `qualifier` - month qualifier
-	* `reference_key` - Unique identifier of the object that represents the action
-	* `state` - A string that describes whether the change is applied hot or cold
-	* `version` - name of the repo
+	* `mode` - A string that describes whether the change is applied hot or cold.
+	* `qualifier` - Month qualifier.
+	* `reference_key` - Unique identifier of the object that represents the action.
+	* `state` - A string that describes whether the change is applied hot or cold.
+	* `version` - Name of the repo.
 * `delay_in_hours` - Cumulative delay hours
 * `display_name` - scheduled activity display name, can be renamed.
 * `fusion_environment_id` - FAaaS Environment Identifier.

@@ -66,6 +66,12 @@ func (s *FusionAppsFusionEnvironmentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	additionalEgressRules := []interface{}{}
+	for _, item := range s.Res.AdditionalEgressRules {
+		additionalEgressRules = append(additionalEgressRules, AdditionalEgressRuleToMap(item))
+	}
+	s.D.Set("additional_egress_rules", additionalEgressRules)
+
 	s.D.Set("additional_language_packs", s.Res.AdditionalLanguagePacks)
 
 	s.D.Set("applied_patch_bundles", s.Res.AppliedPatchBundles)
