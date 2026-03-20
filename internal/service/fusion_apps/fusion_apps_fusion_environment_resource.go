@@ -95,6 +95,36 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"additional_egress_rules": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"description": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"destination_cidr": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"max_destination_port": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"min_destination_port": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"additional_language_packs": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -439,6 +469,23 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) DeletedTarget() []string {
 func (s *FusionAppsFusionEnvironmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fusion_apps.CreateFusionEnvironmentRequest{}
 
+	if additionalEgressRules, ok := s.D.GetOkExists("additional_egress_rules"); ok {
+		interfaces := additionalEgressRules.([]interface{})
+		tmp := make([]oci_fusion_apps.AdditionalEgressRule, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_egress_rules", stateDataIndex)
+			converted, err := s.mapToAdditionalEgressRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_egress_rules") {
+			request.AdditionalEgressRules = tmp
+		}
+	}
+
 	if additionalLanguagePacks, ok := s.D.GetOkExists("additional_language_packs"); ok {
 		interfaces := additionalLanguagePacks.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -710,6 +757,23 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) UpdateWithContext(ctx context.
 	}
 	request := oci_fusion_apps.UpdateFusionEnvironmentRequest{}
 
+	if additionalEgressRules, ok := s.D.GetOkExists("additional_egress_rules"); ok {
+		interfaces := additionalEgressRules.([]interface{})
+		tmp := make([]oci_fusion_apps.AdditionalEgressRule, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_egress_rules", stateDataIndex)
+			converted, err := s.mapToAdditionalEgressRule(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_egress_rules") {
+			request.AdditionalEgressRules = tmp
+		}
+	}
+
 	if additionalLanguagePacks, ok := s.D.GetOkExists("additional_language_packs"); ok {
 		interfaces := additionalLanguagePacks.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -813,6 +877,12 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) DeleteWithContext(ctx context.
 }
 
 func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
+	additionalEgressRules := []interface{}{}
+	for _, item := range s.Res.AdditionalEgressRules {
+		additionalEgressRules = append(additionalEgressRules, AdditionalEgressRuleToMap(item))
+	}
+	s.D.Set("additional_egress_rules", additionalEgressRules)
+
 	s.D.Set("additional_language_packs", s.Res.AdditionalLanguagePacks)
 
 	s.D.Set("applied_patch_bundles", s.Res.AppliedPatchBundles)
@@ -922,6 +992,54 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *FusionAppsFusionEnvironmentResourceCrud) mapToAdditionalEgressRule(fieldKeyFormat string) (oci_fusion_apps.AdditionalEgressRule, error) {
+	result := oci_fusion_apps.AdditionalEgressRule{}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
+	if destinationCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_cidr")); ok {
+		tmp := destinationCidr.(string)
+		result.DestinationCidr = &tmp
+	}
+
+	if maxDestinationPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_destination_port")); ok {
+		tmp := maxDestinationPort.(int)
+		result.MaxDestinationPort = &tmp
+	}
+
+	if minDestinationPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_destination_port")); ok {
+		tmp := minDestinationPort.(int)
+		result.MinDestinationPort = &tmp
+	}
+
+	return result, nil
+}
+
+func AdditionalEgressRuleToMap(obj oci_fusion_apps.AdditionalEgressRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DestinationCidr != nil {
+		result["destination_cidr"] = string(*obj.DestinationCidr)
+	}
+
+	if obj.MaxDestinationPort != nil {
+		result["max_destination_port"] = int(*obj.MaxDestinationPort)
+	}
+
+	if obj.MinDestinationPort != nil {
+		result["min_destination_port"] = int(*obj.MinDestinationPort)
+	}
+
+	return result
 }
 
 func (s *FusionAppsFusionEnvironmentResourceCrud) mapToCreateFusionEnvironmentAdminUserDetails(fieldKeyFormat string) (oci_fusion_apps.CreateFusionEnvironmentAdminUserDetails, error) {

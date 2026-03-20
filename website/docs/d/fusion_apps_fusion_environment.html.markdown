@@ -32,6 +32,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `additional_egress_rules` - Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	* `description` - Rule description.
+	* `destination_cidr` - Specifies the destination CIDR block the port should be opened for. Must be IPv4 only, and cannot be part of any private range from [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918).
+	* `max_destination_port` - The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	* `min_destination_port` - The minimum port number, which must not be greater than the maximum port number.
 * `additional_language_packs` - Language packs
 * `applied_patch_bundles` - Patch bundle names
 * `compartment_id` - Compartment Identifier
@@ -45,7 +50,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `idcs_domain_url` - The IDCS Domain URL
 * `is_break_glass_enabled` - If it's true, then the Break Glass feature is enabled
-* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
+* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment (where available). Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
 * `kms_key_id` - BYOK key id
 * `kms_key_info` - BYOK key info
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
