@@ -6,9 +6,9 @@
 # variable "fingerprint" {}
 # variable "private_key_path" {}
 # variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
-variable "oracle_db_gcp_oracle_db_connector_id" {
+variable "oracle_db_gcp_connector_id" {
 }
 variable "oracle_db_gcp_key_ring_display_name" {
   default = "TestDbGcpVaultExample"
@@ -44,9 +44,9 @@ variable "gcp_key_ring_id" {
 
 resource "oci_dbmulticloud_oracle_db_gcp_key_ring" "test_oracle_db_gcp_key_ring" {
   #Required
-  compartment_id         = var.compartment_id
+  compartment_id         = var.compartment_ocid
   display_name           = var.oracle_db_gcp_key_ring_display_name
-  oracle_db_connector_id = var.oracle_db_gcp_oracle_db_connector_id
+  oracle_db_connector_id = var.oracle_db_gcp_connector_id
 
   gcp_key_ring_id = var.gcp_key_ring_id
   location        = var.oracle_db_gcp_key_ring_location
@@ -56,11 +56,11 @@ resource "oci_dbmulticloud_oracle_db_gcp_key_ring" "test_oracle_db_gcp_key_ring"
 
 data "oci_dbmulticloud_oracle_db_gcp_key_rings" "test_oracle_db_gcp_key_rings" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   display_name               = var.oracle_db_gcp_key_ring_display_name
-  oracle_db_gcp_connector_id = var.oracle_db_gcp_oracle_db_connector_id
+  oracle_db_gcp_connector_id = var.oracle_db_gcp_connector_id
   oracle_db_gcp_key_ring_id  = var.gcp_key_ring_id
 #   state                      = var.oracle_db_gcp_key_ring_state
 }

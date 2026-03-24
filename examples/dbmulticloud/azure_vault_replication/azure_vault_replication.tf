@@ -8,9 +8,14 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 
+// Required to match the existing key
 variable "oracle_db_azure_connector_id" {
   type = string
   default = ""
+}
+
+variable "oracle_db_azure_vault_id" {
+  type = string
 }
 
 provider "oci" {
@@ -21,20 +26,24 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_dbmulticloud_oracle_db_azure_vault" "test_oracle_db_azure_vault" {
+resource "oci_dbmulticloud_oracle_db_azure_vault" "existing" {
 azure_vault_id = "PrasannaHSM2"
 compartment_id = var.compartment_ocid
-display_name = "Discover_Tersi_Test"
+display_name = "Tersi_Example_Vault"
 location = "eastus2"
 oracle_db_azure_resource_group = "Prasanna.RG"
 oracle_db_connector_id = var.oracle_db_azure_connector_id
 type = "managedHSMs"
+  // Replication
+  action        = "DELETE"
+  target_region = "us-boardman-1"
 }
 
-data "oci_dbmulticloud_oracle_db_azure_vault" "test_oracle_db_azure_vault" {
-  oracle_db_azure_vault_id = oci_dbmulticloud_oracle_db_azure_vault.test_oracle_db_azure_vault.id
+data "oci_dbmulticloud_oracle_db_azure_vault" "existing" {
+  oracle_db_azure_vault_id =var.oracle_db_azure_vault_id
 }
 
 output "azure_vault_id" {
-  value = oci_dbmulticloud_oracle_db_azure_vault.test_oracle_db_azure_vault.id
+  value = oci_dbmulticloud_oracle_db_azure_vault.existing.id
 }
+
