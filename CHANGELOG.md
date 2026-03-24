@@ -1,3 +1,8 @@
+## 8.7.0 (March 24, 2026)
+
+### Bug Fix
+- Inconsistency between VCN IPv6 CIDR config and Terraform States
+
 ## 8.6.0 (March 17, 2026)
 
 ### Added
