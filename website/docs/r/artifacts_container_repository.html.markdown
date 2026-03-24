@@ -92,6 +92,6 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 ContainerRepositories can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_artifacts_container_repository.test_container_repository "container/repositories/{repositoryId}" 
+$ terraform import oci_artifacts_container_repository.test_container_repository "{repositoryId}"
 ```
 
