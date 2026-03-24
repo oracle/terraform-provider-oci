@@ -39,6 +39,9 @@ type IdentityConfiguration struct {
 	// Time when this identity configuration config was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
 	IamUserSyncConfiguration *IamUserSyncConfiguration `mandatory:"false" json:"iamUserSyncConfiguration"`
 
 	UpstConfiguration *UpstConfiguration `mandatory:"false" json:"upstConfiguration"`

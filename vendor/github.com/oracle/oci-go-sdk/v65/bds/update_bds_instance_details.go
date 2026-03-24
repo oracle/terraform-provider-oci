@@ -18,6 +18,12 @@ import (
 // UpdateBdsInstanceDetails The information about to-be-updated Big Data Service cluster.
 type UpdateBdsInstanceDetails struct {
 
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// Boolean flag specifying whether or not to persist the provided secret OCID and reuse it for future operations.
+	IsSecretReused *bool `mandatory:"false" json:"isSecretReused"`
+
 	// Name of the cluster.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

@@ -30,9 +30,6 @@ type CreateBdsInstanceDetails struct {
 	// The SSH public key used to authenticate the cluster connection.
 	ClusterPublicKey *string `mandatory:"true" json:"clusterPublicKey"`
 
-	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// Boolean flag specifying whether or not the cluster is highly available (HA).
 	IsHighAvailability *bool `mandatory:"true" json:"isHighAvailability"`
 
@@ -41,6 +38,15 @@ type CreateBdsInstanceDetails struct {
 
 	// The list of nodes in the Big Data Service cluster.
 	Nodes []CreateNodeDetails `mandatory:"true" json:"nodes"`
+
+	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user. Not required if the secretId is specified.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// Boolean flag specifying whether or not to persist the provided secret OCID and reuse it for future operations.
+	IsSecretReused *bool `mandatory:"false" json:"isSecretReused"`
 
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 

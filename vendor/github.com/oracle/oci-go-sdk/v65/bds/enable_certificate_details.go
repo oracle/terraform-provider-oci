@@ -18,11 +18,14 @@ import (
 // EnableCertificateDetails The request body info about configure certificate service list.
 type EnableCertificateDetails struct {
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// List of services for which certificate needs to be enabled.
 	Services []ServiceEnum `mandatory:"true" json:"services"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Plain text certificate/s in order, separated by new line character. If not provided in request a self-signed root certificate is generated inside the cluster. In case hostCertDetails is provided, root certificate is mandatory.
 	RootCertificate *string `mandatory:"false" json:"rootCertificate"`

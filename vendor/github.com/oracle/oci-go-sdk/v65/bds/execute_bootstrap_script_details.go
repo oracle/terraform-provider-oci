@@ -19,7 +19,10 @@ import (
 type ExecuteBootstrapScriptDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`

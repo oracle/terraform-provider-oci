@@ -62,6 +62,9 @@ type GenerativeAiPrivateEndpoint struct {
 
 	PreviousState *GenerativeAiPrivateEndpoint `mandatory:"false" json:"previousState"`
 
+	// The resource type that Generative AI private endpoint can be used for.
+	ResourceType GenerativeAiPrivateEndpointResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -95,6 +98,9 @@ func (m GenerativeAiPrivateEndpoint) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGenerativeAiPrivateEndpointLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingGenerativeAiPrivateEndpointResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -156,5 +162,47 @@ func GetGenerativeAiPrivateEndpointLifecycleStateEnumStringValues() []string {
 // GetMappingGenerativeAiPrivateEndpointLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingGenerativeAiPrivateEndpointLifecycleStateEnum(val string) (GenerativeAiPrivateEndpointLifecycleStateEnum, bool) {
 	enum, ok := mappingGenerativeAiPrivateEndpointLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// GenerativeAiPrivateEndpointResourceTypeEnum Enum with underlying type: string
+type GenerativeAiPrivateEndpointResourceTypeEnum string
+
+// Set of constants representing the allowable values for GenerativeAiPrivateEndpointResourceTypeEnum
+const (
+	GenerativeAiPrivateEndpointResourceTypeApplication GenerativeAiPrivateEndpointResourceTypeEnum = "APPLICATION"
+	GenerativeAiPrivateEndpointResourceTypeEndpoint    GenerativeAiPrivateEndpointResourceTypeEnum = "ENDPOINT"
+)
+
+var mappingGenerativeAiPrivateEndpointResourceTypeEnum = map[string]GenerativeAiPrivateEndpointResourceTypeEnum{
+	"APPLICATION": GenerativeAiPrivateEndpointResourceTypeApplication,
+	"ENDPOINT":    GenerativeAiPrivateEndpointResourceTypeEndpoint,
+}
+
+var mappingGenerativeAiPrivateEndpointResourceTypeEnumLowerCase = map[string]GenerativeAiPrivateEndpointResourceTypeEnum{
+	"application": GenerativeAiPrivateEndpointResourceTypeApplication,
+	"endpoint":    GenerativeAiPrivateEndpointResourceTypeEndpoint,
+}
+
+// GetGenerativeAiPrivateEndpointResourceTypeEnumValues Enumerates the set of values for GenerativeAiPrivateEndpointResourceTypeEnum
+func GetGenerativeAiPrivateEndpointResourceTypeEnumValues() []GenerativeAiPrivateEndpointResourceTypeEnum {
+	values := make([]GenerativeAiPrivateEndpointResourceTypeEnum, 0)
+	for _, v := range mappingGenerativeAiPrivateEndpointResourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues Enumerates the set of values in String for GenerativeAiPrivateEndpointResourceTypeEnum
+func GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues() []string {
+	return []string{
+		"APPLICATION",
+		"ENDPOINT",
+	}
+}
+
+// GetMappingGenerativeAiPrivateEndpointResourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGenerativeAiPrivateEndpointResourceTypeEnum(val string) (GenerativeAiPrivateEndpointResourceTypeEnum, bool) {
+	enum, ok := mappingGenerativeAiPrivateEndpointResourceTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

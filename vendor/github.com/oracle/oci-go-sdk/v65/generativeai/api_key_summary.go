@@ -39,6 +39,7 @@ type ApiKeySummary struct {
 	// The current state of the API key.
 	// Allowed values are:
 	// - ACTIVE
+	// - INACTIVE
 	// - CREATING
 	// - UPDATING
 	// - DELETING

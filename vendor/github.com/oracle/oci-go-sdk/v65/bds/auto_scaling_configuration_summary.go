@@ -19,7 +19,7 @@ import (
 // AutoScalingConfigurationSummary The information about the autoscale configuration.
 type AutoScalingConfigurationSummary struct {
 
-	// The OCID of the autoscale configuration.
+	// The ID of the autoscale configuration defined under BDS resources, not OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.

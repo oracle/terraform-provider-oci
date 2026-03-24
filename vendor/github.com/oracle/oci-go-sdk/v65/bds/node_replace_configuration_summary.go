@@ -19,7 +19,7 @@ import (
 // NodeReplaceConfigurationSummary The information about the NodeReplaceConfigurationSummary.
 type NodeReplaceConfigurationSummary struct {
 
-	// The id of the NodeReplaceConfiguration.
+	// The id of the NodeReplaceConfiguration defined under BDS resources, not OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the bdsInstance which is the parent resource id.

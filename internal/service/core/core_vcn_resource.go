@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 	"fmt"
+	"slices"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -581,7 +582,9 @@ func (s *CoreVcnResourceCrud) Delete() error {
 }
 
 func (s *CoreVcnResourceCrud) SetData() error {
-	s.D.Set("byoipv6cidr_blocks", s.Res.Byoipv6CidrBlocks)
+	byoipv6cidrBlocks := s.setBYOIPv6Blocks().([]interface{})
+
+	s.setBYOIPv6Details(byoipv6cidrBlocks)
 
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
@@ -644,6 +647,45 @@ func (s *CoreVcnResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+/*
+Given a list of byoipv6 cidr blocks fetched from the provider, this function does the following:
+1. Fetch current state of the config byoipv6cidr_details
+2. Perform state update
+2.a. Add any missing CIDR to the missing CIDRs list
+2.b. Patch the state for byoipv6cidr_details with the missing values
+
+This helps us catch a drift / prevent unnecessary drifts in case the subnet resource was updated with ipv6 blocks outside terraform
+*/
+func (s *CoreVcnResourceCrud) setBYOIPv6Details(byoipv6cidrBlocks []interface{}) {
+	byoipV6DetailsFromConfig, _ := s.D.GetOk("byoipv6cidr_details")
+
+	if byoipV6DetailsFromConfig != nil {
+		byoIPv6BlocksFromConfig := computeIPv6BlocksFromBYOIPv6Details(byoipV6DetailsFromConfig)
+
+		// Compute CIDRs that are missing from data fetched from the server
+		consolidatedByoipv6Details, _ := byoipV6DetailsFromConfig.([]interface{})
+		for i := 0; i < len(byoipv6cidrBlocks); i++ {
+			elementToFind := byoipv6cidrBlocks[i].(string)
+			if !slices.ContainsFunc(byoIPv6BlocksFromConfig, isIPv6CidrIdentical(elementToFind)) {
+				consolidatedByoipv6Details = append(consolidatedByoipv6Details, map[string]interface{}{"ipv6cidr_block": elementToFind, "byoipv6range_id": "(known_after_apply)"})
+			}
+		}
+
+		byoipV6DetailsFromConfig = consolidatedByoipv6Details
+		s.D.Set("byoipv6cidr_details", byoipV6DetailsFromConfig)
+	}
+}
+
+// Simple method to set the values for the field byoipv6cidr_blocks
+func (s *CoreVcnResourceCrud) setBYOIPv6Blocks() interface{} {
+	byoipv6cidrBlocks := make([]interface{}, len(s.Res.Byoipv6CidrBlocks))
+	for i, v := range s.Res.Byoipv6CidrBlocks {
+		byoipv6cidrBlocks[i] = v
+	}
+	s.D.Set("byoipv6cidr_blocks", byoipv6cidrBlocks)
+	return byoipv6cidrBlocks
 }
 
 func (s *CoreVcnResourceCrud) mapToByoipv6CidrDetails(fieldKeyFormat string) (oci_core.Byoipv6CidrDetails, error) {
