@@ -28,8 +28,10 @@ import (
 // fake
 var (
 	vcenterEndpoint = `https://11.0.11.130/sdk`
-	vaultSecretId   = `${var.vaultId}`
-	inventoryId     = `${oci_cloud_bridge_inventory.test_inventory.id}`
+	olvmEndpoint    = `https://11.0.11.131:443`
+	vaultSecretId   = `${var.vaultSecretId}`
+	awsAccountKey   = `${var.awsAccountKey}`
+	inventoryId     = `${var.inventoryId}`
 
 	CloudBridgeAssetSourceRequiredOnlyResource = CloudBridgeAssetSourceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Required, acctest.Create, CloudBridgeAssetSourceRepresentation)
@@ -51,6 +53,7 @@ var (
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"discovery_credentials":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudBridgeAssetSourceDiscoveryCredentialsRepresentation},
 		"environment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_bridge_environment.test_environment.id}`},
+		"environment_type":                 acctest.Representation{RepType: acctest.Optional, Create: `SOURCE`},
 		"inventory_id":                     acctest.Representation{RepType: acctest.Required, Create: inventoryId},
 		"type":                             acctest.Representation{RepType: acctest.Required, Create: `VMWARE`},
 		"vcenter_endpoint":                 acctest.Representation{RepType: acctest.Required, Create: vcenterEndpoint, Update: vcenterEndpoint},
@@ -70,12 +73,536 @@ var (
 		"type":      acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
 	}
 
+	// OLVM
+	CloudBridgeOlvmAssetSourceRequiredOnlyResource = CloudBridgeAssetSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Required, acctest.Create, CloudBridgeOlvmAssetSourceRepresentation)
+
+	CloudBridgeOlvmAssetSourceResourceConfig = CloudBridgeAssetSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Update, CloudBridgeOlvmAssetSourceRepresentation)
+
+	CloudBridgeOlvmAssetSourceRepresentation = map[string]interface{}{
+		"assets_compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"discovery_credentials":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudBridgeOlvmAssetSourceDiscoveryCredentialsRepresentation},
+		"environment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_bridge_environment.test_environment.id}`},
+		"environment_type":                 acctest.Representation{RepType: acctest.Optional, Create: `SOURCE`},
+		"inventory_id":                     acctest.Representation{RepType: acctest.Required, Create: inventoryId},
+		"type":                             acctest.Representation{RepType: acctest.Required, Create: `OLVM`},
+		"olvm_endpoint":                    acctest.Representation{RepType: acctest.Required, Create: olvmEndpoint, Update: olvmEndpoint},
+		"are_historical_metrics_collected": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"are_realtime_metrics_collected":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"discovery_schedule_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_bridge_discovery_schedule.test_discovery_schedule.id}`},
+		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"replication_credentials":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudBridgeOlvmAssetSourceReplicationCredentialsRepresentation},
+		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSystemTagsChangesRep},
+	}
+	CloudBridgeOlvmAssetSourceDiscoveryCredentialsRepresentation = map[string]interface{}{
+		"secret_id": acctest.Representation{RepType: acctest.Required, Create: vaultSecretId},
+		"type":      acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
+	}
+	CloudBridgeOlvmAssetSourceReplicationCredentialsRepresentation = map[string]interface{}{
+		"secret_id": acctest.Representation{RepType: acctest.Required, Create: vaultSecretId},
+		"type":      acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
+	}
+
+	//AWS
+	CloudBridgeAwsAssetSourceRequiredOnlyResource = CloudBridgeAssetSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Required, acctest.Create, CloudBridgeAwsAssetSourceRepresentation)
+
+	CloudBridgeAwsAssetSourceResourceConfig = CloudBridgeAssetSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Update, CloudBridgeAwsAssetSourceRepresentation)
+
+	CloudBridgeAwsAssetSourceRepresentation = map[string]interface{}{
+		"assets_compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"discovery_credentials":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudBridgeAwsAssetSourceDiscoveryCredentialsRepresentation},
+		"environment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_bridge_environment.test_environment.id}`},
+		"environment_type":                 acctest.Representation{RepType: acctest.Optional, Create: `SOURCE`},
+		"inventory_id":                     acctest.Representation{RepType: acctest.Required, Create: inventoryId},
+		"type":                             acctest.Representation{RepType: acctest.Required, Create: `AWS`},
+		"aws_account_key":                  acctest.Representation{RepType: acctest.Required, Create: awsAccountKey},
+		"aws_region":                       acctest.Representation{RepType: acctest.Required, Create: `us-east-1`},
+		"are_historical_metrics_collected": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"are_realtime_metrics_collected":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_cost_information_collected":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"discovery_schedule_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_bridge_discovery_schedule.test_discovery_schedule.id}`},
+		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"replication_credentials":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudBridgeAwsAssetSourceReplicationCredentialsRepresentation},
+		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSystemTagsChangesRep},
+	}
+	CloudBridgeAwsAssetSourceDiscoveryCredentialsRepresentation = map[string]interface{}{
+		"secret_id": acctest.Representation{RepType: acctest.Required, Create: vaultSecretId},
+		"type":      acctest.Representation{RepType: acctest.Required, Create: `API_KEY`},
+	}
+	CloudBridgeAwsAssetSourceReplicationCredentialsRepresentation = map[string]interface{}{
+		"secret_id": acctest.Representation{RepType: acctest.Required, Create: vaultSecretId},
+		"type":      acctest.Representation{RepType: acctest.Required, Create: `API_KEY`},
+	}
+
 	CloudBridgeAssetSourceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_discovery_schedule", "test_discovery_schedule", acctest.Required, acctest.Create, CloudBridgeDiscoveryScheduleRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_environment", "test_environment", acctest.Required, acctest.Create, CloudBridgeEnvironmentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_inventory", "test_inventory", acctest.Required, acctest.Create, CloudBridgeInventoryRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_environment", "test_environment", acctest.Required, acctest.Create, CloudBridgeEnvironmentRepresentation)
 
 	//acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_inventory", "test_inventory", acctest.Required, acctest.Create, CloudBridgeInventoryRepresentation)
 )
+
+func TestCloudBridgeAwsAssetSourceResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCloudBridgeAwsAssetSourceResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	vaultSecretId := utils.GetEnvSettingWithBlankDefault("vaultSecretId")
+	vaultSecretIdVariableStr := fmt.Sprintf("variable \"vaultSecretId\" { default = \"%s\" }\n", vaultSecretId)
+
+	awsAccountKey := utils.GetEnvSettingWithBlankDefault("awsAccountKey")
+	awsAccountKeyVariableStr := fmt.Sprintf("variable \"awsAccountKey\" { default = \"%s\" }\n", awsAccountKey)
+
+	inventoryId := utils.GetEnvSettingWithBlankDefault("inventoryId")
+	inventoryIdVariableStr := fmt.Sprintf("variable \"inventoryId\" { default = \"%s\" }\n", inventoryId)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	variableStr := compartmentIdVariableStr + vaultSecretIdVariableStr + awsAccountKeyVariableStr + inventoryIdVariableStr
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_cloud_bridge_asset_source.test_asset_source"
+	datasourceName := "data.oci_cloud_bridge_asset_sources.test_asset_sources"
+	singularDatasourceName := "data.oci_cloud_bridge_asset_source.test_asset_source"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+variableStr+CloudBridgeAssetSourceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+			"test_asset_source", acctest.Optional, acctest.Create, CloudBridgeAwsAssetSourceRepresentation),
+		"cloudbridge", "assetSource", t)
+
+	acctest.ResourceTest(t, testAccCheckCloudBridgeAssetSourceDestroy, []resource.TestStep{
+		// AWS verify Create
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+					"test_asset_source", acctest.Required, acctest.Create, CloudBridgeAwsAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "aws_account_key", awsAccountKey),
+				resource.TestCheckResourceAttr(resourceName, "aws_region", "us-east-1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "AWS"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// AWS delete before next Create
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies,
+		},
+		// AWS verify Create with optionals
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+					"test_asset_source", acctest.Optional, acctest.Create, CloudBridgeAwsAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_cost_information_collected", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "aws_account_key", awsAccountKey),
+				resource.TestCheckResourceAttr(resourceName, "aws_region", "us-east-1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "AWS"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// AWS verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + variableStr + compartmentIdUVariableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(CloudBridgeAwsAssetSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_cost_information_collected", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "aws_account_key", awsAccountKey),
+				resource.TestCheckResourceAttr(resourceName, "aws_region", "us-east-1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "AWS"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// AWS verify updates to updatable parameters
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+					"test_asset_source", acctest.Optional, acctest.Update, CloudBridgeAwsAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "true"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "aws_account_key", awsAccountKey),
+				resource.TestCheckResourceAttr(resourceName, "aws_region", "us-east-1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_cost_information_collected", "true"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "AWS"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// AWS verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_bridge_asset_sources",
+					"test_asset_sources", acctest.Optional, acctest.Update, CloudBridgeCloudBridgeAssetSourceDataSourceRepresentation) +
+				variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+					"test_asset_source", acctest.Optional, acctest.Update, CloudBridgeAwsAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "asset_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "asset_source_collection.#", "1"),
+			),
+		},
+		// AWS verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_bridge_asset_source",
+					"test_asset_source", acctest.Required, acctest.Create, CloudBridgeCloudBridgeAssetSourceSingularDataSourceRepresentation) +
+				variableStr + CloudBridgeAwsAssetSourceResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "asset_source_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_historical_metrics_collected", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_realtime_metrics_collected", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "aws_account_key", awsAccountKey),
+				resource.TestCheckResourceAttr(singularDatasourceName, "aws_region", "us-east-1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "environment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_cost_information_collected", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.0.type", "API_KEY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "AWS"),
+			),
+		},
+		// AWS verify resource import
+		{
+			Config:                  config + CloudBridgeAwsAssetSourceRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: cloud_bridge/default
+func TestCloudBridgeOlvmAssetSourceResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCloudBridgeOlvmAssetSourceResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	vaultSecretId := utils.GetEnvSettingWithBlankDefault("vaultSecretId")
+	vaultSecretIdVariableStr := fmt.Sprintf("variable \"vaultSecretId\" { default = \"%s\" }\n", vaultSecretId)
+
+	inventoryId := utils.GetEnvSettingWithBlankDefault("inventoryId")
+	inventoryIdVariableStr := fmt.Sprintf("variable \"inventoryId\" { default = \"%s\" }\n", inventoryId)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	variableStr := compartmentIdVariableStr + vaultSecretIdVariableStr + inventoryIdVariableStr
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_cloud_bridge_asset_source.test_asset_source"
+	datasourceName := "data.oci_cloud_bridge_asset_sources.test_asset_sources"
+	singularDatasourceName := "data.oci_cloud_bridge_asset_source.test_asset_source"
+
+	var resId, resId2 string
+	acctest.SaveConfigContent(config+variableStr+CloudBridgeAssetSourceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Create, CloudBridgeOlvmAssetSourceRepresentation),
+		"cloudbridge", "assetSource", t)
+
+	acctest.ResourceTest(t, testAccCheckCloudBridgeAssetSourceDestroy, []resource.TestStep{
+		// OLVM verify Create
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Required, acctest.Create, CloudBridgeOlvmAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "olvm_endpoint", olvmEndpoint),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// OLVM delete before next Create
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies,
+		},
+		// OLVM verify Create with optionals
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Create, CloudBridgeOlvmAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "olvm_endpoint", olvmEndpoint),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// OLVM verify Update to the compartment
+		{
+			Config: config + variableStr + compartmentIdUVariableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(CloudBridgeOlvmAssetSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "olvm_endpoint", olvmEndpoint),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// OLVM verify updates to updatable parameters
+		{
+			Config: config + variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Update, CloudBridgeOlvmAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_historical_metrics_collected", "true"),
+				resource.TestCheckResourceAttr(resourceName, "are_realtime_metrics_collected", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(resourceName, "olvm_endpoint", olvmEndpoint),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "replication_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "type", "OLVM"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// OLVM verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_bridge_asset_sources", "test_asset_sources", acctest.Optional, acctest.Update, CloudBridgeCloudBridgeAssetSourceDataSourceRepresentation) +
+				variableStr + CloudBridgeAssetSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Optional, acctest.Update, CloudBridgeOlvmAssetSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "asset_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "asset_source_collection.#", "1"),
+			),
+		},
+		// OLVM verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_bridge_asset_source", "test_asset_source", acctest.Required, acctest.Create, CloudBridgeCloudBridgeAssetSourceSingularDataSourceRepresentation) +
+				variableStr + CloudBridgeOlvmAssetSourceResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "asset_source_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_historical_metrics_collected", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_realtime_metrics_collected", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "assets_compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovery_schedule_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "environment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "environment_type", "SOURCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "inventory_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "olvm_endpoint", olvmEndpoint),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_credentials.0.secret_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.0.type", "BASIC"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "OLVM"),
+			),
+		},
+		// OLVM verify resource import
+		{
+			Config:                  config + CloudBridgeOlvmAssetSourceRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
 
 // issue-routing-tag: cloud_bridge/default
 func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
@@ -84,12 +611,15 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	vaultSecretId := utils.GetEnvSettingWithBlankDefault("vaultId")
-	vaultSecretIdVariableStr := fmt.Sprintf("variable \"vaultId\" { default = \"%s\" }\n", vaultSecretId)
+	vaultSecretId := utils.GetEnvSettingWithBlankDefault("vaultSecretId")
+	vaultSecretIdVariableStr := fmt.Sprintf("variable \"vaultSecretId\" { default = \"%s\" }\n", vaultSecretId)
+
+	inventoryId := utils.GetEnvSettingWithBlankDefault("inventoryId")
+	inventoryIdVariableStr := fmt.Sprintf("variable \"inventoryId\" { default = \"%s\" }\n", inventoryId)
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	variableStr := compartmentIdVariableStr + vaultSecretIdVariableStr
+	variableStr := compartmentIdVariableStr + vaultSecretIdVariableStr + inventoryIdVariableStr
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
@@ -115,6 +645,7 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "discovery_credentials.0.secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_credentials.0.type", "BASIC"),
 				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "VMWARE"),
 				resource.TestCheckResourceAttr(resourceName, "vcenter_endpoint", vcenterEndpoint),
@@ -145,6 +676,7 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
 				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
@@ -186,6 +718,7 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
 				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
@@ -222,6 +755,7 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "discovery_schedule_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "environment_id"),
+				resource.TestCheckResourceAttr(resourceName, "environment_type", "SOURCE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "inventory_id"),
 				resource.TestCheckResourceAttr(resourceName, "replication_credentials.#", "1"),
@@ -268,6 +802,8 @@ func TestCloudBridgeAssetSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_credentials.0.type", "BASIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "environment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "environment_type", "SOURCE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "replication_credentials.0.type", "BASIC"),

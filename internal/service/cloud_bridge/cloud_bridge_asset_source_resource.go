@@ -79,12 +79,10 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"AWS",
+					"OLVM",
 					"VMWARE",
 				}, true),
-			},
-			"vcenter_endpoint": {
-				Type:     schema.TypeString,
-				Required: true,
 			},
 
 			// Optional
@@ -97,6 +95,18 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"aws_account_key": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"aws_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -115,11 +125,26 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"environment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_cost_information_collected": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"olvm_endpoint": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"replication_credentials": {
 				Type:     schema.TypeList,
@@ -150,6 +175,11 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"vcenter_endpoint": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -463,8 +493,179 @@ func (s *CloudBridgeAssetSourceResourceCrud) Delete() error {
 }
 
 func (s *CloudBridgeAssetSourceResourceCrud) SetData() error {
-
 	switch v := (*s.Res).(type) {
+	case oci_cloud_bridge.AwsAssetSource:
+		s.D.Set("type", "AWS")
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		if v.AreHistoricalMetricsCollected != nil {
+			s.D.Set("are_historical_metrics_collected", *v.AreHistoricalMetricsCollected)
+		}
+
+		if v.AreRealtimeMetricsCollected != nil {
+			s.D.Set("are_realtime_metrics_collected", *v.AreRealtimeMetricsCollected)
+		}
+
+		if v.IsCostInformationCollected != nil {
+			s.D.Set("is_cost_information_collected", *v.IsCostInformationCollected)
+		}
+
+		if v.AwsAccountKey != nil {
+			s.D.Set("aws_account_key", *v.AwsAccountKey)
+		}
+
+		if v.AwsRegion != nil {
+			s.D.Set("aws_region", *v.AwsRegion)
+		}
+
+		if v.DiscoveryCredentials != nil {
+			s.D.Set("discovery_credentials", []interface{}{AssetSourceCredentialsToMap(v.DiscoveryCredentials)})
+		} else {
+			s.D.Set("discovery_credentials", nil)
+		}
+
+		if v.ReplicationCredentials != nil {
+			s.D.Set("replication_credentials", []interface{}{AssetSourceCredentialsToMap(v.ReplicationCredentials)})
+		} else {
+			s.D.Set("replication_credentials", nil)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			s.D.Set("assets_compartment_id", *v.AssetsCompartmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiscoveryScheduleId != nil {
+			s.D.Set("discovery_schedule_id", *v.DiscoveryScheduleId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EnvironmentId != nil {
+			s.D.Set("environment_id", *v.EnvironmentId)
+		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		if v.InventoryId != nil {
+			s.D.Set("inventory_id", *v.InventoryId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_cloud_bridge.OlvmAssetSource:
+		s.D.Set("type", "OLVM")
+
+		if v.AreHistoricalMetricsCollected != nil {
+			s.D.Set("are_historical_metrics_collected", *v.AreHistoricalMetricsCollected)
+		}
+
+		if v.AreRealtimeMetricsCollected != nil {
+			s.D.Set("are_realtime_metrics_collected", *v.AreRealtimeMetricsCollected)
+		}
+
+		if v.DiscoveryCredentials != nil {
+			s.D.Set("discovery_credentials", []interface{}{AssetSourceCredentialsToMap(v.DiscoveryCredentials)})
+		} else {
+			s.D.Set("discovery_credentials", nil)
+		}
+
+		if v.OlvmEndpoint != nil {
+			s.D.Set("olvm_endpoint", *v.OlvmEndpoint)
+		}
+
+		if v.ReplicationCredentials != nil {
+			s.D.Set("replication_credentials", []interface{}{AssetSourceCredentialsToMap(v.ReplicationCredentials)})
+		} else {
+			s.D.Set("replication_credentials", nil)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			s.D.Set("assets_compartment_id", *v.AssetsCompartmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiscoveryScheduleId != nil {
+			s.D.Set("discovery_schedule_id", *v.DiscoveryScheduleId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EnvironmentId != nil {
+			s.D.Set("environment_id", *v.EnvironmentId)
+		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		if v.InventoryId != nil {
+			s.D.Set("inventory_id", *v.InventoryId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_cloud_bridge.VmWareAssetSource:
 		s.D.Set("type", "VMWARE")
 
@@ -519,6 +720,8 @@ func (s *CloudBridgeAssetSourceResourceCrud) SetData() error {
 		if v.EnvironmentId != nil {
 			s.D.Set("environment_id", *v.EnvironmentId)
 		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
@@ -580,6 +783,118 @@ func AssetSourceCredentialsToMap(obj *oci_cloud_bridge.AssetSourceCredentials) m
 func AssetSourceSummaryToMap(obj oci_cloud_bridge.AssetSourceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_cloud_bridge.AwsAssetSourceSummary:
+		result["type"] = "AWS"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.AwsAccountKey != nil {
+			result["aws_account_key"] = string(*v.AwsAccountKey)
+		}
+
+		if v.AwsRegion != nil {
+			result["aws_region"] = string(*v.AwsRegion)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			result["assets_compartment_id"] = *v.AssetsCompartmentId
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = *v.CompartmentId
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = *v.DisplayName
+		}
+
+		if v.EnvironmentId != nil {
+			result["environment_id"] = *v.EnvironmentId
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.InventoryId != nil {
+			result["inventory_id"] = *v.InventoryId
+		}
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = *v.LifecycleDetails
+		}
+
+		result["state"] = v.LifecycleState
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+	case oci_cloud_bridge.OlvmAssetSourceSummary:
+		result["type"] = "OLVM"
+
+		if v.OlvmEndpoint != nil {
+			result["olvm_endpoint"] = string(*v.OlvmEndpoint)
+		}
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			result["assets_compartment_id"] = *v.AssetsCompartmentId
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = *v.CompartmentId
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = *v.DisplayName
+		}
+
+		if v.EnvironmentId != nil {
+			result["environment_id"] = *v.EnvironmentId
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.InventoryId != nil {
+			result["inventory_id"] = *v.InventoryId
+		}
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = *v.LifecycleDetails
+		}
+
+		result["state"] = v.LifecycleState
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
 	case oci_cloud_bridge.VmWareAssetSourceSummary:
 		result["type"] = "VMWARE"
 
@@ -652,6 +967,172 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicCreateAs
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("AWS"):
+		details := oci_cloud_bridge.CreateAwsAssetSourceDetails{}
+		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
+			tmp := areHistoricalMetricsCollected.(bool)
+			details.AreHistoricalMetricsCollected = &tmp
+		}
+		if areRealtimeMetricsCollected, ok := s.D.GetOkExists("are_realtime_metrics_collected"); ok {
+			tmp := areRealtimeMetricsCollected.(bool)
+			details.AreRealtimeMetricsCollected = &tmp
+		}
+		if awsAccountKey, ok := s.D.GetOkExists("aws_account_key"); ok {
+			tmp := awsAccountKey.(string)
+			details.AwsAccountKey = &tmp
+		}
+		if awsRegion, ok := s.D.GetOkExists("aws_region"); ok {
+			tmp := awsRegion.(string)
+			details.AwsRegion = &tmp
+		}
+		if discoveryCredentials, ok := s.D.GetOkExists("discovery_credentials"); ok {
+			if tmpList := discoveryCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "discovery_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiscoveryCredentials = &tmp
+			}
+		}
+		if isCostInformationCollected, ok := s.D.GetOkExists("is_cost_information_collected"); ok {
+			tmp := isCostInformationCollected.(bool)
+			details.IsCostInformationCollected = &tmp
+		}
+		if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+			if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ReplicationCredentials = &tmp
+			}
+		}
+		if assetsCompartmentId, ok := s.D.GetOkExists("assets_compartment_id"); ok {
+			tmp := assetsCompartmentId.(string)
+			details.AssetsCompartmentId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if discoveryScheduleId, ok := s.D.GetOkExists("discovery_schedule_id"); ok {
+			tmp := discoveryScheduleId.(string)
+			details.DiscoveryScheduleId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if environmentId, ok := s.D.GetOkExists("environment_id"); ok {
+			tmp := environmentId.(string)
+			details.EnvironmentId = &tmp
+		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if inventoryId, ok := s.D.GetOkExists("inventory_id"); ok {
+			tmp := inventoryId.(string)
+			details.InventoryId = &tmp
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		request.CreateAssetSourceDetails = details
+	case strings.ToLower("OLVM"):
+		details := oci_cloud_bridge.CreateOlvmAssetSourceDetails{}
+		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
+			tmp := areHistoricalMetricsCollected.(bool)
+			details.AreHistoricalMetricsCollected = &tmp
+		}
+		if areRealtimeMetricsCollected, ok := s.D.GetOkExists("are_realtime_metrics_collected"); ok {
+			tmp := areRealtimeMetricsCollected.(bool)
+			details.AreRealtimeMetricsCollected = &tmp
+		}
+		if discoveryCredentials, ok := s.D.GetOkExists("discovery_credentials"); ok {
+			if tmpList := discoveryCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "discovery_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiscoveryCredentials = &tmp
+			}
+		}
+		if olvmEndpoint, ok := s.D.GetOkExists("olvm_endpoint"); ok {
+			tmp := olvmEndpoint.(string)
+			details.OlvmEndpoint = &tmp
+		}
+		if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+			if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ReplicationCredentials = &tmp
+			}
+		}
+		if assetsCompartmentId, ok := s.D.GetOkExists("assets_compartment_id"); ok {
+			tmp := assetsCompartmentId.(string)
+			details.AssetsCompartmentId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if discoveryScheduleId, ok := s.D.GetOkExists("discovery_schedule_id"); ok {
+			tmp := discoveryScheduleId.(string)
+			details.DiscoveryScheduleId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if environmentId, ok := s.D.GetOkExists("environment_id"); ok {
+			tmp := environmentId.(string)
+			details.EnvironmentId = &tmp
+		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if inventoryId, ok := s.D.GetOkExists("inventory_id"); ok {
+			tmp := inventoryId.(string)
+			details.InventoryId = &tmp
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		request.CreateAssetSourceDetails = details
 	case strings.ToLower("VMWARE"):
 		details := oci_cloud_bridge.CreateVmWareAssetSourceDetails{}
 		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
@@ -713,6 +1194,9 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicCreateAs
 			tmp := environmentId.(string)
 			details.EnvironmentId = &tmp
 		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
+		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
@@ -744,6 +1228,144 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicUpdateAs
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("AWS"):
+		details := oci_cloud_bridge.UpdateAwsAssetSourceDetails{}
+		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
+			tmp := areHistoricalMetricsCollected.(bool)
+			details.AreHistoricalMetricsCollected = &tmp
+		}
+		if areRealtimeMetricsCollected, ok := s.D.GetOkExists("are_realtime_metrics_collected"); ok {
+			tmp := areRealtimeMetricsCollected.(bool)
+			details.AreRealtimeMetricsCollected = &tmp
+		}
+		if discoveryCredentials, ok := s.D.GetOkExists("discovery_credentials"); ok {
+			if tmpList := discoveryCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "discovery_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiscoveryCredentials = &tmp
+			}
+		}
+		if isCostInformationCollected, ok := s.D.GetOkExists("is_cost_information_collected"); ok {
+			tmp := isCostInformationCollected.(bool)
+			details.IsCostInformationCollected = &tmp
+		}
+		if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+			if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ReplicationCredentials = &tmp
+			}
+		}
+		tmp := s.D.Id()
+		request.AssetSourceId = &tmp
+		if assetsCompartmentId, ok := s.D.GetOkExists("assets_compartment_id"); ok {
+			tmp := assetsCompartmentId.(string)
+			details.AssetsCompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if discoveryScheduleId, ok := s.D.GetOkExists("discovery_schedule_id"); ok {
+			tmp := discoveryScheduleId.(string)
+			details.DiscoveryScheduleId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		request.UpdateAssetSourceDetails = details
+	case strings.ToLower("OLVM"):
+		details := oci_cloud_bridge.UpdateOlvmAssetSourceDetails{}
+		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
+			tmp := areHistoricalMetricsCollected.(bool)
+			details.AreHistoricalMetricsCollected = &tmp
+		}
+		if areRealtimeMetricsCollected, ok := s.D.GetOkExists("are_realtime_metrics_collected"); ok {
+			tmp := areRealtimeMetricsCollected.(bool)
+			details.AreRealtimeMetricsCollected = &tmp
+		}
+		if discoveryCredentials, ok := s.D.GetOkExists("discovery_credentials"); ok {
+			if tmpList := discoveryCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "discovery_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DiscoveryCredentials = &tmp
+			}
+		}
+		if olvmEndpoint, ok := s.D.GetOkExists("olvm_endpoint"); ok {
+			tmp := olvmEndpoint.(string)
+			details.OlvmEndpoint = &tmp
+		}
+		if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+			if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+				tmp, err := s.mapToAssetSourceCredentials(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ReplicationCredentials = &tmp
+			}
+		}
+		tmp := s.D.Id()
+		request.AssetSourceId = &tmp
+		if assetsCompartmentId, ok := s.D.GetOkExists("assets_compartment_id"); ok {
+			tmp := assetsCompartmentId.(string)
+			details.AssetsCompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if discoveryScheduleId, ok := s.D.GetOkExists("discovery_schedule_id"); ok {
+			tmp := discoveryScheduleId.(string)
+			details.DiscoveryScheduleId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+			convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.SystemTags = convertedSystemTags
+		}
+		request.UpdateAssetSourceDetails = details
 	case strings.ToLower("VMWARE"):
 		details := oci_cloud_bridge.UpdateVmWareAssetSourceDetails{}
 		if areHistoricalMetricsCollected, ok := s.D.GetOkExists("are_historical_metrics_collected"); ok {
@@ -763,10 +1385,6 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicUpdateAs
 				}
 				details.DiscoveryCredentials = &tmp
 			}
-		}
-		if discoveryScheduleId, ok := s.D.GetOkExists("discovery_schedule_id"); ok {
-			tmp := discoveryScheduleId.(string)
-			details.DiscoveryScheduleId = &tmp
 		}
 		if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
 			if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
@@ -802,6 +1420,9 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicUpdateAs
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+			details.EnvironmentType = oci_cloud_bridge.EnvironmentTypeEnum(environmentType.(string))
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
