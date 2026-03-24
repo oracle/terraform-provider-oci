@@ -35,6 +35,7 @@ const (
 	OperationTypesCreateAutoscaleConfig                OperationTypesEnum = "CREATE_AUTOSCALE_CONFIG"
 	OperationTypesUpdateAutoscaleConfig                OperationTypesEnum = "UPDATE_AUTOSCALE_CONFIG"
 	OperationTypesDeleteAutoscaleConfig                OperationTypesEnum = "DELETE_AUTOSCALE_CONFIG"
+	OperationTypesRemoveNodes                          OperationTypesEnum = "REMOVE_NODES"
 	OperationTypesAutoscaleConfig                      OperationTypesEnum = "AUTOSCALE_CONFIG"
 	OperationTypesAutoscaleRun                         OperationTypesEnum = "AUTOSCALE_RUN"
 	OperationTypesCreateApiKey                         OperationTypesEnum = "CREATE_API_KEY"
@@ -77,6 +78,12 @@ const (
 	OperationTypesActivateIamUserSyncConfig            OperationTypesEnum = "ACTIVATE_IAM_USER_SYNC_CONFIG"
 	OperationTypesDeactivateIamUserSyncConfig          OperationTypesEnum = "DEACTIVATE_IAM_USER_SYNC_CONFIG"
 	OperationTypesInstallSoftwareUpdates               OperationTypesEnum = "INSTALL_SOFTWARE_UPDATES"
+	OperationTypesResetPassword                        OperationTypesEnum = "RESET_PASSWORD"
+	OperationTypesGenerateCertificate                  OperationTypesEnum = "GENERATE_CERTIFICATE"
+	OperationTypesRenewCertificate                     OperationTypesEnum = "RENEW_CERTIFICATE"
+	OperationTypesCreateCertConfig                     OperationTypesEnum = "CREATE_CERT_CONFIG"
+	OperationTypesSetDefaultCertConfig                 OperationTypesEnum = "SET_DEFAULT_CERT_CONFIG"
+	OperationTypesDeleteCertConfig                     OperationTypesEnum = "DELETE_CERT_CONFIG"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -97,6 +104,7 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_AUTOSCALE_CONFIG":                 OperationTypesCreateAutoscaleConfig,
 	"UPDATE_AUTOSCALE_CONFIG":                 OperationTypesUpdateAutoscaleConfig,
 	"DELETE_AUTOSCALE_CONFIG":                 OperationTypesDeleteAutoscaleConfig,
+	"REMOVE_NODES":                            OperationTypesRemoveNodes,
 	"AUTOSCALE_CONFIG":                        OperationTypesAutoscaleConfig,
 	"AUTOSCALE_RUN":                           OperationTypesAutoscaleRun,
 	"CREATE_API_KEY":                          OperationTypesCreateApiKey,
@@ -139,6 +147,12 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"ACTIVATE_IAM_USER_SYNC_CONFIG":           OperationTypesActivateIamUserSyncConfig,
 	"DEACTIVATE_IAM_USER_SYNC_CONFIG":         OperationTypesDeactivateIamUserSyncConfig,
 	"INSTALL_SOFTWARE_UPDATES":                OperationTypesInstallSoftwareUpdates,
+	"RESET_PASSWORD":                          OperationTypesResetPassword,
+	"GENERATE_CERTIFICATE":                    OperationTypesGenerateCertificate,
+	"RENEW_CERTIFICATE":                       OperationTypesRenewCertificate,
+	"CREATE_CERT_CONFIG":                      OperationTypesCreateCertConfig,
+	"SET_DEFAULT_CERT_CONFIG":                 OperationTypesSetDefaultCertConfig,
+	"DELETE_CERT_CONFIG":                      OperationTypesDeleteCertConfig,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -159,6 +173,7 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"create_autoscale_config":                 OperationTypesCreateAutoscaleConfig,
 	"update_autoscale_config":                 OperationTypesUpdateAutoscaleConfig,
 	"delete_autoscale_config":                 OperationTypesDeleteAutoscaleConfig,
+	"remove_nodes":                            OperationTypesRemoveNodes,
 	"autoscale_config":                        OperationTypesAutoscaleConfig,
 	"autoscale_run":                           OperationTypesAutoscaleRun,
 	"create_api_key":                          OperationTypesCreateApiKey,
@@ -201,6 +216,12 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"activate_iam_user_sync_config":           OperationTypesActivateIamUserSyncConfig,
 	"deactivate_iam_user_sync_config":         OperationTypesDeactivateIamUserSyncConfig,
 	"install_software_updates":                OperationTypesInstallSoftwareUpdates,
+	"reset_password":                          OperationTypesResetPassword,
+	"generate_certificate":                    OperationTypesGenerateCertificate,
+	"renew_certificate":                       OperationTypesRenewCertificate,
+	"create_cert_config":                      OperationTypesCreateCertConfig,
+	"set_default_cert_config":                 OperationTypesSetDefaultCertConfig,
+	"delete_cert_config":                      OperationTypesDeleteCertConfig,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -232,6 +253,7 @@ func GetOperationTypesEnumStringValues() []string {
 		"CREATE_AUTOSCALE_CONFIG",
 		"UPDATE_AUTOSCALE_CONFIG",
 		"DELETE_AUTOSCALE_CONFIG",
+		"REMOVE_NODES",
 		"AUTOSCALE_CONFIG",
 		"AUTOSCALE_RUN",
 		"CREATE_API_KEY",
@@ -274,6 +296,12 @@ func GetOperationTypesEnumStringValues() []string {
 		"ACTIVATE_IAM_USER_SYNC_CONFIG",
 		"DEACTIVATE_IAM_USER_SYNC_CONFIG",
 		"INSTALL_SOFTWARE_UPDATES",
+		"RESET_PASSWORD",
+		"GENERATE_CERTIFICATE",
+		"RENEW_CERTIFICATE",
+		"CREATE_CERT_CONFIG",
+		"SET_DEFAULT_CERT_CONFIG",
+		"DELETE_CERT_CONFIG",
 	}
 }
 

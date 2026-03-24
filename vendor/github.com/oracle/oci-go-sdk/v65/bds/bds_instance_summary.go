@@ -57,6 +57,9 @@ type BdsInstanceSummary struct {
 	// Profile of the Big Data Service cluster.
 	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
 
+	// The earliest time of certificate expiration date across the certificates of all current nodes under this cluster.
+	TimeEarliestCertificateExpiration *common.SDKTime `mandatory:"false" json:"timeEarliestCertificateExpiration"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

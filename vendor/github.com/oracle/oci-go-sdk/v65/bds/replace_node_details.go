@@ -25,7 +25,10 @@ type ReplaceNodeDetails struct {
 	NodeBackupId *string `mandatory:"true" json:"nodeBackupId"`
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// Shape of the new vm when replacing the node. If not provided, BDS will attempt to replace the node with the shape of current node.
 	Shape *string `mandatory:"false" json:"shape"`

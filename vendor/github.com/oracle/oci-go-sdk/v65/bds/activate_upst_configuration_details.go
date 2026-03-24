@@ -18,14 +18,17 @@ import (
 // ActivateUpstConfigurationDetails Details for activating UPST config on the cluster
 type ActivateUpstConfigurationDetails struct {
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// OCID of the vault to store token exchange service principal keyta, required for creating UPST configb
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
 	// OCID of the master encryption key in vault for encrypting token exchange service principal keytab, required for creating UPST config
 	MasterEncryptionKeyId *string `mandatory:"true" json:"masterEncryptionKeyId"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m ActivateUpstConfigurationDetails) String() string {

@@ -17,11 +17,13 @@ import (
 
 // ChangeShapeDetails Resize details specified for individual nodes.
 type ChangeShapeDetails struct {
+	Nodes *ChangeShapeNodes `mandatory:"true" json:"nodes"`
 
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
 
-	Nodes *ChangeShapeNodes `mandatory:"true" json:"nodes"`
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m ChangeShapeDetails) String() string {

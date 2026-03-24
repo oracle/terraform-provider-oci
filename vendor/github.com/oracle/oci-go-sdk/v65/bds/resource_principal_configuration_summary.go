@@ -18,7 +18,7 @@ import (
 // ResourcePrincipalConfigurationSummary Resource Principal Session Token Details.
 type ResourcePrincipalConfigurationSummary struct {
 
-	// the ID of the ResourcePrincipalConfiguration.
+	// the ID of the ResourcePrincipalConfiguration defined under BDS resources, not OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// the OCID of the bdsInstance which is the parent resource id.

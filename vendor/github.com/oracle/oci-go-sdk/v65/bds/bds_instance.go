@@ -51,6 +51,12 @@ type BdsInstance struct {
 	// Version of the Hadoop distribution.
 	ClusterVersion BdsInstanceClusterVersionEnum `mandatory:"false" json:"clusterVersion,omitempty"`
 
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
+	// Boolean flag specifying whether or not to persist the provided secret OCID and reuse it for future operations.
+	IsSecretReused *bool `mandatory:"false" json:"isSecretReused"`
+
 	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 
 	ClusterDetails *ClusterDetails `mandatory:"false" json:"clusterDetails"`
@@ -87,6 +93,9 @@ type BdsInstance struct {
 	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
 
 	BdsClusterVersionSummary *BdsClusterVersionSummary `mandatory:"false" json:"bdsClusterVersionSummary"`
+
+	// The earliest time of certificate expiration date across the certificates of all current nodes under this cluster.
+	TimeEarliestCertificateExpiration *common.SDKTime `mandatory:"false" json:"timeEarliestCertificateExpiration"`
 }
 
 func (m BdsInstance) String() string {
