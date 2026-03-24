@@ -35,7 +35,7 @@ var (
 
 	DbmulticloudOracleDbGcpKeyRingDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `TestDbGcpVault`, Update: `TestDbGcpVault2`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `Tersi_ReplicationTest _GcpVault`, Update: `Tersi_ReplicationTest _GcpVault2`},
 		"oracle_db_gcp_connector_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_gcp_identity_connector.test_oracle_db_gcp_identity_connector.id}`},
 		//"oracle_db_gcp_key_ring_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_gcp_key_ring.test_oracle_db_gcp_key_ring.id}`},
 		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudOracleDbGcpKeyRingDataSourceFilterRepresentation}}
@@ -46,7 +46,7 @@ var (
 
 	DbmulticloudOracleDbGcpKeyRingRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `TestDbGcpVault`, Update: `TestDbGcpVault2`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi_ReplicationTest _GcpVault`, Update: `Tersi_ReplicationTest _GcpVault2`},
 		"oracle_db_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_gcp_identity_connector.test_oracle_db_gcp_identity_connector.id}`},
 		"gcp_key_ring_id":        acctest.Representation{RepType: acctest.Required, Create: `test key ring`},
 		"location":               acctest.Representation{RepType: acctest.Optional, Create: `location`},
@@ -84,7 +84,7 @@ func TestDbmulticloudOracleDbGcpKeyRingResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_gcp_key_ring", "test_oracle_db_gcp_key_ring", acctest.Optional, acctest.Create, DbmulticloudOracleDbGcpKeyRingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TestDbGcpVault"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest _GcpVault"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 
 				func(s *terraform.State) (err error) {
@@ -103,7 +103,7 @@ func TestDbmulticloudOracleDbGcpKeyRingResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TestDbGcpVault"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest _GcpVault"),
 				resource.TestCheckResourceAttrSet(resourceName, "gcp_key_ring_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "location", "location"),
@@ -127,7 +127,7 @@ func TestDbmulticloudOracleDbGcpKeyRingResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_gcp_key_ring", "test_oracle_db_gcp_key_ring", acctest.Optional, acctest.Update, DbmulticloudOracleDbGcpKeyRingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TestDbGcpVault2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest _GcpVault2"),
 				resource.TestCheckResourceAttrSet(resourceName, "gcp_key_ring_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "location", "location"),
@@ -153,7 +153,7 @@ func TestDbmulticloudOracleDbGcpKeyRingResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_gcp_key_ring", "test_oracle_db_gcp_key_ring", acctest.Optional, acctest.Update, DbmulticloudOracleDbGcpKeyRingRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "TestDbGcpVault2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "Tersi_ReplicationTest _GcpVault2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oracle_db_gcp_connector_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "oracle_db_gcp_key_ring_summary_collection.#", "1"),
@@ -169,7 +169,7 @@ func TestDbmulticloudOracleDbGcpKeyRingResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_db_gcp_key_ring_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TestDbGcpVault2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Tersi_ReplicationTest _GcpVault2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "location", "location"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "1"),

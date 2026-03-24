@@ -39,7 +39,7 @@ var (
 
 	DbmulticloudOracleDbAzureVaultDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Discover_Tersi_Test`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Tersi_ReplicationTest`},
 		// "oracle_db_azure_connector_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
 		"oracle_db_azure_resource_group": acctest.Representation{RepType: acctest.Optional, Create: `Prasanna.RG`},
 		"state":                          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -51,7 +51,7 @@ var (
 
 	DbmulticloudOracleDbAzureVaultRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Discover_Tersi_Test`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Tersi_ReplicationTest`},
 		"oracle_db_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_azure_connector.test_oracle_db_azure_connector.id}`},
 		"azure_vault_id":         acctest.Representation{RepType: acctest.Required, Create: `PrasannaHSM2`},
 		// "defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -94,7 +94,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_azure_vault", "test_oracle_db_azure_vault", acctest.Required, acctest.Create, DbmulticloudOracleDbAzureVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 				resource.TestCheckResourceAttr(resourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),
 				resource.TestCheckResourceAttr(resourceName, "location", "eastus2"),
@@ -118,7 +118,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "azure_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
@@ -147,7 +147,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "azure_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
@@ -171,7 +171,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "azure_vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Tersi_ReplicationTest"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
@@ -195,7 +195,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_azure_vault", "test_oracle_db_azure_vault", acctest.Optional, acctest.Update, DbmulticloudOracleDbAzureVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "Tersi_ReplicationTest"),
 				// resource.TestCheckResourceAttrSet(datasourceName, "oracle_db_azure_connector_id"),
 				resource.TestCheckResourceAttr(datasourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),
 				// resource.TestCheckResourceAttrSet(datasourceName, "oracle_db_azure_vault_id"),
@@ -213,7 +213,7 @@ func TestDbmulticloudOracleDbAzureVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_db_azure_vault_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Discover_Tersi_Test"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Tersi_ReplicationTest"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				// resource.TestCheckResourceAttrSet(singularDatasourceName, "last_modification"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "oracle_db_azure_resource_group", "Prasanna.RG"),

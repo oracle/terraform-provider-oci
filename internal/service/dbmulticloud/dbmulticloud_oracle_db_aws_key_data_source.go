@@ -107,6 +107,12 @@ func (s *DbmulticloudOracleDbAwsKeyDataSourceCrud) SetData() error {
 
 	s.D.Set("properties", s.Res.Properties)
 
+	if s.Res.ReplicationMetadata != nil {
+		s.D.Set("replication_metadata", []interface{}{ReplicationMetadataAwsToMap(s.Res.ReplicationMetadata)})
+	} else {
+		s.D.Set("replication_metadata", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

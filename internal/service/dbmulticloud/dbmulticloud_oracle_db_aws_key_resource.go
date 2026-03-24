@@ -47,6 +47,10 @@ func DbmulticloudOracleDbAwsKeyResource() *schema.Resource {
 			},
 
 			// Optional
+			"action": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"aws_account_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -97,11 +101,57 @@ func DbmulticloudOracleDbAwsKeyResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"target_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"lifecycle_state_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"replication_metadata": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"replication_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"replication_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -416,6 +466,17 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) GetWithContext(ctx context.Cont
 }
 
 func (s *DbmulticloudOracleDbAwsKeyResourceCrud) UpdateWithContext(ctx context.Context) error {
+
+	if s.D.HasChange("action") || s.D.HasChange("target_region") {
+		err := s.ReplicateOracleDbAwsKey()
+		if err != nil {
+			return err
+		}
+		if waitErr := s.waitForAwsKeyActive(ctx, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+			return waitErr
+		}
+		return s.GetWithContext(ctx)
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -456,6 +517,26 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) UpdateWithContext(ctx context.C
 
 	workId := response.OpcWorkRequestId
 	return s.getOracleDbAwsKeyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DbmulticloudOracleDbAwsKeyResourceCrud) waitForAwsKeyActive(ctx context.Context, timeout time.Duration) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"PENDING"},
+		Target:  []string{"DONE"},
+		Refresh: func() (interface{}, string, error) {
+			if err := s.GetWithContext(ctx); err != nil {
+				return nil, "PENDING", err
+			}
+			if s.Res != nil && s.Res.LifecycleState == oci_dbmulticloud.OracleDbAwsKeyLifecycleStateActive {
+				return s.Res, "DONE", nil
+			}
+			return nil, "PENDING", nil
+		},
+		Timeout: timeout,
+	}
+
+	_, err := stateConf.WaitForState()
+	return err
 }
 
 func (s *DbmulticloudOracleDbAwsKeyResourceCrud) DeleteWithContext(ctx context.Context) error {
@@ -519,6 +600,12 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 
 	s.D.Set("properties", s.Res.Properties)
 
+	if s.Res.ReplicationMetadata != nil {
+		s.D.Set("replication_metadata", []interface{}{ReplicationMetadataAwsToMap(s.Res.ReplicationMetadata)})
+	} else {
+		s.D.Set("replication_metadata", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -535,6 +622,35 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 
 	if s.Res.Type != nil {
 		s.D.Set("type", *s.Res.Type)
+	}
+
+	return nil
+}
+
+func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey() error {
+	request := oci_dbmulticloud.ReplicateOracleDbAwsKeyRequest{}
+
+	if action, ok := s.D.GetOkExists("action"); ok {
+		request.Action = oci_dbmulticloud.ReplicationActionsEnum(action.(string))
+	}
+
+	idTmp := s.D.Id()
+	request.OracleDbAwsKeyId = &idTmp
+
+	if targetRegion, ok := s.D.GetOkExists("target_region"); ok {
+		tmp := targetRegion.(string)
+		request.TargetRegion = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
+
+	_, err := s.Client.ReplicateOracleDbAwsKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
@@ -587,6 +703,10 @@ func OracleDbAwsKeySummaryToMap(obj oci_dbmulticloud.OracleDbAwsKeySummary) map[
 
 	result["properties"] = obj.Properties
 
+	if obj.ReplicationMetadata != nil {
+		result["replication_metadata"] = []interface{}{ReplicationMetadataAwsToMap(obj.ReplicationMetadata)}
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
@@ -604,6 +724,38 @@ func OracleDbAwsKeySummaryToMap(obj oci_dbmulticloud.OracleDbAwsKeySummary) map[
 	if obj.Type != nil {
 		result["type"] = string(*obj.Type)
 	}
+
+	return result
+}
+
+func ReplicationDetailsAwsToMap(obj oci_dbmulticloud.ReplicationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["replication_state"] = string(obj.ReplicationState)
+
+	if obj.TargetRegion != nil {
+		result["target_region"] = string(*obj.TargetRegion)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func ReplicationMetadataAwsToMap(obj *oci_dbmulticloud.ReplicationMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	replicationDetails := []interface{}{}
+	for _, item := range obj.ReplicationDetails {
+		replicationDetails = append(replicationDetails, ReplicationDetailsAwsToMap(item))
+	}
+	result["replication_details"] = replicationDetails
 
 	return result
 }
