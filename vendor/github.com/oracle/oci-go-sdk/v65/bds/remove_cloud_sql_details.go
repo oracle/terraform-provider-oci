@@ -19,7 +19,7 @@ import (
 type RemoveCloudSqlDetails struct {
 
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
 }
 
 func (m RemoveCloudSqlDetails) String() string {

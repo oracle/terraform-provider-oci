@@ -868,18 +868,3 @@ func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error
 	}
 	return err
 }
-
-func convertToCanonical(block string) string {
-	splitString := strings.Split(block, ":")
-
-	final := []string{"0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000"}
-
-	for i := 0; i < len(splitString)-2; i++ {
-
-		// append 4 - len(i) 0's to the left, and add it to string along with :
-		final[i] = strings.Repeat("0", 4-len(splitString[i])) + splitString[i]
-	}
-	result := strings.Join(final, ":")
-
-	return result + "/64"
-}

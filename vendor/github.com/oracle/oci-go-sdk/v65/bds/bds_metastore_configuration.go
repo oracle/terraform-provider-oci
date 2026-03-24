@@ -33,6 +33,9 @@ type BdsMetastoreConfiguration struct {
 	// The time when the configuration was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
 	// The OCID of the Data Catalog metastore. Set only if metastore's type is EXTERNAL.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 

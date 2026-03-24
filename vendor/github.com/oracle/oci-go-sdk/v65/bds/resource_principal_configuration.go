@@ -18,7 +18,7 @@ import (
 // ResourcePrincipalConfiguration Resource Principal Session Token Details.
 type ResourcePrincipalConfiguration struct {
 
-	// The id of the ResourcePrincipalConfiguration.
+	// The id of the ResourcePrincipalConfiguration defined under BDS resources, not OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the bdsInstance which is the parent resource id.
@@ -38,6 +38,9 @@ type ResourcePrincipalConfiguration struct {
 
 	// The time the ResourcePrincipalConfiguration was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// the time the resource principal session token was refreshed, shown as an rfc 3339 formatted datetime string.
 	TimeTokenRefreshed *common.SDKTime `mandatory:"false" json:"timeTokenRefreshed"`

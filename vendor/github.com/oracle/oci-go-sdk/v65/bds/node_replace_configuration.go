@@ -44,6 +44,9 @@ type NodeReplaceConfiguration struct {
 
 	// This value is the minimum period of time to wait for metric emission before triggering node replacement. The value is in minutes.
 	DurationInMinutes *int `mandatory:"true" json:"durationInMinutes"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m NodeReplaceConfiguration) String() string {
@@ -71,6 +74,7 @@ func (m NodeReplaceConfiguration) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *NodeReplaceConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		SecretId          *string                                    `json:"secretId"`
 		Id                *string                                    `json:"id"`
 		BdsInstanceId     *string                                    `json:"bdsInstanceId"`
 		DisplayName       *string                                    `json:"displayName"`
@@ -87,6 +91,8 @@ func (m *NodeReplaceConfiguration) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.SecretId = model.SecretId
+
 	m.Id = model.Id
 
 	m.BdsInstanceId = model.BdsInstanceId

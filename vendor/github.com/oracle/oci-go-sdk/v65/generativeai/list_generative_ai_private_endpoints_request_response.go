@@ -30,6 +30,9 @@ type ListGenerativeAiPrivateEndpointsRequest struct {
 	// The field used to sort the results. Multiple fields aren't supported.
 	SortBy ListGenerativeAiPrivateEndpointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// Query by the resource type of Generative AI private endpoints.
+	ResourceType GenerativeAiPrivateEndpointResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
+
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -93,6 +96,9 @@ func (request ListGenerativeAiPrivateEndpointsRequest) ValidateEnumValue() (bool
 	}
 	if _, ok := GetMappingListGenerativeAiPrivateEndpointsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListGenerativeAiPrivateEndpointsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingGenerativeAiPrivateEndpointResourceTypeEnum(string(request.ResourceType)); !ok && request.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", request.ResourceType, strings.Join(GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListGenerativeAiPrivateEndpointsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGenerativeAiPrivateEndpointsSortOrderEnumStringValues(), ",")))

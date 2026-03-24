@@ -91,6 +91,7 @@ type ApiKeyLifecycleStateEnum string
 const (
 	ApiKeyLifecycleStateCreating ApiKeyLifecycleStateEnum = "CREATING"
 	ApiKeyLifecycleStateActive   ApiKeyLifecycleStateEnum = "ACTIVE"
+	ApiKeyLifecycleStateInactive ApiKeyLifecycleStateEnum = "INACTIVE"
 	ApiKeyLifecycleStateUpdating ApiKeyLifecycleStateEnum = "UPDATING"
 	ApiKeyLifecycleStateDeleting ApiKeyLifecycleStateEnum = "DELETING"
 	ApiKeyLifecycleStateDeleted  ApiKeyLifecycleStateEnum = "DELETED"
@@ -100,6 +101,7 @@ const (
 var mappingApiKeyLifecycleStateEnum = map[string]ApiKeyLifecycleStateEnum{
 	"CREATING": ApiKeyLifecycleStateCreating,
 	"ACTIVE":   ApiKeyLifecycleStateActive,
+	"INACTIVE": ApiKeyLifecycleStateInactive,
 	"UPDATING": ApiKeyLifecycleStateUpdating,
 	"DELETING": ApiKeyLifecycleStateDeleting,
 	"DELETED":  ApiKeyLifecycleStateDeleted,
@@ -109,6 +111,7 @@ var mappingApiKeyLifecycleStateEnum = map[string]ApiKeyLifecycleStateEnum{
 var mappingApiKeyLifecycleStateEnumLowerCase = map[string]ApiKeyLifecycleStateEnum{
 	"creating": ApiKeyLifecycleStateCreating,
 	"active":   ApiKeyLifecycleStateActive,
+	"inactive": ApiKeyLifecycleStateInactive,
 	"updating": ApiKeyLifecycleStateUpdating,
 	"deleting": ApiKeyLifecycleStateDeleting,
 	"deleted":  ApiKeyLifecycleStateDeleted,
@@ -129,6 +132,7 @@ func GetApiKeyLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"INACTIVE",
 		"UPDATING",
 		"DELETING",
 		"DELETED",

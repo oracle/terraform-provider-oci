@@ -27,11 +27,14 @@ type CreateBdsMetastoreConfigurationDetails struct {
 	// Base-64 encoded passphrase of the BDS Api Key.
 	BdsApiKeyPassphrase *string `mandatory:"true" json:"bdsApiKeyPassphrase"`
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// The display name of the metastore configuration
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m CreateBdsMetastoreConfigurationDetails) String() string {
