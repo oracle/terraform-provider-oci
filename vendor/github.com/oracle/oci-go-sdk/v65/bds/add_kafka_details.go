@@ -24,13 +24,16 @@ type AddKafkaDetails struct {
 	// Number of Kafka nodes for the cluster.
 	NumberOfKafkaNodes *int `mandatory:"true" json:"numberOfKafkaNodes"`
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	ShapeConfig *ShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
 	// The size of block volme in GB to be attached to the given node. All details needed for attaching the block volume are managed by the service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"false" json:"blockVolumeSizeInGBs"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m AddKafkaDetails) String() string {

@@ -19,7 +19,7 @@ import (
 // NodeBackupConfigurationSummary The information about the NodeBackupConfiguration.
 type NodeBackupConfigurationSummary struct {
 
-	// The id of the NodeBackupConfiguration.
+	// The id of the NodeBackupConfiguration defined under BDS resources, not OCID.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the bdsInstance which is the parent resource id.

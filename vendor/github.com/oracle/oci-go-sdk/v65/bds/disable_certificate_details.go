@@ -18,11 +18,14 @@ import (
 // DisableCertificateDetails The request body info about disable certificate service list.
 type DisableCertificateDetails struct {
 
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
-
 	// List of services for which certificate needs to be disabled.
 	Services []ServiceEnum `mandatory:"true" json:"services"`
+
+	// Base-64 encoded password for the cluster admin user.
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// The secretId for the clusterAdminPassword.
+	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m DisableCertificateDetails) String() string {

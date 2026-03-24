@@ -57,6 +57,9 @@ type GenerativeAiPrivateEndpointSummary struct {
 	// The private IP address (in the customer's VCN) that represents the access point for the associated endpoint service.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
+	// The resource type that Generative AI private endpoint can be used for.
+	ResourceType GenerativeAiPrivateEndpointResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -90,6 +93,9 @@ func (m GenerativeAiPrivateEndpointSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGenerativeAiPrivateEndpointLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingGenerativeAiPrivateEndpointResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetGenerativeAiPrivateEndpointResourceTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
