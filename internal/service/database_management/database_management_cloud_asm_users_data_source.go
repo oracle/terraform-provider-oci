@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementCloudAsmUsersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementCloudAsmUsers,
+		ReadContext: readDatabaseManagementCloudAsmUsersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cloud_asm_id": {
@@ -71,12 +72,12 @@ func DatabaseManagementCloudAsmUsersDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseManagementCloudAsmUsers(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudAsmUsersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudAsmUsersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudAsmUsersDataSourceCrud struct {
@@ -89,7 +90,7 @@ func (s *DatabaseManagementCloudAsmUsersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudAsmUsersDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudAsmUsersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListCloudAsmUsersRequest{}
 
 	if cloudAsmId, ok := s.D.GetOkExists("cloud_asm_id"); ok {
@@ -104,7 +105,7 @@ func (s *DatabaseManagementCloudAsmUsersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListCloudAsmUsers(context.Background(), request)
+	response, err := s.Client.ListCloudAsmUsers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +114,7 @@ func (s *DatabaseManagementCloudAsmUsersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCloudAsmUsers(context.Background(), request)
+		listResponse, err := s.Client.ListCloudAsmUsers(ctx, request)
 		if err != nil {
 			return err
 		}

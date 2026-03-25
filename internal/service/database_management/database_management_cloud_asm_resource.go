@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementCloudAsmResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementCloudAsm,
-		Read:     readDatabaseManagementCloudAsm,
-		Update:   updateDatabaseManagementCloudAsm,
-		Delete:   deleteDatabaseManagementCloudAsm,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementCloudAsmWithContext,
+		ReadContext:   readDatabaseManagementCloudAsmWithContext,
+		UpdateContext: updateDatabaseManagementCloudAsmWithContext,
+		DeleteContext: deleteDatabaseManagementCloudAsmWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_asm_id": {
@@ -176,31 +176,31 @@ func DatabaseManagementCloudAsmResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementCloudAsm(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementCloudAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementCloudAsm(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementCloudAsm(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementCloudAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementCloudAsm(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementCloudAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -240,7 +240,7 @@ func (s *DatabaseManagementCloudAsmResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseManagementCloudAsmResourceCrud) Create() error {
+func (s *DatabaseManagementCloudAsmResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudAsmRequest{}
 
 	if cloudAsmId, ok := s.D.GetOkExists("cloud_asm_id"); ok {
@@ -267,14 +267,14 @@ func (s *DatabaseManagementCloudAsmResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudAsm(context.Background(), request)
+	response, err := s.Client.UpdateCloudAsm(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -290,14 +290,14 @@ func (s *DatabaseManagementCloudAsmResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getCloudAsmFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCloudAsmFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementCloudAsmResourceCrud) getCloudAsmFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementCloudAsmResourceCrud) getCloudAsmFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	cloudAsmId, err := cloudAsmWaitForWorkRequest(workId, "asm",
+	cloudAsmId, err := cloudAsmWaitForWorkRequest(ctx, workId, "asm",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -305,7 +305,7 @@ func (s *DatabaseManagementCloudAsmResourceCrud) getCloudAsmFromWorkRequest(work
 	}
 	s.D.SetId(*cloudAsmId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func cloudAsmWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -331,7 +331,7 @@ func cloudAsmWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func cloudAsmWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func cloudAsmWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = cloudAsmWorkRequestShouldRetryFunc(timeout)
@@ -350,7 +350,7 @@ func cloudAsmWaitForWorkRequest(wId *string, entityType string, action oci_datab
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -377,14 +377,14 @@ func cloudAsmWaitForWorkRequest(wId *string, entityType string, action oci_datab
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementCloudAsmWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementCloudAsmWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementCloudAsmWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementCloudAsmWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -406,7 +406,7 @@ func getErrorFromDatabaseManagementCloudAsmWorkRequest(client *oci_database_mana
 	return workRequestErr
 }
 
-func (s *DatabaseManagementCloudAsmResourceCrud) Get() error {
+func (s *DatabaseManagementCloudAsmResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudAsmRequest{}
 
 	tmp := s.D.Id()
@@ -414,7 +414,7 @@ func (s *DatabaseManagementCloudAsmResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetCloudAsm(context.Background(), request)
+	response, err := s.Client.GetCloudAsm(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -423,7 +423,7 @@ func (s *DatabaseManagementCloudAsmResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementCloudAsmResourceCrud) Update() error {
+func (s *DatabaseManagementCloudAsmResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudAsmRequest{}
 
 	tmp := s.D.Id()
@@ -448,13 +448,13 @@ func (s *DatabaseManagementCloudAsmResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudAsm(context.Background(), request)
+	response, err := s.Client.UpdateCloudAsm(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCloudAsmFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCloudAsmFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementCloudAsmResourceCrud) SetData() error {

@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementCloudDbNodesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementCloudDbNodes,
+		ReadContext: readDatabaseManagementCloudDbNodesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cloud_db_system_id": {
@@ -48,12 +49,12 @@ func DatabaseManagementCloudDbNodesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseManagementCloudDbNodes(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudDbNodesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbNodesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudDbNodesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *DatabaseManagementCloudDbNodesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudDbNodesDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudDbNodesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListCloudDbNodesRequest{}
 
 	if cloudDbSystemId, ok := s.D.GetOkExists("cloud_db_system_id"); ok {
@@ -86,7 +87,7 @@ func (s *DatabaseManagementCloudDbNodesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListCloudDbNodes(context.Background(), request)
+	response, err := s.Client.ListCloudDbNodes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *DatabaseManagementCloudDbNodesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCloudDbNodes(context.Background(), request)
+		listResponse, err := s.Client.ListCloudDbNodes(ctx, request)
 		if err != nil {
 			return err
 		}
