@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementCloudClusterInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudClusterInstanceResource(), fieldMap, readSingularDatabaseManagementCloudClusterInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudClusterInstanceResource(), fieldMap, readSingularDatabaseManagementCloudClusterInstanceWithContext)
 }
 
-func readSingularDatabaseManagementCloudClusterInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudClusterInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClusterInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudClusterInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementCloudClusterInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudClusterInstanceDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudClusterInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudClusterInstanceRequest{}
 
 	if cloudClusterInstanceId, ok := s.D.GetOkExists("cloud_cluster_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementCloudClusterInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudClusterInstance(context.Background(), request)
+	response, err := s.Client.GetCloudClusterInstance(ctx, request)
 	if err != nil {
 		return err
 	}
