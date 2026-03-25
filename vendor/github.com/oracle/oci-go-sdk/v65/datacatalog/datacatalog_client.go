@@ -132,7 +132,7 @@ func (client DataCatalogClient) addCatalogLock(ctx context.Context, request comm
 
 	var response AddCatalogLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AddCatalogLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -185,7 +185,7 @@ func (client DataCatalogClient) addCatalogPrivateEndpointLock(ctx context.Contex
 
 	var response AddCatalogPrivateEndpointLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AddCatalogPrivateEndpointLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -243,7 +243,7 @@ func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, req
 
 	var response AddDataSelectorPatternsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AddDataSelectorPatterns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -296,7 +296,7 @@ func (client DataCatalogClient) addMetastoreLock(ctx context.Context, request co
 
 	var response AddMetastoreLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AddMetastoreLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -354,7 +354,7 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 
 	var response AssociateCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AssociateCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -412,7 +412,7 @@ func (client DataCatalogClient) asynchronousExportDataAsset(ctx context.Context,
 
 	var response AsynchronousExportDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AsynchronousExportDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -470,7 +470,7 @@ func (client DataCatalogClient) asynchronousExportGlossary(ctx context.Context, 
 
 	var response AsynchronousExportGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AsynchronousExportGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -528,7 +528,7 @@ func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context
 
 	var response AttachCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "AttachCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -581,7 +581,7 @@ func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, re
 
 	var response ChangeCatalogCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ChangeCatalogCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -634,7 +634,7 @@ func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx cont
 
 	var response ChangeCatalogPrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ChangeCatalogPrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -687,7 +687,7 @@ func (client DataCatalogClient) changeMetastoreCompartment(ctx context.Context, 
 
 	var response ChangeMetastoreCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ChangeMetastoreCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -745,7 +745,7 @@ func (client DataCatalogClient) createAttribute(ctx context.Context, request com
 
 	var response CreateAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -803,7 +803,7 @@ func (client DataCatalogClient) createAttributeTag(ctx context.Context, request 
 
 	var response CreateAttributeTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateAttributeTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -862,7 +862,7 @@ func (client DataCatalogClient) createCatalog(ctx context.Context, request commo
 
 	var response CreateCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -920,7 +920,7 @@ func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context
 
 	var response CreateCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -978,7 +978,7 @@ func (client DataCatalogClient) createConnection(ctx context.Context, request co
 
 	var response CreateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1036,7 +1036,7 @@ func (client DataCatalogClient) createCustomProperty(ctx context.Context, reques
 
 	var response CreateCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1094,7 +1094,7 @@ func (client DataCatalogClient) createDataAsset(ctx context.Context, request com
 
 	var response CreateDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1152,7 +1152,7 @@ func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request 
 
 	var response CreateDataAssetTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateDataAssetTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1210,7 +1210,7 @@ func (client DataCatalogClient) createEntity(ctx context.Context, request common
 
 	var response CreateEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1268,7 +1268,7 @@ func (client DataCatalogClient) createEntityTag(ctx context.Context, request com
 
 	var response CreateEntityTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateEntityTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1326,7 +1326,7 @@ func (client DataCatalogClient) createFolder(ctx context.Context, request common
 
 	var response CreateFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1384,7 +1384,7 @@ func (client DataCatalogClient) createFolderTag(ctx context.Context, request com
 
 	var response CreateFolderTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateFolderTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1442,7 +1442,7 @@ func (client DataCatalogClient) createGlossary(ctx context.Context, request comm
 
 	var response CreateGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1500,7 +1500,7 @@ func (client DataCatalogClient) createJob(ctx context.Context, request common.OC
 
 	var response CreateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1558,7 +1558,7 @@ func (client DataCatalogClient) createJobDefinition(ctx context.Context, request
 
 	var response CreateJobDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateJobDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1616,7 +1616,7 @@ func (client DataCatalogClient) createJobExecution(ctx context.Context, request 
 
 	var response CreateJobExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateJobExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1674,7 +1674,7 @@ func (client DataCatalogClient) createMetastore(ctx context.Context, request com
 
 	var response CreateMetastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateMetastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1732,7 +1732,7 @@ func (client DataCatalogClient) createNamespace(ctx context.Context, request com
 
 	var response CreateNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1790,7 +1790,7 @@ func (client DataCatalogClient) createPattern(ctx context.Context, request commo
 
 	var response CreatePatternResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreatePattern")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1848,7 +1848,7 @@ func (client DataCatalogClient) createTerm(ctx context.Context, request common.O
 
 	var response CreateTermResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateTerm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1906,7 +1906,7 @@ func (client DataCatalogClient) createTermRelationship(ctx context.Context, requ
 
 	var response CreateTermRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "CreateTermRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1959,7 +1959,7 @@ func (client DataCatalogClient) deleteAttribute(ctx context.Context, request com
 
 	var response DeleteAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2012,7 +2012,7 @@ func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request 
 
 	var response DeleteAttributeTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteAttributeTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2065,7 +2065,7 @@ func (client DataCatalogClient) deleteCatalog(ctx context.Context, request commo
 
 	var response DeleteCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2118,7 +2118,7 @@ func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context
 
 	var response DeleteCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2171,7 +2171,7 @@ func (client DataCatalogClient) deleteConnection(ctx context.Context, request co
 
 	var response DeleteConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2224,7 +2224,7 @@ func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, reques
 
 	var response DeleteCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2277,7 +2277,7 @@ func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request com
 
 	var response DeleteDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2330,7 +2330,7 @@ func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request 
 
 	var response DeleteDataAssetTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteDataAssetTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2383,7 +2383,7 @@ func (client DataCatalogClient) deleteEntity(ctx context.Context, request common
 
 	var response DeleteEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2436,7 +2436,7 @@ func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request com
 
 	var response DeleteEntityTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteEntityTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2489,7 +2489,7 @@ func (client DataCatalogClient) deleteFolder(ctx context.Context, request common
 
 	var response DeleteFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2542,7 +2542,7 @@ func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request com
 
 	var response DeleteFolderTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteFolderTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2595,7 +2595,7 @@ func (client DataCatalogClient) deleteGlossary(ctx context.Context, request comm
 
 	var response DeleteGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2648,7 +2648,7 @@ func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OC
 
 	var response DeleteJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2701,7 +2701,7 @@ func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request
 
 	var response DeleteJobDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteJobDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2754,7 +2754,7 @@ func (client DataCatalogClient) deleteMetastore(ctx context.Context, request com
 
 	var response DeleteMetastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteMetastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2807,7 +2807,7 @@ func (client DataCatalogClient) deleteNamespace(ctx context.Context, request com
 
 	var response DeleteNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2860,7 +2860,7 @@ func (client DataCatalogClient) deletePattern(ctx context.Context, request commo
 
 	var response DeletePatternResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeletePattern")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2913,7 +2913,7 @@ func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.O
 
 	var response DeleteTermResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteTerm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2966,7 +2966,7 @@ func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, requ
 
 	var response DeleteTermRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DeleteTermRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3019,7 +3019,7 @@ func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context
 
 	var response DetachCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DetachCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3077,7 +3077,7 @@ func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, 
 
 	var response DisassociateCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "DisassociateCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3136,7 +3136,7 @@ func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, reque
 
 	var response ExpandTreeForGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ExpandTreeForGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3194,7 +3194,7 @@ func (client DataCatalogClient) exportGlossary(ctx context.Context, request comm
 
 	var response ExportGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ExportGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3248,7 +3248,7 @@ func (client DataCatalogClient) fetchEntityLineage(ctx context.Context, request 
 
 	var response FetchEntityLineageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "FetchEntityLineage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3302,7 +3302,7 @@ func (client DataCatalogClient) getAttribute(ctx context.Context, request common
 
 	var response GetAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3356,7 +3356,7 @@ func (client DataCatalogClient) getAttributeTag(ctx context.Context, request com
 
 	var response GetAttributeTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetAttributeTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3410,7 +3410,7 @@ func (client DataCatalogClient) getCatalog(ctx context.Context, request common.O
 
 	var response GetCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3464,7 +3464,7 @@ func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, r
 
 	var response GetCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3518,7 +3518,7 @@ func (client DataCatalogClient) getConnection(ctx context.Context, request commo
 
 	var response GetConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3572,7 +3572,7 @@ func (client DataCatalogClient) getCustomProperty(ctx context.Context, request c
 
 	var response GetCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3626,7 +3626,7 @@ func (client DataCatalogClient) getDataAsset(ctx context.Context, request common
 
 	var response GetDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3680,7 +3680,7 @@ func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request com
 
 	var response GetDataAssetTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetDataAssetTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3734,7 +3734,7 @@ func (client DataCatalogClient) getEntity(ctx context.Context, request common.OC
 
 	var response GetEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3788,7 +3788,7 @@ func (client DataCatalogClient) getEntityTag(ctx context.Context, request common
 
 	var response GetEntityTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetEntityTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3842,7 +3842,7 @@ func (client DataCatalogClient) getFolder(ctx context.Context, request common.OC
 
 	var response GetFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3896,7 +3896,7 @@ func (client DataCatalogClient) getFolderTag(ctx context.Context, request common
 
 	var response GetFolderTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetFolderTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3950,7 +3950,7 @@ func (client DataCatalogClient) getGlossary(ctx context.Context, request common.
 
 	var response GetGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4004,7 +4004,7 @@ func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRe
 
 	var response GetJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4058,7 +4058,7 @@ func (client DataCatalogClient) getJobDefinition(ctx context.Context, request co
 
 	var response GetJobDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetJobDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4112,7 +4112,7 @@ func (client DataCatalogClient) getJobExecution(ctx context.Context, request com
 
 	var response GetJobExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetJobExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4166,7 +4166,7 @@ func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OC
 
 	var response GetJobLogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetJobLog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4220,7 +4220,7 @@ func (client DataCatalogClient) getJobMetrics(ctx context.Context, request commo
 
 	var response GetJobMetricsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetJobMetrics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4274,7 +4274,7 @@ func (client DataCatalogClient) getMetastore(ctx context.Context, request common
 
 	var response GetMetastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetMetastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4328,7 +4328,7 @@ func (client DataCatalogClient) getNamespace(ctx context.Context, request common
 
 	var response GetNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4382,7 +4382,7 @@ func (client DataCatalogClient) getPattern(ctx context.Context, request common.O
 
 	var response GetPatternResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetPattern")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4436,7 +4436,7 @@ func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIR
 
 	var response GetTermResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetTerm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4490,7 +4490,7 @@ func (client DataCatalogClient) getTermRelationship(ctx context.Context, request
 
 	var response GetTermRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetTermRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4544,7 +4544,7 @@ func (client DataCatalogClient) getType(ctx context.Context, request common.OCIR
 
 	var response GetTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4598,7 +4598,7 @@ func (client DataCatalogClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4656,7 +4656,7 @@ func (client DataCatalogClient) importConnection(ctx context.Context, request co
 
 	var response ImportConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ImportConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4714,7 +4714,7 @@ func (client DataCatalogClient) importDataAsset(ctx context.Context, request com
 
 	var response ImportDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ImportDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4772,7 +4772,7 @@ func (client DataCatalogClient) importGlossary(ctx context.Context, request comm
 
 	var response ImportGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ImportGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4831,7 +4831,7 @@ func (client DataCatalogClient) importLineage(ctx context.Context, request commo
 
 	var response ImportLineageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ImportLineage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4885,7 +4885,7 @@ func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Conte
 
 	var response ListAggregatedPhysicalEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListAggregatedPhysicalEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4939,7 +4939,7 @@ func (client DataCatalogClient) listAttributeTags(ctx context.Context, request c
 
 	var response ListAttributeTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListAttributeTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4993,7 +4993,7 @@ func (client DataCatalogClient) listAttributes(ctx context.Context, request comm
 
 	var response ListAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5047,7 +5047,7 @@ func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context,
 
 	var response ListCatalogPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListCatalogPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5101,7 +5101,7 @@ func (client DataCatalogClient) listCatalogs(ctx context.Context, request common
 
 	var response ListCatalogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListCatalogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5155,7 +5155,7 @@ func (client DataCatalogClient) listConnections(ctx context.Context, request com
 
 	var response ListConnectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListConnections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5209,7 +5209,7 @@ func (client DataCatalogClient) listCustomProperties(ctx context.Context, reques
 
 	var response ListCustomPropertiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListCustomProperties")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5263,7 +5263,7 @@ func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request c
 
 	var response ListDataAssetTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListDataAssetTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5317,7 +5317,7 @@ func (client DataCatalogClient) listDataAssets(ctx context.Context, request comm
 
 	var response ListDataAssetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListDataAssets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5376,7 +5376,7 @@ func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, 
 
 	var response ListDerivedLogicalEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListDerivedLogicalEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5430,7 +5430,7 @@ func (client DataCatalogClient) listEntities(ctx context.Context, request common
 
 	var response ListEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5484,7 +5484,7 @@ func (client DataCatalogClient) listEntityTags(ctx context.Context, request comm
 
 	var response ListEntityTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListEntityTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5538,7 +5538,7 @@ func (client DataCatalogClient) listFolderTags(ctx context.Context, request comm
 
 	var response ListFolderTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListFolderTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5592,7 +5592,7 @@ func (client DataCatalogClient) listFolders(ctx context.Context, request common.
 
 	var response ListFoldersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListFolders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5646,7 +5646,7 @@ func (client DataCatalogClient) listGlossaries(ctx context.Context, request comm
 
 	var response ListGlossariesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListGlossaries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5700,7 +5700,7 @@ func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request 
 
 	var response ListJobDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListJobDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5754,7 +5754,7 @@ func (client DataCatalogClient) listJobExecutions(ctx context.Context, request c
 
 	var response ListJobExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListJobExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5808,7 +5808,7 @@ func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.
 
 	var response ListJobLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListJobLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5862,7 +5862,7 @@ func (client DataCatalogClient) listJobMetrics(ctx context.Context, request comm
 
 	var response ListJobMetricsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListJobMetrics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5916,7 +5916,7 @@ func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCI
 
 	var response ListJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5970,7 +5970,7 @@ func (client DataCatalogClient) listMetastores(ctx context.Context, request comm
 
 	var response ListMetastoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListMetastores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6024,7 +6024,7 @@ func (client DataCatalogClient) listNamespaces(ctx context.Context, request comm
 
 	var response ListNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6078,7 +6078,7 @@ func (client DataCatalogClient) listPatterns(ctx context.Context, request common
 
 	var response ListPatternsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListPatterns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6132,7 +6132,7 @@ func (client DataCatalogClient) listRules(ctx context.Context, request common.OC
 
 	var response ListRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6186,7 +6186,7 @@ func (client DataCatalogClient) listTags(ctx context.Context, request common.OCI
 
 	var response ListTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6240,7 +6240,7 @@ func (client DataCatalogClient) listTermRelationships(ctx context.Context, reque
 
 	var response ListTermRelationshipsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListTermRelationships")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6294,7 +6294,7 @@ func (client DataCatalogClient) listTerms(ctx context.Context, request common.OC
 
 	var response ListTermsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListTerms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6348,7 +6348,7 @@ func (client DataCatalogClient) listTypes(ctx context.Context, request common.OC
 
 	var response ListTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6402,7 +6402,7 @@ func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6456,7 +6456,7 @@ func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6510,7 +6510,7 @@ func (client DataCatalogClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6564,7 +6564,7 @@ func (client DataCatalogClient) objectStats(ctx context.Context, request common.
 
 	var response ObjectStatsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ObjectStats")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6622,7 +6622,7 @@ func (client DataCatalogClient) parseConnection(ctx context.Context, request com
 
 	var response ParseConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ParseConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6676,7 +6676,7 @@ func (client DataCatalogClient) processRecommendation(ctx context.Context, reque
 
 	var response ProcessRecommendationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ProcessRecommendation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6731,7 +6731,7 @@ func (client DataCatalogClient) recommendations(ctx context.Context, request com
 
 	var response RecommendationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "Recommendations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6784,7 +6784,7 @@ func (client DataCatalogClient) removeCatalogLock(ctx context.Context, request c
 
 	var response RemoveCatalogLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "RemoveCatalogLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6837,7 +6837,7 @@ func (client DataCatalogClient) removeCatalogPrivateEndpointLock(ctx context.Con
 
 	var response RemoveCatalogPrivateEndpointLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "RemoveCatalogPrivateEndpointLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6895,7 +6895,7 @@ func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, 
 
 	var response RemoveDataSelectorPatternsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "RemoveDataSelectorPatterns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6948,7 +6948,7 @@ func (client DataCatalogClient) removeMetastoreLock(ctx context.Context, request
 
 	var response RemoveMetastoreLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "RemoveMetastoreLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7002,7 +7002,7 @@ func (client DataCatalogClient) searchCriteria(ctx context.Context, request comm
 
 	var response SearchCriteriaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "SearchCriteria")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7056,7 +7056,7 @@ func (client DataCatalogClient) suggestMatches(ctx context.Context, request comm
 
 	var response SuggestMatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "SuggestMatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7114,7 +7114,7 @@ func (client DataCatalogClient) synchronousExportDataAsset(ctx context.Context, 
 
 	var response SynchronousExportDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "SynchronousExportDataAsset")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/SynchronousExportDataAsset"
@@ -7172,7 +7172,7 @@ func (client DataCatalogClient) testConnection(ctx context.Context, request comm
 
 	var response TestConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "TestConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7225,7 +7225,7 @@ func (client DataCatalogClient) updateAttribute(ctx context.Context, request com
 
 	var response UpdateAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7278,7 +7278,7 @@ func (client DataCatalogClient) updateCatalog(ctx context.Context, request commo
 
 	var response UpdateCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7331,7 +7331,7 @@ func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context
 
 	var response UpdateCatalogPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateCatalogPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7384,7 +7384,7 @@ func (client DataCatalogClient) updateConnection(ctx context.Context, request co
 
 	var response UpdateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7437,7 +7437,7 @@ func (client DataCatalogClient) updateCustomProperty(ctx context.Context, reques
 
 	var response UpdateCustomPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateCustomProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7490,7 +7490,7 @@ func (client DataCatalogClient) updateDataAsset(ctx context.Context, request com
 
 	var response UpdateDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7543,7 +7543,7 @@ func (client DataCatalogClient) updateEntity(ctx context.Context, request common
 
 	var response UpdateEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7596,7 +7596,7 @@ func (client DataCatalogClient) updateFolder(ctx context.Context, request common
 
 	var response UpdateFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7649,7 +7649,7 @@ func (client DataCatalogClient) updateGlossary(ctx context.Context, request comm
 
 	var response UpdateGlossaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateGlossary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7702,7 +7702,7 @@ func (client DataCatalogClient) updateJob(ctx context.Context, request common.OC
 
 	var response UpdateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7755,7 +7755,7 @@ func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request
 
 	var response UpdateJobDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateJobDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7808,7 +7808,7 @@ func (client DataCatalogClient) updateMetastore(ctx context.Context, request com
 
 	var response UpdateMetastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateMetastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7861,7 +7861,7 @@ func (client DataCatalogClient) updateNamespace(ctx context.Context, request com
 
 	var response UpdateNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7914,7 +7914,7 @@ func (client DataCatalogClient) updatePattern(ctx context.Context, request commo
 
 	var response UpdatePatternResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdatePattern")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7967,7 +7967,7 @@ func (client DataCatalogClient) updateTerm(ctx context.Context, request common.O
 
 	var response UpdateTermResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateTerm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8020,7 +8020,7 @@ func (client DataCatalogClient) updateTermRelationship(ctx context.Context, requ
 
 	var response UpdateTermRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UpdateTermRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8078,7 +8078,7 @@ func (client DataCatalogClient) uploadCredentials(ctx context.Context, request c
 
 	var response UploadCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "UploadCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8132,7 +8132,7 @@ func (client DataCatalogClient) users(ctx context.Context, request common.OCIReq
 
 	var response UsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "Users")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8191,7 +8191,7 @@ func (client DataCatalogClient) validateConnection(ctx context.Context, request 
 
 	var response ValidateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ValidateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8250,7 +8250,7 @@ func (client DataCatalogClient) validatePattern(ctx context.Context, request com
 
 	var response ValidatePatternResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataCatalog", "ValidatePattern")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

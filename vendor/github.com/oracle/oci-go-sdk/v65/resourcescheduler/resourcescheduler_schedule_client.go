@@ -137,11 +137,11 @@ func (client ScheduleClient) activateSchedule(ctx context.Context, request commo
 
 	var response ActivateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ActivateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/ActivateSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ActivateSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client ScheduleClient) cancelWorkRequest(ctx context.Context, request comm
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -251,11 +251,11 @@ func (client ScheduleClient) changeScheduleCompartment(ctx context.Context, requ
 
 	var response ChangeScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ChangeScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/ChangeScheduleCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ChangeScheduleCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -310,11 +310,11 @@ func (client ScheduleClient) createSchedule(ctx context.Context, request common.
 
 	var response CreateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "CreateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/CreateSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "CreateSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -369,11 +369,11 @@ func (client ScheduleClient) deactivateSchedule(ctx context.Context, request com
 
 	var response DeactivateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "DeactivateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/DeactivateSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "DeactivateSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -423,11 +423,11 @@ func (client ScheduleClient) deleteSchedule(ctx context.Context, request common.
 
 	var response DeleteScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "DeleteSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/DeleteSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "DeleteSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -477,11 +477,11 @@ func (client ScheduleClient) getSchedule(ctx context.Context, request common.OCI
 
 	var response GetScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "GetSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/GetSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "GetSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -531,11 +531,11 @@ func (client ScheduleClient) getWorkRequest(ctx context.Context, request common.
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -585,11 +585,11 @@ func (client ScheduleClient) listResourceTypes(ctx context.Context, request comm
 
 	var response ListResourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ListResourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/ResourceTypeCollection/ListResourceTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ListResourceTypes", apiReferenceLink)
 		return response, err
 	}
@@ -639,11 +639,11 @@ func (client ScheduleClient) listSchedules(ctx context.Context, request common.O
 
 	var response ListSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ListSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/ListSchedules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ListSchedules", apiReferenceLink)
 		return response, err
 	}
@@ -693,11 +693,11 @@ func (client ScheduleClient) listWorkRequestErrors(ctx context.Context, request 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -747,11 +747,11 @@ func (client ScheduleClient) listWorkRequestLogs(ctx context.Context, request co
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -801,11 +801,11 @@ func (client ScheduleClient) listWorkRequests(ctx context.Context, request commo
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -855,11 +855,11 @@ func (client ScheduleClient) updateSchedule(ctx context.Context, request common.
 
 	var response UpdateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "schedule", "UpdateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-scheduler/20240430/Schedule/UpdateSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Schedule", "UpdateSchedule", apiReferenceLink)
 		return response, err
 	}

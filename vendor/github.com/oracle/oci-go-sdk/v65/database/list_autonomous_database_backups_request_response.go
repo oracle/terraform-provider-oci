@@ -51,6 +51,9 @@ type ListAutonomousDatabaseBackupsRequest struct {
 	// A filter to return only resources that match the given Infrastructure Type.
 	InfrastructureType AutonomousDatabaseBackupSummaryInfrastructureTypeEnum `mandatory:"false" contributesTo:"query" name:"infrastructureType" omitEmpty:"true"`
 
+	// Filters backups based on the current Autonomous AI Database configuration; returns only those relevant for point-in-time recovery (PITR). Does not guarantee exclusion of backups in orphan ranges.
+	IsPitrEligible *bool `mandatory:"false" contributesTo:"query" name:"isPitrEligible"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

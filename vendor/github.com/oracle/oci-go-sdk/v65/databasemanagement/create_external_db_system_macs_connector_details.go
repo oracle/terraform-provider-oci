@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -19,7 +19,7 @@ import (
 )
 
 // CreateExternalDbSystemMacsConnectorDetails The details for creating an external connector that is used to connect to an external DB system component
-// using the Management Agent Cloud Service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html).
+// using the Management Agent Cloud Service (MACS) (https://docs.oracle.com/iaas/iaas/management-agents/index.html).
 type CreateExternalDbSystemMacsConnectorDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.

@@ -137,7 +137,7 @@ func (client MarketplaceClient) changePublicationCompartment(ctx context.Context
 
 	var response ChangePublicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ChangePublicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 
 	var response CreateAcceptedAgreementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "CreateAcceptedAgreement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -256,7 +256,7 @@ func (client MarketplaceClient) createMarketplaceExternalAttestedMetadata(ctx co
 
 	var response CreateMarketplaceExternalAttestedMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "CreateMarketplaceExternalAttestedMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client MarketplaceClient) createPublication(ctx context.Context, request c
 
 	var response CreatePublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "CreatePublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -371,7 +371,7 @@ func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, req
 
 	var response DeleteAcceptedAgreementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "DeleteAcceptedAgreement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -425,7 +425,7 @@ func (client MarketplaceClient) deletePublication(ctx context.Context, request c
 
 	var response DeletePublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "DeletePublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -484,7 +484,7 @@ func (client MarketplaceClient) exportListing(ctx context.Context, request commo
 
 	var response ExportListingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ExportListing")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -538,7 +538,7 @@ func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, reques
 
 	var response GetAcceptedAgreementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetAcceptedAgreement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -593,7 +593,7 @@ func (client MarketplaceClient) getAgreement(ctx context.Context, request common
 
 	var response GetAgreementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetAgreement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -611,13 +611,13 @@ func (client MarketplaceClient) getAgreement(ctx context.Context, request common
 // If you plan to launch an instance from an image listing, you must first subscribe to the listing. When
 // you launch the instance, you also need to provide the image ID of the listing resource version that you want.
 // Subscribing to the listing requires you to first get a signature from the terms of use agreement for the
-// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
-// The AppCatalogListingResourceVersionAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
+// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
+// The AppCatalogListingResourceVersionAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
 // its signature, is returned in the response. With the signature for the terms of use agreement for the desired
 // listing resource version, create a subscription by issuing a
-// CreateAppCatalogSubscription (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
-// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
-// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+// CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
+// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
+// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 // A default retry strategy applies to this operation GetListing()
 func (client MarketplaceClient) GetListing(ctx context.Context, request GetListingRequest) (response GetListingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -658,7 +658,7 @@ func (client MarketplaceClient) getListing(ctx context.Context, request common.O
 
 	var response GetListingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetListing")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -675,13 +675,13 @@ func (client MarketplaceClient) getListing(ctx context.Context, request common.O
 // If you plan to launch an instance from an image listing, you must first subscribe to the listing. When
 // you launch the instance, you also need to provide the image ID of the listing resource version that you want.
 // Subscribing to the listing requires you to first get a signature from the terms of use agreement for the
-// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
-// The AppCatalogListingResourceVersionAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
+// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
+// The AppCatalogListingResourceVersionAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
 // its signature, is returned in the response. With the signature for the terms of use agreement for the desired
 // listing resource version, create a subscription by issuing a
-// CreateAppCatalogSubscription (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
-// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
-// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+// CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
+// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
+// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 // A default retry strategy applies to this operation GetPackage()
 func (client MarketplaceClient) GetPackage(ctx context.Context, request GetPackageRequest) (response GetPackageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -722,7 +722,7 @@ func (client MarketplaceClient) getPackage(ctx context.Context, request common.O
 
 	var response GetPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -776,7 +776,7 @@ func (client MarketplaceClient) getPublication(ctx context.Context, request comm
 
 	var response GetPublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetPublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -830,7 +830,7 @@ func (client MarketplaceClient) getPublicationPackage(ctx context.Context, reque
 
 	var response GetPublicationPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetPublicationPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -884,7 +884,7 @@ func (client MarketplaceClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -939,7 +939,7 @@ func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, requ
 
 	var response ListAcceptedAgreementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListAcceptedAgreements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -993,7 +993,7 @@ func (client MarketplaceClient) listAgreements(ctx context.Context, request comm
 
 	var response ListAgreementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListAgreements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1048,7 +1048,7 @@ func (client MarketplaceClient) listCategories(ctx context.Context, request comm
 
 	var response ListCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1066,13 +1066,13 @@ func (client MarketplaceClient) listCategories(ctx context.Context, request comm
 // If you plan to launch an instance from an image listing, you must first subscribe to the listing. When
 // you launch the instance, you also need to provide the image ID of the listing resource version that you want.
 // Subscribing to the listing requires you to first get a signature from the terms of use agreement for the
-// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
-// The AppCatalogListingResourceVersionAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
+// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
+// The AppCatalogListingResourceVersionAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
 // its signature, is returned in the response. With the signature for the terms of use agreement for the desired
 // listing resource version, create a subscription by issuing a
-// CreateAppCatalogSubscription (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
-// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
-// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+// CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
+// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
+// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 // A default retry strategy applies to this operation ListListings()
 func (client MarketplaceClient) ListListings(ctx context.Context, request ListListingsRequest) (response ListListingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1113,7 +1113,7 @@ func (client MarketplaceClient) listListings(ctx context.Context, request common
 
 	var response ListListingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListListings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1167,7 +1167,7 @@ func (client MarketplaceClient) listMarketplaceMetadataPublicKeys(ctx context.Co
 
 	var response ListMarketplaceMetadataPublicKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListMarketplaceMetadataPublicKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1184,13 +1184,13 @@ func (client MarketplaceClient) listMarketplaceMetadataPublicKeys(ctx context.Co
 // If you plan to launch an instance from an image listing, you must first subscribe to the listing. When
 // you launch the instance, you also need to provide the image ID of the listing resource version that you want.
 // Subscribing to the listing requires you to first get a signature from the terms of use agreement for the
-// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
-// The AppCatalogListingResourceVersionAgreements (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
+// listing resource version. To get the signature, issue a GetAppCatalogListingAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements/GetAppCatalogListingAgreements) API call.
+// The AppCatalogListingResourceVersionAgreements (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersionAgreements) object, including
 // its signature, is returned in the response. With the signature for the terms of use agreement for the desired
 // listing resource version, create a subscription by issuing a
-// CreateAppCatalogSubscription (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
-// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
-// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
+// CreateAppCatalogSubscription (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogSubscription/CreateAppCatalogSubscription) API call.
+// To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
+// Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 // A default retry strategy applies to this operation ListPackages()
 func (client MarketplaceClient) ListPackages(ctx context.Context, request ListPackagesRequest) (response ListPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1231,7 +1231,7 @@ func (client MarketplaceClient) listPackages(ctx context.Context, request common
 
 	var response ListPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1285,7 +1285,7 @@ func (client MarketplaceClient) listPublicationPackages(ctx context.Context, req
 
 	var response ListPublicationPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListPublicationPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1339,7 +1339,7 @@ func (client MarketplaceClient) listPublications(ctx context.Context, request co
 
 	var response ListPublicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListPublications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1393,7 +1393,7 @@ func (client MarketplaceClient) listPublishers(ctx context.Context, request comm
 
 	var response ListPublishersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListPublishers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1447,7 +1447,7 @@ func (client MarketplaceClient) listReportTypes(ctx context.Context, request com
 
 	var response ListReportTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListReportTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1501,7 +1501,7 @@ func (client MarketplaceClient) listReports(ctx context.Context, request common.
 
 	var response ListReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1555,7 +1555,7 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 
 	var response ListTaxesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListTaxes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1609,7 +1609,7 @@ func (client MarketplaceClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1663,7 +1663,7 @@ func (client MarketplaceClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1717,7 +1717,7 @@ func (client MarketplaceClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1772,7 +1772,7 @@ func (client MarketplaceClient) searchListings(ctx context.Context, request comm
 
 	var response SearchListingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "SearchListings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1831,7 +1831,7 @@ func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, req
 
 	var response UpdateAcceptedAgreementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "UpdateAcceptedAgreement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1890,7 +1890,7 @@ func (client MarketplaceClient) updatePublication(ctx context.Context, request c
 
 	var response UpdatePublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "marketplace", "UpdatePublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

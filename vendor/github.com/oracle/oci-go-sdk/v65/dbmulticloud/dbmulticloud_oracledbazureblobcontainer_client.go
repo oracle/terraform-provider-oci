@@ -159,11 +159,11 @@ func (client OracleDBAzureBlobContainerClient) changeOracleDbAzureBlobContainerC
 
 	var response ChangeOracleDbAzureBlobContainerCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "ChangeOracleDbAzureBlobContainerCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/ChangeOracleDbAzureBlobContainerCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "ChangeOracleDbAzureBlobContainerCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -218,11 +218,11 @@ func (client OracleDBAzureBlobContainerClient) createOracleDbAzureBlobContainer(
 
 	var response CreateOracleDbAzureBlobContainerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "CreateOracleDbAzureBlobContainer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/CreateOracleDbAzureBlobContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "CreateOracleDbAzureBlobContainer", apiReferenceLink)
 		return response, err
 	}
@@ -272,11 +272,11 @@ func (client OracleDBAzureBlobContainerClient) deleteOracleDbAzureBlobContainer(
 
 	var response DeleteOracleDbAzureBlobContainerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "DeleteOracleDbAzureBlobContainer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/DeleteOracleDbAzureBlobContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "DeleteOracleDbAzureBlobContainer", apiReferenceLink)
 		return response, err
 	}
@@ -326,11 +326,11 @@ func (client OracleDBAzureBlobContainerClient) getOracleDbAzureBlobContainer(ctx
 
 	var response GetOracleDbAzureBlobContainerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "GetOracleDbAzureBlobContainer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/GetOracleDbAzureBlobContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "GetOracleDbAzureBlobContainer", apiReferenceLink)
 		return response, err
 	}
@@ -380,11 +380,11 @@ func (client OracleDBAzureBlobContainerClient) listOracleDbAzureBlobContainers(c
 
 	var response ListOracleDbAzureBlobContainersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "ListOracleDbAzureBlobContainers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/ListOracleDbAzureBlobContainers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "ListOracleDbAzureBlobContainers", apiReferenceLink)
 		return response, err
 	}
@@ -434,11 +434,11 @@ func (client OracleDBAzureBlobContainerClient) updateOracleDbAzureBlobContainer(
 
 	var response UpdateOracleDbAzureBlobContainerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDBAzureBlobContainer", "UpdateOracleDbAzureBlobContainer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureBlobContainer/UpdateOracleDbAzureBlobContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDBAzureBlobContainer", "UpdateOracleDbAzureBlobContainer", apiReferenceLink)
 		return response, err
 	}

@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -138,11 +138,11 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 
 	var response AttachManagedInstancesToLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "AttachManagedInstancesToLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/AttachManagedInstancesToLifecycleStage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "AttachManagedInstancesToLifecycleStage", apiReferenceLink)
 		return response, err
 	}
@@ -197,11 +197,11 @@ func (client LifecycleEnvironmentClient) changeLifecycleEnvironmentCompartment(c
 
 	var response ChangeLifecycleEnvironmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ChangeLifecycleEnvironmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/ChangeLifecycleEnvironmentCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ChangeLifecycleEnvironmentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -256,11 +256,11 @@ func (client LifecycleEnvironmentClient) createLifecycleEnvironment(ctx context.
 
 	var response CreateLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "CreateLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/CreateLifecycleEnvironment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "CreateLifecycleEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -310,11 +310,11 @@ func (client LifecycleEnvironmentClient) deleteLifecycleEnvironment(ctx context.
 
 	var response DeleteLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "DeleteLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/DeleteLifecycleEnvironment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "DeleteLifecycleEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -369,11 +369,11 @@ func (client LifecycleEnvironmentClient) detachManagedInstancesFromLifecycleStag
 
 	var response DetachManagedInstancesFromLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "DetachManagedInstancesFromLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/DetachManagedInstancesFromLifecycleStage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "DetachManagedInstancesFromLifecycleStage", apiReferenceLink)
 		return response, err
 	}
@@ -423,11 +423,11 @@ func (client LifecycleEnvironmentClient) getLifecycleEnvironment(ctx context.Con
 
 	var response GetLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "GetLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/GetLifecycleEnvironment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "GetLifecycleEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -477,11 +477,11 @@ func (client LifecycleEnvironmentClient) getLifecycleStage(ctx context.Context, 
 
 	var response GetLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "GetLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/GetLifecycleStage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "GetLifecycleStage", apiReferenceLink)
 		return response, err
 	}
@@ -532,11 +532,11 @@ func (client LifecycleEnvironmentClient) listLifecycleEnvironments(ctx context.C
 
 	var response ListLifecycleEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/ListLifecycleEnvironments"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ListLifecycleEnvironments", apiReferenceLink)
 		return response, err
 	}
@@ -587,11 +587,11 @@ func (client LifecycleEnvironmentClient) listLifecycleStageInstalledPackages(ctx
 
 	var response ListLifecycleStageInstalledPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleStageInstalledPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/ListLifecycleStageInstalledPackages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ListLifecycleStageInstalledPackages", apiReferenceLink)
 		return response, err
 	}
@@ -641,11 +641,11 @@ func (client LifecycleEnvironmentClient) listLifecycleStages(ctx context.Context
 
 	var response ListLifecycleStagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleStages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/ListLifecycleStages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ListLifecycleStages", apiReferenceLink)
 		return response, err
 	}
@@ -702,11 +702,11 @@ func (client LifecycleEnvironmentClient) promoteSoftwareSourceToLifecycleStage(c
 
 	var response PromoteSoftwareSourceToLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "PromoteSoftwareSourceToLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/PromoteSoftwareSourceToLifecycleStage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "PromoteSoftwareSourceToLifecycleStage", apiReferenceLink)
 		return response, err
 	}
@@ -761,11 +761,11 @@ func (client LifecycleEnvironmentClient) rebootLifecycleStage(ctx context.Contex
 
 	var response RebootLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "RebootLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/RebootLifecycleStage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "RebootLifecycleStage", apiReferenceLink)
 		return response, err
 	}
@@ -815,11 +815,11 @@ func (client LifecycleEnvironmentClient) updateLifecycleEnvironment(ctx context.
 
 	var response UpdateLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "UpdateLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/UpdateLifecycleEnvironment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "UpdateLifecycleEnvironment", apiReferenceLink)
 		return response, err
 	}

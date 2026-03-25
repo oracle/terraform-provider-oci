@@ -145,11 +145,11 @@ func (client ServiceConnectorClient) activateServiceConnector(ctx context.Contex
 
 	var response ActivateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ActivateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ActivateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ActivateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -202,11 +202,11 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 
 	var response ChangeServiceConnectorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ChangeServiceConnectorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ChangeServiceConnectorCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ChangeServiceConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -278,11 +278,11 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 
 	var response CreateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "CreateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/CreateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "CreateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -341,11 +341,11 @@ func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Cont
 
 	var response DeactivateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "DeactivateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/DeactivateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "DeactivateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -399,11 +399,11 @@ func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context,
 
 	var response DeleteServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "DeleteServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/DeleteServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "DeleteServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -455,11 +455,11 @@ func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, re
 
 	var response GetServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "GetServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/GetServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "GetServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -511,11 +511,11 @@ func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -567,11 +567,11 @@ func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, 
 
 	var response ListServiceConnectorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListServiceConnectors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ListServiceConnectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListServiceConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -623,11 +623,11 @@ func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -679,11 +679,11 @@ func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, re
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -735,11 +735,11 @@ func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, reque
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -794,11 +794,11 @@ func (client ServiceConnectorClient) updateServiceConnector(ctx context.Context,
 
 	var response UpdateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "UpdateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/UpdateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "UpdateServiceConnector", apiReferenceLink)
 		return response, err
 	}

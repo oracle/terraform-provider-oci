@@ -36,6 +36,9 @@ type UpdateHistoryEntrySummary struct {
 	// The update action.
 	UpdateAction UpdateHistoryEntrySummaryUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 
+	// The OS update mode performed using this maintenance update.
+	UpdateMode UpdateHistoryEntrySummaryUpdateModeEnum `mandatory:"false" json:"updateMode,omitempty"`
+
 	// Descriptive text providing additional details about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -61,6 +64,9 @@ func (m UpdateHistoryEntrySummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateHistoryEntrySummaryUpdateActionEnum(string(m.UpdateAction)); !ok && m.UpdateAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetUpdateHistoryEntrySummaryUpdateActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateHistoryEntrySummaryUpdateModeEnum(string(m.UpdateMode)); !ok && m.UpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateMode: %s. Supported values are: %s.", m.UpdateMode, strings.Join(GetUpdateHistoryEntrySummaryUpdateModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -115,6 +121,68 @@ func GetUpdateHistoryEntrySummaryUpdateActionEnumStringValues() []string {
 // GetMappingUpdateHistoryEntrySummaryUpdateActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateHistoryEntrySummaryUpdateActionEnum(val string) (UpdateHistoryEntrySummaryUpdateActionEnum, bool) {
 	enum, ok := mappingUpdateHistoryEntrySummaryUpdateActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateHistoryEntrySummaryUpdateModeEnum Enum with underlying type: string
+type UpdateHistoryEntrySummaryUpdateModeEnum string
+
+// Set of constants representing the allowable values for UpdateHistoryEntrySummaryUpdateModeEnum
+const (
+	UpdateHistoryEntrySummaryUpdateModeOnlineHighcvss         UpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_HIGHCVSS"
+	UpdateHistoryEntrySummaryUpdateModeOnlineAllcvss          UpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALLCVSS"
+	UpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates       UpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	UpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss UpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_HIGHCVSS"
+	UpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss  UpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_ALLCVSS"
+	UpdateHistoryEntrySummaryUpdateModePendingAllUpdates      UpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_ALL_UPDATES"
+	UpdateHistoryEntrySummaryUpdateModeFullUpdate             UpdateHistoryEntrySummaryUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingUpdateHistoryEntrySummaryUpdateModeEnum = map[string]UpdateHistoryEntrySummaryUpdateModeEnum{
+	"ONLINE_HIGHCVSS":          UpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":           UpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES":       UpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES_HIGHCVSS": UpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"PENDING_UPDATES_ALLCVSS":  UpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"PENDING_ALL_UPDATES":      UpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"FULL_UPDATE":              UpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+var mappingUpdateHistoryEntrySummaryUpdateModeEnumLowerCase = map[string]UpdateHistoryEntrySummaryUpdateModeEnum{
+	"online_highcvss":          UpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"online_allcvss":           UpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"online_all_updates":       UpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"pending_updates_highcvss": UpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"pending_updates_allcvss":  UpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"pending_all_updates":      UpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"full_update":              UpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+// GetUpdateHistoryEntrySummaryUpdateModeEnumValues Enumerates the set of values for UpdateHistoryEntrySummaryUpdateModeEnum
+func GetUpdateHistoryEntrySummaryUpdateModeEnumValues() []UpdateHistoryEntrySummaryUpdateModeEnum {
+	values := make([]UpdateHistoryEntrySummaryUpdateModeEnum, 0)
+	for _, v := range mappingUpdateHistoryEntrySummaryUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateHistoryEntrySummaryUpdateModeEnumStringValues Enumerates the set of values in String for UpdateHistoryEntrySummaryUpdateModeEnum
+func GetUpdateHistoryEntrySummaryUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES_HIGHCVSS",
+		"PENDING_UPDATES_ALLCVSS",
+		"PENDING_ALL_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingUpdateHistoryEntrySummaryUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateHistoryEntrySummaryUpdateModeEnum(val string) (UpdateHistoryEntrySummaryUpdateModeEnum, bool) {
+	enum, ok := mappingUpdateHistoryEntrySummaryUpdateModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

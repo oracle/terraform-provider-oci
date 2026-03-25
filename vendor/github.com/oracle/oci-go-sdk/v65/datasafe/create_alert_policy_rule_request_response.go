@@ -80,7 +80,7 @@ type CreateAlertPolicyRuleResponse struct {
 	// The AlertPolicyRule instance
 	AlertPolicyRule `presentIn:"body"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven)
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// The OCID of the work request. Use GetWorkRequest with this OCID to track the status of the request.

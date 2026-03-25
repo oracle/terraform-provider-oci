@@ -141,7 +141,7 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 
 	var response AssociateDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "AssociateDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -200,7 +200,7 @@ func (client DisasterRecoveryClient) cancelDrPlanExecution(ctx context.Context, 
 
 	var response CancelDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CancelDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -254,7 +254,7 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -313,7 +313,7 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 
 	var response ChangeDrProtectionGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ChangeDrProtectionGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -372,7 +372,7 @@ func (client DisasterRecoveryClient) createAutomaticDrConfiguration(ctx context.
 
 	var response CreateAutomaticDrConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CreateAutomaticDrConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -431,7 +431,7 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 
 	var response CreateDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CreateDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -490,7 +490,7 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 
 	var response CreateDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CreateDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -549,7 +549,7 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 
 	var response CreateDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "CreateDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -603,7 +603,7 @@ func (client DisasterRecoveryClient) deleteAutomaticDrConfiguration(ctx context.
 
 	var response DeleteAutomaticDrConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "DeleteAutomaticDrConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -657,7 +657,7 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 
 	var response DeleteDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "DeleteDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -711,7 +711,7 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 
 	var response DeleteDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "DeleteDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -765,7 +765,7 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 
 	var response DeleteDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "DeleteDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -825,7 +825,7 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 
 	var response DisassociateDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "DisassociateDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -879,7 +879,7 @@ func (client DisasterRecoveryClient) getAutomaticDrConfiguration(ctx context.Con
 
 	var response GetAutomaticDrConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "GetAutomaticDrConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -933,7 +933,7 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 
 	var response GetDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "GetDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -987,7 +987,7 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 
 	var response GetDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "GetDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1041,7 +1041,7 @@ func (client DisasterRecoveryClient) getDrProtectionGroup(ctx context.Context, r
 
 	var response GetDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "GetDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1095,7 +1095,7 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1154,7 +1154,7 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 
 	var response IgnoreDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "IgnoreDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1208,7 +1208,7 @@ func (client DisasterRecoveryClient) listAutomaticDrConfigurations(ctx context.C
 
 	var response ListAutomaticDrConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListAutomaticDrConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1262,7 +1262,7 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 
 	var response ListDrPlanExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListDrPlanExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1316,7 +1316,7 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 
 	var response ListDrPlansResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListDrPlans")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1370,7 +1370,7 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 
 	var response ListDrProtectionGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListDrProtectionGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1424,7 +1424,7 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1478,7 +1478,7 @@ func (client DisasterRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1532,7 +1532,7 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1591,7 +1591,7 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 
 	var response PauseDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "PauseDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1650,7 +1650,7 @@ func (client DisasterRecoveryClient) refreshDrPlan(ctx context.Context, request 
 
 	var response RefreshDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "RefreshDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1709,7 +1709,7 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 
 	var response ResumeDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "ResumeDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1768,7 +1768,7 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 
 	var response RetryDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "RetryDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1822,7 +1822,7 @@ func (client DisasterRecoveryClient) updateAutomaticDrConfiguration(ctx context.
 
 	var response UpdateAutomaticDrConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "UpdateAutomaticDrConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1876,7 +1876,7 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 
 	var response UpdateDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "UpdateDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1930,7 +1930,7 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 
 	var response UpdateDrPlanExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "UpdateDrPlanExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1984,7 +1984,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 
 	var response UpdateDrProtectionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "UpdateDrProtectionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2043,7 +2043,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroupRole(ctx context.Con
 
 	var response UpdateDrProtectionGroupRoleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "UpdateDrProtectionGroupRole")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2102,7 +2102,7 @@ func (client DisasterRecoveryClient) verifyDrPlan(ctx context.Context, request c
 
 	var response VerifyDrPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "disasterRecovery", "VerifyDrPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

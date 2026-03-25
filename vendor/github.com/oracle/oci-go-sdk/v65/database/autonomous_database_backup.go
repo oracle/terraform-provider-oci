@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -69,6 +70,8 @@ type AutonomousDatabaseBackup struct {
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
+	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
+
 	// Retention period, in days, for backups
 	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
 
@@ -119,6 +122,105 @@ func (m AutonomousDatabaseBackup) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutonomousDatabaseBackup) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeStarted              *common.SDKTime                                `json:"timeStarted"`
+		TimeEnded                *common.SDKTime                                `json:"timeEnded"`
+		LifecycleDetails         *string                                        `json:"lifecycleDetails"`
+		DatabaseSizeInTBs        *float32                                       `json:"databaseSizeInTBs"`
+		IsRestorable             *bool                                          `json:"isRestorable"`
+		KeyStoreId               *string                                        `json:"keyStoreId"`
+		KeyStoreWalletName       *string                                        `json:"keyStoreWalletName"`
+		KmsKeyId                 *string                                        `json:"kmsKeyId"`
+		VaultId                  *string                                        `json:"vaultId"`
+		KmsKeyVersionId          *string                                        `json:"kmsKeyVersionId"`
+		EncryptionKey            autonomousdatabaseencryptionkeydetails         `json:"encryptionKey"`
+		RetentionPeriodInDays    *int                                           `json:"retentionPeriodInDays"`
+		TimeAvailableTill        *common.SDKTime                                `json:"timeAvailableTill"`
+		DbVersion                *string                                        `json:"dbVersion"`
+		SizeInTBs                *float64                                       `json:"sizeInTBs"`
+		BackupDestinationDetails *BackupDestinationDetails                      `json:"backupDestinationDetails"`
+		InfrastructureType       AutonomousDatabaseBackupInfrastructureTypeEnum `json:"infrastructureType"`
+		Region                   *string                                        `json:"region"`
+		SourceDatabaseDetails    *SourceDatabaseDetails                         `json:"sourceDatabaseDetails"`
+		Id                       *string                                        `json:"id"`
+		CompartmentId            *string                                        `json:"compartmentId"`
+		AutonomousDatabaseId     *string                                        `json:"autonomousDatabaseId"`
+		DisplayName              *string                                        `json:"displayName"`
+		Type                     AutonomousDatabaseBackupTypeEnum               `json:"type"`
+		IsAutomatic              *bool                                          `json:"isAutomatic"`
+		LifecycleState           AutonomousDatabaseBackupLifecycleStateEnum     `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeEnded = model.TimeEnded
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.DatabaseSizeInTBs = model.DatabaseSizeInTBs
+
+	m.IsRestorable = model.IsRestorable
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.VaultId = model.VaultId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	nn, e = model.EncryptionKey.UnmarshalPolymorphicJSON(model.EncryptionKey.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKey = nn.(AutonomousDatabaseEncryptionKeyDetails)
+	} else {
+		m.EncryptionKey = nil
+	}
+
+	m.RetentionPeriodInDays = model.RetentionPeriodInDays
+
+	m.TimeAvailableTill = model.TimeAvailableTill
+
+	m.DbVersion = model.DbVersion
+
+	m.SizeInTBs = model.SizeInTBs
+
+	m.BackupDestinationDetails = model.BackupDestinationDetails
+
+	m.InfrastructureType = model.InfrastructureType
+
+	m.Region = model.Region
+
+	m.SourceDatabaseDetails = model.SourceDatabaseDetails
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.AutonomousDatabaseId = model.AutonomousDatabaseId
+
+	m.DisplayName = model.DisplayName
+
+	m.Type = model.Type
+
+	m.IsAutomatic = model.IsAutomatic
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }
 
 // AutonomousDatabaseBackupTypeEnum Enum with underlying type: string

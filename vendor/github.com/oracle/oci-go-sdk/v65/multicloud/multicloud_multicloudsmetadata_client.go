@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,8 +91,10 @@ func (client *MultiCloudsMetadataClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// GetMultiCloudMetadata Gets information about the Multicloud base compartment for a given tenancy Id.
-// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+// GetMultiCloudMetadata Gets details for Multicloud metadata for the specified Multicloud subscription.
+// Multicloud metadata for a subscription includes the Multicloud base compartment (top-level OCI compartment).
+// For more information, see
+// Getting Details for Multicloud Metadata (https://docs.oracle.com/iaas/Content/multicloud-hub/get-subscription-metadata.htm).
 // A default retry strategy applies to this operation GetMultiCloudMetadata()
 func (client MultiCloudsMetadataClient) GetMultiCloudMetadata(ctx context.Context, request GetMultiCloudMetadataRequest) (response GetMultiCloudMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -133,11 +135,11 @@ func (client MultiCloudsMetadataClient) getMultiCloudMetadata(ctx context.Contex
 
 	var response GetMultiCloudMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudsMetadata", "GetMultiCloudMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MultiCloudMetadata/GetMultiCloudMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudsMetadata", "GetMultiCloudMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -146,8 +148,10 @@ func (client MultiCloudsMetadataClient) getMultiCloudMetadata(ctx context.Contex
 	return response, err
 }
 
-// ListMultiCloudMetadata Gets a list of multicloud metadata with pairs of Multicloud base compartment and subscription across Cloud Service Providers from a tenancy Id.
-// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+// ListMultiCloudMetadata Lists Multicloud metadata for Multicloud subscriptions in the specified compartment.
+// Multicloud metadata for a subscription includes the Multicloud base compartment (top-level OCI compartment).
+// For more information, see
+// Listing Multicloud Metadata for a Subscription (https://docs.oracle.com/iaas/Content/multicloud-hub/list-subscription-metadata.htm).
 // A default retry strategy applies to this operation ListMultiCloudMetadata()
 func (client MultiCloudsMetadataClient) ListMultiCloudMetadata(ctx context.Context, request ListMultiCloudMetadataRequest) (response ListMultiCloudMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -188,11 +192,11 @@ func (client MultiCloudsMetadataClient) listMultiCloudMetadata(ctx context.Conte
 
 	var response ListMultiCloudMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudsMetadata", "ListMultiCloudMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MultiCloudMetadataCollection/ListMultiCloudMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudsMetadata", "ListMultiCloudMetadata", apiReferenceLink)
 		return response, err
 	}

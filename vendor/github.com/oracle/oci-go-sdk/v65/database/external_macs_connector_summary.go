@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExternalMacsConnectorSummary An Oracle Cloud Infrastructure resource that uses the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html) to connect to an external Oracle Database.
+// ExternalMacsConnectorSummary An Oracle Cloud Infrastructure resource that uses the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/iaas/management-agents/index.html) to connect to an external Oracle Database.
 type ExternalMacsConnectorSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

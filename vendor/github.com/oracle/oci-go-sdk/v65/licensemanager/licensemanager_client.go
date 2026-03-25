@@ -132,7 +132,7 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 
 	var response BulkUploadLicenseRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "BulkUploadLicenseRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 
 	var response CreateLicenseRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "CreateLicenseRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -250,7 +250,7 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 
 	var response CreateProductLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "CreateProductLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -304,7 +304,7 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 
 	var response DeleteLicenseRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "DeleteLicenseRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -358,7 +358,7 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 
 	var response DeleteProductLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "DeleteProductLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -412,7 +412,7 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 
 	var response GetBulkUploadTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "GetBulkUploadTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -466,7 +466,7 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "GetConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -520,7 +520,7 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 
 	var response GetLicenseMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "GetLicenseMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -574,7 +574,7 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 
 	var response GetLicenseRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "GetLicenseRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -628,7 +628,7 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 
 	var response GetProductLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "GetProductLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -682,7 +682,7 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 
 	var response ListLicenseRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "ListLicenseRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -736,7 +736,7 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 
 	var response ListProductLicenseConsumersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "ListProductLicenseConsumers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -790,7 +790,7 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 
 	var response ListProductLicensesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "ListProductLicenses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -844,7 +844,7 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 
 	var response ListTopUtilizedProductLicensesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "ListTopUtilizedProductLicenses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -898,7 +898,7 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 
 	var response ListTopUtilizedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "ListTopUtilizedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -952,7 +952,7 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 
 	var response UpdateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "UpdateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1006,7 +1006,7 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 
 	var response UpdateLicenseRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "UpdateLicenseRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1060,7 +1060,7 @@ func (client LicenseManagerClient) updateProductLicense(ctx context.Context, req
 
 	var response UpdateProductLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "licenseManager", "UpdateProductLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

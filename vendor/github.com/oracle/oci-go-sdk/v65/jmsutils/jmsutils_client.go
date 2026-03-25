@@ -132,11 +132,11 @@ func (client JmsUtilsClient) cancelWorkRequest(ctx context.Context, request comm
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -186,11 +186,11 @@ func (client JmsUtilsClient) deleteJavaMigrationAnalysis(ctx context.Context, re
 
 	var response DeleteJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "DeleteJavaMigrationAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/JavaMigrationAnalysis/DeleteJavaMigrationAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "DeleteJavaMigrationAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -240,11 +240,11 @@ func (client JmsUtilsClient) deletePerformanceTuningAnalysis(ctx context.Context
 
 	var response DeletePerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "DeletePerformanceTuningAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/PerformanceTuningAnalysis/DeletePerformanceTuningAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "DeletePerformanceTuningAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -294,11 +294,11 @@ func (client JmsUtilsClient) getAnalyzeApplicationsConfiguration(ctx context.Con
 
 	var response GetAnalyzeApplicationsConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetAnalyzeApplicationsConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/AnalyzeApplicationsConfiguration/GetAnalyzeApplicationsConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "GetAnalyzeApplicationsConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -348,11 +348,11 @@ func (client JmsUtilsClient) getJavaMigrationAnalysis(ctx context.Context, reque
 
 	var response GetJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetJavaMigrationAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/JavaMigrationAnalysis/GetJavaMigrationAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "GetJavaMigrationAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -402,11 +402,11 @@ func (client JmsUtilsClient) getPerformanceTuningAnalysis(ctx context.Context, r
 
 	var response GetPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetPerformanceTuningAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/PerformanceTuningAnalysis/GetPerformanceTuningAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "GetPerformanceTuningAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -456,11 +456,11 @@ func (client JmsUtilsClient) getSubscriptionAcknowledgmentConfiguration(ctx cont
 
 	var response GetSubscriptionAcknowledgmentConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetSubscriptionAcknowledgmentConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/SubscriptionAcknowledgmentConfiguration/GetSubscriptionAcknowledgmentConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "GetSubscriptionAcknowledgmentConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -510,11 +510,11 @@ func (client JmsUtilsClient) getWorkRequest(ctx context.Context, request common.
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -564,11 +564,11 @@ func (client JmsUtilsClient) listJavaMigrationAnalysis(ctx context.Context, requ
 
 	var response ListJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListJavaMigrationAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/JavaMigrationAnalysis/ListJavaMigrationAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListJavaMigrationAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -618,11 +618,11 @@ func (client JmsUtilsClient) listPerformanceTuningAnalysis(ctx context.Context, 
 
 	var response ListPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListPerformanceTuningAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/PerformanceTuningAnalysis/ListPerformanceTuningAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListPerformanceTuningAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -672,11 +672,11 @@ func (client JmsUtilsClient) listWorkItems(ctx context.Context, request common.O
 
 	var response ListWorkItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkItemSummary/ListWorkItems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListWorkItems", apiReferenceLink)
 		return response, err
 	}
@@ -726,11 +726,11 @@ func (client JmsUtilsClient) listWorkRequestErrors(ctx context.Context, request 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -780,11 +780,11 @@ func (client JmsUtilsClient) listWorkRequestLogs(ctx context.Context, request co
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -834,11 +834,11 @@ func (client JmsUtilsClient) listWorkRequests(ctx context.Context, request commo
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -893,11 +893,11 @@ func (client JmsUtilsClient) requestJavaMigrationAnalysis(ctx context.Context, r
 
 	var response RequestJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "RequestJavaMigrationAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/JavaMigrationAnalysis/RequestJavaMigrationAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "RequestJavaMigrationAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -952,11 +952,11 @@ func (client JmsUtilsClient) requestPerformanceTuningAnalysis(ctx context.Contex
 
 	var response RequestPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "RequestPerformanceTuningAnalysis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/PerformanceTuningAnalysis/RequestPerformanceTuningAnalysis"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "RequestPerformanceTuningAnalysis", apiReferenceLink)
 		return response, err
 	}
@@ -1006,11 +1006,11 @@ func (client JmsUtilsClient) updateAnalyzeApplicationsConfiguration(ctx context.
 
 	var response UpdateAnalyzeApplicationsConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "UpdateAnalyzeApplicationsConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/AnalyzeApplicationsConfiguration/UpdateAnalyzeApplicationsConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "UpdateAnalyzeApplicationsConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1060,11 +1060,11 @@ func (client JmsUtilsClient) updateSubscriptionAcknowledgmentConfiguration(ctx c
 
 	var response UpdateSubscriptionAcknowledgmentConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "UpdateSubscriptionAcknowledgmentConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-utils/20250521/SubscriptionAcknowledgmentConfiguration/UpdateSubscriptionAcknowledgmentConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JmsUtils", "UpdateSubscriptionAcknowledgmentConfiguration", apiReferenceLink)
 		return response, err
 	}

@@ -137,11 +137,11 @@ func (client PrivilegedApiWorkRequestClient) cancelWorkRequest(ctx context.Conte
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privilegedApiWorkRequest", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivilegedApiWorkRequest", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client PrivilegedApiWorkRequestClient) getWorkRequest(ctx context.Context,
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privilegedApiWorkRequest", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivilegedApiWorkRequest", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client PrivilegedApiWorkRequestClient) listWorkRequestErrors(ctx context.C
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privilegedApiWorkRequest", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivilegedApiWorkRequest", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client PrivilegedApiWorkRequestClient) listWorkRequestLogs(ctx context.Con
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privilegedApiWorkRequest", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivilegedApiWorkRequest", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -353,11 +353,11 @@ func (client PrivilegedApiWorkRequestClient) listWorkRequests(ctx context.Contex
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privilegedApiWorkRequest", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivilegedApiWorkRequest", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}

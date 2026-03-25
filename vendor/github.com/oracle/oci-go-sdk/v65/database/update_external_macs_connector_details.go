@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateExternalMacsConnectorDetails Details for updating an external Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html)
+// UpdateExternalMacsConnectorDetails Details for updating an external Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/iaas/management-agents/index.html)
 // database connection.
 type UpdateExternalMacsConnectorDetails struct {
 

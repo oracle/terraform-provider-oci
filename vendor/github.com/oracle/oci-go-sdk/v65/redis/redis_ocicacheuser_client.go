@@ -137,11 +137,11 @@ func (client OciCacheUserClient) changeOciCacheUserCompartment(ctx context.Conte
 
 	var response ChangeOciCacheUserCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "ChangeOciCacheUserCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheUser/ChangeOciCacheUserCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "ChangeOciCacheUserCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -196,11 +196,11 @@ func (client OciCacheUserClient) createOciCacheUser(ctx context.Context, request
 
 	var response CreateOciCacheUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "CreateOciCacheUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/CreateOciCacheUserDetails/CreateOciCacheUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "CreateOciCacheUser", apiReferenceLink)
 		return response, err
 	}
@@ -250,11 +250,11 @@ func (client OciCacheUserClient) deleteOciCacheUser(ctx context.Context, request
 
 	var response DeleteOciCacheUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "DeleteOciCacheUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheUser/DeleteOciCacheUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "DeleteOciCacheUser", apiReferenceLink)
 		return response, err
 	}
@@ -304,11 +304,11 @@ func (client OciCacheUserClient) getOciCacheUser(ctx context.Context, request co
 
 	var response GetOciCacheUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "GetOciCacheUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheUser/GetOciCacheUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "GetOciCacheUser", apiReferenceLink)
 		return response, err
 	}
@@ -358,11 +358,11 @@ func (client OciCacheUserClient) listAttachedRedisClusters(ctx context.Context, 
 
 	var response ListAttachedRedisClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "ListAttachedRedisClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/AttachedOciCacheCluster/ListAttachedRedisClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "ListAttachedRedisClusters", apiReferenceLink)
 		return response, err
 	}
@@ -412,11 +412,11 @@ func (client OciCacheUserClient) listOciCacheUsers(ctx context.Context, request 
 
 	var response ListOciCacheUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "ListOciCacheUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheUserSummary/ListOciCacheUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "ListOciCacheUsers", apiReferenceLink)
 		return response, err
 	}
@@ -466,11 +466,11 @@ func (client OciCacheUserClient) updateOciCacheUser(ctx context.Context, request
 
 	var response UpdateOciCacheUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheUser", "UpdateOciCacheUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheUser/UpdateOciCacheUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OciCacheUser", "UpdateOciCacheUser", apiReferenceLink)
 		return response, err
 	}

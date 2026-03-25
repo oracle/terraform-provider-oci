@@ -132,7 +132,7 @@ func (client AccountClient) getLaunchEligibility(ctx context.Context, request co
 
 	var response GetLaunchEligibilityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "account", "GetLaunchEligibility")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -186,7 +186,7 @@ func (client AccountClient) getThirdPartyPaidListingEligibility(ctx context.Cont
 
 	var response GetThirdPartyPaidListingEligibilityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "account", "GetThirdPartyPaidListingEligibility")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -148,7 +148,7 @@ func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.
 
 	var response CancelInstanceAgentCommandResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "CancelInstanceAgentCommand")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -217,7 +217,7 @@ func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.
 
 	var response CreateInstanceAgentCommandResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "CreateInstanceAgentCommand")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -277,7 +277,7 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Con
 
 	var response GetInstanceAgentCommandResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "GetInstanceAgentCommand")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -337,7 +337,7 @@ func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx co
 
 	var response GetInstanceAgentCommandExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "GetInstanceAgentCommandExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -398,7 +398,7 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx 
 
 	var response ListInstanceAgentCommandExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "ListInstanceAgentCommandExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -458,7 +458,7 @@ func (client ComputeInstanceAgentClient) listInstanceAgentCommands(ctx context.C
 
 	var response ListInstanceAgentCommandsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeInstanceAgent", "ListInstanceAgentCommands")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

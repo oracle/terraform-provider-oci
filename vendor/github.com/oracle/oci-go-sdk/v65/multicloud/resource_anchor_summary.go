@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ResourceAnchorSummary Summary information about a ResourceAnchor.
+// ResourceAnchorSummary The properties that define a resource anchor.
 type ResourceAnchorSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -27,11 +27,11 @@ type ResourceAnchorSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The date and time the ResourceAnchor was created, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the resource anchor was created, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The current state of the ResourceAnchor.
+	// The current state of the resource anchor.
 	LifecycleState ResourceAnchorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -50,23 +50,23 @@ type ResourceAnchorSummary struct {
 	// The name assigned to the compartment during creation.
 	CompartmentName *string `mandatory:"false" json:"compartmentName"`
 
-	// Partner Cloud Account Identifier of the Cloud Service Provider.
+	// Partner cloud account identifier of the cloud service provider.
 	PartnerCloudAccountIdentifier *string `mandatory:"false" json:"partnerCloudAccountIdentifier"`
 
-	// Resource Anchor Id in the Cloud Service Provider.
+	// Resource anchor ID in the cloud service provider.
 	CspResourceAnchorId *string `mandatory:"false" json:"cspResourceAnchorId"`
 
-	// Resource Anchor Name in the Cloud Service Provider.
+	// Resource anchor name in the cloud service provider.
 	CspResourceAnchorName *string `mandatory:"false" json:"cspResourceAnchorName"`
 
-	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	// Cloud service provider-specific properties, such as AzureSubnetId for Azure.
 	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
 
-	// The date and time the ResourceAnchor was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the resource anchor was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message that describes the current state of the ResourceAnchor in more detail. For example,
+	// A message that describes the current state of the resource anchor in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -74,12 +74,16 @@ type ResourceAnchorSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Optional - Oracle Cloud Infrastructure compartment Id (OCID) which was created or linked by customer with resource anchor.
-	// This compartmentId is different from where resource Anchor live.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the optional OCI compartment that was created or linked with the resource anchor.
+	// This compartment is different from the compartment that contains the resource anchor.
 	LinkedCompartmentId *string `mandatory:"false" json:"linkedCompartmentId"`
 
-	// The name assigned to the compartment which was created or linked by customer with resource anchor. This compartment is different from where resource Anchor live.
+	// The name of the optional OCI compartment that was created or linked with the resource anchor.
+	// This compartment is different from the compartment that contains the resource anchor.
 	LinkedCompartmentName *string `mandatory:"false" json:"linkedCompartmentName"`
+
+	// URI for the cloud service provider's resource anchor.
+	ResourceAnchorUri *string `mandatory:"false" json:"resourceAnchorUri"`
 }
 
 func (m ResourceAnchorSummary) String() string {

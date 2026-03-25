@@ -137,7 +137,7 @@ func (client AnnouncementsPreferencesClient) createAnnouncementsPreference(ctx c
 
 	var response CreateAnnouncementsPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementsPreferences", "CreateAnnouncementsPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client AnnouncementsPreferencesClient) getAnnouncementsPreference(ctx cont
 
 	var response GetAnnouncementsPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementsPreferences", "GetAnnouncementsPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -245,7 +245,7 @@ func (client AnnouncementsPreferencesClient) listAnnouncementsPreferences(ctx co
 
 	var response ListAnnouncementsPreferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementsPreferences", "ListAnnouncementsPreferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -299,7 +299,7 @@ func (client AnnouncementsPreferencesClient) updateAnnouncementsPreference(ctx c
 
 	var response UpdateAnnouncementsPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementsPreferences", "UpdateAnnouncementsPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

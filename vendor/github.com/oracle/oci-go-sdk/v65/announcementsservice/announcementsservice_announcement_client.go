@@ -132,7 +132,7 @@ func (client AnnouncementClient) getAnnouncement(ctx context.Context, request co
 
 	var response GetAnnouncementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcement", "GetAnnouncement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -185,7 +185,7 @@ func (client AnnouncementClient) getAnnouncementCompartment(ctx context.Context,
 
 	var response GetAnnouncementCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcement", "GetAnnouncementCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -239,7 +239,7 @@ func (client AnnouncementClient) getAnnouncementUserStatus(ctx context.Context, 
 
 	var response GetAnnouncementUserStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcement", "GetAnnouncementUserStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -293,7 +293,7 @@ func (client AnnouncementClient) listAnnouncements(ctx context.Context, request 
 
 	var response ListAnnouncementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcement", "ListAnnouncements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -347,7 +347,7 @@ func (client AnnouncementClient) updateAnnouncementUserStatus(ctx context.Contex
 
 	var response UpdateAnnouncementUserStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcement", "UpdateAnnouncementUserStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

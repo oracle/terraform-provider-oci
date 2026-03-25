@@ -14,10 +14,10 @@ import (
 // DeletePrivateAccessChannelRequest wrapper for the DeletePrivateAccessChannel operation
 type DeletePrivateAccessChannelRequest struct {
 
-	// The unique identifier key of the Private Access Channel.
+	// The unique identifier key of the private access channel.
 	PrivateAccessChannelKey *string `mandatory:"true" contributesTo:"path" name:"privateAccessChannelKey"`
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -14,7 +14,7 @@ import (
 // CreatePrivateAccessChannelRequest wrapper for the CreatePrivateAccessChannel operation
 type CreatePrivateAccessChannelRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Input payload for creating a private access channel for an Analytics instance.

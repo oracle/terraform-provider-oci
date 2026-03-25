@@ -139,7 +139,7 @@ func (client HealthChecksClient) changeHttpMonitorCompartment(ctx context.Contex
 
 	var response ChangeHttpMonitorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ChangeHttpMonitorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -198,7 +198,7 @@ func (client HealthChecksClient) changePingMonitorCompartment(ctx context.Contex
 
 	var response ChangePingMonitorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ChangePingMonitorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -258,7 +258,7 @@ func (client HealthChecksClient) createHttpMonitor(ctx context.Context, request 
 
 	var response CreateHttpMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "CreateHttpMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -313,7 +313,7 @@ func (client HealthChecksClient) createOnDemandHttpProbe(ctx context.Context, re
 
 	var response CreateOnDemandHttpProbeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "CreateOnDemandHttpProbe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client HealthChecksClient) createOnDemandPingProbe(ctx context.Context, re
 
 	var response CreateOnDemandPingProbeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "CreateOnDemandPingProbe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -428,7 +428,7 @@ func (client HealthChecksClient) createPingMonitor(ctx context.Context, request 
 
 	var response CreatePingMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "CreatePingMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -482,7 +482,7 @@ func (client HealthChecksClient) deleteHttpMonitor(ctx context.Context, request 
 
 	var response DeleteHttpMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "DeleteHttpMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -536,7 +536,7 @@ func (client HealthChecksClient) deletePingMonitor(ctx context.Context, request 
 
 	var response DeletePingMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "DeletePingMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -589,7 +589,7 @@ func (client HealthChecksClient) getHttpMonitor(ctx context.Context, request com
 
 	var response GetHttpMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "GetHttpMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -642,7 +642,7 @@ func (client HealthChecksClient) getPingMonitor(ctx context.Context, request com
 
 	var response GetPingMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "GetPingMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -695,7 +695,7 @@ func (client HealthChecksClient) listHealthChecksVantagePoints(ctx context.Conte
 
 	var response ListHealthChecksVantagePointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ListHealthChecksVantagePoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -748,7 +748,7 @@ func (client HealthChecksClient) listHttpMonitors(ctx context.Context, request c
 
 	var response ListHttpMonitorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ListHttpMonitors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -803,7 +803,7 @@ func (client HealthChecksClient) listHttpProbeResults(ctx context.Context, reque
 
 	var response ListHttpProbeResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ListHttpProbeResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -858,7 +858,7 @@ func (client HealthChecksClient) listPingMonitors(ctx context.Context, request c
 
 	var response ListPingMonitorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ListPingMonitors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -916,7 +916,7 @@ func (client HealthChecksClient) listPingProbeResults(ctx context.Context, reque
 
 	var response ListPingProbeResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "ListPingProbeResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -971,7 +971,7 @@ func (client HealthChecksClient) updateHttpMonitor(ctx context.Context, request 
 
 	var response UpdateHttpMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "UpdateHttpMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1026,7 +1026,7 @@ func (client HealthChecksClient) updatePingMonitor(ctx context.Context, request 
 
 	var response UpdatePingMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthChecks", "UpdatePingMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -135,11 +135,11 @@ func (client ConnectorPluginsClient) getConnectorPlugin(ctx context.Context, req
 
 	var response GetConnectorPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "connectorPlugins", "GetConnectorPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ConnectorPlugin/GetConnectorPlugin"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ConnectorPlugins", "GetConnectorPlugin", apiReferenceLink)
 		return response, err
 	}
@@ -189,11 +189,11 @@ func (client ConnectorPluginsClient) listConnectorPlugins(ctx context.Context, r
 
 	var response ListConnectorPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "connectorPlugins", "ListConnectorPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ConnectorPluginSummary/ListConnectorPlugins"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ConnectorPlugins", "ListConnectorPlugins", apiReferenceLink)
 		return response, err
 	}

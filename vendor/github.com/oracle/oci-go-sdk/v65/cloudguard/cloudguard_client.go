@@ -4,7 +4,7 @@
 
 // Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.oracle.com/iaas/security-zone/home.htm) documentation.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.oracle.com/iaas/iaas/cloud-guard/home.htm) and Security Zones (https://docs.oracle.com/iaas/iaas/security-zone/home.htm) documentation.
 // **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
@@ -141,7 +141,7 @@ func (client CloudGuardClient) addCompartment(ctx context.Context, request commo
 
 	var response AddCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client CloudGuardClient) addConfigurationLock(ctx context.Context, request
 
 	var response AddConfigurationLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddConfigurationLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client CloudGuardClient) addDetectorRecipeLock(ctx context.Context, reques
 
 	var response AddDetectorRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddDetectorRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client CloudGuardClient) addGovernanceTargetLock(ctx context.Context, requ
 
 	var response AddGovernanceTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddGovernanceTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -373,7 +373,7 @@ func (client CloudGuardClient) addManagedListLock(ctx context.Context, request c
 
 	var response AddManagedListLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddManagedListLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -431,7 +431,7 @@ func (client CloudGuardClient) addResponderRecipeLock(ctx context.Context, reque
 
 	var response AddResponderRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddResponderRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -489,7 +489,7 @@ func (client CloudGuardClient) addSecurityRecipeLock(ctx context.Context, reques
 
 	var response AddSecurityRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddSecurityRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -547,7 +547,7 @@ func (client CloudGuardClient) addSecurityZoneLock(ctx context.Context, request 
 
 	var response AddSecurityZoneLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddSecurityZoneLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -605,7 +605,7 @@ func (client CloudGuardClient) addTargetLock(ctx context.Context, request common
 
 	var response AddTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "AddTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -658,7 +658,7 @@ func (client CloudGuardClient) cancelWorkRequest(ctx context.Context, request co
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -718,7 +718,7 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 
 	var response ChangeDataSourceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeDataSourceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -779,7 +779,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 
 	var response ChangeDetectorRecipeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeDetectorRecipeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -837,7 +837,7 @@ func (client CloudGuardClient) changeGovernanceTargetCompartment(ctx context.Con
 
 	var response ChangeGovernanceTargetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeGovernanceTargetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -895,7 +895,7 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 
 	var response ChangeManagedListCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeManagedListCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -955,7 +955,7 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 
 	var response ChangeResponderRecipeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeResponderRecipeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1013,7 +1013,7 @@ func (client CloudGuardClient) changeSavedQueryCompartment(ctx context.Context, 
 
 	var response ChangeSavedQueryCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeSavedQueryCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1073,7 +1073,7 @@ func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Conte
 
 	var response ChangeSecurityRecipeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeSecurityRecipeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1133,7 +1133,7 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 
 	var response ChangeSecurityZoneCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ChangeSecurityZoneCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1191,7 +1191,7 @@ func (client CloudGuardClient) createAdhocQuery(ctx context.Context, request com
 
 	var response CreateAdhocQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateAdhocQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1249,7 +1249,7 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 
 	var response CreateDataMaskRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateDataMaskRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1308,7 +1308,7 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 
 	var response CreateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1366,7 +1366,7 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 
 	var response CreateDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1424,7 +1424,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 
 	var response CreateDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1482,7 +1482,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRuleSightingType(ctx 
 
 	var response CreateDetectorRecipeDetectorRuleSightingTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateDetectorRecipeDetectorRuleSightingType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1540,7 +1540,7 @@ func (client CloudGuardClient) createGovernanceBenchmark(ctx context.Context, re
 
 	var response CreateGovernanceBenchmarkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateGovernanceBenchmark")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1598,7 +1598,7 @@ func (client CloudGuardClient) createGovernanceBenchmarkAttachment(ctx context.C
 
 	var response CreateGovernanceBenchmarkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateGovernanceBenchmarkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1656,7 +1656,7 @@ func (client CloudGuardClient) createGovernanceTarget(ctx context.Context, reque
 
 	var response CreateGovernanceTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateGovernanceTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1714,7 +1714,7 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 
 	var response CreateManagedListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateManagedList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1773,7 +1773,7 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 
 	var response CreateResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1831,7 +1831,7 @@ func (client CloudGuardClient) createSavedQuery(ctx context.Context, request com
 
 	var response CreateSavedQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateSavedQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1890,7 +1890,7 @@ func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request
 
 	var response CreateSecurityRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateSecurityRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1949,7 +1949,7 @@ func (client CloudGuardClient) createSecurityZone(ctx context.Context, request c
 
 	var response CreateSecurityZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateSecurityZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2007,7 +2007,7 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 
 	var response CreateTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2067,7 +2067,7 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 
 	var response CreateTargetDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateTargetDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2125,7 +2125,7 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 
 	var response CreateTargetResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateTargetResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2184,7 +2184,7 @@ func (client CloudGuardClient) createWlpAgent(ctx context.Context, request commo
 
 	var response CreateWlpAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "CreateWlpAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2242,7 +2242,7 @@ func (client CloudGuardClient) deleteAdhocQuery(ctx context.Context, request com
 
 	var response DeleteAdhocQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteAdhocQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2295,7 +2295,7 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 
 	var response DeleteDataMaskRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDataMaskRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2353,7 +2353,7 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 
 	var response DeleteDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2411,7 +2411,7 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 
 	var response DeleteDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2464,7 +2464,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRule(ctx context.Cont
 
 	var response DeleteDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2517,7 +2517,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleDataSource(ctx co
 
 	var response DeleteDetectorRecipeDetectorRuleDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDetectorRecipeDetectorRuleDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2570,7 +2570,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleSightingType(ctx 
 
 	var response DeleteDetectorRecipeDetectorRuleSightingTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteDetectorRecipeDetectorRuleSightingType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2628,7 +2628,7 @@ func (client CloudGuardClient) deleteGovernanceBenchmark(ctx context.Context, re
 
 	var response DeleteGovernanceBenchmarkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteGovernanceBenchmark")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2686,7 +2686,7 @@ func (client CloudGuardClient) deleteGovernanceBenchmarkAttachment(ctx context.C
 
 	var response DeleteGovernanceBenchmarkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteGovernanceBenchmarkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2744,7 +2744,7 @@ func (client CloudGuardClient) deleteGovernanceTarget(ctx context.Context, reque
 
 	var response DeleteGovernanceTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteGovernanceTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2802,7 +2802,7 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 
 	var response DeleteManagedListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteManagedList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2855,7 +2855,7 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 
 	var response DeleteResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2913,7 +2913,7 @@ func (client CloudGuardClient) deleteSavedQuery(ctx context.Context, request com
 
 	var response DeleteSavedQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteSavedQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2966,7 +2966,7 @@ func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request
 
 	var response DeleteSecurityRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteSecurityRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3019,7 +3019,7 @@ func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request c
 
 	var response DeleteSecurityZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteSecurityZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3072,7 +3072,7 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 
 	var response DeleteTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3126,7 +3126,7 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 
 	var response DeleteTargetDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteTargetDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3181,7 +3181,7 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 
 	var response DeleteTargetResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteTargetResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3239,7 +3239,7 @@ func (client CloudGuardClient) deleteWlpAgent(ctx context.Context, request commo
 
 	var response DeleteWlpAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DeleteWlpAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3292,7 +3292,7 @@ func (client CloudGuardClient) detachDetectorRecipeDetectorRuleSightingTypeDataS
 
 	var response DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "DetachDetectorRecipeDetectorRuleSightingTypeDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3351,7 +3351,7 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 
 	var response ExecuteResponderExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ExecuteResponderExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3404,7 +3404,7 @@ func (client CloudGuardClient) getAdhocQuery(ctx context.Context, request common
 
 	var response GetAdhocQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetAdhocQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3457,7 +3457,7 @@ func (client CloudGuardClient) getAdhocQueryResultContent(ctx context.Context, r
 
 	var response GetAdhocQueryResultContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetAdhocQueryResultContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQueryResultCollection/GetAdhocQueryResultContent"
@@ -3509,7 +3509,7 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 
 	var response GetConditionMetadataTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetConditionMetadataType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3563,7 +3563,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3616,7 +3616,7 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 
 	var response GetDataMaskRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDataMaskRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3669,7 +3669,7 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 
 	var response GetDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3722,7 +3722,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 
 	var response GetDetectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDetector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3775,7 +3775,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 
 	var response GetDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3828,7 +3828,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 
 	var response GetDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3881,7 +3881,7 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 
 	var response GetDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3934,7 +3934,7 @@ func (client CloudGuardClient) getGovernanceBenchmark(ctx context.Context, reque
 
 	var response GetGovernanceBenchmarkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetGovernanceBenchmark")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3987,7 +3987,7 @@ func (client CloudGuardClient) getGovernanceBenchmarkAttachment(ctx context.Cont
 
 	var response GetGovernanceBenchmarkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetGovernanceBenchmarkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4040,7 +4040,7 @@ func (client CloudGuardClient) getGovernanceProblem(ctx context.Context, request
 
 	var response GetGovernanceProblemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetGovernanceProblem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4093,7 +4093,7 @@ func (client CloudGuardClient) getGovernanceTarget(ctx context.Context, request 
 
 	var response GetGovernanceTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetGovernanceTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4146,7 +4146,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 
 	var response GetManagedListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetManagedList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4199,7 +4199,7 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 
 	var response GetProblemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetProblem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4252,7 +4252,7 @@ func (client CloudGuardClient) getResource(ctx context.Context, request common.O
 
 	var response GetResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4305,7 +4305,7 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 
 	var response GetResourceProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResourceProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4358,7 +4358,7 @@ func (client CloudGuardClient) getResourceVulnerability(ctx context.Context, req
 
 	var response GetResourceVulnerabilityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResourceVulnerability")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4411,7 +4411,7 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 
 	var response GetResponderExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResponderExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4464,7 +4464,7 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 
 	var response GetResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4517,7 +4517,7 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 
 	var response GetResponderRecipeResponderRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResponderRecipeResponderRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4570,7 +4570,7 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 
 	var response GetResponderRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetResponderRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4623,7 +4623,7 @@ func (client CloudGuardClient) getSavedQuery(ctx context.Context, request common
 
 	var response GetSavedQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetSavedQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4678,7 +4678,7 @@ func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request co
 
 	var response GetSecurityPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetSecurityPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4731,7 +4731,7 @@ func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request co
 
 	var response GetSecurityRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetSecurityRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4784,7 +4784,7 @@ func (client CloudGuardClient) getSecurityZone(ctx context.Context, request comm
 
 	var response GetSecurityZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetSecurityZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4837,7 +4837,7 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 
 	var response GetSightingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetSighting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4890,7 +4890,7 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 
 	var response GetTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4943,7 +4943,7 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 
 	var response GetTargetDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetTargetDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4996,7 +4996,7 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 
 	var response GetTargetDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetTargetDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5050,7 +5050,7 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 
 	var response GetTargetResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetTargetResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5106,7 +5106,7 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 
 	var response GetTargetResponderRecipeResponderRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetTargetResponderRecipeResponderRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5159,7 +5159,7 @@ func (client CloudGuardClient) getWlpAgent(ctx context.Context, request common.O
 
 	var response GetWlpAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetWlpAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5212,7 +5212,7 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5278,7 +5278,7 @@ func (client CloudGuardClient) listAdhocQueries(ctx context.Context, request com
 
 	var response ListAdhocQueriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListAdhocQueries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5331,7 +5331,7 @@ func (client CloudGuardClient) listAdhocQueryResults(ctx context.Context, reques
 
 	var response ListAdhocQueryResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListAdhocQueryResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5384,7 +5384,7 @@ func (client CloudGuardClient) listAdvancedLinks(ctx context.Context, request co
 
 	var response ListAdvancedLinksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListAdvancedLinks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5437,7 +5437,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 
 	var response ListConditionMetadataTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListConditionMetadataTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5490,7 +5490,7 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 
 	var response ListDataMaskRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDataMaskRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5545,7 +5545,7 @@ func (client CloudGuardClient) listDataSourceEvents(ctx context.Context, request
 
 	var response ListDataSourceEventsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDataSourceEvents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5611,7 +5611,7 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 
 	var response ListDataSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDataSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5665,7 +5665,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRuleSightingTypes(ctx c
 
 	var response ListDetectorRecipeDetectorRuleSightingTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDetectorRecipeDetectorRuleSightingTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5718,7 +5718,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 
 	var response ListDetectorRecipeDetectorRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDetectorRecipeDetectorRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5782,7 +5782,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 
 	var response ListDetectorRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDetectorRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5835,7 +5835,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 
 	var response ListDetectorRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDetectorRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5888,7 +5888,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 
 	var response ListDetectorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListDetectors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5941,7 +5941,7 @@ func (client CloudGuardClient) listGovernanceBenchmarkAttachments(ctx context.Co
 
 	var response ListGovernanceBenchmarkAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListGovernanceBenchmarkAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5994,7 +5994,7 @@ func (client CloudGuardClient) listGovernanceBenchmarks(ctx context.Context, req
 
 	var response ListGovernanceBenchmarksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListGovernanceBenchmarks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6058,7 +6058,7 @@ func (client CloudGuardClient) listGovernanceProblems(ctx context.Context, reque
 
 	var response ListGovernanceProblemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListGovernanceProblems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6111,7 +6111,7 @@ func (client CloudGuardClient) listGovernanceScopeMembers(ctx context.Context, r
 
 	var response ListGovernanceScopeMembersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListGovernanceScopeMembers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6164,7 +6164,7 @@ func (client CloudGuardClient) listGovernanceTargets(ctx context.Context, reques
 
 	var response ListGovernanceTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListGovernanceTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6217,7 +6217,7 @@ func (client CloudGuardClient) listImpactedResources(ctx context.Context, reques
 
 	var response ListImpactedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListImpactedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6270,7 +6270,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 
 	var response ListManagedListTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListManagedListTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6334,7 +6334,7 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 
 	var response ListManagedListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListManagedLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6387,7 +6387,7 @@ func (client CloudGuardClient) listMitreTactics(ctx context.Context, request com
 
 	var response ListMitreTacticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListMitreTactics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6440,7 +6440,7 @@ func (client CloudGuardClient) listMitreTechniques(ctx context.Context, request 
 
 	var response ListMitreTechniquesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListMitreTechniques")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6493,7 +6493,7 @@ func (client CloudGuardClient) listMonitoringResources(ctx context.Context, requ
 
 	var response ListMonitoringResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListMonitoringResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6546,7 +6546,7 @@ func (client CloudGuardClient) listPolicies(ctx context.Context, request common.
 
 	var response ListPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6599,7 +6599,7 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 
 	var response ListProblemEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListProblemEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6652,7 +6652,7 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 
 	var response ListProblemEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListProblemEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6705,7 +6705,7 @@ func (client CloudGuardClient) listProblemHistories(ctx context.Context, request
 
 	var response ListProblemHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListProblemHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6769,7 +6769,7 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 
 	var response ListProblemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListProblems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6823,7 +6823,7 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 
 	var response ListRecommendationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListRecommendations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6876,7 +6876,7 @@ func (client CloudGuardClient) listResourcePorts(ctx context.Context, request co
 
 	var response ListResourcePortsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourcePorts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6930,7 +6930,7 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 
 	var response ListResourceProfileEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourceProfileEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6985,7 +6985,7 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 
 	var response ListResourceProfileImpactedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourceProfileImpactedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7049,7 +7049,7 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 
 	var response ListResourceProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourceProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7103,7 +7103,7 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 
 	var response ListResourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7156,7 +7156,7 @@ func (client CloudGuardClient) listResourceVulnerabilities(ctx context.Context, 
 
 	var response ListResourceVulnerabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResourceVulnerabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7220,7 +7220,7 @@ func (client CloudGuardClient) listResources(ctx context.Context, request common
 
 	var response ListResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7274,7 +7274,7 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 
 	var response ListResponderActivitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResponderActivities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7328,7 +7328,7 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 
 	var response ListResponderExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResponderExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7383,7 +7383,7 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 
 	var response ListResponderRecipeResponderRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResponderRecipeResponderRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7448,7 +7448,7 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 
 	var response ListResponderRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResponderRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7503,7 +7503,7 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 
 	var response ListResponderRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListResponderRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7556,7 +7556,7 @@ func (client CloudGuardClient) listSavedQueries(ctx context.Context, request com
 
 	var response ListSavedQueriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSavedQueries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7610,7 +7610,7 @@ func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request
 
 	var response ListSecurityPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSecurityPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7664,7 +7664,7 @@ func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request 
 
 	var response ListSecurityRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSecurityRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7718,7 +7718,7 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 
 	var response ListSecurityZonesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSecurityZones")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7771,7 +7771,7 @@ func (client CloudGuardClient) listSightingAdditionalEntities(ctx context.Contex
 
 	var response ListSightingAdditionalEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSightingAdditionalEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7826,7 +7826,7 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 
 	var response ListSightingEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSightingEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7880,7 +7880,7 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 
 	var response ListSightingImpactedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSightingImpactedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7943,7 +7943,7 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 
 	var response ListSightingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListSightings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7996,7 +7996,7 @@ func (client CloudGuardClient) listTactics(ctx context.Context, request common.O
 
 	var response ListTacticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTactics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8049,7 +8049,7 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 
 	var response ListTargetDetectorRecipeDetectorRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargetDetectorRecipeDetectorRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8104,7 +8104,7 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 
 	var response ListTargetDetectorRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargetDetectorRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8159,7 +8159,7 @@ func (client CloudGuardClient) listTargetMonitoringSignals(ctx context.Context, 
 
 	var response ListTargetMonitoringSignalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargetMonitoringSignals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8215,7 +8215,7 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 
 	var response ListTargetResponderRecipeResponderRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargetResponderRecipeResponderRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8270,7 +8270,7 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 
 	var response ListTargetResponderRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargetResponderRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8335,7 +8335,7 @@ func (client CloudGuardClient) listTargets(ctx context.Context, request common.O
 
 	var response ListTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8388,7 +8388,7 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 
 	var response ListTechniquesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListTechniques")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8441,7 +8441,7 @@ func (client CloudGuardClient) listWlpAgents(ctx context.Context, request common
 
 	var response ListWlpAgentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListWlpAgents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8495,7 +8495,7 @@ func (client CloudGuardClient) listWorkRequestErrors(ctx context.Context, reques
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8549,7 +8549,7 @@ func (client CloudGuardClient) listWorkRequestLogs(ctx context.Context, request 
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8603,7 +8603,7 @@ func (client CloudGuardClient) listWorkRequests(ctx context.Context, request com
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8664,7 +8664,7 @@ func (client CloudGuardClient) removeCompartment(ctx context.Context, request co
 
 	var response RemoveCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8722,7 +8722,7 @@ func (client CloudGuardClient) removeConfigurationLock(ctx context.Context, requ
 
 	var response RemoveConfigurationLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveConfigurationLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8780,7 +8780,7 @@ func (client CloudGuardClient) removeDetectorRecipeLock(ctx context.Context, req
 
 	var response RemoveDetectorRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveDetectorRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8838,7 +8838,7 @@ func (client CloudGuardClient) removeGovernanceTargetLock(ctx context.Context, r
 
 	var response RemoveGovernanceTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveGovernanceTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8896,7 +8896,7 @@ func (client CloudGuardClient) removeManagedListLock(ctx context.Context, reques
 
 	var response RemoveManagedListLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveManagedListLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8954,7 +8954,7 @@ func (client CloudGuardClient) removeResponderRecipeLock(ctx context.Context, re
 
 	var response RemoveResponderRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveResponderRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9012,7 +9012,7 @@ func (client CloudGuardClient) removeSecurityRecipeLock(ctx context.Context, req
 
 	var response RemoveSecurityRecipeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveSecurityRecipeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9070,7 +9070,7 @@ func (client CloudGuardClient) removeSecurityZoneLock(ctx context.Context, reque
 
 	var response RemoveSecurityZoneLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveSecurityZoneLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9128,7 +9128,7 @@ func (client CloudGuardClient) removeTargetLock(ctx context.Context, request com
 
 	var response RemoveTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RemoveTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9186,7 +9186,7 @@ func (client CloudGuardClient) requestAssuranceScore(ctx context.Context, reques
 
 	var response RequestAssuranceScoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestAssuranceScore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9240,7 +9240,7 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 
 	var response RequestRiskScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestRiskScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9294,7 +9294,7 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 
 	var response RequestSecurityScoreSummarizedTrendResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSecurityScoreSummarizedTrend")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9348,7 +9348,7 @@ func (client CloudGuardClient) requestSecurityScores(ctx context.Context, reques
 
 	var response RequestSecurityScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSecurityScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9412,7 +9412,7 @@ func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Con
 
 	var response RequestSummarizedActivityProblemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedActivityProblems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9474,7 +9474,7 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 
 	var response RequestSummarizedProblemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedProblems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9536,7 +9536,7 @@ func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.
 
 	var response RequestSummarizedResponderExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedResponderExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9589,7 +9589,7 @@ func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, 
 
 	var response RequestSummarizedRiskScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedRiskScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9642,7 +9642,7 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 
 	var response RequestSummarizedSecurityScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedSecurityScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9697,7 +9697,7 @@ func (client CloudGuardClient) requestSummarizedTopTrendResourceProfileRiskScore
 
 	var response RequestSummarizedTopTrendResourceProfileRiskScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedTopTrendResourceProfileRiskScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9759,7 +9759,7 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 
 	var response RequestSummarizedTrendProblemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedTrendProblems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9814,7 +9814,7 @@ func (client CloudGuardClient) requestSummarizedTrendResourceRiskScores(ctx cont
 
 	var response RequestSummarizedTrendResourceRiskScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedTrendResourceRiskScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9876,7 +9876,7 @@ func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx con
 
 	var response RequestSummarizedTrendResponderExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedTrendResponderExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9929,7 +9929,7 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 
 	var response RequestSummarizedTrendSecurityScoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "RequestSummarizedTrendSecurityScores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9982,7 +9982,7 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 
 	var response SkipBulkResponderExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "SkipBulkResponderExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10040,7 +10040,7 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 
 	var response SkipResponderExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "SkipResponderExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10099,7 +10099,7 @@ func (client CloudGuardClient) triggerResponder(ctx context.Context, request com
 
 	var response TriggerResponderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "TriggerResponder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10152,7 +10152,7 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 
 	var response UpdateBulkProblemStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateBulkProblemStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10211,7 +10211,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 
 	var response UpdateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10264,7 +10264,7 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 
 	var response UpdateDataMaskRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateDataMaskRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10323,7 +10323,7 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 
 	var response UpdateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10381,7 +10381,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 
 	var response UpdateDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10434,7 +10434,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 
 	var response UpdateDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10492,7 +10492,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRuleSightingType(ctx 
 
 	var response UpdateDetectorRecipeDetectorRuleSightingTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateDetectorRecipeDetectorRuleSightingType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10551,7 +10551,7 @@ func (client CloudGuardClient) updateGovernanceBenchmark(ctx context.Context, re
 
 	var response UpdateGovernanceBenchmarkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateGovernanceBenchmark")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10610,7 +10610,7 @@ func (client CloudGuardClient) updateGovernanceBenchmarkAttachment(ctx context.C
 
 	var response UpdateGovernanceBenchmarkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateGovernanceBenchmarkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10669,7 +10669,7 @@ func (client CloudGuardClient) updateGovernanceTarget(ctx context.Context, reque
 
 	var response UpdateGovernanceTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateGovernanceTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10727,7 +10727,7 @@ func (client CloudGuardClient) updateManagedList(ctx context.Context, request co
 
 	var response UpdateManagedListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateManagedList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10785,7 +10785,7 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 
 	var response UpdateProblemStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateProblemStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10839,7 +10839,7 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 
 	var response UpdateResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10893,7 +10893,7 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 
 	var response UpdateResponderRecipeResponderRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateResponderRecipeResponderRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10951,7 +10951,7 @@ func (client CloudGuardClient) updateSavedQuery(ctx context.Context, request com
 
 	var response UpdateSavedQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateSavedQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11005,7 +11005,7 @@ func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request
 
 	var response UpdateSecurityRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateSecurityRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11059,7 +11059,7 @@ func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request c
 
 	var response UpdateSecurityZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateSecurityZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11113,7 +11113,7 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 
 	var response UpdateTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11167,7 +11167,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 
 	var response UpdateTargetDetectorRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateTargetDetectorRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11220,7 +11220,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 
 	var response UpdateTargetDetectorRecipeDetectorRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateTargetDetectorRecipeDetectorRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11276,7 +11276,7 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 
 	var response UpdateTargetResponderRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateTargetResponderRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11333,7 +11333,7 @@ func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx cont
 
 	var response UpdateTargetResponderRecipeResponderRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateTargetResponderRecipeResponderRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11391,7 +11391,7 @@ func (client CloudGuardClient) updateWlpAgent(ctx context.Context, request commo
 
 	var response UpdateWlpAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "UpdateWlpAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11451,7 +11451,7 @@ func (client CloudGuardClient) validateCredentials(ctx context.Context, request 
 
 	var response ValidateCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cloudGuard", "ValidateCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

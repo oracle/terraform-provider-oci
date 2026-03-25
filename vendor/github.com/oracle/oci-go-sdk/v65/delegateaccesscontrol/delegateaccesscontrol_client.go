@@ -141,11 +141,11 @@ func (client DelegateAccessControlClient) approveDelegatedResourceAccessRequest(
 
 	var response ApproveDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ApproveDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/ApproveDelegatedResourceAccessRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ApproveDelegatedResourceAccessRequest", apiReferenceLink)
 		return response, err
 	}
@@ -200,11 +200,11 @@ func (client DelegateAccessControlClient) changeDelegationControlCompartment(ctx
 
 	var response ChangeDelegationControlCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ChangeDelegationControlCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/ChangeDelegationControlCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ChangeDelegationControlCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -259,11 +259,11 @@ func (client DelegateAccessControlClient) changeDelegationSubscriptionCompartmen
 
 	var response ChangeDelegationSubscriptionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ChangeDelegationSubscriptionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/ChangeDelegationSubscriptionCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ChangeDelegationSubscriptionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -318,11 +318,11 @@ func (client DelegateAccessControlClient) createDelegationControl(ctx context.Co
 
 	var response CreateDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "CreateDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/CreateDelegationControl"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "CreateDelegationControl", apiReferenceLink)
 		return response, err
 	}
@@ -377,11 +377,11 @@ func (client DelegateAccessControlClient) createDelegationSubscription(ctx conte
 
 	var response CreateDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "CreateDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/CreateDelegationSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "CreateDelegationSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -435,11 +435,11 @@ func (client DelegateAccessControlClient) deleteDelegationControl(ctx context.Co
 
 	var response DeleteDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "DeleteDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/DeleteDelegationControl"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "DeleteDelegationControl", apiReferenceLink)
 		return response, err
 	}
@@ -489,11 +489,11 @@ func (client DelegateAccessControlClient) deleteDelegationSubscription(ctx conte
 
 	var response DeleteDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "DeleteDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/DeleteDelegationSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "DeleteDelegationSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -543,11 +543,11 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequest(ctx 
 
 	var response GetDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/GetDelegatedResourceAccessRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetDelegatedResourceAccessRequest", apiReferenceLink)
 		return response, err
 	}
@@ -597,11 +597,11 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequestAudit
 
 	var response GetDelegatedResourceAccessRequestAuditLogReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegatedResourceAccessRequestAuditLogReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequestAuditLogReport/GetDelegatedResourceAccessRequestAuditLogReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetDelegatedResourceAccessRequestAuditLogReport", apiReferenceLink)
 		return response, err
 	}
@@ -651,11 +651,11 @@ func (client DelegateAccessControlClient) getDelegationControl(ctx context.Conte
 
 	var response GetDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/GetDelegationControl"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetDelegationControl", apiReferenceLink)
 		return response, err
 	}
@@ -705,11 +705,11 @@ func (client DelegateAccessControlClient) getDelegationSubscription(ctx context.
 
 	var response GetDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/GetDelegationSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetDelegationSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -759,11 +759,11 @@ func (client DelegateAccessControlClient) getServiceProvider(ctx context.Context
 
 	var response GetServiceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetServiceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/ServiceProvider/GetServiceProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetServiceProvider", apiReferenceLink)
 		return response, err
 	}
@@ -813,11 +813,11 @@ func (client DelegateAccessControlClient) getServiceProviderAction(ctx context.C
 
 	var response GetServiceProviderActionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetServiceProviderAction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/ServiceProviderAction/GetServiceProviderAction"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "GetServiceProviderAction", apiReferenceLink)
 		return response, err
 	}
@@ -867,11 +867,11 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequestHist
 
 	var response ListDelegatedResourceAccessRequestHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegatedResourceAccessRequestHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/ListDelegatedResourceAccessRequestHistories"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListDelegatedResourceAccessRequestHistories", apiReferenceLink)
 		return response, err
 	}
@@ -921,11 +921,11 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequests(ct
 
 	var response ListDelegatedResourceAccessRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegatedResourceAccessRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/ListDelegatedResourceAccessRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListDelegatedResourceAccessRequests", apiReferenceLink)
 		return response, err
 	}
@@ -975,11 +975,11 @@ func (client DelegateAccessControlClient) listDelegationControlResources(ctx con
 
 	var response ListDelegationControlResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationControlResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/ListDelegationControlResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListDelegationControlResources", apiReferenceLink)
 		return response, err
 	}
@@ -1029,11 +1029,11 @@ func (client DelegateAccessControlClient) listDelegationControls(ctx context.Con
 
 	var response ListDelegationControlsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationControls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/ListDelegationControls"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListDelegationControls", apiReferenceLink)
 		return response, err
 	}
@@ -1083,11 +1083,11 @@ func (client DelegateAccessControlClient) listDelegationSubscriptions(ctx contex
 
 	var response ListDelegationSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/ListDelegationSubscriptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListDelegationSubscriptions", apiReferenceLink)
 		return response, err
 	}
@@ -1137,11 +1137,11 @@ func (client DelegateAccessControlClient) listServiceProviderActions(ctx context
 
 	var response ListServiceProviderActionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviderActions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/ServiceProviderAction/ListServiceProviderActions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListServiceProviderActions", apiReferenceLink)
 		return response, err
 	}
@@ -1191,11 +1191,11 @@ func (client DelegateAccessControlClient) listServiceProviderInteractions(ctx co
 
 	var response ListServiceProviderInteractionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviderInteractions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/ListServiceProviderInteractions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListServiceProviderInteractions", apiReferenceLink)
 		return response, err
 	}
@@ -1245,11 +1245,11 @@ func (client DelegateAccessControlClient) listServiceProviders(ctx context.Conte
 
 	var response ListServiceProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/ServiceProvider/ListServiceProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ListServiceProviders", apiReferenceLink)
 		return response, err
 	}
@@ -1304,11 +1304,11 @@ func (client DelegateAccessControlClient) rejectDelegatedResourceAccessRequest(c
 
 	var response RejectDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "RejectDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/RejectDelegatedResourceAccessRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "RejectDelegatedResourceAccessRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1363,11 +1363,11 @@ func (client DelegateAccessControlClient) revokeDelegatedResourceAccessRequest(c
 
 	var response RevokeDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "RevokeDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/RevokeDelegatedResourceAccessRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "RevokeDelegatedResourceAccessRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1422,11 +1422,11 @@ func (client DelegateAccessControlClient) serviceProviderInteractionRequest(ctx 
 
 	var response ServiceProviderInteractionRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ServiceProviderInteractionRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegatedResourceAccessRequest/ServiceProviderInteractionRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "ServiceProviderInteractionRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1476,11 +1476,11 @@ func (client DelegateAccessControlClient) updateDelegationControl(ctx context.Co
 
 	var response UpdateDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "UpdateDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationControl/UpdateDelegationControl"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "UpdateDelegationControl", apiReferenceLink)
 		return response, err
 	}
@@ -1530,11 +1530,11 @@ func (client DelegateAccessControlClient) updateDelegationSubscription(ctx conte
 
 	var response UpdateDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "UpdateDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/delegate-access-control/20230801/DelegationSubscription/UpdateDelegationSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DelegateAccessControl", "UpdateDelegationSubscription", apiReferenceLink)
 		return response, err
 	}

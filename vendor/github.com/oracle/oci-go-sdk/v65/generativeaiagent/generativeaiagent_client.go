@@ -136,11 +136,11 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -196,11 +196,11 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 
 	var response ChangeAgentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeAgentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/ChangeAgentCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ChangeAgentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -256,11 +256,11 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 
 	var response ChangeAgentEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeAgentEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/ChangeAgentEndpointCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ChangeAgentEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -316,11 +316,11 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 
 	var response ChangeKnowledgeBaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeKnowledgeBaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/ChangeKnowledgeBaseCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ChangeKnowledgeBaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -376,11 +376,11 @@ func (client GenerativeAiAgentClient) changeProvisionedCapacityCompartment(ctx c
 
 	var response ChangeProvisionedCapacityCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeProvisionedCapacityCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/ChangeProvisionedCapacityCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ChangeProvisionedCapacityCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -435,11 +435,11 @@ func (client GenerativeAiAgentClient) createAgent(ctx context.Context, request c
 
 	var response CreateAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/CreateAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateAgent", apiReferenceLink)
 		return response, err
 	}
@@ -494,11 +494,11 @@ func (client GenerativeAiAgentClient) createAgentEndpoint(ctx context.Context, r
 
 	var response CreateAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/CreateAgentEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateAgentEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -553,11 +553,11 @@ func (client GenerativeAiAgentClient) createDataIngestionJob(ctx context.Context
 
 	var response CreateDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/CreateDataIngestionJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateDataIngestionJob", apiReferenceLink)
 		return response, err
 	}
@@ -612,11 +612,11 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 
 	var response CreateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/CreateDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -671,11 +671,11 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 
 	var response CreateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/CreateKnowledgeBase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -730,11 +730,11 @@ func (client GenerativeAiAgentClient) createProvisionedCapacity(ctx context.Cont
 
 	var response CreateProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/CreateProvisionedCapacity"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
@@ -789,11 +789,11 @@ func (client GenerativeAiAgentClient) createTool(ctx context.Context, request co
 
 	var response CreateToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/CreateTool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "CreateTool", apiReferenceLink)
 		return response, err
 	}
@@ -843,11 +843,11 @@ func (client GenerativeAiAgentClient) deleteAgent(ctx context.Context, request c
 
 	var response DeleteAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/DeleteAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteAgent", apiReferenceLink)
 		return response, err
 	}
@@ -897,11 +897,11 @@ func (client GenerativeAiAgentClient) deleteAgentEndpoint(ctx context.Context, r
 
 	var response DeleteAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/DeleteAgentEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteAgentEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -951,11 +951,11 @@ func (client GenerativeAiAgentClient) deleteDataIngestionJob(ctx context.Context
 
 	var response DeleteDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/DeleteDataIngestionJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteDataIngestionJob", apiReferenceLink)
 		return response, err
 	}
@@ -1005,11 +1005,11 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 
 	var response DeleteDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/DeleteDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -1059,11 +1059,11 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 
 	var response DeleteKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/DeleteKnowledgeBase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -1113,11 +1113,11 @@ func (client GenerativeAiAgentClient) deleteProvisionedCapacity(ctx context.Cont
 
 	var response DeleteProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/DeleteProvisionedCapacity"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
@@ -1167,11 +1167,11 @@ func (client GenerativeAiAgentClient) deleteTool(ctx context.Context, request co
 
 	var response DeleteToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/DeleteTool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "DeleteTool", apiReferenceLink)
 		return response, err
 	}
@@ -1221,11 +1221,11 @@ func (client GenerativeAiAgentClient) getAgent(ctx context.Context, request comm
 
 	var response GetAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/GetAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetAgent", apiReferenceLink)
 		return response, err
 	}
@@ -1275,11 +1275,11 @@ func (client GenerativeAiAgentClient) getAgentEndpoint(ctx context.Context, requ
 
 	var response GetAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/GetAgentEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetAgentEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1329,11 +1329,11 @@ func (client GenerativeAiAgentClient) getDataIngestionJob(ctx context.Context, r
 
 	var response GetDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/GetDataIngestionJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetDataIngestionJob", apiReferenceLink)
 		return response, err
 	}
@@ -1383,10 +1383,10 @@ func (client GenerativeAiAgentClient) getDataIngestionJobLogContent(ctx context.
 
 	var response GetDataIngestionJobLogContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataIngestionJobLogContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/GetDataIngestionJobLogContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetDataIngestionJobLogContent", apiReferenceLink)
 		return response, err
 	}
@@ -1436,11 +1436,11 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 
 	var response GetDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/GetDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -1490,11 +1490,11 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 
 	var response GetKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/GetKnowledgeBase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -1544,11 +1544,11 @@ func (client GenerativeAiAgentClient) getProvisionedCapacity(ctx context.Context
 
 	var response GetProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/GetProvisionedCapacity"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
@@ -1598,11 +1598,11 @@ func (client GenerativeAiAgentClient) getTool(ctx context.Context, request commo
 
 	var response GetToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/GetTool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetTool", apiReferenceLink)
 		return response, err
 	}
@@ -1652,11 +1652,11 @@ func (client GenerativeAiAgentClient) getWorkRequest(ctx context.Context, reques
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1706,11 +1706,11 @@ func (client GenerativeAiAgentClient) listAgentEndpoints(ctx context.Context, re
 
 	var response ListAgentEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListAgentEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/ListAgentEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListAgentEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -1760,11 +1760,11 @@ func (client GenerativeAiAgentClient) listAgents(ctx context.Context, request co
 
 	var response ListAgentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListAgents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/ListAgents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListAgents", apiReferenceLink)
 		return response, err
 	}
@@ -1814,11 +1814,11 @@ func (client GenerativeAiAgentClient) listDataIngestionJobs(ctx context.Context,
 
 	var response ListDataIngestionJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListDataIngestionJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/ListDataIngestionJobs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListDataIngestionJobs", apiReferenceLink)
 		return response, err
 	}
@@ -1868,11 +1868,11 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 
 	var response ListDataSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListDataSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/ListDataSources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListDataSources", apiReferenceLink)
 		return response, err
 	}
@@ -1922,11 +1922,11 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 
 	var response ListKnowledgeBasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListKnowledgeBases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/ListKnowledgeBases"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListKnowledgeBases", apiReferenceLink)
 		return response, err
 	}
@@ -1976,11 +1976,11 @@ func (client GenerativeAiAgentClient) listProvisionedCapacities(ctx context.Cont
 
 	var response ListProvisionedCapacitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListProvisionedCapacities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/ListProvisionedCapacities"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListProvisionedCapacities", apiReferenceLink)
 		return response, err
 	}
@@ -2030,11 +2030,11 @@ func (client GenerativeAiAgentClient) listTools(ctx context.Context, request com
 
 	var response ListToolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListTools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/ListTools"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListTools", apiReferenceLink)
 		return response, err
 	}
@@ -2084,11 +2084,11 @@ func (client GenerativeAiAgentClient) listWorkRequestErrors(ctx context.Context,
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2138,11 +2138,11 @@ func (client GenerativeAiAgentClient) listWorkRequestLogs(ctx context.Context, r
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2192,11 +2192,11 @@ func (client GenerativeAiAgentClient) listWorkRequests(ctx context.Context, requ
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2246,11 +2246,11 @@ func (client GenerativeAiAgentClient) updateAgent(ctx context.Context, request c
 
 	var response UpdateAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Agent/UpdateAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateAgent", apiReferenceLink)
 		return response, err
 	}
@@ -2300,11 +2300,11 @@ func (client GenerativeAiAgentClient) updateAgentEndpoint(ctx context.Context, r
 
 	var response UpdateAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/AgentEndpoint/UpdateAgentEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateAgentEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -2354,11 +2354,11 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 
 	var response UpdateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataSource/UpdateDataSource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateDataSource", apiReferenceLink)
 		return response, err
 	}
@@ -2408,11 +2408,11 @@ func (client GenerativeAiAgentClient) updateKnowledgeBase(ctx context.Context, r
 
 	var response UpdateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/KnowledgeBase/UpdateKnowledgeBase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateKnowledgeBase", apiReferenceLink)
 		return response, err
 	}
@@ -2462,11 +2462,11 @@ func (client GenerativeAiAgentClient) updateProvisionedCapacity(ctx context.Cont
 
 	var response UpdateProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/ProvisionedCapacity/UpdateProvisionedCapacity"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateProvisionedCapacity", apiReferenceLink)
 		return response, err
 	}
@@ -2516,11 +2516,11 @@ func (client GenerativeAiAgentClient) updateTool(ctx context.Context, request co
 
 	var response UpdateToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/Tool/UpdateTool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAiAgent", "UpdateTool", apiReferenceLink)
 		return response, err
 	}

@@ -14,10 +14,10 @@ import (
 // DeleteVanityUrlRequest wrapper for the DeleteVanityUrl operation
 type DeleteVanityUrlRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Specify unique identifier key of a vanity url to update or delete.
+	// Specify unique identifier key of a vanity URL to update or delete.
 	VanityUrlKey *string `mandatory:"true" contributesTo:"path" name:"vanityUrlKey"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

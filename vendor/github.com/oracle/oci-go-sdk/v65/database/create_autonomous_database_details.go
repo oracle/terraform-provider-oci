@@ -245,6 +245,9 @@ type CreateAutonomousDatabaseDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	VectorUserConfig *VectorUserConfig `mandatory:"false" json:"vectorUserConfig"`
 
 	// The Oracle AI Database Edition that applies to the Autonomous AI Databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
@@ -555,6 +558,11 @@ func (m CreateAutonomousDatabaseDetails) GetTransportableTablespace() *ImportTra
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateAutonomousDatabaseDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateAutonomousDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -658,6 +666,7 @@ func (m *CreateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		VectorUserConfig                         *VectorUserConfig                                                 `json:"vectorUserConfig"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 	}{}
@@ -794,6 +803,8 @@ func (m *CreateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.VectorUserConfig = model.VectorUserConfig
 

@@ -136,7 +136,7 @@ func (client SubscriptionClient) createSubscriptionMapping(ctx context.Context, 
 
 	var response CreateSubscriptionMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "CreateSubscriptionMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -189,7 +189,7 @@ func (client SubscriptionClient) deleteSubscriptionMapping(ctx context.Context, 
 
 	var response DeleteSubscriptionMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "DeleteSubscriptionMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -242,7 +242,7 @@ func (client SubscriptionClient) getAssignedSubscription(ctx context.Context, re
 
 	var response GetAssignedSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "GetAssignedSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -295,7 +295,7 @@ func (client SubscriptionClient) getSubscription(ctx context.Context, request co
 
 	var response GetSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "GetSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -348,7 +348,7 @@ func (client SubscriptionClient) getSubscriptionMapping(ctx context.Context, req
 
 	var response GetSubscriptionMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "GetSubscriptionMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -402,7 +402,7 @@ func (client SubscriptionClient) listAssignedSubscriptionAvailableRegions(ctx co
 
 	var response ListAssignedSubscriptionAvailableRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListAssignedSubscriptionAvailableRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -456,7 +456,7 @@ func (client SubscriptionClient) listAssignedSubscriptionLineItems(ctx context.C
 
 	var response ListAssignedSubscriptionLineItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListAssignedSubscriptionLineItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -509,7 +509,7 @@ func (client SubscriptionClient) listAssignedSubscriptions(ctx context.Context, 
 
 	var response ListAssignedSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListAssignedSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -562,7 +562,7 @@ func (client SubscriptionClient) listAvailableRegions(ctx context.Context, reque
 
 	var response ListAvailableRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListAvailableRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -616,7 +616,7 @@ func (client SubscriptionClient) listSubscriptionLineItems(ctx context.Context, 
 
 	var response ListSubscriptionLineItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListSubscriptionLineItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -669,7 +669,7 @@ func (client SubscriptionClient) listSubscriptionMappings(ctx context.Context, r
 
 	var response ListSubscriptionMappingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListSubscriptionMappings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -722,7 +722,7 @@ func (client SubscriptionClient) listSubscriptions(ctx context.Context, request 
 
 	var response ListSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

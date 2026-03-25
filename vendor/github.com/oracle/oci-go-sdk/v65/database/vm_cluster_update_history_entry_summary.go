@@ -36,6 +36,9 @@ type VmClusterUpdateHistoryEntrySummary struct {
 	// The update action performed using this maintenance update.
 	UpdateAction VmClusterUpdateHistoryEntrySummaryUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 
+	// The OS update mode performed using this maintenance update.
+	UpdateMode VmClusterUpdateHistoryEntrySummaryUpdateModeEnum `mandatory:"false" json:"updateMode,omitempty"`
+
 	// Descriptive text providing additional details about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -61,6 +64,9 @@ func (m VmClusterUpdateHistoryEntrySummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingVmClusterUpdateHistoryEntrySummaryUpdateActionEnum(string(m.UpdateAction)); !ok && m.UpdateAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetVmClusterUpdateHistoryEntrySummaryUpdateActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnum(string(m.UpdateMode)); !ok && m.UpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateMode: %s. Supported values are: %s.", m.UpdateMode, strings.Join(GetVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -111,6 +117,68 @@ func GetVmClusterUpdateHistoryEntrySummaryUpdateActionEnumStringValues() []strin
 // GetMappingVmClusterUpdateHistoryEntrySummaryUpdateActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterUpdateHistoryEntrySummaryUpdateActionEnum(val string) (VmClusterUpdateHistoryEntrySummaryUpdateActionEnum, bool) {
 	enum, ok := mappingVmClusterUpdateHistoryEntrySummaryUpdateActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterUpdateHistoryEntrySummaryUpdateModeEnum Enum with underlying type: string
+type VmClusterUpdateHistoryEntrySummaryUpdateModeEnum string
+
+// Set of constants representing the allowable values for VmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+const (
+	VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss         VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_HIGHCVSS"
+	VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss          VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALLCVSS"
+	VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates       VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_HIGHCVSS"
+	VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss  VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_ALLCVSS"
+	VmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates      VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_ALL_UPDATES"
+	VmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate             VmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = map[string]VmClusterUpdateHistoryEntrySummaryUpdateModeEnum{
+	"ONLINE_HIGHCVSS":          VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":           VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES":       VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES_HIGHCVSS": VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"PENDING_UPDATES_ALLCVSS":  VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"PENDING_ALL_UPDATES":      VmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"FULL_UPDATE":              VmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+var mappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnumLowerCase = map[string]VmClusterUpdateHistoryEntrySummaryUpdateModeEnum{
+	"online_highcvss":          VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"online_allcvss":           VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"online_all_updates":       VmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"pending_updates_highcvss": VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"pending_updates_allcvss":  VmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"pending_all_updates":      VmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"full_update":              VmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+// GetVmClusterUpdateHistoryEntrySummaryUpdateModeEnumValues Enumerates the set of values for VmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+func GetVmClusterUpdateHistoryEntrySummaryUpdateModeEnumValues() []VmClusterUpdateHistoryEntrySummaryUpdateModeEnum {
+	values := make([]VmClusterUpdateHistoryEntrySummaryUpdateModeEnum, 0)
+	for _, v := range mappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues Enumerates the set of values in String for VmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+func GetVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES_HIGHCVSS",
+		"PENDING_UPDATES_ALLCVSS",
+		"PENDING_ALL_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnum(val string) (VmClusterUpdateHistoryEntrySummaryUpdateModeEnum, bool) {
+	enum, ok := mappingVmClusterUpdateHistoryEntrySummaryUpdateModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

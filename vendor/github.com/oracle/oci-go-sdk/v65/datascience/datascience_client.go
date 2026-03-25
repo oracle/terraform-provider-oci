@@ -132,7 +132,7 @@ func (client DataScienceClient) activateModel(ctx context.Context, request commo
 
 	var response ActivateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ActivateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -185,7 +185,7 @@ func (client DataScienceClient) activateModelDeployment(ctx context.Context, req
 
 	var response ActivateModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ActivateModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -239,7 +239,7 @@ func (client DataScienceClient) activateModelGroup(ctx context.Context, request 
 
 	var response ActivateModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ActivateModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -292,7 +292,7 @@ func (client DataScienceClient) activateNotebookSession(ctx context.Context, req
 
 	var response ActivateNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ActivateNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -351,7 +351,7 @@ func (client DataScienceClient) activateSchedule(ctx context.Context, request co
 
 	var response ActivateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ActivateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -405,7 +405,7 @@ func (client DataScienceClient) cancelJobRun(ctx context.Context, request common
 
 	var response CancelJobRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CancelJobRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -464,7 +464,7 @@ func (client DataScienceClient) cancelPipelineRun(ctx context.Context, request c
 
 	var response CancelPipelineRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CancelPipelineRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request c
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -576,7 +576,7 @@ func (client DataScienceClient) changeComputeTargetCompartment(ctx context.Conte
 
 	var response ChangeComputeTargetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeComputeTargetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -635,7 +635,7 @@ func (client DataScienceClient) changeDataSciencePrivateEndpointCompartment(ctx 
 
 	var response ChangeDataSciencePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeDataSciencePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -688,7 +688,7 @@ func (client DataScienceClient) changeJobCompartment(ctx context.Context, reques
 
 	var response ChangeJobCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeJobCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -741,7 +741,7 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 
 	var response ChangeJobRunCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeJobRunCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -800,7 +800,7 @@ func (client DataScienceClient) changeMlApplicationCompartment(ctx context.Conte
 
 	var response ChangeMlApplicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeMlApplicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -859,7 +859,7 @@ func (client DataScienceClient) changeMlApplicationImplementationCompartment(ctx
 
 	var response ChangeMlApplicationImplementationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeMlApplicationImplementationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -918,7 +918,7 @@ func (client DataScienceClient) changeMlApplicationInstanceCompartment(ctx conte
 
 	var response ChangeMlApplicationInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeMlApplicationInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -977,7 +977,7 @@ func (client DataScienceClient) changeMlApplicationInstanceViewCompartment(ctx c
 
 	var response ChangeMlApplicationInstanceViewCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeMlApplicationInstanceViewCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1035,7 +1035,7 @@ func (client DataScienceClient) changeModelCompartment(ctx context.Context, requ
 
 	var response ChangeModelCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1093,7 +1093,7 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 
 	var response ChangeModelDeploymentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelDeploymentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1152,7 +1152,7 @@ func (client DataScienceClient) changeModelGroupCompartment(ctx context.Context,
 
 	var response ChangeModelGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1211,7 +1211,7 @@ func (client DataScienceClient) changeModelGroupVersionHistoryCompartment(ctx co
 
 	var response ChangeModelGroupVersionHistoryCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelGroupVersionHistoryCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1269,7 +1269,7 @@ func (client DataScienceClient) changeModelVersionSetCompartment(ctx context.Con
 
 	var response ChangeModelVersionSetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelVersionSetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1327,7 +1327,7 @@ func (client DataScienceClient) changeNotebookSessionCompartment(ctx context.Con
 
 	var response ChangeNotebookSessionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeNotebookSessionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1380,7 +1380,7 @@ func (client DataScienceClient) changePipelineCompartment(ctx context.Context, r
 
 	var response ChangePipelineCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangePipelineCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1433,7 +1433,7 @@ func (client DataScienceClient) changePipelineRunCompartment(ctx context.Context
 
 	var response ChangePipelineRunCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangePipelineRunCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1491,7 +1491,7 @@ func (client DataScienceClient) changeProjectCompartment(ctx context.Context, re
 
 	var response ChangeProjectCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeProjectCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1550,7 +1550,7 @@ func (client DataScienceClient) changeScheduleCompartment(ctx context.Context, r
 
 	var response ChangeScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1609,7 +1609,7 @@ func (client DataScienceClient) createComputeTarget(ctx context.Context, request
 
 	var response CreateComputeTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateComputeTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1668,7 +1668,7 @@ func (client DataScienceClient) createDataSciencePrivateEndpoint(ctx context.Con
 
 	var response CreateDataSciencePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateDataSciencePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1727,7 +1727,7 @@ func (client DataScienceClient) createJob(ctx context.Context, request common.OC
 
 	var response CreateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1795,7 +1795,7 @@ func (client DataScienceClient) createJobArtifact(ctx context.Context, request c
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateJobArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1854,7 +1854,7 @@ func (client DataScienceClient) createJobRun(ctx context.Context, request common
 
 	var response CreateJobRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateJobRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1913,7 +1913,7 @@ func (client DataScienceClient) createMlApplication(ctx context.Context, request
 
 	var response CreateMlApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateMlApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1972,7 +1972,7 @@ func (client DataScienceClient) createMlApplicationImplementation(ctx context.Co
 
 	var response CreateMlApplicationImplementationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateMlApplicationImplementation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2031,7 +2031,7 @@ func (client DataScienceClient) createMlApplicationInstance(ctx context.Context,
 
 	var response CreateMlApplicationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateMlApplicationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2090,7 +2090,7 @@ func (client DataScienceClient) createModel(ctx context.Context, request common.
 
 	var response CreateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2159,7 +2159,7 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateModelArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2222,7 +2222,7 @@ func (client DataScienceClient) createModelCustomMetadatumArtifact(ctx context.C
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateModelCustomMetadatumArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2285,7 +2285,7 @@ func (client DataScienceClient) createModelDefinedMetadatumArtifact(ctx context.
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateModelDefinedMetadatumArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2344,7 +2344,7 @@ func (client DataScienceClient) createModelDeployment(ctx context.Context, reque
 
 	var response CreateModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2403,7 +2403,7 @@ func (client DataScienceClient) createModelGroup(ctx context.Context, request co
 
 	var response CreateModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2472,7 +2472,7 @@ func (client DataScienceClient) createModelGroupArtifact(ctx context.Context, re
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateModelGroupArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2531,7 +2531,7 @@ func (client DataScienceClient) createModelGroupVersionHistory(ctx context.Conte
 
 	var response CreateModelGroupVersionHistoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelGroupVersionHistory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2590,7 +2590,7 @@ func (client DataScienceClient) createModelProvenance(ctx context.Context, reque
 
 	var response CreateModelProvenanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelProvenance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2649,7 +2649,7 @@ func (client DataScienceClient) createModelVersionSet(ctx context.Context, reque
 
 	var response CreateModelVersionSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelVersionSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2708,7 +2708,7 @@ func (client DataScienceClient) createNotebookSession(ctx context.Context, reque
 
 	var response CreateNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2767,7 +2767,7 @@ func (client DataScienceClient) createPipeline(ctx context.Context, request comm
 
 	var response CreatePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreatePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2826,7 +2826,7 @@ func (client DataScienceClient) createPipelineRun(ctx context.Context, request c
 
 	var response CreatePipelineRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreatePipelineRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2885,7 +2885,7 @@ func (client DataScienceClient) createProject(ctx context.Context, request commo
 
 	var response CreateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2944,7 +2944,7 @@ func (client DataScienceClient) createSchedule(ctx context.Context, request comm
 
 	var response CreateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3012,7 +3012,7 @@ func (client DataScienceClient) createStepArtifact(ctx context.Context, request 
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "CreateStepArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3066,7 +3066,7 @@ func (client DataScienceClient) deactivateModel(ctx context.Context, request com
 
 	var response DeactivateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeactivateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3119,7 +3119,7 @@ func (client DataScienceClient) deactivateModelDeployment(ctx context.Context, r
 
 	var response DeactivateModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeactivateModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3173,7 +3173,7 @@ func (client DataScienceClient) deactivateModelGroup(ctx context.Context, reques
 
 	var response DeactivateModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeactivateModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3226,7 +3226,7 @@ func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, r
 
 	var response DeactivateNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeactivateNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3285,7 +3285,7 @@ func (client DataScienceClient) deactivateSchedule(ctx context.Context, request 
 
 	var response DeactivateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeactivateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3339,7 +3339,7 @@ func (client DataScienceClient) deleteComputeTarget(ctx context.Context, request
 
 	var response DeleteComputeTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteComputeTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3392,7 +3392,7 @@ func (client DataScienceClient) deleteDataSciencePrivateEndpoint(ctx context.Con
 
 	var response DeleteDataSciencePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteDataSciencePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3446,7 +3446,7 @@ func (client DataScienceClient) deleteJob(ctx context.Context, request common.OC
 
 	var response DeleteJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3500,7 +3500,7 @@ func (client DataScienceClient) deleteJobRun(ctx context.Context, request common
 
 	var response DeleteJobRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteJobRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3554,7 +3554,7 @@ func (client DataScienceClient) deleteMlApplication(ctx context.Context, request
 
 	var response DeleteMlApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteMlApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3608,7 +3608,7 @@ func (client DataScienceClient) deleteMlApplicationImplementation(ctx context.Co
 
 	var response DeleteMlApplicationImplementationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteMlApplicationImplementation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3662,7 +3662,7 @@ func (client DataScienceClient) deleteMlApplicationInstance(ctx context.Context,
 
 	var response DeleteMlApplicationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteMlApplicationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3716,7 +3716,7 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 
 	var response DeleteModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3770,7 +3770,7 @@ func (client DataScienceClient) deleteModelCustomMetadatumArtifact(ctx context.C
 
 	var response DeleteModelCustomMetadatumArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelCustomMetadatumArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3824,7 +3824,7 @@ func (client DataScienceClient) deleteModelDefinedMetadatumArtifact(ctx context.
 
 	var response DeleteModelDefinedMetadatumArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelDefinedMetadatumArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3878,7 +3878,7 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 
 	var response DeleteModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3931,7 +3931,7 @@ func (client DataScienceClient) deleteModelGroup(ctx context.Context, request co
 
 	var response DeleteModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3984,7 +3984,7 @@ func (client DataScienceClient) deleteModelGroupVersionHistory(ctx context.Conte
 
 	var response DeleteModelGroupVersionHistoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelGroupVersionHistory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4038,7 +4038,7 @@ func (client DataScienceClient) deleteModelVersionSet(ctx context.Context, reque
 
 	var response DeleteModelVersionSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelVersionSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4092,7 +4092,7 @@ func (client DataScienceClient) deleteNotebookSession(ctx context.Context, reque
 
 	var response DeleteNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4145,7 +4145,7 @@ func (client DataScienceClient) deletePipeline(ctx context.Context, request comm
 
 	var response DeletePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeletePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4198,7 +4198,7 @@ func (client DataScienceClient) deletePipelineRun(ctx context.Context, request c
 
 	var response DeletePipelineRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeletePipelineRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4252,7 +4252,7 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 
 	var response DeleteProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4305,7 +4305,7 @@ func (client DataScienceClient) deleteSchedule(ctx context.Context, request comm
 
 	var response DeleteScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4364,7 +4364,7 @@ func (client DataScienceClient) disableMlApplicationInstanceViewTrigger(ctx cont
 
 	var response DisableMlApplicationInstanceViewTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DisableMlApplicationInstanceViewTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4423,7 +4423,7 @@ func (client DataScienceClient) enableMlApplicationInstanceViewTrigger(ctx conte
 
 	var response EnableMlApplicationInstanceViewTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "EnableMlApplicationInstanceViewTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4482,7 +4482,7 @@ func (client DataScienceClient) exportModelArtifact(ctx context.Context, request
 
 	var response ExportModelArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ExportModelArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4536,7 +4536,7 @@ func (client DataScienceClient) getComputeTarget(ctx context.Context, request co
 
 	var response GetComputeTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetComputeTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4590,7 +4590,7 @@ func (client DataScienceClient) getDataSciencePrivateEndpoint(ctx context.Contex
 
 	var response GetDataSciencePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetDataSciencePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4644,7 +4644,7 @@ func (client DataScienceClient) getJob(ctx context.Context, request common.OCIRe
 
 	var response GetJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4698,7 +4698,7 @@ func (client DataScienceClient) getJobArtifactContent(ctx context.Context, reque
 
 	var response GetJobArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetJobArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Job/GetJobArtifactContent"
@@ -4751,7 +4751,7 @@ func (client DataScienceClient) getJobRun(ctx context.Context, request common.OC
 
 	var response GetJobRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetJobRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4805,7 +4805,7 @@ func (client DataScienceClient) getMlApplication(ctx context.Context, request co
 
 	var response GetMlApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4859,7 +4859,7 @@ func (client DataScienceClient) getMlApplicationHistoricalPackageContent(ctx con
 
 	var response GetMlApplicationHistoricalPackageContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationHistoricalPackageContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/GetMlApplicationHistoricalPackageContent"
@@ -4912,7 +4912,7 @@ func (client DataScienceClient) getMlApplicationImplementation(ctx context.Conte
 
 	var response GetMlApplicationImplementationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationImplementation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4966,7 +4966,7 @@ func (client DataScienceClient) getMlApplicationImplementationVersion(ctx contex
 
 	var response GetMlApplicationImplementationVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationImplementationVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5020,7 +5020,7 @@ func (client DataScienceClient) getMlApplicationInstance(ctx context.Context, re
 
 	var response GetMlApplicationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5074,7 +5074,7 @@ func (client DataScienceClient) getMlApplicationInstanceView(ctx context.Context
 
 	var response GetMlApplicationInstanceViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationInstanceView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5128,7 +5128,7 @@ func (client DataScienceClient) getMlApplicationPackageContent(ctx context.Conte
 
 	var response GetMlApplicationPackageContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetMlApplicationPackageContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/GetMlApplicationPackageContent"
@@ -5181,7 +5181,7 @@ func (client DataScienceClient) getModel(ctx context.Context, request common.OCI
 
 	var response GetModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5235,7 +5235,7 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 
 	var response GetModelArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelArtifactContent"
@@ -5288,7 +5288,7 @@ func (client DataScienceClient) getModelCustomMetadatumArtifactContent(ctx conte
 
 	var response GetModelCustomMetadatumArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelCustomMetadatumArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelCustomMetadatumArtifactContent"
@@ -5341,7 +5341,7 @@ func (client DataScienceClient) getModelDefinedMetadatumArtifactContent(ctx cont
 
 	var response GetModelDefinedMetadatumArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelDefinedMetadatumArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelDefinedMetadatumArtifactContent"
@@ -5394,7 +5394,7 @@ func (client DataScienceClient) getModelDeployment(ctx context.Context, request 
 
 	var response GetModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5448,7 +5448,7 @@ func (client DataScienceClient) getModelGroup(ctx context.Context, request commo
 
 	var response GetModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5502,7 +5502,7 @@ func (client DataScienceClient) getModelGroupArtifactContent(ctx context.Context
 
 	var response GetModelGroupArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelGroupArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelGroup/GetModelGroupArtifactContent"
@@ -5555,7 +5555,7 @@ func (client DataScienceClient) getModelGroupVersionHistory(ctx context.Context,
 
 	var response GetModelGroupVersionHistoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelGroupVersionHistory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5609,7 +5609,7 @@ func (client DataScienceClient) getModelProvenance(ctx context.Context, request 
 
 	var response GetModelProvenanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelProvenance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5663,7 +5663,7 @@ func (client DataScienceClient) getModelVersionSet(ctx context.Context, request 
 
 	var response GetModelVersionSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelVersionSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5717,7 +5717,7 @@ func (client DataScienceClient) getNotebookSession(ctx context.Context, request 
 
 	var response GetNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5771,7 +5771,7 @@ func (client DataScienceClient) getPipeline(ctx context.Context, request common.
 
 	var response GetPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5825,7 +5825,7 @@ func (client DataScienceClient) getPipelineRun(ctx context.Context, request comm
 
 	var response GetPipelineRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetPipelineRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5879,7 +5879,7 @@ func (client DataScienceClient) getProject(ctx context.Context, request common.O
 
 	var response GetProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5933,7 +5933,7 @@ func (client DataScienceClient) getSchedule(ctx context.Context, request common.
 
 	var response GetScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5997,7 +5997,7 @@ func (client DataScienceClient) getStepArtifactContent(ctx context.Context, requ
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "GetStepArtifactContent"})
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Pipeline/GetStepArtifactContent"
@@ -6050,7 +6050,7 @@ func (client DataScienceClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6104,7 +6104,7 @@ func (client DataScienceClient) headJobArtifact(ctx context.Context, request com
 
 	var response HeadJobArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadJobArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6158,7 +6158,7 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 
 	var response HeadModelArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadModelArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6212,7 +6212,7 @@ func (client DataScienceClient) headModelCustomMetadatumArtifact(ctx context.Con
 
 	var response HeadModelCustomMetadatumArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadModelCustomMetadatumArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6266,7 +6266,7 @@ func (client DataScienceClient) headModelDefinedMetadatumArtifact(ctx context.Co
 
 	var response HeadModelDefinedMetadatumArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadModelDefinedMetadatumArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6320,7 +6320,7 @@ func (client DataScienceClient) headModelGroupArtifact(ctx context.Context, requ
 
 	var response HeadModelGroupArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadModelGroupArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6374,7 +6374,7 @@ func (client DataScienceClient) headStepArtifact(ctx context.Context, request co
 
 	var response HeadStepArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "HeadStepArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6427,7 +6427,7 @@ func (client DataScienceClient) importModelArtifact(ctx context.Context, request
 
 	var response ImportModelArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ImportModelArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6481,7 +6481,7 @@ func (client DataScienceClient) listComputeTargetShapes(ctx context.Context, req
 
 	var response ListComputeTargetShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListComputeTargetShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6535,7 +6535,7 @@ func (client DataScienceClient) listComputeTargets(ctx context.Context, request 
 
 	var response ListComputeTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListComputeTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6589,7 +6589,7 @@ func (client DataScienceClient) listContainers(ctx context.Context, request comm
 
 	var response ListContainersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListContainers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6643,7 +6643,7 @@ func (client DataScienceClient) listDataSciencePrivateEndpoints(ctx context.Cont
 
 	var response ListDataSciencePrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListDataSciencePrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6697,7 +6697,7 @@ func (client DataScienceClient) listFastLaunchJobConfigs(ctx context.Context, re
 
 	var response ListFastLaunchJobConfigsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListFastLaunchJobConfigs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6751,7 +6751,7 @@ func (client DataScienceClient) listJobRuns(ctx context.Context, request common.
 
 	var response ListJobRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListJobRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6805,7 +6805,7 @@ func (client DataScienceClient) listJobShapes(ctx context.Context, request commo
 
 	var response ListJobShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListJobShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6859,7 +6859,7 @@ func (client DataScienceClient) listJobs(ctx context.Context, request common.OCI
 
 	var response ListJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6913,7 +6913,7 @@ func (client DataScienceClient) listMlApplicationImplementationVersions(ctx cont
 
 	var response ListMlApplicationImplementationVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListMlApplicationImplementationVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6967,7 +6967,7 @@ func (client DataScienceClient) listMlApplicationImplementations(ctx context.Con
 
 	var response ListMlApplicationImplementationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListMlApplicationImplementations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7021,7 +7021,7 @@ func (client DataScienceClient) listMlApplicationInstanceViews(ctx context.Conte
 
 	var response ListMlApplicationInstanceViewsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListMlApplicationInstanceViews")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7075,7 +7075,7 @@ func (client DataScienceClient) listMlApplicationInstances(ctx context.Context, 
 
 	var response ListMlApplicationInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListMlApplicationInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7129,7 +7129,7 @@ func (client DataScienceClient) listMlApplications(ctx context.Context, request 
 
 	var response ListMlApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListMlApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7188,7 +7188,7 @@ func (client DataScienceClient) listModelDeploymentModelStates(ctx context.Conte
 
 	var response ListModelDeploymentModelStatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelDeploymentModelStates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7242,7 +7242,7 @@ func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, r
 
 	var response ListModelDeploymentShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelDeploymentShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7296,7 +7296,7 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 
 	var response ListModelDeploymentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelDeployments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7350,7 +7350,7 @@ func (client DataScienceClient) listModelGroupModels(ctx context.Context, reques
 
 	var response ListModelGroupModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelGroupModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7404,7 +7404,7 @@ func (client DataScienceClient) listModelGroupVersionHistories(ctx context.Conte
 
 	var response ListModelGroupVersionHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelGroupVersionHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7458,7 +7458,7 @@ func (client DataScienceClient) listModelGroups(ctx context.Context, request com
 
 	var response ListModelGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7512,7 +7512,7 @@ func (client DataScienceClient) listModelVersionSets(ctx context.Context, reques
 
 	var response ListModelVersionSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelVersionSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7566,7 +7566,7 @@ func (client DataScienceClient) listModels(ctx context.Context, request common.O
 
 	var response ListModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7620,7 +7620,7 @@ func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, r
 
 	var response ListNotebookSessionShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListNotebookSessionShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7674,7 +7674,7 @@ func (client DataScienceClient) listNotebookSessions(ctx context.Context, reques
 
 	var response ListNotebookSessionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListNotebookSessions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7728,7 +7728,7 @@ func (client DataScienceClient) listPipelineRuns(ctx context.Context, request co
 
 	var response ListPipelineRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListPipelineRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7782,7 +7782,7 @@ func (client DataScienceClient) listPipelines(ctx context.Context, request commo
 
 	var response ListPipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListPipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7836,7 +7836,7 @@ func (client DataScienceClient) listProjects(ctx context.Context, request common
 
 	var response ListProjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListProjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7890,7 +7890,7 @@ func (client DataScienceClient) listSchedules(ctx context.Context, request commo
 
 	var response ListSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7944,7 +7944,7 @@ func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7998,7 +7998,7 @@ func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8052,7 +8052,7 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8111,7 +8111,7 @@ func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, req
 
 	var response PutMlApplicationPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "PutMlApplicationPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8171,7 +8171,7 @@ func (client DataScienceClient) recoverMlApplicationInstanceView(ctx context.Con
 
 	var response RecoverMlApplicationInstanceViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "RecoverMlApplicationInstanceView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8230,7 +8230,7 @@ func (client DataScienceClient) registerModelArtifactReference(ctx context.Conte
 
 	var response RegisterModelArtifactReferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "RegisterModelArtifactReference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8289,7 +8289,7 @@ func (client DataScienceClient) restoreArchivedModelArtifact(ctx context.Context
 
 	var response RestoreArchivedModelArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "RestoreArchivedModelArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8348,7 +8348,7 @@ func (client DataScienceClient) triggerMlApplicationInstanceFlow(ctx context.Con
 
 	var response TriggerMlApplicationInstanceFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "TriggerMlApplicationInstanceFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8407,7 +8407,7 @@ func (client DataScienceClient) triggerMlApplicationInstanceViewFlow(ctx context
 
 	var response TriggerMlApplicationInstanceViewFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "TriggerMlApplicationInstanceViewFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8461,7 +8461,7 @@ func (client DataScienceClient) updateComputeTarget(ctx context.Context, request
 
 	var response UpdateComputeTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateComputeTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8516,7 +8516,7 @@ func (client DataScienceClient) updateDataSciencePrivateEndpoint(ctx context.Con
 
 	var response UpdateDataSciencePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateDataSciencePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8570,7 +8570,7 @@ func (client DataScienceClient) updateJob(ctx context.Context, request common.OC
 
 	var response UpdateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8624,7 +8624,7 @@ func (client DataScienceClient) updateJobRun(ctx context.Context, request common
 
 	var response UpdateJobRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateJobRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8678,7 +8678,7 @@ func (client DataScienceClient) updateMlApplication(ctx context.Context, request
 
 	var response UpdateMlApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateMlApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8732,7 +8732,7 @@ func (client DataScienceClient) updateMlApplicationImplementation(ctx context.Co
 
 	var response UpdateMlApplicationImplementationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateMlApplicationImplementation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8786,7 +8786,7 @@ func (client DataScienceClient) updateMlApplicationImplementationVersion(ctx con
 
 	var response UpdateMlApplicationImplementationVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateMlApplicationImplementationVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8840,7 +8840,7 @@ func (client DataScienceClient) updateMlApplicationInstance(ctx context.Context,
 
 	var response UpdateMlApplicationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateMlApplicationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8893,7 +8893,7 @@ func (client DataScienceClient) updateMlApplicationInstanceView(ctx context.Cont
 
 	var response UpdateMlApplicationInstanceViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateMlApplicationInstanceView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8947,7 +8947,7 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 
 	var response UpdateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9011,7 +9011,7 @@ func (client DataScienceClient) updateModelCustomMetadatumArtifact(ctx context.C
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "UpdateModelCustomMetadatumArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9075,7 +9075,7 @@ func (client DataScienceClient) updateModelDefinedMetadatumArtifact(ctx context.
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "dataScience", OperationName: "UpdateModelDefinedMetadatumArtifact"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9132,7 +9132,7 @@ func (client DataScienceClient) updateModelDeployment(ctx context.Context, reque
 
 	var response UpdateModelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9185,7 +9185,7 @@ func (client DataScienceClient) updateModelGroup(ctx context.Context, request co
 
 	var response UpdateModelGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9238,7 +9238,7 @@ func (client DataScienceClient) updateModelGroupVersionHistory(ctx context.Conte
 
 	var response UpdateModelGroupVersionHistoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelGroupVersionHistory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9292,7 +9292,7 @@ func (client DataScienceClient) updateModelProvenance(ctx context.Context, reque
 
 	var response UpdateModelProvenanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelProvenance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9346,7 +9346,7 @@ func (client DataScienceClient) updateModelVersionSet(ctx context.Context, reque
 
 	var response UpdateModelVersionSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelVersionSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9402,7 +9402,7 @@ func (client DataScienceClient) updateNotebookSession(ctx context.Context, reque
 
 	var response UpdateNotebookSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateNotebookSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9455,7 +9455,7 @@ func (client DataScienceClient) updatePipeline(ctx context.Context, request comm
 
 	var response UpdatePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdatePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9508,7 +9508,7 @@ func (client DataScienceClient) updatePipelineRun(ctx context.Context, request c
 
 	var response UpdatePipelineRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdatePipelineRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9562,7 +9562,7 @@ func (client DataScienceClient) updateProject(ctx context.Context, request commo
 
 	var response UpdateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9615,7 +9615,7 @@ func (client DataScienceClient) updateSchedule(ctx context.Context, request comm
 
 	var response UpdateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

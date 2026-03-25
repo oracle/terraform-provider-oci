@@ -248,6 +248,9 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// A list of the source Autonomous AI Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
 
@@ -562,6 +565,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetTransportableTablespace() 
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateAutonomousDatabaseFromBackupDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateAutonomousDatabaseFromBackupDetails) String() string {
 	return common.PointerString(m)
 }
@@ -668,6 +676,7 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		AutonomousDatabaseBackupId               *string                                                           `json:"autonomousDatabaseBackupId"`
@@ -806,6 +815,8 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)

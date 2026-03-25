@@ -151,7 +151,7 @@ func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Conte
 
 	var response ChangeLoadBalancerCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ChangeLoadBalancerCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -216,7 +216,7 @@ func (client LoadBalancerClient) createBackend(ctx context.Context, request comm
 
 	var response CreateBackendResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateBackend")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -281,7 +281,7 @@ func (client LoadBalancerClient) createBackendSet(ctx context.Context, request c
 
 	var response CreateBackendSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateBackendSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -346,7 +346,7 @@ func (client LoadBalancerClient) createCertificate(ctx context.Context, request 
 
 	var response CreateCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -411,7 +411,7 @@ func (client LoadBalancerClient) createCidrBlocks(ctx context.Context, request c
 
 	var response CreateCidrBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateCidrBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -477,7 +477,7 @@ func (client LoadBalancerClient) createHostname(ctx context.Context, request com
 
 	var response CreateHostnameResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateHostname")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -542,7 +542,7 @@ func (client LoadBalancerClient) createListener(ctx context.Context, request com
 
 	var response CreateListenerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateListener")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -627,7 +627,7 @@ func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request
 
 	var response CreateLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -693,7 +693,7 @@ func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request
 
 	var response CreatePathRouteSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreatePathRouteSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -759,7 +759,7 @@ func (client LoadBalancerClient) createRoutingPolicy(ctx context.Context, reques
 
 	var response CreateRoutingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateRoutingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -825,7 +825,7 @@ func (client LoadBalancerClient) createRuleSet(ctx context.Context, request comm
 
 	var response CreateRuleSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateRuleSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -890,7 +890,7 @@ func (client LoadBalancerClient) createSSLCipherSuite(ctx context.Context, reque
 
 	var response CreateSSLCipherSuiteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "CreateSSLCipherSuite")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -950,7 +950,7 @@ func (client LoadBalancerClient) deleteBackend(ctx context.Context, request comm
 
 	var response DeleteBackendResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteBackend")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1011,7 +1011,7 @@ func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request c
 
 	var response DeleteBackendSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteBackendSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1071,7 +1071,7 @@ func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request 
 
 	var response DeleteCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1131,7 +1131,7 @@ func (client LoadBalancerClient) deleteCidrBlocks(ctx context.Context, request c
 
 	var response DeleteCidrBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteCidrBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1191,7 +1191,7 @@ func (client LoadBalancerClient) deleteHostname(ctx context.Context, request com
 
 	var response DeleteHostnameResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteHostname")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1251,7 +1251,7 @@ func (client LoadBalancerClient) deleteListener(ctx context.Context, request com
 
 	var response DeleteListenerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteListener")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1311,7 +1311,7 @@ func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request
 
 	var response DeleteLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1373,7 +1373,7 @@ func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request
 
 	var response DeletePathRouteSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeletePathRouteSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1435,7 +1435,7 @@ func (client LoadBalancerClient) deleteRoutingPolicy(ctx context.Context, reques
 
 	var response DeleteRoutingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteRoutingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1497,7 +1497,7 @@ func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request comm
 
 	var response DeleteRuleSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteRuleSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1557,7 +1557,7 @@ func (client LoadBalancerClient) deleteSSLCipherSuite(ctx context.Context, reque
 
 	var response DeleteSSLCipherSuiteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "DeleteSSLCipherSuite")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1617,7 +1617,7 @@ func (client LoadBalancerClient) getBackend(ctx context.Context, request common.
 
 	var response GetBackendResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetBackend")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1677,7 +1677,7 @@ func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request c
 
 	var response GetBackendHealthResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetBackendHealth")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1737,7 +1737,7 @@ func (client LoadBalancerClient) getBackendSet(ctx context.Context, request comm
 
 	var response GetBackendSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetBackendSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1797,7 +1797,7 @@ func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, reques
 
 	var response GetBackendSetHealthResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetBackendSetHealth")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1857,7 +1857,7 @@ func (client LoadBalancerClient) getCidrBlocks(ctx context.Context, request comm
 
 	var response GetCidrBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetCidrBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1917,7 +1917,7 @@ func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request c
 
 	var response GetHealthCheckerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetHealthChecker")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1977,7 +1977,7 @@ func (client LoadBalancerClient) getHostname(ctx context.Context, request common
 
 	var response GetHostnameResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetHostname")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2037,7 +2037,7 @@ func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request co
 
 	var response GetLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2097,7 +2097,7 @@ func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, requ
 
 	var response GetLoadBalancerHealthResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetLoadBalancerHealth")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2157,7 +2157,7 @@ func (client LoadBalancerClient) getLogging(ctx context.Context, request common.
 
 	var response GetLoggingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetLogging")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2217,7 +2217,7 @@ func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request co
 
 	var response GetPathRouteSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetPathRouteSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2277,7 +2277,7 @@ func (client LoadBalancerClient) getRoutingPolicy(ctx context.Context, request c
 
 	var response GetRoutingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetRoutingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2337,7 +2337,7 @@ func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.
 
 	var response GetRuleSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetRuleSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2397,7 +2397,7 @@ func (client LoadBalancerClient) getSSLCipherSuite(ctx context.Context, request 
 
 	var response GetSSLCipherSuiteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetSSLCipherSuite")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2457,7 +2457,7 @@ func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request com
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2517,7 +2517,7 @@ func (client LoadBalancerClient) listBackendSets(ctx context.Context, request co
 
 	var response ListBackendSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListBackendSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2577,7 +2577,7 @@ func (client LoadBalancerClient) listBackends(ctx context.Context, request commo
 
 	var response ListBackendsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListBackends")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2637,7 +2637,7 @@ func (client LoadBalancerClient) listCertificates(ctx context.Context, request c
 
 	var response ListCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2697,7 +2697,7 @@ func (client LoadBalancerClient) listCidrBlocks(ctx context.Context, request com
 
 	var response ListCidrBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListCidrBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2757,7 +2757,7 @@ func (client LoadBalancerClient) listHostnames(ctx context.Context, request comm
 
 	var response ListHostnamesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListHostnames")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2822,7 +2822,7 @@ func (client LoadBalancerClient) listListenerRules(ctx context.Context, request 
 
 	var response ListListenerRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListListenerRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2882,7 +2882,7 @@ func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, re
 
 	var response ListLoadBalancerHealthsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListLoadBalancerHealths")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2942,7 +2942,7 @@ func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request 
 
 	var response ListLoadBalancersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListLoadBalancers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3002,7 +3002,7 @@ func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request 
 
 	var response ListPathRouteSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListPathRouteSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3062,7 +3062,7 @@ func (client LoadBalancerClient) listPolicies(ctx context.Context, request commo
 
 	var response ListPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3122,7 +3122,7 @@ func (client LoadBalancerClient) listProtocols(ctx context.Context, request comm
 
 	var response ListProtocolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListProtocols")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3182,7 +3182,7 @@ func (client LoadBalancerClient) listRoutingPolicies(ctx context.Context, reques
 
 	var response ListRoutingPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListRoutingPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3242,7 +3242,7 @@ func (client LoadBalancerClient) listRuleSets(ctx context.Context, request commo
 
 	var response ListRuleSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListRuleSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3302,7 +3302,7 @@ func (client LoadBalancerClient) listSSLCipherSuites(ctx context.Context, reques
 
 	var response ListSSLCipherSuitesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListSSLCipherSuites")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3362,7 +3362,7 @@ func (client LoadBalancerClient) listShapes(ctx context.Context, request common.
 
 	var response ListShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3422,7 +3422,7 @@ func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request c
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3625,7 +3625,7 @@ func (client LoadBalancerClient) startLogging(ctx context.Context, request commo
 
 	var response StartLoggingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "StartLogging")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3690,7 +3690,7 @@ func (client LoadBalancerClient) stopLogging(ctx context.Context, request common
 
 	var response StopLoggingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "StopLogging")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3820,7 +3820,7 @@ func (client LoadBalancerClient) updateBackend(ctx context.Context, request comm
 
 	var response UpdateBackendResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateBackend")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3885,7 +3885,7 @@ func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request c
 
 	var response UpdateBackendSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateBackendSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3950,7 +3950,7 @@ func (client LoadBalancerClient) updateCidrBlocks(ctx context.Context, request c
 
 	var response UpdateCidrBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateCidrBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4015,7 +4015,7 @@ func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, reques
 
 	var response UpdateHealthCheckerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateHealthChecker")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4081,7 +4081,7 @@ func (client LoadBalancerClient) updateHostname(ctx context.Context, request com
 
 	var response UpdateHostnameResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateHostname")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4146,7 +4146,7 @@ func (client LoadBalancerClient) updateListener(ctx context.Context, request com
 
 	var response UpdateListenerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateListener")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4211,7 +4211,7 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 
 	var response UpdateLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4281,7 +4281,7 @@ func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, re
 
 	var response UpdateLoadBalancerShapeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateLoadBalancerShape")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4346,7 +4346,7 @@ func (client LoadBalancerClient) updateLogging(ctx context.Context, request comm
 
 	var response UpdateLoggingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateLogging")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4411,7 +4411,7 @@ func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context
 
 	var response UpdateNetworkSecurityGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateNetworkSecurityGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4480,7 +4480,7 @@ func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request
 
 	var response UpdatePathRouteSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdatePathRouteSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4547,7 +4547,7 @@ func (client LoadBalancerClient) updateRoutingPolicy(ctx context.Context, reques
 
 	var response UpdateRoutingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateRoutingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4614,7 +4614,7 @@ func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request comm
 
 	var response UpdateRuleSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateRuleSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4679,7 +4679,7 @@ func (client LoadBalancerClient) updateSSLCipherSuite(ctx context.Context, reque
 
 	var response UpdateSSLCipherSuiteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "UpdateSSLCipherSuite")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

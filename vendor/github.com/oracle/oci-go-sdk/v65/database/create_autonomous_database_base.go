@@ -278,6 +278,9 @@ type CreateAutonomousDatabaseBase interface {
 	GetSecretVersionNumber() *int
 
 	GetTransportableTablespace() *ImportTransportableTablespaceDetails
+
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	GetPreferredCommunicationLanguageLocale() *string
 }
 
 type createautonomousdatabasebase struct {
@@ -337,6 +340,7 @@ type createautonomousdatabasebase struct {
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
 	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
 	TransportableTablespace                  *ImportTransportableTablespaceDetails                             `mandatory:"false" json:"transportableTablespace"`
+	PreferredCommunicationLanguageLocale     *string                                                           `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
 	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
 	Source                                   string                                                            `json:"source"`
 }
@@ -408,6 +412,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.SecretId = s.Model.SecretId
 	m.SecretVersionNumber = s.Model.SecretVersionNumber
 	m.TransportableTablespace = s.Model.TransportableTablespace
+	m.PreferredCommunicationLanguageLocale = s.Model.PreferredCommunicationLanguageLocale
 	m.Source = s.Model.Source
 
 	return err
@@ -741,6 +746,11 @@ func (m createautonomousdatabasebase) GetSecretVersionNumber() *int {
 // GetTransportableTablespace returns TransportableTablespace
 func (m createautonomousdatabasebase) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
 	return m.TransportableTablespace
+}
+
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m createautonomousdatabasebase) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
 }
 
 // GetCompartmentId returns CompartmentId

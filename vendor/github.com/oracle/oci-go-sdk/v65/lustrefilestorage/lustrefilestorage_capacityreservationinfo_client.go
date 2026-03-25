@@ -137,11 +137,11 @@ func (client CapacityReservationInfoClient) createCapacityReservationInfo(ctx co
 
 	var response CreateCapacityReservationInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityReservationInfo", "CreateCapacityReservationInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/CreateCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "CreateCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client CapacityReservationInfoClient) deleteCapacityReservationInfo(ctx co
 
 	var response DeleteCapacityReservationInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityReservationInfo", "DeleteCapacityReservationInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/DeleteCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "DeleteCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client CapacityReservationInfoClient) getCapacityReservationInfo(ctx conte
 
 	var response GetCapacityReservationInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityReservationInfo", "GetCapacityReservationInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/GetCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "GetCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client CapacityReservationInfoClient) listCapacityReservationInfos(ctx con
 
 	var response ListCapacityReservationInfosResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityReservationInfo", "ListCapacityReservationInfos")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfoCollection/ListCapacityReservationInfos"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "ListCapacityReservationInfos", apiReferenceLink)
 		return response, err
 	}
@@ -353,11 +353,11 @@ func (client CapacityReservationInfoClient) updateCapacityReservationInfo(ctx co
 
 	var response UpdateCapacityReservationInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityReservationInfo", "UpdateCapacityReservationInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/UpdateCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "UpdateCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}

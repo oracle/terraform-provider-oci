@@ -22,6 +22,7 @@ type TokenExchangeBuilder struct {
 	Region                    string
 	RequestedTokenType        string
 	ResType                   string
+	RpstExp                   string
 	SubjectTokenType          string
 	PublicKey                 string
 	InstancePrincipalProvider common.ConfigurationProvider
@@ -88,6 +89,12 @@ func TokenExchangeConfigurationProviderFromIssuer(tokenIssuer TokenIssuer,
 	if tokenExchangeBuilder.RequestedTokenType == "urn:oci:token-type:oci-rpst" {
 		if tokenExchangeBuilder.ResType != "" {
 			requestData["res_type"] = []string{tokenExchangeBuilder.ResType}
+		} else {
+			return nil, fmt.Errorf("res_type parameter is required when requested_token_type is urn:oci:token-type:oci-rpst")
+		}
+
+		if tokenExchangeBuilder.RpstExp != "" {
+			requestData["rpst_exp"] = []string{tokenExchangeBuilder.RpstExp}
 		}
 	}
 

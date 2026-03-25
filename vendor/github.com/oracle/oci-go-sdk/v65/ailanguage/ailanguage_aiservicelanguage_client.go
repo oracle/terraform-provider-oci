@@ -94,7 +94,7 @@ func (client *AIServiceLanguageClient) ConfigurationProvider() *common.Configura
 }
 
 // BatchDetectDominantLanguage The API returns the detected language and a related confidence score (between 0 and 1).  It supports passing a batch of records.
-// List of supported languages. (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
+// List of supported languages. (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -138,7 +138,7 @@ func (client AIServiceLanguageClient) batchDetectDominantLanguage(ctx context.Co
 
 	var response BatchDetectDominantLanguageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectDominantLanguage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -195,7 +195,7 @@ func (client AIServiceLanguageClient) batchDetectHealthEntity(ctx context.Contex
 
 	var response BatchDetectHealthEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectHealthEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -209,7 +209,7 @@ func (client AIServiceLanguageClient) batchDetectHealthEntity(ctx context.Contex
 }
 
 // BatchDetectLanguageEntities The API extracts entities in text records. For each entity, its type/subtype and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
-// List of supported entities. (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
+// List of supported entities. (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -253,7 +253,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageEntities(ctx context.Co
 
 	var response BatchDetectLanguageEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectLanguageEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageKeyPhrases(ctx context.
 
 	var response BatchDetectLanguageKeyPhrasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectLanguageKeyPhrases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -367,7 +367,7 @@ func (client AIServiceLanguageClient) batchDetectLanguagePiiEntities(ctx context
 
 	var response BatchDetectLanguagePiiEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectLanguagePiiEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -383,7 +383,7 @@ func (client AIServiceLanguageClient) batchDetectLanguagePiiEntities(ctx context
 // BatchDetectLanguageSentiments The API extracts aspect-based and sentence level sentiment in text records.
 // For aspect-based sentiment analysis, a set of aspects and their respective sentiment is returned for each record. Similarly, for sentence-level sentiment analysis, the sentiment is returned at the sentence level.
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral and mixed).
-// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
+// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
 //   - A batch may have up to 100 records.
 //   - A record may be up to 5000 characters long.
@@ -427,7 +427,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageSentiments(ctx context.
 
 	var response BatchDetectLanguageSentimentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectLanguageSentiments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -442,7 +442,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageSentiments(ctx context.
 
 // BatchDetectLanguageTextClassification The API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
 // It supports passing a batch of records.
-// Learn more about text classification here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#text-class).
+// Learn more about text classification here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#text-class).
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -486,7 +486,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageTextClassification(ctx 
 
 	var response BatchDetectLanguageTextClassificationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchDetectLanguageTextClassification")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -543,7 +543,7 @@ func (client AIServiceLanguageClient) batchLanguageTranslation(ctx context.Conte
 
 	var response BatchLanguageTranslationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "BatchLanguageTranslation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -602,7 +602,7 @@ func (client AIServiceLanguageClient) cancelJob(ctx context.Context, request com
 
 	var response CancelJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "CancelJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -661,7 +661,7 @@ func (client AIServiceLanguageClient) changeEndpointCompartment(ctx context.Cont
 
 	var response ChangeEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ChangeEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -720,7 +720,7 @@ func (client AIServiceLanguageClient) changeJobCompartment(ctx context.Context, 
 
 	var response ChangeJobCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ChangeJobCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -779,7 +779,7 @@ func (client AIServiceLanguageClient) changeModelCompartment(ctx context.Context
 
 	var response ChangeModelCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ChangeModelCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -838,7 +838,7 @@ func (client AIServiceLanguageClient) changeProjectCompartment(ctx context.Conte
 
 	var response ChangeProjectCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ChangeProjectCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -897,7 +897,7 @@ func (client AIServiceLanguageClient) createEndpoint(ctx context.Context, reques
 
 	var response CreateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "CreateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -956,7 +956,7 @@ func (client AIServiceLanguageClient) createJob(ctx context.Context, request com
 
 	var response CreateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "CreateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1015,7 +1015,7 @@ func (client AIServiceLanguageClient) createModel(ctx context.Context, request c
 
 	var response CreateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "CreateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1074,7 +1074,7 @@ func (client AIServiceLanguageClient) createProject(ctx context.Context, request
 
 	var response CreateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "CreateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1128,7 +1128,7 @@ func (client AIServiceLanguageClient) deleteEndpoint(ctx context.Context, reques
 
 	var response DeleteEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DeleteEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1182,7 +1182,7 @@ func (client AIServiceLanguageClient) deleteJob(ctx context.Context, request com
 
 	var response DeleteJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DeleteJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1236,7 +1236,7 @@ func (client AIServiceLanguageClient) deleteModel(ctx context.Context, request c
 
 	var response DeleteModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DeleteModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1290,7 +1290,7 @@ func (client AIServiceLanguageClient) deleteProject(ctx context.Context, request
 
 	var response DeleteProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DeleteProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1304,9 +1304,9 @@ func (client AIServiceLanguageClient) deleteProject(ctx context.Context, request
 }
 
 // DetectDominantLanguage **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
+// We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
 // The DetectDominantLanguage API returns the detected language and a related confidence score (between 0 and 1).
-// List of supported languages (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
+// List of supported languages (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectDominantLanguage(ctx context.Context, request DetectDominantLanguageRequest) (response DetectDominantLanguageResponse, err error) {
@@ -1348,7 +1348,7 @@ func (client AIServiceLanguageClient) detectDominantLanguage(ctx context.Context
 
 	var response DetectDominantLanguageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DetectDominantLanguage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1362,7 +1362,7 @@ func (client AIServiceLanguageClient) detectDominantLanguage(ctx context.Context
 }
 
 // DetectLanguageEntities **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageEntities (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageEntities/BatchDetectLanguageEntities).
+// We recommend you replace this API with the batch API, BatchDetectLanguageEntities (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageEntities/BatchDetectLanguageEntities).
 // The DetectLanguageEntities API extracts entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.
 // Limitations:
 // - A text may be up to 1000 characters long.
@@ -1405,7 +1405,7 @@ func (client AIServiceLanguageClient) detectLanguageEntities(ctx context.Context
 
 	var response DetectLanguageEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DetectLanguageEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1420,7 +1420,7 @@ func (client AIServiceLanguageClient) detectLanguageEntities(ctx context.Context
 
 // DetectLanguageKeyPhrases **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
 //
-//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
+//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
 //	The DetectLanguageKeyPhrases API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
 //
 // Limitations:
@@ -1464,7 +1464,7 @@ func (client AIServiceLanguageClient) detectLanguageKeyPhrases(ctx context.Conte
 
 	var response DetectLanguageKeyPhrasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DetectLanguageKeyPhrases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1478,11 +1478,11 @@ func (client AIServiceLanguageClient) detectLanguageKeyPhrases(ctx context.Conte
 }
 
 // DetectLanguageSentiments **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageSentiments (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageSentiments/BatchDetectLanguageSentiments).
+// We recommend you replace this API with the batch API, BatchDetectLanguageSentiments (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageSentiments/BatchDetectLanguageSentiments).
 // The DetectLanguageSentiments API extracts aspect-based in text records.
 // For aspect-based sentiment analysis, a set of aspects and their respective sentiment is returned.
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral).
-// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
+// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
 //   - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageSentiments(ctx context.Context, request DetectLanguageSentimentsRequest) (response DetectLanguageSentimentsResponse, err error) {
@@ -1524,7 +1524,7 @@ func (client AIServiceLanguageClient) detectLanguageSentiments(ctx context.Conte
 
 	var response DetectLanguageSentimentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DetectLanguageSentiments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1538,9 +1538,9 @@ func (client AIServiceLanguageClient) detectLanguageSentiments(ctx context.Conte
 }
 
 // DetectLanguageTextClassification **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageTextClassification (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageTextClassification/BatchDetectLanguageTextClassification).
+// We recommend you replace this API with the batch API, BatchDetectLanguageTextClassification (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageTextClassification/BatchDetectLanguageTextClassification).
 // The DetectLanguageTextClassification API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
-// Learn more about text classification here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#text-class).
+// Learn more about text classification here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#text-class).
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageTextClassification(ctx context.Context, request DetectLanguageTextClassificationRequest) (response DetectLanguageTextClassificationResponse, err error) {
@@ -1582,7 +1582,7 @@ func (client AIServiceLanguageClient) detectLanguageTextClassification(ctx conte
 
 	var response DetectLanguageTextClassificationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "DetectLanguageTextClassification")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1636,7 +1636,7 @@ func (client AIServiceLanguageClient) getEndpoint(ctx context.Context, request c
 
 	var response GetEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1690,7 +1690,7 @@ func (client AIServiceLanguageClient) getJob(ctx context.Context, request common
 
 	var response GetJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1744,7 +1744,7 @@ func (client AIServiceLanguageClient) getModel(ctx context.Context, request comm
 
 	var response GetModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1798,7 +1798,7 @@ func (client AIServiceLanguageClient) getModelType(ctx context.Context, request 
 
 	var response GetModelTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetModelType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1852,7 +1852,7 @@ func (client AIServiceLanguageClient) getProject(ctx context.Context, request co
 
 	var response GetProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1906,7 +1906,7 @@ func (client AIServiceLanguageClient) getWorkRequest(ctx context.Context, reques
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1960,7 +1960,7 @@ func (client AIServiceLanguageClient) listEndpoints(ctx context.Context, request
 
 	var response ListEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2014,7 +2014,7 @@ func (client AIServiceLanguageClient) listEvaluationResults(ctx context.Context,
 
 	var response ListEvaluationResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListEvaluationResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2068,7 +2068,7 @@ func (client AIServiceLanguageClient) listJobs(ctx context.Context, request comm
 
 	var response ListJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2122,7 +2122,7 @@ func (client AIServiceLanguageClient) listModels(ctx context.Context, request co
 
 	var response ListModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2176,7 +2176,7 @@ func (client AIServiceLanguageClient) listProjects(ctx context.Context, request 
 
 	var response ListProjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListProjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2230,7 +2230,7 @@ func (client AIServiceLanguageClient) listWorkRequestErrors(ctx context.Context,
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2284,7 +2284,7 @@ func (client AIServiceLanguageClient) listWorkRequestLogs(ctx context.Context, r
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2338,7 +2338,7 @@ func (client AIServiceLanguageClient) listWorkRequests(ctx context.Context, requ
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2392,7 +2392,7 @@ func (client AIServiceLanguageClient) updateEndpoint(ctx context.Context, reques
 
 	var response UpdateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "UpdateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2446,7 +2446,7 @@ func (client AIServiceLanguageClient) updateJob(ctx context.Context, request com
 
 	var response UpdateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "UpdateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2500,7 +2500,7 @@ func (client AIServiceLanguageClient) updateModel(ctx context.Context, request c
 
 	var response UpdateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "UpdateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2554,7 +2554,7 @@ func (client AIServiceLanguageClient) updateProject(ctx context.Context, request
 
 	var response UpdateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceLanguage", "UpdateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

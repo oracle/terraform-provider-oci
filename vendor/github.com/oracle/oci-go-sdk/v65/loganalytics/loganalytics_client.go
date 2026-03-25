@@ -139,7 +139,7 @@ func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, reque
 
 	var response AddEntityAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "AddEntityAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -200,7 +200,7 @@ func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, reques
 
 	var response AddSourceEventTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "AddSourceEventTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -261,7 +261,7 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 
 	var response AppendLookupDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "AppendLookupData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -321,7 +321,7 @@ func (client LogAnalyticsClient) assignEncryptionKey(ctx context.Context, reques
 
 	var response AssignEncryptionKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "AssignEncryptionKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -377,7 +377,7 @@ func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request 
 
 	var response BatchGetBasicInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "BatchGetBasicInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -431,7 +431,7 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 
 	var response CancelQueryWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CancelQueryWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -492,7 +492,7 @@ func (client LogAnalyticsClient) changeIngestTimeRuleCompartment(ctx context.Con
 
 	var response ChangeIngestTimeRuleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeIngestTimeRuleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -553,7 +553,7 @@ func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx conte
 
 	var response ChangeLogAnalyticsEmBridgeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeLogAnalyticsEmBridgeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -614,7 +614,7 @@ func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context
 
 	var response ChangeLogAnalyticsEntityCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeLogAnalyticsEntityCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -675,7 +675,7 @@ func (client LogAnalyticsClient) changeLogAnalyticsLogGroupCompartment(ctx conte
 
 	var response ChangeLogAnalyticsLogGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeLogAnalyticsLogGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -730,7 +730,7 @@ func (client LogAnalyticsClient) changeLogAnalyticsObjectCollectionRuleCompartme
 
 	var response ChangeLogAnalyticsObjectCollectionRuleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeLogAnalyticsObjectCollectionRuleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -791,7 +791,7 @@ func (client LogAnalyticsClient) changeLookupCompartment(ctx context.Context, re
 
 	var response ChangeLookupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeLookupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -851,7 +851,7 @@ func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Cont
 
 	var response ChangeScheduledTaskCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeScheduledTaskCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -911,7 +911,7 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 
 	var response CleanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Clean")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -967,7 +967,7 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 
 	var response CompareContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CompareContent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1028,7 +1028,7 @@ func (client LogAnalyticsClient) createIngestTimeRule(ctx context.Context, reque
 
 	var response CreateIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1089,7 +1089,7 @@ func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context,
 
 	var response CreateLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateLogAnalyticsEmBridge")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1150,7 +1150,7 @@ func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, r
 
 	var response CreateLogAnalyticsEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateLogAnalyticsEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1211,7 +1211,7 @@ func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Contex
 
 	var response CreateLogAnalyticsEntityTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateLogAnalyticsEntityType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1272,7 +1272,7 @@ func (client LogAnalyticsClient) createLogAnalyticsLogGroup(ctx context.Context,
 
 	var response CreateLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1327,7 +1327,7 @@ func (client LogAnalyticsClient) createLogAnalyticsObjectCollectionRule(ctx cont
 
 	var response CreateLogAnalyticsObjectCollectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateLogAnalyticsObjectCollectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1387,7 +1387,7 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 
 	var response CreateScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1448,7 +1448,7 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 
 	var response DeleteAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1507,7 +1507,7 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 
 	var response DeleteFieldResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteField")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1561,7 +1561,7 @@ func (client LogAnalyticsClient) deleteIngestTimeRule(ctx context.Context, reque
 
 	var response DeleteIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1620,7 +1620,7 @@ func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common
 
 	var response DeleteLabelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLabel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1673,7 +1673,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context,
 
 	var response DeleteLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLogAnalyticsEmBridge")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1726,7 +1726,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntity(ctx context.Context, r
 
 	var response DeleteLogAnalyticsEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLogAnalyticsEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1779,7 +1779,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Contex
 
 	var response DeleteLogAnalyticsEntityTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLogAnalyticsEntityType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1833,7 +1833,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context,
 
 	var response DeleteLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1887,7 +1887,7 @@ func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx cont
 
 	var response DeleteLogAnalyticsObjectCollectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLogAnalyticsObjectCollectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1946,7 +1946,7 @@ func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request commo
 
 	var response DeleteLookupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteLookup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2005,7 +2005,7 @@ func (client LogAnalyticsClient) deleteParser(ctx context.Context, request commo
 
 	var response DeleteParserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteParser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2059,7 +2059,7 @@ func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, reques
 
 	var response DeleteScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2118,7 +2118,7 @@ func (client LogAnalyticsClient) deleteSource(ctx context.Context, request commo
 
 	var response DeleteSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2172,7 +2172,7 @@ func (client LogAnalyticsClient) deleteUpload(ctx context.Context, request commo
 
 	var response DeleteUploadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteUpload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2226,7 +2226,7 @@ func (client LogAnalyticsClient) deleteUploadFile(ctx context.Context, request c
 
 	var response DeleteUploadFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteUploadFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2279,7 +2279,7 @@ func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, reques
 
 	var response DeleteUploadWarningResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteUploadWarning")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2333,7 +2333,7 @@ func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request c
 
 	var response DisableArchivingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DisableArchiving")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2396,7 +2396,7 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 
 	var response DisableAutoAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DisableAutoAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2450,7 +2450,7 @@ func (client LogAnalyticsClient) disableIngestTimeRule(ctx context.Context, requ
 
 	var response DisableIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DisableIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2511,7 +2511,7 @@ func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, re
 
 	var response DisableSourceEventTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DisableSourceEventTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2565,7 +2565,7 @@ func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request co
 
 	var response EnableArchivingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EnableArchiving")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2628,7 +2628,7 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 
 	var response EnableAutoAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EnableAutoAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2682,7 +2682,7 @@ func (client LogAnalyticsClient) enableIngestTimeRule(ctx context.Context, reque
 
 	var response EnableIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EnableIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2743,7 +2743,7 @@ func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, req
 
 	var response EnableSourceEventTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EnableSourceEventTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2804,7 +2804,7 @@ func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, requ
 
 	var response EstimatePurgeDataSizeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EstimatePurgeDataSize")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2860,7 +2860,7 @@ func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, req
 
 	var response EstimateRecallDataSizeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EstimateRecallDataSize")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2916,7 +2916,7 @@ func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, re
 
 	var response EstimateReleaseDataSizeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EstimateReleaseDataSize")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2977,7 +2977,7 @@ func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, reques
 
 	var response ExportCustomContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ExportCustomContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
@@ -3032,7 +3032,7 @@ func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request 
 
 	var response ExportQueryResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ExportQueryResult")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/ExportQueryResult"
@@ -3092,7 +3092,7 @@ func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Cont
 
 	var response ExtractStructuredLogFieldPathsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ExtractStructuredLogFieldPaths")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3153,7 +3153,7 @@ func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Con
 
 	var response ExtractStructuredLogHeaderPathsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ExtractStructuredLogHeaderPaths")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3209,7 +3209,7 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 
 	var response FilterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Filter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3263,7 +3263,7 @@ func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, requ
 
 	var response GetAssociationSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetAssociationSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3317,7 +3317,7 @@ func (client LogAnalyticsClient) getCategory(ctx context.Context, request common
 
 	var response GetCategoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetCategory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3376,7 +3376,7 @@ func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request com
 
 	var response GetColumnNamesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetColumnNames")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3430,7 +3430,7 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 
 	var response GetConfigWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetConfigWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3484,7 +3484,7 @@ func (client LogAnalyticsClient) getField(ctx context.Context, request common.OC
 
 	var response GetFieldResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetField")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3538,7 +3538,7 @@ func (client LogAnalyticsClient) getFieldUsages(ctx context.Context, request com
 
 	var response GetFieldUsagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetFieldUsages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3592,7 +3592,7 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 
 	var response GetFieldsSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetFieldsSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3646,7 +3646,7 @@ func (client LogAnalyticsClient) getIngestTimeRule(ctx context.Context, request 
 
 	var response GetIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3700,7 +3700,7 @@ func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OC
 
 	var response GetLabelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLabel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3754,7 +3754,7 @@ func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request co
 
 	var response GetLabelSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLabelSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3807,7 +3807,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, re
 
 	var response GetLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsEmBridge")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3860,7 +3860,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Cont
 
 	var response GetLogAnalyticsEmBridgeSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsEmBridgeSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3913,7 +3913,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEntitiesSummary(ctx context.Cont
 
 	var response GetLogAnalyticsEntitiesSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsEntitiesSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3966,7 +3966,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEntity(ctx context.Context, requ
 
 	var response GetLogAnalyticsEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4019,7 +4019,7 @@ func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, 
 
 	var response GetLogAnalyticsEntityTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsEntityType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4073,7 +4073,7 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, re
 
 	var response GetLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4127,7 +4127,7 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Con
 
 	var response GetLogAnalyticsLogGroupsSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsLogGroupsSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4181,7 +4181,7 @@ func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context
 
 	var response GetLogAnalyticsObjectCollectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogAnalyticsObjectCollectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4235,7 +4235,7 @@ func (client LogAnalyticsClient) getLogSetsCount(ctx context.Context, request co
 
 	var response GetLogSetsCountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLogSetsCount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4289,7 +4289,7 @@ func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.O
 
 	var response GetLookupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLookup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4343,7 +4343,7 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 
 	var response GetLookupSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetLookupSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4397,7 +4397,7 @@ func (client LogAnalyticsClient) getNamespace(ctx context.Context, request commo
 
 	var response GetNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4451,7 +4451,7 @@ func (client LogAnalyticsClient) getParser(ctx context.Context, request common.O
 
 	var response GetParserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetParser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4505,7 +4505,7 @@ func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request c
 
 	var response GetParserSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetParserSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4559,7 +4559,7 @@ func (client LogAnalyticsClient) getPreferences(ctx context.Context, request com
 
 	var response GetPreferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetPreferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4614,7 +4614,7 @@ func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request com
 
 	var response GetQueryResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetQueryResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4668,7 +4668,7 @@ func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, reques
 
 	var response GetQueryWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetQueryWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4722,7 +4722,7 @@ func (client LogAnalyticsClient) getRecallCount(ctx context.Context, request com
 
 	var response GetRecallCountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetRecallCount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4776,7 +4776,7 @@ func (client LogAnalyticsClient) getRecalledDataSize(ctx context.Context, reques
 
 	var response GetRecalledDataSizeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetRecalledDataSize")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4830,7 +4830,7 @@ func (client LogAnalyticsClient) getRulesSummary(ctx context.Context, request co
 
 	var response GetRulesSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetRulesSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4884,7 +4884,7 @@ func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request c
 
 	var response GetScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4938,7 +4938,7 @@ func (client LogAnalyticsClient) getSource(ctx context.Context, request common.O
 
 	var response GetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4992,7 +4992,7 @@ func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request c
 
 	var response GetSourceSummaryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetSourceSummary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5046,7 +5046,7 @@ func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.
 
 	var response GetStorageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetStorage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5101,7 +5101,7 @@ func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request co
 
 	var response GetStorageUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetStorageUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5156,7 +5156,7 @@ func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, requ
 
 	var response GetStorageWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetStorageWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5210,7 +5210,7 @@ func (client LogAnalyticsClient) getTemplate(ctx context.Context, request common
 
 	var response GetTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5264,7 +5264,7 @@ func (client LogAnalyticsClient) getUnprocessedDataBucket(ctx context.Context, r
 
 	var response GetUnprocessedDataBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetUnprocessedDataBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5318,7 +5318,7 @@ func (client LogAnalyticsClient) getUpload(ctx context.Context, request common.O
 
 	var response GetUploadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetUpload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5371,7 +5371,7 @@ func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request com
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5432,7 +5432,7 @@ func (client LogAnalyticsClient) importCustomContent(ctx context.Context, reques
 
 	var response ImportCustomContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ImportCustomContent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5486,7 +5486,7 @@ func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, req
 
 	var response ListAssociableEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListAssociableEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5540,7 +5540,7 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 
 	var response ListAssociatedEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListAssociatedEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5594,7 +5594,7 @@ func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, reque
 
 	var response ListAutoAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListAutoAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5648,7 +5648,7 @@ func (client LogAnalyticsClient) listCategories(ctx context.Context, request com
 
 	var response ListCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5702,7 +5702,7 @@ func (client LogAnalyticsClient) listConfigWorkRequests(ctx context.Context, req
 
 	var response ListConfigWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListConfigWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5756,7 +5756,7 @@ func (client LogAnalyticsClient) listEffectiveProperties(ctx context.Context, re
 
 	var response ListEffectivePropertiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListEffectiveProperties")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5810,7 +5810,7 @@ func (client LogAnalyticsClient) listEncryptionKeyInfo(ctx context.Context, requ
 
 	var response ListEncryptionKeyInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListEncryptionKeyInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5863,7 +5863,7 @@ func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, req
 
 	var response ListEntityAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListEntityAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5917,7 +5917,7 @@ func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Contex
 
 	var response ListEntitySourceAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListEntitySourceAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5971,7 +5971,7 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 
 	var response ListFieldsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListFields")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6025,7 +6025,7 @@ func (client LogAnalyticsClient) listIngestTimeRules(ctx context.Context, reques
 
 	var response ListIngestTimeRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListIngestTimeRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6079,7 +6079,7 @@ func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, reques
 
 	var response ListLabelPrioritiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLabelPriorities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6133,7 +6133,7 @@ func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, req
 
 	var response ListLabelSourceDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLabelSourceDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6187,7 +6187,7 @@ func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.
 
 	var response ListLabelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLabels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6240,7 +6240,7 @@ func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, 
 
 	var response ListLogAnalyticsEmBridgesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsEmBridges")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6293,7 +6293,7 @@ func (client LogAnalyticsClient) listLogAnalyticsEntities(ctx context.Context, r
 
 	var response ListLogAnalyticsEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6346,7 +6346,7 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTopology(ctx context.Cont
 
 	var response ListLogAnalyticsEntityTopologyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsEntityTopology")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6399,7 +6399,7 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context
 
 	var response ListLogAnalyticsEntityTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsEntityTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6453,7 +6453,7 @@ func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, 
 
 	var response ListLogAnalyticsLogGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsLogGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6507,7 +6507,7 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 
 	var response ListLogAnalyticsObjectCollectionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogAnalyticsObjectCollectionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6561,7 +6561,7 @@ func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common
 
 	var response ListLogSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6615,7 +6615,7 @@ func (client LogAnalyticsClient) listLookups(ctx context.Context, request common
 
 	var response ListLookupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLookups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6669,7 +6669,7 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 
 	var response ListMetaSourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListMetaSourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6724,7 +6724,7 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 
 	var response ListNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6778,7 +6778,7 @@ func (client LogAnalyticsClient) listOverlappingRecalls(ctx context.Context, req
 
 	var response ListOverlappingRecallsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListOverlappingRecalls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6832,7 +6832,7 @@ func (client LogAnalyticsClient) listParserActions(ctx context.Context, request 
 
 	var response ListParserActionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListParserActions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6886,7 +6886,7 @@ func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, reques
 
 	var response ListParserFunctionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListParserFunctions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6940,7 +6940,7 @@ func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, requ
 
 	var response ListParserMetaPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListParserMetaPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6994,7 +6994,7 @@ func (client LogAnalyticsClient) listParsers(ctx context.Context, request common
 
 	var response ListParsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListParsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7048,7 +7048,7 @@ func (client LogAnalyticsClient) listPropertiesMetadata(ctx context.Context, req
 
 	var response ListPropertiesMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListPropertiesMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7102,7 +7102,7 @@ func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, requ
 
 	var response ListQueryWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListQueryWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7156,7 +7156,7 @@ func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request c
 
 	var response ListRecalledDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListRecalledData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7210,7 +7210,7 @@ func (client LogAnalyticsClient) listRecalledInfo(ctx context.Context, request c
 
 	var response ListRecalledInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListRecalledInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7265,7 +7265,7 @@ func (client LogAnalyticsClient) listResourceCategories(ctx context.Context, req
 
 	var response ListResourceCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListResourceCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7319,7 +7319,7 @@ func (client LogAnalyticsClient) listRules(ctx context.Context, request common.O
 
 	var response ListRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7373,7 +7373,7 @@ func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request
 
 	var response ListScheduledTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListScheduledTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7427,7 +7427,7 @@ func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, req
 
 	var response ListSourceAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourceAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7481,7 +7481,7 @@ func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, reque
 
 	var response ListSourceEventTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourceEventTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7535,7 +7535,7 @@ func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.
 
 	var response ListSourceExtendedFieldDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourceExtendedFieldDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7589,7 +7589,7 @@ func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, r
 
 	var response ListSourceLabelOperatorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourceLabelOperators")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7643,7 +7643,7 @@ func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, re
 
 	var response ListSourceMetaFunctionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourceMetaFunctions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7697,7 +7697,7 @@ func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request
 
 	var response ListSourcePatternsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSourcePatterns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7751,7 +7751,7 @@ func (client LogAnalyticsClient) listSources(ctx context.Context, request common
 
 	var response ListSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7805,7 +7805,7 @@ func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Contex
 
 	var response ListStorageWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListStorageWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7859,7 +7859,7 @@ func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, re
 
 	var response ListStorageWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListStorageWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7913,7 +7913,7 @@ func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context,
 
 	var response ListSupportedCharEncodingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSupportedCharEncodings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7967,7 +7967,7 @@ func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, req
 
 	var response ListSupportedTimezonesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListSupportedTimezones")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8021,7 +8021,7 @@ func (client LogAnalyticsClient) listTemplates(ctx context.Context, request comm
 
 	var response ListTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8075,7 +8075,7 @@ func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request co
 
 	var response ListUploadFilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListUploadFiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8129,7 +8129,7 @@ func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request
 
 	var response ListUploadWarningsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListUploadWarnings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8184,7 +8184,7 @@ func (client LogAnalyticsClient) listUploads(ctx context.Context, request common
 
 	var response ListUploadsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListUploads")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8238,7 +8238,7 @@ func (client LogAnalyticsClient) listWarnings(ctx context.Context, request commo
 
 	var response ListWarningsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListWarnings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8291,7 +8291,7 @@ func (client LogAnalyticsClient) listWorkRequestErrors(ctx context.Context, requ
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8344,7 +8344,7 @@ func (client LogAnalyticsClient) listWorkRequestLogs(ctx context.Context, reques
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8397,7 +8397,7 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8455,7 +8455,7 @@ func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request 
 
 	var response OffboardNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "OffboardNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8513,7 +8513,7 @@ func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request c
 
 	var response OnboardNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "OnboardNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8569,7 +8569,7 @@ func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.
 
 	var response ParseQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ParseQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8623,7 +8623,7 @@ func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request
 
 	var response PauseScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "PauseScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8684,7 +8684,7 @@ func (client LogAnalyticsClient) purgeStorageData(ctx context.Context, request c
 
 	var response PurgeStorageDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "PurgeStorageData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8737,7 +8737,7 @@ func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Conte
 
 	var response PutQueryWorkRequestBackgroundResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "PutQueryWorkRequestBackground")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8793,7 +8793,7 @@ func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRe
 
 	var response QueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Query")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8853,7 +8853,7 @@ func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request
 
 	var response RecallArchivedDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RecallArchivedData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8914,7 +8914,7 @@ func (client LogAnalyticsClient) registerLookup(ctx context.Context, request com
 
 	var response RegisterLookupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RegisterLookup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8974,7 +8974,7 @@ func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, reques
 
 	var response ReleaseRecalledDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ReleaseRecalledData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9035,7 +9035,7 @@ func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, r
 
 	var response RemoveEntityAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RemoveEntityAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9096,7 +9096,7 @@ func (client LogAnalyticsClient) removePreferences(ctx context.Context, request 
 
 	var response RemovePreferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RemovePreferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9152,7 +9152,7 @@ func (client LogAnalyticsClient) removeResourceCategories(ctx context.Context, r
 
 	var response RemoveResourceCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RemoveResourceCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9213,7 +9213,7 @@ func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, req
 
 	var response RemoveSourceEventTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "RemoveSourceEventTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9267,7 +9267,7 @@ func (client LogAnalyticsClient) resumeScheduledTask(ctx context.Context, reques
 
 	var response ResumeScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ResumeScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9327,7 +9327,7 @@ func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequ
 
 	var response RunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Run")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9382,7 +9382,7 @@ func (client LogAnalyticsClient) setUnprocessedDataBucket(ctx context.Context, r
 
 	var response SetUnprocessedDataBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "SetUnprocessedDataBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9438,7 +9438,7 @@ func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCI
 
 	var response SuggestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Suggest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9499,7 +9499,7 @@ func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request co
 
 	var response SuppressWarningResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "SuppressWarning")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9560,7 +9560,7 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 
 	var response TestParserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "TestParser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9621,7 +9621,7 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 
 	var response UnsuppressWarningResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UnsuppressWarning")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9677,7 +9677,7 @@ func (client LogAnalyticsClient) updateIngestTimeRule(ctx context.Context, reque
 
 	var response UpdateIngestTimeRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateIngestTimeRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9732,7 +9732,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context,
 
 	var response UpdateLogAnalyticsEmBridgeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLogAnalyticsEmBridge")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9787,7 +9787,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntity(ctx context.Context, r
 
 	var response UpdateLogAnalyticsEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLogAnalyticsEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9842,7 +9842,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Contex
 
 	var response UpdateLogAnalyticsEntityTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLogAnalyticsEntityType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9898,7 +9898,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsLogGroup(ctx context.Context,
 
 	var response UpdateLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9953,7 +9953,7 @@ func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx cont
 
 	var response UpdateLogAnalyticsObjectCollectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLogAnalyticsObjectCollectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10014,7 +10014,7 @@ func (client LogAnalyticsClient) updateLookup(ctx context.Context, request commo
 
 	var response UpdateLookupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLookup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10075,7 +10075,7 @@ func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request c
 
 	var response UpdateLookupDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateLookupData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10136,7 +10136,7 @@ func (client LogAnalyticsClient) updatePreferences(ctx context.Context, request 
 
 	var response UpdatePreferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdatePreferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10192,7 +10192,7 @@ func (client LogAnalyticsClient) updateResourceCategories(ctx context.Context, r
 
 	var response UpdateResourceCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateResourceCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10248,7 +10248,7 @@ func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, reques
 
 	var response UpdateScheduledTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateScheduledTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10304,7 +10304,7 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 
 	var response UpdateStorageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateStorage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10375,7 +10375,7 @@ func (client LogAnalyticsClient) uploadDiscoveryData(ctx context.Context, reques
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "logAnalytics", OperationName: "UploadDiscoveryData"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10446,7 +10446,7 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "logAnalytics", OperationName: "UploadLogEventsFile"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10517,7 +10517,7 @@ func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request comm
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "logAnalytics", OperationName: "UploadLogFile"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10588,7 +10588,7 @@ func (client LogAnalyticsClient) uploadOtlpLogs(ctx context.Context, request com
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "logAnalytics", OperationName: "UploadOtlpLogs"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10649,7 +10649,7 @@ func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request
 
 	var response UpsertAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpsertAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10710,7 +10710,7 @@ func (client LogAnalyticsClient) upsertField(ctx context.Context, request common
 
 	var response UpsertFieldResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpsertField")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10771,7 +10771,7 @@ func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common
 
 	var response UpsertLabelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpsertLabel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10832,7 +10832,7 @@ func (client LogAnalyticsClient) upsertParser(ctx context.Context, request commo
 
 	var response UpsertParserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpsertParser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10893,7 +10893,7 @@ func (client LogAnalyticsClient) upsertSource(ctx context.Context, request commo
 
 	var response UpsertSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpsertSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10954,7 +10954,7 @@ func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Conte
 
 	var response ValidateAssociationParametersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateAssociationParameters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11010,7 +11010,7 @@ func (client LogAnalyticsClient) validateEndpoint(ctx context.Context, request c
 
 	var response ValidateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11064,7 +11064,7 @@ func (client LogAnalyticsClient) validateFile(ctx context.Context, request commo
 
 	var response ValidateFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11124,7 +11124,7 @@ func (client LogAnalyticsClient) validateLabelCondition(ctx context.Context, req
 
 	var response ValidateLabelConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateLabelCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11185,7 +11185,7 @@ func (client LogAnalyticsClient) validateSource(ctx context.Context, request com
 
 	var response ValidateSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11246,7 +11246,7 @@ func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.
 
 	var response ValidateSourceExtendedFieldDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateSourceExtendedFieldDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11300,7 +11300,7 @@ func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, requ
 
 	var response ValidateSourceMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateSourceMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11362,7 +11362,7 @@ func (client LogAnalyticsClient) verify(ctx context.Context, request common.OCIR
 
 	var response VerifyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "Verify")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

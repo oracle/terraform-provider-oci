@@ -137,11 +137,11 @@ func (client FleetAppsManagementMaintenanceWindowClient) createMaintenanceWindow
 
 	var response CreateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "CreateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/CreateMaintenanceWindow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "CreateMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client FleetAppsManagementMaintenanceWindowClient) deleteMaintenanceWindow
 
 	var response DeleteMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "DeleteMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/DeleteMaintenanceWindow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "DeleteMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 
 	var response GetMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "GetMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/GetMaintenanceWindow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "GetMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
@@ -300,11 +300,11 @@ func (client FleetAppsManagementMaintenanceWindowClient) listMaintenanceWindows(
 
 	var response ListMaintenanceWindowsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "ListMaintenanceWindows")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindowCollection/ListMaintenanceWindows"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "ListMaintenanceWindows", apiReferenceLink)
 		return response, err
 	}
@@ -354,11 +354,11 @@ func (client FleetAppsManagementMaintenanceWindowClient) updateMaintenanceWindow
 
 	var response UpdateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "UpdateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/MaintenanceWindow/UpdateMaintenanceWindow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementMaintenanceWindow", "UpdateMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}

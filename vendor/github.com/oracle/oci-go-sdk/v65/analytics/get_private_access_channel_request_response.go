@@ -14,10 +14,10 @@ import (
 // GetPrivateAccessChannelRequest wrapper for the GetPrivateAccessChannel operation
 type GetPrivateAccessChannelRequest struct {
 
-	// The unique identifier key of the Private Access Channel.
+	// The unique identifier key of the private access channel.
 	PrivateAccessChannelKey *string `mandatory:"true" contributesTo:"path" name:"privateAccessChannelKey"`
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Unique identifier for the request.

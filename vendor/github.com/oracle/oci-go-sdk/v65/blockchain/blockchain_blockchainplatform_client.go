@@ -136,7 +136,7 @@ func (client BlockchainPlatformClient) changeBlockchainPlatformCompartment(ctx c
 
 	var response ChangeBlockchainPlatformCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ChangeBlockchainPlatformCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client BlockchainPlatformClient) createBlockchainPlatform(ctx context.Cont
 
 	var response CreateBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "CreateBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client BlockchainPlatformClient) createOsn(ctx context.Context, request co
 
 	var response CreateOsnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "CreateOsn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client BlockchainPlatformClient) createPeer(ctx context.Context, request c
 
 	var response CreatePeerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "CreatePeer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client BlockchainPlatformClient) deleteBlockchainPlatform(ctx context.Cont
 
 	var response DeleteBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "DeleteBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -421,7 +421,7 @@ func (client BlockchainPlatformClient) deleteOsn(ctx context.Context, request co
 
 	var response DeleteOsnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "DeleteOsn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -479,7 +479,7 @@ func (client BlockchainPlatformClient) deletePeer(ctx context.Context, request c
 
 	var response DeletePeerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "DeletePeer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -532,7 +532,7 @@ func (client BlockchainPlatformClient) deleteWorkRequest(ctx context.Context, re
 
 	var response DeleteWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "DeleteWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -585,7 +585,7 @@ func (client BlockchainPlatformClient) getBlockchainPlatform(ctx context.Context
 
 	var response GetBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "GetBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -638,7 +638,7 @@ func (client BlockchainPlatformClient) getOsn(ctx context.Context, request commo
 
 	var response GetOsnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "GetOsn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -691,7 +691,7 @@ func (client BlockchainPlatformClient) getPeer(ctx context.Context, request comm
 
 	var response GetPeerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "GetPeer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -744,7 +744,7 @@ func (client BlockchainPlatformClient) getWorkRequest(ctx context.Context, reque
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -797,7 +797,7 @@ func (client BlockchainPlatformClient) listBlockchainPlatformPatches(ctx context
 
 	var response ListBlockchainPlatformPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListBlockchainPlatformPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -850,7 +850,7 @@ func (client BlockchainPlatformClient) listBlockchainPlatforms(ctx context.Conte
 
 	var response ListBlockchainPlatformsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListBlockchainPlatforms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -908,7 +908,7 @@ func (client BlockchainPlatformClient) listOsns(ctx context.Context, request com
 
 	var response ListOsnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListOsns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -966,7 +966,7 @@ func (client BlockchainPlatformClient) listPeers(ctx context.Context, request co
 
 	var response ListPeersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListPeers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1019,7 +1019,7 @@ func (client BlockchainPlatformClient) listWorkRequestErrors(ctx context.Context
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1072,7 +1072,7 @@ func (client BlockchainPlatformClient) listWorkRequestLogs(ctx context.Context, 
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1125,7 +1125,7 @@ func (client BlockchainPlatformClient) listWorkRequests(ctx context.Context, req
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1178,7 +1178,7 @@ func (client BlockchainPlatformClient) previewScaleBlockchainPlatform(ctx contex
 
 	var response PreviewScaleBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "PreviewScaleBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1236,7 +1236,7 @@ func (client BlockchainPlatformClient) scaleBlockchainPlatform(ctx context.Conte
 
 	var response ScaleBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "ScaleBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1294,7 +1294,7 @@ func (client BlockchainPlatformClient) startBlockchainPlatform(ctx context.Conte
 
 	var response StartBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "StartBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1352,7 +1352,7 @@ func (client BlockchainPlatformClient) stopBlockchainPlatform(ctx context.Contex
 
 	var response StopBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "StopBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1410,7 +1410,7 @@ func (client BlockchainPlatformClient) updateBlockchainPlatform(ctx context.Cont
 
 	var response UpdateBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "UpdateBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1468,7 +1468,7 @@ func (client BlockchainPlatformClient) updateOsn(ctx context.Context, request co
 
 	var response UpdateOsnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "UpdateOsn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1526,7 +1526,7 @@ func (client BlockchainPlatformClient) updatePeer(ctx context.Context, request c
 
 	var response UpdatePeerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "UpdatePeer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1584,7 +1584,7 @@ func (client BlockchainPlatformClient) upgradeBlockchainPlatform(ctx context.Con
 
 	var response UpgradeBlockchainPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockchainPlatform", "UpgradeBlockchainPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

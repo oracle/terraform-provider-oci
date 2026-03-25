@@ -14,7 +14,7 @@ import (
 // ChangeAnalyticsInstanceCompartmentRequest wrapper for the ChangeAnalyticsInstanceCompartment operation
 type ChangeAnalyticsInstanceCompartmentRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Input payload to move the resource to a different compartment.

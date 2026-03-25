@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -15,7 +15,10 @@ import (
 	"strings"
 )
 
-// MulticloudResourceSummary The multicloud resource, for eg. VMCluster, ExaInfra, and its attributes. The resource and network anchor that represents
+// MulticloudResourceSummary The properties that define the Multicloud resource.
+// Details for each resource include Multicloud base compartment, name, state, resource type, and network anchor.
+// For more information, see
+// Multicloud Resources (https://docs.oracle.com/iaas/Content/multicloud-hub/list-resources.htm).
 type MulticloudResourceSummary struct {
 
 	// The Id of the multicloud resource.
@@ -25,41 +28,44 @@ type MulticloudResourceSummary struct {
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Endpoint used to retrieve displayName and lifeCycleState of the resource.
+	// Endpoint used to retrieve the resource's display name and lifecycle state.
 	ResourceDisplayName *string `mandatory:"false" json:"resourceDisplayName"`
 
-	// What resource it refers to. Eg. VMCluster, ExaInfra, etc.
+	// Type of resource, such as `VMCluster` or `ExaInfra`,
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// Compartment name associated the resource.
+	// Name of the compartment associated with the resource.
 	CompartmentName *string `mandatory:"false" json:"compartmentName"`
 
-	// Compartment Id of the resource.
+	// Id of the compartment associated with the resource.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Resource Anchor name.
+	// Name of the virtual cloud network (VCN) associated with the resource.
 	VcnName *string `mandatory:"false" json:"vcnName"`
 
-	// Id of the Virtual Cloud Network associated to the resource.
+	// Id of the virtual cloud network (VCN) associated with the resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
-	// Name of the network anchor associated to the resource.
+	// Name of the network anchor associated with the resource.
 	NetworkAnchorName *string `mandatory:"false" json:"networkAnchorName"`
 
-	// OCID of the Network Anchor
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network anchor associated with the resource.
 	NetworkAnchorId *string `mandatory:"false" json:"networkAnchorId"`
 
-	// Resource Id that comes from the Multi Cloud Control Plane
+	// The resource Id that comes from the Multicloud control plane.
 	CspResourceId *string `mandatory:"false" json:"cspResourceId"`
 
-	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	// Properties specific to the cloud service provider. For example, AzureSubnetId for Azure.
 	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
+
+	// Additional attributes specific to certain resource types, used to construct a URL for accessing the resource in the OCI console.
+	ResourceAdditionalProperties map[string]interface{} `mandatory:"false" json:"resourceAdditionalProperties"`
 
 	// The date and time the subscription was updated, in the format defined by
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the multicloud resource.
+	// The current state of the Multicloud resource.
 	LifecycleState MulticloudResourceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

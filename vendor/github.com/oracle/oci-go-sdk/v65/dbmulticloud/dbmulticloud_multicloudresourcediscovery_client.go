@@ -159,11 +159,11 @@ func (client MultiCloudResourceDiscoveryClient) changeMultiCloudResourceDiscover
 
 	var response ChangeMultiCloudResourceDiscoveryCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "ChangeMultiCloudResourceDiscoveryCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/ChangeMultiCloudResourceDiscoveryCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "ChangeMultiCloudResourceDiscoveryCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -218,11 +218,11 @@ func (client MultiCloudResourceDiscoveryClient) createMultiCloudResourceDiscover
 
 	var response CreateMultiCloudResourceDiscoveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "CreateMultiCloudResourceDiscovery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/CreateMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "CreateMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -272,11 +272,11 @@ func (client MultiCloudResourceDiscoveryClient) deleteMultiCloudResourceDiscover
 
 	var response DeleteMultiCloudResourceDiscoveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "DeleteMultiCloudResourceDiscovery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/DeleteMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "DeleteMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -326,11 +326,11 @@ func (client MultiCloudResourceDiscoveryClient) getMultiCloudResourceDiscovery(c
 
 	var response GetMultiCloudResourceDiscoveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "GetMultiCloudResourceDiscovery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/GetMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "GetMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -380,11 +380,11 @@ func (client MultiCloudResourceDiscoveryClient) listMultiCloudResourceDiscoverie
 
 	var response ListMultiCloudResourceDiscoveriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "ListMultiCloudResourceDiscoveries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/ListMultiCloudResourceDiscoveries"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "ListMultiCloudResourceDiscoveries", apiReferenceLink)
 		return response, err
 	}
@@ -434,11 +434,11 @@ func (client MultiCloudResourceDiscoveryClient) updateMultiCloudResourceDiscover
 
 	var response UpdateMultiCloudResourceDiscoveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multiCloudResourceDiscovery", "UpdateMultiCloudResourceDiscovery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/MultiCloudResourceDiscovery/UpdateMultiCloudResourceDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MultiCloudResourceDiscovery", "UpdateMultiCloudResourceDiscovery", apiReferenceLink)
 		return response, err
 	}

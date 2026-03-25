@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,7 +91,8 @@ func (client *MulticloudsubscriptionsClient) ConfigurationProvider() *common.Con
 	return client.config
 }
 
-// ListMulticloudSubscriptions Gets a list of Multicloud Resources.
+// ListMulticloudSubscriptions Lists activated Multicloud subscriptions in the specified compartment. For more information, see
+// Listing Multicloud Subscriptions (https://docs.oracle.com/iaas/Content/multicloud-hub/list-subscriptions.htm).
 // A default retry strategy applies to this operation ListMulticloudSubscriptions()
 func (client MulticloudsubscriptionsClient) ListMulticloudSubscriptions(ctx context.Context, request ListMulticloudSubscriptionsRequest) (response ListMulticloudSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -132,11 +133,11 @@ func (client MulticloudsubscriptionsClient) listMulticloudSubscriptions(ctx cont
 
 	var response ListMulticloudSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multicloudsubscriptions", "ListMulticloudSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MulticloudSubscriptionCollection/ListMulticloudSubscriptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Multicloudsubscriptions", "ListMulticloudSubscriptions", apiReferenceLink)
 		return response, err
 	}

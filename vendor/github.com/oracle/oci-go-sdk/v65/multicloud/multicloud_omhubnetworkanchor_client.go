@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,7 +91,9 @@ func (client *OmhubNetworkAnchorClient) ConfigurationProvider() *common.Configur
 	return client.config
 }
 
-// GetNetworkAnchor Gets information about a NetworkAnchor.
+// GetNetworkAnchor Gets details for the specified network anchor. The subscription OCID and service name are required.
+// For more information, see
+// Getting a Network Anchor's Details (https://docs.oracle.com/iaas/Content/multicloud-hub/get-network-anchor.htm).
 // A default retry strategy applies to this operation GetNetworkAnchor()
 func (client OmhubNetworkAnchorClient) GetNetworkAnchor(ctx context.Context, request GetNetworkAnchorRequest) (response GetNetworkAnchorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -132,11 +134,11 @@ func (client OmhubNetworkAnchorClient) getNetworkAnchor(ctx context.Context, req
 
 	var response GetNetworkAnchorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubNetworkAnchor", "GetNetworkAnchor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/NetworkAnchor/GetNetworkAnchor"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubNetworkAnchor", "GetNetworkAnchor", apiReferenceLink)
 		return response, err
 	}
@@ -145,7 +147,10 @@ func (client OmhubNetworkAnchorClient) getNetworkAnchor(ctx context.Context, req
 	return response, err
 }
 
-// ListNetworkAnchors Gets a list of NetworkAnchors.
+// ListNetworkAnchors Lists network anchors in the specified Multicloud subscription, Multicloud compartment, and partner cloud region.
+// Details listed for each resource include name, state, VCN, and ODB network ID.
+// For more information, see
+// Listing Network Anchors (https://docs.oracle.com/iaas/Content/multicloud-hub/list-network-anchors.htm).
 // A default retry strategy applies to this operation ListNetworkAnchors()
 func (client OmhubNetworkAnchorClient) ListNetworkAnchors(ctx context.Context, request ListNetworkAnchorsRequest) (response ListNetworkAnchorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -186,11 +191,11 @@ func (client OmhubNetworkAnchorClient) listNetworkAnchors(ctx context.Context, r
 
 	var response ListNetworkAnchorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubNetworkAnchor", "ListNetworkAnchors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/NetworkAnchorCollection/ListNetworkAnchors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubNetworkAnchor", "ListNetworkAnchors", apiReferenceLink)
 		return response, err
 	}

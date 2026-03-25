@@ -137,11 +137,11 @@ func (client CpgOverrideClient) createCpgOverride(ctx context.Context, request c
 
 	var response CreateCpgOverrideResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cpgOverride", "CreateCpgOverride")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/CreateCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "CreateCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client CpgOverrideClient) deleteCpgOverride(ctx context.Context, request c
 
 	var response DeleteCpgOverrideResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cpgOverride", "DeleteCpgOverride")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/DeleteCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "DeleteCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client CpgOverrideClient) getCpgOverride(ctx context.Context, request comm
 
 	var response GetCpgOverrideResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cpgOverride", "GetCpgOverride")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/GetCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "GetCpgOverride", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client CpgOverrideClient) listCpgOverrides(ctx context.Context, request co
 
 	var response ListCpgOverridesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cpgOverride", "ListCpgOverrides")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverrideCollection/ListCpgOverrides"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "ListCpgOverrides", apiReferenceLink)
 		return response, err
 	}
@@ -353,11 +353,11 @@ func (client CpgOverrideClient) updateCpgOverride(ctx context.Context, request c
 
 	var response UpdateCpgOverrideResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cpgOverride", "UpdateCpgOverride")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CpgOverride/UpdateCpgOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CpgOverride", "UpdateCpgOverride", apiReferenceLink)
 		return response, err
 	}

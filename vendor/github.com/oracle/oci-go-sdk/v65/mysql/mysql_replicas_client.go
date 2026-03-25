@@ -137,7 +137,7 @@ func (client ReplicasClient) createReplica(ctx context.Context, request common.O
 
 	var response CreateReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "replicas", "CreateReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client ReplicasClient) deleteReplica(ctx context.Context, request common.O
 
 	var response DeleteReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "replicas", "DeleteReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -245,7 +245,7 @@ func (client ReplicasClient) getReplica(ctx context.Context, request common.OCIR
 
 	var response GetReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "replicas", "GetReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -299,7 +299,7 @@ func (client ReplicasClient) listReplicas(ctx context.Context, request common.OC
 
 	var response ListReplicasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "replicas", "ListReplicas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -353,7 +353,7 @@ func (client ReplicasClient) updateReplica(ctx context.Context, request common.O
 
 	var response UpdateReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "replicas", "UpdateReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

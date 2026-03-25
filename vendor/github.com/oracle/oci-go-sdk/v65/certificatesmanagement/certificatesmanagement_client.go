@@ -131,7 +131,7 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityDeletion(ct
 
 	var response CancelCertificateAuthorityDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CancelCertificateAuthorityDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -186,7 +186,7 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityVersionDele
 
 	var response CancelCertificateAuthorityVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CancelCertificateAuthorityVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -241,7 +241,7 @@ func (client CertificatesManagementClient) cancelCertificateDeletion(ctx context
 
 	var response CancelCertificateDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CancelCertificateDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -294,7 +294,7 @@ func (client CertificatesManagementClient) cancelCertificateVersionDeletion(ctx 
 
 	var response CancelCertificateVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CancelCertificateVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -354,7 +354,7 @@ func (client CertificatesManagementClient) changeCaBundleCompartment(ctx context
 
 	var response ChangeCaBundleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ChangeCaBundleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -414,7 +414,7 @@ func (client CertificatesManagementClient) changeCertificateAuthorityCompartment
 
 	var response ChangeCertificateAuthorityCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ChangeCertificateAuthorityCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -474,7 +474,7 @@ func (client CertificatesManagementClient) changeCertificateCompartment(ctx cont
 
 	var response ChangeCertificateCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ChangeCertificateCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -532,7 +532,7 @@ func (client CertificatesManagementClient) createCaBundle(ctx context.Context, r
 
 	var response CreateCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CreateCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -590,7 +590,7 @@ func (client CertificatesManagementClient) createCertificate(ctx context.Context
 
 	var response CreateCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CreateCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -648,7 +648,7 @@ func (client CertificatesManagementClient) createCertificateAuthority(ctx contex
 
 	var response CreateCertificateAuthorityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "CreateCertificateAuthority")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -701,7 +701,7 @@ func (client CertificatesManagementClient) deleteCaBundle(ctx context.Context, r
 
 	var response DeleteCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "DeleteCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -754,7 +754,7 @@ func (client CertificatesManagementClient) getAssociation(ctx context.Context, r
 
 	var response GetAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -807,7 +807,7 @@ func (client CertificatesManagementClient) getCaBundle(ctx context.Context, requ
 
 	var response GetCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -860,7 +860,7 @@ func (client CertificatesManagementClient) getCertificate(ctx context.Context, r
 
 	var response GetCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -913,7 +913,7 @@ func (client CertificatesManagementClient) getCertificateAuthority(ctx context.C
 
 	var response GetCertificateAuthorityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetCertificateAuthority")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -966,7 +966,7 @@ func (client CertificatesManagementClient) getCertificateAuthorityVersion(ctx co
 
 	var response GetCertificateAuthorityVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetCertificateAuthorityVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1019,7 +1019,7 @@ func (client CertificatesManagementClient) getCertificateVersion(ctx context.Con
 
 	var response GetCertificateVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "GetCertificateVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1073,7 +1073,7 @@ func (client CertificatesManagementClient) listAssociations(ctx context.Context,
 
 	var response ListAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1127,7 +1127,7 @@ func (client CertificatesManagementClient) listCaBundles(ctx context.Context, re
 
 	var response ListCaBundlesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListCaBundles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1181,7 +1181,7 @@ func (client CertificatesManagementClient) listCertificateAuthorities(ctx contex
 
 	var response ListCertificateAuthoritiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListCertificateAuthorities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1235,7 +1235,7 @@ func (client CertificatesManagementClient) listCertificateAuthorityVersions(ctx 
 
 	var response ListCertificateAuthorityVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListCertificateAuthorityVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1289,7 +1289,7 @@ func (client CertificatesManagementClient) listCertificateVersions(ctx context.C
 
 	var response ListCertificateVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListCertificateVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1343,7 +1343,7 @@ func (client CertificatesManagementClient) listCertificates(ctx context.Context,
 
 	var response ListCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ListCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1401,7 +1401,7 @@ func (client CertificatesManagementClient) revokeCertificateAuthorityVersion(ctx
 
 	var response RevokeCertificateAuthorityVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "RevokeCertificateAuthorityVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1459,7 +1459,7 @@ func (client CertificatesManagementClient) revokeCertificateVersion(ctx context.
 
 	var response RevokeCertificateVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "RevokeCertificateVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1512,7 +1512,7 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityDeletion(
 
 	var response ScheduleCertificateAuthorityDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ScheduleCertificateAuthorityDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1567,7 +1567,7 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityVersionDe
 
 	var response ScheduleCertificateAuthorityVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ScheduleCertificateAuthorityVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1622,7 +1622,7 @@ func (client CertificatesManagementClient) scheduleCertificateDeletion(ctx conte
 
 	var response ScheduleCertificateDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ScheduleCertificateDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1677,7 +1677,7 @@ func (client CertificatesManagementClient) scheduleCertificateVersionDeletion(ct
 
 	var response ScheduleCertificateVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "ScheduleCertificateVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1730,7 +1730,7 @@ func (client CertificatesManagementClient) updateCaBundle(ctx context.Context, r
 
 	var response UpdateCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "UpdateCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1783,7 +1783,7 @@ func (client CertificatesManagementClient) updateCertificate(ctx context.Context
 
 	var response UpdateCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "UpdateCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1836,7 +1836,7 @@ func (client CertificatesManagementClient) updateCertificateAuthority(ctx contex
 
 	var response UpdateCertificateAuthorityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "certificatesManagement", "UpdateCertificateAuthority")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

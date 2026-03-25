@@ -133,7 +133,7 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 
 	var response CancelSecretDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "CancelSecretDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -189,7 +189,7 @@ func (client VaultsClient) cancelSecretRotation(ctx context.Context, request com
 
 	var response CancelSecretRotationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "CancelSecretRotation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -242,7 +242,7 @@ func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, requ
 
 	var response CancelSecretVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "CancelSecretVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -302,7 +302,7 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 
 	var response ChangeSecretCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "ChangeSecretCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -362,7 +362,7 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 
 	var response CreateSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "CreateSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -416,7 +416,7 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 
 	var response GetSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "GetSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -470,7 +470,7 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 
 	var response GetSecretVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "GetSecretVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -524,7 +524,7 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 
 	var response ListSecretVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "ListSecretVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -578,7 +578,7 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 
 	var response ListSecretsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "ListSecrets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -637,7 +637,7 @@ func (client VaultsClient) rotateSecret(ctx context.Context, request common.OCIR
 
 	var response RotateSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "RotateSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -691,7 +691,7 @@ func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request c
 
 	var response ScheduleSecretDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "ScheduleSecretDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -745,7 +745,7 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 
 	var response ScheduleSecretVersionDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "ScheduleSecretVersionDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -802,7 +802,7 @@ func (client VaultsClient) updateSecret(ctx context.Context, request common.OCIR
 
 	var response UpdateSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vaults", "UpdateSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

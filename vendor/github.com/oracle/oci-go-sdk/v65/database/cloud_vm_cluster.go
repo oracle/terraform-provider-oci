@@ -80,6 +80,11 @@ type CloudVmCluster struct {
 	// The port number configured for the listener on the cloud VM cluster.
 	ListenerPort *int64 `mandatory:"false" json:"listenerPort"`
 
+	LiveImageVersionDetails *ExadataLiveImageVersionDetails `mandatory:"false" json:"liveImageVersionDetails"`
+
+	// Oracle Linux version for the respective Exadata Image.
+	OracleLinuxVersion *string `mandatory:"false" json:"oracleLinuxVersion"`
+
 	// The number of nodes in the cloud VM cluster.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 

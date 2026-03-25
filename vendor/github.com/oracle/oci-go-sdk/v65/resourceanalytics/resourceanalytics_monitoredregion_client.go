@@ -137,11 +137,11 @@ func (client MonitoredRegionClient) createMonitoredRegion(ctx context.Context, r
 
 	var response CreateMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "CreateMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/CreateMonitoredRegion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "CreateMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client MonitoredRegionClient) deleteMonitoredRegion(ctx context.Context, r
 
 	var response DeleteMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "DeleteMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/DeleteMonitoredRegion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "DeleteMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client MonitoredRegionClient) getMonitoredRegion(ctx context.Context, requ
 
 	var response GetMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "GetMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegion/GetMonitoredRegion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "GetMonitoredRegion", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client MonitoredRegionClient) listMonitoredRegions(ctx context.Context, re
 
 	var response ListMonitoredRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "ListMonitoredRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/MonitoredRegionCollection/ListMonitoredRegions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MonitoredRegion", "ListMonitoredRegions", apiReferenceLink)
 		return response, err
 	}

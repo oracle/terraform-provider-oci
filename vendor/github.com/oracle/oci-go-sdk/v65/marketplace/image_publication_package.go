@@ -38,7 +38,7 @@ type ImagePublicationPackage struct {
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
-	// The ID of the listing resource associated with this publication package. For more information, see AppCatalogListing (https://docs.oracle.com/iaas/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
+	// The ID of the listing resource associated with this publication package. For more information, see AppCatalogListing (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
 	AppCatalogListingId *string `mandatory:"false" json:"appCatalogListingId"`
 
 	// The resource version of the listing resource associated with this publication package.

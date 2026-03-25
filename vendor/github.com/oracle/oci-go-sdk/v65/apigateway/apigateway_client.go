@@ -133,7 +133,7 @@ func (client ApiGatewayClient) addApiLock(ctx context.Context, request common.OC
 
 	var response AddApiLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "AddApiLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -186,7 +186,7 @@ func (client ApiGatewayClient) addCertificateLock(ctx context.Context, request c
 
 	var response AddCertificateLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "AddCertificateLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -239,7 +239,7 @@ func (client ApiGatewayClient) addSdkLock(ctx context.Context, request common.OC
 
 	var response AddSdkLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "AddSdkLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -297,7 +297,7 @@ func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request
 
 	var response ChangeApiCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ChangeApiCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -355,7 +355,7 @@ func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context,
 
 	var response ChangeCertificateCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ChangeCertificateCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -414,7 +414,7 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 
 	var response CreateApiResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "CreateApi")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -473,7 +473,7 @@ func (client ApiGatewayClient) createCertificate(ctx context.Context, request co
 
 	var response CreateCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "CreateCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -532,7 +532,7 @@ func (client ApiGatewayClient) createSdk(ctx context.Context, request common.OCI
 
 	var response CreateSdkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "CreateSdk")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -585,7 +585,7 @@ func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCI
 
 	var response DeleteApiResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "DeleteApi")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -638,7 +638,7 @@ func (client ApiGatewayClient) deleteCertificate(ctx context.Context, request co
 
 	var response DeleteCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "DeleteCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -691,7 +691,7 @@ func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCI
 
 	var response DeleteSdkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "DeleteSdk")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -745,7 +745,7 @@ func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIReq
 
 	var response GetApiResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetApi")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -799,7 +799,7 @@ func (client ApiGatewayClient) getApiContent(ctx context.Context, request common
 
 	var response GetApiContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetApiContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/GetApiContent"
@@ -852,7 +852,7 @@ func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context
 
 	var response GetApiDeploymentSpecificationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetApiDeploymentSpecification")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -906,7 +906,7 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 
 	var response GetApiValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetApiValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -960,7 +960,7 @@ func (client ApiGatewayClient) getCertificate(ctx context.Context, request commo
 
 	var response GetCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1014,7 +1014,7 @@ func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIReq
 
 	var response GetSdkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "GetSdk")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1068,7 +1068,7 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 
 	var response ListApisResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ListApis")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1122,7 +1122,7 @@ func (client ApiGatewayClient) listCertificates(ctx context.Context, request com
 
 	var response ListCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ListCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1176,7 +1176,7 @@ func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request
 
 	var response ListSdkLanguageTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ListSdkLanguageTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1230,7 +1230,7 @@ func (client ApiGatewayClient) listSdks(ctx context.Context, request common.OCIR
 
 	var response ListSdksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "ListSdks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1283,7 +1283,7 @@ func (client ApiGatewayClient) removeApiLock(ctx context.Context, request common
 
 	var response RemoveApiLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "RemoveApiLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1336,7 +1336,7 @@ func (client ApiGatewayClient) removeCertificateLock(ctx context.Context, reques
 
 	var response RemoveCertificateLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "RemoveCertificateLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1389,7 +1389,7 @@ func (client ApiGatewayClient) removeSdkLock(ctx context.Context, request common
 
 	var response RemoveSdkLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "RemoveSdkLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1442,7 +1442,7 @@ func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCI
 
 	var response UpdateApiResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "UpdateApi")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1495,7 +1495,7 @@ func (client ApiGatewayClient) updateCertificate(ctx context.Context, request co
 
 	var response UpdateCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "UpdateCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1548,7 +1548,7 @@ func (client ApiGatewayClient) updateSdk(ctx context.Context, request common.OCI
 
 	var response UpdateSdkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiGateway", "UpdateSdk")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

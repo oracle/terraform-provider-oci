@@ -140,7 +140,7 @@ func (client DatastoreClient) addBlockVolumeToDatastore(ctx context.Context, req
 
 	var response AddBlockVolumeToDatastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "AddBlockVolumeToDatastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -201,7 +201,7 @@ func (client DatastoreClient) changeDatastoreCompartment(ctx context.Context, re
 
 	var response ChangeDatastoreCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "ChangeDatastoreCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client DatastoreClient) createDatastore(ctx context.Context, request commo
 
 	var response CreateDatastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "CreateDatastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -318,7 +318,7 @@ func (client DatastoreClient) deleteDatastore(ctx context.Context, request commo
 
 	var response DeleteDatastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "DeleteDatastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -372,7 +372,7 @@ func (client DatastoreClient) getDatastore(ctx context.Context, request common.O
 
 	var response GetDatastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "GetDatastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -427,7 +427,7 @@ func (client DatastoreClient) listDatastores(ctx context.Context, request common
 
 	var response ListDatastoresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "ListDatastores")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -483,7 +483,7 @@ func (client DatastoreClient) updateDatastore(ctx context.Context, request commo
 
 	var response UpdateDatastoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "datastore", "UpdateDatastore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

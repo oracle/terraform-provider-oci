@@ -11,15 +11,16 @@ package loganalytics
 
 import (
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm)
+	// (https://docs.us-phoenix-1.oraclecloud.com/Content/API/References/apierrors.htm)
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.

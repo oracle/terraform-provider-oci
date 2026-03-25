@@ -14,7 +14,7 @@ import (
 // SetFeatureBundleRequest wrapper for the SetFeatureBundle operation
 type SetFeatureBundleRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Input payload for the feature set of an Analytics instance.

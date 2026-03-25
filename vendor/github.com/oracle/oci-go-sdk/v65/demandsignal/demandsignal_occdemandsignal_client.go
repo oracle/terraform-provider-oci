@@ -67,7 +67,7 @@ func newOccDemandSignalClientFromBaseClient(baseClient common.BaseClient, config
 
 // SetRegion overrides the region of this client.
 func (client *OccDemandSignalClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("demandsignal", "https://control-center-ds${dash_stage_suffix}.{region}.oci.{secondLevelDomain}", "control-center-ds${dash_stage_suffix}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("demandsignal", "https://control-center-ds.{region}.oci.{secondLevelDomain}", "control-center-ds")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -133,11 +133,11 @@ func (client OccDemandSignalClient) changeOccDemandSignalCompartment(ctx context
 
 	var response ChangeOccDemandSignalCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "ChangeOccDemandSignalCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/ChangeOccDemandSignalCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "ChangeOccDemandSignalCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -192,11 +192,11 @@ func (client OccDemandSignalClient) createOccDemandSignal(ctx context.Context, r
 
 	var response CreateOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "CreateOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/CreateOccDemandSignal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "CreateOccDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -246,11 +246,11 @@ func (client OccDemandSignalClient) deleteOccDemandSignal(ctx context.Context, r
 
 	var response DeleteOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "DeleteOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/DeleteOccDemandSignal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "DeleteOccDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -300,11 +300,11 @@ func (client OccDemandSignalClient) getOccDemandSignal(ctx context.Context, requ
 
 	var response GetOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "GetOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/GetOccDemandSignal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "GetOccDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -354,11 +354,11 @@ func (client OccDemandSignalClient) listOccDemandSignals(ctx context.Context, re
 
 	var response ListOccDemandSignalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "ListOccDemandSignals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignalCollection/ListOccDemandSignals"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "ListOccDemandSignals", apiReferenceLink)
 		return response, err
 	}
@@ -408,11 +408,11 @@ func (client OccDemandSignalClient) patchOccDemandSignal(ctx context.Context, re
 
 	var response PatchOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "PatchOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/PatchOccDemandSignal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "PatchOccDemandSignal", apiReferenceLink)
 		return response, err
 	}
@@ -462,11 +462,11 @@ func (client OccDemandSignalClient) updateOccDemandSignal(ctx context.Context, r
 
 	var response UpdateOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "UpdateOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occds/20240430/OccDemandSignal/UpdateOccDemandSignal"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OccDemandSignal", "UpdateOccDemandSignal", apiReferenceLink)
 		return response, err
 	}

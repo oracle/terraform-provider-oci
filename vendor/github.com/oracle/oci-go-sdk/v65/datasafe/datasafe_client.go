@@ -137,7 +137,7 @@ func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request
 
 	var response ActivateTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ActivateTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 
 	var response AddMaskingColumnsFromSdmResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "AddMaskingColumnsFromSdm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -253,7 +253,7 @@ func (client DataSafeClient) alertsUpdate(ctx context.Context, request common.OC
 
 	var response AlertsUpdateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "AlertsUpdate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client DataSafeClient) applyDiscoveryJobResults(ctx context.Context, reque
 
 	var response ApplyDiscoveryJobResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ApplyDiscoveryJobResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -374,7 +374,7 @@ func (client DataSafeClient) applySdmMaskingPolicyDifference(ctx context.Context
 
 	var response ApplySdmMaskingPolicyDifferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ApplySdmMaskingPolicyDifference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -433,7 +433,7 @@ func (client DataSafeClient) applySecurityAssessmentTemplate(ctx context.Context
 
 	var response ApplySecurityAssessmentTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ApplySecurityAssessmentTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -487,7 +487,7 @@ func (client DataSafeClient) bulkCreateSensitiveTypes(ctx context.Context, reque
 
 	var response BulkCreateSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "BulkCreateSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -546,7 +546,7 @@ func (client DataSafeClient) bulkCreateSqlFirewallAllowedSqls(ctx context.Contex
 
 	var response BulkCreateSqlFirewallAllowedSqlsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "BulkCreateSqlFirewallAllowedSqls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -605,7 +605,7 @@ func (client DataSafeClient) bulkCreateUnifiedAuditPolicy(ctx context.Context, r
 
 	var response BulkCreateUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "BulkCreateUnifiedAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -659,7 +659,7 @@ func (client DataSafeClient) bulkDeleteSqlFirewallAllowedSqls(ctx context.Contex
 
 	var response BulkDeleteSqlFirewallAllowedSqlsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "BulkDeleteSqlFirewallAllowedSqls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -718,7 +718,7 @@ func (client DataSafeClient) calculateAuditVolumeAvailable(ctx context.Context, 
 
 	var response CalculateAuditVolumeAvailableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CalculateAuditVolumeAvailable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -777,7 +777,7 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 
 	var response CalculateAuditVolumeCollectedResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CalculateAuditVolumeCollected")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -831,7 +831,7 @@ func (client DataSafeClient) cancelWorkRequest(ctx context.Context, request comm
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -890,7 +890,7 @@ func (client DataSafeClient) changeAlertCompartment(ctx context.Context, request
 
 	var response ChangeAlertCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAlertCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -949,7 +949,7 @@ func (client DataSafeClient) changeAlertPolicyCompartment(ctx context.Context, r
 
 	var response ChangeAlertPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAlertPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1008,7 +1008,7 @@ func (client DataSafeClient) changeAttributeSetCompartment(ctx context.Context, 
 
 	var response ChangeAttributeSetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAttributeSetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1067,7 +1067,7 @@ func (client DataSafeClient) changeAuditArchiveRetrievalCompartment(ctx context.
 
 	var response ChangeAuditArchiveRetrievalCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAuditArchiveRetrievalCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1126,7 +1126,7 @@ func (client DataSafeClient) changeAuditPolicyCompartment(ctx context.Context, r
 
 	var response ChangeAuditPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAuditPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1185,7 +1185,7 @@ func (client DataSafeClient) changeAuditProfileCompartment(ctx context.Context, 
 
 	var response ChangeAuditProfileCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeAuditProfileCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1239,7 +1239,7 @@ func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx contex
 
 	var response ChangeDataSafePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeDataSafePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1298,7 +1298,7 @@ func (client DataSafeClient) changeDatabaseSecurityConfigCompartment(ctx context
 
 	var response ChangeDatabaseSecurityConfigCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeDatabaseSecurityConfigCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1357,7 +1357,7 @@ func (client DataSafeClient) changeDiscoveryJobCompartment(ctx context.Context, 
 
 	var response ChangeDiscoveryJobCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeDiscoveryJobCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1416,7 +1416,7 @@ func (client DataSafeClient) changeLibraryMaskingFormatCompartment(ctx context.C
 
 	var response ChangeLibraryMaskingFormatCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeLibraryMaskingFormatCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1475,7 +1475,7 @@ func (client DataSafeClient) changeMaskingPolicyCompartment(ctx context.Context,
 
 	var response ChangeMaskingPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeMaskingPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1534,7 +1534,7 @@ func (client DataSafeClient) changeMaskingPolicyHealthReportCompartment(ctx cont
 
 	var response ChangeMaskingPolicyHealthReportCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeMaskingPolicyHealthReportCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1593,7 +1593,7 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 
 	var response ChangeOnPremConnectorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeOnPremConnectorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1711,7 +1711,7 @@ func (client DataSafeClient) changeReportCompartment(ctx context.Context, reques
 
 	var response ChangeReportCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeReportCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1770,7 +1770,7 @@ func (client DataSafeClient) changeReportDefinitionCompartment(ctx context.Conte
 
 	var response ChangeReportDefinitionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeReportDefinitionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1829,7 +1829,7 @@ func (client DataSafeClient) changeRetention(ctx context.Context, request common
 
 	var response ChangeRetentionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeRetention")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1888,7 +1888,7 @@ func (client DataSafeClient) changeSdmMaskingPolicyDifferenceCompartment(ctx con
 
 	var response ChangeSdmMaskingPolicyDifferenceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSdmMaskingPolicyDifferenceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1949,7 +1949,7 @@ func (client DataSafeClient) changeSecurityAssessmentCompartment(ctx context.Con
 
 	var response ChangeSecurityAssessmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSecurityAssessmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2008,7 +2008,7 @@ func (client DataSafeClient) changeSecurityPolicyCompartment(ctx context.Context
 
 	var response ChangeSecurityPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSecurityPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2067,7 +2067,7 @@ func (client DataSafeClient) changeSecurityPolicyConfigCompartment(ctx context.C
 
 	var response ChangeSecurityPolicyConfigCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSecurityPolicyConfigCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2126,7 +2126,7 @@ func (client DataSafeClient) changeSecurityPolicyDeploymentCompartment(ctx conte
 
 	var response ChangeSecurityPolicyDeploymentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSecurityPolicyDeploymentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2185,7 +2185,7 @@ func (client DataSafeClient) changeSensitiveDataModelCompartment(ctx context.Con
 
 	var response ChangeSensitiveDataModelCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSensitiveDataModelCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2244,7 +2244,7 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 
 	var response ChangeSensitiveTypeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSensitiveTypeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2303,7 +2303,7 @@ func (client DataSafeClient) changeSensitiveTypeGroupCompartment(ctx context.Con
 
 	var response ChangeSensitiveTypeGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSensitiveTypeGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2362,7 +2362,7 @@ func (client DataSafeClient) changeSensitiveTypesExportCompartment(ctx context.C
 
 	var response ChangeSensitiveTypesExportCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSensitiveTypesExportCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2421,7 +2421,7 @@ func (client DataSafeClient) changeSqlCollectionCompartment(ctx context.Context,
 
 	var response ChangeSqlCollectionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSqlCollectionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2480,7 +2480,7 @@ func (client DataSafeClient) changeSqlFirewallPolicyCompartment(ctx context.Cont
 
 	var response ChangeSqlFirewallPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSqlFirewallPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2539,7 +2539,7 @@ func (client DataSafeClient) changeTargetAlertPolicyAssociationCompartment(ctx c
 
 	var response ChangeTargetAlertPolicyAssociationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeTargetAlertPolicyAssociationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2598,7 +2598,7 @@ func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context
 
 	var response ChangeTargetDatabaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeTargetDatabaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2657,7 +2657,7 @@ func (client DataSafeClient) changeTargetDatabaseGroupCompartment(ctx context.Co
 
 	var response ChangeTargetDatabaseGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeTargetDatabaseGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2716,7 +2716,7 @@ func (client DataSafeClient) changeUnifiedAuditPolicyCompartment(ctx context.Con
 
 	var response ChangeUnifiedAuditPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeUnifiedAuditPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2775,7 +2775,7 @@ func (client DataSafeClient) changeUnifiedAuditPolicyDefinitionCompartment(ctx c
 
 	var response ChangeUnifiedAuditPolicyDefinitionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeUnifiedAuditPolicyDefinitionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2838,7 +2838,7 @@ func (client DataSafeClient) changeUserAssessmentCompartment(ctx context.Context
 
 	var response ChangeUserAssessmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeUserAssessmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2898,7 +2898,7 @@ func (client DataSafeClient) compareSecurityAssessment(ctx context.Context, requ
 
 	var response CompareSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CompareSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2957,7 +2957,7 @@ func (client DataSafeClient) compareToTemplateBaseline(ctx context.Context, requ
 
 	var response CompareToTemplateBaselineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CompareToTemplateBaseline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3017,7 +3017,7 @@ func (client DataSafeClient) compareUserAssessment(ctx context.Context, request 
 
 	var response CompareUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CompareUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3076,7 +3076,7 @@ func (client DataSafeClient) createAlertPolicy(ctx context.Context, request comm
 
 	var response CreateAlertPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateAlertPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3135,7 +3135,7 @@ func (client DataSafeClient) createAlertPolicyRule(ctx context.Context, request 
 
 	var response CreateAlertPolicyRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateAlertPolicyRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3194,7 +3194,7 @@ func (client DataSafeClient) createAttributeSet(ctx context.Context, request com
 
 	var response CreateAttributeSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateAttributeSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3255,7 +3255,7 @@ func (client DataSafeClient) createAuditArchiveRetrieval(ctx context.Context, re
 
 	var response CreateAuditArchiveRetrievalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateAuditArchiveRetrieval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3314,7 +3314,7 @@ func (client DataSafeClient) createAuditProfile(ctx context.Context, request com
 
 	var response CreateAuditProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateAuditProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3373,7 +3373,7 @@ func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, 
 
 	var response CreateDataSafePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateDataSafePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3436,7 +3436,7 @@ func (client DataSafeClient) createDiscoveryJob(ctx context.Context, request com
 
 	var response CreateDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3499,7 +3499,7 @@ func (client DataSafeClient) createLibraryMaskingFormat(ctx context.Context, req
 
 	var response CreateLibraryMaskingFormatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateLibraryMaskingFormat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3575,7 +3575,7 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 
 	var response CreateMaskingColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateMaskingColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3647,7 +3647,7 @@ func (client DataSafeClient) createMaskingPolicy(ctx context.Context, request co
 
 	var response CreateMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateMaskingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3706,7 +3706,7 @@ func (client DataSafeClient) createOnPremConnector(ctx context.Context, request 
 
 	var response CreateOnPremConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateOnPremConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3765,7 +3765,7 @@ func (client DataSafeClient) createPeerTargetDatabase(ctx context.Context, reque
 
 	var response CreatePeerTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreatePeerTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3824,7 +3824,7 @@ func (client DataSafeClient) createReferentialRelation(ctx context.Context, requ
 
 	var response CreateReferentialRelationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateReferentialRelation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3942,7 +3942,7 @@ func (client DataSafeClient) createReportDefinition(ctx context.Context, request
 
 	var response CreateReportDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateReportDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4005,7 +4005,7 @@ func (client DataSafeClient) createSdmMaskingPolicyDifference(ctx context.Contex
 
 	var response CreateSdmMaskingPolicyDifferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSdmMaskingPolicyDifference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4066,7 +4066,7 @@ func (client DataSafeClient) createSecurityAssessment(ctx context.Context, reque
 
 	var response CreateSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4125,7 +4125,7 @@ func (client DataSafeClient) createSecurityPolicy(ctx context.Context, request c
 
 	var response CreateSecurityPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSecurityPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4184,7 +4184,7 @@ func (client DataSafeClient) createSecurityPolicyConfig(ctx context.Context, req
 
 	var response CreateSecurityPolicyConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSecurityPolicyConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4243,7 +4243,7 @@ func (client DataSafeClient) createSecurityPolicyDeployment(ctx context.Context,
 
 	var response CreateSecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4302,7 +4302,7 @@ func (client DataSafeClient) createSensitiveColumn(ctx context.Context, request 
 
 	var response CreateSensitiveColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSensitiveColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4363,7 +4363,7 @@ func (client DataSafeClient) createSensitiveDataModel(ctx context.Context, reque
 
 	var response CreateSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSensitiveDataModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4424,7 +4424,7 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 
 	var response CreateSensitiveTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSensitiveType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4483,7 +4483,7 @@ func (client DataSafeClient) createSensitiveTypeGroup(ctx context.Context, reque
 
 	var response CreateSensitiveTypeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSensitiveTypeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4544,7 +4544,7 @@ func (client DataSafeClient) createSensitiveTypesExport(ctx context.Context, req
 
 	var response CreateSensitiveTypesExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSensitiveTypesExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4603,7 +4603,7 @@ func (client DataSafeClient) createSqlCollection(ctx context.Context, request co
 
 	var response CreateSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4662,7 +4662,7 @@ func (client DataSafeClient) createTargetAlertPolicyAssociation(ctx context.Cont
 
 	var response CreateTargetAlertPolicyAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateTargetAlertPolicyAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4721,7 +4721,7 @@ func (client DataSafeClient) createTargetDatabase(ctx context.Context, request c
 
 	var response CreateTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4780,7 +4780,7 @@ func (client DataSafeClient) createTargetDatabaseGroup(ctx context.Context, requ
 
 	var response CreateTargetDatabaseGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateTargetDatabaseGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4839,7 +4839,7 @@ func (client DataSafeClient) createUnifiedAuditPolicy(ctx context.Context, reque
 
 	var response CreateUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateUnifiedAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4900,7 +4900,7 @@ func (client DataSafeClient) createUserAssessment(ctx context.Context, request c
 
 	var response CreateUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4959,7 +4959,7 @@ func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, reque
 
 	var response DeactivateTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeactivateTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5013,7 +5013,7 @@ func (client DataSafeClient) deleteAlertPolicy(ctx context.Context, request comm
 
 	var response DeleteAlertPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAlertPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5067,7 +5067,7 @@ func (client DataSafeClient) deleteAlertPolicyRule(ctx context.Context, request 
 
 	var response DeleteAlertPolicyRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAlertPolicyRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5121,7 +5121,7 @@ func (client DataSafeClient) deleteAttributeSet(ctx context.Context, request com
 
 	var response DeleteAttributeSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAttributeSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5176,7 +5176,7 @@ func (client DataSafeClient) deleteAuditArchiveRetrieval(ctx context.Context, re
 
 	var response DeleteAuditArchiveRetrievalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAuditArchiveRetrieval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5231,7 +5231,7 @@ func (client DataSafeClient) deleteAuditProfile(ctx context.Context, request com
 
 	var response DeleteAuditProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAuditProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5285,7 +5285,7 @@ func (client DataSafeClient) deleteAuditTrail(ctx context.Context, request commo
 
 	var response DeleteAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5339,7 +5339,7 @@ func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, 
 
 	var response DeleteDataSafePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteDataSafePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5393,7 +5393,7 @@ func (client DataSafeClient) deleteDiscoveryJob(ctx context.Context, request com
 
 	var response DeleteDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5447,7 +5447,7 @@ func (client DataSafeClient) deleteDiscoveryJobResult(ctx context.Context, reque
 
 	var response DeleteDiscoveryJobResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteDiscoveryJobResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5501,7 +5501,7 @@ func (client DataSafeClient) deleteLibraryMaskingFormat(ctx context.Context, req
 
 	var response DeleteLibraryMaskingFormatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteLibraryMaskingFormat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5555,7 +5555,7 @@ func (client DataSafeClient) deleteMaskingColumn(ctx context.Context, request co
 
 	var response DeleteMaskingColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteMaskingColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5609,7 +5609,7 @@ func (client DataSafeClient) deleteMaskingPolicy(ctx context.Context, request co
 
 	var response DeleteMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteMaskingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5663,7 +5663,7 @@ func (client DataSafeClient) deleteMaskingPolicyHealthReport(ctx context.Context
 
 	var response DeleteMaskingPolicyHealthReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteMaskingPolicyHealthReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5717,7 +5717,7 @@ func (client DataSafeClient) deleteMaskingReport(ctx context.Context, request co
 
 	var response DeleteMaskingReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteMaskingReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5771,7 +5771,7 @@ func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request 
 
 	var response DeleteOnPremConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteOnPremConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5825,7 +5825,7 @@ func (client DataSafeClient) deletePeerTargetDatabase(ctx context.Context, reque
 
 	var response DeletePeerTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeletePeerTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5879,7 +5879,7 @@ func (client DataSafeClient) deleteReferentialRelation(ctx context.Context, requ
 
 	var response DeleteReferentialRelationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteReferentialRelation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5987,7 +5987,7 @@ func (client DataSafeClient) deleteReportDefinition(ctx context.Context, request
 
 	var response DeleteReportDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteReportDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6041,7 +6041,7 @@ func (client DataSafeClient) deleteSdmMaskingPolicyDifference(ctx context.Contex
 
 	var response DeleteSdmMaskingPolicyDifferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSdmMaskingPolicyDifference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6098,7 +6098,7 @@ func (client DataSafeClient) deleteSecurityAssessment(ctx context.Context, reque
 
 	var response DeleteSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6152,7 +6152,7 @@ func (client DataSafeClient) deleteSecurityPolicy(ctx context.Context, request c
 
 	var response DeleteSecurityPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSecurityPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6206,7 +6206,7 @@ func (client DataSafeClient) deleteSecurityPolicyConfig(ctx context.Context, req
 
 	var response DeleteSecurityPolicyConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSecurityPolicyConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6260,7 +6260,7 @@ func (client DataSafeClient) deleteSecurityPolicyDeployment(ctx context.Context,
 
 	var response DeleteSecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6314,7 +6314,7 @@ func (client DataSafeClient) deleteSensitiveColumn(ctx context.Context, request 
 
 	var response DeleteSensitiveColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSensitiveColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6368,7 +6368,7 @@ func (client DataSafeClient) deleteSensitiveDataModel(ctx context.Context, reque
 
 	var response DeleteSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSensitiveDataModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6422,7 +6422,7 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 
 	var response DeleteSensitiveTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSensitiveType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6476,7 +6476,7 @@ func (client DataSafeClient) deleteSensitiveTypeGroup(ctx context.Context, reque
 
 	var response DeleteSensitiveTypeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSensitiveTypeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6530,7 +6530,7 @@ func (client DataSafeClient) deleteSensitiveTypesExport(ctx context.Context, req
 
 	var response DeleteSensitiveTypesExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSensitiveTypesExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6584,7 +6584,7 @@ func (client DataSafeClient) deleteSqlCollection(ctx context.Context, request co
 
 	var response DeleteSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6638,7 +6638,7 @@ func (client DataSafeClient) deleteSqlFirewallAllowedSql(ctx context.Context, re
 
 	var response DeleteSqlFirewallAllowedSqlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSqlFirewallAllowedSql")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6692,7 +6692,7 @@ func (client DataSafeClient) deleteSqlFirewallPolicy(ctx context.Context, reques
 
 	var response DeleteSqlFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSqlFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6746,7 +6746,7 @@ func (client DataSafeClient) deleteTargetAlertPolicyAssociation(ctx context.Cont
 
 	var response DeleteTargetAlertPolicyAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteTargetAlertPolicyAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6800,7 +6800,7 @@ func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request c
 
 	var response DeleteTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6854,7 +6854,7 @@ func (client DataSafeClient) deleteTargetDatabaseGroup(ctx context.Context, requ
 
 	var response DeleteTargetDatabaseGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteTargetDatabaseGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6908,7 +6908,7 @@ func (client DataSafeClient) deleteUnifiedAuditPolicy(ctx context.Context, reque
 
 	var response DeleteUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteUnifiedAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6962,7 +6962,7 @@ func (client DataSafeClient) deleteUnifiedAuditPolicyDefinition(ctx context.Cont
 
 	var response DeleteUnifiedAuditPolicyDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteUnifiedAuditPolicyDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7019,7 +7019,7 @@ func (client DataSafeClient) deleteUserAssessment(ctx context.Context, request c
 
 	var response DeleteUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7078,7 +7078,7 @@ func (client DataSafeClient) deploySecurityPolicyDeployment(ctx context.Context,
 
 	var response DeploySecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeploySecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7140,7 +7140,7 @@ func (client DataSafeClient) discoverAuditTrails(ctx context.Context, request co
 
 	var response DiscoverAuditTrailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DiscoverAuditTrails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7197,7 +7197,7 @@ func (client DataSafeClient) downloadDiscoveryReport(ctx context.Context, reques
 
 	var response DownloadDiscoveryReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadDiscoveryReport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DownloadDiscoveryReport"
@@ -7250,7 +7250,7 @@ func (client DataSafeClient) downloadMaskingLog(ctx context.Context, request com
 
 	var response DownloadMaskingLogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadMaskingLog")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingLog"
@@ -7306,7 +7306,7 @@ func (client DataSafeClient) downloadMaskingPolicy(ctx context.Context, request 
 
 	var response DownloadMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadMaskingPolicy")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingPolicy"
@@ -7361,7 +7361,7 @@ func (client DataSafeClient) downloadMaskingReport(ctx context.Context, request 
 
 	var response DownloadMaskingReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadMaskingReport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/DownloadMaskingReport"
@@ -7419,7 +7419,7 @@ func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, reques
 
 	var response DownloadPrivilegeScriptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadPrivilegeScript")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/DownloadPrivilegeScript"
@@ -7478,7 +7478,7 @@ func (client DataSafeClient) downloadSecurityAssessmentReport(ctx context.Contex
 
 	var response DownloadSecurityAssessmentReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSecurityAssessmentReport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/DownloadSecurityAssessmentReport"
@@ -7534,7 +7534,7 @@ func (client DataSafeClient) downloadSensitiveDataModel(ctx context.Context, req
 
 	var response DownloadSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSensitiveDataModel")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DownloadSensitiveDataModel"
@@ -7589,7 +7589,7 @@ func (client DataSafeClient) downloadSensitiveTypesExport(ctx context.Context, r
 
 	var response DownloadSensitiveTypesExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSensitiveTypesExport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/DownloadSensitiveTypesExport"
@@ -7648,7 +7648,7 @@ func (client DataSafeClient) downloadUserAssessmentReport(ctx context.Context, r
 
 	var response DownloadUserAssessmentReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadUserAssessmentReport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/DownloadUserAssessmentReport"
@@ -7701,7 +7701,7 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 
 	var response EnableDataSafeConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "EnableDataSafeConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7758,7 +7758,7 @@ func (client DataSafeClient) generateDiscoveryReportForDownload(ctx context.Cont
 
 	var response GenerateDiscoveryReportForDownloadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateDiscoveryReportForDownload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7817,7 +7817,7 @@ func (client DataSafeClient) generateHealthReport(ctx context.Context, request c
 
 	var response GenerateHealthReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateHealthReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7875,7 +7875,7 @@ func (client DataSafeClient) generateMaskingPolicyForDownload(ctx context.Contex
 
 	var response GenerateMaskingPolicyForDownloadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateMaskingPolicyForDownload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7932,7 +7932,7 @@ func (client DataSafeClient) generateMaskingReportForDownload(ctx context.Contex
 
 	var response GenerateMaskingReportForDownloadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateMaskingReportForDownload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7991,7 +7991,7 @@ func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Co
 
 	var response GenerateOnPremConnectorConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateOnPremConnectorConfiguration")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/GenerateOnPremConnectorConfiguration"
@@ -8049,7 +8049,7 @@ func (client DataSafeClient) generateReport(ctx context.Context, request common.
 
 	var response GenerateReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8109,7 +8109,7 @@ func (client DataSafeClient) generateSecurityAssessmentReport(ctx context.Contex
 
 	var response GenerateSecurityAssessmentReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSecurityAssessmentReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8166,7 +8166,7 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 
 	var response GenerateSensitiveDataModelForDownloadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSensitiveDataModelForDownload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8225,7 +8225,7 @@ func (client DataSafeClient) generateSqlFirewallPolicy(ctx context.Context, requ
 
 	var response GenerateSqlFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSqlFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8285,7 +8285,7 @@ func (client DataSafeClient) generateUserAssessmentReport(ctx context.Context, r
 
 	var response GenerateUserAssessmentReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateUserAssessmentReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8339,7 +8339,7 @@ func (client DataSafeClient) getAlert(ctx context.Context, request common.OCIReq
 
 	var response GetAlertResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAlert")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8393,7 +8393,7 @@ func (client DataSafeClient) getAlertPolicy(ctx context.Context, request common.
 
 	var response GetAlertPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAlertPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8447,7 +8447,7 @@ func (client DataSafeClient) getAlertPolicyRule(ctx context.Context, request com
 
 	var response GetAlertPolicyRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAlertPolicyRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8501,7 +8501,7 @@ func (client DataSafeClient) getAttributeSet(ctx context.Context, request common
 
 	var response GetAttributeSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAttributeSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8555,7 +8555,7 @@ func (client DataSafeClient) getAuditArchiveRetrieval(ctx context.Context, reque
 
 	var response GetAuditArchiveRetrievalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAuditArchiveRetrieval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8609,7 +8609,7 @@ func (client DataSafeClient) getAuditPolicy(ctx context.Context, request common.
 
 	var response GetAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8663,7 +8663,7 @@ func (client DataSafeClient) getAuditProfile(ctx context.Context, request common
 
 	var response GetAuditProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAuditProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8717,7 +8717,7 @@ func (client DataSafeClient) getAuditTrail(ctx context.Context, request common.O
 
 	var response GetAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8777,7 +8777,7 @@ func (client DataSafeClient) getCompatibleFormatsForDataTypes(ctx context.Contex
 
 	var response GetCompatibleFormatsForDataTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetCompatibleFormatsForDataTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8834,7 +8834,7 @@ func (client DataSafeClient) getCompatibleFormatsForSensitiveTypes(ctx context.C
 
 	var response GetCompatibleFormatsForSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetCompatibleFormatsForSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8888,7 +8888,7 @@ func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, reque
 
 	var response GetDataSafeConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDataSafeConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8942,7 +8942,7 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 
 	var response GetDataSafePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDataSafePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8996,7 +8996,7 @@ func (client DataSafeClient) getDatabaseSecurityConfig(ctx context.Context, requ
 
 	var response GetDatabaseSecurityConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDatabaseSecurityConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9050,7 +9050,7 @@ func (client DataSafeClient) getDatabaseTableAccessEntry(ctx context.Context, re
 
 	var response GetDatabaseTableAccessEntryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDatabaseTableAccessEntry")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9104,7 +9104,7 @@ func (client DataSafeClient) getDatabaseViewAccessEntry(ctx context.Context, req
 
 	var response GetDatabaseViewAccessEntryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDatabaseViewAccessEntry")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9158,7 +9158,7 @@ func (client DataSafeClient) getDifferenceColumn(ctx context.Context, request co
 
 	var response GetDifferenceColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDifferenceColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9212,7 +9212,7 @@ func (client DataSafeClient) getDiscoveryJob(ctx context.Context, request common
 
 	var response GetDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9266,7 +9266,7 @@ func (client DataSafeClient) getDiscoveryJobResult(ctx context.Context, request 
 
 	var response GetDiscoveryJobResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetDiscoveryJobResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9320,7 +9320,7 @@ func (client DataSafeClient) getGroupMembers(ctx context.Context, request common
 
 	var response GetGroupMembersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetGroupMembers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9374,7 +9374,7 @@ func (client DataSafeClient) getLibraryMaskingFormat(ctx context.Context, reques
 
 	var response GetLibraryMaskingFormatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetLibraryMaskingFormat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9428,7 +9428,7 @@ func (client DataSafeClient) getMaskingColumn(ctx context.Context, request commo
 
 	var response GetMaskingColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetMaskingColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9482,7 +9482,7 @@ func (client DataSafeClient) getMaskingPolicy(ctx context.Context, request commo
 
 	var response GetMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetMaskingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9536,7 +9536,7 @@ func (client DataSafeClient) getMaskingPolicyHealthReport(ctx context.Context, r
 
 	var response GetMaskingPolicyHealthReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetMaskingPolicyHealthReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9590,7 +9590,7 @@ func (client DataSafeClient) getMaskingReport(ctx context.Context, request commo
 
 	var response GetMaskingReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetMaskingReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9644,7 +9644,7 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 
 	var response GetOnPremConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetOnPremConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9698,7 +9698,7 @@ func (client DataSafeClient) getPeerTargetDatabase(ctx context.Context, request 
 
 	var response GetPeerTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetPeerTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9754,7 +9754,7 @@ func (client DataSafeClient) getProfile(ctx context.Context, request common.OCIR
 
 	var response GetProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9808,7 +9808,7 @@ func (client DataSafeClient) getReferentialRelation(ctx context.Context, request
 
 	var response GetReferentialRelationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetReferentialRelation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9916,7 +9916,7 @@ func (client DataSafeClient) getReport(ctx context.Context, request common.OCIRe
 
 	var response GetReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9970,7 +9970,7 @@ func (client DataSafeClient) getReportContent(ctx context.Context, request commo
 
 	var response GetReportContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetReportContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Report/GetReportContent"
@@ -10023,7 +10023,7 @@ func (client DataSafeClient) getReportDefinition(ctx context.Context, request co
 
 	var response GetReportDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetReportDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10077,7 +10077,7 @@ func (client DataSafeClient) getSdmMaskingPolicyDifference(ctx context.Context, 
 
 	var response GetSdmMaskingPolicyDifferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSdmMaskingPolicyDifference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10131,7 +10131,7 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 
 	var response GetSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10185,7 +10185,7 @@ func (client DataSafeClient) getSecurityAssessmentComparison(ctx context.Context
 
 	var response GetSecurityAssessmentComparisonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityAssessmentComparison")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10239,7 +10239,7 @@ func (client DataSafeClient) getSecurityPolicy(ctx context.Context, request comm
 
 	var response GetSecurityPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10293,7 +10293,7 @@ func (client DataSafeClient) getSecurityPolicyConfig(ctx context.Context, reques
 
 	var response GetSecurityPolicyConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityPolicyConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10347,7 +10347,7 @@ func (client DataSafeClient) getSecurityPolicyDeployment(ctx context.Context, re
 
 	var response GetSecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10401,7 +10401,7 @@ func (client DataSafeClient) getSecurityPolicyEntryState(ctx context.Context, re
 
 	var response GetSecurityPolicyEntryStateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityPolicyEntryState")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10455,7 +10455,7 @@ func (client DataSafeClient) getSecurityPolicyReport(ctx context.Context, reques
 
 	var response GetSecurityPolicyReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSecurityPolicyReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10509,7 +10509,7 @@ func (client DataSafeClient) getSensitiveColumn(ctx context.Context, request com
 
 	var response GetSensitiveColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSensitiveColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10563,7 +10563,7 @@ func (client DataSafeClient) getSensitiveDataModel(ctx context.Context, request 
 
 	var response GetSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSensitiveDataModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10617,7 +10617,7 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 
 	var response GetSensitiveTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSensitiveType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10671,7 +10671,7 @@ func (client DataSafeClient) getSensitiveTypeGroup(ctx context.Context, request 
 
 	var response GetSensitiveTypeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSensitiveTypeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10725,7 +10725,7 @@ func (client DataSafeClient) getSensitiveTypesExport(ctx context.Context, reques
 
 	var response GetSensitiveTypesExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSensitiveTypesExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10779,7 +10779,7 @@ func (client DataSafeClient) getSqlCollection(ctx context.Context, request commo
 
 	var response GetSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10833,7 +10833,7 @@ func (client DataSafeClient) getSqlFirewallAllowedSql(ctx context.Context, reque
 
 	var response GetSqlFirewallAllowedSqlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSqlFirewallAllowedSql")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10887,7 +10887,7 @@ func (client DataSafeClient) getSqlFirewallPolicy(ctx context.Context, request c
 
 	var response GetSqlFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSqlFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10941,7 +10941,7 @@ func (client DataSafeClient) getTargetAlertPolicyAssociation(ctx context.Context
 
 	var response GetTargetAlertPolicyAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetTargetAlertPolicyAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -10995,7 +10995,7 @@ func (client DataSafeClient) getTargetDatabase(ctx context.Context, request comm
 
 	var response GetTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11049,7 +11049,7 @@ func (client DataSafeClient) getTargetDatabaseGroup(ctx context.Context, request
 
 	var response GetTargetDatabaseGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetTargetDatabaseGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11103,7 +11103,7 @@ func (client DataSafeClient) getTemplateBaselineComparison(ctx context.Context, 
 
 	var response GetTemplateBaselineComparisonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetTemplateBaselineComparison")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11157,7 +11157,7 @@ func (client DataSafeClient) getUnifiedAuditPolicy(ctx context.Context, request 
 
 	var response GetUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetUnifiedAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11211,7 +11211,7 @@ func (client DataSafeClient) getUnifiedAuditPolicyDefinition(ctx context.Context
 
 	var response GetUnifiedAuditPolicyDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetUnifiedAuditPolicyDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11265,7 +11265,7 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 
 	var response GetUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11319,7 +11319,7 @@ func (client DataSafeClient) getUserAssessmentComparison(ctx context.Context, re
 
 	var response GetUserAssessmentComparisonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetUserAssessmentComparison")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11373,7 +11373,7 @@ func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11432,7 +11432,7 @@ func (client DataSafeClient) listAlertAnalytics(ctx context.Context, request com
 
 	var response ListAlertAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAlertAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11486,7 +11486,7 @@ func (client DataSafeClient) listAlertPolicies(ctx context.Context, request comm
 
 	var response ListAlertPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAlertPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11541,7 +11541,7 @@ func (client DataSafeClient) listAlertPolicyRules(ctx context.Context, request c
 
 	var response ListAlertPolicyRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAlertPolicyRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11595,7 +11595,7 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 
 	var response ListAlertsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAlerts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11654,7 +11654,7 @@ func (client DataSafeClient) listAssociatedResources(ctx context.Context, reques
 
 	var response ListAssociatedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAssociatedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11718,7 +11718,7 @@ func (client DataSafeClient) listAttributeSets(ctx context.Context, request comm
 
 	var response ListAttributeSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAttributeSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11772,7 +11772,7 @@ func (client DataSafeClient) listAuditArchiveRetrievals(ctx context.Context, req
 
 	var response ListAuditArchiveRetrievalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditArchiveRetrievals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11840,7 +11840,7 @@ func (client DataSafeClient) listAuditEventAnalytics(ctx context.Context, reques
 
 	var response ListAuditEventAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditEventAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11904,7 +11904,7 @@ func (client DataSafeClient) listAuditEvents(ctx context.Context, request common
 
 	var response ListAuditEventsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditEvents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -11969,7 +11969,7 @@ func (client DataSafeClient) listAuditPolicies(ctx context.Context, request comm
 
 	var response ListAuditPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12035,7 +12035,7 @@ func (client DataSafeClient) listAuditPolicyAnalytics(ctx context.Context, reque
 
 	var response ListAuditPolicyAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditPolicyAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12099,7 +12099,7 @@ func (client DataSafeClient) listAuditProfileAnalytics(ctx context.Context, requ
 
 	var response ListAuditProfileAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditProfileAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12164,7 +12164,7 @@ func (client DataSafeClient) listAuditProfiles(ctx context.Context, request comm
 
 	var response ListAuditProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12228,7 +12228,7 @@ func (client DataSafeClient) listAuditTrailAnalytics(ctx context.Context, reques
 
 	var response ListAuditTrailAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditTrailAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12293,7 +12293,7 @@ func (client DataSafeClient) listAuditTrails(ctx context.Context, request common
 
 	var response ListAuditTrailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAuditTrails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12347,7 +12347,7 @@ func (client DataSafeClient) listAvailableAuditVolumes(ctx context.Context, requ
 
 	var response ListAvailableAuditVolumesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListAvailableAuditVolumes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12401,7 +12401,7 @@ func (client DataSafeClient) listChecks(ctx context.Context, request common.OCIR
 
 	var response ListChecksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListChecks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12455,7 +12455,7 @@ func (client DataSafeClient) listCollectedAuditVolumes(ctx context.Context, requ
 
 	var response ListCollectedAuditVolumesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCollectedAuditVolumes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12509,7 +12509,7 @@ func (client DataSafeClient) listColumns(ctx context.Context, request common.OCI
 
 	var response ListColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12563,7 +12563,7 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 
 	var response ListDataSafePrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDataSafePrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12627,7 +12627,7 @@ func (client DataSafeClient) listDatabaseSecurityConfigs(ctx context.Context, re
 
 	var response ListDatabaseSecurityConfigsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDatabaseSecurityConfigs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12682,7 +12682,7 @@ func (client DataSafeClient) listDatabaseTableAccessEntries(ctx context.Context,
 
 	var response ListDatabaseTableAccessEntriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDatabaseTableAccessEntries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12737,7 +12737,7 @@ func (client DataSafeClient) listDatabaseViewAccessEntries(ctx context.Context, 
 
 	var response ListDatabaseViewAccessEntriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDatabaseViewAccessEntries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12791,7 +12791,7 @@ func (client DataSafeClient) listDifferenceColumns(ctx context.Context, request 
 
 	var response ListDifferenceColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDifferenceColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12847,7 +12847,7 @@ func (client DataSafeClient) listDiscoveryAnalytics(ctx context.Context, request
 
 	var response ListDiscoveryAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDiscoveryAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12901,7 +12901,7 @@ func (client DataSafeClient) listDiscoveryJobResults(ctx context.Context, reques
 
 	var response ListDiscoveryJobResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDiscoveryJobResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -12955,7 +12955,7 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 
 	var response ListDiscoveryJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDiscoveryJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13017,7 +13017,7 @@ func (client DataSafeClient) listFindingAnalytics(ctx context.Context, request c
 
 	var response ListFindingAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListFindingAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13071,7 +13071,7 @@ func (client DataSafeClient) listFindings(ctx context.Context, request common.OC
 
 	var response ListFindingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListFindings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13125,7 +13125,7 @@ func (client DataSafeClient) listFindingsChangeAuditLogs(ctx context.Context, re
 
 	var response ListFindingsChangeAuditLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListFindingsChangeAuditLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13182,7 +13182,7 @@ func (client DataSafeClient) listGrants(ctx context.Context, request common.OCIR
 
 	var response ListGrantsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListGrants")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13236,7 +13236,7 @@ func (client DataSafeClient) listGroupedSensitiveTypes(ctx context.Context, requ
 
 	var response ListGroupedSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListGroupedSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13290,7 +13290,7 @@ func (client DataSafeClient) listLibraryMaskingFormats(ctx context.Context, requ
 
 	var response ListLibraryMaskingFormatsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListLibraryMaskingFormats")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13344,7 +13344,7 @@ func (client DataSafeClient) listMaskedColumns(ctx context.Context, request comm
 
 	var response ListMaskedColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskedColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13400,7 +13400,7 @@ func (client DataSafeClient) listMaskingAnalytics(ctx context.Context, request c
 
 	var response ListMaskingAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13454,7 +13454,7 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 
 	var response ListMaskingColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13508,7 +13508,7 @@ func (client DataSafeClient) listMaskingErrors(ctx context.Context, request comm
 
 	var response ListMaskingErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13562,7 +13562,7 @@ func (client DataSafeClient) listMaskingObjects(ctx context.Context, request com
 
 	var response ListMaskingObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13616,7 +13616,7 @@ func (client DataSafeClient) listMaskingPolicies(ctx context.Context, request co
 
 	var response ListMaskingPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13670,7 +13670,7 @@ func (client DataSafeClient) listMaskingPolicyHealthReportLogs(ctx context.Conte
 
 	var response ListMaskingPolicyHealthReportLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingPolicyHealthReportLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13724,7 +13724,7 @@ func (client DataSafeClient) listMaskingPolicyHealthReports(ctx context.Context,
 
 	var response ListMaskingPolicyHealthReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingPolicyHealthReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13778,7 +13778,7 @@ func (client DataSafeClient) listMaskingPolicyReferentialRelations(ctx context.C
 
 	var response ListMaskingPolicyReferentialRelationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingPolicyReferentialRelations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13832,7 +13832,7 @@ func (client DataSafeClient) listMaskingReports(ctx context.Context, request com
 
 	var response ListMaskingReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13886,7 +13886,7 @@ func (client DataSafeClient) listMaskingSchemas(ctx context.Context, request com
 
 	var response ListMaskingSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListMaskingSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -13940,7 +13940,7 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 
 	var response ListOnPremConnectorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListOnPremConnectors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14002,7 +14002,7 @@ func (client DataSafeClient) listPasswordExpiryDateAnalytics(ctx context.Context
 
 	var response ListPasswordExpiryDateAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListPasswordExpiryDateAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14061,7 +14061,7 @@ func (client DataSafeClient) listPeerTargetDatabases(ctx context.Context, reques
 
 	var response ListPeerTargetDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListPeerTargetDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14126,7 +14126,7 @@ func (client DataSafeClient) listProfileAnalytics(ctx context.Context, request c
 
 	var response ListProfileAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListProfileAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14191,7 +14191,7 @@ func (client DataSafeClient) listProfileSummaries(ctx context.Context, request c
 
 	var response ListProfileSummariesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListProfileSummaries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14245,7 +14245,7 @@ func (client DataSafeClient) listReferentialRelations(ctx context.Context, reque
 
 	var response ListReferentialRelationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListReferentialRelations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14355,7 +14355,7 @@ func (client DataSafeClient) listReportDefinitions(ctx context.Context, request 
 
 	var response ListReportDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListReportDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14409,7 +14409,7 @@ func (client DataSafeClient) listReports(ctx context.Context, request common.OCI
 
 	var response ListReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14464,7 +14464,7 @@ func (client DataSafeClient) listRoleGrantPaths(ctx context.Context, request com
 
 	var response ListRoleGrantPathsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListRoleGrantPaths")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14518,7 +14518,7 @@ func (client DataSafeClient) listRoles(ctx context.Context, request common.OCIRe
 
 	var response ListRolesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListRoles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14572,7 +14572,7 @@ func (client DataSafeClient) listSchemas(ctx context.Context, request common.OCI
 
 	var response ListSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14626,7 +14626,7 @@ func (client DataSafeClient) listSdmMaskingPolicyDifferences(ctx context.Context
 
 	var response ListSdmMaskingPolicyDifferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSdmMaskingPolicyDifferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14691,7 +14691,7 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 
 	var response ListSecurityAssessmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityAssessments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14751,7 +14751,7 @@ func (client DataSafeClient) listSecurityFeatureAnalytics(ctx context.Context, r
 
 	var response ListSecurityFeatureAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityFeatureAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14805,7 +14805,7 @@ func (client DataSafeClient) listSecurityFeatures(ctx context.Context, request c
 
 	var response ListSecurityFeaturesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityFeatures")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14869,7 +14869,7 @@ func (client DataSafeClient) listSecurityPolicies(ctx context.Context, request c
 
 	var response ListSecurityPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14933,7 +14933,7 @@ func (client DataSafeClient) listSecurityPolicyConfigs(ctx context.Context, requ
 
 	var response ListSecurityPolicyConfigsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityPolicyConfigs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14997,7 +14997,7 @@ func (client DataSafeClient) listSecurityPolicyDeployments(ctx context.Context, 
 
 	var response ListSecurityPolicyDeploymentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityPolicyDeployments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15052,7 +15052,7 @@ func (client DataSafeClient) listSecurityPolicyEntryStates(ctx context.Context, 
 
 	var response ListSecurityPolicyEntryStatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityPolicyEntryStates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15116,7 +15116,7 @@ func (client DataSafeClient) listSecurityPolicyReports(ctx context.Context, requ
 
 	var response ListSecurityPolicyReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSecurityPolicyReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15177,7 +15177,7 @@ func (client DataSafeClient) listSensitiveColumnAnalytics(ctx context.Context, r
 
 	var response ListSensitiveColumnAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveColumnAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15231,7 +15231,7 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 
 	var response ListSensitiveColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15285,7 +15285,7 @@ func (client DataSafeClient) listSensitiveDataModelSensitiveTypes(ctx context.Co
 
 	var response ListSensitiveDataModelSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveDataModelSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15339,7 +15339,7 @@ func (client DataSafeClient) listSensitiveDataModels(ctx context.Context, reques
 
 	var response ListSensitiveDataModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveDataModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15393,7 +15393,7 @@ func (client DataSafeClient) listSensitiveObjects(ctx context.Context, request c
 
 	var response ListSensitiveObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15447,7 +15447,7 @@ func (client DataSafeClient) listSensitiveSchemas(ctx context.Context, request c
 
 	var response ListSensitiveSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15501,7 +15501,7 @@ func (client DataSafeClient) listSensitiveTypeGroups(ctx context.Context, reques
 
 	var response ListSensitiveTypeGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveTypeGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15555,7 +15555,7 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 
 	var response ListSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15610,7 +15610,7 @@ func (client DataSafeClient) listSensitiveTypesExports(ctx context.Context, requ
 
 	var response ListSensitiveTypesExportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSensitiveTypesExports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15674,7 +15674,7 @@ func (client DataSafeClient) listSqlCollectionAnalytics(ctx context.Context, req
 
 	var response ListSqlCollectionAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlCollectionAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15728,7 +15728,7 @@ func (client DataSafeClient) listSqlCollectionLogInsights(ctx context.Context, r
 
 	var response ListSqlCollectionLogInsightsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlCollectionLogInsights")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15792,7 +15792,7 @@ func (client DataSafeClient) listSqlCollections(ctx context.Context, request com
 
 	var response ListSqlCollectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlCollections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15856,7 +15856,7 @@ func (client DataSafeClient) listSqlFirewallAllowedSqlAnalytics(ctx context.Cont
 
 	var response ListSqlFirewallAllowedSqlAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallAllowedSqlAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15920,7 +15920,7 @@ func (client DataSafeClient) listSqlFirewallAllowedSqls(ctx context.Context, req
 
 	var response ListSqlFirewallAllowedSqlsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallAllowedSqls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -15984,7 +15984,7 @@ func (client DataSafeClient) listSqlFirewallPolicies(ctx context.Context, reques
 
 	var response ListSqlFirewallPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16047,7 +16047,7 @@ func (client DataSafeClient) listSqlFirewallPolicyAnalytics(ctx context.Context,
 
 	var response ListSqlFirewallPolicyAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallPolicyAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16106,7 +16106,7 @@ func (client DataSafeClient) listSqlFirewallViolationAnalytics(ctx context.Conte
 
 	var response ListSqlFirewallViolationAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallViolationAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16160,7 +16160,7 @@ func (client DataSafeClient) listSqlFirewallViolations(ctx context.Context, requ
 
 	var response ListSqlFirewallViolationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSqlFirewallViolations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16214,7 +16214,7 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 
 	var response ListTablesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTables")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16268,7 +16268,7 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 
 	var response ListTargetAlertPolicyAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTargetAlertPolicyAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16322,7 +16322,7 @@ func (client DataSafeClient) listTargetDatabaseGroups(ctx context.Context, reque
 
 	var response ListTargetDatabaseGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTargetDatabaseGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16376,7 +16376,7 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 
 	var response ListTargetDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTargetDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16430,7 +16430,7 @@ func (client DataSafeClient) listTargetOverrides(ctx context.Context, request co
 
 	var response ListTargetOverridesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTargetOverrides")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16496,7 +16496,7 @@ func (client DataSafeClient) listTemplateAnalytics(ctx context.Context, request 
 
 	var response ListTemplateAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTemplateAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16561,7 +16561,7 @@ func (client DataSafeClient) listTemplateAssociationAnalytics(ctx context.Contex
 
 	var response ListTemplateAssociationAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTemplateAssociationAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16625,7 +16625,7 @@ func (client DataSafeClient) listUnifiedAuditPolicies(ctx context.Context, reque
 
 	var response ListUnifiedAuditPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUnifiedAuditPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16689,7 +16689,7 @@ func (client DataSafeClient) listUnifiedAuditPolicyDefinitions(ctx context.Conte
 
 	var response ListUnifiedAuditPolicyDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUnifiedAuditPolicyDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16743,7 +16743,7 @@ func (client DataSafeClient) listUserAccessAnalytics(ctx context.Context, reques
 
 	var response ListUserAccessAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUserAccessAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16808,7 +16808,7 @@ func (client DataSafeClient) listUserAnalytics(ctx context.Context, request comm
 
 	var response ListUserAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUserAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16873,7 +16873,7 @@ func (client DataSafeClient) listUserAssessments(ctx context.Context, request co
 
 	var response ListUserAssessmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUserAssessments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16930,7 +16930,7 @@ func (client DataSafeClient) listUsers(ctx context.Context, request common.OCIRe
 
 	var response ListUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16984,7 +16984,7 @@ func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17038,7 +17038,7 @@ func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request co
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17092,7 +17092,7 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17210,7 +17210,7 @@ func (client DataSafeClient) maskData(ctx context.Context, request common.OCIReq
 
 	var response MaskDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "MaskData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17269,7 +17269,7 @@ func (client DataSafeClient) modifyGlobalSettings(ctx context.Context, request c
 
 	var response ModifyGlobalSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ModifyGlobalSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17323,7 +17323,7 @@ func (client DataSafeClient) patchAlerts(ctx context.Context, request common.OCI
 
 	var response PatchAlertsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchAlerts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17378,7 +17378,7 @@ func (client DataSafeClient) patchChecks(ctx context.Context, request common.OCI
 
 	var response PatchChecksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchChecks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17433,7 +17433,7 @@ func (client DataSafeClient) patchDiscoveryJobResults(ctx context.Context, reque
 
 	var response PatchDiscoveryJobResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchDiscoveryJobResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17487,7 +17487,7 @@ func (client DataSafeClient) patchFindings(ctx context.Context, request common.O
 
 	var response PatchFindingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchFindings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17542,7 +17542,7 @@ func (client DataSafeClient) patchGroupedSensitiveTypes(ctx context.Context, req
 
 	var response PatchGroupedSensitiveTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchGroupedSensitiveTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17598,7 +17598,7 @@ func (client DataSafeClient) patchMaskingColumns(ctx context.Context, request co
 
 	var response PatchMaskingColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchMaskingColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17653,7 +17653,7 @@ func (client DataSafeClient) patchSdmMaskingPolicyDifferenceColumns(ctx context.
 
 	var response PatchSdmMaskingPolicyDifferenceColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchSdmMaskingPolicyDifferenceColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17709,7 +17709,7 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 
 	var response PatchSensitiveColumnsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchSensitiveColumns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17764,7 +17764,7 @@ func (client DataSafeClient) patchSqlFirewallAllowedSql(ctx context.Context, req
 
 	var response PatchSqlFirewallAllowedSqlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchSqlFirewallAllowedSql")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17818,7 +17818,7 @@ func (client DataSafeClient) patchTargetAlertPolicyAssociation(ctx context.Conte
 
 	var response PatchTargetAlertPolicyAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchTargetAlertPolicyAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17877,7 +17877,7 @@ func (client DataSafeClient) provisionAuditPolicy(ctx context.Context, request c
 
 	var response ProvisionAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ProvisionAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17936,7 +17936,7 @@ func (client DataSafeClient) purgeSqlCollectionLogs(ctx context.Context, request
 
 	var response PurgeSqlCollectionLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PurgeSqlCollectionLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17995,7 +17995,7 @@ func (client DataSafeClient) refreshDatabaseSecurityConfiguration(ctx context.Co
 
 	var response RefreshDatabaseSecurityConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshDatabaseSecurityConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18055,7 +18055,7 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 
 	var response RefreshSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18114,7 +18114,7 @@ func (client DataSafeClient) refreshSecurityPolicyDeployment(ctx context.Context
 
 	var response RefreshSecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshSecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18173,7 +18173,7 @@ func (client DataSafeClient) refreshSqlCollectionLogInsights(ctx context.Context
 
 	var response RefreshSqlCollectionLogInsightsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshSqlCollectionLogInsights")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18232,7 +18232,7 @@ func (client DataSafeClient) refreshTargetDatabase(ctx context.Context, request 
 
 	var response RefreshTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18293,7 +18293,7 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 
 	var response RefreshUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18352,7 +18352,7 @@ func (client DataSafeClient) removeScheduleReport(ctx context.Context, request c
 
 	var response RemoveScheduleReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RemoveScheduleReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18411,7 +18411,7 @@ func (client DataSafeClient) removeSecurityAssessmentTemplate(ctx context.Contex
 
 	var response RemoveSecurityAssessmentTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RemoveSecurityAssessmentTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18465,7 +18465,7 @@ func (client DataSafeClient) resumeAuditTrail(ctx context.Context, request commo
 
 	var response ResumeAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ResumeAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18524,7 +18524,7 @@ func (client DataSafeClient) resumeWorkRequest(ctx context.Context, request comm
 
 	var response ResumeWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ResumeWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18583,7 +18583,7 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 
 	var response RetrieveAuditPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RetrieveAuditPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18642,7 +18642,7 @@ func (client DataSafeClient) scheduleReport(ctx context.Context, request common.
 
 	var response ScheduleReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ScheduleReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18701,7 +18701,7 @@ func (client DataSafeClient) setSecurityAssessmentBaseline(ctx context.Context, 
 
 	var response SetSecurityAssessmentBaselineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "SetSecurityAssessmentBaseline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18760,7 +18760,7 @@ func (client DataSafeClient) setUserAssessmentBaseline(ctx context.Context, requ
 
 	var response SetUserAssessmentBaselineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "SetUserAssessmentBaseline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18819,7 +18819,7 @@ func (client DataSafeClient) startAuditTrail(ctx context.Context, request common
 
 	var response StartAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "StartAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18878,7 +18878,7 @@ func (client DataSafeClient) startSqlCollection(ctx context.Context, request com
 
 	var response StartSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "StartSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18932,7 +18932,7 @@ func (client DataSafeClient) stopAuditTrail(ctx context.Context, request common.
 
 	var response StopAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "StopAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -18991,7 +18991,7 @@ func (client DataSafeClient) stopSqlCollection(ctx context.Context, request comm
 
 	var response StopSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "StopSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19050,7 +19050,7 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 
 	var response SuspendWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "SuspendWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19111,7 +19111,7 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 
 	var response UnsetSecurityAssessmentBaselineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UnsetSecurityAssessmentBaseline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19172,7 +19172,7 @@ func (client DataSafeClient) unsetUserAssessmentBaseline(ctx context.Context, re
 
 	var response UnsetUserAssessmentBaselineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UnsetUserAssessmentBaseline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19226,7 +19226,7 @@ func (client DataSafeClient) updateAlert(ctx context.Context, request common.OCI
 
 	var response UpdateAlertResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAlert")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19280,7 +19280,7 @@ func (client DataSafeClient) updateAlertPolicy(ctx context.Context, request comm
 
 	var response UpdateAlertPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAlertPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19334,7 +19334,7 @@ func (client DataSafeClient) updateAlertPolicyRule(ctx context.Context, request 
 
 	var response UpdateAlertPolicyRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAlertPolicyRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19388,7 +19388,7 @@ func (client DataSafeClient) updateAttributeSet(ctx context.Context, request com
 
 	var response UpdateAttributeSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAttributeSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19442,7 +19442,7 @@ func (client DataSafeClient) updateAuditArchiveRetrieval(ctx context.Context, re
 
 	var response UpdateAuditArchiveRetrievalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAuditArchiveRetrieval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19496,7 +19496,7 @@ func (client DataSafeClient) updateAuditPolicy(ctx context.Context, request comm
 
 	var response UpdateAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19550,7 +19550,7 @@ func (client DataSafeClient) updateAuditProfile(ctx context.Context, request com
 
 	var response UpdateAuditProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAuditProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19604,7 +19604,7 @@ func (client DataSafeClient) updateAuditTrail(ctx context.Context, request commo
 
 	var response UpdateAuditTrailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateAuditTrail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19658,7 +19658,7 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 
 	var response UpdateDataSafePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateDataSafePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19712,7 +19712,7 @@ func (client DataSafeClient) updateDatabaseSecurityConfig(ctx context.Context, r
 
 	var response UpdateDatabaseSecurityConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateDatabaseSecurityConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19771,7 +19771,7 @@ func (client DataSafeClient) updateFinding(ctx context.Context, request common.O
 
 	var response UpdateFindingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateFinding")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19825,7 +19825,7 @@ func (client DataSafeClient) updateLibraryMaskingFormat(ctx context.Context, req
 
 	var response UpdateLibraryMaskingFormatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateLibraryMaskingFormat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19880,7 +19880,7 @@ func (client DataSafeClient) updateMaskingColumn(ctx context.Context, request co
 
 	var response UpdateMaskingColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateMaskingColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19934,7 +19934,7 @@ func (client DataSafeClient) updateMaskingPolicy(ctx context.Context, request co
 
 	var response UpdateMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateMaskingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -19988,7 +19988,7 @@ func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request 
 
 	var response UpdateOnPremConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateOnPremConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20047,7 +20047,7 @@ func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, re
 
 	var response UpdateOnPremConnectorWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateOnPremConnectorWallet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20106,7 +20106,7 @@ func (client DataSafeClient) updatePeerTargetDatabase(ctx context.Context, reque
 
 	var response UpdatePeerTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdatePeerTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20224,7 +20224,7 @@ func (client DataSafeClient) updateReport(ctx context.Context, request common.OC
 
 	var response UpdateReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20283,7 +20283,7 @@ func (client DataSafeClient) updateReportDefinition(ctx context.Context, request
 
 	var response UpdateReportDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateReportDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20337,7 +20337,7 @@ func (client DataSafeClient) updateSdmMaskingPolicyDifference(ctx context.Contex
 
 	var response UpdateSdmMaskingPolicyDifferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSdmMaskingPolicyDifference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20391,7 +20391,7 @@ func (client DataSafeClient) updateSecurityAssessment(ctx context.Context, reque
 
 	var response UpdateSecurityAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSecurityAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20445,7 +20445,7 @@ func (client DataSafeClient) updateSecurityPolicy(ctx context.Context, request c
 
 	var response UpdateSecurityPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSecurityPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20499,7 +20499,7 @@ func (client DataSafeClient) updateSecurityPolicyConfig(ctx context.Context, req
 
 	var response UpdateSecurityPolicyConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSecurityPolicyConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20553,7 +20553,7 @@ func (client DataSafeClient) updateSecurityPolicyDeployment(ctx context.Context,
 
 	var response UpdateSecurityPolicyDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSecurityPolicyDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20607,7 +20607,7 @@ func (client DataSafeClient) updateSensitiveColumn(ctx context.Context, request 
 
 	var response UpdateSensitiveColumnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSensitiveColumn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20662,7 +20662,7 @@ func (client DataSafeClient) updateSensitiveDataModel(ctx context.Context, reque
 
 	var response UpdateSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSensitiveDataModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20716,7 +20716,7 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 
 	var response UpdateSensitiveTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSensitiveType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20770,7 +20770,7 @@ func (client DataSafeClient) updateSensitiveTypeGroup(ctx context.Context, reque
 
 	var response UpdateSensitiveTypeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSensitiveTypeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20824,7 +20824,7 @@ func (client DataSafeClient) updateSensitiveTypesExport(ctx context.Context, req
 
 	var response UpdateSensitiveTypesExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSensitiveTypesExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20878,7 +20878,7 @@ func (client DataSafeClient) updateSqlCollection(ctx context.Context, request co
 
 	var response UpdateSqlCollectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSqlCollection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20932,7 +20932,7 @@ func (client DataSafeClient) updateSqlFirewallPolicy(ctx context.Context, reques
 
 	var response UpdateSqlFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSqlFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20986,7 +20986,7 @@ func (client DataSafeClient) updateTargetAlertPolicyAssociation(ctx context.Cont
 
 	var response UpdateTargetAlertPolicyAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateTargetAlertPolicyAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21045,7 +21045,7 @@ func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request c
 
 	var response UpdateTargetDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateTargetDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21104,7 +21104,7 @@ func (client DataSafeClient) updateTargetDatabaseGroup(ctx context.Context, requ
 
 	var response UpdateTargetDatabaseGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateTargetDatabaseGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21158,7 +21158,7 @@ func (client DataSafeClient) updateUnifiedAuditPolicy(ctx context.Context, reque
 
 	var response UpdateUnifiedAuditPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateUnifiedAuditPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21212,7 +21212,7 @@ func (client DataSafeClient) updateUnifiedAuditPolicyDefinition(ctx context.Cont
 
 	var response UpdateUnifiedAuditPolicyDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateUnifiedAuditPolicyDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21266,7 +21266,7 @@ func (client DataSafeClient) updateUserAssessment(ctx context.Context, request c
 
 	var response UpdateUserAssessmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateUserAssessment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21324,7 +21324,7 @@ func (client DataSafeClient) uploadMaskingPolicy(ctx context.Context, request co
 
 	var response UploadMaskingPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UploadMaskingPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -21381,7 +21381,7 @@ func (client DataSafeClient) uploadSensitiveDataModel(ctx context.Context, reque
 
 	var response UploadSensitiveDataModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UploadSensitiveDataModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

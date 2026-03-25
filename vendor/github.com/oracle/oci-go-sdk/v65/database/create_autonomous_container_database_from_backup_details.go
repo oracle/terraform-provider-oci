@@ -129,6 +129,15 @@ type CreateAutonomousContainerDatabaseFromBackupDetails struct {
 	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.
 	VmFailoverReservation *int `mandatory:"false" json:"vmFailoverReservation"`
 
+	// A list of Autonomous Databases ( display name of the ADB in specific ) to be cloned from backup of the source Autonomous Container Database.
+	AutonomousDatabasesToClone []string `mandatory:"false" json:"autonomousDatabasesToClone"`
+
+	// The Autonomous AI Database clone type.
+	CloneType CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
+
+	// The speed at which the Autonomous Container Database Clone from backup operation to be performed by OCI.
+	CloneBandWidth CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum `mandatory:"false" json:"cloneBandWidth,omitempty"`
+
 	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 	ServiceLevelAgreementType CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum `mandatory:"false" json:"serviceLevelAgreementType,omitempty"`
 
@@ -364,6 +373,12 @@ func (m CreateAutonomousContainerDatabaseFromBackupDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateAutonomousContainerDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum(string(m.CloneType)); !ok && m.CloneType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum(string(m.CloneBandWidth)); !ok && m.CloneBandWidth != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneBandWidth: %s. Supported values are: %s.", m.CloneBandWidth, strings.Join(GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingCreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum(string(m.ServiceLevelAgreementType)); !ok && m.ServiceLevelAgreementType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceLevelAgreementType: %s. Supported values are: %s.", m.ServiceLevelAgreementType, strings.Join(GetCreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnumStringValues(), ",")))
@@ -406,48 +421,51 @@ func (m CreateAutonomousContainerDatabaseFromBackupDetails) MarshalJSON() (buff 
 // UnmarshalJSON unmarshals from json
 func (m *CreateAutonomousContainerDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		NfsStorageDetails                            *NfsStorageDetails                                                 `json:"nfsStorageDetails"`
-		CustomerContacts                             []CustomerContact                                                  `json:"customerContacts"`
-		OkvEndPointGroupName                         *string                                                            `json:"okvEndPointGroupName"`
-		DbUniqueName                                 *string                                                            `json:"dbUniqueName"`
-		DbName                                       *string                                                            `json:"dbName"`
-		ServiceLevelAgreementType                    CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum `json:"serviceLevelAgreementType"`
-		AutonomousExadataInfrastructureId            *string                                                            `json:"autonomousExadataInfrastructureId"`
-		DbVersion                                    *string                                                            `json:"dbVersion"`
-		DatabaseSoftwareImageId                      *string                                                            `json:"databaseSoftwareImageId"`
-		PeerAutonomousExadataInfrastructureId        *string                                                            `json:"peerAutonomousExadataInfrastructureId"`
-		PeerAutonomousContainerDatabaseDisplayName   *string                                                            `json:"peerAutonomousContainerDatabaseDisplayName"`
-		ProtectionMode                               CreateAutonomousContainerDatabaseBaseProtectionModeEnum            `json:"protectionMode"`
-		FastStartFailOverLagLimitInSeconds           *int                                                               `json:"fastStartFailOverLagLimitInSeconds"`
-		IsAutomaticFailoverEnabled                   *bool                                                              `json:"isAutomaticFailoverEnabled"`
-		PeerCloudAutonomousVmClusterId               *string                                                            `json:"peerCloudAutonomousVmClusterId"`
-		PeerAutonomousVmClusterId                    *string                                                            `json:"peerAutonomousVmClusterId"`
-		PeerAutonomousContainerDatabaseCompartmentId *string                                                            `json:"peerAutonomousContainerDatabaseCompartmentId"`
-		PeerAutonomousContainerDatabaseBackupConfig  *PeerAutonomousContainerDatabaseBackupConfig                       `json:"peerAutonomousContainerDatabaseBackupConfig"`
-		PeerDbUniqueName                             *string                                                            `json:"peerDbUniqueName"`
-		AutonomousVmClusterId                        *string                                                            `json:"autonomousVmClusterId"`
-		CloudAutonomousVmClusterId                   *string                                                            `json:"cloudAutonomousVmClusterId"`
-		CompartmentId                                *string                                                            `json:"compartmentId"`
-		MaintenanceWindowDetails                     *MaintenanceWindow                                                 `json:"maintenanceWindowDetails"`
-		StandbyMaintenanceBufferInDays               *int                                                               `json:"standbyMaintenanceBufferInDays"`
-		VersionPreference                            CreateAutonomousContainerDatabaseBaseVersionPreferenceEnum         `json:"versionPreference"`
-		IsDstFileUpdateEnabled                       *bool                                                              `json:"isDstFileUpdateEnabled"`
-		FreeformTags                                 map[string]string                                                  `json:"freeformTags"`
-		DefinedTags                                  map[string]map[string]interface{}                                  `json:"definedTags"`
-		BackupConfig                                 *AutonomousContainerDatabaseBackupConfig                           `json:"backupConfig"`
-		KmsKeyId                                     *string                                                            `json:"kmsKeyId"`
-		KmsKeyVersionId                              *string                                                            `json:"kmsKeyVersionId"`
-		VaultId                                      *string                                                            `json:"vaultId"`
-		KeyStoreId                                   *string                                                            `json:"keyStoreId"`
-		EncryptionKeyLocationDetails                 encryptionkeylocationdetails                                       `json:"encryptionKeyLocationDetails"`
-		IsFipsEnabled                                *bool                                                              `json:"isFipsEnabled"`
-		DbSplitThreshold                             *int                                                               `json:"dbSplitThreshold"`
-		VmFailoverReservation                        *int                                                               `json:"vmFailoverReservation"`
-		DistributionAffinity                         CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum      `json:"distributionAffinity"`
-		NetServicesArchitecture                      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum   `json:"netServicesArchitecture"`
-		DisplayName                                  *string                                                            `json:"displayName"`
-		PatchModel                                   CreateAutonomousContainerDatabaseBasePatchModelEnum                `json:"patchModel"`
-		AutonomousContainerDatabaseBackupId          *string                                                            `json:"autonomousContainerDatabaseBackupId"`
+		NfsStorageDetails                            *NfsStorageDetails                                                   `json:"nfsStorageDetails"`
+		CustomerContacts                             []CustomerContact                                                    `json:"customerContacts"`
+		OkvEndPointGroupName                         *string                                                              `json:"okvEndPointGroupName"`
+		DbUniqueName                                 *string                                                              `json:"dbUniqueName"`
+		DbName                                       *string                                                              `json:"dbName"`
+		ServiceLevelAgreementType                    CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum   `json:"serviceLevelAgreementType"`
+		AutonomousExadataInfrastructureId            *string                                                              `json:"autonomousExadataInfrastructureId"`
+		DbVersion                                    *string                                                              `json:"dbVersion"`
+		DatabaseSoftwareImageId                      *string                                                              `json:"databaseSoftwareImageId"`
+		PeerAutonomousExadataInfrastructureId        *string                                                              `json:"peerAutonomousExadataInfrastructureId"`
+		PeerAutonomousContainerDatabaseDisplayName   *string                                                              `json:"peerAutonomousContainerDatabaseDisplayName"`
+		ProtectionMode                               CreateAutonomousContainerDatabaseBaseProtectionModeEnum              `json:"protectionMode"`
+		FastStartFailOverLagLimitInSeconds           *int                                                                 `json:"fastStartFailOverLagLimitInSeconds"`
+		IsAutomaticFailoverEnabled                   *bool                                                                `json:"isAutomaticFailoverEnabled"`
+		PeerCloudAutonomousVmClusterId               *string                                                              `json:"peerCloudAutonomousVmClusterId"`
+		PeerAutonomousVmClusterId                    *string                                                              `json:"peerAutonomousVmClusterId"`
+		PeerAutonomousContainerDatabaseCompartmentId *string                                                              `json:"peerAutonomousContainerDatabaseCompartmentId"`
+		PeerAutonomousContainerDatabaseBackupConfig  *PeerAutonomousContainerDatabaseBackupConfig                         `json:"peerAutonomousContainerDatabaseBackupConfig"`
+		PeerDbUniqueName                             *string                                                              `json:"peerDbUniqueName"`
+		AutonomousVmClusterId                        *string                                                              `json:"autonomousVmClusterId"`
+		CloudAutonomousVmClusterId                   *string                                                              `json:"cloudAutonomousVmClusterId"`
+		CompartmentId                                *string                                                              `json:"compartmentId"`
+		MaintenanceWindowDetails                     *MaintenanceWindow                                                   `json:"maintenanceWindowDetails"`
+		StandbyMaintenanceBufferInDays               *int                                                                 `json:"standbyMaintenanceBufferInDays"`
+		VersionPreference                            CreateAutonomousContainerDatabaseBaseVersionPreferenceEnum           `json:"versionPreference"`
+		IsDstFileUpdateEnabled                       *bool                                                                `json:"isDstFileUpdateEnabled"`
+		FreeformTags                                 map[string]string                                                    `json:"freeformTags"`
+		DefinedTags                                  map[string]map[string]interface{}                                    `json:"definedTags"`
+		BackupConfig                                 *AutonomousContainerDatabaseBackupConfig                             `json:"backupConfig"`
+		KmsKeyId                                     *string                                                              `json:"kmsKeyId"`
+		KmsKeyVersionId                              *string                                                              `json:"kmsKeyVersionId"`
+		VaultId                                      *string                                                              `json:"vaultId"`
+		KeyStoreId                                   *string                                                              `json:"keyStoreId"`
+		EncryptionKeyLocationDetails                 encryptionkeylocationdetails                                         `json:"encryptionKeyLocationDetails"`
+		IsFipsEnabled                                *bool                                                                `json:"isFipsEnabled"`
+		DbSplitThreshold                             *int                                                                 `json:"dbSplitThreshold"`
+		VmFailoverReservation                        *int                                                                 `json:"vmFailoverReservation"`
+		DistributionAffinity                         CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum        `json:"distributionAffinity"`
+		NetServicesArchitecture                      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum     `json:"netServicesArchitecture"`
+		CloneType                                    CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum      `json:"cloneType"`
+		AutonomousDatabasesToClone                   []string                                                             `json:"autonomousDatabasesToClone"`
+		CloneBandWidth                               CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum `json:"cloneBandWidth"`
+		DisplayName                                  *string                                                              `json:"displayName"`
+		PatchModel                                   CreateAutonomousContainerDatabaseBasePatchModelEnum                  `json:"patchModel"`
+		AutonomousContainerDatabaseBackupId          *string                                                              `json:"autonomousContainerDatabaseBackupId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -541,6 +559,12 @@ func (m *CreateAutonomousContainerDatabaseFromBackupDetails) UnmarshalJSON(data 
 
 	m.NetServicesArchitecture = model.NetServicesArchitecture
 
+	m.CloneType = model.CloneType
+
+	m.AutonomousDatabasesToClone = make([]string, len(model.AutonomousDatabasesToClone))
+	copy(m.AutonomousDatabasesToClone, model.AutonomousDatabasesToClone)
+	m.CloneBandWidth = model.CloneBandWidth
+
 	m.DisplayName = model.DisplayName
 
 	m.PatchModel = model.PatchModel
@@ -548,4 +572,96 @@ func (m *CreateAutonomousContainerDatabaseFromBackupDetails) UnmarshalJSON(data 
 	m.AutonomousContainerDatabaseBackupId = model.AutonomousContainerDatabaseBackupId
 
 	return
+}
+
+// CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum Enum with underlying type: string
+type CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum
+const (
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeFull     CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum = "FULL"
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeMetadata CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum = "METADATA"
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypePartial  CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum = "PARTIAL"
+)
+
+var mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum = map[string]CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum{
+	"FULL":     CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeFull,
+	"METADATA": CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeMetadata,
+	"PARTIAL":  CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypePartial,
+}
+
+var mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumLowerCase = map[string]CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum{
+	"full":     CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeFull,
+	"metadata": CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeMetadata,
+	"partial":  CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypePartial,
+}
+
+// GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum
+func GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumValues() []CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum {
+	values := make([]CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum, 0)
+	for _, v := range mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum
+func GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumStringValues() []string {
+	return []string{
+		"FULL",
+		"METADATA",
+		"PARTIAL",
+	}
+}
+
+// GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum(val string) (CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum, bool) {
+	enum, ok := mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum Enum with underlying type: string
+type CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum
+const (
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthSlow   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum = "SLOW"
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthMedium CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum = "MEDIUM"
+	CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthFast   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum = "FAST"
+)
+
+var mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum = map[string]CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum{
+	"SLOW":   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthSlow,
+	"MEDIUM": CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthMedium,
+	"FAST":   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthFast,
+}
+
+var mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumLowerCase = map[string]CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum{
+	"slow":   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthSlow,
+	"medium": CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthMedium,
+	"fast":   CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthFast,
+}
+
+// GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum
+func GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumValues() []CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum {
+	values := make([]CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum, 0)
+	for _, v := range mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumStringValues Enumerates the set of values in String for CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum
+func GetCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumStringValues() []string {
+	return []string{
+		"SLOW",
+		"MEDIUM",
+		"FAST",
+	}
+}
+
+// GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum(val string) (CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum, bool) {
+	enum, ok := mappingCreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

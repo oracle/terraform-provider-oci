@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -82,6 +82,9 @@ type NetworkAnchorSummary struct {
 
 	// Oracle Cloud Infrastructure Subscription Type.
 	SubscriptionType SubscriptionTypeEnum `mandatory:"false" json:"subscriptionType,omitempty"`
+
+	// An Azure/GCP/AWS cidrBlocks
+	CidrBlocks []string `mandatory:"false" json:"cidrBlocks"`
 }
 
 func (m NetworkAnchorSummary) String() string {

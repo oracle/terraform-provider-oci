@@ -22,23 +22,24 @@ type AnalyticsInstanceSummary struct {
 	// The resource OCID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed.
+	// The name of the Analytics instance. This name must be unique in the tenancy and can't be changed.
+	// The name must start with a letter and can contain only letters, numbers and dash (-).
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The current state of an instance.
+	// The current state of the Analytics instance.
 	LifecycleState AnalyticsInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Analytics feature set.
+	// The feature set. Either `SELF_SERVICE_ANALYTICS` (Professional Edition) or `ENTERPRISE_ANALYTICS` (Enterprise Edition).
 	FeatureSet FeatureSetEnum `mandatory:"true" json:"featureSet"`
 
 	Capacity *Capacity `mandatory:"true" json:"capacity"`
 
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"true" json:"networkEndpointDetails"`
 
-	// The date and time the instance was created, in the format defined by RFC3339.
+	// The date and time the Analytics instance was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -51,7 +52,7 @@ type AnalyticsInstanceSummary struct {
 	// Email address receiving notifications.
 	EmailNotification *string `mandatory:"false" json:"emailNotification"`
 
-	// URL of the Analytics service.
+	// URL of the Analytics instance.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -68,9 +69,9 @@ type AnalyticsInstanceSummary struct {
 	// Example: `{"orcl-cloud": {"key": "value"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The date and time the instance was last updated (in the format defined by RFC3339).
-	// This timestamp represents updates made through this API. External events do not
-	// influence it.
+	// The date and time the Analytics instance was last updated (in the format defined by RFC3339).
+	// This timestamp represents updates made through this API. External events don't
+	// affect it.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

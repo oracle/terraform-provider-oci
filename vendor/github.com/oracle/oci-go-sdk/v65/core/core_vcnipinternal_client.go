@@ -150,7 +150,7 @@ func (client VcnipInternalClient) byoipRangeLock(ctx context.Context, request co
 
 	var response ByoipRangeLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vcnipInternal", "ByoipRangeLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -210,7 +210,7 @@ func (client VcnipInternalClient) byoipRangeUnlock(ctx context.Context, request 
 
 	var response ByoipRangeUnlockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "vcnipInternal", "ByoipRangeUnlock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

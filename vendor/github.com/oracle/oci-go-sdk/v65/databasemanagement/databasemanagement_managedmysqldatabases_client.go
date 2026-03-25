@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -141,7 +141,7 @@ func (client ManagedMySqlDatabasesClient) changeMysqlDatabaseManagementType(ctx 
 
 	var response ChangeMysqlDatabaseManagementTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ChangeMysqlDatabaseManagementType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client ManagedMySqlDatabasesClient) getBinaryLogInformation(ctx context.Co
 
 	var response GetBinaryLogInformationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetBinaryLogInformation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -251,7 +251,7 @@ func (client ManagedMySqlDatabasesClient) getGeneralReplicationInformation(ctx c
 
 	var response GetGeneralReplicationInformationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetGeneralReplicationInformation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -305,7 +305,7 @@ func (client ManagedMySqlDatabasesClient) getHeatWaveFleetMetric(ctx context.Con
 
 	var response GetHeatWaveFleetMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetHeatWaveFleetMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -359,7 +359,7 @@ func (client ManagedMySqlDatabasesClient) getManagedMySqlDatabase(ctx context.Co
 
 	var response GetManagedMySqlDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetManagedMySqlDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -413,7 +413,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlFleetMetric(ctx context.Contex
 
 	var response GetMySqlFleetMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetMySqlFleetMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -468,7 +468,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlQueryDetails(ctx context.Conte
 
 	var response GetMySqlQueryDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "GetMySqlQueryDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -523,7 +523,7 @@ func (client ManagedMySqlDatabasesClient) listHighAvailabilityMembers(ctx contex
 
 	var response ListHighAvailabilityMembersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListHighAvailabilityMembers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -578,7 +578,7 @@ func (client ManagedMySqlDatabasesClient) listInboundReplications(ctx context.Co
 
 	var response ListInboundReplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListInboundReplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -633,7 +633,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseConfigurationD
 
 	var response ListManagedMySqlDatabaseConfigurationDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListManagedMySqlDatabaseConfigurationData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -688,7 +688,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseSqlData(ctx co
 
 	var response ListManagedMySqlDatabaseSqlDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListManagedMySqlDatabaseSqlData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -742,7 +742,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabases(ctx context.
 
 	var response ListManagedMySqlDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListManagedMySqlDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -797,7 +797,7 @@ func (client ManagedMySqlDatabasesClient) listMySqlDigestErrors(ctx context.Cont
 
 	var response ListMySqlDigestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListMySqlDigestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -852,7 +852,7 @@ func (client ManagedMySqlDatabasesClient) listOutboundReplications(ctx context.C
 
 	var response ListOutboundReplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "ListOutboundReplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -907,7 +907,7 @@ func (client ManagedMySqlDatabasesClient) summarizeManagedMySqlDatabaseAvailabil
 
 	var response SummarizeManagedMySqlDatabaseAvailabilityMetricsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedMySqlDatabases", "SummarizeManagedMySqlDatabaseAvailabilityMetrics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

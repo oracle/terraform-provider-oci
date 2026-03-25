@@ -132,7 +132,7 @@ func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx contex
 
 	var response GetGenericArtifactContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "genericArtifactsContent", "GetGenericArtifactContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generic/20160918/GenericArtifact/GetGenericArtifactContent"
@@ -184,7 +184,7 @@ func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx 
 
 	var response GetGenericArtifactContentByPathResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "genericArtifactsContent", "GetGenericArtifactContentByPath")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generic/20160918/GenericArtifact/GetGenericArtifactContentByPath"
@@ -246,7 +246,7 @@ func (client GenericArtifactsContentClient) putGenericArtifactContentByPath(ctx 
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "genericArtifactsContent", OperationName: "PutGenericArtifactContentByPath"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

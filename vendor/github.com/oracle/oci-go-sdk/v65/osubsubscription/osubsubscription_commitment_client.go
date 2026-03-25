@@ -131,7 +131,7 @@ func (client CommitmentClient) getCommitment(ctx context.Context, request common
 
 	var response GetCommitmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "commitment", "GetCommitment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -184,7 +184,7 @@ func (client CommitmentClient) listCommitments(ctx context.Context, request comm
 
 	var response ListCommitmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "commitment", "ListCommitments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -18,7 +18,7 @@ import (
 // WorkRequestResource The representation of WorkRequestResource
 type WorkRequestResource struct {
 
-	// The way in which this resource was affected by this work request.
+	// The way this resource was affected by this work request.
 	ActionResult WorkRequestActionResultEnum `mandatory:"true" json:"actionResult"`
 
 	// The type of the resource the work request is affecting.

@@ -248,6 +248,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// The timestamp specified for the point-in-time clone of the source Autonomous AI Database. The timestamp must be in the past.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
@@ -568,6 +571,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetTransportableTabl
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {
 	return common.PointerString(m)
 }
@@ -674,6 +682,7 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		Timestamp                                *common.SDKTime                                                   `json:"timestamp"`
 		UseLatestAvailableBackupTimeStamp        *bool                                                             `json:"useLatestAvailableBackupTimeStamp"`
 		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
@@ -814,6 +823,8 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.Timestamp = model.Timestamp
 

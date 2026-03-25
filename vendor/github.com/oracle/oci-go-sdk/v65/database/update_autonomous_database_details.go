@@ -344,6 +344,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This field applies only to dedicated resource pool members, and the specified leader must be different from the primary’s leader.
 	// Local Autonomous Data Guard can be enabled only if more than one dedicated resource pool exists in the region.
 	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
+
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -462,6 +465,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IncludedCompute                      *float32                                                             `json:"includedCompute"`
 		IncludedDataStorageInTBs             *float64                                                             `json:"includedDataStorageInTBs"`
 		LocalAdgResourcePoolLeaderId         *string                                                              `json:"localAdgResourcePoolLeaderId"`
+		PreferredCommunicationLanguageLocale *string                                                              `json:"preferredCommunicationLanguageLocale"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -632,6 +636,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IncludedDataStorageInTBs = model.IncludedDataStorageInTBs
 
 	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	return
 }

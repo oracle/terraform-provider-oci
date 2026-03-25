@@ -132,11 +132,11 @@ func (client ResourceAnalyticsInstanceClient) cancelWorkRequest(ctx context.Cont
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -187,11 +187,11 @@ func (client ResourceAnalyticsInstanceClient) changeResourceAnalyticsInstanceCom
 
 	var response ChangeResourceAnalyticsInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ChangeResourceAnalyticsInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/ChangeResourceAnalyticsInstanceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ChangeResourceAnalyticsInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -246,11 +246,11 @@ func (client ResourceAnalyticsInstanceClient) createResourceAnalyticsInstance(ct
 
 	var response CreateResourceAnalyticsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "CreateResourceAnalyticsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/CreateResourceAnalyticsInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "CreateResourceAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
@@ -300,11 +300,11 @@ func (client ResourceAnalyticsInstanceClient) deleteResourceAnalyticsInstance(ct
 
 	var response DeleteResourceAnalyticsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "DeleteResourceAnalyticsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/DeleteResourceAnalyticsInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "DeleteResourceAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
@@ -354,11 +354,11 @@ func (client ResourceAnalyticsInstanceClient) getResourceAnalyticsInstance(ctx c
 
 	var response GetResourceAnalyticsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "GetResourceAnalyticsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/GetResourceAnalyticsInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "GetResourceAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}
@@ -408,11 +408,11 @@ func (client ResourceAnalyticsInstanceClient) getWorkRequest(ctx context.Context
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -462,11 +462,11 @@ func (client ResourceAnalyticsInstanceClient) listResourceAnalyticsInstances(ctx
 
 	var response ListResourceAnalyticsInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ListResourceAnalyticsInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstanceCollection/ListResourceAnalyticsInstances"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ListResourceAnalyticsInstances", apiReferenceLink)
 		return response, err
 	}
@@ -516,11 +516,11 @@ func (client ResourceAnalyticsInstanceClient) listWorkRequestErrors(ctx context.
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -570,11 +570,11 @@ func (client ResourceAnalyticsInstanceClient) listWorkRequestLogs(ctx context.Co
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -624,11 +624,11 @@ func (client ResourceAnalyticsInstanceClient) listWorkRequests(ctx context.Conte
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -677,11 +677,11 @@ func (client ResourceAnalyticsInstanceClient) resourceAnalyticsInstanceDisableOa
 
 	var response ResourceAnalyticsInstanceDisableOacResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ResourceAnalyticsInstanceDisableOac")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/ResourceAnalyticsInstanceDisableOac"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ResourceAnalyticsInstanceDisableOac", apiReferenceLink)
 		return response, err
 	}
@@ -730,11 +730,11 @@ func (client ResourceAnalyticsInstanceClient) resourceAnalyticsInstanceEnableOac
 
 	var response ResourceAnalyticsInstanceEnableOacResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "ResourceAnalyticsInstanceEnableOac")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/ResourceAnalyticsInstanceEnableOac"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "ResourceAnalyticsInstanceEnableOac", apiReferenceLink)
 		return response, err
 	}
@@ -784,11 +784,11 @@ func (client ResourceAnalyticsInstanceClient) updateResourceAnalyticsInstance(ct
 
 	var response UpdateResourceAnalyticsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceAnalyticsInstance", "UpdateResourceAnalyticsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resource-analytics/20241031/ResourceAnalyticsInstance/UpdateResourceAnalyticsInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ResourceAnalyticsInstance", "UpdateResourceAnalyticsInstance", apiReferenceLink)
 		return response, err
 	}

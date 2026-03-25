@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// UpdateAnalyticsInstanceDetails Input payload to update an Analytics instance. Fields that are not provided
-// will not be updated.
+// UpdateAnalyticsInstanceDetails Input payload to update an Analytics instance. Fields that aren't provided
+// won't be updated.
 type UpdateAnalyticsInstanceDetails struct {
 
 	// Optional description.
@@ -38,7 +38,7 @@ type UpdateAnalyticsInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Analytics instance update channel.
+	// The Analytics instance update cycle.
 	UpdateChannel UpdateChannelEnum `mandatory:"false" json:"updateChannel,omitempty"`
 }
 

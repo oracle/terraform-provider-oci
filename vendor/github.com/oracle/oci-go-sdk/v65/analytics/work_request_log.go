@@ -21,7 +21,7 @@ type WorkRequestLog struct {
 	// The description of the event that occurred.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The date and time the log entry occured, in the format defined by RFC3339.
+	// The date and time the log entry occurred, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }

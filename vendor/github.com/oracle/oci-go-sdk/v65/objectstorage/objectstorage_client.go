@@ -107,13 +107,13 @@ func (client *ObjectStorageClient) getEndpointTemplatePerRealm(region string) st
 	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
 		realm, _ := common.StringToRegion(region).RealmID()
 		templatePerRealmDict := map[string]string{
-			"oc1": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.customer-oci.com",
+			"oc1": "https://{namespaceName+Dot}objectstorage.{region}.{dualStack?ds.:}oci.customer-oci.com",
 		}
 		if template, ok := templatePerRealmDict[realm]; ok {
 			return template
 		}
 	}
-	return "https://objectstorage.{region}.{secondLevelDomain}"
+	return "https://objectstorage.{region}.{dualStack?ds.oci.:}{secondLevelDomain}"
 }
 
 // parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
@@ -202,7 +202,7 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 
 	var response AbortMultipartUploadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "AbortMultipartUpload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client ObjectStorageClient) batchDeleteObjects(ctx context.Context, reques
 
 	var response BatchDeleteObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "BatchDeleteObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -328,7 +328,7 @@ func (client ObjectStorageClient) bulkCopyObjects(ctx context.Context, request c
 
 	var response BulkCopyObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "BulkCopyObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -390,7 +390,7 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -468,7 +468,7 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 
 	var response CheckObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CheckObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -544,7 +544,7 @@ func (client ObjectStorageClient) checkObjectV2(ctx context.Context, request com
 
 	var response CheckObjectV2Response
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CheckObjectV2")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -606,7 +606,7 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 
 	var response CommitMultipartUploadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CommitMultipartUpload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -670,7 +670,7 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 
 	var response CopyObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CopyObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -732,7 +732,7 @@ func (client ObjectStorageClient) copyPart(ctx context.Context, request common.O
 
 	var response CopyPartResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CopyPart")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -800,7 +800,7 @@ func (client ObjectStorageClient) createAcl(ctx context.Context, request common.
 
 	var response CreateAclResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateAcl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -867,7 +867,7 @@ func (client ObjectStorageClient) createAclGroup(ctx context.Context, request co
 
 	var response CreateAclGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateAclGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -930,7 +930,7 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 
 	var response CreateBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -992,7 +992,7 @@ func (client ObjectStorageClient) createInventoryRule(ctx context.Context, reque
 
 	var response CreateInventoryRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateInventoryRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1056,7 +1056,7 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 
 	var response CreateMultipartUploadResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateMultipartUpload")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1118,7 +1118,7 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 
 	var response CreatePreauthenticatedRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreatePreauthenticatedRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1180,7 +1180,7 @@ func (client ObjectStorageClient) createPrivateEndpoint(ctx context.Context, req
 
 	var response CreatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1242,7 +1242,7 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 
 	var response CreateReplicationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateReplicationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1305,7 +1305,7 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 
 	var response CreateRetentionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "CreateRetentionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1367,7 +1367,7 @@ func (client ObjectStorageClient) deleteAcl(ctx context.Context, request common.
 
 	var response DeleteAclResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteAcl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1429,7 +1429,7 @@ func (client ObjectStorageClient) deleteAclGroup(ctx context.Context, request co
 
 	var response DeleteAclGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteAclGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1494,7 +1494,7 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 
 	var response DeleteBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1556,7 +1556,7 @@ func (client ObjectStorageClient) deleteInventoryRule(ctx context.Context, reque
 
 	var response DeleteInventoryRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteInventoryRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1618,7 +1618,7 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 
 	var response DeleteObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1680,7 +1680,7 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 
 	var response DeleteObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteObjectLifecyclePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1742,7 +1742,7 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 
 	var response DeletePreauthenticatedRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeletePreauthenticatedRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1804,7 +1804,7 @@ func (client ObjectStorageClient) deletePrivateEndpoint(ctx context.Context, req
 
 	var response DeletePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeletePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1866,7 +1866,7 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 
 	var response DeleteReplicationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteReplicationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1928,7 +1928,7 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 
 	var response DeleteRetentionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "DeleteRetentionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1990,7 +1990,7 @@ func (client ObjectStorageClient) getAcl(ctx context.Context, request common.OCI
 
 	var response GetAclResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetAcl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2052,7 +2052,7 @@ func (client ObjectStorageClient) getAclGroup(ctx context.Context, request commo
 
 	var response GetAclGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetAclGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2114,7 +2114,7 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 
 	var response GetBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2177,7 +2177,7 @@ func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request 
 
 	var response GetBucketOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetBucketOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2239,7 +2239,7 @@ func (client ObjectStorageClient) getInventoryRule(ctx context.Context, request 
 
 	var response GetInventoryRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetInventoryRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2301,7 +2301,7 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 
 	var response GetNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2368,7 +2368,7 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 
 	var response GetNamespaceMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetNamespaceMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2430,7 +2430,7 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 
 	var response GetObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetObject")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/GetObject"
@@ -2491,7 +2491,7 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 
 	var response GetObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetObjectLifecyclePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2553,7 +2553,7 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 
 	var response GetPreauthenticatedRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetPreauthenticatedRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2615,7 +2615,7 @@ func (client ObjectStorageClient) getPrivateEndpoint(ctx context.Context, reques
 
 	var response GetPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2677,7 +2677,7 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 
 	var response GetReplicationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetReplicationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2739,7 +2739,7 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 
 	var response GetRetentionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetRetentionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2801,7 +2801,7 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2863,7 +2863,7 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 
 	var response HeadBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "HeadBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2925,7 +2925,7 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 
 	var response HeadObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "HeadObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2987,7 +2987,7 @@ func (client ObjectStorageClient) listAclGroups(ctx context.Context, request com
 
 	var response ListAclGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListAclGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3049,7 +3049,7 @@ func (client ObjectStorageClient) listAcls(ctx context.Context, request common.O
 
 	var response ListAclsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListAcls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3117,7 +3117,7 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 
 	var response ListBucketsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListBuckets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3179,7 +3179,7 @@ func (client ObjectStorageClient) listInventoryRules(ctx context.Context, reques
 
 	var response ListInventoryRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListInventoryRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3241,7 +3241,7 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 
 	var response ListMultipartUploadPartsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListMultipartUploadParts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3303,7 +3303,7 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 
 	var response ListMultipartUploadsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListMultipartUploads")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3370,7 +3370,7 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 
 	var response ListObjectVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListObjectVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3439,7 +3439,7 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 
 	var response ListObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3501,7 +3501,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 
 	var response ListPreauthenticatedRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListPreauthenticatedRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3566,7 +3566,7 @@ func (client ObjectStorageClient) listPrivateEndpoints(ctx context.Context, requ
 
 	var response ListPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3628,7 +3628,7 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 
 	var response ListReplicationPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListReplicationPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3690,7 +3690,7 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 
 	var response ListReplicationSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListReplicationSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3753,7 +3753,7 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 
 	var response ListRetentionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListRetentionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3815,7 +3815,7 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3877,7 +3877,7 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3939,7 +3939,7 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4004,7 +4004,7 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 
 	var response MakeBucketWritableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "MakeBucketWritable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4066,7 +4066,7 @@ func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, reque
 
 	var response MergeObjectMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "MergeObjectMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4145,7 +4145,7 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "objectStorage", OperationName: "PutObject"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4207,7 +4207,7 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 
 	var response PutObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "PutObjectLifecyclePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4269,7 +4269,7 @@ func (client ObjectStorageClient) queryObject(ctx context.Context, request commo
 
 	var response QueryObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "QueryObject")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/QueryObject"
@@ -4330,7 +4330,7 @@ func (client ObjectStorageClient) readObjectSchema(ctx context.Context, request 
 
 	var response ReadObjectSchemaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ReadObjectSchema")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4407,7 +4407,7 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 
 	var response ReencryptBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ReencryptBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4474,7 +4474,7 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 
 	var response ReencryptObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ReencryptObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4538,7 +4538,7 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 
 	var response RenameObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "RenameObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4600,7 +4600,7 @@ func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, req
 
 	var response ReplaceObjectMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "ReplaceObjectMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4663,7 +4663,7 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 
 	var response RestoreObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "RestoreObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4728,7 +4728,7 @@ func (client ObjectStorageClient) restoreSoftDeletedObject(ctx context.Context, 
 
 	var response RestoreSoftDeletedObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "RestoreSoftDeletedObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4790,7 +4790,7 @@ func (client ObjectStorageClient) startPrefixRename(ctx context.Context, request
 
 	var response StartPrefixRenameResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "StartPrefixRename")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4852,7 +4852,7 @@ func (client ObjectStorageClient) updateAcl(ctx context.Context, request common.
 
 	var response UpdateAclResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateAcl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4914,7 +4914,7 @@ func (client ObjectStorageClient) updateAclGroup(ctx context.Context, request co
 
 	var response UpdateAclGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateAclGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4979,7 +4979,7 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 
 	var response UpdateBucketResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateBucket")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5046,7 +5046,7 @@ func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, reque
 
 	var response UpdateBucketOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateBucketOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5108,7 +5108,7 @@ func (client ObjectStorageClient) updateInventoryRule(ctx context.Context, reque
 
 	var response UpdateInventoryRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateInventoryRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5175,7 +5175,7 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 
 	var response UpdateNamespaceMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateNamespaceMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5237,7 +5237,7 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 
 	var response UpdateObjectStorageTierResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateObjectStorageTier")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5304,7 +5304,7 @@ func (client ObjectStorageClient) updatePrivateEndpoint(ctx context.Context, req
 
 	var response UpdatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5366,7 +5366,7 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 
 	var response UpdateRetentionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "objectStorage", "UpdateRetentionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5440,7 +5440,7 @@ func (client ObjectStorageClient) uploadPart(ctx context.Context, request common
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "objectStorage", OperationName: "UploadPart"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

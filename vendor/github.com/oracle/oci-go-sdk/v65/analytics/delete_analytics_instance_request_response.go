@@ -14,7 +14,7 @@ import (
 // DeleteAnalyticsInstanceRequest wrapper for the DeleteAnalyticsInstance operation
 type DeleteAnalyticsInstanceRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -136,7 +136,7 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 
 	var response CreateCustomTableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "CreateCustomTable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client UsageapiClient) createEmailRecipientsGroup(ctx context.Context, req
 
 	var response CreateEmailRecipientsGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "CreateEmailRecipientsGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client UsageapiClient) createQuery(ctx context.Context, request common.OCI
 
 	var response CreateQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "CreateQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client UsageapiClient) createSchedule(ctx context.Context, request common.
 
 	var response CreateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "CreateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client UsageapiClient) createUsageCarbonEmissionsQuery(ctx context.Context
 
 	var response CreateUsageCarbonEmissionsQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "CreateUsageCarbonEmissionsQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -421,7 +421,7 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 
 	var response DeleteCustomTableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "DeleteCustomTable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -474,7 +474,7 @@ func (client UsageapiClient) deleteEmailRecipientsGroup(ctx context.Context, req
 
 	var response DeleteEmailRecipientsGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "DeleteEmailRecipientsGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -527,7 +527,7 @@ func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCI
 
 	var response DeleteQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "DeleteQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -580,7 +580,7 @@ func (client UsageapiClient) deleteSchedule(ctx context.Context, request common.
 
 	var response DeleteScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "DeleteSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -633,7 +633,7 @@ func (client UsageapiClient) deleteUsageCarbonEmissionsQuery(ctx context.Context
 
 	var response DeleteUsageCarbonEmissionsQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "DeleteUsageCarbonEmissionsQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -686,7 +686,7 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 
 	var response GetCustomTableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetCustomTable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -739,7 +739,7 @@ func (client UsageapiClient) getEmailRecipientsGroup(ctx context.Context, reques
 
 	var response GetEmailRecipientsGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetEmailRecipientsGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -792,7 +792,7 @@ func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIReq
 
 	var response GetQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -845,7 +845,7 @@ func (client UsageapiClient) getSchedule(ctx context.Context, request common.OCI
 
 	var response GetScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -898,7 +898,7 @@ func (client UsageapiClient) getScheduledRun(ctx context.Context, request common
 
 	var response GetScheduledRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetScheduledRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -951,7 +951,7 @@ func (client UsageapiClient) getUsageCarbonEmissionsQuery(ctx context.Context, r
 
 	var response GetUsageCarbonEmissionsQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "GetUsageCarbonEmissionsQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1004,7 +1004,7 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 
 	var response ListCustomTablesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListCustomTables")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1062,7 +1062,7 @@ func (client UsageapiClient) listEmailRecipientsGroups(ctx context.Context, requ
 
 	var response ListEmailRecipientsGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListEmailRecipientsGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1115,7 +1115,7 @@ func (client UsageapiClient) listQueries(ctx context.Context, request common.OCI
 
 	var response ListQueriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListQueries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1168,7 +1168,7 @@ func (client UsageapiClient) listScheduledRuns(ctx context.Context, request comm
 
 	var response ListScheduledRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListScheduledRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1221,7 +1221,7 @@ func (client UsageapiClient) listSchedules(ctx context.Context, request common.O
 
 	var response ListSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1274,7 +1274,7 @@ func (client UsageapiClient) listUsageCarbonEmissionsQueries(ctx context.Context
 
 	var response ListUsageCarbonEmissionsQueriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "ListUsageCarbonEmissionsQueries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1327,7 +1327,7 @@ func (client UsageapiClient) requestAverageCarbonEmission(ctx context.Context, r
 
 	var response RequestAverageCarbonEmissionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestAverageCarbonEmission")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1380,7 +1380,7 @@ func (client UsageapiClient) requestCleanEnergyUsage(ctx context.Context, reques
 
 	var response RequestCleanEnergyUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestCleanEnergyUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1433,7 +1433,7 @@ func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context
 
 	var response RequestSummarizedConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestSummarizedConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1486,7 +1486,7 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 
 	var response RequestSummarizedUsagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestSummarizedUsages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1539,7 +1539,7 @@ func (client UsageapiClient) requestUsageCarbonEmissionConfig(ctx context.Contex
 
 	var response RequestUsageCarbonEmissionConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestUsageCarbonEmissionConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1592,7 +1592,7 @@ func (client UsageapiClient) requestUsageCarbonEmissions(ctx context.Context, re
 
 	var response RequestUsageCarbonEmissionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "RequestUsageCarbonEmissions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1645,7 +1645,7 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 
 	var response UpdateCustomTableResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "UpdateCustomTable")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1698,7 +1698,7 @@ func (client UsageapiClient) updateEmailRecipientsGroup(ctx context.Context, req
 
 	var response UpdateEmailRecipientsGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "UpdateEmailRecipientsGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1751,7 +1751,7 @@ func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCI
 
 	var response UpdateQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "UpdateQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1804,7 +1804,7 @@ func (client UsageapiClient) updateSchedule(ctx context.Context, request common.
 
 	var response UpdateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "UpdateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1857,7 +1857,7 @@ func (client UsageapiClient) updateUsageCarbonEmissionsQuery(ctx context.Context
 
 	var response UpdateUsageCarbonEmissionsQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usageapi", "UpdateUsageCarbonEmissionsQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

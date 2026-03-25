@@ -26,6 +26,9 @@ type ListGiVersionMinorVersionsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// If provided, filters the results for the given Exadata Infrastructure.
+	ExadataInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"exadataInfrastructureId"`
+
 	// If provided, filters the results to the set of database versions which are supported for the given shape family.
 	ShapeFamily ListGiVersionMinorVersionsShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"shapeFamily" omitEmpty:"true"`
 

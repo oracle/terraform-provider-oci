@@ -137,11 +137,11 @@ func (client DatabaseRecoveryClient) cancelLongTermBackup(ctx context.Context, r
 
 	var response CancelLongTermBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CancelLongTermBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackup/CancelLongTermBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CancelLongTermBackup", apiReferenceLink)
 		return response, err
 	}
@@ -196,11 +196,11 @@ func (client DatabaseRecoveryClient) cancelProtectedDatabaseDeletion(ctx context
 
 	var response CancelProtectedDatabaseDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CancelProtectedDatabaseDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/CancelProtectedDatabaseDeletion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CancelProtectedDatabaseDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -255,11 +255,11 @@ func (client DatabaseRecoveryClient) changeProtectedDatabaseCompartment(ctx cont
 
 	var response ChangeProtectedDatabaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ChangeProtectedDatabaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ChangeProtectedDatabaseCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectedDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -314,11 +314,11 @@ func (client DatabaseRecoveryClient) changeProtectedDatabaseSubscription(ctx con
 
 	var response ChangeProtectedDatabaseSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ChangeProtectedDatabaseSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ChangeProtectedDatabaseSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectedDatabaseSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -373,11 +373,11 @@ func (client DatabaseRecoveryClient) changeProtectionPolicyCompartment(ctx conte
 
 	var response ChangeProtectionPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ChangeProtectionPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/ChangeProtectionPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectionPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -432,11 +432,11 @@ func (client DatabaseRecoveryClient) changeRecoveryServiceSubnetCompartment(ctx 
 
 	var response ChangeRecoveryServiceSubnetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ChangeRecoveryServiceSubnetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/ChangeRecoveryServiceSubnetCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeRecoveryServiceSubnetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -491,11 +491,11 @@ func (client DatabaseRecoveryClient) createLongTermBackup(ctx context.Context, r
 
 	var response CreateLongTermBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CreateLongTermBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackup/CreateLongTermBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateLongTermBackup", apiReferenceLink)
 		return response, err
 	}
@@ -550,11 +550,11 @@ func (client DatabaseRecoveryClient) createProtectedDatabase(ctx context.Context
 
 	var response CreateProtectedDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CreateProtectedDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/CreateProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -609,11 +609,11 @@ func (client DatabaseRecoveryClient) createProtectionPolicy(ctx context.Context,
 
 	var response CreateProtectionPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CreateProtectionPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/CreateProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -668,11 +668,11 @@ func (client DatabaseRecoveryClient) createRecoveryServiceSubnet(ctx context.Con
 
 	var response CreateRecoveryServiceSubnetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "CreateRecoveryServiceSubnet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/CreateRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -722,11 +722,11 @@ func (client DatabaseRecoveryClient) deleteLongTermBackup(ctx context.Context, r
 
 	var response DeleteLongTermBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "DeleteLongTermBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackup/DeleteLongTermBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteLongTermBackup", apiReferenceLink)
 		return response, err
 	}
@@ -777,11 +777,11 @@ func (client DatabaseRecoveryClient) deleteProtectedDatabase(ctx context.Context
 
 	var response DeleteProtectedDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "DeleteProtectedDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/DeleteProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -832,11 +832,11 @@ func (client DatabaseRecoveryClient) deleteProtectionPolicy(ctx context.Context,
 
 	var response DeleteProtectionPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "DeleteProtectionPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/DeleteProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -886,11 +886,11 @@ func (client DatabaseRecoveryClient) deleteRecoveryServiceSubnet(ctx context.Con
 
 	var response DeleteRecoveryServiceSubnetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "DeleteRecoveryServiceSubnet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/DeleteRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -945,10 +945,10 @@ func (client DatabaseRecoveryClient) fetchProtectedDatabaseConfiguration(ctx con
 
 	var response FetchProtectedDatabaseConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "FetchProtectedDatabaseConfiguration")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/FetchProtectedDatabaseConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "FetchProtectedDatabaseConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -998,11 +998,11 @@ func (client DatabaseRecoveryClient) getLongTermBackup(ctx context.Context, requ
 
 	var response GetLongTermBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "GetLongTermBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackup/GetLongTermBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetLongTermBackup", apiReferenceLink)
 		return response, err
 	}
@@ -1052,11 +1052,11 @@ func (client DatabaseRecoveryClient) getProtectedDatabase(ctx context.Context, r
 
 	var response GetProtectedDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "GetProtectedDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/GetProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1106,11 +1106,11 @@ func (client DatabaseRecoveryClient) getProtectionPolicy(ctx context.Context, re
 
 	var response GetProtectionPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "GetProtectionPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/GetProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1160,11 +1160,11 @@ func (client DatabaseRecoveryClient) getRecoveryServiceSubnet(ctx context.Contex
 
 	var response GetRecoveryServiceSubnetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "GetRecoveryServiceSubnet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/GetRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -1214,11 +1214,11 @@ func (client DatabaseRecoveryClient) getWorkRequest(ctx context.Context, request
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1268,11 +1268,11 @@ func (client DatabaseRecoveryClient) listLongTermBackups(ctx context.Context, re
 
 	var response ListLongTermBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListLongTermBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackupCollection/ListLongTermBackups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListLongTermBackups", apiReferenceLink)
 		return response, err
 	}
@@ -1322,11 +1322,11 @@ func (client DatabaseRecoveryClient) listProtectedDatabases(ctx context.Context,
 
 	var response ListProtectedDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListProtectedDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabaseCollection/ListProtectedDatabases"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListProtectedDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -1376,11 +1376,11 @@ func (client DatabaseRecoveryClient) listProtectionPolicies(ctx context.Context,
 
 	var response ListProtectionPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListProtectionPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicyCollection/ListProtectionPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListProtectionPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -1430,11 +1430,11 @@ func (client DatabaseRecoveryClient) listRecoveryServiceSubnets(ctx context.Cont
 
 	var response ListRecoveryServiceSubnetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListRecoveryServiceSubnets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnetCollection/ListRecoveryServiceSubnets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListRecoveryServiceSubnets", apiReferenceLink)
 		return response, err
 	}
@@ -1484,11 +1484,11 @@ func (client DatabaseRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1538,11 +1538,11 @@ func (client DatabaseRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1592,11 +1592,11 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestSummaryCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1654,11 +1654,11 @@ func (client DatabaseRecoveryClient) scheduleProtectedDatabaseDeletion(ctx conte
 
 	var response ScheduleProtectedDatabaseDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "ScheduleProtectedDatabaseDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ScheduleProtectedDatabaseDeletion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ScheduleProtectedDatabaseDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -1708,11 +1708,11 @@ func (client DatabaseRecoveryClient) updateLongTermBackup(ctx context.Context, r
 
 	var response UpdateLongTermBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "UpdateLongTermBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/LongTermBackup/UpdateLongTermBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateLongTermBackup", apiReferenceLink)
 		return response, err
 	}
@@ -1762,11 +1762,11 @@ func (client DatabaseRecoveryClient) updateProtectedDatabase(ctx context.Context
 
 	var response UpdateProtectedDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "UpdateProtectedDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/UpdateProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1816,11 +1816,11 @@ func (client DatabaseRecoveryClient) updateProtectionPolicy(ctx context.Context,
 
 	var response UpdateProtectionPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "UpdateProtectionPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/UpdateProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1870,11 +1870,11 @@ func (client DatabaseRecoveryClient) updateRecoveryServiceSubnet(ctx context.Con
 
 	var response UpdateRecoveryServiceSubnetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "UpdateRecoveryServiceSubnet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/UpdateRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}

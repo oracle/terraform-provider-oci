@@ -58,6 +58,9 @@ type CreateComputeGpuMemoryClusterDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	GpuMemoryClusterScaleConfig *CreateComputeGpuMemoryClusterScaleConfig `mandatory:"false" json:"gpuMemoryClusterScaleConfig"`
+
+	// Unique list of OCIDs for private IPs (IPv4/IPv6) associated with the GPU Memory Cluster
+	PrivateIpIds []string `mandatory:"false" json:"privateIpIds"`
 }
 
 func (m CreateComputeGpuMemoryClusterDetails) String() string {

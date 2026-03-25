@@ -137,11 +137,11 @@ func (client DistributedDbPrivateEndpointServiceClient) changeDistributedDatabas
 
 	var response ChangeDistributedDatabasePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ChangeDistributedDatabasePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpoint/ChangeDistributedDatabasePrivateEndpointCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "ChangeDistributedDatabasePrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client DistributedDbPrivateEndpointServiceClient) createDistributedDatabas
 
 	var response CreateDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "CreateDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -255,11 +255,11 @@ func (client DistributedDbPrivateEndpointServiceClient) deleteDistributedDatabas
 
 	var response DeleteDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "DeleteDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpoint/DeleteDistributedDatabasePrivateEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "DeleteDistributedDatabasePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -309,11 +309,11 @@ func (client DistributedDbPrivateEndpointServiceClient) getDistributedDatabasePr
 
 	var response GetDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "GetDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpoint/GetDistributedDatabasePrivateEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "GetDistributedDatabasePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -363,11 +363,11 @@ func (client DistributedDbPrivateEndpointServiceClient) listDistributedDatabaseP
 
 	var response ListDistributedDatabasePrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ListDistributedDatabasePrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpointCollection/ListDistributedDatabasePrivateEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "ListDistributedDatabasePrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -422,11 +422,11 @@ func (client DistributedDbPrivateEndpointServiceClient) reinstateProxyInstance(c
 
 	var response ReinstateProxyInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ReinstateProxyInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpoint/ReinstateProxyInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "ReinstateProxyInstance", apiReferenceLink)
 		return response, err
 	}
@@ -481,11 +481,11 @@ func (client DistributedDbPrivateEndpointServiceClient) updateDistributedDatabas
 
 	var response UpdateDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "UpdateDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabasePrivateEndpoint/UpdateDistributedDatabasePrivateEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedDbPrivateEndpointService", "UpdateDistributedDatabasePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}

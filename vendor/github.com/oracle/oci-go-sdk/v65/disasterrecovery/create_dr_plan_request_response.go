@@ -81,7 +81,7 @@ type CreateDrPlanResponse struct {
 	// A URI for the new resource which was created by the request.
 	Location *string `presentIn:"header" name:"location"`
 
-	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. For more information, see ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier (OCID) for the asynchronous request. You can use this to query status of the asynchronous operation. Use GetWorkRequest with this OCID to track the status of the request.

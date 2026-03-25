@@ -137,11 +137,11 @@ func (client LfsPoolClient) createPool(ctx context.Context, request common.OCIRe
 
 	var response CreatePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsPool", "CreatePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/CreatePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsPool", "CreatePool", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client LfsPoolClient) deletePool(ctx context.Context, request common.OCIRe
 
 	var response DeletePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsPool", "DeletePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/DeletePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsPool", "DeletePool", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client LfsPoolClient) getPool(ctx context.Context, request common.OCIReque
 
 	var response GetPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsPool", "GetPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/GetPool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsPool", "GetPool", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client LfsPoolClient) listPools(ctx context.Context, request common.OCIReq
 
 	var response ListPoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsPool", "ListPools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/PoolCollection/ListPools"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsPool", "ListPools", apiReferenceLink)
 		return response, err
 	}
@@ -353,11 +353,11 @@ func (client LfsPoolClient) updatePool(ctx context.Context, request common.OCIRe
 
 	var response UpdatePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsPool", "UpdatePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/UpdatePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsPool", "UpdatePool", apiReferenceLink)
 		return response, err
 	}

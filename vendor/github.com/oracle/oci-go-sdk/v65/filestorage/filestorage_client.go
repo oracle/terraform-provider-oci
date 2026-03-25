@@ -145,7 +145,7 @@ func (client FileStorageClient) addExportLock(ctx context.Context, request commo
 
 	var response AddExportLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddExportLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client FileStorageClient) addFileSystemLock(ctx context.Context, request c
 
 	var response AddFileSystemLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddFileSystemLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -265,7 +265,7 @@ func (client FileStorageClient) addFilesystemSnapshotPolicyLock(ctx context.Cont
 
 	var response AddFilesystemSnapshotPolicyLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddFilesystemSnapshotPolicyLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -325,7 +325,7 @@ func (client FileStorageClient) addMountTargetLock(ctx context.Context, request 
 
 	var response AddMountTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddMountTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -385,7 +385,7 @@ func (client FileStorageClient) addOutboundConnectorLock(ctx context.Context, re
 
 	var response AddOutboundConnectorLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddOutboundConnectorLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -445,7 +445,7 @@ func (client FileStorageClient) addReplicationLock(ctx context.Context, request 
 
 	var response AddReplicationLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddReplicationLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -505,7 +505,7 @@ func (client FileStorageClient) addSnapshotLock(ctx context.Context, request com
 
 	var response AddSnapshotLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "AddSnapshotLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -565,7 +565,7 @@ func (client FileStorageClient) cancelDowngradeShapeMountTarget(ctx context.Cont
 
 	var response CancelDowngradeShapeMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CancelDowngradeShapeMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -625,7 +625,7 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 
 	var response ChangeFileSystemCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeFileSystemCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -685,7 +685,7 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 
 	var response ChangeFilesystemSnapshotPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeFilesystemSnapshotPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -745,7 +745,7 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 
 	var response ChangeMountTargetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeMountTargetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -807,7 +807,7 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 
 	var response ChangeOutboundConnectorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeOutboundConnectorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -868,7 +868,7 @@ func (client FileStorageClient) changeReplicationCompartment(ctx context.Context
 
 	var response ChangeReplicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeReplicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -929,7 +929,7 @@ func (client FileStorageClient) changeReplicationTargetCompartment(ctx context.C
 
 	var response ChangeReplicationTargetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ChangeReplicationTargetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -989,7 +989,7 @@ func (client FileStorageClient) checkReconciliation(ctx context.Context, request
 
 	var response CheckReconciliationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CheckReconciliation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1055,7 +1055,7 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 
 	var response CreateExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1143,7 +1143,7 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 
 	var response CreateFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1211,7 +1211,7 @@ func (client FileStorageClient) createFilesystemSnapshotPolicy(ctx context.Conte
 
 	var response CreateFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1303,7 +1303,7 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 
 	var response CreateMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1384,7 +1384,7 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 
 	var response CreateOutboundConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateOutboundConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1450,7 +1450,7 @@ func (client FileStorageClient) createQuotaRule(ctx context.Context, request com
 
 	var response CreateQuotaRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateQuotaRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1538,7 +1538,7 @@ func (client FileStorageClient) createReplication(ctx context.Context, request c
 
 	var response CreateReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1604,7 +1604,7 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 
 	var response CreateSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "CreateSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1664,7 +1664,7 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 
 	var response DeleteExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1726,7 +1726,7 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 
 	var response DeleteFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1786,7 +1786,7 @@ func (client FileStorageClient) deleteFilesystemSnapshotPolicy(ctx context.Conte
 
 	var response DeleteFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1847,7 +1847,7 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 
 	var response DeleteMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1907,7 +1907,7 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 
 	var response DeleteOutboundConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteOutboundConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1967,7 +1967,7 @@ func (client FileStorageClient) deleteQuotaRule(ctx context.Context, request com
 
 	var response DeleteQuotaRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteQuotaRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2027,7 +2027,7 @@ func (client FileStorageClient) deleteReplication(ctx context.Context, request c
 
 	var response DeleteReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2090,7 +2090,7 @@ func (client FileStorageClient) deleteReplicationTarget(ctx context.Context, req
 
 	var response DeleteReplicationTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteReplicationTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2150,7 +2150,7 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 
 	var response DeleteSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DeleteSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2210,7 +2210,7 @@ func (client FileStorageClient) detachClone(ctx context.Context, request common.
 
 	var response DetachCloneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "DetachClone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2270,7 +2270,7 @@ func (client FileStorageClient) estimateReplication(ctx context.Context, request
 
 	var response EstimateReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "EstimateReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2330,7 +2330,7 @@ func (client FileStorageClient) failoverMountTarget(ctx context.Context, request
 
 	var response FailoverMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "FailoverMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2390,7 +2390,7 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 
 	var response GetExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2450,7 +2450,7 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 
 	var response GetExportSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetExportSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2510,7 +2510,7 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 
 	var response GetFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2570,7 +2570,7 @@ func (client FileStorageClient) getFilesystemSnapshotPolicy(ctx context.Context,
 
 	var response GetFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2630,7 +2630,7 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 
 	var response GetMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2690,7 +2690,7 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 
 	var response GetOutboundConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetOutboundConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2750,7 +2750,7 @@ func (client FileStorageClient) getQuotaRule(ctx context.Context, request common
 
 	var response GetQuotaRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetQuotaRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2810,7 +2810,7 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 
 	var response GetReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2870,7 +2870,7 @@ func (client FileStorageClient) getReplicationTarget(ctx context.Context, reques
 
 	var response GetReplicationTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetReplicationTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2930,7 +2930,7 @@ func (client FileStorageClient) getReplicationTargetProgress(ctx context.Context
 
 	var response GetReplicationTargetProgressResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetReplicationTargetProgress")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2990,7 +2990,7 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 
 	var response GetSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3050,7 +3050,7 @@ func (client FileStorageClient) getTagSlug(ctx context.Context, request common.O
 
 	var response GetTagSlugResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetTagSlug")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3110,7 +3110,7 @@ func (client FileStorageClient) getWorkflowOrReplicationTarget(ctx context.Conte
 
 	var response GetWorkflowOrReplicationTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "GetWorkflowOrReplicationTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3170,7 +3170,7 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 
 	var response ListExportSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListExportSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3232,7 +3232,7 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 
 	var response ListExportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListExports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3293,7 +3293,7 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 
 	var response ListFileSystemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListFileSystems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3353,7 +3353,7 @@ func (client FileStorageClient) listFilesystemSnapshotPolicies(ctx context.Conte
 
 	var response ListFilesystemSnapshotPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListFilesystemSnapshotPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3413,7 +3413,7 @@ func (client FileStorageClient) listMountTargets(ctx context.Context, request co
 
 	var response ListMountTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListMountTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3489,7 +3489,7 @@ func (client FileStorageClient) listOutboundConnectors(ctx context.Context, requ
 
 	var response ListOutboundConnectorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListOutboundConnectors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3549,7 +3549,7 @@ func (client FileStorageClient) listQuotaRules(ctx context.Context, request comm
 
 	var response ListQuotaRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListQuotaRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3609,7 +3609,7 @@ func (client FileStorageClient) listReplicationTargets(ctx context.Context, requ
 
 	var response ListReplicationTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListReplicationTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3669,7 +3669,7 @@ func (client FileStorageClient) listReplications(ctx context.Context, request co
 
 	var response ListReplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListReplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3733,7 +3733,7 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 
 	var response ListSnapshotsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ListSnapshots")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3797,7 +3797,7 @@ func (client FileStorageClient) pauseFilesystemSnapshotPolicy(ctx context.Contex
 
 	var response PauseFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "PauseFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3857,7 +3857,7 @@ func (client FileStorageClient) removeExportLock(ctx context.Context, request co
 
 	var response RemoveExportLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveExportLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3917,7 +3917,7 @@ func (client FileStorageClient) removeFileSystemLock(ctx context.Context, reques
 
 	var response RemoveFileSystemLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveFileSystemLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3977,7 +3977,7 @@ func (client FileStorageClient) removeFilesystemSnapshotPolicyLock(ctx context.C
 
 	var response RemoveFilesystemSnapshotPolicyLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveFilesystemSnapshotPolicyLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4037,7 +4037,7 @@ func (client FileStorageClient) removeMountTargetLock(ctx context.Context, reque
 
 	var response RemoveMountTargetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveMountTargetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4097,7 +4097,7 @@ func (client FileStorageClient) removeOutboundConnectorLock(ctx context.Context,
 
 	var response RemoveOutboundConnectorLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveOutboundConnectorLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4157,7 +4157,7 @@ func (client FileStorageClient) removeReplicationLock(ctx context.Context, reque
 
 	var response RemoveReplicationLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveReplicationLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4217,7 +4217,7 @@ func (client FileStorageClient) removeSnapshotLock(ctx context.Context, request 
 
 	var response RemoveSnapshotLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "RemoveSnapshotLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4277,7 +4277,7 @@ func (client FileStorageClient) replicationFail(ctx context.Context, request com
 
 	var response ReplicationFailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationFail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4337,7 +4337,7 @@ func (client FileStorageClient) replicationStatusUpdate(ctx context.Context, req
 
 	var response ReplicationStatusUpdateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationStatusUpdate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4397,7 +4397,7 @@ func (client FileStorageClient) replicationTargetDelete(ctx context.Context, req
 
 	var response ReplicationTargetDeleteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationTargetDelete")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4457,7 +4457,7 @@ func (client FileStorageClient) replicationTargetFail(ctx context.Context, reque
 
 	var response ReplicationTargetFailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationTargetFail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4517,7 +4517,7 @@ func (client FileStorageClient) replicationTargetFileSystemGet(ctx context.Conte
 
 	var response ReplicationTargetFileSystemGetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationTargetFileSystemGet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4577,7 +4577,7 @@ func (client FileStorageClient) replicationTargetGet(ctx context.Context, reques
 
 	var response ReplicationTargetGetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationTargetGet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4637,7 +4637,7 @@ func (client FileStorageClient) replicationTargetStatusUpdate(ctx context.Contex
 
 	var response ReplicationTargetStatusUpdateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReplicationTargetStatusUpdate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4703,7 +4703,7 @@ func (client FileStorageClient) reserveAndCreateReplicationTarget(ctx context.Co
 
 	var response ReserveAndCreateReplicationTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ReserveAndCreateReplicationTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4763,7 +4763,7 @@ func (client FileStorageClient) scheduleDowngradeShapeMountTarget(ctx context.Co
 
 	var response ScheduleDowngradeShapeMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ScheduleDowngradeShapeMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4823,7 +4823,7 @@ func (client FileStorageClient) sourceTriggeredDelete(ctx context.Context, reque
 
 	var response SourceTriggeredDeleteResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "SourceTriggeredDelete")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4888,7 +4888,7 @@ func (client FileStorageClient) startLoggingMt(ctx context.Context, request comm
 
 	var response StartLoggingMtResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "StartLoggingMt")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4953,7 +4953,7 @@ func (client FileStorageClient) stopLoggingMt(ctx context.Context, request commo
 
 	var response StopLoggingMtResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "StopLoggingMt")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5013,7 +5013,7 @@ func (client FileStorageClient) stopMountTargetRebalancing(ctx context.Context, 
 
 	var response StopMountTargetRebalancingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "StopMountTargetRebalancing")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5073,7 +5073,7 @@ func (client FileStorageClient) targetFileSystemGet(ctx context.Context, request
 
 	var response TargetFileSystemGetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "TargetFileSystemGet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5140,7 +5140,7 @@ func (client FileStorageClient) toggleQuotaRules(ctx context.Context, request co
 
 	var response ToggleQuotaRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ToggleQuotaRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5203,7 +5203,7 @@ func (client FileStorageClient) unpauseFilesystemSnapshotPolicy(ctx context.Cont
 
 	var response UnpauseFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UnpauseFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5263,7 +5263,7 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 
 	var response UpdateExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5323,7 +5323,7 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 
 	var response UpdateExportSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateExportSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5384,7 +5384,7 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 
 	var response UpdateFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5444,7 +5444,7 @@ func (client FileStorageClient) updateFilesystemSnapshotPolicy(ctx context.Conte
 
 	var response UpdateFilesystemSnapshotPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateFilesystemSnapshotPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5509,7 +5509,7 @@ func (client FileStorageClient) updateLoggingMt(ctx context.Context, request com
 
 	var response UpdateLoggingMtResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateLoggingMt")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5569,7 +5569,7 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 
 	var response UpdateMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5629,7 +5629,7 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 
 	var response UpdateOutboundConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateOutboundConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5689,7 +5689,7 @@ func (client FileStorageClient) updateQuotaRule(ctx context.Context, request com
 
 	var response UpdateQuotaRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateQuotaRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5749,7 +5749,7 @@ func (client FileStorageClient) updateReplication(ctx context.Context, request c
 
 	var response UpdateReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5810,7 +5810,7 @@ func (client FileStorageClient) updateReplicationTarget(ctx context.Context, req
 
 	var response UpdateReplicationTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateReplicationTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5870,7 +5870,7 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 
 	var response UpdateSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpdateSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5930,7 +5930,7 @@ func (client FileStorageClient) upgradeShapeMountTarget(ctx context.Context, req
 
 	var response UpgradeShapeMountTargetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "UpgradeShapeMountTarget")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5992,7 +5992,7 @@ func (client FileStorageClient) validateKeyTabs(ctx context.Context, request com
 
 	var response ValidateKeyTabsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fileStorage", "ValidateKeyTabs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

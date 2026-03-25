@@ -18,13 +18,13 @@ import (
 // WorkRequestError Error encountered during the execution of a work request.
 type WorkRequestError struct {
 
-	// A short error code that defines the error, meant for programmatic parsing.
+	// A short error code that defines the error, for programmatic parsing.
 	Code *string `mandatory:"true" json:"code"`
 
 	// Error message.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The date and time the error occured, in the format defined by RFC3339.
+	// The date and time the error occurred, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }

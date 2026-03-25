@@ -32,6 +32,10 @@ const (
 	WorkRequestOperationTypeUpdatePrivateAccessChannel             WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ACCESS_CHANNEL"
 	WorkRequestOperationTypeDeletePrivateAccessChannel             WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ACCESS_CHANNEL"
 	WorkRequestOperationTypeUpdateInstanceEncryptionKey            WorkRequestOperationTypeEnum = "UPDATE_INSTANCE_ENCRYPTION_KEY"
+	WorkRequestOperationTypeCreateResourceGroup                    WorkRequestOperationTypeEnum = "CREATE_RESOURCE_GROUP"
+	WorkRequestOperationTypeUpdateResourceGroup                    WorkRequestOperationTypeEnum = "UPDATE_RESOURCE_GROUP"
+	WorkRequestOperationTypeDeleteResourceGroup                    WorkRequestOperationTypeEnum = "DELETE_RESOURCE_GROUP"
+	WorkRequestOperationTypeSetFeatureSet                          WorkRequestOperationTypeEnum = "SET_FEATURE_SET"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -49,6 +53,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_PRIVATE_ACCESS_CHANNEL":              WorkRequestOperationTypeUpdatePrivateAccessChannel,
 	"DELETE_PRIVATE_ACCESS_CHANNEL":              WorkRequestOperationTypeDeletePrivateAccessChannel,
 	"UPDATE_INSTANCE_ENCRYPTION_KEY":             WorkRequestOperationTypeUpdateInstanceEncryptionKey,
+	"CREATE_RESOURCE_GROUP":                      WorkRequestOperationTypeCreateResourceGroup,
+	"UPDATE_RESOURCE_GROUP":                      WorkRequestOperationTypeUpdateResourceGroup,
+	"DELETE_RESOURCE_GROUP":                      WorkRequestOperationTypeDeleteResourceGroup,
+	"SET_FEATURE_SET":                            WorkRequestOperationTypeSetFeatureSet,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -66,6 +74,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_private_access_channel":              WorkRequestOperationTypeUpdatePrivateAccessChannel,
 	"delete_private_access_channel":              WorkRequestOperationTypeDeletePrivateAccessChannel,
 	"update_instance_encryption_key":             WorkRequestOperationTypeUpdateInstanceEncryptionKey,
+	"create_resource_group":                      WorkRequestOperationTypeCreateResourceGroup,
+	"update_resource_group":                      WorkRequestOperationTypeUpdateResourceGroup,
+	"delete_resource_group":                      WorkRequestOperationTypeDeleteResourceGroup,
+	"set_feature_set":                            WorkRequestOperationTypeSetFeatureSet,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -94,6 +106,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_PRIVATE_ACCESS_CHANNEL",
 		"DELETE_PRIVATE_ACCESS_CHANNEL",
 		"UPDATE_INSTANCE_ENCRYPTION_KEY",
+		"CREATE_RESOURCE_GROUP",
+		"UPDATE_RESOURCE_GROUP",
+		"DELETE_RESOURCE_GROUP",
+		"SET_FEATURE_SET",
 	}
 }
 

@@ -131,7 +131,7 @@ func (client DatabaseToolsClient) addDatabaseToolsConnectionLock(ctx context.Con
 
 	var response AddDatabaseToolsConnectionLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsConnectionLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -184,7 +184,7 @@ func (client DatabaseToolsClient) addDatabaseToolsDatabaseApiGatewayConfigLock(c
 
 	var response AddDatabaseToolsDatabaseApiGatewayConfigLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsDatabaseApiGatewayConfigLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -237,7 +237,7 @@ func (client DatabaseToolsClient) addDatabaseToolsIdentityLock(ctx context.Conte
 
 	var response AddDatabaseToolsIdentityLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsIdentityLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -290,7 +290,7 @@ func (client DatabaseToolsClient) addDatabaseToolsMcpServerLock(ctx context.Cont
 
 	var response AddDatabaseToolsMcpServerLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsMcpServerLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -343,7 +343,7 @@ func (client DatabaseToolsClient) addDatabaseToolsMcpToolsetLock(ctx context.Con
 
 	var response AddDatabaseToolsMcpToolsetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsMcpToolsetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -396,7 +396,7 @@ func (client DatabaseToolsClient) addDatabaseToolsPrivateEndpointLock(ctx contex
 
 	var response AddDatabaseToolsPrivateEndpointLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsPrivateEndpointLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -449,7 +449,7 @@ func (client DatabaseToolsClient) addDatabaseToolsSqlReportLock(ctx context.Cont
 
 	var response AddDatabaseToolsSqlReportLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "AddDatabaseToolsSqlReportLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -502,7 +502,7 @@ func (client DatabaseToolsClient) cascadingDeleteDatabaseToolsMcpServer(ctx cont
 
 	var response CascadingDeleteDatabaseToolsMcpServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CascadingDeleteDatabaseToolsMcpServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -557,7 +557,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 
 	var response ChangeDatabaseToolsConnectionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsConnectionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -612,7 +612,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsDatabaseApiGatewayConfigCom
 
 	var response ChangeDatabaseToolsDatabaseApiGatewayConfigCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -667,7 +667,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsIdentityCompartment(ctx con
 
 	var response ChangeDatabaseToolsIdentityCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsIdentityCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -720,7 +720,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsMcpServerCompartment(ctx co
 
 	var response ChangeDatabaseToolsMcpServerCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsMcpServerCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -773,7 +773,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsMcpToolsetCompartment(ctx c
 
 	var response ChangeDatabaseToolsMcpToolsetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsMcpToolsetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -828,7 +828,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 
 	var response ChangeDatabaseToolsPrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsPrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -881,7 +881,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsSqlReportCompartment(ctx co
 
 	var response ChangeDatabaseToolsSqlReportCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ChangeDatabaseToolsSqlReportCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -940,7 +940,7 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 
 	var response CreateDatabaseToolsConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -999,7 +999,7 @@ func (client DatabaseToolsClient) createDatabaseToolsDatabaseApiGatewayConfig(ct
 
 	var response CreateDatabaseToolsDatabaseApiGatewayConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsDatabaseApiGatewayConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1058,7 +1058,7 @@ func (client DatabaseToolsClient) createDatabaseToolsIdentity(ctx context.Contex
 
 	var response CreateDatabaseToolsIdentityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsIdentity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1117,7 +1117,7 @@ func (client DatabaseToolsClient) createDatabaseToolsMcpServer(ctx context.Conte
 
 	var response CreateDatabaseToolsMcpServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsMcpServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1176,7 +1176,7 @@ func (client DatabaseToolsClient) createDatabaseToolsMcpToolset(ctx context.Cont
 
 	var response CreateDatabaseToolsMcpToolsetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsMcpToolset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1235,7 +1235,7 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 
 	var response CreateDatabaseToolsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1294,7 +1294,7 @@ func (client DatabaseToolsClient) createDatabaseToolsSqlReport(ctx context.Conte
 
 	var response CreateDatabaseToolsSqlReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "CreateDatabaseToolsSqlReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1347,7 +1347,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 
 	var response DeleteDatabaseToolsConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1400,7 +1400,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsDatabaseApiGatewayConfig(ct
 
 	var response DeleteDatabaseToolsDatabaseApiGatewayConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsDatabaseApiGatewayConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1453,7 +1453,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsIdentity(ctx context.Contex
 
 	var response DeleteDatabaseToolsIdentityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsIdentity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1506,7 +1506,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsMcpServer(ctx context.Conte
 
 	var response DeleteDatabaseToolsMcpServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsMcpServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1559,7 +1559,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsMcpToolset(ctx context.Cont
 
 	var response DeleteDatabaseToolsMcpToolsetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsMcpToolset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1612,7 +1612,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 
 	var response DeleteDatabaseToolsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1665,7 +1665,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsSqlReport(ctx context.Conte
 
 	var response DeleteDatabaseToolsSqlReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "DeleteDatabaseToolsSqlReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1719,7 +1719,7 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 
 	var response GetDatabaseToolsConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1773,7 +1773,7 @@ func (client DatabaseToolsClient) getDatabaseToolsDatabaseApiGatewayConfig(ctx c
 
 	var response GetDatabaseToolsDatabaseApiGatewayConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsDatabaseApiGatewayConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1827,7 +1827,7 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 
 	var response GetDatabaseToolsEndpointServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsEndpointService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1881,7 +1881,7 @@ func (client DatabaseToolsClient) getDatabaseToolsIdentity(ctx context.Context, 
 
 	var response GetDatabaseToolsIdentityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsIdentity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1935,7 +1935,7 @@ func (client DatabaseToolsClient) getDatabaseToolsMcpServer(ctx context.Context,
 
 	var response GetDatabaseToolsMcpServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsMcpServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1989,7 +1989,7 @@ func (client DatabaseToolsClient) getDatabaseToolsMcpToolset(ctx context.Context
 
 	var response GetDatabaseToolsMcpToolsetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsMcpToolset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2043,7 +2043,7 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 
 	var response GetDatabaseToolsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2097,7 +2097,7 @@ func (client DatabaseToolsClient) getDatabaseToolsSqlReport(ctx context.Context,
 
 	var response GetDatabaseToolsSqlReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetDatabaseToolsSqlReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2151,7 +2151,7 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2205,7 +2205,7 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 
 	var response ListDatabaseToolsConnectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsConnections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2259,7 +2259,7 @@ func (client DatabaseToolsClient) listDatabaseToolsDatabaseApiGatewayConfigs(ctx
 
 	var response ListDatabaseToolsDatabaseApiGatewayConfigsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsDatabaseApiGatewayConfigs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2313,7 +2313,7 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 
 	var response ListDatabaseToolsEndpointServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsEndpointServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2367,7 +2367,7 @@ func (client DatabaseToolsClient) listDatabaseToolsIdentities(ctx context.Contex
 
 	var response ListDatabaseToolsIdentitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsIdentities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2421,7 +2421,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpServers(ctx context.Contex
 
 	var response ListDatabaseToolsMcpServersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsMcpServers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2475,7 +2475,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpToolsetVersions(ctx contex
 
 	var response ListDatabaseToolsMcpToolsetVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsMcpToolsetVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2529,7 +2529,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpToolsets(ctx context.Conte
 
 	var response ListDatabaseToolsMcpToolsetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsMcpToolsets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2583,7 +2583,7 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 
 	var response ListDatabaseToolsPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2637,7 +2637,7 @@ func (client DatabaseToolsClient) listDatabaseToolsSqlReports(ctx context.Contex
 
 	var response ListDatabaseToolsSqlReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListDatabaseToolsSqlReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2691,7 +2691,7 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2745,7 +2745,7 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2799,7 +2799,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2852,7 +2852,7 @@ func (client DatabaseToolsClient) refreshDatabaseToolsIdentityCredential(ctx con
 
 	var response RefreshDatabaseToolsIdentityCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RefreshDatabaseToolsIdentityCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2905,7 +2905,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsConnectionLock(ctx context.
 
 	var response RemoveDatabaseToolsConnectionLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsConnectionLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2958,7 +2958,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsDatabaseApiGatewayConfigLoc
 
 	var response RemoveDatabaseToolsDatabaseApiGatewayConfigLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsDatabaseApiGatewayConfigLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3011,7 +3011,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsIdentityLock(ctx context.Co
 
 	var response RemoveDatabaseToolsIdentityLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsIdentityLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3064,7 +3064,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsMcpServerLock(ctx context.C
 
 	var response RemoveDatabaseToolsMcpServerLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsMcpServerLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3117,7 +3117,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsMcpToolsetLock(ctx context.
 
 	var response RemoveDatabaseToolsMcpToolsetLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsMcpToolsetLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3170,7 +3170,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsPrivateEndpointLock(ctx con
 
 	var response RemoveDatabaseToolsPrivateEndpointLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsPrivateEndpointLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3223,7 +3223,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsSqlReportLock(ctx context.C
 
 	var response RemoveDatabaseToolsSqlReportLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "RemoveDatabaseToolsSqlReportLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3276,7 +3276,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 
 	var response UpdateDatabaseToolsConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3329,7 +3329,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsDatabaseApiGatewayConfig(ct
 
 	var response UpdateDatabaseToolsDatabaseApiGatewayConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsDatabaseApiGatewayConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3382,7 +3382,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsIdentity(ctx context.Contex
 
 	var response UpdateDatabaseToolsIdentityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsIdentity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3435,7 +3435,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsMcpServer(ctx context.Conte
 
 	var response UpdateDatabaseToolsMcpServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsMcpServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3488,7 +3488,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsMcpToolset(ctx context.Cont
 
 	var response UpdateDatabaseToolsMcpToolsetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsMcpToolset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3541,7 +3541,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 
 	var response UpdateDatabaseToolsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3594,7 +3594,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsSqlReport(ctx context.Conte
 
 	var response UpdateDatabaseToolsSqlReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "UpdateDatabaseToolsSqlReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3647,7 +3647,7 @@ func (client DatabaseToolsClient) validateDatabaseToolsConnection(ctx context.Co
 
 	var response ValidateDatabaseToolsConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ValidateDatabaseToolsConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3701,7 +3701,7 @@ func (client DatabaseToolsClient) validateDatabaseToolsIdentityCredential(ctx co
 
 	var response ValidateDatabaseToolsIdentityCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseTools", "ValidateDatabaseToolsIdentityCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -137,11 +137,11 @@ func (client LfsCpgInfoClient) createLfsCpgInfo(ctx context.Context, request com
 
 	var response CreateLfsCpgInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsCpgInfo", "CreateLfsCpgInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/CreateLfsCpgInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "CreateLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client LfsCpgInfoClient) deleteLfsCpgInfo(ctx context.Context, request com
 
 	var response DeleteLfsCpgInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsCpgInfo", "DeleteLfsCpgInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/DeleteLfsCpgInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "DeleteLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client LfsCpgInfoClient) getLfsCpgInfo(ctx context.Context, request common
 
 	var response GetLfsCpgInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsCpgInfo", "GetLfsCpgInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/GetLfsCpgInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "GetLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -299,11 +299,11 @@ func (client LfsCpgInfoClient) listLfsCpgInfos(ctx context.Context, request comm
 
 	var response ListLfsCpgInfosResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsCpgInfo", "ListLfsCpgInfos")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfoCollection/ListLfsCpgInfos"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "ListLfsCpgInfos", apiReferenceLink)
 		return response, err
 	}
@@ -353,11 +353,11 @@ func (client LfsCpgInfoClient) updateLfsCpgInfo(ctx context.Context, request com
 
 	var response UpdateLfsCpgInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lfsCpgInfo", "UpdateLfsCpgInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/UpdateLfsCpgInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "UpdateLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}

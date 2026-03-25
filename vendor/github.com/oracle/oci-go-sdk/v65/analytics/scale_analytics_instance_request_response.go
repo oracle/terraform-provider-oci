@@ -14,7 +14,7 @@ import (
 // ScaleAnalyticsInstanceRequest wrapper for the ScaleAnalyticsInstance operation
 type ScaleAnalyticsInstanceRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Input payload for scaling an Analytics instance up or down.

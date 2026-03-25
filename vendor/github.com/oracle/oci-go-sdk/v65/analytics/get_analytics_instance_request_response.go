@@ -14,7 +14,7 @@ import (
 // GetAnalyticsInstanceRequest wrapper for the GetAnalyticsInstance operation
 type GetAnalyticsInstanceRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Unique identifier for the request.

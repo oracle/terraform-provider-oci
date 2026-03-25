@@ -6,7 +6,7 @@
 //
 // Use the Database Management API to monitor and manage resources such as
 // Oracle Databases, MySQL Databases, and External Database Systems.
-// For more information, see Database Management (https://docs.oracle.com/iaas/database-management/home.htm).
+// For more information, see Database Management (https://docs.oracle.com/iaas/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdateCloudDbSystemMacsConnectorDetails The details for updating the cloud Management Agent Cloud Service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html)
+// UpdateCloudDbSystemMacsConnectorDetails The details for updating the cloud Management Agent Cloud Service (MACS) (https://docs.oracle.com/iaas/iaas/management-agents/index.html)
 // connector used to connect to a cloud DB system component.
 type UpdateCloudDbSystemMacsConnectorDetails struct {
 	ConnectionInfo CloudDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`

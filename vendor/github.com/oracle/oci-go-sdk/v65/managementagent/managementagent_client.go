@@ -5,7 +5,7 @@
 // Management Agent API
 //
 // Use the Management Agent API to manage your infrastructure's management agents, including their plugins and install keys.
-// For more information, see Management Agent (https://docs.oracle.com/iaas/management-agents/index.html).
+// For more information, see Management Agent (https://docs.cloud.oracle.com/iaas/management-agents/index.html).
 //
 
 package managementagent
@@ -150,7 +150,7 @@ func (client ManagementAgentClient) createDataSource(ctx context.Context, reques
 
 	var response CreateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "CreateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -215,7 +215,7 @@ func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.
 
 	var response CreateManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "CreateManagementAgentInstallKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -280,7 +280,7 @@ func (client ManagementAgentClient) createNamedCredential(ctx context.Context, r
 
 	var response CreateNamedCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "CreateNamedCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -340,7 +340,7 @@ func (client ManagementAgentClient) deleteDataSource(ctx context.Context, reques
 
 	var response DeleteDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeleteDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -400,7 +400,7 @@ func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, r
 
 	var response DeleteManagementAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeleteManagementAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -460,7 +460,7 @@ func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.
 
 	var response DeleteManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeleteManagementAgentInstallKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -520,7 +520,7 @@ func (client ManagementAgentClient) deleteNamedCredential(ctx context.Context, r
 
 	var response DeleteNamedCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeleteNamedCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -580,7 +580,7 @@ func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, reque
 
 	var response DeleteWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeleteWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -645,7 +645,7 @@ func (client ManagementAgentClient) deployPlugins(ctx context.Context, request c
 
 	var response DeployPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "DeployPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -706,7 +706,7 @@ func (client ManagementAgentClient) getAutoUpgradableConfig(ctx context.Context,
 
 	var response GetAutoUpgradableConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetAutoUpgradableConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -771,7 +771,7 @@ func (client ManagementAgentClient) getDataSource(ctx context.Context, request c
 
 	var response GetDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -831,7 +831,7 @@ func (client ManagementAgentClient) getManagementAgent(ctx context.Context, requ
 
 	var response GetManagementAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetManagementAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -891,7 +891,7 @@ func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Con
 
 	var response GetManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetManagementAgentInstallKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -951,7 +951,7 @@ func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx cont
 
 	var response GetManagementAgentInstallKeyContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetManagementAgentInstallKeyContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgentInstallKey/GetManagementAgentInstallKeyContent"
@@ -1015,7 +1015,7 @@ func (client ManagementAgentClient) getNamedCredential(ctx context.Context, requ
 
 	var response GetNamedCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetNamedCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1075,7 +1075,7 @@ func (client ManagementAgentClient) getNamedCredentialsMetadatum(ctx context.Con
 
 	var response GetNamedCredentialsMetadatumResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetNamedCredentialsMetadatum")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1135,7 +1135,7 @@ func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1195,7 +1195,7 @@ func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Contex
 
 	var response ListAvailabilityHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListAvailabilityHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1271,7 +1271,7 @@ func (client ManagementAgentClient) listDataSources(ctx context.Context, request
 
 	var response ListDataSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListDataSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1336,7 +1336,7 @@ func (client ManagementAgentClient) listManagementAgentImages(ctx context.Contex
 
 	var response ListManagementAgentImagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListManagementAgentImages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1396,7 +1396,7 @@ func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.C
 
 	var response ListManagementAgentInstallKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListManagementAgentInstallKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1456,7 +1456,7 @@ func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Conte
 
 	var response ListManagementAgentPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListManagementAgentPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1518,7 +1518,7 @@ func (client ManagementAgentClient) listManagementAgents(ctx context.Context, re
 
 	var response ListManagementAgentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListManagementAgents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1578,7 +1578,7 @@ func (client ManagementAgentClient) listNamedCredentials(ctx context.Context, re
 
 	var response ListNamedCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListNamedCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1638,7 +1638,7 @@ func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1698,7 +1698,7 @@ func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1758,7 +1758,7 @@ func (client ManagementAgentClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1824,7 +1824,7 @@ func (client ManagementAgentClient) setAutoUpgradableConfig(ctx context.Context,
 
 	var response SetAutoUpgradableConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "SetAutoUpgradableConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1885,7 +1885,7 @@ func (client ManagementAgentClient) summarizeManagementAgentCounts(ctx context.C
 
 	var response SummarizeManagementAgentCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "SummarizeManagementAgentCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1946,7 +1946,7 @@ func (client ManagementAgentClient) summarizeManagementAgentPluginCounts(ctx con
 
 	var response SummarizeManagementAgentPluginCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "SummarizeManagementAgentPluginCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2011,7 +2011,7 @@ func (client ManagementAgentClient) updateDataSource(ctx context.Context, reques
 
 	var response UpdateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "UpdateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2076,7 +2076,7 @@ func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, r
 
 	var response UpdateManagementAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "UpdateManagementAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2141,7 +2141,7 @@ func (client ManagementAgentClient) updateManagementAgentInstallKey(ctx context.
 
 	var response UpdateManagementAgentInstallKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "UpdateManagementAgentInstallKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2206,7 +2206,7 @@ func (client ManagementAgentClient) updateNamedCredential(ctx context.Context, r
 
 	var response UpdateNamedCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managementAgent", "UpdateNamedCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

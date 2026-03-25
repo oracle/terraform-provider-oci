@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -15,26 +15,30 @@ import (
 	"strings"
 )
 
-// MulticloudSubscriptionSummary Multicloud subscription object
+// MulticloudSubscriptionSummary A Multicloud subscription.
 type MulticloudSubscriptionSummary struct {
 
-	// Subscription ID for OCI and Partner cloud in classic format.
+	// Subscription ID for OCI and partner cloud in classic format.
 	ClassicSubscriptionId *string `mandatory:"true" json:"classicSubscriptionId"`
 
 	// The partner cloud account ID.
 	PartnerCloudAccountIdentifier *string `mandatory:"true" json:"partnerCloudAccountIdentifier"`
 
-	// The date and time the subscription was created, in the format defined by
+	// The date and time that the subscription was created, in the format defined by
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// URL to the subscription page https://{console-url}/org-mgmt/subscription/ocid1.organizationssubscription.oc1.iad.amaaaaaapf266qyaqohz27zvh45jzaielgwojo53bh24s7cy5q5g7fiknpxa?region=us-ashburn-1.
+	// URL to the subscription details page.
+	// Example: `https://{console-url}/org-mgmt/subscription/ocid1.organizationssubscription.oc1.iad.exampleuniqueid?region=us-ashburn-1`.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
-	// The serviceName that externalLocation map object belongs to.
+	// The partner cloud tenant ID.
+	PartnerCloudTenantIdentifier *string `mandatory:"false" json:"partnerCloudTenantIdentifier"`
+
+	// The cloud service provider.
 	ServiceName SubscriptionTypeEnum `mandatory:"false" json:"serviceName,omitempty"`
 
-	// The date and time for when the multicloud was created, in the format defined by
+	// The date and time that the Multicloud base compartment was created, in the format defined by
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeLinkedDate *common.SDKTime `mandatory:"false" json:"timeLinkedDate"`
 
@@ -44,17 +48,17 @@ type MulticloudSubscriptionSummary struct {
 	// Total value for the subscription.
 	ActiveCommitment *string `mandatory:"false" json:"activeCommitment"`
 
-	// The date and time for when the subscription is finishing, in the format defined by
+	// The end date and time for the subscription, in the format defined by
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeEndDate *common.SDKTime `mandatory:"false" json:"timeEndDate"`
 
 	// The current state of the subscription.
 	LifecycleState MulticloudSubscriptionSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// CSP Specific Additional Properties, AzureSubnetId for Azure
+	// Properties specific to the cloud service provider. For example, AzureSubnetId for Azure.
 	CspAdditionalProperties map[string]string `mandatory:"false" json:"cspAdditionalProperties"`
 
-	// The date and time the subscription was updated, in the format defined by
+	// The date and time that the subscription was updated, in the format defined by
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -138,11 +138,11 @@ func (client OnboardingClient) attachLifecycleStageToProfile(ctx context.Context
 
 	var response AttachLifecycleStageToProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "AttachLifecycleStageToProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/AttachLifecycleStageToProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "AttachLifecycleStageToProfile", apiReferenceLink)
 		return response, err
 	}
@@ -197,11 +197,11 @@ func (client OnboardingClient) attachManagedInstanceGroupToProfile(ctx context.C
 
 	var response AttachManagedInstanceGroupToProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "AttachManagedInstanceGroupToProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/AttachManagedInstanceGroupToProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "AttachManagedInstanceGroupToProfile", apiReferenceLink)
 		return response, err
 	}
@@ -256,11 +256,11 @@ func (client OnboardingClient) attachManagementStationToProfile(ctx context.Cont
 
 	var response AttachManagementStationToProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "AttachManagementStationToProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/AttachManagementStationToProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "AttachManagementStationToProfile", apiReferenceLink)
 		return response, err
 	}
@@ -315,11 +315,11 @@ func (client OnboardingClient) attachSoftwareSourcesToProfile(ctx context.Contex
 
 	var response AttachSoftwareSourcesToProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "AttachSoftwareSourcesToProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/AttachSoftwareSourcesToProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "AttachSoftwareSourcesToProfile", apiReferenceLink)
 		return response, err
 	}
@@ -374,11 +374,11 @@ func (client OnboardingClient) changeProfileCompartment(ctx context.Context, req
 
 	var response ChangeProfileCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "ChangeProfileCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/ChangeProfileCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "ChangeProfileCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -433,11 +433,11 @@ func (client OnboardingClient) createProfile(ctx context.Context, request common
 
 	var response CreateProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "CreateProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/CreateProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "CreateProfile", apiReferenceLink)
 		return response, err
 	}
@@ -487,11 +487,11 @@ func (client OnboardingClient) deleteProfile(ctx context.Context, request common
 
 	var response DeleteProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "DeleteProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/DeleteProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "DeleteProfile", apiReferenceLink)
 		return response, err
 	}
@@ -546,11 +546,11 @@ func (client OnboardingClient) detachManagementStationFromProfile(ctx context.Co
 
 	var response DetachManagementStationFromProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "DetachManagementStationFromProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/DetachManagementStationFromProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "DetachManagementStationFromProfile", apiReferenceLink)
 		return response, err
 	}
@@ -605,11 +605,11 @@ func (client OnboardingClient) detachSoftwareSourcesFromProfile(ctx context.Cont
 
 	var response DetachSoftwareSourcesFromProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "DetachSoftwareSourcesFromProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/DetachSoftwareSourcesFromProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "DetachSoftwareSourcesFromProfile", apiReferenceLink)
 		return response, err
 	}
@@ -659,11 +659,11 @@ func (client OnboardingClient) getProfile(ctx context.Context, request common.OC
 
 	var response GetProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "GetProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/GetProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "GetProfile", apiReferenceLink)
 		return response, err
 	}
@@ -713,11 +713,11 @@ func (client OnboardingClient) getProfileVersion(ctx context.Context, request co
 
 	var response GetProfileVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "GetProfileVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ProfileVersion/GetProfileVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "GetProfileVersion", apiReferenceLink)
 		return response, err
 	}
@@ -767,11 +767,11 @@ func (client OnboardingClient) listProfileAvailableSoftwareSources(ctx context.C
 
 	var response ListProfileAvailableSoftwareSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "ListProfileAvailableSoftwareSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/ListProfileAvailableSoftwareSources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "ListProfileAvailableSoftwareSources", apiReferenceLink)
 		return response, err
 	}
@@ -822,11 +822,11 @@ func (client OnboardingClient) listProfiles(ctx context.Context, request common.
 
 	var response ListProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "ListProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/ListProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "ListProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -876,11 +876,11 @@ func (client OnboardingClient) updateProfile(ctx context.Context, request common
 
 	var response UpdateProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "onboarding", "UpdateProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Profile/UpdateProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Onboarding", "UpdateProfile", apiReferenceLink)
 		return response, err
 	}

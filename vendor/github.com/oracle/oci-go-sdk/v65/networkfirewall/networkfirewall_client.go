@@ -137,7 +137,7 @@ func (client NetworkFirewallClient) applyNetworkFirewallPolicy(ctx context.Conte
 
 	var response ApplyNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ApplyNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client NetworkFirewallClient) bulkUploadAddressLists(ctx context.Context, 
 
 	var response BulkUploadAddressListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadAddressLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -255,7 +255,7 @@ func (client NetworkFirewallClient) bulkUploadApplicationGroups(ctx context.Cont
 
 	var response BulkUploadApplicationGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadApplicationGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -314,7 +314,7 @@ func (client NetworkFirewallClient) bulkUploadApplications(ctx context.Context, 
 
 	var response BulkUploadApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -373,7 +373,7 @@ func (client NetworkFirewallClient) bulkUploadDecryptionProfiles(ctx context.Con
 
 	var response BulkUploadDecryptionProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadDecryptionProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -432,7 +432,7 @@ func (client NetworkFirewallClient) bulkUploadDecryptionRules(ctx context.Contex
 
 	var response BulkUploadDecryptionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadDecryptionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -491,7 +491,7 @@ func (client NetworkFirewallClient) bulkUploadMappedSecrets(ctx context.Context,
 
 	var response BulkUploadMappedSecretsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadMappedSecrets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -550,7 +550,7 @@ func (client NetworkFirewallClient) bulkUploadNatRules(ctx context.Context, requ
 
 	var response BulkUploadNatRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadNatRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -609,7 +609,7 @@ func (client NetworkFirewallClient) bulkUploadSecurityRules(ctx context.Context,
 
 	var response BulkUploadSecurityRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadSecurityRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -668,7 +668,7 @@ func (client NetworkFirewallClient) bulkUploadServiceLists(ctx context.Context, 
 
 	var response BulkUploadServiceListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadServiceLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -727,7 +727,7 @@ func (client NetworkFirewallClient) bulkUploadServices(ctx context.Context, requ
 
 	var response BulkUploadServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -786,7 +786,7 @@ func (client NetworkFirewallClient) bulkUploadTunnelInspectionRules(ctx context.
 
 	var response BulkUploadTunnelInspectionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadTunnelInspectionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -845,7 +845,7 @@ func (client NetworkFirewallClient) bulkUploadUrlLists(ctx context.Context, requ
 
 	var response BulkUploadUrlListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "BulkUploadUrlLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -899,7 +899,7 @@ func (client NetworkFirewallClient) cancelWorkRequest(ctx context.Context, reque
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -958,7 +958,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallCompartment(ctx context
 
 	var response ChangeNetworkFirewallCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ChangeNetworkFirewallCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1017,7 +1017,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 
 	var response ChangeNetworkFirewallPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ChangeNetworkFirewallPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1076,7 +1076,7 @@ func (client NetworkFirewallClient) cloneNetworkFirewallPolicy(ctx context.Conte
 
 	var response CloneNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CloneNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1135,7 +1135,7 @@ func (client NetworkFirewallClient) createAddressList(ctx context.Context, reque
 
 	var response CreateAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1194,7 +1194,7 @@ func (client NetworkFirewallClient) createApplication(ctx context.Context, reque
 
 	var response CreateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1253,7 +1253,7 @@ func (client NetworkFirewallClient) createApplicationGroup(ctx context.Context, 
 
 	var response CreateApplicationGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateApplicationGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1312,7 +1312,7 @@ func (client NetworkFirewallClient) createDecryptionProfile(ctx context.Context,
 
 	var response CreateDecryptionProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateDecryptionProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1371,7 +1371,7 @@ func (client NetworkFirewallClient) createDecryptionRule(ctx context.Context, re
 
 	var response CreateDecryptionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateDecryptionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1430,7 +1430,7 @@ func (client NetworkFirewallClient) createMappedSecret(ctx context.Context, requ
 
 	var response CreateMappedSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateMappedSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1489,7 +1489,7 @@ func (client NetworkFirewallClient) createNatRule(ctx context.Context, request c
 
 	var response CreateNatRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateNatRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1548,7 +1548,7 @@ func (client NetworkFirewallClient) createNetworkFirewall(ctx context.Context, r
 
 	var response CreateNetworkFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateNetworkFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1607,7 +1607,7 @@ func (client NetworkFirewallClient) createNetworkFirewallPolicy(ctx context.Cont
 
 	var response CreateNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1666,7 +1666,7 @@ func (client NetworkFirewallClient) createSecurityRule(ctx context.Context, requ
 
 	var response CreateSecurityRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateSecurityRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1725,7 +1725,7 @@ func (client NetworkFirewallClient) createService(ctx context.Context, request c
 
 	var response CreateServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1784,7 +1784,7 @@ func (client NetworkFirewallClient) createServiceList(ctx context.Context, reque
 
 	var response CreateServiceListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateServiceList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1843,7 +1843,7 @@ func (client NetworkFirewallClient) createTunnelInspectionRule(ctx context.Conte
 
 	var response CreateTunnelInspectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateTunnelInspectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1902,7 +1902,7 @@ func (client NetworkFirewallClient) createUrlList(ctx context.Context, request c
 
 	var response CreateUrlListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "CreateUrlList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1956,7 +1956,7 @@ func (client NetworkFirewallClient) deleteAddressList(ctx context.Context, reque
 
 	var response DeleteAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2010,7 +2010,7 @@ func (client NetworkFirewallClient) deleteApplication(ctx context.Context, reque
 
 	var response DeleteApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2064,7 +2064,7 @@ func (client NetworkFirewallClient) deleteApplicationGroup(ctx context.Context, 
 
 	var response DeleteApplicationGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteApplicationGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2118,7 +2118,7 @@ func (client NetworkFirewallClient) deleteDecryptionProfile(ctx context.Context,
 
 	var response DeleteDecryptionProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteDecryptionProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2172,7 +2172,7 @@ func (client NetworkFirewallClient) deleteDecryptionRule(ctx context.Context, re
 
 	var response DeleteDecryptionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteDecryptionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2226,7 +2226,7 @@ func (client NetworkFirewallClient) deleteMappedSecret(ctx context.Context, requ
 
 	var response DeleteMappedSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteMappedSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2280,7 +2280,7 @@ func (client NetworkFirewallClient) deleteNatRule(ctx context.Context, request c
 
 	var response DeleteNatRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteNatRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2334,7 +2334,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewall(ctx context.Context, r
 
 	var response DeleteNetworkFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteNetworkFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2388,7 +2388,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewallPolicy(ctx context.Cont
 
 	var response DeleteNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2442,7 +2442,7 @@ func (client NetworkFirewallClient) deleteSecurityRule(ctx context.Context, requ
 
 	var response DeleteSecurityRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteSecurityRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2496,7 +2496,7 @@ func (client NetworkFirewallClient) deleteService(ctx context.Context, request c
 
 	var response DeleteServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2550,7 +2550,7 @@ func (client NetworkFirewallClient) deleteServiceList(ctx context.Context, reque
 
 	var response DeleteServiceListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteServiceList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2604,7 +2604,7 @@ func (client NetworkFirewallClient) deleteTunnelInspectionRule(ctx context.Conte
 
 	var response DeleteTunnelInspectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteTunnelInspectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2658,7 +2658,7 @@ func (client NetworkFirewallClient) deleteUrlList(ctx context.Context, request c
 
 	var response DeleteUrlListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "DeleteUrlList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2712,7 +2712,7 @@ func (client NetworkFirewallClient) getAddressList(ctx context.Context, request 
 
 	var response GetAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2766,7 +2766,7 @@ func (client NetworkFirewallClient) getApplication(ctx context.Context, request 
 
 	var response GetApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2820,7 +2820,7 @@ func (client NetworkFirewallClient) getApplicationGroup(ctx context.Context, req
 
 	var response GetApplicationGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetApplicationGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2874,7 +2874,7 @@ func (client NetworkFirewallClient) getDecryptionProfile(ctx context.Context, re
 
 	var response GetDecryptionProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetDecryptionProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2928,7 +2928,7 @@ func (client NetworkFirewallClient) getDecryptionRule(ctx context.Context, reque
 
 	var response GetDecryptionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetDecryptionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2982,7 +2982,7 @@ func (client NetworkFirewallClient) getMappedSecret(ctx context.Context, request
 
 	var response GetMappedSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetMappedSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3036,7 +3036,7 @@ func (client NetworkFirewallClient) getNatRule(ctx context.Context, request comm
 
 	var response GetNatRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetNatRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3090,7 +3090,7 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 
 	var response GetNetworkFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetNetworkFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3198,7 +3198,7 @@ func (client NetworkFirewallClient) getNetworkFirewallPolicy(ctx context.Context
 
 	var response GetNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3252,7 +3252,7 @@ func (client NetworkFirewallClient) getSecurityRule(ctx context.Context, request
 
 	var response GetSecurityRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetSecurityRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3306,7 +3306,7 @@ func (client NetworkFirewallClient) getService(ctx context.Context, request comm
 
 	var response GetServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3360,7 +3360,7 @@ func (client NetworkFirewallClient) getServiceList(ctx context.Context, request 
 
 	var response GetServiceListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetServiceList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3414,7 +3414,7 @@ func (client NetworkFirewallClient) getTunnelInspectionRule(ctx context.Context,
 
 	var response GetTunnelInspectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetTunnelInspectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3468,7 +3468,7 @@ func (client NetworkFirewallClient) getUrlList(ctx context.Context, request comm
 
 	var response GetUrlListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetUrlList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3522,7 +3522,7 @@ func (client NetworkFirewallClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3576,7 +3576,7 @@ func (client NetworkFirewallClient) listAddressLists(ctx context.Context, reques
 
 	var response ListAddressListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListAddressLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3630,7 +3630,7 @@ func (client NetworkFirewallClient) listApplicationGroups(ctx context.Context, r
 
 	var response ListApplicationGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListApplicationGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3684,7 +3684,7 @@ func (client NetworkFirewallClient) listApplications(ctx context.Context, reques
 
 	var response ListApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3738,7 +3738,7 @@ func (client NetworkFirewallClient) listDecryptionProfiles(ctx context.Context, 
 
 	var response ListDecryptionProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListDecryptionProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3792,7 +3792,7 @@ func (client NetworkFirewallClient) listDecryptionRules(ctx context.Context, req
 
 	var response ListDecryptionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListDecryptionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3846,7 +3846,7 @@ func (client NetworkFirewallClient) listMappedSecrets(ctx context.Context, reque
 
 	var response ListMappedSecretsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListMappedSecrets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3900,7 +3900,7 @@ func (client NetworkFirewallClient) listNatRules(ctx context.Context, request co
 
 	var response ListNatRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListNatRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3954,7 +3954,7 @@ func (client NetworkFirewallClient) listNetworkFirewallPolicies(ctx context.Cont
 
 	var response ListNetworkFirewallPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListNetworkFirewallPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4008,7 +4008,7 @@ func (client NetworkFirewallClient) listNetworkFirewalls(ctx context.Context, re
 
 	var response ListNetworkFirewallsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListNetworkFirewalls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4062,7 +4062,7 @@ func (client NetworkFirewallClient) listSecurityRules(ctx context.Context, reque
 
 	var response ListSecurityRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListSecurityRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4116,7 +4116,7 @@ func (client NetworkFirewallClient) listServiceLists(ctx context.Context, reques
 
 	var response ListServiceListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListServiceLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4170,7 +4170,7 @@ func (client NetworkFirewallClient) listServices(ctx context.Context, request co
 
 	var response ListServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4224,7 +4224,7 @@ func (client NetworkFirewallClient) listTunnelInspectionRules(ctx context.Contex
 
 	var response ListTunnelInspectionRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListTunnelInspectionRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4278,7 +4278,7 @@ func (client NetworkFirewallClient) listUrlLists(ctx context.Context, request co
 
 	var response ListUrlListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListUrlLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4332,7 +4332,7 @@ func (client NetworkFirewallClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4386,7 +4386,7 @@ func (client NetworkFirewallClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4440,7 +4440,7 @@ func (client NetworkFirewallClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4499,7 +4499,7 @@ func (client NetworkFirewallClient) migrateNetworkFirewallPolicy(ctx context.Con
 
 	var response MigrateNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "MigrateNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4553,7 +4553,7 @@ func (client NetworkFirewallClient) updateAddressList(ctx context.Context, reque
 
 	var response UpdateAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4607,7 +4607,7 @@ func (client NetworkFirewallClient) updateApplication(ctx context.Context, reque
 
 	var response UpdateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4661,7 +4661,7 @@ func (client NetworkFirewallClient) updateApplicationGroup(ctx context.Context, 
 
 	var response UpdateApplicationGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateApplicationGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4715,7 +4715,7 @@ func (client NetworkFirewallClient) updateDecryptionProfile(ctx context.Context,
 
 	var response UpdateDecryptionProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateDecryptionProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4769,7 +4769,7 @@ func (client NetworkFirewallClient) updateDecryptionRule(ctx context.Context, re
 
 	var response UpdateDecryptionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateDecryptionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4823,7 +4823,7 @@ func (client NetworkFirewallClient) updateMappedSecret(ctx context.Context, requ
 
 	var response UpdateMappedSecretResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateMappedSecret")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4877,7 +4877,7 @@ func (client NetworkFirewallClient) updateNatRule(ctx context.Context, request c
 
 	var response UpdateNatRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateNatRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4931,7 +4931,7 @@ func (client NetworkFirewallClient) updateNetworkFirewall(ctx context.Context, r
 
 	var response UpdateNetworkFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateNetworkFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4985,7 +4985,7 @@ func (client NetworkFirewallClient) updateNetworkFirewallPolicy(ctx context.Cont
 
 	var response UpdateNetworkFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateNetworkFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5039,7 +5039,7 @@ func (client NetworkFirewallClient) updateSecurityRule(ctx context.Context, requ
 
 	var response UpdateSecurityRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateSecurityRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5093,7 +5093,7 @@ func (client NetworkFirewallClient) updateService(ctx context.Context, request c
 
 	var response UpdateServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5147,7 +5147,7 @@ func (client NetworkFirewallClient) updateServiceList(ctx context.Context, reque
 
 	var response UpdateServiceListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateServiceList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5201,7 +5201,7 @@ func (client NetworkFirewallClient) updateTunnelInspectionRule(ctx context.Conte
 
 	var response UpdateTunnelInspectionRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateTunnelInspectionRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5255,7 +5255,7 @@ func (client NetworkFirewallClient) updateUrlList(ctx context.Context, request c
 
 	var response UpdateUrlListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "networkFirewall", "UpdateUrlList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

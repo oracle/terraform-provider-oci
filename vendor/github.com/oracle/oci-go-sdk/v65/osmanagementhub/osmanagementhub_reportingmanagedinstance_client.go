@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -133,10 +133,10 @@ func (client ReportingManagedInstanceClient) getManagedInstanceAnalyticContent(c
 
 	var response GetManagedInstanceAnalyticContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "reportingManagedInstance", "GetManagedInstanceAnalyticContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/GetManagedInstanceAnalyticContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ReportingManagedInstance", "GetManagedInstanceAnalyticContent", apiReferenceLink)
 		return response, err
 	}
@@ -186,10 +186,10 @@ func (client ReportingManagedInstanceClient) getManagedInstanceContent(ctx conte
 
 	var response GetManagedInstanceContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "reportingManagedInstance", "GetManagedInstanceContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/GetManagedInstanceContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ReportingManagedInstance", "GetManagedInstanceContent", apiReferenceLink)
 		return response, err
 	}
@@ -239,11 +239,11 @@ func (client ReportingManagedInstanceClient) summarizeManagedInstanceAnalytics(c
 
 	var response SummarizeManagedInstanceAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "reportingManagedInstance", "SummarizeManagedInstanceAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceAnalyticCollection/SummarizeManagedInstanceAnalytics"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ReportingManagedInstance", "SummarizeManagedInstanceAnalytics", apiReferenceLink)
 		return response, err
 	}

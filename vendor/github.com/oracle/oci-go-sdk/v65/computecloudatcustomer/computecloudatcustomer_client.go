@@ -5,7 +5,7 @@
 // Compute Cloud@Customer API
 //
 // Use the Compute Cloud@Customer API to manage Compute Cloud@Customer infrastructures and upgrade schedules.
-// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/compute-cloud-at-customer/home.htm).
+// For more information see Compute Cloud@Customer documentation (https://docs.oracle.com/iaas/iaas/compute-cloud-at-customer/home.htm).
 //
 
 package computecloudatcustomer
@@ -133,11 +133,11 @@ func (client ComputeCloudAtCustomerClient) cancelWorkRequest(ctx context.Context
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -192,11 +192,11 @@ func (client ComputeCloudAtCustomerClient) changeCccInfrastructureCompartment(ct
 
 	var response ChangeCccInfrastructureCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ChangeCccInfrastructureCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructure/ChangeCccInfrastructureCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ChangeCccInfrastructureCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -252,11 +252,11 @@ func (client ComputeCloudAtCustomerClient) changeCccUpgradeScheduleCompartment(c
 
 	var response ChangeCccUpgradeScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ChangeCccUpgradeScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeSchedule/ChangeCccUpgradeScheduleCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ChangeCccUpgradeScheduleCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -312,11 +312,11 @@ func (client ComputeCloudAtCustomerClient) createCccFlexNetwork(ctx context.Cont
 
 	var response CreateCccFlexNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccFlexNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetwork/CreateCccFlexNetwork"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CreateCccFlexNetwork", apiReferenceLink)
 		return response, err
 	}
@@ -372,11 +372,11 @@ func (client ComputeCloudAtCustomerClient) createCccFlexNetworkAttachment(ctx co
 
 	var response CreateCccFlexNetworkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccFlexNetworkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkAttachment/CreateCccFlexNetworkAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CreateCccFlexNetworkAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -432,11 +432,11 @@ func (client ComputeCloudAtCustomerClient) createCccInfrastructure(ctx context.C
 
 	var response CreateCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructure/CreateCccInfrastructure"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CreateCccInfrastructure", apiReferenceLink)
 		return response, err
 	}
@@ -492,11 +492,11 @@ func (client ComputeCloudAtCustomerClient) createCccProvisionedPackage(ctx conte
 
 	var response CreateCccProvisionedPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccProvisionedPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccProvisionedPackage/CreateCccProvisionedPackage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CreateCccProvisionedPackage", apiReferenceLink)
 		return response, err
 	}
@@ -551,11 +551,11 @@ func (client ComputeCloudAtCustomerClient) createCccUpgradeSchedule(ctx context.
 
 	var response CreateCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeSchedule/CreateCccUpgradeSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "CreateCccUpgradeSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -605,11 +605,11 @@ func (client ComputeCloudAtCustomerClient) deleteCccFlexNetwork(ctx context.Cont
 
 	var response DeleteCccFlexNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccFlexNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetwork/DeleteCccFlexNetwork"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "DeleteCccFlexNetwork", apiReferenceLink)
 		return response, err
 	}
@@ -659,11 +659,11 @@ func (client ComputeCloudAtCustomerClient) deleteCccFlexNetworkAttachment(ctx co
 
 	var response DeleteCccFlexNetworkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccFlexNetworkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkAttachment/DeleteCccFlexNetworkAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "DeleteCccFlexNetworkAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -713,11 +713,11 @@ func (client ComputeCloudAtCustomerClient) deleteCccInfrastructure(ctx context.C
 
 	var response DeleteCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructure/DeleteCccInfrastructure"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "DeleteCccInfrastructure", apiReferenceLink)
 		return response, err
 	}
@@ -768,11 +768,11 @@ func (client ComputeCloudAtCustomerClient) deleteCccProvisionedPackage(ctx conte
 
 	var response DeleteCccProvisionedPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccProvisionedPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccProvisionedPackage/DeleteCccProvisionedPackage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "DeleteCccProvisionedPackage", apiReferenceLink)
 		return response, err
 	}
@@ -822,11 +822,11 @@ func (client ComputeCloudAtCustomerClient) deleteCccUpgradeSchedule(ctx context.
 
 	var response DeleteCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeSchedule/DeleteCccUpgradeSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "DeleteCccUpgradeSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -877,11 +877,11 @@ func (client ComputeCloudAtCustomerClient) getCccFlexNetwork(ctx context.Context
 
 	var response GetCccFlexNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccFlexNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetwork/GetCccFlexNetwork"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccFlexNetwork", apiReferenceLink)
 		return response, err
 	}
@@ -932,11 +932,11 @@ func (client ComputeCloudAtCustomerClient) getCccFlexNetworkAttachment(ctx conte
 
 	var response GetCccFlexNetworkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccFlexNetworkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkAttachment/GetCccFlexNetworkAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccFlexNetworkAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -987,11 +987,11 @@ func (client ComputeCloudAtCustomerClient) getCccInfrastructure(ctx context.Cont
 
 	var response GetCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructure/GetCccInfrastructure"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccInfrastructure", apiReferenceLink)
 		return response, err
 	}
@@ -1053,11 +1053,11 @@ func (client ComputeCloudAtCustomerClient) getCccListing(ctx context.Context, re
 
 	var response GetCccListingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccListing")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccListing/GetCccListing"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccListing", apiReferenceLink)
 		return response, err
 	}
@@ -1108,11 +1108,11 @@ func (client ComputeCloudAtCustomerClient) getCccProvisionedPackage(ctx context.
 
 	var response GetCccProvisionedPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccProvisionedPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccProvisionedPackage/GetCccProvisionedPackage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccProvisionedPackage", apiReferenceLink)
 		return response, err
 	}
@@ -1163,11 +1163,11 @@ func (client ComputeCloudAtCustomerClient) getCccUpgradeSchedule(ctx context.Con
 
 	var response GetCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeSchedule/GetCccUpgradeSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetCccUpgradeSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -1217,11 +1217,11 @@ func (client ComputeCloudAtCustomerClient) getWorkRequest(ctx context.Context, r
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1273,11 +1273,11 @@ func (client ComputeCloudAtCustomerClient) listCccAgreements(ctx context.Context
 
 	var response ListCccAgreementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccAgreements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccAgreementCollection/ListCccAgreements"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccAgreements", apiReferenceLink)
 		return response, err
 	}
@@ -1327,11 +1327,11 @@ func (client ComputeCloudAtCustomerClient) listCccFlexNetworkAttachments(ctx con
 
 	var response ListCccFlexNetworkAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccFlexNetworkAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkAttachmentCollection/ListCccFlexNetworkAttachments"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccFlexNetworkAttachments", apiReferenceLink)
 		return response, err
 	}
@@ -1381,11 +1381,11 @@ func (client ComputeCloudAtCustomerClient) listCccFlexNetworks(ctx context.Conte
 
 	var response ListCccFlexNetworksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccFlexNetworks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkCollection/ListCccFlexNetworks"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccFlexNetworks", apiReferenceLink)
 		return response, err
 	}
@@ -1435,11 +1435,11 @@ func (client ComputeCloudAtCustomerClient) listCccInfrastructures(ctx context.Co
 
 	var response ListCccInfrastructuresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccInfrastructures")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructureCollection/ListCccInfrastructures"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccInfrastructures", apiReferenceLink)
 		return response, err
 	}
@@ -1501,11 +1501,11 @@ func (client ComputeCloudAtCustomerClient) listCccListings(ctx context.Context, 
 
 	var response ListCccListingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccListings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccListingCollection/ListCccListings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccListings", apiReferenceLink)
 		return response, err
 	}
@@ -1566,11 +1566,11 @@ func (client ComputeCloudAtCustomerClient) listCccPackages(ctx context.Context, 
 
 	var response ListCccPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccPackageCollection/ListCccPackages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccPackages", apiReferenceLink)
 		return response, err
 	}
@@ -1620,11 +1620,11 @@ func (client ComputeCloudAtCustomerClient) listCccProvisionedPackages(ctx contex
 
 	var response ListCccProvisionedPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccProvisionedPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccProvisionedPackageCollection/ListCccProvisionedPackages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccProvisionedPackages", apiReferenceLink)
 		return response, err
 	}
@@ -1674,11 +1674,11 @@ func (client ComputeCloudAtCustomerClient) listCccUpgradeSchedules(ctx context.C
 
 	var response ListCccUpgradeSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccUpgradeSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeScheduleCollection/ListCccUpgradeSchedules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListCccUpgradeSchedules", apiReferenceLink)
 		return response, err
 	}
@@ -1728,11 +1728,11 @@ func (client ComputeCloudAtCustomerClient) listWorkRequestErrors(ctx context.Con
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1782,11 +1782,11 @@ func (client ComputeCloudAtCustomerClient) listWorkRequestLogs(ctx context.Conte
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1836,11 +1836,11 @@ func (client ComputeCloudAtCustomerClient) listWorkRequests(ctx context.Context,
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1889,11 +1889,11 @@ func (client ComputeCloudAtCustomerClient) updateCccFlexNetwork(ctx context.Cont
 
 	var response UpdateCccFlexNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccFlexNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetwork/UpdateCccFlexNetwork"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "UpdateCccFlexNetwork", apiReferenceLink)
 		return response, err
 	}
@@ -1942,11 +1942,11 @@ func (client ComputeCloudAtCustomerClient) updateCccFlexNetworkAttachment(ctx co
 
 	var response UpdateCccFlexNetworkAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccFlexNetworkAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccFlexNetworkAttachment/UpdateCccFlexNetworkAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "UpdateCccFlexNetworkAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -1995,11 +1995,11 @@ func (client ComputeCloudAtCustomerClient) updateCccInfrastructure(ctx context.C
 
 	var response UpdateCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccInfrastructure/UpdateCccInfrastructure"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "UpdateCccInfrastructure", apiReferenceLink)
 		return response, err
 	}
@@ -2048,11 +2048,11 @@ func (client ComputeCloudAtCustomerClient) updateCccProvisionedPackage(ctx conte
 
 	var response UpdateCccProvisionedPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccProvisionedPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccProvisionedPackage/UpdateCccProvisionedPackage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "UpdateCccProvisionedPackage", apiReferenceLink)
 		return response, err
 	}
@@ -2101,11 +2101,11 @@ func (client ComputeCloudAtCustomerClient) updateCccUpgradeSchedule(ctx context.
 
 	var response UpdateCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/compute-cloud-at-customer/20221208/CccUpgradeSchedule/UpdateCccUpgradeSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ComputeCloudAtCustomer", "UpdateCccUpgradeSchedule", apiReferenceLink)
 		return response, err
 	}

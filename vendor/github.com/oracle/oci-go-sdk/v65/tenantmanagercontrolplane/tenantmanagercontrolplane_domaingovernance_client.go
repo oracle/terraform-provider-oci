@@ -136,7 +136,7 @@ func (client DomainGovernanceClient) createDomainGovernance(ctx context.Context,
 
 	var response CreateDomainGovernanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "domainGovernance", "CreateDomainGovernance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -189,7 +189,7 @@ func (client DomainGovernanceClient) deleteDomainGovernance(ctx context.Context,
 
 	var response DeleteDomainGovernanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "domainGovernance", "DeleteDomainGovernance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -242,7 +242,7 @@ func (client DomainGovernanceClient) getDomainGovernance(ctx context.Context, re
 
 	var response GetDomainGovernanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "domainGovernance", "GetDomainGovernance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -295,7 +295,7 @@ func (client DomainGovernanceClient) listDomainGovernances(ctx context.Context, 
 
 	var response ListDomainGovernancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "domainGovernance", "ListDomainGovernances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -348,7 +348,7 @@ func (client DomainGovernanceClient) updateDomainGovernance(ctx context.Context,
 
 	var response UpdateDomainGovernanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "domainGovernance", "UpdateDomainGovernance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

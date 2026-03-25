@@ -157,7 +157,7 @@ func (client ComputeManagementClient) attachInstancePoolInstance(ctx context.Con
 
 	var response AttachInstancePoolInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "AttachInstancePoolInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -222,7 +222,7 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 
 	var response AttachLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "AttachLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -292,7 +292,7 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 
 	var response ChangeClusterNetworkCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ChangeClusterNetworkCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 // to a different compartment, you will not be able to use the instance configuration to manage instance pools
 // in the new compartment. If you want to update an instance configuration to point to a different compartment,
 // you should instead create a new instance configuration in the target compartment using
-// CreateInstanceConfiguration (https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
+// CreateInstanceConfiguration (https://docs.oracle.com/iaas/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
 func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx context.Context, request ChangeInstanceConfigurationCompartmentRequest) (response ChangeInstanceConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -367,7 +367,7 @@ func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx
 
 	var response ChangeInstanceConfigurationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ChangeInstanceConfigurationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -436,7 +436,7 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 
 	var response ChangeInstancePoolCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ChangeInstancePoolCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -512,7 +512,7 @@ func (client ComputeManagementClient) createClusterNetwork(ctx context.Context, 
 
 	var response CreateClusterNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "CreateClusterNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -578,7 +578,7 @@ func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Co
 
 	var response CreateInstanceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "CreateInstanceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -646,7 +646,7 @@ func (client ComputeManagementClient) createInstancePool(ctx context.Context, re
 
 	var response CreateInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "CreateInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -706,7 +706,7 @@ func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Co
 
 	var response DeleteInstanceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "DeleteInstanceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -771,7 +771,7 @@ func (client ComputeManagementClient) detachInstancePoolInstance(ctx context.Con
 
 	var response DetachInstancePoolInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "DetachInstancePoolInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -836,7 +836,7 @@ func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, re
 
 	var response DetachLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "DetachLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -896,7 +896,7 @@ func (client ComputeManagementClient) getClusterNetwork(ctx context.Context, req
 
 	var response GetClusterNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetClusterNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -956,7 +956,7 @@ func (client ComputeManagementClient) getInstanceConfiguration(ctx context.Conte
 
 	var response GetInstanceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetInstanceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1016,7 +1016,7 @@ func (client ComputeManagementClient) getInstancePool(ctx context.Context, reque
 
 	var response GetInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1076,7 +1076,7 @@ func (client ComputeManagementClient) getInstancePoolInstance(ctx context.Contex
 
 	var response GetInstancePoolInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetInstancePoolInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1136,7 +1136,7 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 
 	var response GetInstancePoolLoadBalancerAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetInstancePoolLoadBalancerAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1209,7 +1209,7 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 
 	var response LaunchInstanceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "LaunchInstanceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1269,7 +1269,7 @@ func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Co
 
 	var response ListClusterNetworkInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListClusterNetworkInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1330,7 +1330,7 @@ func (client ComputeManagementClient) listClusterNetworks(ctx context.Context, r
 
 	var response ListClusterNetworksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListClusterNetworks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1390,7 +1390,7 @@ func (client ComputeManagementClient) listInstanceConfigurations(ctx context.Con
 
 	var response ListInstanceConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListInstanceConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1450,7 +1450,7 @@ func (client ComputeManagementClient) listInstancePoolInstances(ctx context.Cont
 
 	var response ListInstancePoolInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListInstancePoolInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1510,7 +1510,7 @@ func (client ComputeManagementClient) listInstancePools(ctx context.Context, req
 
 	var response ListInstancePoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListInstancePools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1576,7 +1576,7 @@ func (client ComputeManagementClient) resetInstancePool(ctx context.Context, req
 
 	var response ResetInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ResetInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1644,7 +1644,7 @@ func (client ComputeManagementClient) softresetInstancePool(ctx context.Context,
 
 	var response SoftresetInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "SoftresetInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1712,7 +1712,7 @@ func (client ComputeManagementClient) softstopInstancePool(ctx context.Context, 
 
 	var response SoftstopInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "SoftstopInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1778,7 +1778,7 @@ func (client ComputeManagementClient) startInstancePool(ctx context.Context, req
 
 	var response StartInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "StartInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1844,7 +1844,7 @@ func (client ComputeManagementClient) stopInstancePool(ctx context.Context, requ
 
 	var response StopInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "StopInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1906,7 +1906,7 @@ func (client ComputeManagementClient) terminateClusterNetwork(ctx context.Contex
 
 	var response TerminateClusterNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "TerminateClusterNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1971,7 +1971,7 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 
 	var response TerminateInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "TerminateInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2036,7 +2036,7 @@ func (client ComputeManagementClient) terminationProceedInstancePoolInstance(ctx
 
 	var response TerminationProceedInstancePoolInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "TerminationProceedInstancePoolInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2102,7 +2102,7 @@ func (client ComputeManagementClient) updateClusterNetwork(ctx context.Context, 
 
 	var response UpdateClusterNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "UpdateClusterNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2167,7 +2167,7 @@ func (client ComputeManagementClient) updateInstanceConfiguration(ctx context.Co
 
 	var response UpdateInstanceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "UpdateInstanceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2233,7 +2233,7 @@ func (client ComputeManagementClient) updateInstancePool(ctx context.Context, re
 
 	var response UpdateInstancePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "UpdateInstancePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

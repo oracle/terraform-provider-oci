@@ -159,11 +159,11 @@ func (client OracleDbAzureVaultClient) changeOracleDbAzureVaultCompartment(ctx c
 
 	var response ChangeOracleDbAzureVaultCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "ChangeOracleDbAzureVaultCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/ChangeOracleDbAzureVaultCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "ChangeOracleDbAzureVaultCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -218,11 +218,11 @@ func (client OracleDbAzureVaultClient) createOracleDbAzureVault(ctx context.Cont
 
 	var response CreateOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "CreateOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/CreateOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "CreateOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -272,11 +272,11 @@ func (client OracleDbAzureVaultClient) deleteOracleDbAzureVault(ctx context.Cont
 
 	var response DeleteOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "DeleteOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/DeleteOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "DeleteOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -326,11 +326,11 @@ func (client OracleDbAzureVaultClient) getOracleDbAzureVault(ctx context.Context
 
 	var response GetOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "GetOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/GetOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "GetOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -380,11 +380,11 @@ func (client OracleDbAzureVaultClient) listOracleDbAzureVaults(ctx context.Conte
 
 	var response ListOracleDbAzureVaultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "ListOracleDbAzureVaults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/ListOracleDbAzureVaults"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "ListOracleDbAzureVaults", apiReferenceLink)
 		return response, err
 	}
@@ -439,11 +439,11 @@ func (client OracleDbAzureVaultClient) refreshOracleDbAzureVault(ctx context.Con
 
 	var response RefreshOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "RefreshOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/RefreshOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "RefreshOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -498,11 +498,11 @@ func (client OracleDbAzureVaultClient) replicateOracleDbAzureVault(ctx context.C
 
 	var response ReplicateOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "ReplicateOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/ReplicateOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "ReplicateOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}
@@ -552,11 +552,11 @@ func (client OracleDbAzureVaultClient) updateOracleDbAzureVault(ctx context.Cont
 
 	var response UpdateOracleDbAzureVaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureVault", "UpdateOracleDbAzureVault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAzureVault/UpdateOracleDbAzureVault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OracleDbAzureVault", "UpdateOracleDbAzureVault", apiReferenceLink)
 		return response, err
 	}

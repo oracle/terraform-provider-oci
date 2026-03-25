@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,7 +91,9 @@ func (client *OmhubResourceAnchorClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// GetResourceAnchor Gets information about a ResourceAnchor.
+// GetResourceAnchor Gets details for the specified resource anchor. The subscription OCID and service name are required.
+// For more information, see
+// Getting a Resource Anchor's Details (OCI) (https://docs.oracle.com/iaas/Content/multicloud-hub/get-resource-anchor.htm).
 // A default retry strategy applies to this operation GetResourceAnchor()
 func (client OmhubResourceAnchorClient) GetResourceAnchor(ctx context.Context, request GetResourceAnchorRequest) (response GetResourceAnchorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -132,11 +134,11 @@ func (client OmhubResourceAnchorClient) getResourceAnchor(ctx context.Context, r
 
 	var response GetResourceAnchorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubResourceAnchor", "GetResourceAnchor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ResourceAnchor/GetResourceAnchor"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubResourceAnchor", "GetResourceAnchor", apiReferenceLink)
 		return response, err
 	}
@@ -145,7 +147,10 @@ func (client OmhubResourceAnchorClient) getResourceAnchor(ctx context.Context, r
 	return response, err
 }
 
-// ListResourceAnchors Gets a list of ResourceAnchors.
+// ListResourceAnchors Lists resource anchors in the specified Multicloud subscription.
+// Details listed for each resource anchor include name, state, and the related Multicloud compartment.
+// For more information, see
+// Listing Resource Anchors (https://docs.oracle.com/iaas/Content/multicloud-hub/list-resource-anchors.htm).
 // A default retry strategy applies to this operation ListResourceAnchors()
 func (client OmhubResourceAnchorClient) ListResourceAnchors(ctx context.Context, request ListResourceAnchorsRequest) (response ListResourceAnchorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -186,11 +191,11 @@ func (client OmhubResourceAnchorClient) listResourceAnchors(ctx context.Context,
 
 	var response ListResourceAnchorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubResourceAnchor", "ListResourceAnchors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ResourceAnchorCollection/ListResourceAnchors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubResourceAnchor", "ListResourceAnchors", apiReferenceLink)
 		return response, err
 	}

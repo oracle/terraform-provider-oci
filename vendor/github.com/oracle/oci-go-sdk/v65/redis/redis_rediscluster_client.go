@@ -137,11 +137,11 @@ func (client RedisClusterClient) attachOciCacheUsers(ctx context.Context, reques
 
 	var response AttachOciCacheUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "AttachOciCacheUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/AttachOciCacheUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "AttachOciCacheUsers", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -250,11 +250,11 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 
 	var response ChangeRedisClusterCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ChangeRedisClusterCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/ChangeRedisClusterCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ChangeRedisClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -311,11 +311,11 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 
 	var response CreateRedisClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "CreateRedisCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/CreateRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "CreateRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -365,11 +365,11 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 
 	var response DeleteRedisClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "DeleteRedisCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/DeleteRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "DeleteRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -424,11 +424,11 @@ func (client RedisClusterClient) detachOciCacheUsers(ctx context.Context, reques
 
 	var response DetachOciCacheUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "DetachOciCacheUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/DetachOciCacheUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "DetachOciCacheUsers", apiReferenceLink)
 		return response, err
 	}
@@ -478,11 +478,11 @@ func (client RedisClusterClient) getRedisCluster(ctx context.Context, request co
 
 	var response GetRedisClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "GetRedisCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/GetRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -532,11 +532,11 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -586,11 +586,11 @@ func (client RedisClusterClient) listAttachedOciCacheUsers(ctx context.Context, 
 
 	var response ListAttachedOciCacheUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListAttachedOciCacheUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/AttachedOciCacheUser/ListAttachedOciCacheUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListAttachedOciCacheUsers", apiReferenceLink)
 		return response, err
 	}
@@ -640,11 +640,11 @@ func (client RedisClusterClient) listRedisClusterNodes(ctx context.Context, requ
 
 	var response ListRedisClusterNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListRedisClusterNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/NodeSummary/ListRedisClusterNodes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListRedisClusterNodes", apiReferenceLink)
 		return response, err
 	}
@@ -694,11 +694,11 @@ func (client RedisClusterClient) listRedisClusters(ctx context.Context, request 
 
 	var response ListRedisClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListRedisClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisClusterSummary/ListRedisClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListRedisClusters", apiReferenceLink)
 		return response, err
 	}
@@ -748,11 +748,11 @@ func (client RedisClusterClient) listWorkRequestErrors(ctx context.Context, requ
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -802,11 +802,11 @@ func (client RedisClusterClient) listWorkRequestLogs(ctx context.Context, reques
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -856,11 +856,11 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -910,11 +910,11 @@ func (client RedisClusterClient) updateRedisCluster(ctx context.Context, request
 
 	var response UpdateRedisClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisCluster", "UpdateRedisCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/UpdateRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "UpdateRedisCluster", apiReferenceLink)
 		return response, err
 	}

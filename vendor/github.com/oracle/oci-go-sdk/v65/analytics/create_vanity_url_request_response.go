@@ -14,10 +14,10 @@ import (
 // CreateVanityUrlRequest wrapper for the CreateVanityUrl operation
 type CreateVanityUrlRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Vanity url details.
+	// Vanity URL details.
 	CreateVanityUrlDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

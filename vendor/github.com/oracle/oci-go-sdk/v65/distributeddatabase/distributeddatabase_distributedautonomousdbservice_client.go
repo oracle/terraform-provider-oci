@@ -137,11 +137,11 @@ func (client DistributedAutonomousDbServiceClient) addDistributedAutonomousDatab
 
 	var response AddDistributedAutonomousDatabaseGdsControlNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "AddDistributedAutonomousDatabaseGdsControlNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/AddDistributedAutonomousDatabaseGdsControlNode"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "AddDistributedAutonomousDatabaseGdsControlNode", apiReferenceLink)
 		return response, err
 	}
@@ -196,11 +196,11 @@ func (client DistributedAutonomousDbServiceClient) changeDistributedAutonomousDa
 
 	var response ChangeDistributedAutonomousDatabaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ChangeDistributedAutonomousDatabaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ChangeDistributedAutonomousDatabaseCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ChangeDistributedAutonomousDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -255,11 +255,11 @@ func (client DistributedAutonomousDbServiceClient) changeDistributedAutonomousDb
 
 	var response ChangeDistributedAutonomousDbBackupConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ChangeDistributedAutonomousDbBackupConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ChangeDistributedAutonomousDbBackupConfig"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ChangeDistributedAutonomousDbBackupConfig", apiReferenceLink)
 		return response, err
 	}
@@ -314,11 +314,11 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseGsmWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsmWallet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ConfigureDistributedAutonomousDatabaseGsmWallet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsmWallet", apiReferenceLink)
 		return response, err
 	}
@@ -373,11 +373,11 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseGsmsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ConfigureDistributedAutonomousDatabaseGsms"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsms", apiReferenceLink)
 		return response, err
 	}
@@ -436,11 +436,11 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseShardingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseSharding")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ConfigureDistributedAutonomousDatabaseSharding"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseSharding", apiReferenceLink)
 		return response, err
 	}
@@ -495,7 +495,7 @@ func (client DistributedAutonomousDbServiceClient) createDistributedAutonomousDa
 
 	var response CreateDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "CreateDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -554,11 +554,11 @@ func (client DistributedAutonomousDbServiceClient) deleteDistributedAutonomousDa
 
 	var response DeleteDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "DeleteDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/DeleteDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "DeleteDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -616,10 +616,10 @@ func (client DistributedAutonomousDbServiceClient) downloadDistributedAutonomous
 
 	var response DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -676,11 +676,11 @@ func (client DistributedAutonomousDbServiceClient) generateDistributedAutonomous
 
 	var response GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -735,10 +735,10 @@ func (client DistributedAutonomousDbServiceClient) generateDistributedAutonomous
 
 	var response GenerateDistributedAutonomousDatabaseWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseWallet")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/GenerateDistributedAutonomousDatabaseWallet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseWallet", apiReferenceLink)
 		return response, err
 	}
@@ -788,11 +788,11 @@ func (client DistributedAutonomousDbServiceClient) getDistributedAutonomousDatab
 
 	var response GetDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GetDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/GetDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "GetDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -843,11 +843,11 @@ func (client DistributedAutonomousDbServiceClient) getDistributedAutonomousDatab
 
 	var response GetDistributedAutonomousDatabaseRaftMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GetDistributedAutonomousDatabaseRaftMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/GetDistributedAutonomousDatabaseRaftMetric"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "GetDistributedAutonomousDatabaseRaftMetric", apiReferenceLink)
 		return response, err
 	}
@@ -897,11 +897,11 @@ func (client DistributedAutonomousDbServiceClient) listDistributedAutonomousData
 
 	var response ListDistributedAutonomousDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ListDistributedAutonomousDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabaseCollection/ListDistributedAutonomousDatabases"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ListDistributedAutonomousDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -956,11 +956,11 @@ func (client DistributedAutonomousDbServiceClient) moveDistributedAutonomousData
 
 	var response MoveDistributedAutonomousDatabaseReplicationUnitResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "MoveDistributedAutonomousDatabaseReplicationUnit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/MoveDistributedAutonomousDatabaseReplicationUnit"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "MoveDistributedAutonomousDatabaseReplicationUnit", apiReferenceLink)
 		return response, err
 	}
@@ -1017,11 +1017,11 @@ func (client DistributedAutonomousDbServiceClient) patchDistributedAutonomousDat
 
 	var response PatchDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "PatchDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/PatchDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "PatchDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1076,11 +1076,11 @@ func (client DistributedAutonomousDbServiceClient) recreateFailedDistributedAuto
 
 	var response RecreateFailedDistributedAutonomousDatabaseResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "RecreateFailedDistributedAutonomousDatabaseResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/RecreateFailedDistributedAutonomousDatabaseResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "RecreateFailedDistributedAutonomousDatabaseResource", apiReferenceLink)
 		return response, err
 	}
@@ -1135,11 +1135,11 @@ func (client DistributedAutonomousDbServiceClient) rotateDistributedAutonomousDa
 
 	var response RotateDistributedAutonomousDatabasePasswordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "RotateDistributedAutonomousDatabasePasswords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/RotateDistributedAutonomousDatabasePasswords"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "RotateDistributedAutonomousDatabasePasswords", apiReferenceLink)
 		return response, err
 	}
@@ -1194,11 +1194,11 @@ func (client DistributedAutonomousDbServiceClient) startDistributedAutonomousDat
 
 	var response StartDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "StartDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/StartDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "StartDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1253,11 +1253,11 @@ func (client DistributedAutonomousDbServiceClient) stopDistributedAutonomousData
 
 	var response StopDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "StopDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/StopDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "StopDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1307,11 +1307,11 @@ func (client DistributedAutonomousDbServiceClient) updateDistributedAutonomousDa
 
 	var response UpdateDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "UpdateDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/UpdateDistributedAutonomousDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "UpdateDistributedAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1368,11 +1368,11 @@ func (client DistributedAutonomousDbServiceClient) uploadDistributedAutonomousDa
 
 	var response UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet", apiReferenceLink)
 		return response, err
 	}
@@ -1427,11 +1427,11 @@ func (client DistributedAutonomousDbServiceClient) validateDistributedAutonomous
 
 	var response ValidateDistributedAutonomousDatabaseCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ValidateDistributedAutonomousDatabaseCaBundle"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseCaBundle", apiReferenceLink)
 		return response, err
 	}
@@ -1486,11 +1486,11 @@ func (client DistributedAutonomousDbServiceClient) validateDistributedAutonomous
 
 	var response ValidateDistributedAutonomousDatabaseNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/ValidateDistributedAutonomousDatabaseNetwork"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DistributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseNetwork", apiReferenceLink)
 		return response, err
 	}

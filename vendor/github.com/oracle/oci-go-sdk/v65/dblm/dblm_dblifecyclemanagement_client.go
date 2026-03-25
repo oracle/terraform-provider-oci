@@ -137,7 +137,7 @@ func (client DbLifeCycleManagementClient) createSoftwareImage(ctx context.Contex
 
 	var response CreateSoftwareImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "CreateSoftwareImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client DbLifeCycleManagementClient) createVulnerabilityScan(ctx context.Co
 
 	var response CreateVulnerabilityScanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "CreateVulnerabilityScan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -250,7 +250,7 @@ func (client DbLifeCycleManagementClient) deletePatchOperation(ctx context.Conte
 
 	var response DeletePatchOperationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "DeletePatchOperation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -304,7 +304,7 @@ func (client DbLifeCycleManagementClient) deleteSoftwareImage(ctx context.Contex
 
 	var response DeleteSoftwareImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "DeleteSoftwareImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -358,7 +358,7 @@ func (client DbLifeCycleManagementClient) getPatchManagement(ctx context.Context
 
 	var response GetPatchManagementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetPatchManagement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -412,7 +412,7 @@ func (client DbLifeCycleManagementClient) getPatchOperation(ctx context.Context,
 
 	var response GetPatchOperationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetPatchOperation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -466,7 +466,7 @@ func (client DbLifeCycleManagementClient) getSoftwareImage(ctx context.Context, 
 
 	var response GetSoftwareImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetSoftwareImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -520,7 +520,7 @@ func (client DbLifeCycleManagementClient) getVulnerability(ctx context.Context, 
 
 	var response GetVulnerabilityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetVulnerability")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -574,7 +574,7 @@ func (client DbLifeCycleManagementClient) getVulnerabilityScan(ctx context.Conte
 
 	var response GetVulnerabilityScanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetVulnerabilityScan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -628,7 +628,7 @@ func (client DbLifeCycleManagementClient) getWorkRequest(ctx context.Context, re
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -682,7 +682,7 @@ func (client DbLifeCycleManagementClient) listAggregatedVulnerabilityData(ctx co
 
 	var response ListAggregatedVulnerabilityDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListAggregatedVulnerabilityData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -736,7 +736,7 @@ func (client DbLifeCycleManagementClient) listDatabases(ctx context.Context, req
 
 	var response ListDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -790,7 +790,7 @@ func (client DbLifeCycleManagementClient) listNotifications(ctx context.Context,
 
 	var response ListNotificationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListNotifications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -844,7 +844,7 @@ func (client DbLifeCycleManagementClient) listPatchOperations(ctx context.Contex
 
 	var response ListPatchOperationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListPatchOperations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -898,7 +898,7 @@ func (client DbLifeCycleManagementClient) listPatchTaskSteps(ctx context.Context
 
 	var response ListPatchTaskStepsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListPatchTaskSteps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -952,7 +952,7 @@ func (client DbLifeCycleManagementClient) listPatchTasks(ctx context.Context, re
 
 	var response ListPatchTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListPatchTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1006,7 +1006,7 @@ func (client DbLifeCycleManagementClient) listSoftwareImages(ctx context.Context
 
 	var response ListSoftwareImagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListSoftwareImages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1065,7 +1065,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilities(ctx context.Contex
 
 	var response ListVulnerabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListVulnerabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1119,7 +1119,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilityResources(ctx context
 
 	var response ListVulnerabilityResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListVulnerabilityResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1173,7 +1173,7 @@ func (client DbLifeCycleManagementClient) listVulnerabilityScans(ctx context.Con
 
 	var response ListVulnerabilityScansResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListVulnerabilityScans")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1227,7 +1227,7 @@ func (client DbLifeCycleManagementClient) listWorkRequestErrors(ctx context.Cont
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1281,7 +1281,7 @@ func (client DbLifeCycleManagementClient) listWorkRequestLogs(ctx context.Contex
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1335,7 +1335,7 @@ func (client DbLifeCycleManagementClient) listWorkRequests(ctx context.Context, 
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1394,7 +1394,7 @@ func (client DbLifeCycleManagementClient) patchResources(ctx context.Context, re
 
 	var response PatchResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "PatchResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1448,7 +1448,7 @@ func (client DbLifeCycleManagementClient) patchSoftwareImage(ctx context.Context
 
 	var response PatchSoftwareImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "PatchSoftwareImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1507,7 +1507,7 @@ func (client DbLifeCycleManagementClient) subscribeResource(ctx context.Context,
 
 	var response SubscribeResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "SubscribeResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1566,7 +1566,7 @@ func (client DbLifeCycleManagementClient) unsubscribeResource(ctx context.Contex
 
 	var response UnsubscribeResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "UnsubscribeResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1620,7 +1620,7 @@ func (client DbLifeCycleManagementClient) updatePatchOperation(ctx context.Conte
 
 	var response UpdatePatchOperationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "UpdatePatchOperation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1674,7 +1674,7 @@ func (client DbLifeCycleManagementClient) updateSoftwareImage(ctx context.Contex
 
 	var response UpdateSoftwareImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbLifeCycleManagement", "UpdateSoftwareImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

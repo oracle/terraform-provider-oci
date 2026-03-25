@@ -14,7 +14,7 @@ import (
 // CreateAnalyticsInstanceRequest wrapper for the CreateAnalyticsInstance operation
 type CreateAnalyticsInstanceRequest struct {
 
-	// Analytics Instance details.
+	// Analytics instance details.
 	CreateAnalyticsInstanceDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

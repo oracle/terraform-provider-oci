@@ -136,7 +136,7 @@ func (client DataIntegrationClient) changeCompartment(ctx context.Context, reque
 
 	var response ChangeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ChangeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client DataIntegrationClient) changeDisApplicationCompartment(ctx context.
 
 	var response ChangeDisApplicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ChangeDisApplicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client DataIntegrationClient) createApplication(ctx context.Context, reque
 
 	var response CreateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client DataIntegrationClient) createApplicationDetailedDescription(ctx con
 
 	var response CreateApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client DataIntegrationClient) createConnection(ctx context.Context, reques
 
 	var response CreateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -426,7 +426,7 @@ func (client DataIntegrationClient) createConnectionValidation(ctx context.Conte
 
 	var response CreateConnectionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateConnectionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -484,7 +484,7 @@ func (client DataIntegrationClient) createCopyObjectRequest(ctx context.Context,
 
 	var response CreateCopyObjectRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateCopyObjectRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -542,7 +542,7 @@ func (client DataIntegrationClient) createDataAsset(ctx context.Context, request
 
 	var response CreateDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -600,7 +600,7 @@ func (client DataIntegrationClient) createDataFlow(ctx context.Context, request 
 
 	var response CreateDataFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateDataFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -658,7 +658,7 @@ func (client DataIntegrationClient) createDataFlowValidation(ctx context.Context
 
 	var response CreateDataFlowValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateDataFlowValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -716,7 +716,7 @@ func (client DataIntegrationClient) createDisApplication(ctx context.Context, re
 
 	var response CreateDisApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateDisApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -774,7 +774,7 @@ func (client DataIntegrationClient) createDisApplicationDetailedDescription(ctx 
 
 	var response CreateDisApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateDisApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -832,7 +832,7 @@ func (client DataIntegrationClient) createEntityShape(ctx context.Context, reque
 
 	var response CreateEntityShapeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateEntityShape")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -890,7 +890,7 @@ func (client DataIntegrationClient) createExportRequest(ctx context.Context, req
 
 	var response CreateExportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateExportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -948,7 +948,7 @@ func (client DataIntegrationClient) createExternalPublication(ctx context.Contex
 
 	var response CreateExternalPublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateExternalPublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1006,7 +1006,7 @@ func (client DataIntegrationClient) createExternalPublicationValidation(ctx cont
 
 	var response CreateExternalPublicationValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateExternalPublicationValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1065,7 +1065,7 @@ func (client DataIntegrationClient) createFolder(ctx context.Context, request co
 
 	var response CreateFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1124,7 +1124,7 @@ func (client DataIntegrationClient) createFunctionLibrary(ctx context.Context, r
 
 	var response CreateFunctionLibraryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateFunctionLibrary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1182,7 +1182,7 @@ func (client DataIntegrationClient) createImportRequest(ctx context.Context, req
 
 	var response CreateImportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateImportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1240,7 +1240,7 @@ func (client DataIntegrationClient) createPatch(ctx context.Context, request com
 
 	var response CreatePatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreatePatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1298,7 +1298,7 @@ func (client DataIntegrationClient) createPipeline(ctx context.Context, request 
 
 	var response CreatePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreatePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1356,7 +1356,7 @@ func (client DataIntegrationClient) createPipelineValidation(ctx context.Context
 
 	var response CreatePipelineValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreatePipelineValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1414,7 +1414,7 @@ func (client DataIntegrationClient) createProject(ctx context.Context, request c
 
 	var response CreateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1472,7 +1472,7 @@ func (client DataIntegrationClient) createSchedule(ctx context.Context, request 
 
 	var response CreateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1530,7 +1530,7 @@ func (client DataIntegrationClient) createTask(ctx context.Context, request comm
 
 	var response CreateTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1588,7 +1588,7 @@ func (client DataIntegrationClient) createTaskRun(ctx context.Context, request c
 
 	var response CreateTaskRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateTaskRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1646,7 +1646,7 @@ func (client DataIntegrationClient) createTaskSchedule(ctx context.Context, requ
 
 	var response CreateTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1704,7 +1704,7 @@ func (client DataIntegrationClient) createTaskValidation(ctx context.Context, re
 
 	var response CreateTaskValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateTaskValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1762,7 +1762,7 @@ func (client DataIntegrationClient) createUserDefinedFunction(ctx context.Contex
 
 	var response CreateUserDefinedFunctionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateUserDefinedFunction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1820,7 +1820,7 @@ func (client DataIntegrationClient) createUserDefinedFunctionValidation(ctx cont
 
 	var response CreateUserDefinedFunctionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateUserDefinedFunctionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1878,7 +1878,7 @@ func (client DataIntegrationClient) createWorkspace(ctx context.Context, request
 
 	var response CreateWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "CreateWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1931,7 +1931,7 @@ func (client DataIntegrationClient) deleteApplication(ctx context.Context, reque
 
 	var response DeleteApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1984,7 +1984,7 @@ func (client DataIntegrationClient) deleteApplicationDetailedDescription(ctx con
 
 	var response DeleteApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2037,7 +2037,7 @@ func (client DataIntegrationClient) deleteConnection(ctx context.Context, reques
 
 	var response DeleteConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2090,7 +2090,7 @@ func (client DataIntegrationClient) deleteConnectionValidation(ctx context.Conte
 
 	var response DeleteConnectionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteConnectionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2143,7 +2143,7 @@ func (client DataIntegrationClient) deleteCopyObjectRequest(ctx context.Context,
 
 	var response DeleteCopyObjectRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteCopyObjectRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2196,7 +2196,7 @@ func (client DataIntegrationClient) deleteDataAsset(ctx context.Context, request
 
 	var response DeleteDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2249,7 +2249,7 @@ func (client DataIntegrationClient) deleteDataFlow(ctx context.Context, request 
 
 	var response DeleteDataFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteDataFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2302,7 +2302,7 @@ func (client DataIntegrationClient) deleteDataFlowValidation(ctx context.Context
 
 	var response DeleteDataFlowValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteDataFlowValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2355,7 +2355,7 @@ func (client DataIntegrationClient) deleteDisApplication(ctx context.Context, re
 
 	var response DeleteDisApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteDisApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2408,7 +2408,7 @@ func (client DataIntegrationClient) deleteDisApplicationDetailedDescription(ctx 
 
 	var response DeleteDisApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteDisApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2461,7 +2461,7 @@ func (client DataIntegrationClient) deleteExportRequest(ctx context.Context, req
 
 	var response DeleteExportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteExportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2514,7 +2514,7 @@ func (client DataIntegrationClient) deleteExternalPublication(ctx context.Contex
 
 	var response DeleteExternalPublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteExternalPublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2567,7 +2567,7 @@ func (client DataIntegrationClient) deleteExternalPublicationValidation(ctx cont
 
 	var response DeleteExternalPublicationValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteExternalPublicationValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2620,7 +2620,7 @@ func (client DataIntegrationClient) deleteFolder(ctx context.Context, request co
 
 	var response DeleteFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2673,7 +2673,7 @@ func (client DataIntegrationClient) deleteFunctionLibrary(ctx context.Context, r
 
 	var response DeleteFunctionLibraryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteFunctionLibrary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2726,7 +2726,7 @@ func (client DataIntegrationClient) deleteImportRequest(ctx context.Context, req
 
 	var response DeleteImportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteImportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2779,7 +2779,7 @@ func (client DataIntegrationClient) deletePatch(ctx context.Context, request com
 
 	var response DeletePatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeletePatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2832,7 +2832,7 @@ func (client DataIntegrationClient) deletePipeline(ctx context.Context, request 
 
 	var response DeletePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeletePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2885,7 +2885,7 @@ func (client DataIntegrationClient) deletePipelineValidation(ctx context.Context
 
 	var response DeletePipelineValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeletePipelineValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2938,7 +2938,7 @@ func (client DataIntegrationClient) deleteProject(ctx context.Context, request c
 
 	var response DeleteProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2991,7 +2991,7 @@ func (client DataIntegrationClient) deleteSchedule(ctx context.Context, request 
 
 	var response DeleteScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3044,7 +3044,7 @@ func (client DataIntegrationClient) deleteTask(ctx context.Context, request comm
 
 	var response DeleteTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3097,7 +3097,7 @@ func (client DataIntegrationClient) deleteTaskRun(ctx context.Context, request c
 
 	var response DeleteTaskRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteTaskRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3150,7 +3150,7 @@ func (client DataIntegrationClient) deleteTaskSchedule(ctx context.Context, requ
 
 	var response DeleteTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3203,7 +3203,7 @@ func (client DataIntegrationClient) deleteTaskValidation(ctx context.Context, re
 
 	var response DeleteTaskValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteTaskValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3256,7 +3256,7 @@ func (client DataIntegrationClient) deleteUserDefinedFunction(ctx context.Contex
 
 	var response DeleteUserDefinedFunctionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteUserDefinedFunction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3309,7 +3309,7 @@ func (client DataIntegrationClient) deleteUserDefinedFunctionValidation(ctx cont
 
 	var response DeleteUserDefinedFunctionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteUserDefinedFunctionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3362,7 +3362,7 @@ func (client DataIntegrationClient) deleteWorkspace(ctx context.Context, request
 
 	var response DeleteWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "DeleteWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3415,7 +3415,7 @@ func (client DataIntegrationClient) getApplication(ctx context.Context, request 
 
 	var response GetApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3468,7 +3468,7 @@ func (client DataIntegrationClient) getApplicationDetailedDescription(ctx contex
 
 	var response GetApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3521,7 +3521,7 @@ func (client DataIntegrationClient) getCompositeState(ctx context.Context, reque
 
 	var response GetCompositeStateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetCompositeState")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3574,7 +3574,7 @@ func (client DataIntegrationClient) getConnection(ctx context.Context, request c
 
 	var response GetConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3627,7 +3627,7 @@ func (client DataIntegrationClient) getConnectionValidation(ctx context.Context,
 
 	var response GetConnectionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetConnectionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3680,7 +3680,7 @@ func (client DataIntegrationClient) getCopyObjectRequest(ctx context.Context, re
 
 	var response GetCopyObjectRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetCopyObjectRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3735,7 +3735,7 @@ func (client DataIntegrationClient) getCountStatistic(ctx context.Context, reque
 
 	var response GetCountStatisticResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetCountStatistic")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3788,7 +3788,7 @@ func (client DataIntegrationClient) getDataAsset(ctx context.Context, request co
 
 	var response GetDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3841,7 +3841,7 @@ func (client DataIntegrationClient) getDataEntity(ctx context.Context, request c
 
 	var response GetDataEntityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDataEntity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3894,7 +3894,7 @@ func (client DataIntegrationClient) getDataFlow(ctx context.Context, request com
 
 	var response GetDataFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDataFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3947,7 +3947,7 @@ func (client DataIntegrationClient) getDataFlowValidation(ctx context.Context, r
 
 	var response GetDataFlowValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDataFlowValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4000,7 +4000,7 @@ func (client DataIntegrationClient) getDependentObject(ctx context.Context, requ
 
 	var response GetDependentObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDependentObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4053,7 +4053,7 @@ func (client DataIntegrationClient) getDisApplication(ctx context.Context, reque
 
 	var response GetDisApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDisApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4106,7 +4106,7 @@ func (client DataIntegrationClient) getDisApplicationDetailedDescription(ctx con
 
 	var response GetDisApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetDisApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4159,7 +4159,7 @@ func (client DataIntegrationClient) getExportRequest(ctx context.Context, reques
 
 	var response GetExportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetExportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4212,7 +4212,7 @@ func (client DataIntegrationClient) getExternalPublication(ctx context.Context, 
 
 	var response GetExternalPublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetExternalPublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4265,7 +4265,7 @@ func (client DataIntegrationClient) getExternalPublicationValidation(ctx context
 
 	var response GetExternalPublicationValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetExternalPublicationValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4318,7 +4318,7 @@ func (client DataIntegrationClient) getFolder(ctx context.Context, request commo
 
 	var response GetFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4371,7 +4371,7 @@ func (client DataIntegrationClient) getFunctionLibrary(ctx context.Context, requ
 
 	var response GetFunctionLibraryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetFunctionLibrary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4424,7 +4424,7 @@ func (client DataIntegrationClient) getImportRequest(ctx context.Context, reques
 
 	var response GetImportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetImportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4477,7 +4477,7 @@ func (client DataIntegrationClient) getPatch(ctx context.Context, request common
 
 	var response GetPatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetPatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4530,7 +4530,7 @@ func (client DataIntegrationClient) getPipeline(ctx context.Context, request com
 
 	var response GetPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4583,7 +4583,7 @@ func (client DataIntegrationClient) getPipelineValidation(ctx context.Context, r
 
 	var response GetPipelineValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetPipelineValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4636,7 +4636,7 @@ func (client DataIntegrationClient) getProject(ctx context.Context, request comm
 
 	var response GetProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4689,7 +4689,7 @@ func (client DataIntegrationClient) getPublishedObject(ctx context.Context, requ
 
 	var response GetPublishedObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetPublishedObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4742,7 +4742,7 @@ func (client DataIntegrationClient) getReference(ctx context.Context, request co
 
 	var response GetReferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetReference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4795,7 +4795,7 @@ func (client DataIntegrationClient) getRuntimeOperator(ctx context.Context, requ
 
 	var response GetRuntimeOperatorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetRuntimeOperator")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4848,7 +4848,7 @@ func (client DataIntegrationClient) getRuntimePipeline(ctx context.Context, requ
 
 	var response GetRuntimePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetRuntimePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4901,7 +4901,7 @@ func (client DataIntegrationClient) getSchedule(ctx context.Context, request com
 
 	var response GetScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4954,7 +4954,7 @@ func (client DataIntegrationClient) getSchema(ctx context.Context, request commo
 
 	var response GetSchemaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetSchema")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5007,7 +5007,7 @@ func (client DataIntegrationClient) getTask(ctx context.Context, request common.
 
 	var response GetTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5060,7 +5060,7 @@ func (client DataIntegrationClient) getTaskRun(ctx context.Context, request comm
 
 	var response GetTaskRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetTaskRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5113,7 +5113,7 @@ func (client DataIntegrationClient) getTaskSchedule(ctx context.Context, request
 
 	var response GetTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5166,7 +5166,7 @@ func (client DataIntegrationClient) getTaskValidation(ctx context.Context, reque
 
 	var response GetTaskValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetTaskValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5219,7 +5219,7 @@ func (client DataIntegrationClient) getTemplate(ctx context.Context, request com
 
 	var response GetTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5272,7 +5272,7 @@ func (client DataIntegrationClient) getUserDefinedFunction(ctx context.Context, 
 
 	var response GetUserDefinedFunctionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetUserDefinedFunction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5325,7 +5325,7 @@ func (client DataIntegrationClient) getUserDefinedFunctionValidation(ctx context
 
 	var response GetUserDefinedFunctionValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetUserDefinedFunctionValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5378,7 +5378,7 @@ func (client DataIntegrationClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5431,7 +5431,7 @@ func (client DataIntegrationClient) getWorkspace(ctx context.Context, request co
 
 	var response GetWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "GetWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5484,7 +5484,7 @@ func (client DataIntegrationClient) listApplications(ctx context.Context, reques
 
 	var response ListApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5537,7 +5537,7 @@ func (client DataIntegrationClient) listConnectionValidations(ctx context.Contex
 
 	var response ListConnectionValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListConnectionValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5590,7 +5590,7 @@ func (client DataIntegrationClient) listConnections(ctx context.Context, request
 
 	var response ListConnectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListConnections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5643,7 +5643,7 @@ func (client DataIntegrationClient) listCopyObjectRequests(ctx context.Context, 
 
 	var response ListCopyObjectRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListCopyObjectRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5696,7 +5696,7 @@ func (client DataIntegrationClient) listDataAssets(ctx context.Context, request 
 
 	var response ListDataAssetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDataAssets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5749,7 +5749,7 @@ func (client DataIntegrationClient) listDataEntities(ctx context.Context, reques
 
 	var response ListDataEntitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDataEntities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5802,7 +5802,7 @@ func (client DataIntegrationClient) listDataFlowValidations(ctx context.Context,
 
 	var response ListDataFlowValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDataFlowValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5855,7 +5855,7 @@ func (client DataIntegrationClient) listDataFlows(ctx context.Context, request c
 
 	var response ListDataFlowsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDataFlows")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5908,7 +5908,7 @@ func (client DataIntegrationClient) listDependentObjects(ctx context.Context, re
 
 	var response ListDependentObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDependentObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5961,7 +5961,7 @@ func (client DataIntegrationClient) listDisApplicationTaskRunLineages(ctx contex
 
 	var response ListDisApplicationTaskRunLineagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDisApplicationTaskRunLineages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6014,7 +6014,7 @@ func (client DataIntegrationClient) listDisApplications(ctx context.Context, req
 
 	var response ListDisApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListDisApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6067,7 +6067,7 @@ func (client DataIntegrationClient) listExportRequests(ctx context.Context, requ
 
 	var response ListExportRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListExportRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6120,7 +6120,7 @@ func (client DataIntegrationClient) listExternalPublicationValidations(ctx conte
 
 	var response ListExternalPublicationValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListExternalPublicationValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6173,7 +6173,7 @@ func (client DataIntegrationClient) listExternalPublications(ctx context.Context
 
 	var response ListExternalPublicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListExternalPublications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6226,7 +6226,7 @@ func (client DataIntegrationClient) listFolders(ctx context.Context, request com
 
 	var response ListFoldersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListFolders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6279,7 +6279,7 @@ func (client DataIntegrationClient) listFunctionLibraries(ctx context.Context, r
 
 	var response ListFunctionLibrariesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListFunctionLibraries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6332,7 +6332,7 @@ func (client DataIntegrationClient) listImportRequests(ctx context.Context, requ
 
 	var response ListImportRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListImportRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6385,7 +6385,7 @@ func (client DataIntegrationClient) listPatchChanges(ctx context.Context, reques
 
 	var response ListPatchChangesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListPatchChanges")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6438,7 +6438,7 @@ func (client DataIntegrationClient) listPatches(ctx context.Context, request com
 
 	var response ListPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6491,7 +6491,7 @@ func (client DataIntegrationClient) listPipelineValidations(ctx context.Context,
 
 	var response ListPipelineValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListPipelineValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6544,7 +6544,7 @@ func (client DataIntegrationClient) listPipelines(ctx context.Context, request c
 
 	var response ListPipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListPipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6597,7 +6597,7 @@ func (client DataIntegrationClient) listProjects(ctx context.Context, request co
 
 	var response ListProjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListProjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6650,7 +6650,7 @@ func (client DataIntegrationClient) listPublishedObjects(ctx context.Context, re
 
 	var response ListPublishedObjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListPublishedObjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6703,7 +6703,7 @@ func (client DataIntegrationClient) listReferences(ctx context.Context, request 
 
 	var response ListReferencesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListReferences")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6756,7 +6756,7 @@ func (client DataIntegrationClient) listRuntimeOperators(ctx context.Context, re
 
 	var response ListRuntimeOperatorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListRuntimeOperators")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6809,7 +6809,7 @@ func (client DataIntegrationClient) listRuntimePipelines(ctx context.Context, re
 
 	var response ListRuntimePipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListRuntimePipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6862,7 +6862,7 @@ func (client DataIntegrationClient) listSchedules(ctx context.Context, request c
 
 	var response ListSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6915,7 +6915,7 @@ func (client DataIntegrationClient) listSchemas(ctx context.Context, request com
 
 	var response ListSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6968,7 +6968,7 @@ func (client DataIntegrationClient) listTaskRunLineages(ctx context.Context, req
 
 	var response ListTaskRunLineagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTaskRunLineages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7021,7 +7021,7 @@ func (client DataIntegrationClient) listTaskRunLogs(ctx context.Context, request
 
 	var response ListTaskRunLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTaskRunLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7074,7 +7074,7 @@ func (client DataIntegrationClient) listTaskRuns(ctx context.Context, request co
 
 	var response ListTaskRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTaskRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7127,7 +7127,7 @@ func (client DataIntegrationClient) listTaskSchedules(ctx context.Context, reque
 
 	var response ListTaskSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTaskSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7180,7 +7180,7 @@ func (client DataIntegrationClient) listTaskValidations(ctx context.Context, req
 
 	var response ListTaskValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTaskValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7233,7 +7233,7 @@ func (client DataIntegrationClient) listTasks(ctx context.Context, request commo
 
 	var response ListTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7286,7 +7286,7 @@ func (client DataIntegrationClient) listTemplates(ctx context.Context, request c
 
 	var response ListTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7339,7 +7339,7 @@ func (client DataIntegrationClient) listUserDefinedFunctionValidations(ctx conte
 
 	var response ListUserDefinedFunctionValidationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListUserDefinedFunctionValidations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7392,7 +7392,7 @@ func (client DataIntegrationClient) listUserDefinedFunctions(ctx context.Context
 
 	var response ListUserDefinedFunctionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListUserDefinedFunctions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7445,7 +7445,7 @@ func (client DataIntegrationClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7498,7 +7498,7 @@ func (client DataIntegrationClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7551,7 +7551,7 @@ func (client DataIntegrationClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7604,7 +7604,7 @@ func (client DataIntegrationClient) listWorkspaces(ctx context.Context, request 
 
 	var response ListWorkspacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "ListWorkspaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7662,7 +7662,7 @@ func (client DataIntegrationClient) startWorkspace(ctx context.Context, request 
 
 	var response StartWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "StartWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7720,7 +7720,7 @@ func (client DataIntegrationClient) stopWorkspace(ctx context.Context, request c
 
 	var response StopWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "StopWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7773,7 +7773,7 @@ func (client DataIntegrationClient) updateApplication(ctx context.Context, reque
 
 	var response UpdateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7826,7 +7826,7 @@ func (client DataIntegrationClient) updateApplicationDetailedDescription(ctx con
 
 	var response UpdateApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7879,7 +7879,7 @@ func (client DataIntegrationClient) updateConnection(ctx context.Context, reques
 
 	var response UpdateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7932,7 +7932,7 @@ func (client DataIntegrationClient) updateCopyObjectRequest(ctx context.Context,
 
 	var response UpdateCopyObjectRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateCopyObjectRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7985,7 +7985,7 @@ func (client DataIntegrationClient) updateDataAsset(ctx context.Context, request
 
 	var response UpdateDataAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateDataAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8038,7 +8038,7 @@ func (client DataIntegrationClient) updateDataFlow(ctx context.Context, request 
 
 	var response UpdateDataFlowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateDataFlow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8091,7 +8091,7 @@ func (client DataIntegrationClient) updateDisApplication(ctx context.Context, re
 
 	var response UpdateDisApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateDisApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8144,7 +8144,7 @@ func (client DataIntegrationClient) updateDisApplicationDetailedDescription(ctx 
 
 	var response UpdateDisApplicationDetailedDescriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateDisApplicationDetailedDescription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8197,7 +8197,7 @@ func (client DataIntegrationClient) updateExportRequest(ctx context.Context, req
 
 	var response UpdateExportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateExportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8250,7 +8250,7 @@ func (client DataIntegrationClient) updateExternalPublication(ctx context.Contex
 
 	var response UpdateExternalPublicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateExternalPublication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8303,7 +8303,7 @@ func (client DataIntegrationClient) updateFolder(ctx context.Context, request co
 
 	var response UpdateFolderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateFolder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8356,7 +8356,7 @@ func (client DataIntegrationClient) updateFunctionLibrary(ctx context.Context, r
 
 	var response UpdateFunctionLibraryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateFunctionLibrary")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8409,7 +8409,7 @@ func (client DataIntegrationClient) updateImportRequest(ctx context.Context, req
 
 	var response UpdateImportRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateImportRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8462,7 +8462,7 @@ func (client DataIntegrationClient) updatePipeline(ctx context.Context, request 
 
 	var response UpdatePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdatePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8515,7 +8515,7 @@ func (client DataIntegrationClient) updateProject(ctx context.Context, request c
 
 	var response UpdateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8573,7 +8573,7 @@ func (client DataIntegrationClient) updateReference(ctx context.Context, request
 
 	var response UpdateReferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateReference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8626,7 +8626,7 @@ func (client DataIntegrationClient) updateSchedule(ctx context.Context, request 
 
 	var response UpdateScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8679,7 +8679,7 @@ func (client DataIntegrationClient) updateTask(ctx context.Context, request comm
 
 	var response UpdateTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8732,7 +8732,7 @@ func (client DataIntegrationClient) updateTaskRun(ctx context.Context, request c
 
 	var response UpdateTaskRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateTaskRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8785,7 +8785,7 @@ func (client DataIntegrationClient) updateTaskSchedule(ctx context.Context, requ
 
 	var response UpdateTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8838,7 +8838,7 @@ func (client DataIntegrationClient) updateUserDefinedFunction(ctx context.Contex
 
 	var response UpdateUserDefinedFunctionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateUserDefinedFunction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8891,7 +8891,7 @@ func (client DataIntegrationClient) updateWorkspace(ctx context.Context, request
 
 	var response UpdateWorkspaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataIntegration", "UpdateWorkspace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

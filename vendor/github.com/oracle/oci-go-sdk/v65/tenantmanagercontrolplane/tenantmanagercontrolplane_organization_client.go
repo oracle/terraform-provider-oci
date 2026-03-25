@@ -136,7 +136,7 @@ func (client OrganizationClient) approveOrganizationTenancyForTransfer(ctx conte
 
 	var response ApproveOrganizationTenancyForTransferResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "ApproveOrganizationTenancyForTransfer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client OrganizationClient) createChildTenancy(ctx context.Context, request
 
 	var response CreateChildTenancyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "CreateChildTenancy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client OrganizationClient) deleteOrganizationTenancy(ctx context.Context, 
 
 	var response DeleteOrganizationTenancyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "DeleteOrganizationTenancy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -305,7 +305,7 @@ func (client OrganizationClient) getOrganization(ctx context.Context, request co
 
 	var response GetOrganizationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "GetOrganization")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -358,7 +358,7 @@ func (client OrganizationClient) getOrganizationTenancy(ctx context.Context, req
 
 	var response GetOrganizationTenancyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "GetOrganizationTenancy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -411,7 +411,7 @@ func (client OrganizationClient) listOrganizationTenancies(ctx context.Context, 
 
 	var response ListOrganizationTenanciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "ListOrganizationTenancies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -464,7 +464,7 @@ func (client OrganizationClient) listOrganizations(ctx context.Context, request 
 
 	var response ListOrganizationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "ListOrganizations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client OrganizationClient) restoreOrganizationTenancy(ctx context.Context,
 
 	var response RestoreOrganizationTenancyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "RestoreOrganizationTenancy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -575,7 +575,7 @@ func (client OrganizationClient) unapproveOrganizationTenancyForTransfer(ctx con
 
 	var response UnapproveOrganizationTenancyForTransferResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "UnapproveOrganizationTenancyForTransfer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -633,7 +633,7 @@ func (client OrganizationClient) updateOrganization(ctx context.Context, request
 
 	var response UpdateOrganizationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organization", "UpdateOrganization")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

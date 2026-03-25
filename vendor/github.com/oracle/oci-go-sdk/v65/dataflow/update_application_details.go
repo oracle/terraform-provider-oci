@@ -22,7 +22,7 @@ type UpdateApplicationDetails struct {
 	ClassName *string `mandatory:"false" json:"className"`
 
 	// An Oracle Cloud Infrastructure URI of the file containing the application to execute.
-	// See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	FileUri *string `mandatory:"false" json:"fileUri"`
 
 	// The Spark version utilized to run the application.
@@ -34,7 +34,7 @@ type UpdateApplicationDetails struct {
 	ApplicationLogConfig *ApplicationLogConfig `mandatory:"false" json:"applicationLogConfig"`
 
 	// A comma separated list of one or more archive files as Oracle Cloud Infrastructure URIs. For example, ``oci://path/to/a.zip,oci://path/to/b.zip``. An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution of a Python, Java, or Scala application.
-	// See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
 
 	// The arguments passed to the running application as command line arguments.  An argument is
@@ -87,7 +87,7 @@ type UpdateApplicationDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
-	// See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
 	// The OCID of OCI Hive Metastore.
@@ -113,7 +113,7 @@ type UpdateApplicationDetails struct {
 
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.
-	// See https://docs.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	WarehouseBucketUri *string `mandatory:"false" json:"warehouseBucketUri"`
 
 	// The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated

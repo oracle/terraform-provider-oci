@@ -248,6 +248,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// The Autonomous AI Database clone type.
 	CloneType CreateAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -559,6 +562,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetTransportableTablespace() *Impo
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateAutonomousDatabaseCloneDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
@@ -665,6 +673,7 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
 		CloneType                                CreateAutonomousDatabaseCloneDetailsCloneTypeEnum                 `json:"cloneType"`
@@ -802,6 +811,8 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.CompartmentId = model.CompartmentId
 

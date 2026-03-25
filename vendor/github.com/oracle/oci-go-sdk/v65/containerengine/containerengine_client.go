@@ -147,11 +147,11 @@ func (client ContainerEngineClient) changeClusterAttachmentCompartment(ctx conte
 
 	var response ChangeClusterAttachmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ChangeClusterAttachmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/ChangeClusterAttachmentCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ChangeClusterAttachmentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -208,11 +208,11 @@ func (client ContainerEngineClient) changeClusterNamespaceCompartment(ctx contex
 
 	var response ChangeClusterNamespaceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ChangeClusterNamespaceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/ChangeClusterNamespaceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ChangeClusterNamespaceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -269,11 +269,11 @@ func (client ContainerEngineClient) changeClusterNamespaceProfileCompartment(ctx
 
 	var response ChangeClusterNamespaceProfileCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ChangeClusterNamespaceProfileCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/ChangeClusterNamespaceProfileCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ChangeClusterNamespaceProfileCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -330,11 +330,11 @@ func (client ContainerEngineClient) changeClusterNamespaceProfileVersionCompartm
 
 	var response ChangeClusterNamespaceProfileVersionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ChangeClusterNamespaceProfileVersionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/ChangeClusterNamespaceProfileVersionCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ChangeClusterNamespaceProfileVersionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -391,11 +391,11 @@ func (client ContainerEngineClient) clusterMigrateToNativeVcn(ctx context.Contex
 
 	var response ClusterMigrateToNativeVcnResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ClusterMigrateToNativeVcn")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ClusterMigrateToNativeVcn"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ClusterMigrateToNativeVcn", apiReferenceLink)
 		return response, err
 	}
@@ -457,11 +457,11 @@ func (client ContainerEngineClient) completeCredentialRotation(ctx context.Conte
 
 	var response CompleteCredentialRotationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CompleteCredentialRotation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/CompleteCredentialRotation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CompleteCredentialRotation", apiReferenceLink)
 		return response, err
 	}
@@ -523,11 +523,11 @@ func (client ContainerEngineClient) createCluster(ctx context.Context, request c
 
 	var response CreateClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/CreateCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateCluster", apiReferenceLink)
 		return response, err
 	}
@@ -589,11 +589,11 @@ func (client ContainerEngineClient) createClusterAttachment(ctx context.Context,
 
 	var response CreateClusterAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateClusterAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/CreateClusterAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateClusterAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -655,11 +655,11 @@ func (client ContainerEngineClient) createClusterNamespace(ctx context.Context, 
 
 	var response CreateClusterNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateClusterNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/CreateClusterNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateClusterNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -721,11 +721,11 @@ func (client ContainerEngineClient) createClusterNamespaceProfile(ctx context.Co
 
 	var response CreateClusterNamespaceProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateClusterNamespaceProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/CreateClusterNamespaceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateClusterNamespaceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -787,11 +787,11 @@ func (client ContainerEngineClient) createClusterNamespaceProfileVersion(ctx con
 
 	var response CreateClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateClusterNamespaceProfileVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/CreateClusterNamespaceProfileVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateClusterNamespaceProfileVersion", apiReferenceLink)
 		return response, err
 	}
@@ -848,10 +848,10 @@ func (client ContainerEngineClient) createKubeconfig(ctx context.Context, reques
 
 	var response CreateKubeconfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateKubeconfig")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/CreateKubeconfig"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateKubeconfig", apiReferenceLink)
 		return response, err
 	}
@@ -913,11 +913,11 @@ func (client ContainerEngineClient) createNodePool(ctx context.Context, request 
 
 	var response CreateNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/CreateNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -979,11 +979,11 @@ func (client ContainerEngineClient) createVirtualNodePool(ctx context.Context, r
 
 	var response CreateVirtualNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateVirtualNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/CreateVirtualNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateVirtualNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -1045,11 +1045,11 @@ func (client ContainerEngineClient) createWorkloadMapping(ctx context.Context, r
 
 	var response CreateWorkloadMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "CreateWorkloadMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/CreateWorkloadMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateWorkloadMapping", apiReferenceLink)
 		return response, err
 	}
@@ -1106,11 +1106,11 @@ func (client ContainerEngineClient) deleteCluster(ctx context.Context, request c
 
 	var response DeleteClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/DeleteCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteCluster", apiReferenceLink)
 		return response, err
 	}
@@ -1167,11 +1167,11 @@ func (client ContainerEngineClient) deleteClusterAttachment(ctx context.Context,
 
 	var response DeleteClusterAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteClusterAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/DeleteClusterAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteClusterAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -1228,11 +1228,11 @@ func (client ContainerEngineClient) deleteClusterNamespace(ctx context.Context, 
 
 	var response DeleteClusterNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteClusterNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/DeleteClusterNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteClusterNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -1289,11 +1289,11 @@ func (client ContainerEngineClient) deleteClusterNamespaceProfile(ctx context.Co
 
 	var response DeleteClusterNamespaceProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteClusterNamespaceProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/DeleteClusterNamespaceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteClusterNamespaceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1350,11 +1350,11 @@ func (client ContainerEngineClient) deleteClusterNamespaceProfileVersion(ctx con
 
 	var response DeleteClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteClusterNamespaceProfileVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/DeleteClusterNamespaceProfileVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteClusterNamespaceProfileVersion", apiReferenceLink)
 		return response, err
 	}
@@ -1411,11 +1411,11 @@ func (client ContainerEngineClient) deleteNode(ctx context.Context, request comm
 
 	var response DeleteNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/DeleteNode"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteNode", apiReferenceLink)
 		return response, err
 	}
@@ -1472,11 +1472,11 @@ func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request 
 
 	var response DeleteNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/DeleteNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -1533,11 +1533,11 @@ func (client ContainerEngineClient) deleteVirtualNodePool(ctx context.Context, r
 
 	var response DeleteVirtualNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteVirtualNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/DeleteVirtualNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteVirtualNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -1594,11 +1594,11 @@ func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, reque
 
 	var response DeleteWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequest/DeleteWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1655,11 +1655,11 @@ func (client ContainerEngineClient) deleteWorkloadMapping(ctx context.Context, r
 
 	var response DeleteWorkloadMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DeleteWorkloadMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/DeleteWorkloadMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteWorkloadMapping", apiReferenceLink)
 		return response, err
 	}
@@ -1716,11 +1716,11 @@ func (client ContainerEngineClient) disableAddon(ctx context.Context, request co
 
 	var response DisableAddonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "DisableAddon")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/DisableAddon"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DisableAddon", apiReferenceLink)
 		return response, err
 	}
@@ -1783,11 +1783,11 @@ func (client ContainerEngineClient) extendEndpointDecommissionRollbackDeadline(c
 
 	var response ExtendEndpointDecommissionRollbackDeadlineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ExtendEndpointDecommissionRollbackDeadline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ExtendEndpointDecommissionRollbackDeadline"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ExtendEndpointDecommissionRollbackDeadline", apiReferenceLink)
 		return response, err
 	}
@@ -1844,11 +1844,11 @@ func (client ContainerEngineClient) getAddon(ctx context.Context, request common
 
 	var response GetAddonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetAddon")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/GetAddon"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetAddon", apiReferenceLink)
 		return response, err
 	}
@@ -1905,11 +1905,11 @@ func (client ContainerEngineClient) getCluster(ctx context.Context, request comm
 
 	var response GetClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/GetCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetCluster", apiReferenceLink)
 		return response, err
 	}
@@ -1966,11 +1966,11 @@ func (client ContainerEngineClient) getClusterAttachment(ctx context.Context, re
 
 	var response GetClusterAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/GetClusterAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -2027,11 +2027,11 @@ func (client ContainerEngineClient) getClusterMigrateToNativeVcnStatus(ctx conte
 
 	var response GetClusterMigrateToNativeVcnStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterMigrateToNativeVcnStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterMigrateToNativeVcnStatus/GetClusterMigrateToNativeVcnStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterMigrateToNativeVcnStatus", apiReferenceLink)
 		return response, err
 	}
@@ -2088,11 +2088,11 @@ func (client ContainerEngineClient) getClusterNamespace(ctx context.Context, req
 
 	var response GetClusterNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/GetClusterNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -2149,11 +2149,11 @@ func (client ContainerEngineClient) getClusterNamespaceProfile(ctx context.Conte
 
 	var response GetClusterNamespaceProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterNamespaceProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/GetClusterNamespaceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterNamespaceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -2210,11 +2210,11 @@ func (client ContainerEngineClient) getClusterNamespaceProfileVersion(ctx contex
 
 	var response GetClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterNamespaceProfileVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/GetClusterNamespaceProfileVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterNamespaceProfileVersion", apiReferenceLink)
 		return response, err
 	}
@@ -2271,11 +2271,11 @@ func (client ContainerEngineClient) getClusterOptions(ctx context.Context, reque
 
 	var response GetClusterOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetClusterOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterOptions/GetClusterOptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterOptions", apiReferenceLink)
 		return response, err
 	}
@@ -2332,11 +2332,11 @@ func (client ContainerEngineClient) getCredentialRotationStatus(ctx context.Cont
 
 	var response GetCredentialRotationStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetCredentialRotationStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/CredentialRotationStatus/GetCredentialRotationStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetCredentialRotationStatus", apiReferenceLink)
 		return response, err
 	}
@@ -2393,11 +2393,11 @@ func (client ContainerEngineClient) getNodePool(ctx context.Context, request com
 
 	var response GetNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/GetNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -2454,11 +2454,11 @@ func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, requ
 
 	var response GetNodePoolOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetNodePoolOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePoolOptions/GetNodePoolOptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetNodePoolOptions", apiReferenceLink)
 		return response, err
 	}
@@ -2515,11 +2515,11 @@ func (client ContainerEngineClient) getPublicApiEndpointDecommissionStatus(ctx c
 
 	var response GetPublicApiEndpointDecommissionStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetPublicApiEndpointDecommissionStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/GetPublicApiEndpointDecommissionStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetPublicApiEndpointDecommissionStatus", apiReferenceLink)
 		return response, err
 	}
@@ -2576,11 +2576,11 @@ func (client ContainerEngineClient) getVirtualNode(ctx context.Context, request 
 
 	var response GetVirtualNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetVirtualNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/GetVirtualNode"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetVirtualNode", apiReferenceLink)
 		return response, err
 	}
@@ -2637,11 +2637,11 @@ func (client ContainerEngineClient) getVirtualNodePool(ctx context.Context, requ
 
 	var response GetVirtualNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetVirtualNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/GetVirtualNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetVirtualNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -2698,11 +2698,11 @@ func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -2759,11 +2759,11 @@ func (client ContainerEngineClient) getWorkloadMapping(ctx context.Context, requ
 
 	var response GetWorkloadMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "GetWorkloadMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/GetWorkloadMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetWorkloadMapping", apiReferenceLink)
 		return response, err
 	}
@@ -2825,11 +2825,11 @@ func (client ContainerEngineClient) installAddon(ctx context.Context, request co
 
 	var response InstallAddonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "InstallAddon")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/InstallAddon"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "InstallAddon", apiReferenceLink)
 		return response, err
 	}
@@ -2886,11 +2886,11 @@ func (client ContainerEngineClient) listAddonOptions(ctx context.Context, reques
 
 	var response ListAddonOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListAddonOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/AddonOptionSummary/ListAddonOptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListAddonOptions", apiReferenceLink)
 		return response, err
 	}
@@ -2947,11 +2947,11 @@ func (client ContainerEngineClient) listAddons(ctx context.Context, request comm
 
 	var response ListAddonsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListAddons")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ListAddons"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListAddons", apiReferenceLink)
 		return response, err
 	}
@@ -3008,11 +3008,11 @@ func (client ContainerEngineClient) listClusterAttachments(ctx context.Context, 
 
 	var response ListClusterAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListClusterAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/ListClusterAttachments"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListClusterAttachments", apiReferenceLink)
 		return response, err
 	}
@@ -3069,11 +3069,11 @@ func (client ContainerEngineClient) listClusterNamespaceProfileVersions(ctx cont
 
 	var response ListClusterNamespaceProfileVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListClusterNamespaceProfileVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/ListClusterNamespaceProfileVersions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListClusterNamespaceProfileVersions", apiReferenceLink)
 		return response, err
 	}
@@ -3130,11 +3130,11 @@ func (client ContainerEngineClient) listClusterNamespaceProfiles(ctx context.Con
 
 	var response ListClusterNamespaceProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListClusterNamespaceProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/ListClusterNamespaceProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListClusterNamespaceProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -3191,11 +3191,11 @@ func (client ContainerEngineClient) listClusterNamespaces(ctx context.Context, r
 
 	var response ListClusterNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListClusterNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/ListClusterNamespaces"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListClusterNamespaces", apiReferenceLink)
 		return response, err
 	}
@@ -3252,11 +3252,11 @@ func (client ContainerEngineClient) listClusters(ctx context.Context, request co
 
 	var response ListClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterSummary/ListClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListClusters", apiReferenceLink)
 		return response, err
 	}
@@ -3313,11 +3313,11 @@ func (client ContainerEngineClient) listNodePools(ctx context.Context, request c
 
 	var response ListNodePoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListNodePools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePoolSummary/ListNodePools"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListNodePools", apiReferenceLink)
 		return response, err
 	}
@@ -3374,11 +3374,11 @@ func (client ContainerEngineClient) listPodShapes(ctx context.Context, request c
 
 	var response ListPodShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListPodShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/PodShapeSummary/ListPodShapes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListPodShapes", apiReferenceLink)
 		return response, err
 	}
@@ -3435,11 +3435,11 @@ func (client ContainerEngineClient) listVirtualNodePools(ctx context.Context, re
 
 	var response ListVirtualNodePoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListVirtualNodePools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePoolSummary/ListVirtualNodePools"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListVirtualNodePools", apiReferenceLink)
 		return response, err
 	}
@@ -3496,11 +3496,11 @@ func (client ContainerEngineClient) listVirtualNodes(ctx context.Context, reques
 
 	var response ListVirtualNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListVirtualNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/ListVirtualNodes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListVirtualNodes", apiReferenceLink)
 		return response, err
 	}
@@ -3557,11 +3557,11 @@ func (client ContainerEngineClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -3618,11 +3618,11 @@ func (client ContainerEngineClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -3679,11 +3679,11 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequestSummary/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -3740,11 +3740,11 @@ func (client ContainerEngineClient) listWorkloadMappings(ctx context.Context, re
 
 	var response ListWorkloadMappingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ListWorkloadMappings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/ListWorkloadMappings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListWorkloadMappings", apiReferenceLink)
 		return response, err
 	}
@@ -3806,11 +3806,11 @@ func (client ContainerEngineClient) rebootClusterNode(ctx context.Context, reque
 
 	var response RebootClusterNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "RebootClusterNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/RebootClusterNode"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "RebootClusterNode", apiReferenceLink)
 		return response, err
 	}
@@ -3872,11 +3872,11 @@ func (client ContainerEngineClient) replaceBootVolumeClusterNode(ctx context.Con
 
 	var response ReplaceBootVolumeClusterNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "ReplaceBootVolumeClusterNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ReplaceBootVolumeClusterNode"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ReplaceBootVolumeClusterNode", apiReferenceLink)
 		return response, err
 	}
@@ -3939,11 +3939,11 @@ func (client ContainerEngineClient) rollbackPublicApiEndpointDecommission(ctx co
 
 	var response RollbackPublicApiEndpointDecommissionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "RollbackPublicApiEndpointDecommission")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/RollbackPublicApiEndpointDecommission"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "RollbackPublicApiEndpointDecommission", apiReferenceLink)
 		return response, err
 	}
@@ -4005,11 +4005,11 @@ func (client ContainerEngineClient) startCredentialRotation(ctx context.Context,
 
 	var response StartCredentialRotationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "StartCredentialRotation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/StartCredentialRotation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "StartCredentialRotation", apiReferenceLink)
 		return response, err
 	}
@@ -4071,11 +4071,11 @@ func (client ContainerEngineClient) startPublicApiEndpointDecommission(ctx conte
 
 	var response StartPublicApiEndpointDecommissionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "StartPublicApiEndpointDecommission")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/StartPublicApiEndpointDecommission"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "StartPublicApiEndpointDecommission", apiReferenceLink)
 		return response, err
 	}
@@ -4132,11 +4132,11 @@ func (client ContainerEngineClient) updateAddon(ctx context.Context, request com
 
 	var response UpdateAddonResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateAddon")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/UpdateAddon"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateAddon", apiReferenceLink)
 		return response, err
 	}
@@ -4193,11 +4193,11 @@ func (client ContainerEngineClient) updateCluster(ctx context.Context, request c
 
 	var response UpdateClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/UpdateCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateCluster", apiReferenceLink)
 		return response, err
 	}
@@ -4254,11 +4254,11 @@ func (client ContainerEngineClient) updateClusterAttachment(ctx context.Context,
 
 	var response UpdateClusterAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateClusterAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterAttachment/UpdateClusterAttachment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateClusterAttachment", apiReferenceLink)
 		return response, err
 	}
@@ -4315,11 +4315,11 @@ func (client ContainerEngineClient) updateClusterEndpointConfig(ctx context.Cont
 
 	var response UpdateClusterEndpointConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateClusterEndpointConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/UpdateClusterEndpointConfig"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateClusterEndpointConfig", apiReferenceLink)
 		return response, err
 	}
@@ -4376,11 +4376,11 @@ func (client ContainerEngineClient) updateClusterNamespace(ctx context.Context, 
 
 	var response UpdateClusterNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateClusterNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespace/UpdateClusterNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateClusterNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -4437,11 +4437,11 @@ func (client ContainerEngineClient) updateClusterNamespaceProfile(ctx context.Co
 
 	var response UpdateClusterNamespaceProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateClusterNamespaceProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfile/UpdateClusterNamespaceProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateClusterNamespaceProfile", apiReferenceLink)
 		return response, err
 	}
@@ -4498,11 +4498,11 @@ func (client ContainerEngineClient) updateClusterNamespaceProfileVersion(ctx con
 
 	var response UpdateClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateClusterNamespaceProfileVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterNamespaceProfileVersion/UpdateClusterNamespaceProfileVersion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateClusterNamespaceProfileVersion", apiReferenceLink)
 		return response, err
 	}
@@ -4559,11 +4559,11 @@ func (client ContainerEngineClient) updateNodePool(ctx context.Context, request 
 
 	var response UpdateNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/UpdateNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -4620,11 +4620,11 @@ func (client ContainerEngineClient) updateVirtualNodePool(ctx context.Context, r
 
 	var response UpdateVirtualNodePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateVirtualNodePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/UpdateVirtualNodePool"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateVirtualNodePool", apiReferenceLink)
 		return response, err
 	}
@@ -4681,11 +4681,11 @@ func (client ContainerEngineClient) updateWorkloadMapping(ctx context.Context, r
 
 	var response UpdateWorkloadMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "containerEngine", "UpdateWorkloadMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/UpdateWorkloadMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateWorkloadMapping", apiReferenceLink)
 		return response, err
 	}

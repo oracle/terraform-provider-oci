@@ -554,6 +554,9 @@ type AutonomousDwDatabase struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous AI Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
 	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
+
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
 }
 
 func (m AutonomousDwDatabase) String() string {
@@ -782,6 +785,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		IncludedDataStorageInTBs                *float64                                                  `json:"includedDataStorageInTBs"`
 		AdditionalAttributes                    map[string]string                                         `json:"additionalAttributes"`
 		LocalAdgResourcePoolLeaderId            *string                                                   `json:"localAdgResourcePoolLeaderId"`
+		PreferredCommunicationLanguageLocale    *string                                                   `json:"preferredCommunicationLanguageLocale"`
 		Id                                      *string                                                   `json:"id"`
 		CompartmentId                           *string                                                   `json:"compartmentId"`
 		LifecycleState                          AutonomousDwDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -1112,6 +1116,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.AdditionalAttributes = model.AdditionalAttributes
 
 	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.Id = model.Id
 

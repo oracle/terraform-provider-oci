@@ -138,11 +138,11 @@ func (client FleetAppsManagementCatalogClient) changeCatalogItemCompartment(ctx 
 
 	var response ChangeCatalogItemCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "ChangeCatalogItemCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/ChangeCatalogItemCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "ChangeCatalogItemCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -198,11 +198,11 @@ func (client FleetAppsManagementCatalogClient) cloneCatalogItem(ctx context.Cont
 
 	var response CloneCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "CloneCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/CloneCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "CloneCatalogItem", apiReferenceLink)
 		return response, err
 	}
@@ -257,11 +257,11 @@ func (client FleetAppsManagementCatalogClient) configureCatalogItem(ctx context.
 
 	var response ConfigureCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "ConfigureCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/ConfigureCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "ConfigureCatalogItem", apiReferenceLink)
 		return response, err
 	}
@@ -316,11 +316,11 @@ func (client FleetAppsManagementCatalogClient) createCatalogItem(ctx context.Con
 
 	var response CreateCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "CreateCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/CreateCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "CreateCatalogItem", apiReferenceLink)
 		return response, err
 	}
@@ -370,11 +370,11 @@ func (client FleetAppsManagementCatalogClient) deleteCatalogItem(ctx context.Con
 
 	var response DeleteCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "DeleteCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/DeleteCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "DeleteCatalogItem", apiReferenceLink)
 		return response, err
 	}
@@ -424,11 +424,11 @@ func (client FleetAppsManagementCatalogClient) getCatalogItem(ctx context.Contex
 
 	var response GetCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "GetCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/GetCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "GetCatalogItem", apiReferenceLink)
 		return response, err
 	}
@@ -478,11 +478,11 @@ func (client FleetAppsManagementCatalogClient) getCatalogItemVariablesDefinition
 
 	var response GetCatalogItemVariablesDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "GetCatalogItemVariablesDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItemVariablesDefinition/GetCatalogItemVariablesDefinition"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "GetCatalogItemVariablesDefinition", apiReferenceLink)
 		return response, err
 	}
@@ -532,11 +532,11 @@ func (client FleetAppsManagementCatalogClient) listCatalogItems(ctx context.Cont
 
 	var response ListCatalogItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "ListCatalogItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItemCollection/ListCatalogItems"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "ListCatalogItems", apiReferenceLink)
 		return response, err
 	}
@@ -586,11 +586,11 @@ func (client FleetAppsManagementCatalogClient) updateCatalogItem(ctx context.Con
 
 	var response UpdateCatalogItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementCatalog", "UpdateCatalogItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/CatalogItem/UpdateCatalogItem"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagementCatalog", "UpdateCatalogItem", apiReferenceLink)
 		return response, err
 	}

@@ -137,7 +137,7 @@ func newStaticFederationClient(sessionToken string, supplier sessionKeySupplier)
 
 // oAuth2FederationClient retrieves a security token from the scoped OAuth endpoint in Auth Service
 type oAuth2FederationClient struct {
-	sessionKeySupplier    sessionKeySupplier
+	sessionKeySupplier    cacheableSessionKeySupplier
 	authClientKeyProvider common.KeyProvider
 	authClient            *common.BaseClient
 	securityToken         securityToken
@@ -150,7 +150,7 @@ type oAuth2FederationClient struct {
 var OAuthTokenStaleWindow = 20 * time.Minute
 
 // newOAuth2FederationClient creates a new oAuth2FederationClient from the provided configProvider and Auth request parameters
-func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier sessionKeySupplier) (federationClient, error) {
+func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier cacheableSessionKeySupplier) (federationClient, error) {
 	client := &oAuth2FederationClient{}
 	client.sessionKeySupplier = sessionKeySupplier
 	region, err := configProvider.Region()
@@ -202,7 +202,8 @@ func (c *oAuth2FederationClient) renewSecurityTokenIfNotValid() (err error) {
 			if c.securityToken != nil && c.securityToken.Valid() {
 				// Token is stale but still valid. We failed to get a new token
 				// but we can still use the old one
-				common.Debugln("failed to refresh OAuth token. Using valid cached token")
+				common.Debugln("failed to refresh OAuth token. Using valid cached token and cached session keys")
+				c.sessionKeySupplier.Revert()
 				return nil
 			}
 
@@ -606,6 +607,12 @@ type sessionKeySupplier interface {
 	PublicKeyPemRaw() []byte
 }
 
+// cacheableSessionKeySupplier extends sessionKeySupplier with the ability to revert to the previous key pair.
+type cacheableSessionKeySupplier interface {
+	sessionKeySupplier
+	Revert()
+}
+
 // genericKeySupplier implements sessionKeySupplier and provides an arbitrary refresh mechanism
 type genericKeySupplier struct {
 	RefreshFn func() (*rsa.PrivateKey, []byte, error)
@@ -760,6 +767,60 @@ func (s *inMemorySessionKeySupplier) PublicKeyPemRaw() []byte {
 	c := make([]byte, len(s.publicKeyPemRaw))
 	copy(c, s.publicKeyPemRaw)
 	return c
+}
+
+type inMemoryCacheableSessionKeySupplier struct {
+	inMemorySessionKeySupplier
+	cachedPublicKeyPemRaw []byte
+	cachedPrivateKey      *rsa.PrivateKey
+}
+
+// newCacheableSessionKeySupplier creates and returns an inMemoryCacheableSessionKeySupplier instance which generates key pairs of size 2048.
+func newCacheableSessionKeySupplier() cacheableSessionKeySupplier {
+	return &inMemoryCacheableSessionKeySupplier{inMemorySessionKeySupplier: inMemorySessionKeySupplier{keySize: 2048}}
+}
+
+func (s *inMemoryCacheableSessionKeySupplier) Refresh() (err error) {
+
+	common.Debugln("Refreshing cacheable session key")
+
+	// Cache current keys before generating new ones
+	s.cachedPrivateKey = s.privateKey
+	if s.publicKeyPemRaw != nil {
+		s.cachedPublicKeyPemRaw = make([]byte, len(s.publicKeyPemRaw))
+		copy(s.cachedPublicKeyPemRaw, s.publicKeyPemRaw)
+	} else {
+		s.cachedPublicKeyPemRaw = nil
+	}
+
+	var privateKey *rsa.PrivateKey
+	privateKey, err = rsa.GenerateKey(rand.Reader, s.keySize)
+	if err != nil {
+		return fmt.Errorf("failed to generate a new keypair: %s", err)
+	}
+
+	var publicKeyAsnBytes []byte
+	if publicKeyAsnBytes, err = x509.MarshalPKIXPublicKey(privateKey.Public()); err != nil {
+		return fmt.Errorf("failed to marshal the public part of the new keypair: %s", err.Error())
+	}
+	publicKeyPemRaw := pem.EncodeToMemory(&pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: publicKeyAsnBytes,
+	})
+
+	s.privateKey = privateKey
+	s.publicKeyPemRaw = publicKeyPemRaw
+	return nil
+}
+
+func (s *inMemoryCacheableSessionKeySupplier) Revert() {
+	s.privateKey = s.cachedPrivateKey
+	if s.cachedPublicKeyPemRaw != nil {
+		s.publicKeyPemRaw = make([]byte, len(s.cachedPublicKeyPemRaw))
+		copy(s.publicKeyPemRaw, s.cachedPublicKeyPemRaw)
+	} else {
+		s.publicKeyPemRaw = nil
+	}
 }
 
 type securityToken interface {

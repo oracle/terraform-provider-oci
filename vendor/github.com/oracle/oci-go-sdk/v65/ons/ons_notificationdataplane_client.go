@@ -156,7 +156,7 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 
 	var response ChangeSubscriptionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "ChangeSubscriptionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -230,7 +230,7 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 
 	var response CreateSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "CreateSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -296,7 +296,7 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 
 	var response DeleteSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "DeleteSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -362,7 +362,7 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 
 	var response GetConfirmSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "GetConfirmSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -428,7 +428,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 
 	var response GetSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "GetSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -494,7 +494,7 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 
 	var response GetUnsubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "GetUnsubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -560,7 +560,7 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 
 	var response ListSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "ListSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -632,7 +632,7 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 
 	var response PublishMessageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "PublishMessage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -698,7 +698,7 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 
 	var response ResendSubscriptionConfirmationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "ResendSubscriptionConfirmation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -764,7 +764,7 @@ func (client NotificationDataPlaneClient) updateSubscription(ctx context.Context
 
 	var response UpdateSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "notificationDataPlane", "UpdateSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

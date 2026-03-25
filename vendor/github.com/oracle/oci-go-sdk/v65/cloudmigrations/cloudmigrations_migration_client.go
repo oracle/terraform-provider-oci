@@ -132,7 +132,7 @@ func (client MigrationClient) cancelWorkRequest(ctx context.Context, request com
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client MigrationClient) changeMigrationCompartment(ctx context.Context, re
 
 	var response ChangeMigrationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ChangeMigrationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -250,7 +250,7 @@ func (client MigrationClient) changeMigrationPlanCompartment(ctx context.Context
 
 	var response ChangeMigrationPlanCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ChangeMigrationPlanCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -309,7 +309,7 @@ func (client MigrationClient) changeReplicationScheduleCompartment(ctx context.C
 
 	var response ChangeReplicationScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ChangeReplicationScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client MigrationClient) createMigration(ctx context.Context, request commo
 
 	var response CreateMigrationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CreateMigration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -427,7 +427,7 @@ func (client MigrationClient) createMigrationAsset(ctx context.Context, request 
 
 	var response CreateMigrationAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CreateMigrationAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -486,7 +486,7 @@ func (client MigrationClient) createMigrationPlan(ctx context.Context, request c
 
 	var response CreateMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CreateMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -545,7 +545,7 @@ func (client MigrationClient) createReplicationSchedule(ctx context.Context, req
 
 	var response CreateReplicationScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CreateReplicationSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -604,7 +604,7 @@ func (client MigrationClient) createTargetAsset(ctx context.Context, request com
 
 	var response CreateTargetAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "CreateTargetAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -658,7 +658,7 @@ func (client MigrationClient) deleteMigration(ctx context.Context, request commo
 
 	var response DeleteMigrationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "DeleteMigration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -712,7 +712,7 @@ func (client MigrationClient) deleteMigrationAsset(ctx context.Context, request 
 
 	var response DeleteMigrationAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "DeleteMigrationAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -766,7 +766,7 @@ func (client MigrationClient) deleteMigrationPlan(ctx context.Context, request c
 
 	var response DeleteMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "DeleteMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -820,7 +820,7 @@ func (client MigrationClient) deleteReplicationSchedule(ctx context.Context, req
 
 	var response DeleteReplicationScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "DeleteReplicationSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -874,7 +874,7 @@ func (client MigrationClient) deleteTargetAsset(ctx context.Context, request com
 
 	var response DeleteTargetAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "DeleteTargetAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -933,7 +933,7 @@ func (client MigrationClient) executeMigrationPlan(ctx context.Context, request 
 
 	var response ExecuteMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ExecuteMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -987,7 +987,7 @@ func (client MigrationClient) exportMigrationPlan(ctx context.Context, request c
 
 	var response ExportMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ExportMigrationPlan")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/ExportMigrationPlan"
@@ -1040,7 +1040,7 @@ func (client MigrationClient) getMigration(ctx context.Context, request common.O
 
 	var response GetMigrationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetMigration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1094,7 +1094,7 @@ func (client MigrationClient) getMigrationAsset(ctx context.Context, request com
 
 	var response GetMigrationAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetMigrationAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1148,7 +1148,7 @@ func (client MigrationClient) getMigrationPlan(ctx context.Context, request comm
 
 	var response GetMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1202,7 +1202,7 @@ func (client MigrationClient) getReplicationProgress(ctx context.Context, reques
 
 	var response GetReplicationProgressResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetReplicationProgress")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1256,7 +1256,7 @@ func (client MigrationClient) getReplicationSchedule(ctx context.Context, reques
 
 	var response GetReplicationScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetReplicationSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1310,7 +1310,7 @@ func (client MigrationClient) getTargetAsset(ctx context.Context, request common
 
 	var response GetTargetAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetTargetAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1364,7 +1364,7 @@ func (client MigrationClient) getWorkRequest(ctx context.Context, request common
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1423,7 +1423,7 @@ func (client MigrationClient) importMigrationPlan(ctx context.Context, request c
 
 	var response ImportMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ImportMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1477,7 +1477,7 @@ func (client MigrationClient) listAvailableShapes(ctx context.Context, request c
 
 	var response ListAvailableShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListAvailableShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1531,7 +1531,7 @@ func (client MigrationClient) listMigrationAssets(ctx context.Context, request c
 
 	var response ListMigrationAssetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListMigrationAssets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1585,7 +1585,7 @@ func (client MigrationClient) listMigrationPlans(ctx context.Context, request co
 
 	var response ListMigrationPlansResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListMigrationPlans")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1639,7 +1639,7 @@ func (client MigrationClient) listMigrations(ctx context.Context, request common
 
 	var response ListMigrationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListMigrations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1693,7 +1693,7 @@ func (client MigrationClient) listReplicationSchedules(ctx context.Context, requ
 
 	var response ListReplicationSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListReplicationSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1747,7 +1747,7 @@ func (client MigrationClient) listTargetAssets(ctx context.Context, request comm
 
 	var response ListTargetAssetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListTargetAssets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1801,7 +1801,7 @@ func (client MigrationClient) listWorkRequestErrors(ctx context.Context, request
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1855,7 +1855,7 @@ func (client MigrationClient) listWorkRequestLogs(ctx context.Context, request c
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1909,7 +1909,7 @@ func (client MigrationClient) listWorkRequests(ctx context.Context, request comm
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1968,7 +1968,7 @@ func (client MigrationClient) refreshMigration(ctx context.Context, request comm
 
 	var response RefreshMigrationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "RefreshMigration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2027,7 +2027,7 @@ func (client MigrationClient) refreshMigrationAsset(ctx context.Context, request
 
 	var response RefreshMigrationAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "RefreshMigrationAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2086,7 +2086,7 @@ func (client MigrationClient) refreshMigrationPlan(ctx context.Context, request 
 
 	var response RefreshMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "RefreshMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2145,7 +2145,7 @@ func (client MigrationClient) startAssetReplication(ctx context.Context, request
 
 	var response StartAssetReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "StartAssetReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2204,7 +2204,7 @@ func (client MigrationClient) startMigrationReplication(ctx context.Context, req
 
 	var response StartMigrationReplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "StartMigrationReplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2258,7 +2258,7 @@ func (client MigrationClient) updateMigration(ctx context.Context, request commo
 
 	var response UpdateMigrationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "UpdateMigration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2312,7 +2312,7 @@ func (client MigrationClient) updateMigrationAsset(ctx context.Context, request 
 
 	var response UpdateMigrationAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "UpdateMigrationAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2371,7 +2371,7 @@ func (client MigrationClient) updateMigrationPlan(ctx context.Context, request c
 
 	var response UpdateMigrationPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "UpdateMigrationPlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2430,7 +2430,7 @@ func (client MigrationClient) updateReplicationSchedule(ctx context.Context, req
 
 	var response UpdateReplicationScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "UpdateReplicationSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2489,7 +2489,7 @@ func (client MigrationClient) updateTargetAsset(ctx context.Context, request com
 
 	var response UpdateTargetAssetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "migration", "UpdateTargetAsset")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

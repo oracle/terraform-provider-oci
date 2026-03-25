@@ -142,7 +142,7 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 
 	var response CreateEsxiHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "CreateEsxiHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 
 	var response DeleteEsxiHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "DeleteEsxiHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -260,7 +260,7 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 
 	var response GetEsxiHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "GetEsxiHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -319,7 +319,7 @@ func (client EsxiHostClient) inplaceUpgrade(ctx context.Context, request common.
 
 	var response InplaceUpgradeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "InplaceUpgrade")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -380,7 +380,7 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 
 	var response ListEsxiHostsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "ListEsxiHosts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -439,7 +439,7 @@ func (client EsxiHostClient) replaceHost(ctx context.Context, request common.OCI
 
 	var response ReplaceHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "ReplaceHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -498,7 +498,7 @@ func (client EsxiHostClient) swapBilling(ctx context.Context, request common.OCI
 
 	var response SwapBillingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "SwapBilling")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -552,7 +552,7 @@ func (client EsxiHostClient) updateEsxiHost(ctx context.Context, request common.
 
 	var response UpdateEsxiHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "esxiHost", "UpdateEsxiHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

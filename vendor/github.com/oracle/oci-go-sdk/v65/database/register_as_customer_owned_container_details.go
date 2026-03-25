@@ -248,6 +248,9 @@ type RegisterAsCustomerOwnedContainerDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// The Oracle AI Database Edition that applies to the Autonomous AI Databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -556,6 +559,11 @@ func (m RegisterAsCustomerOwnedContainerDetails) GetTransportableTablespace() *I
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m RegisterAsCustomerOwnedContainerDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m RegisterAsCustomerOwnedContainerDetails) String() string {
 	return common.PointerString(m)
 }
@@ -659,6 +667,7 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		CustomerOwnedContainerId                 *string                                                           `json:"customerOwnedContainerId"`
 	}{}
@@ -795,6 +804,8 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.CompartmentId = model.CompartmentId
 

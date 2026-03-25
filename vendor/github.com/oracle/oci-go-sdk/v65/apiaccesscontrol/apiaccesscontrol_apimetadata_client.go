@@ -137,11 +137,11 @@ func (client ApiMetadataClient) getApiMetadata(ctx context.Context, request comm
 
 	var response GetApiMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiMetadata", "GetApiMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/GetApiMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ApiMetadata", "GetApiMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -191,11 +191,11 @@ func (client ApiMetadataClient) listApiMetadata(ctx context.Context, request com
 
 	var response ListApiMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiMetadata", "ListApiMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/ListApiMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ApiMetadata", "ListApiMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -245,11 +245,11 @@ func (client ApiMetadataClient) listApiMetadataByEntityTypes(ctx context.Context
 
 	var response ListApiMetadataByEntityTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiMetadata", "ListApiMetadataByEntityTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/ApiMetadata/ListApiMetadataByEntityTypes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ApiMetadata", "ListApiMetadataByEntityTypes", apiReferenceLink)
 		return response, err
 	}

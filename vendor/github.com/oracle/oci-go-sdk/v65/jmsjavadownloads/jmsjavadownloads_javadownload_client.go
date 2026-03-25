@@ -132,11 +132,11 @@ func (client JavaDownloadClient) cancelWorkRequest(ctx context.Context, request 
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -192,11 +192,11 @@ func (client JavaDownloadClient) createJavaDownloadReport(ctx context.Context, r
 
 	var response CreateJavaDownloadReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "CreateJavaDownloadReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/CreateJavaDownloadReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "CreateJavaDownloadReport", apiReferenceLink)
 		return response, err
 	}
@@ -252,11 +252,11 @@ func (client JavaDownloadClient) createJavaDownloadToken(ctx context.Context, re
 
 	var response CreateJavaDownloadTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "CreateJavaDownloadToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/CreateJavaDownloadToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "CreateJavaDownloadToken", apiReferenceLink)
 		return response, err
 	}
@@ -311,11 +311,11 @@ func (client JavaDownloadClient) createJavaLicenseAcceptanceRecord(ctx context.C
 
 	var response CreateJavaLicenseAcceptanceRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "CreateJavaLicenseAcceptanceRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/CreateJavaLicenseAcceptanceRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "CreateJavaLicenseAcceptanceRecord", apiReferenceLink)
 		return response, err
 	}
@@ -365,11 +365,11 @@ func (client JavaDownloadClient) deleteJavaDownloadReport(ctx context.Context, r
 
 	var response DeleteJavaDownloadReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "DeleteJavaDownloadReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/DeleteJavaDownloadReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "DeleteJavaDownloadReport", apiReferenceLink)
 		return response, err
 	}
@@ -419,11 +419,11 @@ func (client JavaDownloadClient) deleteJavaDownloadToken(ctx context.Context, re
 
 	var response DeleteJavaDownloadTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "DeleteJavaDownloadToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/DeleteJavaDownloadToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "DeleteJavaDownloadToken", apiReferenceLink)
 		return response, err
 	}
@@ -473,11 +473,11 @@ func (client JavaDownloadClient) deleteJavaLicenseAcceptanceRecord(ctx context.C
 
 	var response DeleteJavaLicenseAcceptanceRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "DeleteJavaLicenseAcceptanceRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/DeleteJavaLicenseAcceptanceRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "DeleteJavaLicenseAcceptanceRecord", apiReferenceLink)
 		return response, err
 	}
@@ -531,11 +531,11 @@ func (client JavaDownloadClient) generateArtifactDownloadUrl(ctx context.Context
 
 	var response GenerateArtifactDownloadUrlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GenerateArtifactDownloadUrl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GenerateArtifactDownloadUrl", apiReferenceLink)
 		return response, err
 	}
@@ -585,11 +585,11 @@ func (client JavaDownloadClient) getJavaDownloadReport(ctx context.Context, requ
 
 	var response GetJavaDownloadReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetJavaDownloadReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/GetJavaDownloadReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetJavaDownloadReport", apiReferenceLink)
 		return response, err
 	}
@@ -639,10 +639,10 @@ func (client JavaDownloadClient) getJavaDownloadReportContent(ctx context.Contex
 
 	var response GetJavaDownloadReportContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetJavaDownloadReportContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/GetJavaDownloadReportContent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetJavaDownloadReportContent", apiReferenceLink)
 		return response, err
 	}
@@ -692,11 +692,11 @@ func (client JavaDownloadClient) getJavaDownloadToken(ctx context.Context, reque
 
 	var response GetJavaDownloadTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetJavaDownloadToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/GetJavaDownloadToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetJavaDownloadToken", apiReferenceLink)
 		return response, err
 	}
@@ -746,11 +746,11 @@ func (client JavaDownloadClient) getJavaLicense(ctx context.Context, request com
 
 	var response GetJavaLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetJavaLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicense/GetJavaLicense"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetJavaLicense", apiReferenceLink)
 		return response, err
 	}
@@ -800,11 +800,11 @@ func (client JavaDownloadClient) getJavaLicenseAcceptanceRecord(ctx context.Cont
 
 	var response GetJavaLicenseAcceptanceRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetJavaLicenseAcceptanceRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/GetJavaLicenseAcceptanceRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetJavaLicenseAcceptanceRecord", apiReferenceLink)
 		return response, err
 	}
@@ -854,11 +854,11 @@ func (client JavaDownloadClient) getWorkRequest(ctx context.Context, request com
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -910,11 +910,11 @@ func (client JavaDownloadClient) listJavaDownloadRecords(ctx context.Context, re
 
 	var response ListJavaDownloadRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListJavaDownloadRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadRecord/ListJavaDownloadRecords"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListJavaDownloadRecords", apiReferenceLink)
 		return response, err
 	}
@@ -964,11 +964,11 @@ func (client JavaDownloadClient) listJavaDownloadReports(ctx context.Context, re
 
 	var response ListJavaDownloadReportsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListJavaDownloadReports")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/ListJavaDownloadReports"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListJavaDownloadReports", apiReferenceLink)
 		return response, err
 	}
@@ -1018,11 +1018,11 @@ func (client JavaDownloadClient) listJavaDownloadTokens(ctx context.Context, req
 
 	var response ListJavaDownloadTokensResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListJavaDownloadTokens")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/ListJavaDownloadTokens"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListJavaDownloadTokens", apiReferenceLink)
 		return response, err
 	}
@@ -1072,11 +1072,11 @@ func (client JavaDownloadClient) listJavaLicenseAcceptanceRecords(ctx context.Co
 
 	var response ListJavaLicenseAcceptanceRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListJavaLicenseAcceptanceRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/ListJavaLicenseAcceptanceRecords"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListJavaLicenseAcceptanceRecords", apiReferenceLink)
 		return response, err
 	}
@@ -1126,11 +1126,11 @@ func (client JavaDownloadClient) listJavaLicenses(ctx context.Context, request c
 
 	var response ListJavaLicensesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListJavaLicenses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicense/ListJavaLicenses"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListJavaLicenses", apiReferenceLink)
 		return response, err
 	}
@@ -1180,11 +1180,11 @@ func (client JavaDownloadClient) listWorkRequestErrors(ctx context.Context, requ
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1234,11 +1234,11 @@ func (client JavaDownloadClient) listWorkRequestLogs(ctx context.Context, reques
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1288,11 +1288,11 @@ func (client JavaDownloadClient) listWorkRequests(ctx context.Context, request c
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1342,11 +1342,11 @@ func (client JavaDownloadClient) requestSummarizedJavaDownloadCounts(ctx context
 
 	var response RequestSummarizedJavaDownloadCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "RequestSummarizedJavaDownloadCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadCountAggregation/RequestSummarizedJavaDownloadCounts"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "RequestSummarizedJavaDownloadCounts", apiReferenceLink)
 		return response, err
 	}
@@ -1396,11 +1396,11 @@ func (client JavaDownloadClient) updateJavaDownloadToken(ctx context.Context, re
 
 	var response UpdateJavaDownloadTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "UpdateJavaDownloadToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/UpdateJavaDownloadToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "UpdateJavaDownloadToken", apiReferenceLink)
 		return response, err
 	}
@@ -1450,11 +1450,11 @@ func (client JavaDownloadClient) updateJavaLicenseAcceptanceRecord(ctx context.C
 
 	var response UpdateJavaLicenseAcceptanceRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaDownload", "UpdateJavaLicenseAcceptanceRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/UpdateJavaLicenseAcceptanceRecord"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "JavaDownload", "UpdateJavaLicenseAcceptanceRecord", apiReferenceLink)
 		return response, err
 	}

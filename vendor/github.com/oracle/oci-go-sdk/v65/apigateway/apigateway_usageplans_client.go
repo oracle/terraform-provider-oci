@@ -133,7 +133,7 @@ func (client UsagePlansClient) addUsagePlanLock(ctx context.Context, request com
 
 	var response AddUsagePlanLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "AddUsagePlanLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client UsagePlansClient) changeUsagePlanCompartment(ctx context.Context, r
 
 	var response ChangeUsagePlanCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "ChangeUsagePlanCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -250,7 +250,7 @@ func (client UsagePlansClient) createUsagePlan(ctx context.Context, request comm
 
 	var response CreateUsagePlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "CreateUsagePlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -303,7 +303,7 @@ func (client UsagePlansClient) deleteUsagePlan(ctx context.Context, request comm
 
 	var response DeleteUsagePlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "DeleteUsagePlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -357,7 +357,7 @@ func (client UsagePlansClient) getUsagePlan(ctx context.Context, request common.
 
 	var response GetUsagePlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "GetUsagePlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -411,7 +411,7 @@ func (client UsagePlansClient) listUsagePlans(ctx context.Context, request commo
 
 	var response ListUsagePlansResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "ListUsagePlans")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -464,7 +464,7 @@ func (client UsagePlansClient) removeUsagePlanLock(ctx context.Context, request 
 
 	var response RemoveUsagePlanLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "RemoveUsagePlanLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client UsagePlansClient) updateUsagePlan(ctx context.Context, request comm
 
 	var response UpdateUsagePlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagePlans", "UpdateUsagePlan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

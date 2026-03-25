@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -132,11 +132,11 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 
 	var response ListExternalLocationDetailsMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationDetailsMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationsMetadatumCollection/ListExternalLocationDetailsMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationDetailsMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -145,7 +145,13 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 	return response, err
 }
 
-// ListExternalLocationMappingMetadata List externalLocation metadata from OCI to the Cloud Service Provider for regions, Physical Availability Zones.
+// ListExternalLocationMappingMetadata List mapped partner cloud regions and zones across cloud service providers
+// for the specified Multicloud base compartment and subscription service name.
+// Each mapping includes the OCI region, logical availability domain, and physical availability domain,
+// along with mapped partner cloud details that depend on the partner cloud.
+// For example, Azure includes a logical zone while AWS doesn't.
+// For more information, see
+// Cross-Cloud Region-Zone Mapping (https://docs.oracle.com/iaas/Content/multicloud-hub/view-cloud-mapping.htm).
 // A default retry strategy applies to this operation ListExternalLocationMappingMetadata()
 func (client MetadataClient) ListExternalLocationMappingMetadata(ctx context.Context, request ListExternalLocationMappingMetadataRequest) (response ListExternalLocationMappingMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -186,11 +192,11 @@ func (client MetadataClient) listExternalLocationMappingMetadata(ctx context.Con
 
 	var response ListExternalLocationMappingMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationMappingMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationMappingMetadatumSummaryCollection/ListExternalLocationMappingMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationMappingMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -240,11 +246,11 @@ func (client MetadataClient) listExternalLocationSummariesMetadata(ctx context.C
 
 	var response ListExternalLocationSummariesMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationSummariesMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationSummariesMetadatumSummaryCollection/ListExternalLocationSummariesMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationSummariesMetadata", apiReferenceLink)
 		return response, err
 	}

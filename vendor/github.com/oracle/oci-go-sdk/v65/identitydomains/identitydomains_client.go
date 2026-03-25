@@ -126,7 +126,7 @@ func (client IdentityDomainsClient) createApiKey(ctx context.Context, request co
 
 	var response CreateApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -184,7 +184,7 @@ func (client IdentityDomainsClient) createApp(ctx context.Context, request commo
 
 	var response CreateAppResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateApp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -242,7 +242,7 @@ func (client IdentityDomainsClient) createAppResource(ctx context.Context, reque
 
 	var response CreateAppResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateAppResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -300,7 +300,7 @@ func (client IdentityDomainsClient) createAppRole(ctx context.Context, request c
 
 	var response CreateAppRoleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateAppRole")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -358,7 +358,7 @@ func (client IdentityDomainsClient) createApprovalWorkflow(ctx context.Context, 
 
 	var response CreateApprovalWorkflowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateApprovalWorkflow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -416,7 +416,7 @@ func (client IdentityDomainsClient) createApprovalWorkflowAssignment(ctx context
 
 	var response CreateApprovalWorkflowAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateApprovalWorkflowAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -474,7 +474,7 @@ func (client IdentityDomainsClient) createApprovalWorkflowStep(ctx context.Conte
 
 	var response CreateApprovalWorkflowStepResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateApprovalWorkflowStep")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -532,7 +532,7 @@ func (client IdentityDomainsClient) createAuthToken(ctx context.Context, request
 
 	var response CreateAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -590,7 +590,7 @@ func (client IdentityDomainsClient) createAuthenticationFactorsRemover(ctx conte
 
 	var response CreateAuthenticationFactorsRemoverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateAuthenticationFactorsRemover")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -648,7 +648,7 @@ func (client IdentityDomainsClient) createCloudGate(ctx context.Context, request
 
 	var response CreateCloudGateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateCloudGate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -706,7 +706,7 @@ func (client IdentityDomainsClient) createCloudGateMapping(ctx context.Context, 
 
 	var response CreateCloudGateMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateCloudGateMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -764,7 +764,7 @@ func (client IdentityDomainsClient) createCloudGateServer(ctx context.Context, r
 
 	var response CreateCloudGateServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateCloudGateServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -822,7 +822,7 @@ func (client IdentityDomainsClient) createCondition(ctx context.Context, request
 
 	var response CreateConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -880,7 +880,7 @@ func (client IdentityDomainsClient) createConditionGroup(ctx context.Context, re
 
 	var response CreateConditionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateConditionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -938,7 +938,7 @@ func (client IdentityDomainsClient) createCustomerSecretKey(ctx context.Context,
 
 	var response CreateCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -996,7 +996,7 @@ func (client IdentityDomainsClient) createDynamicResourceGroup(ctx context.Conte
 
 	var response CreateDynamicResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateDynamicResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1054,7 +1054,7 @@ func (client IdentityDomainsClient) createGrant(ctx context.Context, request com
 
 	var response CreateGrantResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateGrant")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1112,7 +1112,7 @@ func (client IdentityDomainsClient) createGroup(ctx context.Context, request com
 
 	var response CreateGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1170,7 +1170,7 @@ func (client IdentityDomainsClient) createIdentityProofingProvider(ctx context.C
 
 	var response CreateIdentityProofingProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateIdentityProofingProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1228,7 +1228,7 @@ func (client IdentityDomainsClient) createIdentityProofingProviderTemplate(ctx c
 
 	var response CreateIdentityProofingProviderTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateIdentityProofingProviderTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1286,7 +1286,7 @@ func (client IdentityDomainsClient) createIdentityPropagationTrust(ctx context.C
 
 	var response CreateIdentityPropagationTrustResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateIdentityPropagationTrust")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1344,7 +1344,7 @@ func (client IdentityDomainsClient) createIdentityProvider(ctx context.Context, 
 
 	var response CreateIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1402,7 +1402,7 @@ func (client IdentityDomainsClient) createMe(ctx context.Context, request common
 
 	var response CreateMeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1460,7 +1460,7 @@ func (client IdentityDomainsClient) createMyApiKey(ctx context.Context, request 
 
 	var response CreateMyApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1518,7 +1518,7 @@ func (client IdentityDomainsClient) createMyAuthToken(ctx context.Context, reque
 
 	var response CreateMyAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1576,7 +1576,7 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorInitiator(ctx co
 
 	var response CreateMyAuthenticationFactorInitiatorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyAuthenticationFactorInitiator")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1634,7 +1634,7 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorValidator(ctx co
 
 	var response CreateMyAuthenticationFactorValidatorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyAuthenticationFactorValidator")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1692,7 +1692,7 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorsRemover(ctx con
 
 	var response CreateMyAuthenticationFactorsRemoverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyAuthenticationFactorsRemover")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1750,7 +1750,7 @@ func (client IdentityDomainsClient) createMyCustomerSecretKey(ctx context.Contex
 
 	var response CreateMyCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1808,7 +1808,7 @@ func (client IdentityDomainsClient) createMyOAuth2ClientCredential(ctx context.C
 
 	var response CreateMyOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1866,7 +1866,7 @@ func (client IdentityDomainsClient) createMyRequest(ctx context.Context, request
 
 	var response CreateMyRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1924,7 +1924,7 @@ func (client IdentityDomainsClient) createMySessionRevoker(ctx context.Context, 
 
 	var response CreateMySessionRevokerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMySessionRevoker")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1982,7 +1982,7 @@ func (client IdentityDomainsClient) createMySmtpCredential(ctx context.Context, 
 
 	var response CreateMySmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMySmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2040,7 +2040,7 @@ func (client IdentityDomainsClient) createMySupportAccount(ctx context.Context, 
 
 	var response CreateMySupportAccountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMySupportAccount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2098,7 +2098,7 @@ func (client IdentityDomainsClient) createMyUserDbCredential(ctx context.Context
 
 	var response CreateMyUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateMyUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2156,7 +2156,7 @@ func (client IdentityDomainsClient) createNetworkPerimeter(ctx context.Context, 
 
 	var response CreateNetworkPerimeterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateNetworkPerimeter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2214,7 +2214,7 @@ func (client IdentityDomainsClient) createOAuth2ClientCredential(ctx context.Con
 
 	var response CreateOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2272,7 +2272,7 @@ func (client IdentityDomainsClient) createOAuthClientCertificate(ctx context.Con
 
 	var response CreateOAuthClientCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateOAuthClientCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2330,7 +2330,7 @@ func (client IdentityDomainsClient) createOAuthPartnerCertificate(ctx context.Co
 
 	var response CreateOAuthPartnerCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateOAuthPartnerCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2388,7 +2388,7 @@ func (client IdentityDomainsClient) createPasswordPolicy(ctx context.Context, re
 
 	var response CreatePasswordPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreatePasswordPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2446,7 +2446,7 @@ func (client IdentityDomainsClient) createPolicy(ctx context.Context, request co
 
 	var response CreatePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreatePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2504,7 +2504,7 @@ func (client IdentityDomainsClient) createRestoreOciConsolePolicy(ctx context.Co
 
 	var response CreateRestoreOciConsolePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateRestoreOciConsolePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2562,7 +2562,7 @@ func (client IdentityDomainsClient) createRule(ctx context.Context, request comm
 
 	var response CreateRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2620,7 +2620,7 @@ func (client IdentityDomainsClient) createSecurityQuestion(ctx context.Context, 
 
 	var response CreateSecurityQuestionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateSecurityQuestion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2678,7 +2678,7 @@ func (client IdentityDomainsClient) createSelfRegistrationProfile(ctx context.Co
 
 	var response CreateSelfRegistrationProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateSelfRegistrationProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2736,7 +2736,7 @@ func (client IdentityDomainsClient) createSessionRevoker(ctx context.Context, re
 
 	var response CreateSessionRevokerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateSessionRevoker")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2794,7 +2794,7 @@ func (client IdentityDomainsClient) createSmtpCredential(ctx context.Context, re
 
 	var response CreateSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2852,7 +2852,7 @@ func (client IdentityDomainsClient) createSocialIdentityProvider(ctx context.Con
 
 	var response CreateSocialIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateSocialIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2910,7 +2910,7 @@ func (client IdentityDomainsClient) createUser(ctx context.Context, request comm
 
 	var response CreateUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2968,7 +2968,7 @@ func (client IdentityDomainsClient) createUserDbCredential(ctx context.Context, 
 
 	var response CreateUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3026,7 +3026,7 @@ func (client IdentityDomainsClient) createVerificationClaim(ctx context.Context,
 
 	var response CreateVerificationClaimResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "CreateVerificationClaim")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3084,11 +3084,11 @@ func (client IdentityDomainsClient) deleteApiKey(ctx context.Context, request co
 
 	var response DeleteApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApiKey/DeleteApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -3142,11 +3142,11 @@ func (client IdentityDomainsClient) deleteApp(ctx context.Context, request commo
 
 	var response DeleteAppResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteApp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/App/DeleteApp"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteApp", apiReferenceLink)
 		return response, err
 	}
@@ -3200,11 +3200,11 @@ func (client IdentityDomainsClient) deleteAppResource(ctx context.Context, reque
 
 	var response DeleteAppResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteAppResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/DeleteAppResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteAppResource", apiReferenceLink)
 		return response, err
 	}
@@ -3258,11 +3258,11 @@ func (client IdentityDomainsClient) deleteAppRole(ctx context.Context, request c
 
 	var response DeleteAppRoleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteAppRole")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppRole/DeleteAppRole"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteAppRole", apiReferenceLink)
 		return response, err
 	}
@@ -3316,11 +3316,11 @@ func (client IdentityDomainsClient) deleteApprovalWorkflow(ctx context.Context, 
 
 	var response DeleteApprovalWorkflowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteApprovalWorkflow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflow/DeleteApprovalWorkflow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteApprovalWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -3374,11 +3374,11 @@ func (client IdentityDomainsClient) deleteApprovalWorkflowAssignment(ctx context
 
 	var response DeleteApprovalWorkflowAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteApprovalWorkflowAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowAssignment/DeleteApprovalWorkflowAssignment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteApprovalWorkflowAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -3432,11 +3432,11 @@ func (client IdentityDomainsClient) deleteApprovalWorkflowStep(ctx context.Conte
 
 	var response DeleteApprovalWorkflowStepResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteApprovalWorkflowStep")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowStep/DeleteApprovalWorkflowStep"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteApprovalWorkflowStep", apiReferenceLink)
 		return response, err
 	}
@@ -3490,11 +3490,11 @@ func (client IdentityDomainsClient) deleteAuthToken(ctx context.Context, request
 
 	var response DeleteAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthToken/DeleteAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -3548,11 +3548,11 @@ func (client IdentityDomainsClient) deleteCloudGate(ctx context.Context, request
 
 	var response DeleteCloudGateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteCloudGate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGate/DeleteCloudGate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCloudGate", apiReferenceLink)
 		return response, err
 	}
@@ -3606,11 +3606,11 @@ func (client IdentityDomainsClient) deleteCloudGateMapping(ctx context.Context, 
 
 	var response DeleteCloudGateMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteCloudGateMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMapping/DeleteCloudGateMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCloudGateMapping", apiReferenceLink)
 		return response, err
 	}
@@ -3664,11 +3664,11 @@ func (client IdentityDomainsClient) deleteCloudGateServer(ctx context.Context, r
 
 	var response DeleteCloudGateServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteCloudGateServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServer/DeleteCloudGateServer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCloudGateServer", apiReferenceLink)
 		return response, err
 	}
@@ -3722,11 +3722,11 @@ func (client IdentityDomainsClient) deleteCondition(ctx context.Context, request
 
 	var response DeleteConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/DeleteCondition"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCondition", apiReferenceLink)
 		return response, err
 	}
@@ -3780,11 +3780,11 @@ func (client IdentityDomainsClient) deleteConditionGroup(ctx context.Context, re
 
 	var response DeleteConditionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteConditionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/DeleteConditionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteConditionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -3838,11 +3838,11 @@ func (client IdentityDomainsClient) deleteCustomerSecretKey(ctx context.Context,
 
 	var response DeleteCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CustomerSecretKey/DeleteCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -3896,11 +3896,11 @@ func (client IdentityDomainsClient) deleteDynamicResourceGroup(ctx context.Conte
 
 	var response DeleteDynamicResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteDynamicResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroup/DeleteDynamicResourceGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteDynamicResourceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -3954,11 +3954,11 @@ func (client IdentityDomainsClient) deleteGrant(ctx context.Context, request com
 
 	var response DeleteGrantResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteGrant")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Grant/DeleteGrant"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteGrant", apiReferenceLink)
 		return response, err
 	}
@@ -4012,11 +4012,11 @@ func (client IdentityDomainsClient) deleteGroup(ctx context.Context, request com
 
 	var response DeleteGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/DeleteGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteGroup", apiReferenceLink)
 		return response, err
 	}
@@ -4070,11 +4070,11 @@ func (client IdentityDomainsClient) deleteIdentityProofingProvider(ctx context.C
 
 	var response DeleteIdentityProofingProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteIdentityProofingProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/DeleteIdentityProofingProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityProofingProvider", apiReferenceLink)
 		return response, err
 	}
@@ -4128,11 +4128,11 @@ func (client IdentityDomainsClient) deleteIdentityProofingProviderTemplate(ctx c
 
 	var response DeleteIdentityProofingProviderTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteIdentityProofingProviderTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/DeleteIdentityProofingProviderTemplate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -4186,11 +4186,11 @@ func (client IdentityDomainsClient) deleteIdentityPropagationTrust(ctx context.C
 
 	var response DeleteIdentityPropagationTrustResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteIdentityPropagationTrust")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrust/DeleteIdentityPropagationTrust"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityPropagationTrust", apiReferenceLink)
 		return response, err
 	}
@@ -4244,11 +4244,11 @@ func (client IdentityDomainsClient) deleteIdentityProvider(ctx context.Context, 
 
 	var response DeleteIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProvider/DeleteIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -4302,11 +4302,11 @@ func (client IdentityDomainsClient) deleteMyApiKey(ctx context.Context, request 
 
 	var response DeleteMyApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApiKey/DeleteMyApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -4360,11 +4360,11 @@ func (client IdentityDomainsClient) deleteMyAuthToken(ctx context.Context, reque
 
 	var response DeleteMyAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyAuthToken/DeleteMyAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -4418,11 +4418,11 @@ func (client IdentityDomainsClient) deleteMyCustomerSecretKey(ctx context.Contex
 
 	var response DeleteMyCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCustomerSecretKey/DeleteMyCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -4476,11 +4476,11 @@ func (client IdentityDomainsClient) deleteMyDevice(ctx context.Context, request 
 
 	var response DeleteMyDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyDevice/DeleteMyDevice"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyDevice", apiReferenceLink)
 		return response, err
 	}
@@ -4534,11 +4534,11 @@ func (client IdentityDomainsClient) deleteMyOAuth2ClientCredential(ctx context.C
 
 	var response DeleteMyOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyOAuth2ClientCredential/DeleteMyOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -4592,11 +4592,11 @@ func (client IdentityDomainsClient) deleteMySmtpCredential(ctx context.Context, 
 
 	var response DeleteMySmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMySmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySmtpCredential/DeleteMySmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMySmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -4650,11 +4650,11 @@ func (client IdentityDomainsClient) deleteMySupportAccount(ctx context.Context, 
 
 	var response DeleteMySupportAccountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMySupportAccount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySupportAccount/DeleteMySupportAccount"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMySupportAccount", apiReferenceLink)
 		return response, err
 	}
@@ -4708,11 +4708,11 @@ func (client IdentityDomainsClient) deleteMyTrustedUserAgent(ctx context.Context
 
 	var response DeleteMyTrustedUserAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyTrustedUserAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyTrustedUserAgent/DeleteMyTrustedUserAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyTrustedUserAgent", apiReferenceLink)
 		return response, err
 	}
@@ -4766,11 +4766,11 @@ func (client IdentityDomainsClient) deleteMyUserDbCredential(ctx context.Context
 
 	var response DeleteMyUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteMyUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyUserDbCredential/DeleteMyUserDbCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteMyUserDbCredential", apiReferenceLink)
 		return response, err
 	}
@@ -4824,11 +4824,11 @@ func (client IdentityDomainsClient) deleteNetworkPerimeter(ctx context.Context, 
 
 	var response DeleteNetworkPerimeterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteNetworkPerimeter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeter/DeleteNetworkPerimeter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteNetworkPerimeter", apiReferenceLink)
 		return response, err
 	}
@@ -4882,11 +4882,11 @@ func (client IdentityDomainsClient) deleteOAuth2ClientCredential(ctx context.Con
 
 	var response DeleteOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuth2ClientCredential/DeleteOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -4940,11 +4940,11 @@ func (client IdentityDomainsClient) deleteOAuthClientCertificate(ctx context.Con
 
 	var response DeleteOAuthClientCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteOAuthClientCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthClientCertificate/DeleteOAuthClientCertificate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteOAuthClientCertificate", apiReferenceLink)
 		return response, err
 	}
@@ -4998,11 +4998,11 @@ func (client IdentityDomainsClient) deleteOAuthPartnerCertificate(ctx context.Co
 
 	var response DeleteOAuthPartnerCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteOAuthPartnerCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthPartnerCertificate/DeleteOAuthPartnerCertificate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteOAuthPartnerCertificate", apiReferenceLink)
 		return response, err
 	}
@@ -5056,11 +5056,11 @@ func (client IdentityDomainsClient) deletePasswordPolicy(ctx context.Context, re
 
 	var response DeletePasswordPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeletePasswordPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicy/DeletePasswordPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeletePasswordPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -5114,11 +5114,11 @@ func (client IdentityDomainsClient) deletePolicy(ctx context.Context, request co
 
 	var response DeletePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeletePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/DeletePolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeletePolicy", apiReferenceLink)
 		return response, err
 	}
@@ -5172,11 +5172,11 @@ func (client IdentityDomainsClient) deleteRule(ctx context.Context, request comm
 
 	var response DeleteRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/DeleteRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteRule", apiReferenceLink)
 		return response, err
 	}
@@ -5230,11 +5230,11 @@ func (client IdentityDomainsClient) deleteSecurityQuestion(ctx context.Context, 
 
 	var response DeleteSecurityQuestionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteSecurityQuestion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestion/DeleteSecurityQuestion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteSecurityQuestion", apiReferenceLink)
 		return response, err
 	}
@@ -5288,11 +5288,11 @@ func (client IdentityDomainsClient) deleteSelfRegistrationProfile(ctx context.Co
 
 	var response DeleteSelfRegistrationProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteSelfRegistrationProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfile/DeleteSelfRegistrationProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteSelfRegistrationProfile", apiReferenceLink)
 		return response, err
 	}
@@ -5346,11 +5346,11 @@ func (client IdentityDomainsClient) deleteSmtpCredential(ctx context.Context, re
 
 	var response DeleteSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SmtpCredential/DeleteSmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteSmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -5404,11 +5404,11 @@ func (client IdentityDomainsClient) deleteSocialIdentityProvider(ctx context.Con
 
 	var response DeleteSocialIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteSocialIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/DeleteSocialIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteSocialIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -5462,11 +5462,11 @@ func (client IdentityDomainsClient) deleteUser(ctx context.Context, request comm
 
 	var response DeleteUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/User/DeleteUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteUser", apiReferenceLink)
 		return response, err
 	}
@@ -5520,11 +5520,11 @@ func (client IdentityDomainsClient) deleteUserDbCredential(ctx context.Context, 
 
 	var response DeleteUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "DeleteUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserDbCredential/DeleteUserDbCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteUserDbCredential", apiReferenceLink)
 		return response, err
 	}
@@ -5578,11 +5578,11 @@ func (client IdentityDomainsClient) getAccountMgmtInfo(ctx context.Context, requ
 
 	var response GetAccountMgmtInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAccountMgmtInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountMgmtInfo/GetAccountMgmtInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAccountMgmtInfo", apiReferenceLink)
 		return response, err
 	}
@@ -5636,11 +5636,11 @@ func (client IdentityDomainsClient) getAccountRecoverySetting(ctx context.Contex
 
 	var response GetAccountRecoverySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAccountRecoverySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountRecoverySetting/GetAccountRecoverySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAccountRecoverySetting", apiReferenceLink)
 		return response, err
 	}
@@ -5694,11 +5694,11 @@ func (client IdentityDomainsClient) getApiKey(ctx context.Context, request commo
 
 	var response GetApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApiKey/GetApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -5752,11 +5752,11 @@ func (client IdentityDomainsClient) getApp(ctx context.Context, request common.O
 
 	var response GetAppResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetApp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/App/GetApp"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetApp", apiReferenceLink)
 		return response, err
 	}
@@ -5810,11 +5810,11 @@ func (client IdentityDomainsClient) getAppResource(ctx context.Context, request 
 
 	var response GetAppResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAppResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/GetAppResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAppResource", apiReferenceLink)
 		return response, err
 	}
@@ -5868,11 +5868,11 @@ func (client IdentityDomainsClient) getAppRole(ctx context.Context, request comm
 
 	var response GetAppRoleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAppRole")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppRole/GetAppRole"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAppRole", apiReferenceLink)
 		return response, err
 	}
@@ -5926,11 +5926,11 @@ func (client IdentityDomainsClient) getApprovalWorkflow(ctx context.Context, req
 
 	var response GetApprovalWorkflowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetApprovalWorkflow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflow/GetApprovalWorkflow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetApprovalWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -5984,11 +5984,11 @@ func (client IdentityDomainsClient) getApprovalWorkflowAssignment(ctx context.Co
 
 	var response GetApprovalWorkflowAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetApprovalWorkflowAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowAssignment/GetApprovalWorkflowAssignment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetApprovalWorkflowAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -6042,11 +6042,11 @@ func (client IdentityDomainsClient) getApprovalWorkflowStep(ctx context.Context,
 
 	var response GetApprovalWorkflowStepResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetApprovalWorkflowStep")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowStep/GetApprovalWorkflowStep"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetApprovalWorkflowStep", apiReferenceLink)
 		return response, err
 	}
@@ -6100,11 +6100,11 @@ func (client IdentityDomainsClient) getAuthToken(ctx context.Context, request co
 
 	var response GetAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthToken/GetAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -6158,11 +6158,11 @@ func (client IdentityDomainsClient) getAuthenticationFactorSetting(ctx context.C
 
 	var response GetAuthenticationFactorSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetAuthenticationFactorSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthenticationFactorSetting/GetAuthenticationFactorSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAuthenticationFactorSetting", apiReferenceLink)
 		return response, err
 	}
@@ -6216,11 +6216,11 @@ func (client IdentityDomainsClient) getBrandingSetting(ctx context.Context, requ
 
 	var response GetBrandingSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetBrandingSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/BrandingSetting/GetBrandingSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetBrandingSetting", apiReferenceLink)
 		return response, err
 	}
@@ -6274,11 +6274,11 @@ func (client IdentityDomainsClient) getCloudGate(ctx context.Context, request co
 
 	var response GetCloudGateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetCloudGate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGate/GetCloudGate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCloudGate", apiReferenceLink)
 		return response, err
 	}
@@ -6332,11 +6332,11 @@ func (client IdentityDomainsClient) getCloudGateMapping(ctx context.Context, req
 
 	var response GetCloudGateMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetCloudGateMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMapping/GetCloudGateMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCloudGateMapping", apiReferenceLink)
 		return response, err
 	}
@@ -6390,11 +6390,11 @@ func (client IdentityDomainsClient) getCloudGateServer(ctx context.Context, requ
 
 	var response GetCloudGateServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetCloudGateServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServer/GetCloudGateServer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCloudGateServer", apiReferenceLink)
 		return response, err
 	}
@@ -6448,11 +6448,11 @@ func (client IdentityDomainsClient) getCondition(ctx context.Context, request co
 
 	var response GetConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/GetCondition"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCondition", apiReferenceLink)
 		return response, err
 	}
@@ -6506,11 +6506,11 @@ func (client IdentityDomainsClient) getConditionGroup(ctx context.Context, reque
 
 	var response GetConditionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetConditionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/GetConditionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetConditionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -6564,11 +6564,11 @@ func (client IdentityDomainsClient) getCustomerSecretKey(ctx context.Context, re
 
 	var response GetCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CustomerSecretKey/GetCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -6622,11 +6622,11 @@ func (client IdentityDomainsClient) getDynamicResourceGroup(ctx context.Context,
 
 	var response GetDynamicResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetDynamicResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroup/GetDynamicResourceGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetDynamicResourceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -6680,11 +6680,11 @@ func (client IdentityDomainsClient) getGrant(ctx context.Context, request common
 
 	var response GetGrantResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetGrant")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Grant/GetGrant"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetGrant", apiReferenceLink)
 		return response, err
 	}
@@ -6738,11 +6738,11 @@ func (client IdentityDomainsClient) getGroup(ctx context.Context, request common
 
 	var response GetGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/GetGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetGroup", apiReferenceLink)
 		return response, err
 	}
@@ -6796,11 +6796,11 @@ func (client IdentityDomainsClient) getIdentityProofingProvider(ctx context.Cont
 
 	var response GetIdentityProofingProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetIdentityProofingProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/GetIdentityProofingProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityProofingProvider", apiReferenceLink)
 		return response, err
 	}
@@ -6854,11 +6854,11 @@ func (client IdentityDomainsClient) getIdentityProofingProviderTemplate(ctx cont
 
 	var response GetIdentityProofingProviderTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetIdentityProofingProviderTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/GetIdentityProofingProviderTemplate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -6912,11 +6912,11 @@ func (client IdentityDomainsClient) getIdentityPropagationTrust(ctx context.Cont
 
 	var response GetIdentityPropagationTrustResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetIdentityPropagationTrust")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrust/GetIdentityPropagationTrust"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityPropagationTrust", apiReferenceLink)
 		return response, err
 	}
@@ -6970,11 +6970,11 @@ func (client IdentityDomainsClient) getIdentityProvider(ctx context.Context, req
 
 	var response GetIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProvider/GetIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -7028,11 +7028,11 @@ func (client IdentityDomainsClient) getIdentitySetting(ctx context.Context, requ
 
 	var response GetIdentitySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetIdentitySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentitySetting/GetIdentitySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetIdentitySetting", apiReferenceLink)
 		return response, err
 	}
@@ -7086,11 +7086,11 @@ func (client IdentityDomainsClient) getKmsiSetting(ctx context.Context, request 
 
 	var response GetKmsiSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetKmsiSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/KmsiSetting/GetKmsiSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetKmsiSetting", apiReferenceLink)
 		return response, err
 	}
@@ -7144,11 +7144,11 @@ func (client IdentityDomainsClient) getMappedAttribute(ctx context.Context, requ
 
 	var response GetMappedAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMappedAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MappedAttribute/GetMappedAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMappedAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -7202,11 +7202,11 @@ func (client IdentityDomainsClient) getMe(ctx context.Context, request common.OC
 
 	var response GetMeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Me/GetMe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMe", apiReferenceLink)
 		return response, err
 	}
@@ -7260,11 +7260,11 @@ func (client IdentityDomainsClient) getMyApiKey(ctx context.Context, request com
 
 	var response GetMyApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApiKey/GetMyApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -7318,11 +7318,11 @@ func (client IdentityDomainsClient) getMyAuthToken(ctx context.Context, request 
 
 	var response GetMyAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyAuthToken/GetMyAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -7376,11 +7376,11 @@ func (client IdentityDomainsClient) getMyCompletedApproval(ctx context.Context, 
 
 	var response GetMyCompletedApprovalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyCompletedApproval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCompletedApproval/GetMyCompletedApproval"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyCompletedApproval", apiReferenceLink)
 		return response, err
 	}
@@ -7434,11 +7434,11 @@ func (client IdentityDomainsClient) getMyCustomerSecretKey(ctx context.Context, 
 
 	var response GetMyCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCustomerSecretKey/GetMyCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -7492,11 +7492,11 @@ func (client IdentityDomainsClient) getMyDevice(ctx context.Context, request com
 
 	var response GetMyDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyDevice/GetMyDevice"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyDevice", apiReferenceLink)
 		return response, err
 	}
@@ -7550,11 +7550,11 @@ func (client IdentityDomainsClient) getMyOAuth2ClientCredential(ctx context.Cont
 
 	var response GetMyOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyOAuth2ClientCredential/GetMyOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -7608,11 +7608,11 @@ func (client IdentityDomainsClient) getMyPendingApproval(ctx context.Context, re
 
 	var response GetMyPendingApprovalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyPendingApproval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyPendingApproval/GetMyPendingApproval"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyPendingApproval", apiReferenceLink)
 		return response, err
 	}
@@ -7666,11 +7666,11 @@ func (client IdentityDomainsClient) getMyRequest(ctx context.Context, request co
 
 	var response GetMyRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequest/GetMyRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyRequest", apiReferenceLink)
 		return response, err
 	}
@@ -7724,11 +7724,11 @@ func (client IdentityDomainsClient) getMySession(ctx context.Context, request co
 
 	var response GetMySessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMySession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySession/GetMySession"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMySession", apiReferenceLink)
 		return response, err
 	}
@@ -7782,11 +7782,11 @@ func (client IdentityDomainsClient) getMySmtpCredential(ctx context.Context, req
 
 	var response GetMySmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMySmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySmtpCredential/GetMySmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMySmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -7840,11 +7840,11 @@ func (client IdentityDomainsClient) getMySupportAccount(ctx context.Context, req
 
 	var response GetMySupportAccountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMySupportAccount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySupportAccount/GetMySupportAccount"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMySupportAccount", apiReferenceLink)
 		return response, err
 	}
@@ -7898,11 +7898,11 @@ func (client IdentityDomainsClient) getMyTrustedUserAgent(ctx context.Context, r
 
 	var response GetMyTrustedUserAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyTrustedUserAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyTrustedUserAgent/GetMyTrustedUserAgent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyTrustedUserAgent", apiReferenceLink)
 		return response, err
 	}
@@ -7956,11 +7956,11 @@ func (client IdentityDomainsClient) getMyUserDbCredential(ctx context.Context, r
 
 	var response GetMyUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetMyUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyUserDbCredential/GetMyUserDbCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetMyUserDbCredential", apiReferenceLink)
 		return response, err
 	}
@@ -8014,11 +8014,11 @@ func (client IdentityDomainsClient) getNetworkPerimeter(ctx context.Context, req
 
 	var response GetNetworkPerimeterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetNetworkPerimeter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeter/GetNetworkPerimeter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetNetworkPerimeter", apiReferenceLink)
 		return response, err
 	}
@@ -8072,11 +8072,11 @@ func (client IdentityDomainsClient) getNotificationSetting(ctx context.Context, 
 
 	var response GetNotificationSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetNotificationSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NotificationSetting/GetNotificationSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetNotificationSetting", apiReferenceLink)
 		return response, err
 	}
@@ -8130,11 +8130,11 @@ func (client IdentityDomainsClient) getOAuth2ClientCredential(ctx context.Contex
 
 	var response GetOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuth2ClientCredential/GetOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -8188,11 +8188,11 @@ func (client IdentityDomainsClient) getOAuthClientCertificate(ctx context.Contex
 
 	var response GetOAuthClientCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetOAuthClientCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthClientCertificate/GetOAuthClientCertificate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuthClientCertificate", apiReferenceLink)
 		return response, err
 	}
@@ -8246,11 +8246,11 @@ func (client IdentityDomainsClient) getOAuthPartnerCertificate(ctx context.Conte
 
 	var response GetOAuthPartnerCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetOAuthPartnerCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthPartnerCertificate/GetOAuthPartnerCertificate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuthPartnerCertificate", apiReferenceLink)
 		return response, err
 	}
@@ -8304,11 +8304,11 @@ func (client IdentityDomainsClient) getOciConsoleSignOnPolicyConsent(ctx context
 
 	var response GetOciConsoleSignOnPolicyConsentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetOciConsoleSignOnPolicyConsent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/GetOciConsoleSignOnPolicyConsent"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOciConsoleSignOnPolicyConsent", apiReferenceLink)
 		return response, err
 	}
@@ -8362,11 +8362,11 @@ func (client IdentityDomainsClient) getPasswordPolicy(ctx context.Context, reque
 
 	var response GetPasswordPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetPasswordPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicy/GetPasswordPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetPasswordPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -8420,11 +8420,11 @@ func (client IdentityDomainsClient) getPolicy(ctx context.Context, request commo
 
 	var response GetPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/GetPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -8478,11 +8478,11 @@ func (client IdentityDomainsClient) getRule(ctx context.Context, request common.
 
 	var response GetRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/GetRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetRule", apiReferenceLink)
 		return response, err
 	}
@@ -8536,11 +8536,11 @@ func (client IdentityDomainsClient) getSchema(ctx context.Context, request commo
 
 	var response GetSchemaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSchema")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Schema/GetSchema"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSchema", apiReferenceLink)
 		return response, err
 	}
@@ -8594,11 +8594,11 @@ func (client IdentityDomainsClient) getSecurityQuestion(ctx context.Context, req
 
 	var response GetSecurityQuestionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSecurityQuestion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestion/GetSecurityQuestion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSecurityQuestion", apiReferenceLink)
 		return response, err
 	}
@@ -8652,11 +8652,11 @@ func (client IdentityDomainsClient) getSecurityQuestionSetting(ctx context.Conte
 
 	var response GetSecurityQuestionSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSecurityQuestionSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestionSetting/GetSecurityQuestionSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSecurityQuestionSetting", apiReferenceLink)
 		return response, err
 	}
@@ -8710,11 +8710,11 @@ func (client IdentityDomainsClient) getSelfRegistrationProfile(ctx context.Conte
 
 	var response GetSelfRegistrationProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSelfRegistrationProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfile/GetSelfRegistrationProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSelfRegistrationProfile", apiReferenceLink)
 		return response, err
 	}
@@ -8768,11 +8768,11 @@ func (client IdentityDomainsClient) getSession(ctx context.Context, request comm
 
 	var response GetSessionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSession")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Session/GetSession"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSession", apiReferenceLink)
 		return response, err
 	}
@@ -8826,11 +8826,11 @@ func (client IdentityDomainsClient) getSetting(ctx context.Context, request comm
 
 	var response GetSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Setting/GetSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSetting", apiReferenceLink)
 		return response, err
 	}
@@ -8884,11 +8884,11 @@ func (client IdentityDomainsClient) getSmtpCredential(ctx context.Context, reque
 
 	var response GetSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SmtpCredential/GetSmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -8942,11 +8942,11 @@ func (client IdentityDomainsClient) getSocialIdentityProvider(ctx context.Contex
 
 	var response GetSocialIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetSocialIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/GetSocialIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSocialIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -9000,11 +9000,11 @@ func (client IdentityDomainsClient) getUser(ctx context.Context, request common.
 
 	var response GetUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/User/GetUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetUser", apiReferenceLink)
 		return response, err
 	}
@@ -9058,11 +9058,11 @@ func (client IdentityDomainsClient) getUserAttributesSetting(ctx context.Context
 
 	var response GetUserAttributesSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetUserAttributesSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserAttributesSetting/GetUserAttributesSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetUserAttributesSetting", apiReferenceLink)
 		return response, err
 	}
@@ -9116,11 +9116,11 @@ func (client IdentityDomainsClient) getUserDbCredential(ctx context.Context, req
 
 	var response GetUserDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "GetUserDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserDbCredential/GetUserDbCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetUserDbCredential", apiReferenceLink)
 		return response, err
 	}
@@ -9174,11 +9174,11 @@ func (client IdentityDomainsClient) listAccountMgmtInfos(ctx context.Context, re
 
 	var response ListAccountMgmtInfosResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAccountMgmtInfos")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountMgmtInfos/ListAccountMgmtInfos"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAccountMgmtInfos", apiReferenceLink)
 		return response, err
 	}
@@ -9232,11 +9232,11 @@ func (client IdentityDomainsClient) listAccountRecoverySettings(ctx context.Cont
 
 	var response ListAccountRecoverySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAccountRecoverySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountRecoverySettings/ListAccountRecoverySettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAccountRecoverySettings", apiReferenceLink)
 		return response, err
 	}
@@ -9290,11 +9290,11 @@ func (client IdentityDomainsClient) listApiKeys(ctx context.Context, request com
 
 	var response ListApiKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListApiKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApiKeys/ListApiKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListApiKeys", apiReferenceLink)
 		return response, err
 	}
@@ -9348,11 +9348,11 @@ func (client IdentityDomainsClient) listAppResources(ctx context.Context, reques
 
 	var response ListAppResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAppResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/ListAppResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAppResources", apiReferenceLink)
 		return response, err
 	}
@@ -9406,11 +9406,11 @@ func (client IdentityDomainsClient) listAppRoles(ctx context.Context, request co
 
 	var response ListAppRolesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAppRoles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppRoles/ListAppRoles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAppRoles", apiReferenceLink)
 		return response, err
 	}
@@ -9464,11 +9464,11 @@ func (client IdentityDomainsClient) listApprovalWorkflowAssignments(ctx context.
 
 	var response ListApprovalWorkflowAssignmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListApprovalWorkflowAssignments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowAssignments/ListApprovalWorkflowAssignments"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListApprovalWorkflowAssignments", apiReferenceLink)
 		return response, err
 	}
@@ -9522,11 +9522,11 @@ func (client IdentityDomainsClient) listApprovalWorkflowSteps(ctx context.Contex
 
 	var response ListApprovalWorkflowStepsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListApprovalWorkflowSteps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowSteps/ListApprovalWorkflowSteps"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListApprovalWorkflowSteps", apiReferenceLink)
 		return response, err
 	}
@@ -9580,11 +9580,11 @@ func (client IdentityDomainsClient) listApprovalWorkflows(ctx context.Context, r
 
 	var response ListApprovalWorkflowsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListApprovalWorkflows")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflows/ListApprovalWorkflows"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListApprovalWorkflows", apiReferenceLink)
 		return response, err
 	}
@@ -9638,11 +9638,11 @@ func (client IdentityDomainsClient) listApps(ctx context.Context, request common
 
 	var response ListAppsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListApps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Apps/ListApps"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListApps", apiReferenceLink)
 		return response, err
 	}
@@ -9696,11 +9696,11 @@ func (client IdentityDomainsClient) listAuthTokens(ctx context.Context, request 
 
 	var response ListAuthTokensResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAuthTokens")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthTokens/ListAuthTokens"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAuthTokens", apiReferenceLink)
 		return response, err
 	}
@@ -9754,11 +9754,11 @@ func (client IdentityDomainsClient) listAuthenticationFactorSettings(ctx context
 
 	var response ListAuthenticationFactorSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListAuthenticationFactorSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthenticationFactorSettings/ListAuthenticationFactorSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAuthenticationFactorSettings", apiReferenceLink)
 		return response, err
 	}
@@ -9812,11 +9812,11 @@ func (client IdentityDomainsClient) listBrandingSettings(ctx context.Context, re
 
 	var response ListBrandingSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListBrandingSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/BrandingSettings/ListBrandingSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListBrandingSettings", apiReferenceLink)
 		return response, err
 	}
@@ -9870,11 +9870,11 @@ func (client IdentityDomainsClient) listCloudGateMappings(ctx context.Context, r
 
 	var response ListCloudGateMappingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListCloudGateMappings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMappings/ListCloudGateMappings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListCloudGateMappings", apiReferenceLink)
 		return response, err
 	}
@@ -9928,11 +9928,11 @@ func (client IdentityDomainsClient) listCloudGateServers(ctx context.Context, re
 
 	var response ListCloudGateServersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListCloudGateServers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServers/ListCloudGateServers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListCloudGateServers", apiReferenceLink)
 		return response, err
 	}
@@ -9986,11 +9986,11 @@ func (client IdentityDomainsClient) listCloudGates(ctx context.Context, request 
 
 	var response ListCloudGatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListCloudGates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGates/ListCloudGates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListCloudGates", apiReferenceLink)
 		return response, err
 	}
@@ -10044,11 +10044,11 @@ func (client IdentityDomainsClient) listConditionGroups(ctx context.Context, req
 
 	var response ListConditionGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListConditionGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/ListConditionGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListConditionGroups", apiReferenceLink)
 		return response, err
 	}
@@ -10102,11 +10102,11 @@ func (client IdentityDomainsClient) listConditions(ctx context.Context, request 
 
 	var response ListConditionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListConditions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/ListConditions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListConditions", apiReferenceLink)
 		return response, err
 	}
@@ -10160,11 +10160,11 @@ func (client IdentityDomainsClient) listCustomerSecretKeys(ctx context.Context, 
 
 	var response ListCustomerSecretKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListCustomerSecretKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CustomerSecretKeys/ListCustomerSecretKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListCustomerSecretKeys", apiReferenceLink)
 		return response, err
 	}
@@ -10218,11 +10218,11 @@ func (client IdentityDomainsClient) listDynamicResourceGroups(ctx context.Contex
 
 	var response ListDynamicResourceGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListDynamicResourceGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroups/ListDynamicResourceGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListDynamicResourceGroups", apiReferenceLink)
 		return response, err
 	}
@@ -10276,11 +10276,11 @@ func (client IdentityDomainsClient) listGrants(ctx context.Context, request comm
 
 	var response ListGrantsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListGrants")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Grants/ListGrants"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListGrants", apiReferenceLink)
 		return response, err
 	}
@@ -10334,11 +10334,11 @@ func (client IdentityDomainsClient) listGroups(ctx context.Context, request comm
 
 	var response ListGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Groups/ListGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListGroups", apiReferenceLink)
 		return response, err
 	}
@@ -10392,11 +10392,11 @@ func (client IdentityDomainsClient) listIdentityProofingProviderTemplates(ctx co
 
 	var response ListIdentityProofingProviderTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListIdentityProofingProviderTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/ListIdentityProofingProviderTemplates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityProofingProviderTemplates", apiReferenceLink)
 		return response, err
 	}
@@ -10450,11 +10450,11 @@ func (client IdentityDomainsClient) listIdentityProofingProviders(ctx context.Co
 
 	var response ListIdentityProofingProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListIdentityProofingProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/ListIdentityProofingProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityProofingProviders", apiReferenceLink)
 		return response, err
 	}
@@ -10508,11 +10508,11 @@ func (client IdentityDomainsClient) listIdentityPropagationTrusts(ctx context.Co
 
 	var response ListIdentityPropagationTrustsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListIdentityPropagationTrusts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrusts/ListIdentityPropagationTrusts"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityPropagationTrusts", apiReferenceLink)
 		return response, err
 	}
@@ -10566,11 +10566,11 @@ func (client IdentityDomainsClient) listIdentityProviders(ctx context.Context, r
 
 	var response ListIdentityProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListIdentityProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProviders/ListIdentityProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityProviders", apiReferenceLink)
 		return response, err
 	}
@@ -10624,11 +10624,11 @@ func (client IdentityDomainsClient) listIdentitySettings(ctx context.Context, re
 
 	var response ListIdentitySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListIdentitySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentitySettings/ListIdentitySettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentitySettings", apiReferenceLink)
 		return response, err
 	}
@@ -10682,11 +10682,11 @@ func (client IdentityDomainsClient) listKmsiSettings(ctx context.Context, reques
 
 	var response ListKmsiSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListKmsiSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/KmsiSettings/ListKmsiSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListKmsiSettings", apiReferenceLink)
 		return response, err
 	}
@@ -10740,11 +10740,11 @@ func (client IdentityDomainsClient) listMappedAttributes(ctx context.Context, re
 
 	var response ListMappedAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMappedAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MappedAttribute/ListMappedAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMappedAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -10798,11 +10798,11 @@ func (client IdentityDomainsClient) listMyApiKeys(ctx context.Context, request c
 
 	var response ListMyApiKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyApiKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApiKeys/ListMyApiKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyApiKeys", apiReferenceLink)
 		return response, err
 	}
@@ -10856,11 +10856,11 @@ func (client IdentityDomainsClient) listMyApps(ctx context.Context, request comm
 
 	var response ListMyAppsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyApps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApps/ListMyApps"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyApps", apiReferenceLink)
 		return response, err
 	}
@@ -10914,11 +10914,11 @@ func (client IdentityDomainsClient) listMyAuthTokens(ctx context.Context, reques
 
 	var response ListMyAuthTokensResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyAuthTokens")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyAuthTokens/ListMyAuthTokens"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyAuthTokens", apiReferenceLink)
 		return response, err
 	}
@@ -10972,11 +10972,11 @@ func (client IdentityDomainsClient) listMyCompletedApprovals(ctx context.Context
 
 	var response ListMyCompletedApprovalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyCompletedApprovals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCompletedApprovals/ListMyCompletedApprovals"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyCompletedApprovals", apiReferenceLink)
 		return response, err
 	}
@@ -11030,11 +11030,11 @@ func (client IdentityDomainsClient) listMyCustomerSecretKeys(ctx context.Context
 
 	var response ListMyCustomerSecretKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyCustomerSecretKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCustomerSecretKeys/ListMyCustomerSecretKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyCustomerSecretKeys", apiReferenceLink)
 		return response, err
 	}
@@ -11088,11 +11088,11 @@ func (client IdentityDomainsClient) listMyDevices(ctx context.Context, request c
 
 	var response ListMyDevicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyDevices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyDevices/ListMyDevices"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyDevices", apiReferenceLink)
 		return response, err
 	}
@@ -11146,11 +11146,11 @@ func (client IdentityDomainsClient) listMyGroups(ctx context.Context, request co
 
 	var response ListMyGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyGroups/ListMyGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyGroups", apiReferenceLink)
 		return response, err
 	}
@@ -11204,11 +11204,11 @@ func (client IdentityDomainsClient) listMyOAuth2ClientCredentials(ctx context.Co
 
 	var response ListMyOAuth2ClientCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyOAuth2ClientCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyOAuth2ClientCredentials/ListMyOAuth2ClientCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyOAuth2ClientCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -11262,11 +11262,11 @@ func (client IdentityDomainsClient) listMyPendingApprovals(ctx context.Context, 
 
 	var response ListMyPendingApprovalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyPendingApprovals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyPendingApprovals/ListMyPendingApprovals"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyPendingApprovals", apiReferenceLink)
 		return response, err
 	}
@@ -11320,11 +11320,11 @@ func (client IdentityDomainsClient) listMyRequestableGroups(ctx context.Context,
 
 	var response ListMyRequestableGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyRequestableGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequestableGroups/ListMyRequestableGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyRequestableGroups", apiReferenceLink)
 		return response, err
 	}
@@ -11378,11 +11378,11 @@ func (client IdentityDomainsClient) listMyRequests(ctx context.Context, request 
 
 	var response ListMyRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequests/ListMyRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyRequests", apiReferenceLink)
 		return response, err
 	}
@@ -11436,11 +11436,11 @@ func (client IdentityDomainsClient) listMySessions(ctx context.Context, request 
 
 	var response ListMySessionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMySessions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySession/ListMySessions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMySessions", apiReferenceLink)
 		return response, err
 	}
@@ -11494,11 +11494,11 @@ func (client IdentityDomainsClient) listMySmtpCredentials(ctx context.Context, r
 
 	var response ListMySmtpCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMySmtpCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySmtpCredentials/ListMySmtpCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMySmtpCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -11552,11 +11552,11 @@ func (client IdentityDomainsClient) listMySupportAccounts(ctx context.Context, r
 
 	var response ListMySupportAccountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMySupportAccounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySupportAccounts/ListMySupportAccounts"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMySupportAccounts", apiReferenceLink)
 		return response, err
 	}
@@ -11610,11 +11610,11 @@ func (client IdentityDomainsClient) listMyTrustedUserAgents(ctx context.Context,
 
 	var response ListMyTrustedUserAgentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyTrustedUserAgents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyTrustedUserAgents/ListMyTrustedUserAgents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyTrustedUserAgents", apiReferenceLink)
 		return response, err
 	}
@@ -11668,11 +11668,11 @@ func (client IdentityDomainsClient) listMyUserDbCredentials(ctx context.Context,
 
 	var response ListMyUserDbCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListMyUserDbCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyUserDbCredentials/ListMyUserDbCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListMyUserDbCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -11726,11 +11726,11 @@ func (client IdentityDomainsClient) listNetworkPerimeters(ctx context.Context, r
 
 	var response ListNetworkPerimetersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListNetworkPerimeters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeters/ListNetworkPerimeters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListNetworkPerimeters", apiReferenceLink)
 		return response, err
 	}
@@ -11784,11 +11784,11 @@ func (client IdentityDomainsClient) listNotificationSettings(ctx context.Context
 
 	var response ListNotificationSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListNotificationSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NotificationSettings/ListNotificationSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListNotificationSettings", apiReferenceLink)
 		return response, err
 	}
@@ -11842,11 +11842,11 @@ func (client IdentityDomainsClient) listOAuth2ClientCredentials(ctx context.Cont
 
 	var response ListOAuth2ClientCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListOAuth2ClientCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuth2ClientCredentials/ListOAuth2ClientCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuth2ClientCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -11900,11 +11900,11 @@ func (client IdentityDomainsClient) listOAuthClientCertificates(ctx context.Cont
 
 	var response ListOAuthClientCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListOAuthClientCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthClientCertificates/ListOAuthClientCertificates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuthClientCertificates", apiReferenceLink)
 		return response, err
 	}
@@ -11958,11 +11958,11 @@ func (client IdentityDomainsClient) listOAuthPartnerCertificates(ctx context.Con
 
 	var response ListOAuthPartnerCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListOAuthPartnerCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthPartnerCertificates/ListOAuthPartnerCertificates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuthPartnerCertificates", apiReferenceLink)
 		return response, err
 	}
@@ -12016,11 +12016,11 @@ func (client IdentityDomainsClient) listOciConsoleSignOnPolicyConsents(ctx conte
 
 	var response ListOciConsoleSignOnPolicyConsentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListOciConsoleSignOnPolicyConsents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/ListOciConsoleSignOnPolicyConsents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOciConsoleSignOnPolicyConsents", apiReferenceLink)
 		return response, err
 	}
@@ -12074,11 +12074,11 @@ func (client IdentityDomainsClient) listPasswordPolicies(ctx context.Context, re
 
 	var response ListPasswordPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListPasswordPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicies/ListPasswordPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListPasswordPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -12132,11 +12132,11 @@ func (client IdentityDomainsClient) listPolicies(ctx context.Context, request co
 
 	var response ListPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/ListPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -12190,11 +12190,11 @@ func (client IdentityDomainsClient) listResourceTypeSchemaAttributes(ctx context
 
 	var response ListResourceTypeSchemaAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListResourceTypeSchemaAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ResourceTypeSchemaAttributes/ListResourceTypeSchemaAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListResourceTypeSchemaAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -12248,11 +12248,11 @@ func (client IdentityDomainsClient) listRules(ctx context.Context, request commo
 
 	var response ListRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/ListRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListRules", apiReferenceLink)
 		return response, err
 	}
@@ -12306,11 +12306,11 @@ func (client IdentityDomainsClient) listSchemas(ctx context.Context, request com
 
 	var response ListSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Schemas/ListSchemas"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSchemas", apiReferenceLink)
 		return response, err
 	}
@@ -12364,11 +12364,11 @@ func (client IdentityDomainsClient) listSecurityQuestionSettings(ctx context.Con
 
 	var response ListSecurityQuestionSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSecurityQuestionSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestionSettings/ListSecurityQuestionSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSecurityQuestionSettings", apiReferenceLink)
 		return response, err
 	}
@@ -12422,11 +12422,11 @@ func (client IdentityDomainsClient) listSecurityQuestions(ctx context.Context, r
 
 	var response ListSecurityQuestionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSecurityQuestions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestions/ListSecurityQuestions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSecurityQuestions", apiReferenceLink)
 		return response, err
 	}
@@ -12480,11 +12480,11 @@ func (client IdentityDomainsClient) listSelfRegistrationProfiles(ctx context.Con
 
 	var response ListSelfRegistrationProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSelfRegistrationProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfiles/ListSelfRegistrationProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSelfRegistrationProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -12538,11 +12538,11 @@ func (client IdentityDomainsClient) listSessions(ctx context.Context, request co
 
 	var response ListSessionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSessions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Session/ListSessions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSessions", apiReferenceLink)
 		return response, err
 	}
@@ -12596,11 +12596,11 @@ func (client IdentityDomainsClient) listSettings(ctx context.Context, request co
 
 	var response ListSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Settings/ListSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSettings", apiReferenceLink)
 		return response, err
 	}
@@ -12654,11 +12654,11 @@ func (client IdentityDomainsClient) listSmtpCredentials(ctx context.Context, req
 
 	var response ListSmtpCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSmtpCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SmtpCredentials/ListSmtpCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSmtpCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -12712,11 +12712,11 @@ func (client IdentityDomainsClient) listSocialIdentityProviders(ctx context.Cont
 
 	var response ListSocialIdentityProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListSocialIdentityProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/ListSocialIdentityProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSocialIdentityProviders", apiReferenceLink)
 		return response, err
 	}
@@ -12770,11 +12770,11 @@ func (client IdentityDomainsClient) listUserAttributesSettings(ctx context.Conte
 
 	var response ListUserAttributesSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListUserAttributesSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserAttributesSetting/ListUserAttributesSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListUserAttributesSettings", apiReferenceLink)
 		return response, err
 	}
@@ -12828,11 +12828,11 @@ func (client IdentityDomainsClient) listUserDbCredentials(ctx context.Context, r
 
 	var response ListUserDbCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListUserDbCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserDbCredentials/ListUserDbCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListUserDbCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -12886,11 +12886,11 @@ func (client IdentityDomainsClient) listUsers(ctx context.Context, request commo
 
 	var response ListUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "ListUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Users/ListUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListUsers", apiReferenceLink)
 		return response, err
 	}
@@ -12944,11 +12944,11 @@ func (client IdentityDomainsClient) patchAccountRecoverySetting(ctx context.Cont
 
 	var response PatchAccountRecoverySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchAccountRecoverySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountRecoverySetting/PatchAccountRecoverySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchAccountRecoverySetting", apiReferenceLink)
 		return response, err
 	}
@@ -13002,11 +13002,11 @@ func (client IdentityDomainsClient) patchApiKey(ctx context.Context, request com
 
 	var response PatchApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApiKey/PatchApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -13060,11 +13060,11 @@ func (client IdentityDomainsClient) patchApp(ctx context.Context, request common
 
 	var response PatchAppResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchApp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/App/PatchApp"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchApp", apiReferenceLink)
 		return response, err
 	}
@@ -13118,11 +13118,11 @@ func (client IdentityDomainsClient) patchAppResource(ctx context.Context, reques
 
 	var response PatchAppResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchAppResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/PatchAppResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchAppResource", apiReferenceLink)
 		return response, err
 	}
@@ -13176,11 +13176,11 @@ func (client IdentityDomainsClient) patchAppRole(ctx context.Context, request co
 
 	var response PatchAppRoleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchAppRole")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppRole/PatchAppRole"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchAppRole", apiReferenceLink)
 		return response, err
 	}
@@ -13234,11 +13234,11 @@ func (client IdentityDomainsClient) patchApprovalWorkflow(ctx context.Context, r
 
 	var response PatchApprovalWorkflowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchApprovalWorkflow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflow/PatchApprovalWorkflow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchApprovalWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -13292,11 +13292,11 @@ func (client IdentityDomainsClient) patchApprovalWorkflowStep(ctx context.Contex
 
 	var response PatchApprovalWorkflowStepResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchApprovalWorkflowStep")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflowStep/PatchApprovalWorkflowStep"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchApprovalWorkflowStep", apiReferenceLink)
 		return response, err
 	}
@@ -13350,11 +13350,11 @@ func (client IdentityDomainsClient) patchAuthToken(ctx context.Context, request 
 
 	var response PatchAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthToken/PatchAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -13408,11 +13408,11 @@ func (client IdentityDomainsClient) patchCloudGate(ctx context.Context, request 
 
 	var response PatchCloudGateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchCloudGate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGate/PatchCloudGate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCloudGate", apiReferenceLink)
 		return response, err
 	}
@@ -13466,11 +13466,11 @@ func (client IdentityDomainsClient) patchCloudGateMapping(ctx context.Context, r
 
 	var response PatchCloudGateMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchCloudGateMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMapping/PatchCloudGateMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCloudGateMapping", apiReferenceLink)
 		return response, err
 	}
@@ -13524,11 +13524,11 @@ func (client IdentityDomainsClient) patchCloudGateServer(ctx context.Context, re
 
 	var response PatchCloudGateServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchCloudGateServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServer/PatchCloudGateServer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCloudGateServer", apiReferenceLink)
 		return response, err
 	}
@@ -13582,11 +13582,11 @@ func (client IdentityDomainsClient) patchCondition(ctx context.Context, request 
 
 	var response PatchConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/PatchCondition"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCondition", apiReferenceLink)
 		return response, err
 	}
@@ -13640,11 +13640,11 @@ func (client IdentityDomainsClient) patchConditionGroup(ctx context.Context, req
 
 	var response PatchConditionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchConditionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/PatchConditionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchConditionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -13698,11 +13698,11 @@ func (client IdentityDomainsClient) patchCustomerSecretKey(ctx context.Context, 
 
 	var response PatchCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CustomerSecretKey/PatchCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -13756,11 +13756,11 @@ func (client IdentityDomainsClient) patchDynamicResourceGroup(ctx context.Contex
 
 	var response PatchDynamicResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchDynamicResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroup/PatchDynamicResourceGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchDynamicResourceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -13814,11 +13814,11 @@ func (client IdentityDomainsClient) patchGrant(ctx context.Context, request comm
 
 	var response PatchGrantResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchGrant")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Grant/PatchGrant"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchGrant", apiReferenceLink)
 		return response, err
 	}
@@ -13872,11 +13872,11 @@ func (client IdentityDomainsClient) patchGroup(ctx context.Context, request comm
 
 	var response PatchGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/PatchGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -13930,11 +13930,11 @@ func (client IdentityDomainsClient) patchIdentityProofingProvider(ctx context.Co
 
 	var response PatchIdentityProofingProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchIdentityProofingProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/PatchIdentityProofingProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityProofingProvider", apiReferenceLink)
 		return response, err
 	}
@@ -13988,11 +13988,11 @@ func (client IdentityDomainsClient) patchIdentityProofingProviderTemplate(ctx co
 
 	var response PatchIdentityProofingProviderTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchIdentityProofingProviderTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/PatchIdentityProofingProviderTemplate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -14046,11 +14046,11 @@ func (client IdentityDomainsClient) patchIdentityPropagationTrust(ctx context.Co
 
 	var response PatchIdentityPropagationTrustResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchIdentityPropagationTrust")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrust/PatchIdentityPropagationTrust"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityPropagationTrust", apiReferenceLink)
 		return response, err
 	}
@@ -14104,11 +14104,11 @@ func (client IdentityDomainsClient) patchIdentityProvider(ctx context.Context, r
 
 	var response PatchIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProvider/PatchIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -14162,11 +14162,11 @@ func (client IdentityDomainsClient) patchIdentitySetting(ctx context.Context, re
 
 	var response PatchIdentitySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchIdentitySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentitySetting/PatchIdentitySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchIdentitySetting", apiReferenceLink)
 		return response, err
 	}
@@ -14220,11 +14220,11 @@ func (client IdentityDomainsClient) patchKmsiSetting(ctx context.Context, reques
 
 	var response PatchKmsiSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchKmsiSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/KmsiSetting/PatchKmsiSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchKmsiSetting", apiReferenceLink)
 		return response, err
 	}
@@ -14278,11 +14278,11 @@ func (client IdentityDomainsClient) patchMappedAttribute(ctx context.Context, re
 
 	var response PatchMappedAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMappedAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MappedAttribute/PatchMappedAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMappedAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -14336,11 +14336,11 @@ func (client IdentityDomainsClient) patchMe(ctx context.Context, request common.
 
 	var response PatchMeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Me/PatchMe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMe", apiReferenceLink)
 		return response, err
 	}
@@ -14394,11 +14394,11 @@ func (client IdentityDomainsClient) patchMyApiKey(ctx context.Context, request c
 
 	var response PatchMyApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApiKey/PatchMyApiKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyApiKey", apiReferenceLink)
 		return response, err
 	}
@@ -14452,11 +14452,11 @@ func (client IdentityDomainsClient) patchMyAuthToken(ctx context.Context, reques
 
 	var response PatchMyAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyAuthToken/PatchMyAuthToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyAuthToken", apiReferenceLink)
 		return response, err
 	}
@@ -14510,11 +14510,11 @@ func (client IdentityDomainsClient) patchMyCustomerSecretKey(ctx context.Context
 
 	var response PatchMyCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyCustomerSecretKey/PatchMyCustomerSecretKey"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyCustomerSecretKey", apiReferenceLink)
 		return response, err
 	}
@@ -14568,11 +14568,11 @@ func (client IdentityDomainsClient) patchMyDevice(ctx context.Context, request c
 
 	var response PatchMyDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyDevice/PatchMyDevice"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyDevice", apiReferenceLink)
 		return response, err
 	}
@@ -14626,11 +14626,11 @@ func (client IdentityDomainsClient) patchMyOAuth2ClientCredential(ctx context.Co
 
 	var response PatchMyOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyOAuth2ClientCredential/PatchMyOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -14684,11 +14684,11 @@ func (client IdentityDomainsClient) patchMyPendingApproval(ctx context.Context, 
 
 	var response PatchMyPendingApprovalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyPendingApproval")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyPendingApproval/PatchMyPendingApproval"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyPendingApproval", apiReferenceLink)
 		return response, err
 	}
@@ -14742,11 +14742,11 @@ func (client IdentityDomainsClient) patchMyRequest(ctx context.Context, request 
 
 	var response PatchMyRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMyRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequest/PatchMyRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMyRequest", apiReferenceLink)
 		return response, err
 	}
@@ -14800,11 +14800,11 @@ func (client IdentityDomainsClient) patchMySmtpCredential(ctx context.Context, r
 
 	var response PatchMySmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchMySmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySmtpCredential/PatchMySmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchMySmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -14858,11 +14858,11 @@ func (client IdentityDomainsClient) patchNetworkPerimeter(ctx context.Context, r
 
 	var response PatchNetworkPerimeterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchNetworkPerimeter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeter/PatchNetworkPerimeter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchNetworkPerimeter", apiReferenceLink)
 		return response, err
 	}
@@ -14916,11 +14916,11 @@ func (client IdentityDomainsClient) patchOAuth2ClientCredential(ctx context.Cont
 
 	var response PatchOAuth2ClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchOAuth2ClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuth2ClientCredential/PatchOAuth2ClientCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchOAuth2ClientCredential", apiReferenceLink)
 		return response, err
 	}
@@ -14974,11 +14974,11 @@ func (client IdentityDomainsClient) patchPasswordPolicy(ctx context.Context, req
 
 	var response PatchPasswordPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchPasswordPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicy/PatchPasswordPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchPasswordPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -15032,11 +15032,11 @@ func (client IdentityDomainsClient) patchPolicy(ctx context.Context, request com
 
 	var response PatchPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/PatchPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -15090,11 +15090,11 @@ func (client IdentityDomainsClient) patchRule(ctx context.Context, request commo
 
 	var response PatchRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/PatchRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchRule", apiReferenceLink)
 		return response, err
 	}
@@ -15148,11 +15148,11 @@ func (client IdentityDomainsClient) patchSchema(ctx context.Context, request com
 
 	var response PatchSchemaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSchema")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Schema/PatchSchema"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSchema", apiReferenceLink)
 		return response, err
 	}
@@ -15206,11 +15206,11 @@ func (client IdentityDomainsClient) patchSecurityQuestion(ctx context.Context, r
 
 	var response PatchSecurityQuestionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSecurityQuestion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestion/PatchSecurityQuestion"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSecurityQuestion", apiReferenceLink)
 		return response, err
 	}
@@ -15264,11 +15264,11 @@ func (client IdentityDomainsClient) patchSecurityQuestionSetting(ctx context.Con
 
 	var response PatchSecurityQuestionSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSecurityQuestionSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestionSetting/PatchSecurityQuestionSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSecurityQuestionSetting", apiReferenceLink)
 		return response, err
 	}
@@ -15322,11 +15322,11 @@ func (client IdentityDomainsClient) patchSelfRegistrationProfile(ctx context.Con
 
 	var response PatchSelfRegistrationProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSelfRegistrationProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfile/PatchSelfRegistrationProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSelfRegistrationProfile", apiReferenceLink)
 		return response, err
 	}
@@ -15380,11 +15380,11 @@ func (client IdentityDomainsClient) patchSetting(ctx context.Context, request co
 
 	var response PatchSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Setting/PatchSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSetting", apiReferenceLink)
 		return response, err
 	}
@@ -15438,11 +15438,11 @@ func (client IdentityDomainsClient) patchSmtpCredential(ctx context.Context, req
 
 	var response PatchSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SmtpCredential/PatchSmtpCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSmtpCredential", apiReferenceLink)
 		return response, err
 	}
@@ -15496,11 +15496,11 @@ func (client IdentityDomainsClient) patchSocialIdentityProvider(ctx context.Cont
 
 	var response PatchSocialIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchSocialIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/PatchSocialIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSocialIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -15554,11 +15554,11 @@ func (client IdentityDomainsClient) patchUser(ctx context.Context, request commo
 
 	var response PatchUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/User/PatchUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchUser", apiReferenceLink)
 		return response, err
 	}
@@ -15612,11 +15612,11 @@ func (client IdentityDomainsClient) patchUserAttributesSetting(ctx context.Conte
 
 	var response PatchUserAttributesSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PatchUserAttributesSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserAttributesSetting/PatchUserAttributesSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchUserAttributesSetting", apiReferenceLink)
 		return response, err
 	}
@@ -15670,11 +15670,11 @@ func (client IdentityDomainsClient) putAccountRecoverySetting(ctx context.Contex
 
 	var response PutAccountRecoverySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutAccountRecoverySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountRecoverySetting/PutAccountRecoverySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutAccountRecoverySetting", apiReferenceLink)
 		return response, err
 	}
@@ -15728,11 +15728,11 @@ func (client IdentityDomainsClient) putApp(ctx context.Context, request common.O
 
 	var response PutAppResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutApp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/App/PutApp"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutApp", apiReferenceLink)
 		return response, err
 	}
@@ -15786,11 +15786,11 @@ func (client IdentityDomainsClient) putAppStatusChanger(ctx context.Context, req
 
 	var response PutAppStatusChangerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutAppStatusChanger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppStatusChanger/PutAppStatusChanger"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutAppStatusChanger", apiReferenceLink)
 		return response, err
 	}
@@ -15844,11 +15844,11 @@ func (client IdentityDomainsClient) putApprovalWorkflow(ctx context.Context, req
 
 	var response PutApprovalWorkflowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutApprovalWorkflow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApprovalWorkflow/PutApprovalWorkflow"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutApprovalWorkflow", apiReferenceLink)
 		return response, err
 	}
@@ -15902,11 +15902,11 @@ func (client IdentityDomainsClient) putAuthenticationFactorSetting(ctx context.C
 
 	var response PutAuthenticationFactorSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutAuthenticationFactorSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthenticationFactorSetting/PutAuthenticationFactorSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutAuthenticationFactorSetting", apiReferenceLink)
 		return response, err
 	}
@@ -15960,11 +15960,11 @@ func (client IdentityDomainsClient) putCloudGate(ctx context.Context, request co
 
 	var response PutCloudGateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutCloudGate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGate/PutCloudGate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutCloudGate", apiReferenceLink)
 		return response, err
 	}
@@ -16018,11 +16018,11 @@ func (client IdentityDomainsClient) putCloudGateMapping(ctx context.Context, req
 
 	var response PutCloudGateMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutCloudGateMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMapping/PutCloudGateMapping"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutCloudGateMapping", apiReferenceLink)
 		return response, err
 	}
@@ -16076,11 +16076,11 @@ func (client IdentityDomainsClient) putCloudGateServer(ctx context.Context, requ
 
 	var response PutCloudGateServerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutCloudGateServer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServer/PutCloudGateServer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutCloudGateServer", apiReferenceLink)
 		return response, err
 	}
@@ -16134,11 +16134,11 @@ func (client IdentityDomainsClient) putCondition(ctx context.Context, request co
 
 	var response PutConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/PutCondition"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutCondition", apiReferenceLink)
 		return response, err
 	}
@@ -16192,11 +16192,11 @@ func (client IdentityDomainsClient) putConditionGroup(ctx context.Context, reque
 
 	var response PutConditionGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutConditionGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/PutConditionGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutConditionGroup", apiReferenceLink)
 		return response, err
 	}
@@ -16250,11 +16250,11 @@ func (client IdentityDomainsClient) putDynamicResourceGroup(ctx context.Context,
 
 	var response PutDynamicResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutDynamicResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroup/PutDynamicResourceGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutDynamicResourceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -16308,11 +16308,11 @@ func (client IdentityDomainsClient) putGroup(ctx context.Context, request common
 
 	var response PutGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Group/PutGroup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutGroup", apiReferenceLink)
 		return response, err
 	}
@@ -16366,11 +16366,11 @@ func (client IdentityDomainsClient) putIdentityProofingProvider(ctx context.Cont
 
 	var response PutIdentityProofingProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutIdentityProofingProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/PutIdentityProofingProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityProofingProvider", apiReferenceLink)
 		return response, err
 	}
@@ -16424,11 +16424,11 @@ func (client IdentityDomainsClient) putIdentityProofingProviderTemplate(ctx cont
 
 	var response PutIdentityProofingProviderTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutIdentityProofingProviderTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProviderTemplate/PutIdentityProofingProviderTemplate"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityProofingProviderTemplate", apiReferenceLink)
 		return response, err
 	}
@@ -16482,11 +16482,11 @@ func (client IdentityDomainsClient) putIdentityPropagationTrust(ctx context.Cont
 
 	var response PutIdentityPropagationTrustResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutIdentityPropagationTrust")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrust/PutIdentityPropagationTrust"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityPropagationTrust", apiReferenceLink)
 		return response, err
 	}
@@ -16540,11 +16540,11 @@ func (client IdentityDomainsClient) putIdentityProvider(ctx context.Context, req
 
 	var response PutIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProvider/PutIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -16598,11 +16598,11 @@ func (client IdentityDomainsClient) putIdentitySetting(ctx context.Context, requ
 
 	var response PutIdentitySettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutIdentitySetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentitySetting/PutIdentitySetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutIdentitySetting", apiReferenceLink)
 		return response, err
 	}
@@ -16656,11 +16656,11 @@ func (client IdentityDomainsClient) putKmsiSetting(ctx context.Context, request 
 
 	var response PutKmsiSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutKmsiSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/KmsiSetting/PutKmsiSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutKmsiSetting", apiReferenceLink)
 		return response, err
 	}
@@ -16714,11 +16714,11 @@ func (client IdentityDomainsClient) putMappedAttribute(ctx context.Context, requ
 
 	var response PutMappedAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutMappedAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MappedAttribute/PutMappedAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutMappedAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -16772,11 +16772,11 @@ func (client IdentityDomainsClient) putMe(ctx context.Context, request common.OC
 
 	var response PutMeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutMe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Me/PutMe"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutMe", apiReferenceLink)
 		return response, err
 	}
@@ -16830,11 +16830,11 @@ func (client IdentityDomainsClient) putMePasswordChanger(ctx context.Context, re
 
 	var response PutMePasswordChangerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutMePasswordChanger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MePasswordChanger/PutMePasswordChanger"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutMePasswordChanger", apiReferenceLink)
 		return response, err
 	}
@@ -16888,11 +16888,11 @@ func (client IdentityDomainsClient) putNetworkPerimeter(ctx context.Context, req
 
 	var response PutNetworkPerimeterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutNetworkPerimeter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeter/PutNetworkPerimeter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutNetworkPerimeter", apiReferenceLink)
 		return response, err
 	}
@@ -16946,11 +16946,11 @@ func (client IdentityDomainsClient) putNotificationSetting(ctx context.Context, 
 
 	var response PutNotificationSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutNotificationSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NotificationSetting/PutNotificationSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutNotificationSetting", apiReferenceLink)
 		return response, err
 	}
@@ -17004,11 +17004,11 @@ func (client IdentityDomainsClient) putPasswordPolicy(ctx context.Context, reque
 
 	var response PutPasswordPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutPasswordPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicy/PutPasswordPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutPasswordPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -17062,11 +17062,11 @@ func (client IdentityDomainsClient) putPolicy(ctx context.Context, request commo
 
 	var response PutPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/PutPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -17120,11 +17120,11 @@ func (client IdentityDomainsClient) putRule(ctx context.Context, request common.
 
 	var response PutRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/PutRule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutRule", apiReferenceLink)
 		return response, err
 	}
@@ -17178,11 +17178,11 @@ func (client IdentityDomainsClient) putSchema(ctx context.Context, request commo
 
 	var response PutSchemaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutSchema")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Schema/PutSchema"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSchema", apiReferenceLink)
 		return response, err
 	}
@@ -17236,11 +17236,11 @@ func (client IdentityDomainsClient) putSecurityQuestionSetting(ctx context.Conte
 
 	var response PutSecurityQuestionSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutSecurityQuestionSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestionSetting/PutSecurityQuestionSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSecurityQuestionSetting", apiReferenceLink)
 		return response, err
 	}
@@ -17294,11 +17294,11 @@ func (client IdentityDomainsClient) putSelfRegistrationProfile(ctx context.Conte
 
 	var response PutSelfRegistrationProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutSelfRegistrationProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfile/PutSelfRegistrationProfile"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSelfRegistrationProfile", apiReferenceLink)
 		return response, err
 	}
@@ -17352,11 +17352,11 @@ func (client IdentityDomainsClient) putSetting(ctx context.Context, request comm
 
 	var response PutSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Setting/PutSetting"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSetting", apiReferenceLink)
 		return response, err
 	}
@@ -17410,11 +17410,11 @@ func (client IdentityDomainsClient) putSocialIdentityProvider(ctx context.Contex
 
 	var response PutSocialIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutSocialIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/PutSocialIdentityProvider"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSocialIdentityProvider", apiReferenceLink)
 		return response, err
 	}
@@ -17468,11 +17468,11 @@ func (client IdentityDomainsClient) putUser(ctx context.Context, request common.
 
 	var response PutUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/User/PutUser"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutUser", apiReferenceLink)
 		return response, err
 	}
@@ -17526,11 +17526,11 @@ func (client IdentityDomainsClient) putUserCapabilitiesChanger(ctx context.Conte
 
 	var response PutUserCapabilitiesChangerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutUserCapabilitiesChanger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserCapabilitiesChanger/PutUserCapabilitiesChanger"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutUserCapabilitiesChanger", apiReferenceLink)
 		return response, err
 	}
@@ -17584,11 +17584,11 @@ func (client IdentityDomainsClient) putUserPasswordChanger(ctx context.Context, 
 
 	var response PutUserPasswordChangerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutUserPasswordChanger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserPasswordChanger/PutUserPasswordChanger"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutUserPasswordChanger", apiReferenceLink)
 		return response, err
 	}
@@ -17642,11 +17642,11 @@ func (client IdentityDomainsClient) putUserPasswordResetter(ctx context.Context,
 
 	var response PutUserPasswordResetterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutUserPasswordResetter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserPasswordResetter/PutUserPasswordResetter"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutUserPasswordResetter", apiReferenceLink)
 		return response, err
 	}
@@ -17700,11 +17700,11 @@ func (client IdentityDomainsClient) putUserStatusChanger(ctx context.Context, re
 
 	var response PutUserStatusChangerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "PutUserStatusChanger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserStatusChanger/PutUserStatusChanger"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutUserStatusChanger", apiReferenceLink)
 		return response, err
 	}
@@ -17758,11 +17758,11 @@ func (client IdentityDomainsClient) searchAccountMgmtInfos(ctx context.Context, 
 
 	var response SearchAccountMgmtInfosResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchAccountMgmtInfos")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AccountMgmtInfos/SearchAccountMgmtInfos"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAccountMgmtInfos", apiReferenceLink)
 		return response, err
 	}
@@ -17816,11 +17816,11 @@ func (client IdentityDomainsClient) searchApiKeys(ctx context.Context, request c
 
 	var response SearchApiKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchApiKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ApiKeys/SearchApiKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchApiKeys", apiReferenceLink)
 		return response, err
 	}
@@ -17874,11 +17874,11 @@ func (client IdentityDomainsClient) searchAppResources(ctx context.Context, requ
 
 	var response SearchAppResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchAppResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppResource/SearchAppResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAppResources", apiReferenceLink)
 		return response, err
 	}
@@ -17932,11 +17932,11 @@ func (client IdentityDomainsClient) searchAppRoles(ctx context.Context, request 
 
 	var response SearchAppRolesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchAppRoles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AppRoles/SearchAppRoles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAppRoles", apiReferenceLink)
 		return response, err
 	}
@@ -17990,11 +17990,11 @@ func (client IdentityDomainsClient) searchApps(ctx context.Context, request comm
 
 	var response SearchAppsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchApps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Apps/SearchApps"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchApps", apiReferenceLink)
 		return response, err
 	}
@@ -18048,11 +18048,11 @@ func (client IdentityDomainsClient) searchAuthTokens(ctx context.Context, reques
 
 	var response SearchAuthTokensResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchAuthTokens")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthTokens/SearchAuthTokens"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAuthTokens", apiReferenceLink)
 		return response, err
 	}
@@ -18106,11 +18106,11 @@ func (client IdentityDomainsClient) searchAuthenticationFactorSettings(ctx conte
 
 	var response SearchAuthenticationFactorSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchAuthenticationFactorSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/AuthenticationFactorSettings/SearchAuthenticationFactorSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchAuthenticationFactorSettings", apiReferenceLink)
 		return response, err
 	}
@@ -18164,11 +18164,11 @@ func (client IdentityDomainsClient) searchCloudGateMappings(ctx context.Context,
 
 	var response SearchCloudGateMappingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchCloudGateMappings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateMappings/SearchCloudGateMappings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchCloudGateMappings", apiReferenceLink)
 		return response, err
 	}
@@ -18222,11 +18222,11 @@ func (client IdentityDomainsClient) searchCloudGateServers(ctx context.Context, 
 
 	var response SearchCloudGateServersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchCloudGateServers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGateServers/SearchCloudGateServers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchCloudGateServers", apiReferenceLink)
 		return response, err
 	}
@@ -18280,11 +18280,11 @@ func (client IdentityDomainsClient) searchCloudGates(ctx context.Context, reques
 
 	var response SearchCloudGatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchCloudGates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CloudGates/SearchCloudGates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchCloudGates", apiReferenceLink)
 		return response, err
 	}
@@ -18338,11 +18338,11 @@ func (client IdentityDomainsClient) searchConditionGroups(ctx context.Context, r
 
 	var response SearchConditionGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchConditionGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ConditionGroup/SearchConditionGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchConditionGroups", apiReferenceLink)
 		return response, err
 	}
@@ -18396,11 +18396,11 @@ func (client IdentityDomainsClient) searchConditions(ctx context.Context, reques
 
 	var response SearchConditionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchConditions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/SearchConditions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchConditions", apiReferenceLink)
 		return response, err
 	}
@@ -18454,11 +18454,11 @@ func (client IdentityDomainsClient) searchCustomerSecretKeys(ctx context.Context
 
 	var response SearchCustomerSecretKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchCustomerSecretKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/CustomerSecretKeys/SearchCustomerSecretKeys"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchCustomerSecretKeys", apiReferenceLink)
 		return response, err
 	}
@@ -18512,11 +18512,11 @@ func (client IdentityDomainsClient) searchDynamicResourceGroups(ctx context.Cont
 
 	var response SearchDynamicResourceGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchDynamicResourceGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/DynamicResourceGroups/SearchDynamicResourceGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchDynamicResourceGroups", apiReferenceLink)
 		return response, err
 	}
@@ -18570,11 +18570,11 @@ func (client IdentityDomainsClient) searchGrants(ctx context.Context, request co
 
 	var response SearchGrantsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchGrants")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Grants/SearchGrants"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchGrants", apiReferenceLink)
 		return response, err
 	}
@@ -18628,11 +18628,11 @@ func (client IdentityDomainsClient) searchGroups(ctx context.Context, request co
 
 	var response SearchGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Groups/SearchGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchGroups", apiReferenceLink)
 		return response, err
 	}
@@ -18686,11 +18686,11 @@ func (client IdentityDomainsClient) searchIdentityProofingProviders(ctx context.
 
 	var response SearchIdentityProofingProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchIdentityProofingProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProofingProvider/SearchIdentityProofingProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchIdentityProofingProviders", apiReferenceLink)
 		return response, err
 	}
@@ -18744,11 +18744,11 @@ func (client IdentityDomainsClient) searchIdentityProviders(ctx context.Context,
 
 	var response SearchIdentityProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchIdentityProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityProviders/SearchIdentityProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchIdentityProviders", apiReferenceLink)
 		return response, err
 	}
@@ -18802,11 +18802,11 @@ func (client IdentityDomainsClient) searchIdentitySettings(ctx context.Context, 
 
 	var response SearchIdentitySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchIdentitySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentitySettings/SearchIdentitySettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchIdentitySettings", apiReferenceLink)
 		return response, err
 	}
@@ -18860,11 +18860,11 @@ func (client IdentityDomainsClient) searchKmsiSettings(ctx context.Context, requ
 
 	var response SearchKmsiSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchKmsiSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/KmsiSettings/SearchKmsiSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchKmsiSettings", apiReferenceLink)
 		return response, err
 	}
@@ -18918,11 +18918,11 @@ func (client IdentityDomainsClient) searchMappedAttributes(ctx context.Context, 
 
 	var response SearchMappedAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMappedAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MappedAttribute/SearchMappedAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMappedAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -18976,11 +18976,11 @@ func (client IdentityDomainsClient) searchMyApps(ctx context.Context, request co
 
 	var response SearchMyAppsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMyApps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyApps/SearchMyApps"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMyApps", apiReferenceLink)
 		return response, err
 	}
@@ -19034,11 +19034,11 @@ func (client IdentityDomainsClient) searchMyGroups(ctx context.Context, request 
 
 	var response SearchMyGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMyGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyGroups/SearchMyGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMyGroups", apiReferenceLink)
 		return response, err
 	}
@@ -19092,11 +19092,11 @@ func (client IdentityDomainsClient) searchMyRequestableGroups(ctx context.Contex
 
 	var response SearchMyRequestableGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMyRequestableGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequestableGroups/SearchMyRequestableGroups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMyRequestableGroups", apiReferenceLink)
 		return response, err
 	}
@@ -19150,11 +19150,11 @@ func (client IdentityDomainsClient) searchMyRequests(ctx context.Context, reques
 
 	var response SearchMyRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMyRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MyRequests/SearchMyRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMyRequests", apiReferenceLink)
 		return response, err
 	}
@@ -19208,11 +19208,11 @@ func (client IdentityDomainsClient) searchMySessions(ctx context.Context, reques
 
 	var response SearchMySessionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchMySessions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/MySession/SearchMySessions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchMySessions", apiReferenceLink)
 		return response, err
 	}
@@ -19266,11 +19266,11 @@ func (client IdentityDomainsClient) searchNetworkPerimeters(ctx context.Context,
 
 	var response SearchNetworkPerimetersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchNetworkPerimeters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NetworkPerimeters/SearchNetworkPerimeters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchNetworkPerimeters", apiReferenceLink)
 		return response, err
 	}
@@ -19324,11 +19324,11 @@ func (client IdentityDomainsClient) searchNotificationSettings(ctx context.Conte
 
 	var response SearchNotificationSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchNotificationSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/NotificationSettings/SearchNotificationSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchNotificationSettings", apiReferenceLink)
 		return response, err
 	}
@@ -19382,11 +19382,11 @@ func (client IdentityDomainsClient) searchOAuth2ClientCredentials(ctx context.Co
 
 	var response SearchOAuth2ClientCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchOAuth2ClientCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuth2ClientCredentials/SearchOAuth2ClientCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuth2ClientCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -19440,11 +19440,11 @@ func (client IdentityDomainsClient) searchOAuthClientCertificates(ctx context.Co
 
 	var response SearchOAuthClientCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchOAuthClientCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthClientCertificates/SearchOAuthClientCertificates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuthClientCertificates", apiReferenceLink)
 		return response, err
 	}
@@ -19498,11 +19498,11 @@ func (client IdentityDomainsClient) searchOAuthPartnerCertificates(ctx context.C
 
 	var response SearchOAuthPartnerCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchOAuthPartnerCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OAuthPartnerCertificates/SearchOAuthPartnerCertificates"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuthPartnerCertificates", apiReferenceLink)
 		return response, err
 	}
@@ -19556,11 +19556,11 @@ func (client IdentityDomainsClient) searchOciConsoleSignOnPolicyConsents(ctx con
 
 	var response SearchOciConsoleSignOnPolicyConsentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchOciConsoleSignOnPolicyConsents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/SearchOciConsoleSignOnPolicyConsents"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOciConsoleSignOnPolicyConsents", apiReferenceLink)
 		return response, err
 	}
@@ -19614,11 +19614,11 @@ func (client IdentityDomainsClient) searchPasswordPolicies(ctx context.Context, 
 
 	var response SearchPasswordPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchPasswordPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/PasswordPolicies/SearchPasswordPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchPasswordPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -19672,11 +19672,11 @@ func (client IdentityDomainsClient) searchPolicies(ctx context.Context, request 
 
 	var response SearchPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/SearchPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -19730,11 +19730,11 @@ func (client IdentityDomainsClient) searchResourceTypeSchemaAttributes(ctx conte
 
 	var response SearchResourceTypeSchemaAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchResourceTypeSchemaAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/ResourceTypeSchemaAttributes/SearchResourceTypeSchemaAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchResourceTypeSchemaAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -19788,11 +19788,11 @@ func (client IdentityDomainsClient) searchRules(ctx context.Context, request com
 
 	var response SearchRulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchRules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/SearchRules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchRules", apiReferenceLink)
 		return response, err
 	}
@@ -19846,11 +19846,11 @@ func (client IdentityDomainsClient) searchSchemas(ctx context.Context, request c
 
 	var response SearchSchemasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSchemas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Schemas/SearchSchemas"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSchemas", apiReferenceLink)
 		return response, err
 	}
@@ -19904,11 +19904,11 @@ func (client IdentityDomainsClient) searchSecurityQuestionSettings(ctx context.C
 
 	var response SearchSecurityQuestionSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSecurityQuestionSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestionSettings/SearchSecurityQuestionSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSecurityQuestionSettings", apiReferenceLink)
 		return response, err
 	}
@@ -19962,11 +19962,11 @@ func (client IdentityDomainsClient) searchSecurityQuestions(ctx context.Context,
 
 	var response SearchSecurityQuestionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSecurityQuestions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SecurityQuestions/SearchSecurityQuestions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSecurityQuestions", apiReferenceLink)
 		return response, err
 	}
@@ -20020,11 +20020,11 @@ func (client IdentityDomainsClient) searchSelfRegistrationProfiles(ctx context.C
 
 	var response SearchSelfRegistrationProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSelfRegistrationProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SelfRegistrationProfiles/SearchSelfRegistrationProfiles"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSelfRegistrationProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -20078,11 +20078,11 @@ func (client IdentityDomainsClient) searchSettings(ctx context.Context, request 
 
 	var response SearchSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Settings/SearchSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSettings", apiReferenceLink)
 		return response, err
 	}
@@ -20136,11 +20136,11 @@ func (client IdentityDomainsClient) searchSmtpCredentials(ctx context.Context, r
 
 	var response SearchSmtpCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSmtpCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SmtpCredentials/SearchSmtpCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSmtpCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -20194,11 +20194,11 @@ func (client IdentityDomainsClient) searchSocialIdentityProviders(ctx context.Co
 
 	var response SearchSocialIdentityProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchSocialIdentityProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/SocialIdentityProvider/SearchSocialIdentityProviders"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSocialIdentityProviders", apiReferenceLink)
 		return response, err
 	}
@@ -20252,11 +20252,11 @@ func (client IdentityDomainsClient) searchUserAttributesSettings(ctx context.Con
 
 	var response SearchUserAttributesSettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchUserAttributesSettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserAttributesSetting/SearchUserAttributesSettings"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchUserAttributesSettings", apiReferenceLink)
 		return response, err
 	}
@@ -20310,11 +20310,11 @@ func (client IdentityDomainsClient) searchUserDbCredentials(ctx context.Context,
 
 	var response SearchUserDbCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchUserDbCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/UserDbCredentials/SearchUserDbCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchUserDbCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -20368,11 +20368,11 @@ func (client IdentityDomainsClient) searchUsers(ctx context.Context, request com
 
 	var response SearchUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identityDomains", "SearchUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Users/SearchUsers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchUsers", apiReferenceLink)
 		return response, err
 	}

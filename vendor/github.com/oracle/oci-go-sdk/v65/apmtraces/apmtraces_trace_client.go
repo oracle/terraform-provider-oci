@@ -131,7 +131,7 @@ func (client TraceClient) getAggregatedSnapshot(ctx context.Context, request com
 
 	var response GetAggregatedSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "trace", "GetAggregatedSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -189,7 +189,7 @@ func (client TraceClient) getLog(ctx context.Context, request common.OCIRequest,
 
 	var response GetLogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "trace", "GetLog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -242,7 +242,7 @@ func (client TraceClient) getSpan(ctx context.Context, request common.OCIRequest
 
 	var response GetSpanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "trace", "GetSpan")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -295,7 +295,7 @@ func (client TraceClient) getTrace(ctx context.Context, request common.OCIReques
 
 	var response GetTraceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "trace", "GetTrace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -348,7 +348,7 @@ func (client TraceClient) getTraceSnapshot(ctx context.Context, request common.O
 
 	var response GetTraceSnapshotResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "trace", "GetTraceSnapshot")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -248,6 +248,9 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// The frequency a refreshable clone is refreshed after auto-refresh is enabled. The minimum is 1 hour. The maximum is 7 days. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
 	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
 
@@ -575,6 +578,11 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetTransportableTablesp
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
@@ -687,6 +695,7 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 		SecretId                                 *string                                                            `json:"secretId"`
 		SecretVersionNumber                      *int                                                               `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                              `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                            `json:"preferredCommunicationLanguageLocale"`
 		RefreshableMode                          CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `json:"refreshableMode"`
 		AutoRefreshFrequencyInSeconds            *int                                                               `json:"autoRefreshFrequencyInSeconds"`
 		AutoRefreshPointLagInSeconds             *int                                                               `json:"autoRefreshPointLagInSeconds"`
@@ -829,6 +838,8 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.RefreshableMode = model.RefreshableMode
 

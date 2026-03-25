@@ -13,14 +13,14 @@ import (
 // OAuth2ConfigurationProvider provides Oauth2 type authentication
 type OAuth2ConfigurationProvider struct {
 	federationClient   federationClient
-	sessionKeySupplier sessionKeySupplier
+	sessionKeySupplier cacheableSessionKeySupplier
 	region             string
 }
 
 // NewOAuth2ConfigurationProvider builds an OAuth2ConfigurationProvider from an existing config provider, and auth endpoint parameters
 // The config provider can be for instance, resource, or service principals.
 func NewOAuth2ConfigurationProvider(configProvider common.ConfigurationProvider, scope string, targetCompartment string) (common.ConfigurationProvider, error) {
-	sessionKeySupplier := newSessionKeySupplier()
+	sessionKeySupplier := newCacheableSessionKeySupplier()
 	region, err := configProvider.Region()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get region from configProvider: %s", err.Error())

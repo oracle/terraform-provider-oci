@@ -270,6 +270,9 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
 
+	// Preferred communication language locale for an Autonomous AI Database provided by user.
+	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
 	// If true, up to 7 days worth of backups are replicated across regions for Cross-Region ADG or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 
@@ -586,6 +589,11 @@ func (m CreateCrossRegionDisasterRecoveryDetails) GetTransportableTablespace() *
 	return m.TransportableTablespace
 }
 
+// GetPreferredCommunicationLanguageLocale returns PreferredCommunicationLanguageLocale
+func (m CreateCrossRegionDisasterRecoveryDetails) GetPreferredCommunicationLanguageLocale() *string {
+	return m.PreferredCommunicationLanguageLocale
+}
+
 func (m CreateCrossRegionDisasterRecoveryDetails) String() string {
 	return common.PointerString(m)
 }
@@ -692,6 +700,7 @@ func (m *CreateCrossRegionDisasterRecoveryDetails) UnmarshalJSON(data []byte) (e
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
+		PreferredCommunicationLanguageLocale     *string                                                           `json:"preferredCommunicationLanguageLocale"`
 		IsReplicateAutomaticBackups              *bool                                                             `json:"isReplicateAutomaticBackups"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
@@ -830,6 +839,8 @@ func (m *CreateCrossRegionDisasterRecoveryDetails) UnmarshalJSON(data []byte) (e
 	m.SecretVersionNumber = model.SecretVersionNumber
 
 	m.TransportableTablespace = model.TransportableTablespace
+
+	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	m.IsReplicateAutomaticBackups = model.IsReplicateAutomaticBackups
 

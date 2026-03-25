@@ -145,7 +145,7 @@ func (client HealthCheckServiceInfraDpHostClient) deleteHealthCheckServiceInfraD
 
 	var response DeleteHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthCheckServiceInfraDpHost", "DeleteHealthCheckServiceInfraDpHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client HealthCheckServiceInfraDpHostClient) getHealthCheckServiceInfraDpHo
 
 	var response GetHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthCheckServiceInfraDpHost", "GetHealthCheckServiceInfraDpHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -272,7 +272,7 @@ func (client HealthCheckServiceInfraDpHostClient) postHeartBeat(ctx context.Cont
 
 	var response PostHeartBeatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthCheckServiceInfraDpHost", "PostHeartBeat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -338,7 +338,7 @@ func (client HealthCheckServiceInfraDpHostClient) updateHealthCheckServiceInfraD
 
 	var response UpdateHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "healthCheckServiceInfraDpHost", "UpdateHealthCheckServiceInfraDpHost")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

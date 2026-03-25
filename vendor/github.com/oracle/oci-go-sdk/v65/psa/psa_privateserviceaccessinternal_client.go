@@ -138,7 +138,7 @@ func (client PrivateServiceAccessInternalClient) changePsaEndpointServiceCompart
 
 	var response ChangePsaEndpointServiceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "ChangePsaEndpointServiceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client PrivateServiceAccessInternalClient) createPsaEndpointService(ctx co
 
 	var response CreatePsaEndpointServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "CreatePsaEndpointService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -251,7 +251,7 @@ func (client PrivateServiceAccessInternalClient) deletePsaEndpointService(ctx co
 
 	var response DeletePsaEndpointServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "DeletePsaEndpointService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -305,7 +305,7 @@ func (client PrivateServiceAccessInternalClient) getPsaEndpointService(ctx conte
 
 	var response GetPsaEndpointServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "GetPsaEndpointService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -359,7 +359,7 @@ func (client PrivateServiceAccessInternalClient) listPsaEndpointServices(ctx con
 
 	var response ListPsaEndpointServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "ListPsaEndpointServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -413,7 +413,7 @@ func (client PrivateServiceAccessInternalClient) listPsaInternalData(ctx context
 
 	var response ListPsaInternalDataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "ListPsaInternalData")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -467,7 +467,7 @@ func (client PrivateServiceAccessInternalClient) updatePsaEndpointService(ctx co
 
 	var response UpdatePsaEndpointServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "privateServiceAccessInternal", "UpdatePsaEndpointService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

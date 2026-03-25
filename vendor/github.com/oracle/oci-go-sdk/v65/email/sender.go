@@ -31,7 +31,7 @@ type Sender struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// Value of the SPF field. For more information about SPF, please see
-	// SPF Authentication (https://docs.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
+	// SPF Authentication (https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/overview.htm#components).
 	IsSpf *bool `mandatory:"false" json:"isSpf"`
 
 	// The sender's current lifecycle state.

@@ -17,7 +17,7 @@ import (
 )
 
 // CreateExternalMacsConnectorDetails Details for creating a resource used to connect to an external Oracle Database using
-// the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/management-agents/index.html).
+// the Management Agent cloud service (MACS) (https://docs.oracle.com/iaas/iaas/management-agents/index.html).
 type CreateExternalMacsConnectorDetails struct {
 
 	// The user-friendly name for the

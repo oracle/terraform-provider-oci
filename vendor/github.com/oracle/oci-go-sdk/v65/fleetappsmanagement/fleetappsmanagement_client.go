@@ -138,11 +138,11 @@ func (client FleetAppsManagementClient) changeFleetCompartment(ctx context.Conte
 
 	var response ChangeFleetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ChangeFleetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/ChangeFleetCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ChangeFleetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -197,11 +197,11 @@ func (client FleetAppsManagementClient) checkResourceTagging(ctx context.Context
 
 	var response CheckResourceTaggingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "CheckResourceTagging")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/CheckResourceTagging"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "CheckResourceTagging", apiReferenceLink)
 		return response, err
 	}
@@ -257,11 +257,11 @@ func (client FleetAppsManagementClient) confirmTargets(ctx context.Context, requ
 
 	var response ConfirmTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ConfirmTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/ConfirmTargets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ConfirmTargets", apiReferenceLink)
 		return response, err
 	}
@@ -316,11 +316,11 @@ func (client FleetAppsManagementClient) createFleet(ctx context.Context, request
 
 	var response CreateFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "CreateFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/CreateFleet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "CreateFleet", apiReferenceLink)
 		return response, err
 	}
@@ -375,11 +375,11 @@ func (client FleetAppsManagementClient) createFleetCredential(ctx context.Contex
 
 	var response CreateFleetCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "CreateFleetCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCredential/CreateFleetCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "CreateFleetCredential", apiReferenceLink)
 		return response, err
 	}
@@ -434,11 +434,11 @@ func (client FleetAppsManagementClient) createFleetProperty(ctx context.Context,
 
 	var response CreateFleetPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "CreateFleetProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetProperty/CreateFleetProperty"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "CreateFleetProperty", apiReferenceLink)
 		return response, err
 	}
@@ -493,11 +493,11 @@ func (client FleetAppsManagementClient) createFleetResource(ctx context.Context,
 
 	var response CreateFleetResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "CreateFleetResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetResource/CreateFleetResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "CreateFleetResource", apiReferenceLink)
 		return response, err
 	}
@@ -547,11 +547,11 @@ func (client FleetAppsManagementClient) deleteFleet(ctx context.Context, request
 
 	var response DeleteFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "DeleteFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/DeleteFleet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "DeleteFleet", apiReferenceLink)
 		return response, err
 	}
@@ -601,11 +601,11 @@ func (client FleetAppsManagementClient) deleteFleetCredential(ctx context.Contex
 
 	var response DeleteFleetCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "DeleteFleetCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCredential/DeleteFleetCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "DeleteFleetCredential", apiReferenceLink)
 		return response, err
 	}
@@ -655,11 +655,11 @@ func (client FleetAppsManagementClient) deleteFleetProperty(ctx context.Context,
 
 	var response DeleteFleetPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "DeleteFleetProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetProperty/DeleteFleetProperty"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "DeleteFleetProperty", apiReferenceLink)
 		return response, err
 	}
@@ -709,11 +709,11 @@ func (client FleetAppsManagementClient) deleteFleetResource(ctx context.Context,
 
 	var response DeleteFleetResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "DeleteFleetResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetResource/DeleteFleetResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "DeleteFleetResource", apiReferenceLink)
 		return response, err
 	}
@@ -768,11 +768,11 @@ func (client FleetAppsManagementClient) fetchDiscoveryStatus(ctx context.Context
 
 	var response FetchDiscoveryStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "FetchDiscoveryStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/DiscoveryStatusCollection/FetchDiscoveryStatus"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "FetchDiscoveryStatus", apiReferenceLink)
 		return response, err
 	}
@@ -827,11 +827,11 @@ func (client FleetAppsManagementClient) generateComplianceReport(ctx context.Con
 
 	var response GenerateComplianceReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GenerateComplianceReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/GenerateComplianceReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GenerateComplianceReport", apiReferenceLink)
 		return response, err
 	}
@@ -881,11 +881,11 @@ func (client FleetAppsManagementClient) getCompliance(ctx context.Context, reque
 
 	var response GetComplianceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetCompliance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Compliance/GetCompliance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetCompliance", apiReferenceLink)
 		return response, err
 	}
@@ -935,11 +935,11 @@ func (client FleetAppsManagementClient) getComplianceReport(ctx context.Context,
 
 	var response GetComplianceReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetComplianceReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ComplianceReport/GetComplianceReport"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetComplianceReport", apiReferenceLink)
 		return response, err
 	}
@@ -989,11 +989,11 @@ func (client FleetAppsManagementClient) getFleet(ctx context.Context, request co
 
 	var response GetFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/GetFleet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleet", apiReferenceLink)
 		return response, err
 	}
@@ -1043,11 +1043,11 @@ func (client FleetAppsManagementClient) getFleetCredential(ctx context.Context, 
 
 	var response GetFleetCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetFleetCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCredential/GetFleetCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleetCredential", apiReferenceLink)
 		return response, err
 	}
@@ -1097,11 +1097,11 @@ func (client FleetAppsManagementClient) getFleetProperty(ctx context.Context, re
 
 	var response GetFleetPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetFleetProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetProperty/GetFleetProperty"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleetProperty", apiReferenceLink)
 		return response, err
 	}
@@ -1151,11 +1151,11 @@ func (client FleetAppsManagementClient) getFleetResource(ctx context.Context, re
 
 	var response GetFleetResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetFleetResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetResource/GetFleetResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleetResource", apiReferenceLink)
 		return response, err
 	}
@@ -1205,11 +1205,11 @@ func (client FleetAppsManagementClient) getFleetValidatePatchingAllowed(ctx cont
 
 	var response GetFleetValidatePatchingAllowedResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "GetFleetValidatePatchingAllowed")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetValidatePatchingAllowed/GetFleetValidatePatchingAllowed"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "GetFleetValidatePatchingAllowed", apiReferenceLink)
 		return response, err
 	}
@@ -1259,11 +1259,11 @@ func (client FleetAppsManagementClient) listAnnouncements(ctx context.Context, r
 
 	var response ListAnnouncementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListAnnouncements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AnnouncementCollection/ListAnnouncements"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListAnnouncements", apiReferenceLink)
 		return response, err
 	}
@@ -1313,11 +1313,11 @@ func (client FleetAppsManagementClient) listFleetAutoExecutions(ctx context.Cont
 
 	var response ListFleetAutoExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetAutoExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AutoExecutionCollection/ListFleetAutoExecutions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetAutoExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -1367,11 +1367,11 @@ func (client FleetAppsManagementClient) listFleetCredentials(ctx context.Context
 
 	var response ListFleetCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCredentialCollection/ListFleetCredentials"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -1421,11 +1421,11 @@ func (client FleetAppsManagementClient) listFleetProducts(ctx context.Context, r
 
 	var response ListFleetProductsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetProducts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetProductCollection/ListFleetProducts"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetProducts", apiReferenceLink)
 		return response, err
 	}
@@ -1475,11 +1475,11 @@ func (client FleetAppsManagementClient) listFleetProperties(ctx context.Context,
 
 	var response ListFleetPropertiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetProperties")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetPropertyCollection/ListFleetProperties"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetProperties", apiReferenceLink)
 		return response, err
 	}
@@ -1529,11 +1529,11 @@ func (client FleetAppsManagementClient) listFleetResources(ctx context.Context, 
 
 	var response ListFleetResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetResourceCollection/ListFleetResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetResources", apiReferenceLink)
 		return response, err
 	}
@@ -1583,11 +1583,11 @@ func (client FleetAppsManagementClient) listFleetTargets(ctx context.Context, re
 
 	var response ListFleetTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleetTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetTargetCollection/ListFleetTargets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleetTargets", apiReferenceLink)
 		return response, err
 	}
@@ -1638,11 +1638,11 @@ func (client FleetAppsManagementClient) listFleets(ctx context.Context, request 
 
 	var response ListFleetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListFleets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCollection/ListFleets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListFleets", apiReferenceLink)
 		return response, err
 	}
@@ -1693,11 +1693,11 @@ func (client FleetAppsManagementClient) listInventoryResources(ctx context.Conte
 
 	var response ListInventoryResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListInventoryResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/InventoryResourceCollection/ListInventoryResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListInventoryResources", apiReferenceLink)
 		return response, err
 	}
@@ -1747,11 +1747,11 @@ func (client FleetAppsManagementClient) listPatchGroupCompliances(ctx context.Co
 
 	var response ListPatchGroupCompliancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListPatchGroupCompliances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupComplianceCollection/ListPatchGroupCompliances"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListPatchGroupCompliances", apiReferenceLink)
 		return response, err
 	}
@@ -1801,11 +1801,11 @@ func (client FleetAppsManagementClient) listPatchGroupPendingPatches(ctx context
 
 	var response ListPatchGroupPendingPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListPatchGroupPendingPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupPendingPatchesCollection/ListPatchGroupPendingPatches"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListPatchGroupPendingPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1856,11 +1856,11 @@ func (client FleetAppsManagementClient) listTargets(ctx context.Context, request
 
 	var response ListTargetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "ListTargets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetTargetCollection/ListTargets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "ListTargets", apiReferenceLink)
 		return response, err
 	}
@@ -1915,11 +1915,11 @@ func (client FleetAppsManagementClient) patchGroupComplianceOverview(ctx context
 
 	var response PatchGroupComplianceOverviewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "PatchGroupComplianceOverview")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupComplianceOverview/PatchGroupComplianceOverview"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "PatchGroupComplianceOverview", apiReferenceLink)
 		return response, err
 	}
@@ -1974,11 +1974,11 @@ func (client FleetAppsManagementClient) requestResourceValidation(ctx context.Co
 
 	var response RequestResourceValidationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "RequestResourceValidation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/RequestResourceValidation"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "RequestResourceValidation", apiReferenceLink)
 		return response, err
 	}
@@ -2033,11 +2033,11 @@ func (client FleetAppsManagementClient) requestTargetDiscovery(ctx context.Conte
 
 	var response RequestTargetDiscoveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "RequestTargetDiscovery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/RequestTargetDiscovery"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "RequestTargetDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -2087,11 +2087,11 @@ func (client FleetAppsManagementClient) updateFleet(ctx context.Context, request
 
 	var response UpdateFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "UpdateFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Fleet/UpdateFleet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "UpdateFleet", apiReferenceLink)
 		return response, err
 	}
@@ -2141,11 +2141,11 @@ func (client FleetAppsManagementClient) updateFleetCredential(ctx context.Contex
 
 	var response UpdateFleetCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "UpdateFleetCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetCredential/UpdateFleetCredential"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "UpdateFleetCredential", apiReferenceLink)
 		return response, err
 	}
@@ -2195,11 +2195,11 @@ func (client FleetAppsManagementClient) updateFleetProperty(ctx context.Context,
 
 	var response UpdateFleetPropertyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "UpdateFleetProperty")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetProperty/UpdateFleetProperty"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "UpdateFleetProperty", apiReferenceLink)
 		return response, err
 	}
@@ -2249,11 +2249,11 @@ func (client FleetAppsManagementClient) updateFleetResource(ctx context.Context,
 
 	var response UpdateFleetResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagement", "UpdateFleetResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/FleetResource/UpdateFleetResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FleetAppsManagement", "UpdateFleetResource", apiReferenceLink)
 		return response, err
 	}

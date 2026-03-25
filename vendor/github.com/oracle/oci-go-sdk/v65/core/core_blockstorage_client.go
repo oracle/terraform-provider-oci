@@ -152,7 +152,7 @@ func (client BlockstorageClient) changeBootVolumeBackupCompartment(ctx context.C
 
 	var response ChangeBootVolumeBackupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeBootVolumeBackupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -214,7 +214,7 @@ func (client BlockstorageClient) changeBootVolumeCompartment(ctx context.Context
 
 	var response ChangeBootVolumeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeBootVolumeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -276,7 +276,7 @@ func (client BlockstorageClient) changeVolumeBackupCompartment(ctx context.Conte
 
 	var response ChangeVolumeBackupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeVolumeBackupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -338,7 +338,7 @@ func (client BlockstorageClient) changeVolumeCompartment(ctx context.Context, re
 
 	var response ChangeVolumeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeVolumeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -400,7 +400,7 @@ func (client BlockstorageClient) changeVolumeGroupBackupCompartment(ctx context.
 
 	var response ChangeVolumeGroupBackupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeVolumeGroupBackupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -462,7 +462,7 @@ func (client BlockstorageClient) changeVolumeGroupCompartment(ctx context.Contex
 
 	var response ChangeVolumeGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ChangeVolumeGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -528,7 +528,7 @@ func (client BlockstorageClient) copyBootVolumeBackup(ctx context.Context, reque
 
 	var response CopyBootVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CopyBootVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -594,7 +594,7 @@ func (client BlockstorageClient) copyVolumeBackup(ctx context.Context, request c
 
 	var response CopyVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CopyVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -660,7 +660,7 @@ func (client BlockstorageClient) copyVolumeGroupBackup(ctx context.Context, requ
 
 	var response CopyVolumeGroupBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CopyVolumeGroupBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -728,7 +728,7 @@ func (client BlockstorageClient) createBootVolume(ctx context.Context, request c
 
 	var response CreateBootVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateBootVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -797,7 +797,7 @@ func (client BlockstorageClient) createBootVolumeBackup(ctx context.Context, req
 
 	var response CreateBootVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateBootVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -875,7 +875,7 @@ func (client BlockstorageClient) createVolume(ctx context.Context, request commo
 
 	var response CreateVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -944,7 +944,7 @@ func (client BlockstorageClient) createVolumeBackup(ctx context.Context, request
 
 	var response CreateVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1011,7 +1011,7 @@ func (client BlockstorageClient) createVolumeBackupPolicy(ctx context.Context, r
 
 	var response CreateVolumeBackupPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolumeBackupPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1073,7 +1073,7 @@ func (client BlockstorageClient) createVolumeBackupPolicyAssignment(ctx context.
 
 	var response CreateVolumeBackupPolicyAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolumeBackupPolicyAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1143,7 +1143,7 @@ func (client BlockstorageClient) createVolumeGroup(ctx context.Context, request 
 
 	var response CreateVolumeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolumeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1209,7 +1209,7 @@ func (client BlockstorageClient) createVolumeGroupBackup(ctx context.Context, re
 
 	var response CreateVolumeGroupBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "CreateVolumeGroupBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1272,7 +1272,7 @@ func (client BlockstorageClient) deleteBootVolume(ctx context.Context, request c
 
 	var response DeleteBootVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteBootVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1332,7 +1332,7 @@ func (client BlockstorageClient) deleteBootVolumeBackup(ctx context.Context, req
 
 	var response DeleteBootVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteBootVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1392,7 +1392,7 @@ func (client BlockstorageClient) deleteBootVolumeKmsKey(ctx context.Context, req
 
 	var response DeleteBootVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteBootVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1455,7 +1455,7 @@ func (client BlockstorageClient) deleteVolume(ctx context.Context, request commo
 
 	var response DeleteVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1515,7 +1515,7 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 
 	var response DeleteVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1579,7 +1579,7 @@ func (client BlockstorageClient) deleteVolumeBackupPolicy(ctx context.Context, r
 
 	var response DeleteVolumeBackupPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeBackupPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1639,7 +1639,7 @@ func (client BlockstorageClient) deleteVolumeBackupPolicyAssignment(ctx context.
 
 	var response DeleteVolumeBackupPolicyAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeBackupPolicyAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1700,7 +1700,7 @@ func (client BlockstorageClient) deleteVolumeGroup(ctx context.Context, request 
 
 	var response DeleteVolumeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1761,7 +1761,7 @@ func (client BlockstorageClient) deleteVolumeGroupBackup(ctx context.Context, re
 
 	var response DeleteVolumeGroupBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeGroupBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1821,7 +1821,7 @@ func (client BlockstorageClient) deleteVolumeKmsKey(ctx context.Context, request
 
 	var response DeleteVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "DeleteVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1881,7 +1881,7 @@ func (client BlockstorageClient) getBlockVolumeReplica(ctx context.Context, requ
 
 	var response GetBlockVolumeReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetBlockVolumeReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1941,7 +1941,7 @@ func (client BlockstorageClient) getBootVolume(ctx context.Context, request comm
 
 	var response GetBootVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetBootVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2001,7 +2001,7 @@ func (client BlockstorageClient) getBootVolumeBackup(ctx context.Context, reques
 
 	var response GetBootVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetBootVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2061,7 +2061,7 @@ func (client BlockstorageClient) getBootVolumeKmsKey(ctx context.Context, reques
 
 	var response GetBootVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetBootVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2121,7 +2121,7 @@ func (client BlockstorageClient) getBootVolumeReplica(ctx context.Context, reque
 
 	var response GetBootVolumeReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetBootVolumeReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2181,7 +2181,7 @@ func (client BlockstorageClient) getVolume(ctx context.Context, request common.O
 
 	var response GetVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2241,7 +2241,7 @@ func (client BlockstorageClient) getVolumeBackup(ctx context.Context, request co
 
 	var response GetVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2301,7 +2301,7 @@ func (client BlockstorageClient) getVolumeBackupPolicy(ctx context.Context, requ
 
 	var response GetVolumeBackupPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeBackupPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2363,7 +2363,7 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssetAssignment(ctx contex
 
 	var response GetVolumeBackupPolicyAssetAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeBackupPolicyAssetAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2423,7 +2423,7 @@ func (client BlockstorageClient) getVolumeBackupPolicyAssignment(ctx context.Con
 
 	var response GetVolumeBackupPolicyAssignmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeBackupPolicyAssignment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2483,7 +2483,7 @@ func (client BlockstorageClient) getVolumeGroup(ctx context.Context, request com
 
 	var response GetVolumeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2543,7 +2543,7 @@ func (client BlockstorageClient) getVolumeGroupBackup(ctx context.Context, reque
 
 	var response GetVolumeGroupBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeGroupBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2603,7 +2603,7 @@ func (client BlockstorageClient) getVolumeGroupReplica(ctx context.Context, requ
 
 	var response GetVolumeGroupReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeGroupReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2663,7 +2663,7 @@ func (client BlockstorageClient) getVolumeKmsKey(ctx context.Context, request co
 
 	var response GetVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "GetVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2723,7 +2723,7 @@ func (client BlockstorageClient) listBlockVolumeReplicas(ctx context.Context, re
 
 	var response ListBlockVolumeReplicasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListBlockVolumeReplicas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2783,7 +2783,7 @@ func (client BlockstorageClient) listBootVolumeBackups(ctx context.Context, requ
 
 	var response ListBootVolumeBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListBootVolumeBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2843,7 +2843,7 @@ func (client BlockstorageClient) listBootVolumeReplicas(ctx context.Context, req
 
 	var response ListBootVolumeReplicasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListBootVolumeReplicas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2903,7 +2903,7 @@ func (client BlockstorageClient) listBootVolumes(ctx context.Context, request co
 
 	var response ListBootVolumesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListBootVolumes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2965,7 +2965,7 @@ func (client BlockstorageClient) listVolumeBackupPolicies(ctx context.Context, r
 
 	var response ListVolumeBackupPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumeBackupPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3025,7 +3025,7 @@ func (client BlockstorageClient) listVolumeBackups(ctx context.Context, request 
 
 	var response ListVolumeBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumeBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3086,7 +3086,7 @@ func (client BlockstorageClient) listVolumeGroupBackups(ctx context.Context, req
 
 	var response ListVolumeGroupBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumeGroupBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3147,7 +3147,7 @@ func (client BlockstorageClient) listVolumeGroupReplicas(ctx context.Context, re
 
 	var response ListVolumeGroupReplicasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumeGroupReplicas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3208,7 +3208,7 @@ func (client BlockstorageClient) listVolumeGroups(ctx context.Context, request c
 
 	var response ListVolumeGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumeGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3268,7 +3268,7 @@ func (client BlockstorageClient) listVolumes(ctx context.Context, request common
 
 	var response ListVolumesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "ListVolumes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3328,7 +3328,7 @@ func (client BlockstorageClient) updateBootVolume(ctx context.Context, request c
 
 	var response UpdateBootVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateBootVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3384,7 +3384,7 @@ func (client BlockstorageClient) updateBootVolumeBackup(ctx context.Context, req
 
 	var response UpdateBootVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateBootVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3444,7 +3444,7 @@ func (client BlockstorageClient) updateBootVolumeKmsKey(ctx context.Context, req
 
 	var response UpdateBootVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateBootVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3505,7 +3505,7 @@ func (client BlockstorageClient) updateVolume(ctx context.Context, request commo
 
 	var response UpdateVolumeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolume")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3561,7 +3561,7 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 
 	var response UpdateVolumeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolumeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3630,7 +3630,7 @@ func (client BlockstorageClient) updateVolumeBackupPolicy(ctx context.Context, r
 
 	var response UpdateVolumeBackupPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolumeBackupPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3694,7 +3694,7 @@ func (client BlockstorageClient) updateVolumeGroup(ctx context.Context, request 
 
 	var response UpdateVolumeGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolumeGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3749,7 +3749,7 @@ func (client BlockstorageClient) updateVolumeGroupBackup(ctx context.Context, re
 
 	var response UpdateVolumeGroupBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolumeGroupBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3809,7 +3809,7 @@ func (client BlockstorageClient) updateVolumeKmsKey(ctx context.Context, request
 
 	var response UpdateVolumeKmsKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "blockstorage", "UpdateVolumeKmsKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -137,7 +137,7 @@ func (client DiscoveryClient) changeAssetSourceCompartment(ctx context.Context, 
 
 	var response ChangeAssetSourceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ChangeAssetSourceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client DiscoveryClient) changeDiscoveryScheduleCompartment(ctx context.Con
 
 	var response ChangeDiscoveryScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ChangeDiscoveryScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -255,7 +255,7 @@ func (client DiscoveryClient) createAssetSource(ctx context.Context, request com
 
 	var response CreateAssetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "CreateAssetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -314,7 +314,7 @@ func (client DiscoveryClient) createDiscoverySchedule(ctx context.Context, reque
 
 	var response CreateDiscoveryScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "CreateDiscoverySchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client DiscoveryClient) deleteAssetSource(ctx context.Context, request com
 
 	var response DeleteAssetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "DeleteAssetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -422,7 +422,7 @@ func (client DiscoveryClient) deleteDiscoverySchedule(ctx context.Context, reque
 
 	var response DeleteDiscoveryScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "DeleteDiscoverySchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -476,7 +476,7 @@ func (client DiscoveryClient) getAssetSource(ctx context.Context, request common
 
 	var response GetAssetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "GetAssetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -530,7 +530,7 @@ func (client DiscoveryClient) getDiscoverySchedule(ctx context.Context, request 
 
 	var response GetDiscoveryScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "GetDiscoverySchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -584,7 +584,7 @@ func (client DiscoveryClient) listAssetSourceConnections(ctx context.Context, re
 
 	var response ListAssetSourceConnectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ListAssetSourceConnections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -638,7 +638,7 @@ func (client DiscoveryClient) listAssetSources(ctx context.Context, request comm
 
 	var response ListAssetSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ListAssetSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -692,7 +692,7 @@ func (client DiscoveryClient) listDiscoverySchedules(ctx context.Context, reques
 
 	var response ListDiscoverySchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ListDiscoverySchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -746,7 +746,7 @@ func (client DiscoveryClient) listSupportedCloudRegions(ctx context.Context, req
 
 	var response ListSupportedCloudRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "ListSupportedCloudRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -805,7 +805,7 @@ func (client DiscoveryClient) refreshAssetSource(ctx context.Context, request co
 
 	var response RefreshAssetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "RefreshAssetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -859,7 +859,7 @@ func (client DiscoveryClient) updateAssetSource(ctx context.Context, request com
 
 	var response UpdateAssetSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "UpdateAssetSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -913,7 +913,7 @@ func (client DiscoveryClient) updateDiscoverySchedule(ctx context.Context, reque
 
 	var response UpdateDiscoveryScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "discovery", "UpdateDiscoverySchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

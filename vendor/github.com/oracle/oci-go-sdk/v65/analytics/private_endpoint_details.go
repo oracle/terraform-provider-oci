@@ -25,7 +25,7 @@ type PrivateEndpointDetails struct {
 	// The subnet OCID for the private endpoint.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// Network Security Group OCIDs for an Analytics instance.
+	// Network Security Group OCIDs for the Analytics instance.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 }
 

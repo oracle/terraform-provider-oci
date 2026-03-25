@@ -160,24 +160,27 @@ type AiDataPlatformAiFeatureStatusEnum string
 
 // Set of constants representing the allowable values for AiDataPlatformAiFeatureStatusEnum
 const (
-	AiDataPlatformAiFeatureStatusDisabled AiDataPlatformAiFeatureStatusEnum = "DISABLED"
-	AiDataPlatformAiFeatureStatusEnabling AiDataPlatformAiFeatureStatusEnum = "ENABLING"
-	AiDataPlatformAiFeatureStatusReady    AiDataPlatformAiFeatureStatusEnum = "READY"
-	AiDataPlatformAiFeatureStatusFailed   AiDataPlatformAiFeatureStatusEnum = "FAILED"
+	AiDataPlatformAiFeatureStatusDisabled  AiDataPlatformAiFeatureStatusEnum = "DISABLED"
+	AiDataPlatformAiFeatureStatusDisabling AiDataPlatformAiFeatureStatusEnum = "DISABLING"
+	AiDataPlatformAiFeatureStatusEnabling  AiDataPlatformAiFeatureStatusEnum = "ENABLING"
+	AiDataPlatformAiFeatureStatusReady     AiDataPlatformAiFeatureStatusEnum = "READY"
+	AiDataPlatformAiFeatureStatusFailed    AiDataPlatformAiFeatureStatusEnum = "FAILED"
 )
 
 var mappingAiDataPlatformAiFeatureStatusEnum = map[string]AiDataPlatformAiFeatureStatusEnum{
-	"DISABLED": AiDataPlatformAiFeatureStatusDisabled,
-	"ENABLING": AiDataPlatformAiFeatureStatusEnabling,
-	"READY":    AiDataPlatformAiFeatureStatusReady,
-	"FAILED":   AiDataPlatformAiFeatureStatusFailed,
+	"DISABLED":  AiDataPlatformAiFeatureStatusDisabled,
+	"DISABLING": AiDataPlatformAiFeatureStatusDisabling,
+	"ENABLING":  AiDataPlatformAiFeatureStatusEnabling,
+	"READY":     AiDataPlatformAiFeatureStatusReady,
+	"FAILED":    AiDataPlatformAiFeatureStatusFailed,
 }
 
 var mappingAiDataPlatformAiFeatureStatusEnumLowerCase = map[string]AiDataPlatformAiFeatureStatusEnum{
-	"disabled": AiDataPlatformAiFeatureStatusDisabled,
-	"enabling": AiDataPlatformAiFeatureStatusEnabling,
-	"ready":    AiDataPlatformAiFeatureStatusReady,
-	"failed":   AiDataPlatformAiFeatureStatusFailed,
+	"disabled":  AiDataPlatformAiFeatureStatusDisabled,
+	"disabling": AiDataPlatformAiFeatureStatusDisabling,
+	"enabling":  AiDataPlatformAiFeatureStatusEnabling,
+	"ready":     AiDataPlatformAiFeatureStatusReady,
+	"failed":    AiDataPlatformAiFeatureStatusFailed,
 }
 
 // GetAiDataPlatformAiFeatureStatusEnumValues Enumerates the set of values for AiDataPlatformAiFeatureStatusEnum
@@ -193,6 +196,7 @@ func GetAiDataPlatformAiFeatureStatusEnumValues() []AiDataPlatformAiFeatureStatu
 func GetAiDataPlatformAiFeatureStatusEnumStringValues() []string {
 	return []string{
 		"DISABLED",
+		"DISABLING",
 		"ENABLING",
 		"READY",
 		"FAILED",
