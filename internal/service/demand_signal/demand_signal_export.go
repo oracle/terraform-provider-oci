@@ -25,8 +25,21 @@ var exportDemandSignalOccDemandSignalHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDemandSignalOccMetricAlarmHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_demand_signal_occ_metric_alarm",
+	DatasourceClass:        "oci_demand_signal_occ_metric_alarms",
+	DatasourceItemsAttr:    "occ_metric_alarm_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "occ_metric_alarm",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_demand_signal.OccMetricAlarmLifecycleStateActive),
+	},
+}
+
 var demandSignalResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDemandSignalOccDemandSignalHints},
+		{TerraformResourceHints: exportDemandSignalOccMetricAlarmHints},
 	},
 }

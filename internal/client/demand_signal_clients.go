@@ -11,6 +11,7 @@ import (
 
 func init() {
 	RegisterOracleClient("oci_demand_signal.OccDemandSignalClient", &OracleClient{InitClientFn: initDemandsignalOccDemandSignalClient})
+	RegisterOracleClient("oci_demand_signal.OccMetricAlarmClient", &OracleClient{InitClientFn: initDemandsignalOccMetricAlarmClient})
 }
 
 func initDemandsignalOccDemandSignalClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
@@ -31,4 +32,24 @@ func initDemandsignalOccDemandSignalClient(configProvider oci_common.Configurati
 
 func (m *OracleClients) OccDemandSignalClient() *oci_demand_signal.OccDemandSignalClient {
 	return m.GetClient("oci_demand_signal.OccDemandSignalClient").(*oci_demand_signal.OccDemandSignalClient)
+}
+
+func initDemandsignalOccMetricAlarmClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_demand_signal.NewOccMetricAlarmClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) OccMetricAlarmClient() *oci_demand_signal.OccMetricAlarmClient {
+	return m.GetClient("oci_demand_signal.OccMetricAlarmClient").(*oci_demand_signal.OccMetricAlarmClient)
 }

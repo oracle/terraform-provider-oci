@@ -8,4 +8,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_demand_signal_occ_demand_signal", DemandSignalOccDemandSignalDataSource())
 	tfresource.RegisterDatasource("oci_demand_signal_occ_demand_signals", DemandSignalOccDemandSignalsDataSource())
+	tfresource.RegisterDatasource("oci_demand_signal_occ_metric_alarm", DemandSignalOccMetricAlarmDataSource())
+	tfresource.RegisterDatasource("oci_demand_signal_occ_metric_alarms", DemandSignalOccMetricAlarmsDataSource())
 }
