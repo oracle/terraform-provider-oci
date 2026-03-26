@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// PbfListingSummary Summary of the PbfListing.
+// PbfListingSummary Note: Deprecated. Use the new resource model APIs instead.
+// Summary of the PbfListing.
 type PbfListingSummary struct {
 
 	// Unique identifier that is immutable on creation.

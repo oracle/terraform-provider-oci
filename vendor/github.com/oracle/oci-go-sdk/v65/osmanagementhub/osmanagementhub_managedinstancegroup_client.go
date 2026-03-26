@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -142,7 +142,7 @@ func (client ManagedInstanceGroupClient) attachManagedInstancesToManagedInstance
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/AttachManagedInstancesToManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "AttachManagedInstancesToManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/AttachSoftwareSourcesToManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "AttachSoftwareSourcesToManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -260,7 +260,7 @@ func (client ManagedInstanceGroupClient) changeManagedInstanceGroupCompartment(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ChangeManagedInstanceGroupCompartment"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ChangeManagedInstanceGroupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -319,7 +319,7 @@ func (client ManagedInstanceGroupClient) createManagedInstanceGroup(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/CreateManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "CreateManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -373,7 +373,7 @@ func (client ManagedInstanceGroupClient) deleteManagedInstanceGroup(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/DeleteManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "DeleteManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -432,7 +432,7 @@ func (client ManagedInstanceGroupClient) detachManagedInstancesFromManagedInstan
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/DetachManagedInstancesFromManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "DetachManagedInstancesFromManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -491,7 +491,7 @@ func (client ManagedInstanceGroupClient) detachSoftwareSourcesFromManagedInstanc
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/DetachSoftwareSourcesFromManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "DetachSoftwareSourcesFromManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -550,7 +550,7 @@ func (client ManagedInstanceGroupClient) disableModuleStreamOnManagedInstanceGro
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/DisableModuleStreamOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "DisableModuleStreamOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -609,7 +609,7 @@ func (client ManagedInstanceGroupClient) enableModuleStreamOnManagedInstanceGrou
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/EnableModuleStreamOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "EnableModuleStreamOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -663,7 +663,7 @@ func (client ManagedInstanceGroupClient) getManagedInstanceGroup(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/GetManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "GetManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -722,7 +722,7 @@ func (client ManagedInstanceGroupClient) installModuleStreamProfileOnManagedInst
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/InstallModuleStreamProfileOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "InstallModuleStreamProfileOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -781,7 +781,7 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/InstallPackagesOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "InstallPackagesOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -840,7 +840,7 @@ func (client ManagedInstanceGroupClient) installWindowsUpdatesOnManagedInstanceG
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/InstallWindowsUpdatesOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "InstallWindowsUpdatesOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -894,7 +894,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableModule
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupAvailableModules"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupAvailableModules", apiReferenceLink)
 		return response, err
 	}
@@ -949,7 +949,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailablePackag
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupAvailablePackages"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupAvailablePackages", apiReferenceLink)
 		return response, err
 	}
@@ -1003,7 +1003,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableSoftwa
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupAvailableSoftwareSources"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupAvailableSoftwareSources", apiReferenceLink)
 		return response, err
 	}
@@ -1058,7 +1058,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupInstalledPackag
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupInstalledPackages"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupInstalledPackages", apiReferenceLink)
 		return response, err
 	}
@@ -1112,7 +1112,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupManagedInstance
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupManagedInstances"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupManagedInstances", apiReferenceLink)
 		return response, err
 	}
@@ -1183,7 +1183,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupModules"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupModules", apiReferenceLink)
 		return response, err
 	}
@@ -1237,7 +1237,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroups(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroups"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1297,7 +1297,7 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ManageModuleStreamsOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ManageModuleStreamsOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1356,7 +1356,7 @@ func (client ManagedInstanceGroupClient) rebootManagedInstanceGroup(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RebootManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RebootManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1415,7 +1415,7 @@ func (client ManagedInstanceGroupClient) refreshSoftwareOnManagedInstanceGroup(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RefreshSoftwareOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RefreshSoftwareOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1474,7 +1474,7 @@ func (client ManagedInstanceGroupClient) removeModuleStreamProfileFromManagedIns
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RemoveModuleStreamProfileFromManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RemoveModuleStreamProfileFromManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1533,7 +1533,7 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RemovePackagesFromManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RemovePackagesFromManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1595,7 +1595,7 @@ func (client ManagedInstanceGroupClient) switchModuleStreamOnManagedInstanceGrou
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/SwitchModuleStreamOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "SwitchModuleStreamOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1654,7 +1654,7 @@ func (client ManagedInstanceGroupClient) updateAllPackagesOnManagedInstanceGroup
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/UpdateAllPackagesOnManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "UpdateAllPackagesOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1708,7 +1708,7 @@ func (client ManagedInstanceGroupClient) updateManagedInstanceGroup(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/UpdateManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "UpdateManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}

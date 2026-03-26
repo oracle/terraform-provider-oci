@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -137,7 +137,7 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -245,7 +245,7 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -300,7 +300,7 @@ func (client WorkRequestClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "WorkRequest", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -359,7 +359,7 @@ func (client WorkRequestClient) rerunWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WorkRequest/RerunWorkRequest"
 		err = common.PostProcessServiceError(err, "WorkRequest", "RerunWorkRequest", apiReferenceLink)
 		return response, err
 	}

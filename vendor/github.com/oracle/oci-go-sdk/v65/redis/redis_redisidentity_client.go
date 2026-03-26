@@ -141,7 +141,7 @@ func (client RedisIdentityClient) createIdentityToken(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/CreateIdentityTokenDetails/CreateIdentityToken"
 		err = common.PostProcessServiceError(err, "RedisIdentity", "CreateIdentityToken", apiReferenceLink)
 		return response, err
 	}

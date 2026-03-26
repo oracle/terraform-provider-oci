@@ -141,7 +141,7 @@ func (client DistributedDbServiceClient) addDistributedDatabaseGdsControlNode(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/AddDistributedDatabaseGdsControlNode"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "AddDistributedDatabaseGdsControlNode", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client DistributedDbServiceClient) changeDistributedDatabaseCompartment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/ChangeDistributedDatabaseCompartment"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ChangeDistributedDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -259,7 +259,7 @@ func (client DistributedDbServiceClient) changeDistributedDbBackupConfig(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/ChangeDistributedDbBackupConfig"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ChangeDistributedDbBackupConfig", apiReferenceLink)
 		return response, err
 	}
@@ -318,7 +318,7 @@ func (client DistributedDbServiceClient) configureDistributedDatabaseGsms(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/ConfigureDistributedDatabaseGsms"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ConfigureDistributedDatabaseGsms", apiReferenceLink)
 		return response, err
 	}
@@ -381,7 +381,7 @@ func (client DistributedDbServiceClient) configureDistributedDatabaseSharding(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/ConfigureDistributedDatabaseSharding"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ConfigureDistributedDatabaseSharding", apiReferenceLink)
 		return response, err
 	}
@@ -501,7 +501,7 @@ func (client DistributedDbServiceClient) deleteDistributedDatabase(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/DeleteDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "DeleteDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -562,7 +562,7 @@ func (client DistributedDbServiceClient) downloadDistributedDatabaseGsmCertifica
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbService", "DownloadDistributedDatabaseGsmCertificateSigningRequest")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/DownloadDistributedDatabaseGsmCertificateSigningRequest"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "DownloadDistributedDatabaseGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -623,7 +623,7 @@ func (client DistributedDbServiceClient) generateDistributedDatabaseGsmCertifica
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/GenerateDistributedDatabaseGsmCertificateSigningRequest"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "GenerateDistributedDatabaseGsmCertificateSigningRequest", apiReferenceLink)
 		return response, err
 	}
@@ -681,7 +681,7 @@ func (client DistributedDbServiceClient) generateDistributedDatabaseWallet(ctx c
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbService", "GenerateDistributedDatabaseWallet")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/GenerateDistributedDatabaseWallet"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "GenerateDistributedDatabaseWallet", apiReferenceLink)
 		return response, err
 	}
@@ -735,7 +735,7 @@ func (client DistributedDbServiceClient) getDistributedDatabase(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/GetDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "GetDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -790,7 +790,7 @@ func (client DistributedDbServiceClient) getDistributedDatabaseRaftMetric(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/GetDistributedDatabaseRaftMetric"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "GetDistributedDatabaseRaftMetric", apiReferenceLink)
 		return response, err
 	}
@@ -844,7 +844,7 @@ func (client DistributedDbServiceClient) listDistributedDatabases(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabaseCollection/ListDistributedDatabases"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ListDistributedDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -903,7 +903,7 @@ func (client DistributedDbServiceClient) moveDistributedDatabaseReplicationUnit(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/MoveDistributedDatabaseReplicationUnit"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "MoveDistributedDatabaseReplicationUnit", apiReferenceLink)
 		return response, err
 	}
@@ -966,7 +966,7 @@ func (client DistributedDbServiceClient) patchDistributedDatabase(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/PatchDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "PatchDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1025,7 +1025,7 @@ func (client DistributedDbServiceClient) recreateFailedDistributedDatabaseResour
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/RecreateFailedDistributedDatabaseResource"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "RecreateFailedDistributedDatabaseResource", apiReferenceLink)
 		return response, err
 	}
@@ -1084,7 +1084,7 @@ func (client DistributedDbServiceClient) rotateDistributedDatabasePasswords(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/RotateDistributedDatabasePasswords"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "RotateDistributedDatabasePasswords", apiReferenceLink)
 		return response, err
 	}
@@ -1143,7 +1143,7 @@ func (client DistributedDbServiceClient) startDistributedDatabase(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/StartDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "StartDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1202,7 +1202,7 @@ func (client DistributedDbServiceClient) stopDistributedDatabase(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/StopDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "StopDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1256,7 +1256,7 @@ func (client DistributedDbServiceClient) updateDistributedDatabase(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/UpdateDistributedDatabase"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "UpdateDistributedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1317,7 +1317,7 @@ func (client DistributedDbServiceClient) uploadDistributedDatabaseSignedCertific
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/UploadDistributedDatabaseSignedCertificateAndGenerateWallet"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "UploadDistributedDatabaseSignedCertificateAndGenerateWallet", apiReferenceLink)
 		return response, err
 	}
@@ -1376,7 +1376,7 @@ func (client DistributedDbServiceClient) validateDistributedDatabaseNetwork(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedDatabase/ValidateDistributedDatabaseNetwork"
 		err = common.PostProcessServiceError(err, "DistributedDbService", "ValidateDistributedDatabaseNetwork", apiReferenceLink)
 		return response, err
 	}

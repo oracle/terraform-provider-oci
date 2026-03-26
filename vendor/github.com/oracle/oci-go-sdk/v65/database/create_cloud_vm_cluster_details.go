@@ -211,18 +211,21 @@ const (
 	CreateCloudVmClusterDetailsSelinuxModeDisabled   CreateCloudVmClusterDetailsSelinuxModeEnum = "DISABLED"
 	CreateCloudVmClusterDetailsSelinuxModePermissive CreateCloudVmClusterDetailsSelinuxModeEnum = "PERMISSIVE"
 	CreateCloudVmClusterDetailsSelinuxModeEnforcing  CreateCloudVmClusterDetailsSelinuxModeEnum = "ENFORCING"
+	CreateCloudVmClusterDetailsSelinuxModeUnknown    CreateCloudVmClusterDetailsSelinuxModeEnum = "UNKNOWN"
 )
 
 var mappingCreateCloudVmClusterDetailsSelinuxModeEnum = map[string]CreateCloudVmClusterDetailsSelinuxModeEnum{
 	"DISABLED":   CreateCloudVmClusterDetailsSelinuxModeDisabled,
 	"PERMISSIVE": CreateCloudVmClusterDetailsSelinuxModePermissive,
 	"ENFORCING":  CreateCloudVmClusterDetailsSelinuxModeEnforcing,
+	"UNKNOWN":    CreateCloudVmClusterDetailsSelinuxModeUnknown,
 }
 
 var mappingCreateCloudVmClusterDetailsSelinuxModeEnumLowerCase = map[string]CreateCloudVmClusterDetailsSelinuxModeEnum{
 	"disabled":   CreateCloudVmClusterDetailsSelinuxModeDisabled,
 	"permissive": CreateCloudVmClusterDetailsSelinuxModePermissive,
 	"enforcing":  CreateCloudVmClusterDetailsSelinuxModeEnforcing,
+	"unknown":    CreateCloudVmClusterDetailsSelinuxModeUnknown,
 }
 
 // GetCreateCloudVmClusterDetailsSelinuxModeEnumValues Enumerates the set of values for CreateCloudVmClusterDetailsSelinuxModeEnum
@@ -240,6 +243,7 @@ func GetCreateCloudVmClusterDetailsSelinuxModeEnumStringValues() []string {
 		"DISABLED",
 		"PERMISSIVE",
 		"ENFORCING",
+		"UNKNOWN",
 	}
 }
 

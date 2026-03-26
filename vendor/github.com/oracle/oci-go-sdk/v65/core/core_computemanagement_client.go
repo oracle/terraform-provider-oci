@@ -315,7 +315,7 @@ func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx contex
 // to a different compartment, you will not be able to use the instance configuration to manage instance pools
 // in the new compartment. If you want to update an instance configuration to point to a different compartment,
 // you should instead create a new instance configuration in the target compartment using
-// CreateInstanceConfiguration (https://docs.oracle.com/iaas/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
+// CreateInstanceConfiguration (https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
 func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx context.Context, request ChangeInstanceConfigurationCompartmentRequest) (response ChangeInstanceConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

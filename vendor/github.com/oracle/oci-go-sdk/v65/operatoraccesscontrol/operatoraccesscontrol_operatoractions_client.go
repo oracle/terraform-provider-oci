@@ -137,7 +137,7 @@ func (client OperatorActionsClient) getOperatorAction(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorAction/GetOperatorAction"
 		err = common.PostProcessServiceError(err, "OperatorActions", "GetOperatorAction", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +191,7 @@ func (client OperatorActionsClient) listOperatorActions(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorAction/ListOperatorActions"
 		err = common.PostProcessServiceError(err, "OperatorActions", "ListOperatorActions", apiReferenceLink)
 		return response, err
 	}

@@ -153,7 +153,8 @@ func (client *FunctionsManagementClient) refreshRegion() {
 	client.SetRegion(region)
 }
 
-// ChangeApplicationCompartment Moves an application into a different compartment within the same tenancy.
+// ChangeApplicationCompartment Note: Deprecated. Use the new operation instead.
+// Moves an application into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeApplicationCompartment()
 func (client FunctionsManagementClient) ChangeApplicationCompartment(ctx context.Context, request ChangeApplicationCompartmentRequest) (response ChangeApplicationCompartmentResponse, err error) {
@@ -216,7 +217,8 @@ func (client FunctionsManagementClient) changeApplicationCompartment(ctx context
 	return response, err
 }
 
-// CreateApplication Creates a new application.
+// CreateApplication Note: Deprecated. Use the new operation instead.
+// "Creates a new application."
 // A default retry strategy applies to this operation CreateApplication()
 func (client FunctionsManagementClient) CreateApplication(ctx context.Context, request CreateApplicationRequest) (response CreateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -278,7 +280,8 @@ func (client FunctionsManagementClient) createApplication(ctx context.Context, r
 	return response, err
 }
 
-// CreateFunction Creates a new function.
+// CreateFunction Note: Deprecated. Use the new operation instead.
+// "Creates a new function."
 // A default retry strategy applies to this operation CreateFunction()
 func (client FunctionsManagementClient) CreateFunction(ctx context.Context, request CreateFunctionRequest) (response CreateFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -340,7 +343,8 @@ func (client FunctionsManagementClient) createFunction(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteApplication Deletes an application.
+// DeleteApplication Note: Deprecated. Use the new operation instead.
+// Deletes an application.
 // A default retry strategy applies to this operation DeleteApplication()
 func (client FunctionsManagementClient) DeleteApplication(ctx context.Context, request DeleteApplicationRequest) (response DeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -402,7 +406,8 @@ func (client FunctionsManagementClient) deleteApplication(ctx context.Context, r
 	return response, err
 }
 
-// DeleteFunction Deletes a function.
+// DeleteFunction Note: Deprecated. Use the new operation instead.
+// Deletes a function.
 // A default retry strategy applies to this operation DeleteFunction()
 func (client FunctionsManagementClient) DeleteFunction(ctx context.Context, request DeleteFunctionRequest) (response DeleteFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -464,7 +469,8 @@ func (client FunctionsManagementClient) deleteFunction(ctx context.Context, requ
 	return response, err
 }
 
-// GetApplication Retrieves an application.
+// GetApplication Note: Deprecated. Use the new operation instead.
+// "Retrieves an application."
 // A default retry strategy applies to this operation GetApplication()
 func (client FunctionsManagementClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -526,7 +532,8 @@ func (client FunctionsManagementClient) getApplication(ctx context.Context, requ
 	return response, err
 }
 
-// GetFunction Retrieves a function.
+// GetFunction Note: Deprecated. Use the new operation instead.
+// "Retrieves a function."
 // A default retry strategy applies to this operation GetFunction()
 func (client FunctionsManagementClient) GetFunction(ctx context.Context, request GetFunctionRequest) (response GetFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -588,7 +595,8 @@ func (client FunctionsManagementClient) getFunction(ctx context.Context, request
 	return response, err
 }
 
-// GetPbfListing Fetches a Pre-built Function(PBF) Listing. Returns a PbfListing response model.
+// GetPbfListing Note: Deprecated. Use the new operation instead.
+// Fetches a Pre-built Function(PBF) Listing. Returns a PbfListing response model.
 // A default retry strategy applies to this operation GetPbfListing()
 func (client FunctionsManagementClient) GetPbfListing(ctx context.Context, request GetPbfListingRequest) (response GetPbfListingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -650,7 +658,8 @@ func (client FunctionsManagementClient) getPbfListing(ctx context.Context, reque
 	return response, err
 }
 
-// GetPbfListingVersion Gets a PbfListingVersion by identifier for a PbfListing.
+// GetPbfListingVersion Note: Deprecated. Use the new operation instead.
+// Gets a PbfListingVersion by identifier for a PbfListing.
 // A default retry strategy applies to this operation GetPbfListingVersion()
 func (client FunctionsManagementClient) GetPbfListingVersion(ctx context.Context, request GetPbfListingVersionRequest) (response GetPbfListingVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -712,7 +721,8 @@ func (client FunctionsManagementClient) getPbfListingVersion(ctx context.Context
 	return response, err
 }
 
-// ListApplications Lists applications for a compartment.
+// ListApplications Note: Deprecated. Use the new operation instead.
+// "Lists applications for a compartment."
 // A default retry strategy applies to this operation ListApplications()
 func (client FunctionsManagementClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -774,7 +784,8 @@ func (client FunctionsManagementClient) listApplications(ctx context.Context, re
 	return response, err
 }
 
-// ListFunctions Lists functions for an application.
+// ListFunctions Note: Deprecated. Use the new operation instead.
+// "Lists functions for an application."
 // A default retry strategy applies to this operation ListFunctions()
 func (client FunctionsManagementClient) ListFunctions(ctx context.Context, request ListFunctionsRequest) (response ListFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -836,7 +847,8 @@ func (client FunctionsManagementClient) listFunctions(ctx context.Context, reque
 	return response, err
 }
 
-// ListPbfListingVersions Fetches a wrapped list of all Pre-built Function(PBF) Listing versions. Returns a PbfListingVersionCollection
+// ListPbfListingVersions Note: Deprecated. Use the new operation instead.
+// Fetches a wrapped list of all Pre-built Function(PBF) Listing versions. Returns a PbfListingVersionCollection
 // containing an array of PbfListingVersionSummary response models.
 // Note that the PbfListingIdentifier must be provided as a query parameter, otherwise an exception shall
 // be thrown.
@@ -901,7 +913,8 @@ func (client FunctionsManagementClient) listPbfListingVersions(ctx context.Conte
 	return response, err
 }
 
-// ListPbfListings Fetches a wrapped list of all Pre-built Function(PBF) Listings. Returns a PbfListingCollection containing
+// ListPbfListings Note: Deprecated. Use the new operation instead.
+// Fetches a wrapped list of all Pre-built Function(PBF) Listings. Returns a PbfListingCollection containing
 // an array of PbfListingSummary response models.
 // A default retry strategy applies to this operation ListPbfListings()
 func (client FunctionsManagementClient) ListPbfListings(ctx context.Context, request ListPbfListingsRequest) (response ListPbfListingsResponse, err error) {
@@ -964,7 +977,8 @@ func (client FunctionsManagementClient) listPbfListings(ctx context.Context, req
 	return response, err
 }
 
-// ListTriggers Returns a list of Triggers.
+// ListTriggers Note: Deprecated. Use the new operation instead.
+// Returns a list of Triggers.
 // A default retry strategy applies to this operation ListTriggers()
 func (client FunctionsManagementClient) ListTriggers(ctx context.Context, request ListTriggersRequest) (response ListTriggersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1026,7 +1040,8 @@ func (client FunctionsManagementClient) listTriggers(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateApplication Modifies an application
+// UpdateApplication Note: Deprecated. Use the new operation instead.
+// "Modifies an application"
 // A default retry strategy applies to this operation UpdateApplication()
 func (client FunctionsManagementClient) UpdateApplication(ctx context.Context, request UpdateApplicationRequest) (response UpdateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1088,7 +1103,8 @@ func (client FunctionsManagementClient) updateApplication(ctx context.Context, r
 	return response, err
 }
 
-// UpdateFunction Modifies a function
+// UpdateFunction Note: Deprecated. Use the new operation instead.
+// "Modifies a function"
 // A default retry strategy applies to this operation UpdateFunction()
 func (client FunctionsManagementClient) UpdateFunction(ctx context.Context, request UpdateFunctionRequest) (response UpdateFunctionResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -139,7 +139,7 @@ func (client InternalDemandSignalClient) createInternalOccmDemandSignalDelivery(
 
 	var response CreateInternalOccmDemandSignalDeliveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "CreateInternalOccmDemandSignalDelivery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -193,7 +193,7 @@ func (client InternalDemandSignalClient) deleteInternalOccmDemandSignalDelivery(
 
 	var response DeleteInternalOccmDemandSignalDeliveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "DeleteInternalOccmDemandSignalDelivery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -247,7 +247,7 @@ func (client InternalDemandSignalClient) getInternalOccmDemandSignal(ctx context
 
 	var response GetInternalOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "GetInternalOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -301,7 +301,7 @@ func (client InternalDemandSignalClient) getInternalOccmDemandSignalCatalog(ctx 
 
 	var response GetInternalOccmDemandSignalCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "GetInternalOccmDemandSignalCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -355,7 +355,7 @@ func (client InternalDemandSignalClient) getInternalOccmDemandSignalDelivery(ctx
 
 	var response GetInternalOccmDemandSignalDeliveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "GetInternalOccmDemandSignalDelivery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -409,7 +409,7 @@ func (client InternalDemandSignalClient) listInternalOccmDemandSignalCatalogReso
 
 	var response ListInternalOccmDemandSignalCatalogResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "ListInternalOccmDemandSignalCatalogResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -463,7 +463,7 @@ func (client InternalDemandSignalClient) listInternalOccmDemandSignalCatalogs(ct
 
 	var response ListInternalOccmDemandSignalCatalogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "ListInternalOccmDemandSignalCatalogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client InternalDemandSignalClient) listInternalOccmDemandSignalDeliveries(
 
 	var response ListInternalOccmDemandSignalDeliveriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "ListInternalOccmDemandSignalDeliveries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -571,7 +571,7 @@ func (client InternalDemandSignalClient) listInternalOccmDemandSignalItems(ctx c
 
 	var response ListInternalOccmDemandSignalItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "ListInternalOccmDemandSignalItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -625,7 +625,7 @@ func (client InternalDemandSignalClient) listInternalOccmDemandSignals(ctx conte
 
 	var response ListInternalOccmDemandSignalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "ListInternalOccmDemandSignals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -679,7 +679,7 @@ func (client InternalDemandSignalClient) updateInternalOccmDemandSignal(ctx cont
 
 	var response UpdateInternalOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "UpdateInternalOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -733,7 +733,7 @@ func (client InternalDemandSignalClient) updateInternalOccmDemandSignalDelivery(
 
 	var response UpdateInternalOccmDemandSignalDeliveryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "internalDemandSignal", "UpdateInternalOccmDemandSignalDelivery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

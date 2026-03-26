@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// PreBuiltFunctionSourceDetails The source of the Function which is based on a Pre-Built Function Listing (PbfListing).
+// PreBuiltFunctionSourceDetails Note: Deprecated. Use the new resource model APIs instead.
+// The source of the Function which is based on a Pre-Built Function Listing (PbfListing).
 type PreBuiltFunctionSourceDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this

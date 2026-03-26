@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -148,7 +148,7 @@ func (client SoftwareSourceClient) addPackagesToSoftwareSource(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/AddPackagesToSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "AddPackagesToSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -207,7 +207,7 @@ func (client SoftwareSourceClient) changeAvailabilityOfSoftwareSources(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ChangeAvailabilityOfSoftwareSources"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ChangeAvailabilityOfSoftwareSources", apiReferenceLink)
 		return response, err
 	}
@@ -267,7 +267,7 @@ func (client SoftwareSourceClient) changeSoftwareSourceCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ChangeSoftwareSourceCompartment"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ChangeSoftwareSourceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -326,7 +326,7 @@ func (client SoftwareSourceClient) createEntitlement(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/CreateEntitlement"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "CreateEntitlement", apiReferenceLink)
 		return response, err
 	}
@@ -385,7 +385,7 @@ func (client SoftwareSourceClient) createSoftwareSource(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/CreateSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "CreateSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -439,7 +439,7 @@ func (client SoftwareSourceClient) deleteSoftwareSource(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/DeleteSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "DeleteSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -493,7 +493,7 @@ func (client SoftwareSourceClient) getErratum(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Erratum/GetErratum"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetErratum", apiReferenceLink)
 		return response, err
 	}
@@ -547,7 +547,7 @@ func (client SoftwareSourceClient) getModuleStream(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ModuleStream/GetModuleStream"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetModuleStream", apiReferenceLink)
 		return response, err
 	}
@@ -601,7 +601,7 @@ func (client SoftwareSourceClient) getModuleStreamProfile(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ModuleStreamProfile/GetModuleStreamProfile"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetModuleStreamProfile", apiReferenceLink)
 		return response, err
 	}
@@ -655,7 +655,7 @@ func (client SoftwareSourceClient) getPackageGroup(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/PackageGroup/GetPackageGroup"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetPackageGroup", apiReferenceLink)
 		return response, err
 	}
@@ -709,7 +709,7 @@ func (client SoftwareSourceClient) getSoftwarePackage(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/GetSoftwarePackage"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetSoftwarePackage", apiReferenceLink)
 		return response, err
 	}
@@ -763,7 +763,7 @@ func (client SoftwareSourceClient) getSoftwarePackageByName(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/GetSoftwarePackageByName"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetSoftwarePackageByName", apiReferenceLink)
 		return response, err
 	}
@@ -817,7 +817,7 @@ func (client SoftwareSourceClient) getSoftwareSource(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/GetSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -870,7 +870,7 @@ func (client SoftwareSourceClient) getSoftwareSourceManifest(ctx context.Context
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "softwareSource", "GetSoftwareSourceManifest")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/GetSoftwareSourceManifest"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "GetSoftwareSourceManifest", apiReferenceLink)
 		return response, err
 	}
@@ -925,7 +925,7 @@ func (client SoftwareSourceClient) listAllSoftwarePackages(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAllSoftwarePackages"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAllSoftwarePackages", apiReferenceLink)
 		return response, err
 	}
@@ -980,7 +980,7 @@ func (client SoftwareSourceClient) listAvailableSoftwarePackages(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAvailableSoftwarePackages"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAvailableSoftwarePackages", apiReferenceLink)
 		return response, err
 	}
@@ -1039,7 +1039,7 @@ func (client SoftwareSourceClient) listAvailableSoftwareSourcesToAdd(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListAvailableSoftwareSourcesToAdd"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListAvailableSoftwareSourcesToAdd", apiReferenceLink)
 		return response, err
 	}
@@ -1094,7 +1094,7 @@ func (client SoftwareSourceClient) listEntitlements(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListEntitlements"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListEntitlements", apiReferenceLink)
 		return response, err
 	}
@@ -1149,7 +1149,7 @@ func (client SoftwareSourceClient) listErrata(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/Erratum/ListErrata"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListErrata", apiReferenceLink)
 		return response, err
 	}
@@ -1204,7 +1204,7 @@ func (client SoftwareSourceClient) listModuleStreamProfiles(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListModuleStreamProfiles"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListModuleStreamProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -1259,7 +1259,7 @@ func (client SoftwareSourceClient) listModuleStreams(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListModuleStreams"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListModuleStreams", apiReferenceLink)
 		return response, err
 	}
@@ -1314,7 +1314,7 @@ func (client SoftwareSourceClient) listPackageGroups(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListPackageGroups"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListPackageGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1369,7 +1369,7 @@ func (client SoftwareSourceClient) listSoftwarePackageSoftwareSources(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListSoftwarePackageSoftwareSources"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListSoftwarePackageSoftwareSources", apiReferenceLink)
 		return response, err
 	}
@@ -1424,7 +1424,7 @@ func (client SoftwareSourceClient) listSoftwarePackages(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListSoftwarePackages"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListSoftwarePackages", apiReferenceLink)
 		return response, err
 	}
@@ -1479,7 +1479,7 @@ func (client SoftwareSourceClient) listSoftwareSourceVendors(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListSoftwareSourceVendors"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListSoftwareSourceVendors", apiReferenceLink)
 		return response, err
 	}
@@ -1534,7 +1534,7 @@ func (client SoftwareSourceClient) listSoftwareSources(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ListSoftwareSources"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ListSoftwareSources", apiReferenceLink)
 		return response, err
 	}
@@ -1598,7 +1598,7 @@ func (client SoftwareSourceClient) removePackagesFromSoftwareSource(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/RemovePackagesFromSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "RemovePackagesFromSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -1662,7 +1662,7 @@ func (client SoftwareSourceClient) replacePackagesInSoftwareSource(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/ReplacePackagesInSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "ReplacePackagesInSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -1717,7 +1717,7 @@ func (client SoftwareSourceClient) searchSoftwareSourceModuleStreams(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/SearchSoftwareSourceModuleStreams"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "SearchSoftwareSourceModuleStreams", apiReferenceLink)
 		return response, err
 	}
@@ -1772,7 +1772,7 @@ func (client SoftwareSourceClient) searchSoftwareSourceModules(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/SearchSoftwareSourceModules"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "SearchSoftwareSourceModules", apiReferenceLink)
 		return response, err
 	}
@@ -1827,7 +1827,7 @@ func (client SoftwareSourceClient) searchSoftwareSourcePackageGroups(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/SearchSoftwareSourcePackageGroups"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "SearchSoftwareSourcePackageGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1886,7 +1886,7 @@ func (client SoftwareSourceClient) softwareSourceGenerateMetadata(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/SoftwareSourceGenerateMetadata"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "SoftwareSourceGenerateMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -1940,7 +1940,7 @@ func (client SoftwareSourceClient) updateSoftwareSource(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/UpdateSoftwareSource"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "UpdateSoftwareSource", apiReferenceLink)
 		return response, err
 	}
@@ -1999,7 +1999,7 @@ func (client SoftwareSourceClient) updateSoftwareSourceManifest(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/SoftwareSource/UpdateSoftwareSourceManifest"
 		err = common.PostProcessServiceError(err, "SoftwareSource", "UpdateSoftwareSourceManifest", apiReferenceLink)
 		return response, err
 	}

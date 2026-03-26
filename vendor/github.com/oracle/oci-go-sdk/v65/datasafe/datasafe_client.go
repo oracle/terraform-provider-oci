@@ -1652,7 +1652,7 @@ func (client DataSafeClient) changeRegistrationPolicyCompartment(ctx context.Con
 
 	var response ChangeRegistrationPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeRegistrationPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3883,7 +3883,7 @@ func (client DataSafeClient) createRegistrationPolicy(ctx context.Context, reque
 
 	var response CreateRegistrationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateRegistrationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5933,7 +5933,7 @@ func (client DataSafeClient) deleteRegistrationPolicy(ctx context.Context, reque
 
 	var response DeleteRegistrationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteRegistrationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9862,7 +9862,7 @@ func (client DataSafeClient) getRegistrationPolicy(ctx context.Context, request 
 
 	var response GetRegistrationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetRegistrationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -14299,7 +14299,7 @@ func (client DataSafeClient) listRegistrationPolicies(ctx context.Context, reque
 
 	var response ListRegistrationPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListRegistrationPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -17151,7 +17151,7 @@ func (client DataSafeClient) managePrivileges(ctx context.Context, request commo
 
 	var response ManagePrivilegesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ManagePrivileges")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -20165,7 +20165,7 @@ func (client DataSafeClient) updateRegistrationPolicy(ctx context.Context, reque
 
 	var response UpdateRegistrationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateRegistrationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

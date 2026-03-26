@@ -22,8 +22,10 @@ type CreateIotDomainGroupDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment corresponding to the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),
-	// making it suitable for development and testing. STANDARD is recommended for production.
+	// Type of domain group. DEVELOPMENT uses fewer resources and has a higher Recovery Time Objective (RTO),
+	// making it suitable for development and testing. PRODUCTION is recommended for production workloads.
+	// LIGHTWEIGHT and STANDARD are deprecated aliases for DEVELOPMENT and PRODUCTION respectively and will be removed
+	// in a future release.
 	Type CreateIotDomainGroupDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -67,16 +69,22 @@ type CreateIotDomainGroupDetailsTypeEnum string
 
 // Set of constants representing the allowable values for CreateIotDomainGroupDetailsTypeEnum
 const (
+	CreateIotDomainGroupDetailsTypeProduction  CreateIotDomainGroupDetailsTypeEnum = "PRODUCTION"
+	CreateIotDomainGroupDetailsTypeDevelopment CreateIotDomainGroupDetailsTypeEnum = "DEVELOPMENT"
 	CreateIotDomainGroupDetailsTypeStandard    CreateIotDomainGroupDetailsTypeEnum = "STANDARD"
 	CreateIotDomainGroupDetailsTypeLightweight CreateIotDomainGroupDetailsTypeEnum = "LIGHTWEIGHT"
 )
 
 var mappingCreateIotDomainGroupDetailsTypeEnum = map[string]CreateIotDomainGroupDetailsTypeEnum{
+	"PRODUCTION":  CreateIotDomainGroupDetailsTypeProduction,
+	"DEVELOPMENT": CreateIotDomainGroupDetailsTypeDevelopment,
 	"STANDARD":    CreateIotDomainGroupDetailsTypeStandard,
 	"LIGHTWEIGHT": CreateIotDomainGroupDetailsTypeLightweight,
 }
 
 var mappingCreateIotDomainGroupDetailsTypeEnumLowerCase = map[string]CreateIotDomainGroupDetailsTypeEnum{
+	"production":  CreateIotDomainGroupDetailsTypeProduction,
+	"development": CreateIotDomainGroupDetailsTypeDevelopment,
 	"standard":    CreateIotDomainGroupDetailsTypeStandard,
 	"lightweight": CreateIotDomainGroupDetailsTypeLightweight,
 }
@@ -93,6 +101,8 @@ func GetCreateIotDomainGroupDetailsTypeEnumValues() []CreateIotDomainGroupDetail
 // GetCreateIotDomainGroupDetailsTypeEnumStringValues Enumerates the set of values in String for CreateIotDomainGroupDetailsTypeEnum
 func GetCreateIotDomainGroupDetailsTypeEnumStringValues() []string {
 	return []string{
+		"PRODUCTION",
+		"DEVELOPMENT",
 		"STANDARD",
 		"LIGHTWEIGHT",
 	}

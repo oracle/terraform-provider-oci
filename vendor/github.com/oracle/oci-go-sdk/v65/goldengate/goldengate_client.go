@@ -959,7 +959,7 @@ func (client GoldenGateClient) clonePipeline(ctx context.Context, request common
 
 	var response ClonePipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "ClonePipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2001,65 +2001,6 @@ func (client GoldenGateClient) deploymentWalletExists(ctx context.Context, reque
 	return response, err
 }
 
-// DisasterRecoveryPrecheck Evaluates disaster recovery prechecks for cross region peer creation and connection assignment prechecks if cross region peer already exists.
-// A default retry strategy applies to this operation DisasterRecoveryPrecheck()
-func (client GoldenGateClient) DisasterRecoveryPrecheck(ctx context.Context, request DisasterRecoveryPrecheckRequest) (response DisasterRecoveryPrecheckResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.disasterRecoveryPrecheck, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DisasterRecoveryPrecheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DisasterRecoveryPrecheckResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DisasterRecoveryPrecheckResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DisasterRecoveryPrecheckResponse")
-	}
-	return
-}
-
-// disasterRecoveryPrecheck implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) disasterRecoveryPrecheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/disasterRecoveryPrecheck", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DisasterRecoveryPrecheckResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/DisasterRecoveryPrecheck"
-		err = common.PostProcessServiceError(err, "GoldenGate", "DisasterRecoveryPrecheck", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ExportDeploymentWallet Export the OGG wallet from the deployment to OCI vault. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ExportDeploymentWallet()
 func (client GoldenGateClient) ExportDeploymentWallet(ctx context.Context, request ExportDeploymentWalletRequest) (response ExportDeploymentWalletResponse, err error) {
@@ -2112,6 +2053,65 @@ func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/ExportDeploymentWallet"
 		err = common.PostProcessServiceError(err, "GoldenGate", "ExportDeploymentWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateDisasterRecoveryPrecheckReport Generates disaster recovery precheck report for standby peer.
+// A default retry strategy applies to this operation GenerateDisasterRecoveryPrecheckReport()
+func (client GoldenGateClient) GenerateDisasterRecoveryPrecheckReport(ctx context.Context, request GenerateDisasterRecoveryPrecheckReportRequest) (response GenerateDisasterRecoveryPrecheckReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateDisasterRecoveryPrecheckReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateDisasterRecoveryPrecheckReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateDisasterRecoveryPrecheckReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateDisasterRecoveryPrecheckReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateDisasterRecoveryPrecheckReportResponse")
+	}
+	return
+}
+
+// generateDisasterRecoveryPrecheckReport implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) generateDisasterRecoveryPrecheckReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/generateDisasterRecoveryPrecheckReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateDisasterRecoveryPrecheckReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "GenerateDisasterRecoveryPrecheckReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GenerateDisasterRecoveryPrecheckReport"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GenerateDisasterRecoveryPrecheckReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -2557,9 +2557,9 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 	return response, err
 }
 
-// GetDisasterRecoveryPrecheck Returns DR precheck evaluation for a deployment for the specified placement (availabilityDomain and faultDomain).
-// A default retry strategy applies to this operation GetDisasterRecoveryPrecheck()
-func (client GoldenGateClient) GetDisasterRecoveryPrecheck(ctx context.Context, request GetDisasterRecoveryPrecheckRequest) (response GetDisasterRecoveryPrecheckResponse, err error) {
+// GetDisasterRecoveryPrecheckReport Returns DR precheck report for a standby peer with the specified placement (availabilityDomain and faultDomain).
+// A default retry strategy applies to this operation GetDisasterRecoveryPrecheckReport()
+func (client GoldenGateClient) GetDisasterRecoveryPrecheckReport(ctx context.Context, request GetDisasterRecoveryPrecheckReportRequest) (response GetDisasterRecoveryPrecheckReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -2568,42 +2568,42 @@ func (client GoldenGateClient) GetDisasterRecoveryPrecheck(ctx context.Context, 
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-	ociResponse, err = common.Retry(ctx, request, client.getDisasterRecoveryPrecheck, policy)
+	ociResponse, err = common.Retry(ctx, request, client.getDisasterRecoveryPrecheckReport, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetDisasterRecoveryPrecheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = GetDisasterRecoveryPrecheckReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = GetDisasterRecoveryPrecheckResponse{}
+				response = GetDisasterRecoveryPrecheckReportResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(GetDisasterRecoveryPrecheckResponse); ok {
+	if convertedResponse, ok := ociResponse.(GetDisasterRecoveryPrecheckReportResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetDisasterRecoveryPrecheckResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into GetDisasterRecoveryPrecheckReportResponse")
 	}
 	return
 }
 
-// getDisasterRecoveryPrecheck implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getDisasterRecoveryPrecheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// getDisasterRecoveryPrecheckReport implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) getDisasterRecoveryPrecheckReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}/disasterRecoveryPrecheck", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}/disasterRecoveryPrecheckReport", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response GetDisasterRecoveryPrecheckResponse
+	var response GetDisasterRecoveryPrecheckReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "GetDisasterRecoveryPrecheckReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GetDisasterRecoveryPrecheck"
-		err = common.PostProcessServiceError(err, "GoldenGate", "GetDisasterRecoveryPrecheck", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GetDisasterRecoveryPrecheckReport"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDisasterRecoveryPrecheckReport", apiReferenceLink)
 		return response, err
 	}
 

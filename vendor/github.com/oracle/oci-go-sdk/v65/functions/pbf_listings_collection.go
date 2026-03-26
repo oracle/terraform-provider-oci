@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// PbfListingsCollection Results of a PbfListing search. Contains boh PbfListingSummary items and other information, such as metadata.
+// PbfListingsCollection Note: Deprecated. Use the new resource model APIs instead.
+// Results of a PbfListing search. Contains boh PbfListingSummary items and other information, such as metadata.
 type PbfListingsCollection struct {
 
 	// List of PbfListingSummary.

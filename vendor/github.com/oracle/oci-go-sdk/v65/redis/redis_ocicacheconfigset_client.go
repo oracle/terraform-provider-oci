@@ -141,7 +141,7 @@ func (client OciCacheConfigSetClient) changeOciCacheConfigSetCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSet/ChangeOciCacheConfigSetCompartment"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "ChangeOciCacheConfigSetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client OciCacheConfigSetClient) createOciCacheConfigSet(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSet/CreateOciCacheConfigSet"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "CreateOciCacheConfigSet", apiReferenceLink)
 		return response, err
 	}
@@ -254,7 +254,7 @@ func (client OciCacheConfigSetClient) deleteOciCacheConfigSet(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSet/DeleteOciCacheConfigSet"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "DeleteOciCacheConfigSet", apiReferenceLink)
 		return response, err
 	}
@@ -308,7 +308,7 @@ func (client OciCacheConfigSetClient) getOciCacheConfigSet(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSet/GetOciCacheConfigSet"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "GetOciCacheConfigSet", apiReferenceLink)
 		return response, err
 	}
@@ -362,7 +362,7 @@ func (client OciCacheConfigSetClient) listAssociatedOciCacheClusters(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/AssociatedOciCacheClusterSummary/ListAssociatedOciCacheClusters"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "ListAssociatedOciCacheClusters", apiReferenceLink)
 		return response, err
 	}
@@ -416,7 +416,7 @@ func (client OciCacheConfigSetClient) listOciCacheConfigSets(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSetSummary/ListOciCacheConfigSets"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "ListOciCacheConfigSets", apiReferenceLink)
 		return response, err
 	}
@@ -470,7 +470,7 @@ func (client OciCacheConfigSetClient) updateOciCacheConfigSet(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheConfigSet/UpdateOciCacheConfigSet"
 		err = common.PostProcessServiceError(err, "OciCacheConfigSet", "UpdateOciCacheConfigSet", apiReferenceLink)
 		return response, err
 	}

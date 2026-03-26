@@ -136,7 +136,7 @@ func (client DesktopServiceClient) cancelWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "DesktopService", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client DesktopServiceClient) changeDesktopPoolCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/ChangeDesktopPoolCompartment"
 		err = common.PostProcessServiceError(err, "DesktopService", "ChangeDesktopPoolCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -254,7 +254,7 @@ func (client DesktopServiceClient) createDesktopPool(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/CreateDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "CreateDesktopPool", apiReferenceLink)
 		return response, err
 	}
@@ -308,7 +308,7 @@ func (client DesktopServiceClient) deleteDesktop(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/DeleteDesktop"
 		err = common.PostProcessServiceError(err, "DesktopService", "DeleteDesktop", apiReferenceLink)
 		return response, err
 	}
@@ -362,7 +362,7 @@ func (client DesktopServiceClient) deleteDesktopPool(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/DeleteDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "DeleteDesktopPool", apiReferenceLink)
 		return response, err
 	}
@@ -416,7 +416,7 @@ func (client DesktopServiceClient) getDesktop(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/GetDesktop"
 		err = common.PostProcessServiceError(err, "DesktopService", "GetDesktop", apiReferenceLink)
 		return response, err
 	}
@@ -470,7 +470,7 @@ func (client DesktopServiceClient) getDesktopPool(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/GetDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "GetDesktopPool", apiReferenceLink)
 		return response, err
 	}
@@ -524,7 +524,7 @@ func (client DesktopServiceClient) getWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DesktopService", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -578,7 +578,7 @@ func (client DesktopServiceClient) listDesktopPoolDesktops(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/ListDesktopPoolDesktops"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListDesktopPoolDesktops", apiReferenceLink)
 		return response, err
 	}
@@ -632,7 +632,7 @@ func (client DesktopServiceClient) listDesktopPoolVolumes(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/ListDesktopPoolVolumes"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListDesktopPoolVolumes", apiReferenceLink)
 		return response, err
 	}
@@ -686,7 +686,7 @@ func (client DesktopServiceClient) listDesktopPools(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/ListDesktopPools"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListDesktopPools", apiReferenceLink)
 		return response, err
 	}
@@ -740,7 +740,7 @@ func (client DesktopServiceClient) listDesktops(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/ListDesktops"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListDesktops", apiReferenceLink)
 		return response, err
 	}
@@ -794,7 +794,7 @@ func (client DesktopServiceClient) listWorkRequestErrors(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -848,7 +848,7 @@ func (client DesktopServiceClient) listWorkRequestLogs(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -902,7 +902,7 @@ func (client DesktopServiceClient) listWorkRequests(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DesktopService", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -961,7 +961,7 @@ func (client DesktopServiceClient) startDesktop(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/StartDesktop"
 		err = common.PostProcessServiceError(err, "DesktopService", "StartDesktop", apiReferenceLink)
 		return response, err
 	}
@@ -1020,7 +1020,7 @@ func (client DesktopServiceClient) startDesktopPool(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/StartDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "StartDesktopPool", apiReferenceLink)
 		return response, err
 	}
@@ -1079,7 +1079,7 @@ func (client DesktopServiceClient) stopDesktop(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/StopDesktop"
 		err = common.PostProcessServiceError(err, "DesktopService", "StopDesktop", apiReferenceLink)
 		return response, err
 	}
@@ -1138,7 +1138,7 @@ func (client DesktopServiceClient) stopDesktopPool(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/StopDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "StopDesktopPool", apiReferenceLink)
 		return response, err
 	}
@@ -1192,7 +1192,7 @@ func (client DesktopServiceClient) updateDesktop(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/Desktop/UpdateDesktop"
 		err = common.PostProcessServiceError(err, "DesktopService", "UpdateDesktop", apiReferenceLink)
 		return response, err
 	}
@@ -1246,7 +1246,7 @@ func (client DesktopServiceClient) updateDesktopPool(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secure-desktops/20220618/DesktopPool/UpdateDesktopPool"
 		err = common.PostProcessServiceError(err, "DesktopService", "UpdateDesktopPool", apiReferenceLink)
 		return response, err
 	}

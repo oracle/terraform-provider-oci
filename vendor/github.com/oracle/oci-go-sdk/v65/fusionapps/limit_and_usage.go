@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// LimitAndUsage The limit and usage for a specific environment type, for example, production, development, or test.
+// LimitAndUsage The limit and usage for a specific environment type, for example, production, development, demo or test.
 type LimitAndUsage struct {
 
 	// The limit of current environment.

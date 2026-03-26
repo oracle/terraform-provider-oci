@@ -20,7 +20,7 @@ import (
 // AddonError The error info of the addon.
 type AddonError struct {
 
-	// A short error code that defines the upstream error, meant for programmatic parsing. See API Errors (https://docs.us-phoenix-1.oraclecloud.com/Content/API/References/apierrors.htm).
+	// A short error code that defines the upstream error, meant for programmatic parsing. See API Errors (https://docs.oracle.com/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"false" json:"code"`
 
 	// A human-readable error string of the upstream error.

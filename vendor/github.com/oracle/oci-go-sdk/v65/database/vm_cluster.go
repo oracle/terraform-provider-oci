@@ -307,18 +307,21 @@ const (
 	VmClusterSelinuxModeDisabled   VmClusterSelinuxModeEnum = "DISABLED"
 	VmClusterSelinuxModePermissive VmClusterSelinuxModeEnum = "PERMISSIVE"
 	VmClusterSelinuxModeEnforcing  VmClusterSelinuxModeEnum = "ENFORCING"
+	VmClusterSelinuxModeUnknown    VmClusterSelinuxModeEnum = "UNKNOWN"
 )
 
 var mappingVmClusterSelinuxModeEnum = map[string]VmClusterSelinuxModeEnum{
 	"DISABLED":   VmClusterSelinuxModeDisabled,
 	"PERMISSIVE": VmClusterSelinuxModePermissive,
 	"ENFORCING":  VmClusterSelinuxModeEnforcing,
+	"UNKNOWN":    VmClusterSelinuxModeUnknown,
 }
 
 var mappingVmClusterSelinuxModeEnumLowerCase = map[string]VmClusterSelinuxModeEnum{
 	"disabled":   VmClusterSelinuxModeDisabled,
 	"permissive": VmClusterSelinuxModePermissive,
 	"enforcing":  VmClusterSelinuxModeEnforcing,
+	"unknown":    VmClusterSelinuxModeUnknown,
 }
 
 // GetVmClusterSelinuxModeEnumValues Enumerates the set of values for VmClusterSelinuxModeEnum
@@ -336,6 +339,7 @@ func GetVmClusterSelinuxModeEnumStringValues() []string {
 		"DISABLED",
 		"PERMISSIVE",
 		"ENFORCING",
+		"UNKNOWN",
 	}
 }
 

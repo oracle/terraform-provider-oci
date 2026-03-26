@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// DisasterRecoveryPrecheckSummary The summary of pre-check result.
-type DisasterRecoveryPrecheckSummary struct {
+// DisasterRecoveryPrecheckResult A single precheck result.
+type DisasterRecoveryPrecheckResult struct {
 
 	// UUID to uniquely identify the each check result.
 	Key *string `mandatory:"true" json:"key"`
@@ -44,14 +44,14 @@ type DisasterRecoveryPrecheckSummary struct {
 	CorrectiveAction *string `mandatory:"false" json:"correctiveAction"`
 }
 
-func (m DisasterRecoveryPrecheckSummary) String() string {
+func (m DisasterRecoveryPrecheckResult) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisasterRecoveryPrecheckSummary) ValidateEnumValue() (bool, error) {
+func (m DisasterRecoveryPrecheckResult) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingPrecheckStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetPrecheckStatusEnumStringValues(), ",")))

@@ -134,7 +134,7 @@ func (client MulticloudAlertsClient) listMulticloudAlerts(ctx context.Context, r
 
 	var response ListMulticloudAlertsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multicloudAlerts", "ListMulticloudAlerts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

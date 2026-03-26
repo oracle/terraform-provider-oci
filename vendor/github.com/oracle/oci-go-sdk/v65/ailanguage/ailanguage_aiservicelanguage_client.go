@@ -94,7 +94,7 @@ func (client *AIServiceLanguageClient) ConfigurationProvider() *common.Configura
 }
 
 // BatchDetectDominantLanguage The API returns the detected language and a related confidence score (between 0 and 1).  It supports passing a batch of records.
-// List of supported languages. (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#lang-detect)
+// List of supported languages. (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -209,7 +209,7 @@ func (client AIServiceLanguageClient) batchDetectHealthEntity(ctx context.Contex
 }
 
 // BatchDetectLanguageEntities The API extracts entities in text records. For each entity, its type/subtype and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
-// List of supported entities. (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
+// List of supported entities. (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -383,7 +383,7 @@ func (client AIServiceLanguageClient) batchDetectLanguagePiiEntities(ctx context
 // BatchDetectLanguageSentiments The API extracts aspect-based and sentence level sentiment in text records.
 // For aspect-based sentiment analysis, a set of aspects and their respective sentiment is returned for each record. Similarly, for sentence-level sentiment analysis, the sentiment is returned at the sentence level.
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral and mixed).
-// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#sentiment).
+// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
 //   - A batch may have up to 100 records.
 //   - A record may be up to 5000 characters long.
@@ -442,7 +442,7 @@ func (client AIServiceLanguageClient) batchDetectLanguageSentiments(ctx context.
 
 // BatchDetectLanguageTextClassification The API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
 // It supports passing a batch of records.
-// Learn more about text classification here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#text-class).
+// Learn more about text classification here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#text-class).
 // Limitations:
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
@@ -1304,9 +1304,9 @@ func (client AIServiceLanguageClient) deleteProject(ctx context.Context, request
 }
 
 // DetectDominantLanguage **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
+// We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
 // The DetectDominantLanguage API returns the detected language and a related confidence score (between 0 and 1).
-// List of supported languages (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#lang-detect)
+// List of supported languages (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectDominantLanguage(ctx context.Context, request DetectDominantLanguageRequest) (response DetectDominantLanguageResponse, err error) {
@@ -1362,7 +1362,7 @@ func (client AIServiceLanguageClient) detectDominantLanguage(ctx context.Context
 }
 
 // DetectLanguageEntities **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageEntities (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageEntities/BatchDetectLanguageEntities).
+// We recommend you replace this API with the batch API, BatchDetectLanguageEntities (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageEntities/BatchDetectLanguageEntities).
 // The DetectLanguageEntities API extracts entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.
 // Limitations:
 // - A text may be up to 1000 characters long.
@@ -1420,7 +1420,7 @@ func (client AIServiceLanguageClient) detectLanguageEntities(ctx context.Context
 
 // DetectLanguageKeyPhrases **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
 //
-//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
+//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
 //	The DetectLanguageKeyPhrases API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
 //
 // Limitations:
@@ -1478,11 +1478,11 @@ func (client AIServiceLanguageClient) detectLanguageKeyPhrases(ctx context.Conte
 }
 
 // DetectLanguageSentiments **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageSentiments (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageSentiments/BatchDetectLanguageSentiments).
+// We recommend you replace this API with the batch API, BatchDetectLanguageSentiments (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageSentiments/BatchDetectLanguageSentiments).
 // The DetectLanguageSentiments API extracts aspect-based in text records.
 // For aspect-based sentiment analysis, a set of aspects and their respective sentiment is returned.
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral).
-// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#sentiment).
+// Learn more about sentiment analysis here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
 //   - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageSentiments(ctx context.Context, request DetectLanguageSentimentsRequest) (response DetectLanguageSentimentsResponse, err error) {
@@ -1538,9 +1538,9 @@ func (client AIServiceLanguageClient) detectLanguageSentiments(ctx context.Conte
 }
 
 // DetectLanguageTextClassification **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageTextClassification (https://docs.oracle.com/iaas/iaas/api/#/en/language/20221001/BatchDetectLanguageTextClassification/BatchDetectLanguageTextClassification).
+// We recommend you replace this API with the batch API, BatchDetectLanguageTextClassification (https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageTextClassification/BatchDetectLanguageTextClassification).
 // The DetectLanguageTextClassification API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
-// Learn more about text classification here (https://docs.oracle.com/iaas/iaas/language/using/pretrain-models.htm#text-class).
+// Learn more about text classification here (https://docs.oracle.com/iaas/language/using/pretrain-models.htm#text-class).
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageTextClassification(ctx context.Context, request DetectLanguageTextClassificationRequest) (response DetectLanguageTextClassificationResponse, err error) {

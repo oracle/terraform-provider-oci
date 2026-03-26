@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// NotificationSuccessDestinationDetails The destination topic in the Notifications service to which to send the response of the successful detached function invocation.
+// NotificationSuccessDestinationDetails Note: Deprecated. Use the new resource model APIs instead.
+// The destination topic in the Notifications service to which to send the response of the successful detached function invocation.
 // Example: `{"kind": "NOTIFICATION", "topicId": "topic_OCID"}`
 type NotificationSuccessDestinationDetails struct {
 

@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -142,7 +142,7 @@ func (client DynamicSetClient) changeDynamicSetCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/ChangeDynamicSetCompartment"
 		err = common.PostProcessServiceError(err, "DynamicSet", "ChangeDynamicSetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client DynamicSetClient) createDynamicSet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/CreateDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "CreateDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +255,7 @@ func (client DynamicSetClient) deleteDynamicSet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/DeleteDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "DeleteDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client DynamicSetClient) getDynamicSet(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/GetDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "GetDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -368,7 +368,7 @@ func (client DynamicSetClient) installPackagesOnDynamicSet(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/InstallPackagesOnDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "InstallPackagesOnDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -422,7 +422,7 @@ func (client DynamicSetClient) listDynamicSets(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/ListDynamicSets"
 		err = common.PostProcessServiceError(err, "DynamicSet", "ListDynamicSets", apiReferenceLink)
 		return response, err
 	}
@@ -476,7 +476,7 @@ func (client DynamicSetClient) listManagedInstancesInDynamicSet(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/ListManagedInstancesInDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "ListManagedInstancesInDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -535,7 +535,7 @@ func (client DynamicSetClient) previewManagedInstances(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/PreviewManagedInstances"
 		err = common.PostProcessServiceError(err, "DynamicSet", "PreviewManagedInstances", apiReferenceLink)
 		return response, err
 	}
@@ -594,7 +594,7 @@ func (client DynamicSetClient) rebootDynamicSet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/RebootDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "RebootDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -653,7 +653,7 @@ func (client DynamicSetClient) removePackagesFromDynamicSet(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/RemovePackagesFromDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "RemovePackagesFromDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -707,7 +707,7 @@ func (client DynamicSetClient) updateDynamicSet(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/UpdateDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "UpdateDynamicSet", apiReferenceLink)
 		return response, err
 	}
@@ -766,7 +766,7 @@ func (client DynamicSetClient) updatePackagesOnDynamicSet(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/DynamicSet/UpdatePackagesOnDynamicSet"
 		err = common.PostProcessServiceError(err, "DynamicSet", "UpdatePackagesOnDynamicSet", apiReferenceLink)
 		return response, err
 	}

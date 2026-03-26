@@ -139,7 +139,7 @@ func (client MultiCloudsMetadataClient) getMultiCloudMetadata(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MultiCloudMetadata/GetMultiCloudMetadata"
 		err = common.PostProcessServiceError(err, "MultiCloudsMetadata", "GetMultiCloudMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client MultiCloudsMetadataClient) listMultiCloudMetadata(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MultiCloudMetadataCollection/ListMultiCloudMetadata"
 		err = common.PostProcessServiceError(err, "MultiCloudsMetadata", "ListMultiCloudMetadata", apiReferenceLink)
 		return response, err
 	}

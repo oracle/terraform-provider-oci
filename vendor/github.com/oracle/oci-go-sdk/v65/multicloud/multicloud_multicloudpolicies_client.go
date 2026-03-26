@@ -132,7 +132,7 @@ func (client MulticloudPoliciesClient) listMulticloudPolicies(ctx context.Contex
 
 	var response ListMulticloudPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multicloudPolicies", "ListMulticloudPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

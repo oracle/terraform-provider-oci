@@ -138,7 +138,7 @@ func (client OmhubNetworkAnchorClient) getNetworkAnchor(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/NetworkAnchor/GetNetworkAnchor"
 		err = common.PostProcessServiceError(err, "OmhubNetworkAnchor", "GetNetworkAnchor", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client OmhubNetworkAnchorClient) listNetworkAnchors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/NetworkAnchorCollection/ListNetworkAnchors"
 		err = common.PostProcessServiceError(err, "OmhubNetworkAnchor", "ListNetworkAnchors", apiReferenceLink)
 		return response, err
 	}

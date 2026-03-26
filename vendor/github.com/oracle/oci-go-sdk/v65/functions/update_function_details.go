@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// UpdateFunctionDetails Updates attributes of a function.
+// UpdateFunctionDetails Note: Deprecated. Use the new resource model APIs instead.
+// Updates attributes of a function.
 type UpdateFunctionDetails struct {
 
 	// The qualified name of the Docker image to use in the function, including the image tag.

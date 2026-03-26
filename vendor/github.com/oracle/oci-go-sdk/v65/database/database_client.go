@@ -10795,7 +10795,7 @@ func (client DatabaseClient) getAutonomousContainerDatabaseBackup(ctx context.Co
 
 	var response GetAutonomousContainerDatabaseBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetAutonomousContainerDatabaseBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16239,7 +16239,7 @@ func (client DatabaseClient) listAutonomousDatabasesInAutonomousContainerDatabas
 
 	var response ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListAutonomousDatabasesInAutonomousContainerDatabaseBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -16664,7 +16664,7 @@ func (client DatabaseClient) listAvailableCommunicationLanguageLocales(ctx conte
 
 	var response ListAvailableCommunicationLanguageLocalesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListAvailableCommunicationLanguageLocales")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

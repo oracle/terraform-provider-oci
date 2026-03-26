@@ -40,9 +40,9 @@ type CloneDatabaseDetails struct {
 	// The source database's password for SYS, SYSTEM.
 	SourceAdminPassword *string `mandatory:"false" json:"sourceAdminPassword"`
 
-	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
-
 	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+
+	DbBackupConfig *DbBackupConfig `mandatory:"false" json:"dbBackupConfig"`
 
 	// The `DB_UNIQUE_NAME` for the new Oracle Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
@@ -102,8 +102,8 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		IsThinClone                        *bool                              `json:"isThinClone"`
 		SourceAdminPassword                *string                            `json:"sourceAdminPassword"`
-		DbBackupConfig                     *DbBackupConfig                    `json:"dbBackupConfig"`
 		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails       `json:"sourceEncryptionKeyLocationDetails"`
+		DbBackupConfig                     *DbBackupConfig                    `json:"dbBackupConfig"`
 		DbUniqueName                       *string                            `json:"dbUniqueName"`
 		CharacterSet                       *string                            `json:"characterSet"`
 		NcharacterSet                      *string                            `json:"ncharacterSet"`
@@ -131,8 +131,6 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SourceAdminPassword = model.SourceAdminPassword
 
-	m.DbBackupConfig = model.DbBackupConfig
-
 	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
 	if e != nil {
 		return
@@ -142,6 +140,8 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.SourceEncryptionKeyLocationDetails = nil
 	}
+
+	m.DbBackupConfig = model.DbBackupConfig
 
 	m.DbUniqueName = model.DbUniqueName
 

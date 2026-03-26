@@ -3495,7 +3495,7 @@ func (client LoadBalancerClient) renewCertificates(ctx context.Context, request 
 
 	var response RenewCertificatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "RenewCertificates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3560,7 +3560,7 @@ func (client LoadBalancerClient) resumeLoadBalancer(ctx context.Context, request
 
 	var response ResumeLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "ResumeLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3755,7 +3755,7 @@ func (client LoadBalancerClient) suspendLoadBalancer(ctx context.Context, reques
 
 	var response SuspendLoadBalancerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loadBalancer", "SuspendLoadBalancer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// RequirementDetails Minimum memory required by this PBF. The user should use memory greater than or equal to this value
+// RequirementDetails Note: Deprecated. Use the new resource model APIs instead.
+// Minimum memory required by this PBF. The user should use memory greater than or equal to this value
 // while configuring the Function.
 type RequirementDetails struct {
 

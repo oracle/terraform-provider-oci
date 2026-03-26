@@ -15,21 +15,21 @@ import (
 	"strings"
 )
 
-// CustomerLoggingDetails Customer logging configuration
-type CustomerLoggingDetails struct {
+// EnableCustomerLoggingDetails Customer logging configuration
+type EnableCustomerLoggingDetails struct {
 
 	// the age of an index after which the index will get deleted by ISM policy
 	LogRetentionDays *int `mandatory:"true" json:"logRetentionDays"`
 }
 
-func (m CustomerLoggingDetails) String() string {
+func (m EnableCustomerLoggingDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CustomerLoggingDetails) ValidateEnumValue() (bool, error) {
+func (m EnableCustomerLoggingDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -242,18 +242,21 @@ const (
 	UpdateCloudVmClusterDetailsSelinuxModeDisabled   UpdateCloudVmClusterDetailsSelinuxModeEnum = "DISABLED"
 	UpdateCloudVmClusterDetailsSelinuxModePermissive UpdateCloudVmClusterDetailsSelinuxModeEnum = "PERMISSIVE"
 	UpdateCloudVmClusterDetailsSelinuxModeEnforcing  UpdateCloudVmClusterDetailsSelinuxModeEnum = "ENFORCING"
+	UpdateCloudVmClusterDetailsSelinuxModeUnknown    UpdateCloudVmClusterDetailsSelinuxModeEnum = "UNKNOWN"
 )
 
 var mappingUpdateCloudVmClusterDetailsSelinuxModeEnum = map[string]UpdateCloudVmClusterDetailsSelinuxModeEnum{
 	"DISABLED":   UpdateCloudVmClusterDetailsSelinuxModeDisabled,
 	"PERMISSIVE": UpdateCloudVmClusterDetailsSelinuxModePermissive,
 	"ENFORCING":  UpdateCloudVmClusterDetailsSelinuxModeEnforcing,
+	"UNKNOWN":    UpdateCloudVmClusterDetailsSelinuxModeUnknown,
 }
 
 var mappingUpdateCloudVmClusterDetailsSelinuxModeEnumLowerCase = map[string]UpdateCloudVmClusterDetailsSelinuxModeEnum{
 	"disabled":   UpdateCloudVmClusterDetailsSelinuxModeDisabled,
 	"permissive": UpdateCloudVmClusterDetailsSelinuxModePermissive,
 	"enforcing":  UpdateCloudVmClusterDetailsSelinuxModeEnforcing,
+	"unknown":    UpdateCloudVmClusterDetailsSelinuxModeUnknown,
 }
 
 // GetUpdateCloudVmClusterDetailsSelinuxModeEnumValues Enumerates the set of values for UpdateCloudVmClusterDetailsSelinuxModeEnum
@@ -271,6 +274,7 @@ func GetUpdateCloudVmClusterDetailsSelinuxModeEnumStringValues() []string {
 		"DISABLED",
 		"PERMISSIVE",
 		"ENFORCING",
+		"UNKNOWN",
 	}
 }
 

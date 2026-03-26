@@ -141,7 +141,7 @@ func (client LfsPoolClient) createPool(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/CreatePool"
 		err = common.PostProcessServiceError(err, "LfsPool", "CreatePool", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client LfsPoolClient) deletePool(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/DeletePool"
 		err = common.PostProcessServiceError(err, "LfsPool", "DeletePool", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client LfsPoolClient) getPool(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/GetPool"
 		err = common.PostProcessServiceError(err, "LfsPool", "GetPool", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client LfsPoolClient) listPools(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/PoolCollection/ListPools"
 		err = common.PostProcessServiceError(err, "LfsPool", "ListPools", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client LfsPoolClient) updatePool(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/Pool/UpdatePool"
 		err = common.PostProcessServiceError(err, "LfsPool", "UpdatePool", apiReferenceLink)
 		return response, err
 	}

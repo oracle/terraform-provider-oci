@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// QueueFailureDestinationDetails The destination queue or channel in the Queue service to which to send the response of the failed detached function invocation.
+// QueueFailureDestinationDetails Note: Deprecated. Use the new resource model APIs instead.
+// The destination queue or channel in the Queue service to which to send the response of the failed detached function invocation.
 // Example: `{"kind": "QUEUE", "queueId": "queue_OCID", "channelId": "channel_Id"}`
 type QueueFailureDestinationDetails struct {
 

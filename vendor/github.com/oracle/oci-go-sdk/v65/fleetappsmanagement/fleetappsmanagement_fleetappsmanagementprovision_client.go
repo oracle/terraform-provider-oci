@@ -137,7 +137,7 @@ func (client FleetAppsManagementProvisionClient) changeProvisionCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/ChangeProvisionCompartment"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "ChangeProvisionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client FleetAppsManagementProvisionClient) createProvision(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/CreateProvision"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "CreateProvision", apiReferenceLink)
 		return response, err
 	}
@@ -250,7 +250,7 @@ func (client FleetAppsManagementProvisionClient) deleteProvision(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/DeleteProvision"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "DeleteProvision", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client FleetAppsManagementProvisionClient) generateDriftDetectionReport(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/GenerateDriftDetectionReport"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "GenerateDriftDetectionReport", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client FleetAppsManagementProvisionClient) getProvision(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/GetProvision"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "GetProvision", apiReferenceLink)
 		return response, err
 	}
@@ -418,7 +418,7 @@ func (client FleetAppsManagementProvisionClient) listProvisions(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ProvisionCollection/ListProvisions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "ListProvisions", apiReferenceLink)
 		return response, err
 	}
@@ -472,7 +472,7 @@ func (client FleetAppsManagementProvisionClient) updateProvision(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Provision/UpdateProvision"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementProvision", "UpdateProvision", apiReferenceLink)
 		return response, err
 	}

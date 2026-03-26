@@ -57,7 +57,7 @@ type ConfigurationSourceProviderSummary interface {
 	GetDefinedTags() map[string]map[string]interface{}
 
 	// The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	GetSystemTags() map[string]map[string]interface{}
 }

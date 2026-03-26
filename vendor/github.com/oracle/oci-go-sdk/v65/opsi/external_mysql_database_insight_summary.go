@@ -6,7 +6,7 @@
 //
 // Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.oracle.com/iaas/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -79,7 +79,7 @@ type ExternalMysqlDatabaseInsightSummary struct {
 	// OCI database resource type
 	DatabaseResourceType *string `mandatory:"false" json:"databaseResourceType"`
 
-	// The DBM owned database connector OCID (https://docs.oracle.com/iaas/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
+	// The DBM owned database connector OCID (https://docs.oracle.com/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
 	DatabaseConnectorId *string `mandatory:"false" json:"databaseConnectorId"`
 
 	// Indicates the status of a database insight in Operations Insights

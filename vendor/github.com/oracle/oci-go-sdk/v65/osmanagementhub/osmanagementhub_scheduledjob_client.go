@@ -5,7 +5,7 @@
 // OS Management Hub API
 //
 // Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -142,7 +142,7 @@ func (client ScheduledJobClient) changeScheduledJobCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ChangeScheduledJobCompartment"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "ChangeScheduledJobCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client ScheduledJobClient) createScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/CreateScheduledJob"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "CreateScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +255,7 @@ func (client ScheduledJobClient) deleteScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/DeleteScheduledJob"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "DeleteScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client ScheduledJobClient) getScheduledJob(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/GetScheduledJob"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "GetScheduledJob", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client ScheduledJobClient) listScheduledJobs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ListScheduledJobs"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "ListScheduledJobs", apiReferenceLink)
 		return response, err
 	}
@@ -423,7 +423,7 @@ func (client ScheduledJobClient) runScheduledJobNow(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/RunScheduledJobNow"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "RunScheduledJobNow", apiReferenceLink)
 		return response, err
 	}
@@ -477,7 +477,7 @@ func (client ScheduledJobClient) updateScheduledJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/UpdateScheduledJob"
 		err = common.PostProcessServiceError(err, "ScheduledJob", "UpdateScheduledJob", apiReferenceLink)
 		return response, err
 	}

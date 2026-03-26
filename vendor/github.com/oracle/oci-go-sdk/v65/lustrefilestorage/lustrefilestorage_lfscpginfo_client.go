@@ -141,7 +141,7 @@ func (client LfsCpgInfoClient) createLfsCpgInfo(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/CreateLfsCpgInfo"
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "CreateLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client LfsCpgInfoClient) deleteLfsCpgInfo(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/DeleteLfsCpgInfo"
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "DeleteLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client LfsCpgInfoClient) getLfsCpgInfo(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/GetLfsCpgInfo"
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "GetLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client LfsCpgInfoClient) listLfsCpgInfos(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfoCollection/ListLfsCpgInfos"
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "ListLfsCpgInfos", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client LfsCpgInfoClient) updateLfsCpgInfo(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LfsCpgInfo/UpdateLfsCpgInfo"
 		err = common.PostProcessServiceError(err, "LfsCpgInfo", "UpdateLfsCpgInfo", apiReferenceLink)
 		return response, err
 	}

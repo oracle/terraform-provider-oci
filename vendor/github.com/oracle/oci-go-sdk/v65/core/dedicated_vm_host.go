@@ -66,7 +66,7 @@ type DedicatedVmHost struct {
 	// For more information, see Fault Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm#fault).
 	// If you do not specify the fault domain, the system selects one for you. To change the fault domain for a dedicated virtual machine host,
 	// delete it, and then create a new dedicated virtual machine host in the preferred fault domain.
-	// To get a list of fault domains, use the `ListFaultDomains` operation in the Identity and Access Management Service API (https://docs.oracle.com/iaas/iaas/api/#/en/identity/20160918/).
+	// To get a list of fault domains, use the `ListFaultDomains` operation in the Identity and Access Management Service API (https://docs.oracle.com/iaas/api/#/en/identity/20160918/).
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 

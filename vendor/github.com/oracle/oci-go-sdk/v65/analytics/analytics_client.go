@@ -377,7 +377,7 @@ func (client AnalyticsClient) createResourceGroup(ctx context.Context, request c
 
 	var response CreateResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "analytics", "CreateResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -614,7 +614,7 @@ func (client AnalyticsClient) deleteResourceGroup(ctx context.Context, request c
 
 	var response DeleteResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "analytics", "DeleteResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -888,7 +888,7 @@ func (client AnalyticsClient) getResourceGroup(ctx context.Context, request comm
 
 	var response GetResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "analytics", "GetResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1050,7 +1050,7 @@ func (client AnalyticsClient) listResourceGroups(ctx context.Context, request co
 
 	var response ListResourceGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "analytics", "ListResourceGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1682,7 +1682,7 @@ func (client AnalyticsClient) updateResourceGroup(ctx context.Context, request c
 
 	var response UpdateResourceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "analytics", "UpdateResourceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

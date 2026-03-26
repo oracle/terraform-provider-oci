@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// StreamFailureDestinationDetails The destination stream in the Streaming service to which to send the response of the failed detached function invocation.
+// StreamFailureDestinationDetails Note: Deprecated. Use the new resource model APIs instead.
+// The destination stream in the Streaming service to which to send the response of the failed detached function invocation.
 // Example: `{"kind": "STREAM", "streamId": "stream_OCID"}`
 type StreamFailureDestinationDetails struct {
 

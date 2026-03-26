@@ -141,7 +141,7 @@ func (client FleetAppsManagementOperationsClient) addPatchesByCondition(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/AddPatchesByCondition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "AddPatchesByCondition", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client FleetAppsManagementOperationsClient) changePatchCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Patch/ChangePatchCompartment"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ChangePatchCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -261,7 +261,7 @@ func (client FleetAppsManagementOperationsClient) changePatchGroupCompartment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/ChangePatchGroupCompartment"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ChangePatchGroupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -320,7 +320,7 @@ func (client FleetAppsManagementOperationsClient) createPatch(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Patch/CreatePatch"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "CreatePatch", apiReferenceLink)
 		return response, err
 	}
@@ -379,7 +379,7 @@ func (client FleetAppsManagementOperationsClient) createPatchGroup(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/CreatePatchGroup"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "CreatePatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -438,7 +438,7 @@ func (client FleetAppsManagementOperationsClient) createSchedulerDefinition(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerDefinition/CreateSchedulerDefinition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "CreateSchedulerDefinition", apiReferenceLink)
 		return response, err
 	}
@@ -492,7 +492,7 @@ func (client FleetAppsManagementOperationsClient) deletePatch(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Patch/DeletePatch"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "DeletePatch", apiReferenceLink)
 		return response, err
 	}
@@ -546,7 +546,7 @@ func (client FleetAppsManagementOperationsClient) deletePatchGroup(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/DeletePatchGroup"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "DeletePatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -600,7 +600,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerDefinition(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerDefinition/DeleteSchedulerDefinition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "DeleteSchedulerDefinition", apiReferenceLink)
 		return response, err
 	}
@@ -654,7 +654,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerJob(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJob/DeleteSchedulerJob"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "DeleteSchedulerJob", apiReferenceLink)
 		return response, err
 	}
@@ -712,7 +712,7 @@ func (client FleetAppsManagementOperationsClient) exportComplianceReport(ctx con
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ExportComplianceReport")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ComplianceRecord/ExportComplianceReport"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ExportComplianceReport", apiReferenceLink)
 		return response, err
 	}
@@ -766,7 +766,7 @@ func (client FleetAppsManagementOperationsClient) getAutoExecution(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AutoExecution/GetAutoExecution"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetAutoExecution", apiReferenceLink)
 		return response, err
 	}
@@ -820,7 +820,7 @@ func (client FleetAppsManagementOperationsClient) getExecution(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Execution/GetExecution"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetExecution", apiReferenceLink)
 		return response, err
 	}
@@ -874,7 +874,7 @@ func (client FleetAppsManagementOperationsClient) getJobActivity(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/JobActivity/GetJobActivity"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetJobActivity", apiReferenceLink)
 		return response, err
 	}
@@ -928,7 +928,7 @@ func (client FleetAppsManagementOperationsClient) getPatch(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Patch/GetPatch"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetPatch", apiReferenceLink)
 		return response, err
 	}
@@ -982,7 +982,7 @@ func (client FleetAppsManagementOperationsClient) getPatchGroup(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/GetPatchGroup"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetPatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1036,7 +1036,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerDefinition(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerDefinition/GetSchedulerDefinition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetSchedulerDefinition", apiReferenceLink)
 		return response, err
 	}
@@ -1090,7 +1090,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerJob(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJob/GetSchedulerJob"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "GetSchedulerJob", apiReferenceLink)
 		return response, err
 	}
@@ -1144,7 +1144,7 @@ func (client FleetAppsManagementOperationsClient) listAssociatedPatches(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AssociatedPatchCollection/ListAssociatedPatches"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListAssociatedPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1198,7 +1198,7 @@ func (client FleetAppsManagementOperationsClient) listAutoExecutions(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/AutoExecutionCollection/ListAutoExecutions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListAutoExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -1252,7 +1252,7 @@ func (client FleetAppsManagementOperationsClient) listComplianceRecords(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ComplianceRecordCollection/ListComplianceRecords"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListComplianceRecords", apiReferenceLink)
 		return response, err
 	}
@@ -1306,7 +1306,7 @@ func (client FleetAppsManagementOperationsClient) listExecutions(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ExecutionCollection/ListExecutions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -1361,7 +1361,7 @@ func (client FleetAppsManagementOperationsClient) listInstalledPatches(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/InstalledPatchCollection/ListInstalledPatches"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListInstalledPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1415,7 +1415,7 @@ func (client FleetAppsManagementOperationsClient) listInventoryRecords(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/InventoryRecordCollection/ListInventoryRecords"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListInventoryRecords", apiReferenceLink)
 		return response, err
 	}
@@ -1470,7 +1470,7 @@ func (client FleetAppsManagementOperationsClient) listPatchGroups(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroupCollection/ListPatchGroups"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListPatchGroups", apiReferenceLink)
 		return response, err
 	}
@@ -1525,7 +1525,7 @@ func (client FleetAppsManagementOperationsClient) listPatches(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchCollection/ListPatches"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1579,7 +1579,7 @@ func (client FleetAppsManagementOperationsClient) listRecommendedPatches(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RecommendedPatchCollection/ListRecommendedPatches"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListRecommendedPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1633,7 +1633,7 @@ func (client FleetAppsManagementOperationsClient) listReportMetadata(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ReportMetadataCollection/ListReportMetadata"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListReportMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -1687,7 +1687,7 @@ func (client FleetAppsManagementOperationsClient) listResources(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ResourceCollection/ListResources"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListResources", apiReferenceLink)
 		return response, err
 	}
@@ -1741,7 +1741,7 @@ func (client FleetAppsManagementOperationsClient) listScheduledFleets(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ScheduledFleetCollection/ListScheduledFleets"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListScheduledFleets", apiReferenceLink)
 		return response, err
 	}
@@ -1796,7 +1796,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerDefinitions(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerDefinitionCollection/ListSchedulerDefinitions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListSchedulerDefinitions", apiReferenceLink)
 		return response, err
 	}
@@ -1850,7 +1850,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerExecutions(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerExecutionCollection/ListSchedulerExecutions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListSchedulerExecutions", apiReferenceLink)
 		return response, err
 	}
@@ -1905,7 +1905,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerJobs(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJobCollection/ListSchedulerJobs"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListSchedulerJobs", apiReferenceLink)
 		return response, err
 	}
@@ -1959,7 +1959,7 @@ func (client FleetAppsManagementOperationsClient) listSteps(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/StepCollection/ListSteps"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListSteps", apiReferenceLink)
 		return response, err
 	}
@@ -2013,7 +2013,7 @@ func (client FleetAppsManagementOperationsClient) listTargetComponents(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TargetComponentCollection/ListTargetComponents"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListTargetComponents", apiReferenceLink)
 		return response, err
 	}
@@ -2067,7 +2067,7 @@ func (client FleetAppsManagementOperationsClient) listTargetProperties(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TargetPropertyCollection/ListTargetProperties"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ListTargetProperties", apiReferenceLink)
 		return response, err
 	}
@@ -2126,7 +2126,7 @@ func (client FleetAppsManagementOperationsClient) manageJobExecution(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJob/ManageJobExecution"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ManageJobExecution", apiReferenceLink)
 		return response, err
 	}
@@ -2185,7 +2185,7 @@ func (client FleetAppsManagementOperationsClient) modifyPatches(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/ModifyPatches"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "ModifyPatches", apiReferenceLink)
 		return response, err
 	}
@@ -2244,7 +2244,7 @@ func (client FleetAppsManagementOperationsClient) publishPatchGroup(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/PublishPatchGroup"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "PublishPatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -2303,7 +2303,7 @@ func (client FleetAppsManagementOperationsClient) report(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ReportCollection/Report"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "Report", apiReferenceLink)
 		return response, err
 	}
@@ -2362,7 +2362,7 @@ func (client FleetAppsManagementOperationsClient) retrievePatchesByCondition(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchesByConditionCollection/RetrievePatchesByCondition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "RetrievePatchesByCondition", apiReferenceLink)
 		return response, err
 	}
@@ -2416,7 +2416,7 @@ func (client FleetAppsManagementOperationsClient) summarizeComplianceRecordCount
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ComplianceRecordAggregationCollection/SummarizeComplianceRecordCounts"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "SummarizeComplianceRecordCounts", apiReferenceLink)
 		return response, err
 	}
@@ -2470,7 +2470,7 @@ func (client FleetAppsManagementOperationsClient) summarizeManagedEntityCounts(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ManagedEntityAggregationCollection/SummarizeManagedEntityCounts"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "SummarizeManagedEntityCounts", apiReferenceLink)
 		return response, err
 	}
@@ -2524,7 +2524,7 @@ func (client FleetAppsManagementOperationsClient) summarizeSchedulerJobCounts(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJobAggregationCollection/SummarizeSchedulerJobCounts"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "SummarizeSchedulerJobCounts", apiReferenceLink)
 		return response, err
 	}
@@ -2578,7 +2578,7 @@ func (client FleetAppsManagementOperationsClient) updatePatch(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Patch/UpdatePatch"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "UpdatePatch", apiReferenceLink)
 		return response, err
 	}
@@ -2632,7 +2632,7 @@ func (client FleetAppsManagementOperationsClient) updatePatchGroup(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/PatchGroup/UpdatePatchGroup"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "UpdatePatchGroup", apiReferenceLink)
 		return response, err
 	}
@@ -2686,7 +2686,7 @@ func (client FleetAppsManagementOperationsClient) updateSchedulerDefinition(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerDefinition/UpdateSchedulerDefinition"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "UpdateSchedulerDefinition", apiReferenceLink)
 		return response, err
 	}
@@ -2740,7 +2740,7 @@ func (client FleetAppsManagementOperationsClient) updateSchedulerJob(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/SchedulerJob/UpdateSchedulerJob"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementOperations", "UpdateSchedulerJob", apiReferenceLink)
 		return response, err
 	}

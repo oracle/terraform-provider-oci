@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// DisasterRecoveryPrecheck DR precheck result for a deployment for the specified placement (availabilityDomain and faultDomain).
-type DisasterRecoveryPrecheck struct {
+// DisasterRecoveryPrecheckReport DR precheck result for standby peer in the specified placement (availabilityDomain and faultDomain).
+type DisasterRecoveryPrecheckReport struct {
 
 	// The timestamp when pre-check started. The format is defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`.
@@ -30,17 +30,17 @@ type DisasterRecoveryPrecheck struct {
 	PrecheckStatus PrecheckStatusEnum `mandatory:"true" json:"precheckStatus"`
 
 	// A list of precheck results.
-	Checks []DisasterRecoveryPrecheckSummary `mandatory:"true" json:"checks"`
+	Checks []DisasterRecoveryPrecheckResult `mandatory:"true" json:"checks"`
 }
 
-func (m DisasterRecoveryPrecheck) String() string {
+func (m DisasterRecoveryPrecheckReport) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisasterRecoveryPrecheck) ValidateEnumValue() (bool, error) {
+func (m DisasterRecoveryPrecheckReport) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingPrecheckStatusEnum(string(m.PrecheckStatus)); !ok && m.PrecheckStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrecheckStatus: %s. Supported values are: %s.", m.PrecheckStatus, strings.Join(GetPrecheckStatusEnumStringValues(), ",")))

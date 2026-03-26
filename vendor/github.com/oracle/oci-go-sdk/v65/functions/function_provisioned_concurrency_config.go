@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// FunctionProvisionedConcurrencyConfig Define the strategy for provisioned concurrency for the function.
+// FunctionProvisionedConcurrencyConfig Note: Deprecated. Use the new resource model APIs instead.
+// Define the strategy for provisioned concurrency for the function.
 type FunctionProvisionedConcurrencyConfig interface {
 }
 

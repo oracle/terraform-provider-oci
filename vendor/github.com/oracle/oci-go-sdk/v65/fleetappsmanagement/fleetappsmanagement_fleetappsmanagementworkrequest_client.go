@@ -136,7 +136,7 @@ func (client FleetAppsManagementWorkRequestClient) getWorkRequest(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementWorkRequest", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client FleetAppsManagementWorkRequestClient) listWorkRequestErrors(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementWorkRequest", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -244,7 +244,7 @@ func (client FleetAppsManagementWorkRequestClient) listWorkRequestLogs(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementWorkRequest", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -298,7 +298,7 @@ func (client FleetAppsManagementWorkRequestClient) listWorkRequests(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementWorkRequest", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}

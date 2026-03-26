@@ -4827,7 +4827,7 @@ func (client VirtualNetworkClient) checkDeviceReachabilityInternal(ctx context.C
 
 	var response CheckDeviceReachabilityInternalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CheckDeviceReachabilityInternal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

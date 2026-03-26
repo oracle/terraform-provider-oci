@@ -138,7 +138,7 @@ func (client PostgresqlClient) backupCopy(ctx context.Context, request common.OC
 
 	var response BackupCopyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "BackupCopy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client PostgresqlClient) changeBackupCompartment(ctx context.Context, requ
 
 	var response ChangeBackupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ChangeBackupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -256,7 +256,7 @@ func (client PostgresqlClient) changeConfigurationCompartment(ctx context.Contex
 
 	var response ChangeConfigurationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ChangeConfigurationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client PostgresqlClient) changeDbSystemCompartment(ctx context.Context, re
 
 	var response ChangeDbSystemCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ChangeDbSystemCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -374,7 +374,7 @@ func (client PostgresqlClient) changeRoleToReplica(ctx context.Context, request 
 
 	var response ChangeRoleToReplicaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ChangeRoleToReplica")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -433,7 +433,7 @@ func (client PostgresqlClient) changeRoleToStandalone(ctx context.Context, reque
 
 	var response ChangeRoleToStandaloneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ChangeRoleToStandalone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -492,7 +492,7 @@ func (client PostgresqlClient) createBackup(ctx context.Context, request common.
 
 	var response CreateBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "CreateBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -551,7 +551,7 @@ func (client PostgresqlClient) createConfiguration(ctx context.Context, request 
 
 	var response CreateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "CreateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -610,7 +610,7 @@ func (client PostgresqlClient) createDbSystem(ctx context.Context, request commo
 
 	var response CreateDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "CreateDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -664,7 +664,7 @@ func (client PostgresqlClient) deleteBackup(ctx context.Context, request common.
 
 	var response DeleteBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "DeleteBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -718,7 +718,7 @@ func (client PostgresqlClient) deleteConfiguration(ctx context.Context, request 
 
 	var response DeleteConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "DeleteConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -772,7 +772,7 @@ func (client PostgresqlClient) deleteDbSystem(ctx context.Context, request commo
 
 	var response DeleteDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "DeleteDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -831,7 +831,7 @@ func (client PostgresqlClient) failoverDbSystem(ctx context.Context, request com
 
 	var response FailoverDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "FailoverDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -885,7 +885,7 @@ func (client PostgresqlClient) getBackup(ctx context.Context, request common.OCI
 
 	var response GetBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -939,7 +939,7 @@ func (client PostgresqlClient) getConfiguration(ctx context.Context, request com
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -993,7 +993,7 @@ func (client PostgresqlClient) getConnectionDetails(ctx context.Context, request
 
 	var response GetConnectionDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetConnectionDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1047,7 +1047,7 @@ func (client PostgresqlClient) getDbSystem(ctx context.Context, request common.O
 
 	var response GetDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1101,7 +1101,7 @@ func (client PostgresqlClient) getDefaultConfiguration(ctx context.Context, requ
 
 	var response GetDefaultConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetDefaultConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1155,7 +1155,7 @@ func (client PostgresqlClient) getPrimaryDbInstance(ctx context.Context, request
 
 	var response GetPrimaryDbInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetPrimaryDbInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1209,7 +1209,7 @@ func (client PostgresqlClient) getWorkRequest(ctx context.Context, request commo
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1263,7 +1263,7 @@ func (client PostgresqlClient) listBackups(ctx context.Context, request common.O
 
 	var response ListBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1317,7 +1317,7 @@ func (client PostgresqlClient) listConfigurations(ctx context.Context, request c
 
 	var response ListConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1371,7 +1371,7 @@ func (client PostgresqlClient) listDbSystemReplicas(ctx context.Context, request
 
 	var response ListDbSystemReplicasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListDbSystemReplicas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1425,7 +1425,7 @@ func (client PostgresqlClient) listDbSystems(ctx context.Context, request common
 
 	var response ListDbSystemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListDbSystems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1479,7 +1479,7 @@ func (client PostgresqlClient) listDefaultConfigurations(ctx context.Context, re
 
 	var response ListDefaultConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListDefaultConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1538,7 +1538,7 @@ func (client PostgresqlClient) listInsightCapabilities(ctx context.Context, requ
 
 	var response ListInsightCapabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListInsightCapabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1592,7 +1592,7 @@ func (client PostgresqlClient) listShapes(ctx context.Context, request common.OC
 
 	var response ListShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1646,7 +1646,7 @@ func (client PostgresqlClient) listWorkRequestErrors(ctx context.Context, reques
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1700,7 +1700,7 @@ func (client PostgresqlClient) listWorkRequestLogs(ctx context.Context, request 
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1754,7 +1754,7 @@ func (client PostgresqlClient) listWorkRequests(ctx context.Context, request com
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1808,7 +1808,7 @@ func (client PostgresqlClient) patchDbSystem(ctx context.Context, request common
 
 	var response PatchDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "PatchDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1867,7 +1867,7 @@ func (client PostgresqlClient) resetMasterUserPassword(ctx context.Context, requ
 
 	var response ResetMasterUserPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "ResetMasterUserPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1926,7 +1926,7 @@ func (client PostgresqlClient) restartDbInstanceInDbSystem(ctx context.Context, 
 
 	var response RestartDbInstanceInDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "RestartDbInstanceInDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1985,7 +1985,7 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 
 	var response RestoreDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "RestoreDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2044,7 +2044,7 @@ func (client PostgresqlClient) startDbSystem(ctx context.Context, request common
 
 	var response StartDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "StartDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2103,7 +2103,7 @@ func (client PostgresqlClient) stopDbSystem(ctx context.Context, request common.
 
 	var response StopDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "StopDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2162,7 +2162,7 @@ func (client PostgresqlClient) switchOver(ctx context.Context, request common.OC
 
 	var response SwitchOverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "SwitchOver")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2216,7 +2216,7 @@ func (client PostgresqlClient) updateBackup(ctx context.Context, request common.
 
 	var response UpdateBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "UpdateBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2275,7 +2275,7 @@ func (client PostgresqlClient) updateConfiguration(ctx context.Context, request 
 
 	var response UpdateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "UpdateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2334,7 +2334,7 @@ func (client PostgresqlClient) updateDbSystem(ctx context.Context, request commo
 
 	var response UpdateDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "UpdateDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2393,7 +2393,7 @@ func (client PostgresqlClient) updateDbSystemDbInstance(ctx context.Context, req
 
 	var response UpdateDbSystemDbInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "UpdateDbSystemDbInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// FunctionTraceConfig Define the tracing configuration for a function.
+// FunctionTraceConfig Note: Deprecated. Use the new resource model APIs instead.
+// Define the tracing configuration for a function.
 type FunctionTraceConfig struct {
 
 	// Define if tracing is enabled for the resource.

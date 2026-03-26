@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// PublisherDetails Contains details about the publisher of this PBF Listing.
+// PublisherDetails Note: Deprecated. Use the new resource model APIs instead.
+// Contains details about the publisher of this PBF Listing.
 type PublisherDetails struct {
 
 	// Name of the Publisher

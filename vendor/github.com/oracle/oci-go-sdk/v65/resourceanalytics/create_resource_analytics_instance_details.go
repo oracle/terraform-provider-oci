@@ -40,6 +40,9 @@ type CreateResourceAnalyticsInstanceDetails struct {
 	// Example: `["ocid...", "ocid..."]`
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The compute amount (CPUs) available to the Autonomous Database.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// The Oracle license model that applies to the ADW instance.
 	LicenseModel CreateResourceAnalyticsInstanceDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -80,6 +83,7 @@ func (m *CreateResourceAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e e
 		Description         *string                                                `json:"description"`
 		IsMutualTlsRequired *bool                                                  `json:"isMutualTlsRequired"`
 		NsgIds              []string                                               `json:"nsgIds"`
+		ComputeCount        *int                                                   `json:"computeCount"`
 		LicenseModel        CreateResourceAnalyticsInstanceDetailsLicenseModelEnum `json:"licenseModel"`
 		FreeformTags        map[string]string                                      `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{}                      `json:"definedTags"`
@@ -101,6 +105,8 @@ func (m *CreateResourceAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e e
 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
+	m.ComputeCount = model.ComputeCount
+
 	m.LicenseModel = model.LicenseModel
 
 	m.FreeformTags = model.FreeformTags

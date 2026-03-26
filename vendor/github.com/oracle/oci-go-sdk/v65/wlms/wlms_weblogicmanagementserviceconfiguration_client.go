@@ -138,7 +138,7 @@ func (client WeblogicManagementServiceConfigurationClient) getConfiguration(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/Configuration/GetConfiguration"
 		err = common.PostProcessServiceError(err, "WeblogicManagementServiceConfiguration", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -197,7 +197,7 @@ func (client WeblogicManagementServiceConfigurationClient) updateConfiguration(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/Configuration/UpdateConfiguration"
 		err = common.PostProcessServiceError(err, "WeblogicManagementServiceConfiguration", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}

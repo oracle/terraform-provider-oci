@@ -137,7 +137,7 @@ func (client OccMetricAlarmClient) createOccMetricAlarm(ctx context.Context, req
 
 	var response CreateOccMetricAlarmResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occMetricAlarm", "CreateOccMetricAlarm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client OccMetricAlarmClient) deleteOccMetricAlarm(ctx context.Context, req
 
 	var response DeleteOccMetricAlarmResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occMetricAlarm", "DeleteOccMetricAlarm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -245,7 +245,7 @@ func (client OccMetricAlarmClient) getOccMetricAlarm(ctx context.Context, reques
 
 	var response GetOccMetricAlarmResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occMetricAlarm", "GetOccMetricAlarm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -299,7 +299,7 @@ func (client OccMetricAlarmClient) listOccMetricAlarms(ctx context.Context, requ
 
 	var response ListOccMetricAlarmsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occMetricAlarm", "ListOccMetricAlarms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -353,7 +353,7 @@ func (client OccMetricAlarmClient) updateOccMetricAlarm(ctx context.Context, req
 
 	var response UpdateOccMetricAlarmResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occMetricAlarm", "UpdateOccMetricAlarm")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -33,6 +33,9 @@ type AutonomousDatabaseSummary struct {
 	// The database name.
 	DbName *string `mandatory:"true" json:"dbName"`
 
+	// The destination cloud provider where Autonomous AI Database backups are stored.
+	BackupDestination AutonomousDatabaseSummaryBackupDestinationEnum `mandatory:"false" json:"backupDestination,omitempty"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
@@ -574,6 +577,9 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseSummaryBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousDatabaseSummaryComputeModelEnumStringValues(), ",")))
 	}
@@ -640,6 +646,7 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		BackupDestination                       AutonomousDatabaseSummaryBackupDestinationEnum                 `json:"backupDestination"`
 		SubscriptionId                          *string                                                        `json:"subscriptionId"`
 		LifecycleDetails                        *string                                                        `json:"lifecycleDetails"`
 		KmsKeyId                                *string                                                        `json:"kmsKeyId"`
@@ -799,6 +806,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.BackupDestination = model.BackupDestination
+
 	m.SubscriptionId = model.SubscriptionId
 
 	m.LifecycleDetails = model.LifecycleDetails
@@ -1130,6 +1139,56 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.DbName = model.DbName
 
 	return
+}
+
+// AutonomousDatabaseSummaryBackupDestinationEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryBackupDestinationEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryBackupDestinationEnum
+const (
+	AutonomousDatabaseSummaryBackupDestinationOci   AutonomousDatabaseSummaryBackupDestinationEnum = "OCI"
+	AutonomousDatabaseSummaryBackupDestinationGcp   AutonomousDatabaseSummaryBackupDestinationEnum = "GCP"
+	AutonomousDatabaseSummaryBackupDestinationAzure AutonomousDatabaseSummaryBackupDestinationEnum = "AZURE"
+	AutonomousDatabaseSummaryBackupDestinationAws   AutonomousDatabaseSummaryBackupDestinationEnum = "AWS"
+)
+
+var mappingAutonomousDatabaseSummaryBackupDestinationEnum = map[string]AutonomousDatabaseSummaryBackupDestinationEnum{
+	"OCI":   AutonomousDatabaseSummaryBackupDestinationOci,
+	"GCP":   AutonomousDatabaseSummaryBackupDestinationGcp,
+	"AZURE": AutonomousDatabaseSummaryBackupDestinationAzure,
+	"AWS":   AutonomousDatabaseSummaryBackupDestinationAws,
+}
+
+var mappingAutonomousDatabaseSummaryBackupDestinationEnumLowerCase = map[string]AutonomousDatabaseSummaryBackupDestinationEnum{
+	"oci":   AutonomousDatabaseSummaryBackupDestinationOci,
+	"gcp":   AutonomousDatabaseSummaryBackupDestinationGcp,
+	"azure": AutonomousDatabaseSummaryBackupDestinationAzure,
+	"aws":   AutonomousDatabaseSummaryBackupDestinationAws,
+}
+
+// GetAutonomousDatabaseSummaryBackupDestinationEnumValues Enumerates the set of values for AutonomousDatabaseSummaryBackupDestinationEnum
+func GetAutonomousDatabaseSummaryBackupDestinationEnumValues() []AutonomousDatabaseSummaryBackupDestinationEnum {
+	values := make([]AutonomousDatabaseSummaryBackupDestinationEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryBackupDestinationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryBackupDestinationEnum
+func GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues() []string {
+	return []string{
+		"OCI",
+		"GCP",
+		"AZURE",
+		"AWS",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryBackupDestinationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryBackupDestinationEnum(val string) (AutonomousDatabaseSummaryBackupDestinationEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryBackupDestinationEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // AutonomousDatabaseSummaryLifecycleStateEnum Enum with underlying type: string

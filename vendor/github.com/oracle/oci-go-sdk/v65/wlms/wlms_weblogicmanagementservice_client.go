@@ -143,7 +143,7 @@ func (client WeblogicManagementServiceClient) changeWlsDomainCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ChangeWlsDomainCompartment"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ChangeWlsDomainCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -202,7 +202,7 @@ func (client WeblogicManagementServiceClient) createAgreementRecord(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/CreateAgreementRecord"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "CreateAgreementRecord", apiReferenceLink)
 		return response, err
 	}
@@ -261,7 +261,7 @@ func (client WeblogicManagementServiceClient) deleteWlsDomain(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/DeleteWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "DeleteWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -315,7 +315,7 @@ func (client WeblogicManagementServiceClient) getAgreement(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/Agreement/GetAgreement"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetAgreement", apiReferenceLink)
 		return response, err
 	}
@@ -369,7 +369,7 @@ func (client WeblogicManagementServiceClient) getManagedInstance(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/GetManagedInstance"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetManagedInstance", apiReferenceLink)
 		return response, err
 	}
@@ -423,7 +423,7 @@ func (client WeblogicManagementServiceClient) getManagedInstanceServer(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/GetManagedInstanceServer"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetManagedInstanceServer", apiReferenceLink)
 		return response, err
 	}
@@ -477,7 +477,7 @@ func (client WeblogicManagementServiceClient) getWlsDomain(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/GetWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -531,7 +531,7 @@ func (client WeblogicManagementServiceClient) getWlsDomainCredential(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/GetWlsDomainCredential"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWlsDomainCredential", apiReferenceLink)
 		return response, err
 	}
@@ -585,7 +585,7 @@ func (client WeblogicManagementServiceClient) getWlsDomainServer(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/GetWlsDomainServer"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWlsDomainServer", apiReferenceLink)
 		return response, err
 	}
@@ -639,7 +639,7 @@ func (client WeblogicManagementServiceClient) getWlsDomainServerBackup(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/GetWlsDomainServerBackup"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWlsDomainServerBackup", apiReferenceLink)
 		return response, err
 	}
@@ -693,7 +693,7 @@ func (client WeblogicManagementServiceClient) getWlsDomainServerBackupContent(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/GetWlsDomainServerBackupContent"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWlsDomainServerBackupContent", apiReferenceLink)
 		return response, err
 	}
@@ -747,7 +747,7 @@ func (client WeblogicManagementServiceClient) getWorkRequest(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -806,7 +806,7 @@ func (client WeblogicManagementServiceClient) installLatestPatchesOnWlsDomain(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/InstallLatestPatchesOnWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "InstallLatestPatchesOnWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -860,7 +860,7 @@ func (client WeblogicManagementServiceClient) listAgreementRecords(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListAgreementRecords"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListAgreementRecords", apiReferenceLink)
 		return response, err
 	}
@@ -919,7 +919,7 @@ func (client WeblogicManagementServiceClient) listApplicablePatches(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListApplicablePatches"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListApplicablePatches", apiReferenceLink)
 		return response, err
 	}
@@ -973,7 +973,7 @@ func (client WeblogicManagementServiceClient) listManagedInstanceScanResults(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/ListManagedInstanceScanResults"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListManagedInstanceScanResults", apiReferenceLink)
 		return response, err
 	}
@@ -1027,7 +1027,7 @@ func (client WeblogicManagementServiceClient) listManagedInstanceServerInstalled
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/ListManagedInstanceServerInstalledPatches"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListManagedInstanceServerInstalledPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1086,7 +1086,7 @@ func (client WeblogicManagementServiceClient) listManagedInstanceServers(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/ListManagedInstanceServers"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListManagedInstanceServers", apiReferenceLink)
 		return response, err
 	}
@@ -1145,7 +1145,7 @@ func (client WeblogicManagementServiceClient) listManagedInstances(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/ListManagedInstances"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListManagedInstances", apiReferenceLink)
 		return response, err
 	}
@@ -1199,7 +1199,7 @@ func (client WeblogicManagementServiceClient) listRequiredPolicies(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/RequiredPolicyCollection/ListRequiredPolicies"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListRequiredPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -1258,7 +1258,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainCredentials(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainCredentials"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -1312,7 +1312,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainScanResults(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainScanResults"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainScanResults", apiReferenceLink)
 		return response, err
 	}
@@ -1366,7 +1366,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainServerBackups(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainServerBackups"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainServerBackups", apiReferenceLink)
 		return response, err
 	}
@@ -1420,7 +1420,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainServerInstalledPatche
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainServerInstalledPatches"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainServerInstalledPatches", apiReferenceLink)
 		return response, err
 	}
@@ -1479,7 +1479,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainServers(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainServers"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainServers", apiReferenceLink)
 		return response, err
 	}
@@ -1538,7 +1538,7 @@ func (client WeblogicManagementServiceClient) listWlsDomains(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomains"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomains", apiReferenceLink)
 		return response, err
 	}
@@ -1592,7 +1592,7 @@ func (client WeblogicManagementServiceClient) listWlsDomainsSharingMiddlewares(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ListWlsDomainsSharingMiddlewares"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWlsDomainsSharingMiddlewares", apiReferenceLink)
 		return response, err
 	}
@@ -1646,7 +1646,7 @@ func (client WeblogicManagementServiceClient) listWorkRequestErrors(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WorkRequest/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1700,7 +1700,7 @@ func (client WeblogicManagementServiceClient) listWorkRequestLogs(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WorkRequest/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1754,7 +1754,7 @@ func (client WeblogicManagementServiceClient) listWorkRequests(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1813,7 +1813,7 @@ func (client WeblogicManagementServiceClient) restartWlsDomain(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/RestartWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "RestartWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -1872,7 +1872,7 @@ func (client WeblogicManagementServiceClient) restoreWlsDomain(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/RestoreWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "RestoreWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -1931,7 +1931,7 @@ func (client WeblogicManagementServiceClient) scanManagedInstance(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/ScanManagedInstance"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ScanManagedInstance", apiReferenceLink)
 		return response, err
 	}
@@ -1990,7 +1990,7 @@ func (client WeblogicManagementServiceClient) scanWlsDomain(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/ScanWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "ScanWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -2049,7 +2049,7 @@ func (client WeblogicManagementServiceClient) setRestartOrder(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/SetRestartOrder"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "SetRestartOrder", apiReferenceLink)
 		return response, err
 	}
@@ -2108,7 +2108,7 @@ func (client WeblogicManagementServiceClient) startWlsDomain(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/StartWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "StartWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -2167,7 +2167,7 @@ func (client WeblogicManagementServiceClient) stopWlsDomain(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/StopWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "StopWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -2221,7 +2221,7 @@ func (client WeblogicManagementServiceClient) summarizeResourceInventory(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ResourceInventory/SummarizeResourceInventory"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "SummarizeResourceInventory", apiReferenceLink)
 		return response, err
 	}
@@ -2280,7 +2280,7 @@ func (client WeblogicManagementServiceClient) updateManagedInstance(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/ManagedInstance/UpdateManagedInstance"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "UpdateManagedInstance", apiReferenceLink)
 		return response, err
 	}
@@ -2334,7 +2334,7 @@ func (client WeblogicManagementServiceClient) updateWlsDomain(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/UpdateWlsDomain"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "UpdateWlsDomain", apiReferenceLink)
 		return response, err
 	}
@@ -2388,7 +2388,7 @@ func (client WeblogicManagementServiceClient) updateWlsDomainCredential(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/wlms/20241101/WlsDomain/UpdateWlsDomainCredential"
 		err = common.PostProcessServiceError(err, "WeblogicManagementService", "UpdateWlsDomainCredential", apiReferenceLink)
 		return response, err
 	}

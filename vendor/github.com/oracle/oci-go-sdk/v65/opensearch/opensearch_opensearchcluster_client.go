@@ -318,6 +318,64 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 	return response, err
 }
 
+// EnableCustomerLogging Enable OpenSearch service logs visible to Customers
+func (client OpensearchClusterClient) EnableCustomerLogging(ctx context.Context, request EnableCustomerLoggingRequest) (response EnableCustomerLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableCustomerLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCustomerLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCustomerLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCustomerLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCustomerLoggingResponse")
+	}
+	return
+}
+
+// enableCustomerLogging implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) enableCustomerLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/enableCustomerLogs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCustomerLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "EnableCustomerLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/EnableCustomerLogging"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "EnableCustomerLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOpensearchCluster Gets a OpensearchCluster by identifier
 func (client OpensearchClusterClient) GetOpensearchCluster(ctx context.Context, request GetOpensearchClusterRequest) (response GetOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -846,6 +904,122 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/OpensearchClusterRestore"
 		err = common.PostProcessServiceError(err, "OpensearchCluster", "OpensearchClusterRestore", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PauseCustomerLogging Pause OpenSearch service logs visible to Customers
+func (client OpensearchClusterClient) PauseCustomerLogging(ctx context.Context, request PauseCustomerLoggingRequest) (response PauseCustomerLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.pauseCustomerLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PauseCustomerLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PauseCustomerLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PauseCustomerLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PauseCustomerLoggingResponse")
+	}
+	return
+}
+
+// pauseCustomerLogging implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) pauseCustomerLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/pauseCustomerLogs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PauseCustomerLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "PauseCustomerLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/PauseCustomerLogging"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "PauseCustomerLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveCustomerLogging Remove OpenSearch service logs visible to Customers
+func (client OpensearchClusterClient) RemoveCustomerLogging(ctx context.Context, request RemoveCustomerLoggingRequest) (response RemoveCustomerLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeCustomerLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveCustomerLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveCustomerLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveCustomerLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveCustomerLoggingResponse")
+	}
+	return
+}
+
+// removeCustomerLogging implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) removeCustomerLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/removeCustomerLogs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveCustomerLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "RemoveCustomerLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/RemoveCustomerLogging"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "RemoveCustomerLogging", apiReferenceLink)
 		return response, err
 	}
 

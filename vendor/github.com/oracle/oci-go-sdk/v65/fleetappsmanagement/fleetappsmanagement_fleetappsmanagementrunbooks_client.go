@@ -142,7 +142,7 @@ func (client FleetAppsManagementRunbooksClient) changeRunbookCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ChangeRunbookCompartment"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ChangeRunbookCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -202,7 +202,7 @@ func (client FleetAppsManagementRunbooksClient) changeTaskRecordCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/ChangeTaskRecordCompartment"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ChangeTaskRecordCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -261,7 +261,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/CreateRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -320,7 +320,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbookVersion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/CreateRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -379,7 +379,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/CreateTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "CreateTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -433,7 +433,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/DeleteRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -487,7 +487,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbookVersion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/DeleteRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -541,7 +541,7 @@ func (client FleetAppsManagementRunbooksClient) deleteTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/DeleteTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "DeleteTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -600,7 +600,7 @@ func (client FleetAppsManagementRunbooksClient) exportRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ExportRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ExportRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -659,7 +659,7 @@ func (client FleetAppsManagementRunbooksClient) exportRunbookVersion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/ExportRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ExportRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -713,7 +713,7 @@ func (client FleetAppsManagementRunbooksClient) findRunbookExportDependency(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExportDependencyCollection/FindRunbookExportDependency"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "FindRunbookExportDependency", apiReferenceLink)
 		return response, err
 	}
@@ -767,7 +767,7 @@ func (client FleetAppsManagementRunbooksClient) findRunbookImportDependency(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImportDependencyCollection/FindRunbookImportDependency"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "FindRunbookImportDependency", apiReferenceLink)
 		return response, err
 	}
@@ -821,7 +821,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/GetRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -875,7 +875,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookExport(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExport/GetRunbookExport"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookExport", apiReferenceLink)
 		return response, err
 	}
@@ -929,7 +929,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookImport(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImport/GetRunbookImport"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookImport", apiReferenceLink)
 		return response, err
 	}
@@ -983,7 +983,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookVersion(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/GetRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -1037,7 +1037,7 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/GetTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "GetTaskRecord", apiReferenceLink)
 		return response, err
 	}
@@ -1096,7 +1096,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookDetails/ImportRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -1155,7 +1155,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbookPrecheck(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookPrecheckDetails/ImportRunbookPrecheck"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbookPrecheck", apiReferenceLink)
 		return response, err
 	}
@@ -1214,7 +1214,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbookVersion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ImportRunbookVersionDetails/ImportRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ImportRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -1269,7 +1269,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookExportStatuses(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookExportStatusCollection/ListRunbookExportStatuses"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookExportStatuses", apiReferenceLink)
 		return response, err
 	}
@@ -1324,7 +1324,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookImportStatuses(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookImportStatusCollection/ListRunbookImportStatuses"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookImportStatuses", apiReferenceLink)
 		return response, err
 	}
@@ -1378,7 +1378,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookVersions(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersionCollection/ListRunbookVersions"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbookVersions", apiReferenceLink)
 		return response, err
 	}
@@ -1433,7 +1433,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbooks(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookCollection/ListRunbooks"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListRunbooks", apiReferenceLink)
 		return response, err
 	}
@@ -1488,7 +1488,7 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecordCollection/ListTaskRecords"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "ListTaskRecords", apiReferenceLink)
 		return response, err
 	}
@@ -1548,7 +1548,7 @@ func (client FleetAppsManagementRunbooksClient) publishRunbook(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/PublishRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "PublishRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -1607,7 +1607,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/SetDefaultRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "SetDefaultRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -1661,7 +1661,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbook(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/Runbook/UpdateRunbook"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateRunbook", apiReferenceLink)
 		return response, err
 	}
@@ -1715,7 +1715,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbookVersion(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/RunbookVersion/UpdateRunbookVersion"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateRunbookVersion", apiReferenceLink)
 		return response, err
 	}
@@ -1769,7 +1769,7 @@ func (client FleetAppsManagementRunbooksClient) updateTaskRecord(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/TaskRecord/UpdateTaskRecord"
 		err = common.PostProcessServiceError(err, "FleetAppsManagementRunbooks", "UpdateTaskRecord", apiReferenceLink)
 		return response, err
 	}

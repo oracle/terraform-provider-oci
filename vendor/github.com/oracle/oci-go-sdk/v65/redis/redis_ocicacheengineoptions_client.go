@@ -136,7 +136,7 @@ func (client OciCacheEngineOptionsClient) listOciCacheEngineOptions(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/OciCacheEngineOptionSummary/ListOciCacheEngineOptions"
 		err = common.PostProcessServiceError(err, "OciCacheEngineOptions", "ListOciCacheEngineOptions", apiReferenceLink)
 		return response, err
 	}

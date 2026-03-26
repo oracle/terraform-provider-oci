@@ -51,16 +51,22 @@ type VaultMtlsDetailsStatusEnum string
 const (
 	VaultMtlsDetailsStatusCreating VaultMtlsDetailsStatusEnum = "CREATING"
 	VaultMtlsDetailsStatusCreated  VaultMtlsDetailsStatusEnum = "CREATED"
+	VaultMtlsDetailsStatusDeleting VaultMtlsDetailsStatusEnum = "DELETING"
+	VaultMtlsDetailsStatusDeleted  VaultMtlsDetailsStatusEnum = "DELETED"
 )
 
 var mappingVaultMtlsDetailsStatusEnum = map[string]VaultMtlsDetailsStatusEnum{
 	"CREATING": VaultMtlsDetailsStatusCreating,
 	"CREATED":  VaultMtlsDetailsStatusCreated,
+	"DELETING": VaultMtlsDetailsStatusDeleting,
+	"DELETED":  VaultMtlsDetailsStatusDeleted,
 }
 
 var mappingVaultMtlsDetailsStatusEnumLowerCase = map[string]VaultMtlsDetailsStatusEnum{
 	"creating": VaultMtlsDetailsStatusCreating,
 	"created":  VaultMtlsDetailsStatusCreated,
+	"deleting": VaultMtlsDetailsStatusDeleting,
+	"deleted":  VaultMtlsDetailsStatusDeleted,
 }
 
 // GetVaultMtlsDetailsStatusEnumValues Enumerates the set of values for VaultMtlsDetailsStatusEnum
@@ -77,6 +83,8 @@ func GetVaultMtlsDetailsStatusEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"CREATED",
+		"DELETING",
+		"DELETED",
 	}
 }
 

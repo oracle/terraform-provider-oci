@@ -28,7 +28,7 @@ type CreateFusionEnvironmentDetails struct {
 	// The unique identifier (OCID) of the Fusion Environment Family that the Fusion Environment belongs to.
 	FusionEnvironmentFamilyId *string `mandatory:"true" json:"fusionEnvironmentFamilyId"`
 
-	// The type of environment. Valid values are Production, Test, or Development.
+	// The type of environment. Valid values are Production, Test, Development, or Demo.
 	FusionEnvironmentType FusionEnvironmentFusionEnvironmentTypeEnum `mandatory:"true" json:"fusionEnvironmentType"`
 
 	CreateFusionEnvironmentAdminUserDetails *CreateFusionEnvironmentAdminUserDetails `mandatory:"true" json:"createFusionEnvironmentAdminUserDetails"`

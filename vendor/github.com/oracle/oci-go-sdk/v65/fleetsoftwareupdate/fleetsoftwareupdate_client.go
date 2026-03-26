@@ -142,7 +142,7 @@ func (client FleetSoftwareUpdateClient) abortFsuDiscovery(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscovery/AbortFsuDiscovery"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "AbortFsuDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client FleetSoftwareUpdateClient) abortFsuJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/AbortFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "AbortFsuJob", apiReferenceLink)
 		return response, err
 	}
@@ -263,7 +263,7 @@ func (client FleetSoftwareUpdateClient) addFsuCollectionTargets(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/AddFsuCollectionTargets"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "AddFsuCollectionTargets", apiReferenceLink)
 		return response, err
 	}
@@ -317,7 +317,7 @@ func (client FleetSoftwareUpdateClient) applyTarget(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/ApplyTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ApplyTarget", apiReferenceLink)
 		return response, err
 	}
@@ -377,7 +377,7 @@ func (client FleetSoftwareUpdateClient) cancelFsuAction(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/CancelFsuAction"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "CancelFsuAction", apiReferenceLink)
 		return response, err
 	}
@@ -437,7 +437,7 @@ func (client FleetSoftwareUpdateClient) changeFsuActionCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/ChangeFsuActionCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuActionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -497,7 +497,7 @@ func (client FleetSoftwareUpdateClient) changeFsuCollectionCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/ChangeFsuCollectionCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuCollectionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -557,7 +557,7 @@ func (client FleetSoftwareUpdateClient) changeFsuCycleCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycle/ChangeFsuCycleCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuCycleCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -617,7 +617,7 @@ func (client FleetSoftwareUpdateClient) changeFsuDiscoveryCompartment(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscovery/ChangeFsuDiscoveryCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuDiscoveryCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -677,7 +677,7 @@ func (client FleetSoftwareUpdateClient) changeFsuHomeCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImage/ChangeFsuHomeCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuHomeCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -737,7 +737,7 @@ func (client FleetSoftwareUpdateClient) changeFsuImageCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImage/ChangeFsuImageCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuImageCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -797,7 +797,7 @@ func (client FleetSoftwareUpdateClient) changeFsuReadinessCheckCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/ChangeFsuReadinessCheckCompartment"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ChangeFsuReadinessCheckCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -856,7 +856,7 @@ func (client FleetSoftwareUpdateClient) cloneFsuCycle(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycle/CloneFsuCycle"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "CloneFsuCycle", apiReferenceLink)
 		return response, err
 	}
@@ -1323,7 +1323,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuAction(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/DeleteFsuAction"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuAction", apiReferenceLink)
 		return response, err
 	}
@@ -1377,7 +1377,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCollection(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/DeleteFsuCollection"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuCollection", apiReferenceLink)
 		return response, err
 	}
@@ -1433,7 +1433,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCollectionTarget(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/DeleteFsuCollectionTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuCollectionTarget", apiReferenceLink)
 		return response, err
 	}
@@ -1487,7 +1487,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuCycle(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycle/DeleteFsuCycle"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuCycle", apiReferenceLink)
 		return response, err
 	}
@@ -1541,7 +1541,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuDiscovery(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscovery/DeleteFsuDiscovery"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -1595,7 +1595,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuHome(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuHome/DeleteFsuHome"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuHome", apiReferenceLink)
 		return response, err
 	}
@@ -1649,7 +1649,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuImage(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImage/DeleteFsuImage"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuImage", apiReferenceLink)
 		return response, err
 	}
@@ -1703,7 +1703,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuJob(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/DeleteFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuJob", apiReferenceLink)
 		return response, err
 	}
@@ -1757,7 +1757,7 @@ func (client FleetSoftwareUpdateClient) deleteFsuReadinessCheck(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/DeleteFsuReadinessCheck"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "DeleteFsuReadinessCheck", apiReferenceLink)
 		return response, err
 	}
@@ -1811,7 +1811,7 @@ func (client FleetSoftwareUpdateClient) evaluateTarget(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/EvaluateTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "EvaluateTarget", apiReferenceLink)
 		return response, err
 	}
@@ -1865,7 +1865,7 @@ func (client FleetSoftwareUpdateClient) getFsuAction(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/GetFsuAction"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuAction", apiReferenceLink)
 		return response, err
 	}
@@ -1919,7 +1919,7 @@ func (client FleetSoftwareUpdateClient) getFsuActionOutputContent(ctx context.Co
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetSoftwareUpdate", "GetFsuActionOutputContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/GetFsuActionOutputContent"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuActionOutputContent", apiReferenceLink)
 		return response, err
 	}
@@ -1973,7 +1973,7 @@ func (client FleetSoftwareUpdateClient) getFsuCollection(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/GetFsuCollection"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuCollection", apiReferenceLink)
 		return response, err
 	}
@@ -2027,7 +2027,7 @@ func (client FleetSoftwareUpdateClient) getFsuCollectionTarget(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollectionTarget/GetFsuCollectionTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuCollectionTarget", apiReferenceLink)
 		return response, err
 	}
@@ -2081,7 +2081,7 @@ func (client FleetSoftwareUpdateClient) getFsuCycle(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycle/GetFsuCycle"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuCycle", apiReferenceLink)
 		return response, err
 	}
@@ -2135,7 +2135,7 @@ func (client FleetSoftwareUpdateClient) getFsuDiscovery(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscovery/GetFsuDiscovery"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -2189,7 +2189,7 @@ func (client FleetSoftwareUpdateClient) getFsuHome(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuHome/GetFsuHome"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuHome", apiReferenceLink)
 		return response, err
 	}
@@ -2243,7 +2243,7 @@ func (client FleetSoftwareUpdateClient) getFsuImage(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImage/GetFsuImage"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuImage", apiReferenceLink)
 		return response, err
 	}
@@ -2297,7 +2297,7 @@ func (client FleetSoftwareUpdateClient) getFsuJob(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/GetFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuJob", apiReferenceLink)
 		return response, err
 	}
@@ -2350,7 +2350,7 @@ func (client FleetSoftwareUpdateClient) getFsuJobOutputContent(ctx context.Conte
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetSoftwareUpdate", "GetFsuJobOutputContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/GetFsuJobOutputContent"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuJobOutputContent", apiReferenceLink)
 		return response, err
 	}
@@ -2404,7 +2404,7 @@ func (client FleetSoftwareUpdateClient) getFsuReadinessCheck(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/GetFsuReadinessCheck"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetFsuReadinessCheck", apiReferenceLink)
 		return response, err
 	}
@@ -2459,7 +2459,7 @@ func (client FleetSoftwareUpdateClient) getTarget(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/GetTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetTarget", apiReferenceLink)
 		return response, err
 	}
@@ -2513,7 +2513,7 @@ func (client FleetSoftwareUpdateClient) getWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -2567,7 +2567,7 @@ func (client FleetSoftwareUpdateClient) listFsuActions(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuActionSummaryCollection/ListFsuActions"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuActions", apiReferenceLink)
 		return response, err
 	}
@@ -2621,7 +2621,7 @@ func (client FleetSoftwareUpdateClient) listFsuCollectionTargets(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/TargetSummaryCollection/ListFsuCollectionTargets"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuCollectionTargets", apiReferenceLink)
 		return response, err
 	}
@@ -2675,7 +2675,7 @@ func (client FleetSoftwareUpdateClient) listFsuCollections(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollectionSummaryCollection/ListFsuCollections"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuCollections", apiReferenceLink)
 		return response, err
 	}
@@ -2729,7 +2729,7 @@ func (client FleetSoftwareUpdateClient) listFsuCycles(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycleSummary/ListFsuCycles"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuCycles", apiReferenceLink)
 		return response, err
 	}
@@ -2783,7 +2783,7 @@ func (client FleetSoftwareUpdateClient) listFsuDiscoveries(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscoverySummary/ListFsuDiscoveries"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuDiscoveries", apiReferenceLink)
 		return response, err
 	}
@@ -2837,7 +2837,7 @@ func (client FleetSoftwareUpdateClient) listFsuDiscoveryTargets(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/TargetSummaryCollection/ListFsuDiscoveryTargets"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuDiscoveryTargets", apiReferenceLink)
 		return response, err
 	}
@@ -2891,7 +2891,7 @@ func (client FleetSoftwareUpdateClient) listFsuHomes(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuHomeSummary/ListFsuHomes"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuHomes", apiReferenceLink)
 		return response, err
 	}
@@ -2945,7 +2945,7 @@ func (client FleetSoftwareUpdateClient) listFsuImages(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImageSummary/ListFsuImages"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuImages", apiReferenceLink)
 		return response, err
 	}
@@ -2999,7 +2999,7 @@ func (client FleetSoftwareUpdateClient) listFsuJobOutputs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJobOutputSummary/ListFsuJobOutputs"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuJobOutputs", apiReferenceLink)
 		return response, err
 	}
@@ -3053,7 +3053,7 @@ func (client FleetSoftwareUpdateClient) listFsuJobs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJobSummary/ListFsuJobs"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuJobs", apiReferenceLink)
 		return response, err
 	}
@@ -3107,7 +3107,7 @@ func (client FleetSoftwareUpdateClient) listFsuReadinessChecks(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheckSummary/ListFsuReadinessChecks"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListFsuReadinessChecks", apiReferenceLink)
 		return response, err
 	}
@@ -3161,7 +3161,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequestErrors(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -3215,7 +3215,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequestLogs(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -3269,7 +3269,7 @@ func (client FleetSoftwareUpdateClient) listWorkRequests(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -3323,7 +3323,7 @@ func (client FleetSoftwareUpdateClient) patchTarget(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/PatchTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "PatchTarget", apiReferenceLink)
 		return response, err
 	}
@@ -3384,7 +3384,7 @@ func (client FleetSoftwareUpdateClient) removeFsuCollectionTargets(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/RemoveFsuCollectionTargets"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "RemoveFsuCollectionTargets", apiReferenceLink)
 		return response, err
 	}
@@ -3443,7 +3443,7 @@ func (client FleetSoftwareUpdateClient) resumeFsuAction(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/ResumeFsuAction"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ResumeFsuAction", apiReferenceLink)
 		return response, err
 	}
@@ -3503,7 +3503,7 @@ func (client FleetSoftwareUpdateClient) retryFsuJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/RetryFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "RetryFsuJob", apiReferenceLink)
 		return response, err
 	}
@@ -3562,7 +3562,7 @@ func (client FleetSoftwareUpdateClient) startMockedPatchTarget(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/StartMockedPatchTarget"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "StartMockedPatchTarget", apiReferenceLink)
 		return response, err
 	}
@@ -3616,7 +3616,7 @@ func (client FleetSoftwareUpdateClient) updateFsuAction(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuAction/UpdateFsuAction"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuAction", apiReferenceLink)
 		return response, err
 	}
@@ -3670,7 +3670,7 @@ func (client FleetSoftwareUpdateClient) updateFsuCollection(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCollection/UpdateFsuCollection"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuCollection", apiReferenceLink)
 		return response, err
 	}
@@ -3724,7 +3724,7 @@ func (client FleetSoftwareUpdateClient) updateFsuCycle(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuCycle/UpdateFsuCycle"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuCycle", apiReferenceLink)
 		return response, err
 	}
@@ -3778,7 +3778,7 @@ func (client FleetSoftwareUpdateClient) updateFsuDiscovery(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuDiscovery/UpdateFsuDiscovery"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuDiscovery", apiReferenceLink)
 		return response, err
 	}
@@ -3832,7 +3832,7 @@ func (client FleetSoftwareUpdateClient) updateFsuHome(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuHome/UpdateFsuHome"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuHome", apiReferenceLink)
 		return response, err
 	}
@@ -3886,7 +3886,7 @@ func (client FleetSoftwareUpdateClient) updateFsuImage(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuImage/UpdateFsuImage"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuImage", apiReferenceLink)
 		return response, err
 	}
@@ -3940,7 +3940,7 @@ func (client FleetSoftwareUpdateClient) updateFsuJob(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuJob/UpdateFsuJob"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuJob", apiReferenceLink)
 		return response, err
 	}
@@ -3994,7 +3994,7 @@ func (client FleetSoftwareUpdateClient) updateFsuReadinessCheck(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/FsuReadinessCheck/UpdateFsuReadinessCheck"
 		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "UpdateFsuReadinessCheck", apiReferenceLink)
 		return response, err
 	}

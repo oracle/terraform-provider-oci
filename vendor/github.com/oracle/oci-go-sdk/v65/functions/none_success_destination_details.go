@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// NoneSuccessDestinationDetails Specifies no success destination
+// NoneSuccessDestinationDetails Note: Deprecated. Use the new resource model APIs instead.
+// Specifies no success destination
 // Example: `{"kind": "NONE"}`
 type NoneSuccessDestinationDetails struct {
 }

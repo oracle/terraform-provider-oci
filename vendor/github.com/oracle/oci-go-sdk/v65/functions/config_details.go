@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// ConfigDetails Details about the required and optional Function configurations needed for proper performance of the PBF.
+// ConfigDetails Note: Deprecated. Use the new resource model APIs instead.
+// Details about the required and optional Function configurations needed for proper performance of the PBF.
 type ConfigDetails struct {
 
 	// The key name of the config param.

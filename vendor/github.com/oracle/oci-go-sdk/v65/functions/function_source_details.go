@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// FunctionSourceDetails The source details for the Function. The function can be created from various sources.
+// FunctionSourceDetails Note: Deprecated. Use the new resource model APIs instead.
+// The source details for the Function. The function can be created from various sources.
 type FunctionSourceDetails interface {
 }
 

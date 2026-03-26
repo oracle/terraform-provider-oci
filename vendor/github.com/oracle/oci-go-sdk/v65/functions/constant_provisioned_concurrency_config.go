@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// ConstantProvisionedConcurrencyConfig Configuration specifying a constant amount of provisioned concurrency.
+// ConstantProvisionedConcurrencyConfig Note: Deprecated. Use the new resource model APIs instead.
+// Configuration specifying a constant amount of provisioned concurrency.
 type ConstantProvisionedConcurrencyConfig struct {
 
 	// Configuration specifying a constant amount of provisioned concurrency.

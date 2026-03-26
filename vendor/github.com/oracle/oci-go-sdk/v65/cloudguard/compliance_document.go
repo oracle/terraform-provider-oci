@@ -4,7 +4,7 @@
 
 // Cloud Guard and Security Zones API
 //
-// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.oracle.com/iaas/iaas/cloud-guard/home.htm) and Security Zones (https://docs.oracle.com/iaas/iaas/security-zone/home.htm) documentation.
+// Use the Cloud Guard and Security Zones API to automate processes that you would otherwise perform through the Cloud Guard Console or the Security Zones Console. For more information on these services, see the Cloud Guard (https://docs.oracle.com/iaas/cloud-guard/home.htm) and Security Zones (https://docs.oracle.com/iaas/security-zone/home.htm) documentation.
 // **Note:** For Cloud Guard, you can perform Create, Update, and Delete operations only from the reporting region of your Cloud Guard tenancy. You can perform Read operations from any region.
 //
 
@@ -39,11 +39,11 @@ type ComplianceDocument struct {
 	// The version number of the compliance document.
 	Version *int `mandatory:"true" json:"version"`
 
-	// The type of compliance document. For definitions of supported types of compliance documents, see Types of Compliance Documents (https://docs.cloud.oracle.com/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm#DocTypes).
+	// The type of compliance document. For definitions of supported types of compliance documents, see Types of Compliance Documents (https://docs.oracle.com/iaas/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm#DocTypes).
 	Type *string `mandatory:"true" json:"type"`
 
 	// The information technology infrastructure platform, or set of services, to which the compliance document belongs. A platform
-	// can also be described as an environment or a business pillar. For definitions of supported environments, see Types of Environments (https://docs.cloud.oracle.com/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm#EnvironmentTypes).
+	// can also be described as an environment or a business pillar. For definitions of supported environments, see Types of Environments (https://docs.oracle.com/iaas/en-us/iaas/Content/ComplianceDocuments/Concepts/compliancedocsoverview.htm#EnvironmentTypes).
 	Platform *string `mandatory:"true" json:"platform"`
 
 	// The date and time the compliance document was last updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.

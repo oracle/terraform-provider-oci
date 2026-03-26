@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-// GetDisasterRecoveryPrecheckRequest wrapper for the GetDisasterRecoveryPrecheck operation
-type GetDisasterRecoveryPrecheckRequest struct {
+// GetDisasterRecoveryPrecheckReportRequest wrapper for the GetDisasterRecoveryPrecheckReport operation
+type GetDisasterRecoveryPrecheckReportRequest struct {
 
 	// A unique Deployment identifier.
 	DeploymentId *string `mandatory:"true" contributesTo:"path" name:"deploymentId"`
@@ -31,12 +31,12 @@ type GetDisasterRecoveryPrecheckRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetDisasterRecoveryPrecheckRequest) String() string {
+func (request GetDisasterRecoveryPrecheckReportRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetDisasterRecoveryPrecheckRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetDisasterRecoveryPrecheckReportRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -46,21 +46,21 @@ func (request GetDisasterRecoveryPrecheckRequest) HTTPRequest(method, path strin
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetDisasterRecoveryPrecheckRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetDisasterRecoveryPrecheckReportRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetDisasterRecoveryPrecheckRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetDisasterRecoveryPrecheckReportRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetDisasterRecoveryPrecheckRequest) ValidateEnumValue() (bool, error) {
+func (request GetDisasterRecoveryPrecheckReportRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -68,29 +68,25 @@ func (request GetDisasterRecoveryPrecheckRequest) ValidateEnumValue() (bool, err
 	return false, nil
 }
 
-// GetDisasterRecoveryPrecheckResponse wrapper for the GetDisasterRecoveryPrecheck operation
-type GetDisasterRecoveryPrecheckResponse struct {
+// GetDisasterRecoveryPrecheckReportResponse wrapper for the GetDisasterRecoveryPrecheckReport operation
+type GetDisasterRecoveryPrecheckReportResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DisasterRecoveryPrecheck instance
-	DisasterRecoveryPrecheck `presentIn:"body"`
+	// The DisasterRecoveryPrecheckReport instance
+	DisasterRecoveryPrecheckReport `presentIn:"body"`
 
 	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The page token represents the page to start retrieving results. This is usually retrieved
-	// from a previous list call.
-	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
-func (response GetDisasterRecoveryPrecheckResponse) String() string {
+func (response GetDisasterRecoveryPrecheckReportResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetDisasterRecoveryPrecheckResponse) HTTPResponse() *http.Response {
+func (response GetDisasterRecoveryPrecheckReportResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

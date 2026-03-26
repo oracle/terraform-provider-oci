@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// GoldenGate API
+// Vault Key Management API
 //
-// Use the Oracle Cloud Infrastructure GoldenGate APIs to perform data replication operations.
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
-package goldengate
+package keymanagement
 
 import (
 	"fmt"
@@ -15,24 +15,22 @@ import (
 	"strings"
 )
 
-// DisasterRecoveryPrecheckDetails Metadata required for submitting a DR pre-check.
-type DisasterRecoveryPrecheckDetails struct {
+// HsmClusterPendingInstructions Pending instructions for audit logging setup.
+type HsmClusterPendingInstructions struct {
+	CreateDynamicGroup *HsmClusterPendingCreateDynamicGroup `mandatory:"false" json:"createDynamicGroup"`
 
-	// The availability domain of a placement.
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
-	// The fault domain of a placement.
-	FaultDomain *string `mandatory:"true" json:"faultDomain"`
+	// Policy for the user to add to the log bucket.
+	AddBucketPolicy *string `mandatory:"false" json:"addBucketPolicy"`
 }
 
-func (m DisasterRecoveryPrecheckDetails) String() string {
+func (m HsmClusterPendingInstructions) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisasterRecoveryPrecheckDetails) ValidateEnumValue() (bool, error) {
+func (m HsmClusterPendingInstructions) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

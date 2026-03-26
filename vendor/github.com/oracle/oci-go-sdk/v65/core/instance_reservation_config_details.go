@@ -41,7 +41,7 @@ type InstanceReservationConfigDetails struct {
 	// that does not specify a fault domain. To change the fault domain for a reservation,
 	// delete the reservation and create a new one in the preferred fault domain.
 	// To retrieve a list of fault domains, use the `ListFaultDomains` operation in
-	// the Identity and Access Management Service API (https://docs.oracle.com/iaas/iaas/api/#/en/identity/20160918/).
+	// the Identity and Access Management Service API (https://docs.oracle.com/iaas/api/#/en/identity/20160918/).
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 

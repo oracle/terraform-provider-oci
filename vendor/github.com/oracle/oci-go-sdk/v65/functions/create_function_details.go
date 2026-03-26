@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// CreateFunctionDetails Properties to create a new function.
+// CreateFunctionDetails Note: Deprecated. Use the new resource model APIs instead.
+// Properties to create a new function.
 type CreateFunctionDetails struct {
 
 	// The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information.
