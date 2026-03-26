@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -20,15 +21,15 @@ func DatabaseManagementExternalDbSystemConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalDbSystemConnectorResource(), fieldMap, readSingularDatabaseManagementExternalDbSystemConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalDbSystemConnectorResource(), fieldMap, readSingularDatabaseManagementExternalDbSystemConnectorWithContext)
 }
 
-func readSingularDatabaseManagementExternalDbSystemConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalDbSystemConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalDbSystemConnectorDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseManagementExternalDbSystemConnectorDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalDbSystemConnectorDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalDbSystemConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalDbSystemConnectorRequest{}
 
 	if externalDbSystemConnectorId, ok := s.D.GetOkExists("external_db_system_connector_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseManagementExternalDbSystemConnectorDataSourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalDbSystemConnector(context.Background(), request)
+	response, err := s.Client.GetExternalDbSystemConnector(ctx, request)
 	if err != nil {
 		return err
 	}

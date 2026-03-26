@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementExternalAsmDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalAsmResource(), fieldMap, readSingularDatabaseManagementExternalAsm)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalAsmResource(), fieldMap, readSingularDatabaseManagementExternalAsmWithContext)
 }
 
-func readSingularDatabaseManagementExternalAsm(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalAsmDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalAsmDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementExternalAsmDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalAsmDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalAsmDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalAsmRequest{}
 
 	if externalAsmId, ok := s.D.GetOkExists("external_asm_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementExternalAsmDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalAsm(context.Background(), request)
+	response, err := s.Client.GetExternalAsm(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementExternalExadataInfrastructureDataSource() *schema.Resourc
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalExadataInfrastructureResource(), fieldMap, readSingularDatabaseManagementExternalExadataInfrastructure)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalExadataInfrastructureResource(), fieldMap, readSingularDatabaseManagementExternalExadataInfrastructureWithContext)
 }
 
-func readSingularDatabaseManagementExternalExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalExadataInfrastructureDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalExadataInfrastructureDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementExternalExadataInfrastructureDataSourceCrud) VoidStat
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalExadataInfrastructureDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalExadataInfrastructureDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalExadataInfrastructureRequest{}
 
 	if externalExadataInfrastructureId, ok := s.D.GetOkExists("external_exadata_infrastructure_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementExternalExadataInfrastructureDataSourceCrud) Get() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetExternalExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

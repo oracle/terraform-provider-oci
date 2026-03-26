@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementExternalDbNodeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalDbNode,
-		Read:     readDatabaseManagementExternalDbNode,
-		Update:   updateDatabaseManagementExternalDbNode,
-		Delete:   deleteDatabaseManagementExternalDbNode,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalDbNodeWithContext,
+		ReadContext:   readDatabaseManagementExternalDbNodeWithContext,
+		UpdateContext: updateDatabaseManagementExternalDbNodeWithContext,
+		DeleteContext: deleteDatabaseManagementExternalDbNodeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_db_node_id": {
@@ -120,31 +120,31 @@ func DatabaseManagementExternalDbNodeResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementExternalDbNode(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalDbNode(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalDbNode(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalDbNode(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -184,7 +184,7 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatabaseManagementExternalDbNodeResourceCrud) Create() error {
+func (s *DatabaseManagementExternalDbNodeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalDbNodeRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -211,14 +211,14 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalDbNode(context.Background(), request)
+	response, err := s.Client.UpdateExternalDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -234,14 +234,14 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getExternalDbNodeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getExternalDbNodeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementExternalDbNodeResourceCrud) getExternalDbNodeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalDbNodeResourceCrud) getExternalDbNodeFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalDbNodeId, err := externalDbNodeWaitForWorkRequest(workId, "node",
+	externalDbNodeId, err := externalDbNodeWaitForWorkRequest(ctx, workId, "node",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -249,7 +249,7 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) getExternalDbNodeFromWork
 	}
 	s.D.SetId(*externalDbNodeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalDbNodeWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -275,7 +275,7 @@ func externalDbNodeWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func externalDbNodeWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalDbNodeWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalDbNodeWorkRequestShouldRetryFunc(timeout)
@@ -294,7 +294,7 @@ func externalDbNodeWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -321,14 +321,14 @@ func externalDbNodeWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalDbNodeWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalDbNodeWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalDbNodeWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalDbNodeWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -350,7 +350,7 @@ func getErrorFromDatabaseManagementExternalDbNodeWorkRequest(client *oci_databas
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalDbNodeResourceCrud) Get() error {
+func (s *DatabaseManagementExternalDbNodeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalDbNodeRequest{}
 
 	tmp := s.D.Id()
@@ -358,7 +358,7 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalDbNode(context.Background(), request)
+	response, err := s.Client.GetExternalDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -367,7 +367,7 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbNodeResourceCrud) Update() error {
+func (s *DatabaseManagementExternalDbNodeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalDbNodeRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -392,13 +392,13 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalDbNode(context.Background(), request)
+	response, err := s.Client.UpdateExternalDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExternalDbNodeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExternalDbNodeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementExternalDbNodeResourceCrud) SetData() error {

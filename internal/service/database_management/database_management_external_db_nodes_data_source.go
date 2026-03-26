@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementExternalDbNodesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementExternalDbNodes,
+		ReadContext: readDatabaseManagementExternalDbNodesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func DatabaseManagementExternalDbNodesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseManagementExternalDbNodes(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalDbNodesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbNodesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalDbNodesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *DatabaseManagementExternalDbNodesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalDbNodesDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalDbNodesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListExternalDbNodesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +87,7 @@ func (s *DatabaseManagementExternalDbNodesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListExternalDbNodes(context.Background(), request)
+	response, err := s.Client.ListExternalDbNodes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *DatabaseManagementExternalDbNodesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExternalDbNodes(context.Background(), request)
+		listResponse, err := s.Client.ListExternalDbNodes(ctx, request)
 		if err != nil {
 			return err
 		}

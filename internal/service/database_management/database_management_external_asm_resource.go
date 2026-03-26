@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementExternalAsmResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalAsm,
-		Read:     readDatabaseManagementExternalAsm,
-		Update:   updateDatabaseManagementExternalAsm,
-		Delete:   deleteDatabaseManagementExternalAsm,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalAsmWithContext,
+		ReadContext:   readDatabaseManagementExternalAsmWithContext,
+		UpdateContext: updateDatabaseManagementExternalAsmWithContext,
+		DeleteContext: deleteDatabaseManagementExternalAsmWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_asm_id": {
@@ -168,31 +168,31 @@ func DatabaseManagementExternalAsmResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementExternalAsm(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalAsm(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalAsm(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalAsmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalAsm(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalAsmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -232,7 +232,7 @@ func (s *DatabaseManagementExternalAsmResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseManagementExternalAsmResourceCrud) Create() error {
+func (s *DatabaseManagementExternalAsmResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalAsmRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -259,14 +259,14 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalAsm(context.Background(), request)
+	response, err := s.Client.UpdateExternalAsm(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -282,14 +282,14 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getExternalAsmFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getExternalAsmFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementExternalAsmResourceCrud) getExternalAsmFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalAsmResourceCrud) getExternalAsmFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalAsmId, err := externalAsmWaitForWorkRequest(workId, "asm",
+	externalAsmId, err := externalAsmWaitForWorkRequest(ctx, workId, "asm",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -297,7 +297,7 @@ func (s *DatabaseManagementExternalAsmResourceCrud) getExternalAsmFromWorkReques
 	}
 	s.D.SetId(*externalAsmId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalAsmWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -323,7 +323,7 @@ func externalAsmWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func externalAsmWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalAsmWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalAsmWorkRequestShouldRetryFunc(timeout)
@@ -342,7 +342,7 @@ func externalAsmWaitForWorkRequest(wId *string, entityType string, action oci_da
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -369,14 +369,14 @@ func externalAsmWaitForWorkRequest(wId *string, entityType string, action oci_da
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalAsmWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalAsmWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalAsmWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalAsmWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -398,7 +398,7 @@ func getErrorFromDatabaseManagementExternalAsmWorkRequest(client *oci_database_m
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalAsmResourceCrud) Get() error {
+func (s *DatabaseManagementExternalAsmResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalAsmRequest{}
 
 	tmp := s.D.Id()
@@ -406,7 +406,7 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalAsm(context.Background(), request)
+	response, err := s.Client.GetExternalAsm(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -415,7 +415,7 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementExternalAsmResourceCrud) Update() error {
+func (s *DatabaseManagementExternalAsmResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalAsmRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -440,13 +440,13 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalAsm(context.Background(), request)
+	response, err := s.Client.UpdateExternalAsm(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExternalAsmFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExternalAsmFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementExternalAsmResourceCrud) SetData() error {
