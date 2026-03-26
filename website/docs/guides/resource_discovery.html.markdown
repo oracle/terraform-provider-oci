@@ -784,6 +784,7 @@ dbmulticloud
 demand_signal
 
 * oci\_demand\_signal\_occ\_demand\_signal
+* oci\_demand\_signal\_occ\_metric\_alarm
 
 desktops
 
