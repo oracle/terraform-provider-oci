@@ -59,6 +59,7 @@ The following attributes are exported:
 * `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
+* `disaster_recovery_status` - Indicates if disaster recovery is enabled for a deployment. If not specified, disaster recovery is ENABLED when no clusterPlacementGroupId is provided, and DISABLED when a clusterPlacementGroupId is provided. 
 * `display_name` - An object's Display Name. 
 * `environment_type` - Specifies whether the deployment is used in a production or development/testing environment. 
 * `fault_domain` - The fault domain of a placement.
@@ -118,6 +119,7 @@ The following attributes are exported:
 		* `security_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role securityGroup. It grants administration of security related objects and invoke security related service requests. This role has full privileges. 
 		* `user_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information 
 	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
+	* `key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format. 
 	* `ogg_version` - Version of OGG 
 	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `placements` - An array of local peers of deployment 

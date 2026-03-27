@@ -53,10 +53,12 @@ The following attributes are exported:
 	* `fault_domain` - The fault domain of a placement.
 	* `peer_role` - The type of the deployment role. 
 	* `peer_type` - The type of the deployment peer. 
+	* `precheck_status` - Status of the DR precheck result.
 	* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. 
 	* `state` - Possible lifecycle states for deployment peer.
 	* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+	* `time_last_precheck_performed` - The timestamp when pre-check started. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2024-10-26T20:19:29.600Z`. 
 	* `time_last_synced` - The time of the last data synchronization from the primary to the standby peer. [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_role_changed` - The time of the last role change. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 	* `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

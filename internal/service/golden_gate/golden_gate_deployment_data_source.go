@@ -122,6 +122,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	s.D.Set("disaster_recovery_status", s.Res.DisasterRecoveryStatus)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}

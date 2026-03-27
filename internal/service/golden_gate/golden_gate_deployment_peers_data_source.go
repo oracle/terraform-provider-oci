@@ -79,6 +79,10 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"precheck_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"region": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -92,6 +96,10 @@ func GoldenGateDeploymentPeersDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_last_precheck_performed": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -230,6 +238,8 @@ func DeploymentPeerSummaryToMap(obj oci_golden_gate.DeploymentPeerSummary) map[s
 
 	result["peer_type"] = string(obj.PeerType)
 
+	result["precheck_status"] = string(obj.PrecheckStatus)
+
 	if obj.Region != nil {
 		result["region"] = string(*obj.Region)
 	}
@@ -242,6 +252,10 @@ func DeploymentPeerSummaryToMap(obj oci_golden_gate.DeploymentPeerSummary) map[s
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeLastPrecheckPerformed != nil {
+		result["time_last_precheck_performed"] = obj.TimeLastPrecheckPerformed.String()
 	}
 
 	if obj.TimeLastSynced != nil {

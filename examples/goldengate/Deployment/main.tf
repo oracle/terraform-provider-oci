@@ -113,6 +113,14 @@ variable "security_attributes" {
 	}
 }
 
+variable "deployment_disaster_recovery_precheck_report_availability_domain" {
+	default = "availabilityDomain"
+}
+
+variable "deployment_disaster_recovery_precheck_report_fault_domain" {
+	default = "faultDomain"
+}
+
 provider "oci" {
 	tenancy_ocid     = var.tenancy_ocid
 	user_ocid        = var.user_ocid
@@ -253,4 +261,11 @@ data "oci_golden_gate_deployment_upgrades" "test_deployment_upgrades" {
 
 	#Optional
 	deployment_id = oci_golden_gate_deployment.test_deployment.id
+}
+
+data "oci_golden_gate_deployment_disaster_recovery_precheck_report" "test_deployment_disaster_recovery_precheck_report" {
+	#Required
+	availability_domain = var.deployment_disaster_recovery_precheck_report_availability_domain
+	deployment_id       = oci_golden_gate_deployment.test_deployment.id
+	fault_domain        = var.deployment_disaster_recovery_precheck_report_fault_domain
 }
