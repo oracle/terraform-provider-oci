@@ -29,8 +29,8 @@ variable "iot_domain_group_state" {
 }
 
 variable "iot_domain_group_type" {
-  # STANDARD or LIGHTWEIGHT (default)
-  default = "STANDARD"
+  # PRODUCTION or DEVELOPMENT (default)
+  default = "PRODUCTION"
 }
 
 provider "oci" {

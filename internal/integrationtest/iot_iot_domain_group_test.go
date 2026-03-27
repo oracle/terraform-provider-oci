@@ -44,7 +44,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_iot_iot_domain_group.test_iot_domain_group.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `PRODUCTION`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: IotIotDomainGroupDataSourceFilterRepresentation}}
 	IotIotDomainGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -56,7 +56,7 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `PRODUCTION`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Protocol": "Mqtt"}, Update: map[string]string{"Protocol": "MQTT"}},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreIotDomainGroupDefinedTagsChangesRepresentation},
 	}
@@ -117,7 +117,7 @@ func TestIotIotDomainGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRODUCTION"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -146,7 +146,7 @@ func TestIotIotDomainGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRODUCTION"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -170,7 +170,7 @@ func TestIotIotDomainGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRODUCTION"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -190,9 +190,9 @@ func TestIotIotDomainGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				resource.TestCheckResourceAttr(datasourceName, "type", "STANDARD"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "type", "PRODUCTION"),
 				resource.TestCheckResourceAttr(datasourceName, "iot_domain_group_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "iot_domain_group_collection.0.items.#", "1"),
 			),
@@ -214,7 +214,7 @@ func TestIotIotDomainGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "type", "STANDARD"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRODUCTION"),
 			),
 		},
 		// verify resource import
