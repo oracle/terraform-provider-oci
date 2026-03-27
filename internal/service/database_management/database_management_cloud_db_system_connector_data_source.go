@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -20,15 +21,15 @@ func DatabaseManagementCloudDbSystemConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudDbSystemConnectorResource(), fieldMap, readSingularDatabaseManagementCloudDbSystemConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudDbSystemConnectorResource(), fieldMap, readSingularDatabaseManagementCloudDbSystemConnectorWithContext)
 }
 
-func readSingularDatabaseManagementCloudDbSystemConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudDbSystemConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbSystemConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudDbSystemConnectorDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseManagementCloudDbSystemConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudDbSystemConnectorDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudDbSystemConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudDbSystemConnectorRequest{}
 
 	if cloudDbSystemConnectorId, ok := s.D.GetOkExists("cloud_db_system_connector_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseManagementCloudDbSystemConnectorDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudDbSystemConnector(context.Background(), request)
+	response, err := s.Client.GetCloudDbSystemConnector(ctx, request)
 	if err != nil {
 		return err
 	}

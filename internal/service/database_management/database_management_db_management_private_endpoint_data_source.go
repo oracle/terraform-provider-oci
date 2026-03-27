@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 )
@@ -19,15 +20,15 @@ func DatabaseManagementDbManagementPrivateEndpointDataSource() *schema.Resource 
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementDbManagementPrivateEndpointResource(), fieldMap, readSingularDatabaseManagementDbManagementPrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementDbManagementPrivateEndpointResource(), fieldMap, readSingularDatabaseManagementDbManagementPrivateEndpointWithContext)
 }
 
-func readSingularDatabaseManagementDbManagementPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementDbManagementPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementDbManagementPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementDbManagementPrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) VoidState(
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) Get() error {
+func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetDbManagementPrivateEndpointRequest{}
 
 	if dbManagementPrivateEndpointId, ok := s.D.GetOkExists("db_management_private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) Get() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetDbManagementPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDbManagementPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}

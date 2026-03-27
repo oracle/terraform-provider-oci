@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementCloudListenerResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementCloudListener,
-		Read:     readDatabaseManagementCloudListener,
-		Update:   updateDatabaseManagementCloudListener,
-		Delete:   deleteDatabaseManagementCloudListener,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementCloudListenerWithContext,
+		ReadContext:   readDatabaseManagementCloudListenerWithContext,
+		UpdateContext: updateDatabaseManagementCloudListenerWithContext,
+		DeleteContext: deleteDatabaseManagementCloudListenerWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_listener_id": {
@@ -258,31 +258,31 @@ func DatabaseManagementCloudListenerResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementCloudListener(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementCloudListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementCloudListener(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementCloudListener(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementCloudListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementCloudListener(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementCloudListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -322,7 +322,7 @@ func (s *DatabaseManagementCloudListenerResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseManagementCloudListenerResourceCrud) Create() error {
+func (s *DatabaseManagementCloudListenerResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudListenerRequest{}
 
 	if cloudConnectorId, ok := s.D.GetOkExists("cloud_connector_id"); ok {
@@ -349,14 +349,14 @@ func (s *DatabaseManagementCloudListenerResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudListener(context.Background(), request)
+	response, err := s.Client.UpdateCloudListener(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -372,14 +372,14 @@ func (s *DatabaseManagementCloudListenerResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getCloudListenerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCloudListenerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementCloudListenerResourceCrud) getCloudListenerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementCloudListenerResourceCrud) getCloudListenerFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	cloudListenerId, err := cloudListenerWaitForWorkRequest(workId, "listener",
+	cloudListenerId, err := cloudListenerWaitForWorkRequest(ctx, workId, "listener",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -387,7 +387,7 @@ func (s *DatabaseManagementCloudListenerResourceCrud) getCloudListenerFromWorkRe
 	}
 	s.D.SetId(*cloudListenerId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func cloudListenerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -413,7 +413,7 @@ func cloudListenerWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func cloudListenerWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func cloudListenerWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = cloudListenerWorkRequestShouldRetryFunc(timeout)
@@ -432,7 +432,7 @@ func cloudListenerWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -458,14 +458,14 @@ func cloudListenerWaitForWorkRequest(wId *string, entityType string, action oci_
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementCloudListenerWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementCloudListenerWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementCloudListenerWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementCloudListenerWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -487,7 +487,7 @@ func getErrorFromDatabaseManagementCloudListenerWorkRequest(client *oci_database
 	return workRequestErr
 }
 
-func (s *DatabaseManagementCloudListenerResourceCrud) Get() error {
+func (s *DatabaseManagementCloudListenerResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudListenerRequest{}
 
 	tmp := s.D.Id()
@@ -495,7 +495,7 @@ func (s *DatabaseManagementCloudListenerResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetCloudListener(context.Background(), request)
+	response, err := s.Client.GetCloudListener(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -504,7 +504,7 @@ func (s *DatabaseManagementCloudListenerResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementCloudListenerResourceCrud) Update() error {
+func (s *DatabaseManagementCloudListenerResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudListenerRequest{}
 
 	if cloudConnectorId, ok := s.D.GetOkExists("cloud_connector_id"); ok {
@@ -529,13 +529,13 @@ func (s *DatabaseManagementCloudListenerResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudListener(context.Background(), request)
+	response, err := s.Client.UpdateCloudListener(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCloudListenerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCloudListenerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementCloudListenerResourceCrud) SetData() error {

@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementExternalMySqlDatabaseConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementExternalMySqlDatabaseConnectors,
+		ReadContext: readDatabaseManagementExternalMySqlDatabaseConnectorsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -44,12 +45,12 @@ func DatabaseManagementExternalMySqlDatabaseConnectorsDataSource() *schema.Resou
 	}
 }
 
-func readDatabaseManagementExternalMySqlDatabaseConnectors(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalMySqlDatabaseConnectorsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud) VoidSt
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListMySqlDatabaseConnectorsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +78,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud) Get() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListMySqlDatabaseConnectors(context.Background(), request)
+	response, err := s.Client.ListMySqlDatabaseConnectors(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorsDataSourceCrud) Get() 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMySqlDatabaseConnectors(context.Background(), request)
+		listResponse, err := s.Client.ListMySqlDatabaseConnectors(ctx, request)
 		if err != nil {
 			return err
 		}

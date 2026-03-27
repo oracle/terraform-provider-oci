@@ -13,9 +13,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 )
@@ -25,11 +25,11 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementDbManagementPrivateEndpoint,
-		Read:     readDatabaseManagementDbManagementPrivateEndpoint,
-		Update:   updateDatabaseManagementDbManagementPrivateEndpoint,
-		Delete:   deleteDatabaseManagementDbManagementPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementDbManagementPrivateEndpointWithContext,
+		ReadContext:   readDatabaseManagementDbManagementPrivateEndpointWithContext,
+		UpdateContext: updateDatabaseManagementDbManagementPrivateEndpointWithContext,
+		DeleteContext: deleteDatabaseManagementDbManagementPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -113,37 +113,37 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementDbManagementPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementDbManagementPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementDbManagementPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementDbManagementPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementDbManagementPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementDbManagementPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementDbManagementPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementDbManagementPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementDbManagementPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementDbManagementPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementDbManagementPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementDbManagementPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementDbManagementPrivateEndpointResourceCrud struct {
@@ -181,7 +181,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) DeletedTarge
 	}
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() error {
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.CreateDbManagementPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -242,14 +242,14 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.CreateDbManagementPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateDbManagementPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -265,14 +265,14 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 			}
 		}
 	}
-	return s.getDbManagementPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbManagementPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) getDbManagementPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) getDbManagementPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dbManagementPrivateEndpointId, err := dbManagementPrivateEndpointWaitForWorkRequest(workId, "dbmgmtprivateendpoint",
+	dbManagementPrivateEndpointId, err := dbManagementPrivateEndpointWaitForWorkRequest(ctx, workId, "dbmgmtprivateendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -281,7 +281,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) getDbManagem
 	}
 	s.D.SetId(*dbManagementPrivateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dbManagementPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -307,7 +307,7 @@ func dbManagementPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration
 	}
 }
 
-func dbManagementPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func dbManagementPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = dbManagementPrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -326,7 +326,7 @@ func dbManagementPrivateEndpointWaitForWorkRequest(wId *string, entityType strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -356,14 +356,14 @@ func dbManagementPrivateEndpointWaitForWorkRequest(wId *string, entityType strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementDbManagementPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementDbManagementPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementDbManagementPrivateEndpointWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementDbManagementPrivateEndpointWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -385,7 +385,7 @@ func getErrorFromDatabaseManagementDbManagementPrivateEndpointWorkRequest(client
 	return workRequestErr
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Get() error {
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetDbManagementPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -393,7 +393,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetDbManagementPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDbManagementPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -402,11 +402,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Get() error 
 	return nil
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Update() error {
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -455,7 +455,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Update() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateDbManagementPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateDbManagementPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -464,7 +464,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Update() err
 	return nil
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Delete() error {
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_management.DeleteDbManagementPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -472,14 +472,14 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Delete() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DeleteDbManagementPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteDbManagementPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dbManagementPrivateEndpointWaitForWorkRequest(workId, "dbmgmtprivateendpoint",
+	_, delWorkRequestErr := dbManagementPrivateEndpointWaitForWorkRequest(ctx, workId, "dbmgmtprivateendpoint",
 		oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -588,7 +588,7 @@ func DbManagementPrivateEndpointSummaryToMap(obj oci_database_management.DbManag
 	return result
 }
 
-func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_management.ChangeDbManagementPrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -599,12 +599,12 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) updateCompar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	_, err := s.Client.ChangeDbManagementPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDbManagementPrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
