@@ -43,6 +43,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
 	deployment_type = var.deployment_deployment_type
 	description = var.deployment_description
+	disaster_recovery_status = var.deployment_disaster_recovery_status
 	environment_type = var.deployment_environment_type
 	fault_domain = var.deployment_fault_domain
 	fqdn = var.deployment_fqdn
@@ -83,6 +84,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		admin_username = var.deployment_ogg_data_admin_username
 		certificate = var.deployment_ogg_data_certificate
 		credential_store = var.deployment_ogg_data_credential_store
+		deployment_name = oci_golden_gate_deployment.test_deployment.name
 		group_to_roles_mapping {
 			#Required
 			security_group_id = oci_identity_group.test_group.id
@@ -94,6 +96,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		}
 		identity_domain_id = oci_identity_domain.test_domain.id
 		key = var.deployment_ogg_data_key
+		key_secret_id = oci_vault_secret.test_secret.id
 		ogg_version = var.deployment_ogg_data_ogg_version
 		password_secret_id = oci_vault_secret.test_secret.id
 	}
@@ -129,6 +132,7 @@ The following arguments are supported:
 * `deployment_backup_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
 * `deployment_type` - (Optional) The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
+* `disaster_recovery_status` - (Optional) Indicates if disaster recovery is enabled for a deployment. If not specified, disaster recovery is ENABLED when no clusterPlacementGroupId is provided, and DISABLED when a clusterPlacementGroupId is provided. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
 * `environment_type` - (Optional) (Updatable) Specifies whether the deployment is used in a production or development/testing environment. 
 * `fault_domain` - (Optional) The fault domain of a placement.
@@ -168,7 +172,7 @@ The following arguments are supported:
 	* `admin_username` - (Optional) (Updatable) The GoldenGate deployment console username. 
 	* `certificate` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - (Optional) (Updatable) The type of credential store for OGG. 
-	* `deployment_name` - (Required) The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `deployment_name` - (Optional) The name given to the GoldenGate service deployment. The name must contain only alphanumeric characters and must start with a letter. For standby deployment the deployment name is inherited from primary. 
 	* `group_to_roles_mapping` - (Optional) (Updatable) Defines the IDP Groups to GoldenGate roles mapping. This field is used only for IAM deployment and does not have any impact on non-IAM deployments. For IAM deployment, when user does not specify this mapping, then it has null value and default mapping is used. User belonging to each group can only perform the actions according to the role the respective group is mapped to. 
 		* `administrator_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role administratorGroup. It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server. 
 		* `operator_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role operatorGroup. It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server. 
@@ -176,6 +180,7 @@ The following arguments are supported:
 		* `user_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information 
 	* `identity_domain_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `key` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the private key. 
+	* `key_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format. 
 	* `ogg_version` - (Optional) Version of OGG 
 	* `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `placements` - (Optional) (Updatable) An array of local peers of deployment 
@@ -220,6 +225,7 @@ The following attributes are exported:
 * `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
+* `disaster_recovery_status` - Indicates if disaster recovery is enabled for a deployment. If not specified, disaster recovery is ENABLED when no clusterPlacementGroupId is provided, and DISABLED when a clusterPlacementGroupId is provided. 
 * `display_name` - An object's Display Name. 
 * `environment_type` - Specifies whether the deployment is used in a production or development/testing environment. 
 * `fault_domain` - The fault domain of a placement.
@@ -278,6 +284,7 @@ The following attributes are exported:
 		* `security_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role securityGroup. It grants administration of security related objects and invoke security related service requests. This role has full privileges. 
 		* `user_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information 
 	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
+	* `key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format. 
 	* `ogg_version` - Version of OGG 
 	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `placements` - An array of local peers of deployment 
