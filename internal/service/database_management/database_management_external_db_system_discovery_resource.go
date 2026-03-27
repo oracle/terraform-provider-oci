@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -26,11 +26,11 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalDbSystemDiscovery,
-		Read:     readDatabaseManagementExternalDbSystemDiscovery,
-		Update:   updateDatabaseManagementExternalDbSystemDiscovery,
-		Delete:   deleteDatabaseManagementExternalDbSystemDiscovery,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalDbSystemDiscoveryWithContext,
+		ReadContext:   readDatabaseManagementExternalDbSystemDiscoveryWithContext,
+		UpdateContext: updateDatabaseManagementExternalDbSystemDiscoveryWithContext,
+		DeleteContext: deleteDatabaseManagementExternalDbSystemDiscoveryWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"agent_id": {
@@ -1214,37 +1214,37 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementExternalDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDiscoveryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalDbSystemDiscoveryResourceCrud struct {
@@ -1283,7 +1283,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) DeletedTarget(
 	}
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Create() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.CreateExternalDbSystemDiscoveryRequest{}
 
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
@@ -1315,19 +1315,19 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Create() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.CreateExternalDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.CreateExternalDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemDiscoveryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getExternalDbSystemDiscoveryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
 
 	if _, ok := s.D.GetOkExists("patch_operations"); ok {
-		err = s.Patch()
+		err = s.Patch(ctx)
 		if err != nil {
 			log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 			return err
@@ -1335,7 +1335,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Create() error
 	}
 	return nil
 }
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Patch() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Patch(ctx context.Context) error {
 	request := oci_database_management.PatchExternalDbSystemDiscoveryRequest{}
 
 	tmpId := s.D.Id()
@@ -1363,7 +1363,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Patch() error 
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-	response, err := s.Client.PatchExternalDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.PatchExternalDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1372,11 +1372,11 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Patch() error 
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) getExternalDbSystemDiscoveryFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) getExternalDbSystemDiscoveryFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalDbSystemDiscoveryId, err := externalDbSystemDiscoveryWaitForWorkRequest(workId, "dbsystemdiscovery",
+	externalDbSystemDiscoveryId, err := externalDbSystemDiscoveryWaitForWorkRequest(ctx, workId, "dbsystemdiscovery",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1384,7 +1384,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) getExternalDbS
 	}
 	s.D.SetId(*externalDbSystemDiscoveryId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalDbSystemDiscoveryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1410,7 +1410,7 @@ func externalDbSystemDiscoveryWorkRequestShouldRetryFunc(timeout time.Duration) 
 	}
 }
 
-func externalDbSystemDiscoveryWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalDbSystemDiscoveryWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalDbSystemDiscoveryWorkRequestShouldRetryFunc(timeout)
@@ -1429,7 +1429,7 @@ func externalDbSystemDiscoveryWaitForWorkRequest(wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1458,14 +1458,14 @@ func externalDbSystemDiscoveryWaitForWorkRequest(wId *string, entityType string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalDbSystemDiscoveryWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalDbSystemDiscoveryWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalDbSystemDiscoveryWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalDbSystemDiscoveryWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1487,7 +1487,7 @@ func getErrorFromDatabaseManagementExternalDbSystemDiscoveryWorkRequest(client *
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Get() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalDbSystemDiscoveryRequest{}
 
 	tmp := s.D.Id()
@@ -1495,7 +1495,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.GetExternalDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1504,7 +1504,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Update() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalDbSystemDiscoveryRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1529,12 +1529,12 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Update() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.UpdateExternalDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	err = s.Patch()
+	err = s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err
@@ -1544,7 +1544,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Update() error
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_management.DeleteExternalDbSystemDiscoveryRequest{}
 
 	tmp := s.D.Id()
@@ -1552,7 +1552,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) Delete() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	_, err := s.Client.DeleteExternalDbSystemDiscovery(context.Background(), request)
+	_, err := s.Client.DeleteExternalDbSystemDiscovery(ctx, request)
 	return err
 }
 
