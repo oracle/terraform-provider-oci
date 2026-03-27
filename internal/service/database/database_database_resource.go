@@ -1762,10 +1762,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 		}
 	}
 
-	if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
-		tmp := vmClusterId.(string)
-		result.VmClusterId = &tmp
-	}
+	// if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
+	// 	tmp := vmClusterId.(string)
+	// 	result.VmClusterId = &tmp
+	// }
 
 	return result, nil
 }
