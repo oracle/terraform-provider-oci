@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -23,11 +24,11 @@ import (
 
 func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
-		Read:     readDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
-		Update:   updateDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
-		Delete:   deleteDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
+		ReadContext:   readDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
+		UpdateContext: updateDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
+		DeleteContext: deleteDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_container_database_id": {
@@ -152,36 +153,36 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 	}
 }
 
-func createDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResponse struct {
@@ -201,7 +202,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource-", DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Create() error {
+func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_container_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -228,13 +229,13 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalContainerDatabaseManagementFeature(context.Background(), request)
+		response, err := s.Client.EnableExternalContainerDatabaseManagementFeature(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -260,13 +261,13 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -274,11 +275,11 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	return nil
 }
 
-func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkRequest(workId, "cdb",
+	_, err := externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkRequest(ctx, workId, "cdb",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -311,7 +312,7 @@ func externalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequestS
 	}
 }
 
-func externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequestShouldRetryFunc(timeout)
@@ -330,7 +331,7 @@ func externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkR
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -359,14 +360,14 @@ func externalcontainerdatabaseExternalContainerDbmFeaturesManagementWaitForWorkR
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -388,7 +389,7 @@ func getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbm
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Update() error {
+func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	log.Printf("[INFO] Executing update for DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource")
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_container_dbm_feature"); ok {
@@ -416,13 +417,13 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.ModifyExternalContainerDatabaseManagementFeature(context.Background(), request)
+		response, err := s.Client.ModifyExternalContainerDatabaseManagementFeature(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -456,13 +457,13 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -470,7 +471,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	return nil
 }
 
-func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	log.Printf("[INFO] Executing delete for DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource")
 	request := oci_database_management.DisableExternalContainerDatabaseManagementFeatureRequest{}
 
@@ -488,13 +489,13 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalContainerDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
