@@ -58,8 +58,8 @@ The following arguments are supported:
 	* `compartment_id` - (Optional) The OCID of the compartment that the resource belongs to.
 	* `source` - (Required) The source the log object comes from.
 		* `category` - (Required) Log object category.
-		* `parameters` - (Applicable when source_type=OCISERVICE) (Updatable) Log category parameters are stored here.
-		* `resource` - (Required) The unique identifier of the resource emitting the log.
+		* `parameters` - (Applicable when source_type=OCISERVICE) (Updatable) Log category parameters are stored here. The resource for a service log can't be updated.
+		* `resource` - (Required) The unique identifier of the resource emitting the log. The resource can be updated, and the resource value can vary depending on the Oracle Cloud Infrastructure service to which the resource belongs to.
 		* `service` - (Required) Service generating log.
 		* `source_type` - (Required) The log source.
 			* **OCISERVICE:** Oracle Service. 
@@ -84,8 +84,8 @@ The following attributes are exported:
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
 	* `source` - The source the log object comes from.
 		* `category` - Log object category.
-		* `parameters` - Log category parameters are stored here.
-		* `resource` - The unique identifier of the resource emitting the log.
+		* `parameters` - Log category parameters are stored here. The resource for a service log can't be updated.
+		* `resource` - The unique identifier of the resource emitting the log. The resource can be updated, and the resource value can vary depending on the Oracle Cloud Infrastructure service to which the resource belongs to.
 		* `service` - Service generating log.
 		* `source_type` - The log source.
 			* **OCISERVICE:** Oracle Service. 

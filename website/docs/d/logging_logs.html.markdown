@@ -55,8 +55,8 @@ The following attributes are exported:
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
 	* `source` - The source the log object comes from.
 		* `category` - Log object category.
-		* `parameters` - Log category parameters are stored here.
-		* `resource` - The unique identifier of the resource emitting the log.
+		* `parameters` - Log category parameters are stored here. The resource for a service log can't be updated.
+		* `resource` - The unique identifier of the resource emitting the log. The resource can be updated, and the resource value can vary depending on the Oracle Cloud Infrastructure service to which the resource belongs to.
 		* `service` - Service generating log.
 		* `source_type` - The log source.
 			* **OCISERVICE:** Oracle Service. 
