@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
-		Read:     readDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
-		Update:   updateDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
-		Delete:   deleteDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
+		ReadContext:   readDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
+		UpdateContext: updateDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
+		DeleteContext: deleteDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_db_system_id": {
@@ -57,36 +58,36 @@ func DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResource() *s
 	}
 }
 
-func createDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementCloudDbSystemCloudStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResponse struct {
@@ -105,7 +106,7 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResource-", DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) Create() error {
+func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_cloud_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -131,13 +132,13 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableCloudDbSystemStackMonitoring(context.Background(), request)
+		response, err := s.Client.EnableCloudDbSystemStackMonitoring(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -154,13 +155,13 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableCloudDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableCloudDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -168,11 +169,11 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 	return nil
 }
 
-func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(workId, "database_management",
+	_, err := cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(ctx, workId, "database_management",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -205,7 +206,7 @@ func cloudDbSystemCloudStackMonitoringsManagementWorkRequestShouldRetryFunc(time
 	}
 }
 
-func cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = cloudDbSystemCloudStackMonitoringsManagementWorkRequestShouldRetryFunc(timeout)
@@ -224,7 +225,7 @@ func cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(wId *string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -253,16 +254,14 @@ func cloudDbSystemCloudStackMonitoringsManagementWaitForWorkRequest(wId *string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		// Uncomment the below line after stack monitoring is enabled for cloud dbsystem
-		//return nil, getErrorFromDatabaseManagementCloudDbSystemCloudStackMonitoringsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
-		return nil, nil
+		return nil, getErrorFromDatabaseManagementCloudDbSystemCloudStackMonitoringsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementCloudDbSystemCloudStackMonitoringsManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementCloudDbSystemCloudStackMonitoringsManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -284,7 +283,7 @@ func getErrorFromDatabaseManagementCloudDbSystemCloudStackMonitoringsManagementW
 	return workRequestErr
 }
 
-func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) Update() error {
+func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_cloud_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -310,13 +309,13 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableCloudDbSystemStackMonitoring(context.Background(), request)
+		response, err := s.Client.EnableCloudDbSystemStackMonitoring(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -333,13 +332,13 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableCloudDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableCloudDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -347,7 +346,7 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 	return nil
 }
 
-func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_cloud_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -366,13 +365,13 @@ func (s *DatabaseManagementCloudDbSystemCloudStackMonitoringsManagementResourceC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableCloudDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableCloudDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getCloudDbSystemCloudStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

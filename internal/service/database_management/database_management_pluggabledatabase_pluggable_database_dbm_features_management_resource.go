@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -22,11 +23,11 @@ import (
 
 func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
-		Read:     readDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
-		Update:   updateDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
-		Delete:   deleteDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
+		ReadContext:   readDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
+		UpdateContext: updateDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
+		DeleteContext: deleteDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"pluggable_database_id": {
@@ -236,36 +237,36 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 	}
 }
 
-func createDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResponse struct {
@@ -285,7 +286,7 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResource-", DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) Create() error {
+func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_pluggable_database_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -298,18 +299,18 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 
 	if operation {
 		if modifyOperation {
-			return modifyCloudPDBFeature(s)
+			return modifyCloudPDBFeature(ctx, s)
 		}
-		return enableCloudPDBFeature(s)
+		return enableCloudPDBFeature(ctx, s)
 	}
-	return disableCloudPDBFeature(s)
+	return disableCloudPDBFeature(ctx, s)
 }
 
-func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(workId, "clouddatabase",
+	_, err := pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(ctx, workId, "clouddatabase",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -342,7 +343,7 @@ func pluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequestShouldRet
 	}
 }
 
-func pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = pluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequestShouldRetryFunc(timeout)
@@ -361,7 +362,7 @@ func pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(w
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -390,14 +391,14 @@ func pluggabledatabasePluggableDatabaseDbmFeaturesManagementWaitForWorkRequest(w
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -419,7 +420,7 @@ func getErrorFromDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeatures
 	return workRequestErr
 }
 
-func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) Update() error {
+func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_pluggable_database_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -432,16 +433,16 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 
 	if operation {
 		if modifyOperation {
-			return modifyCloudPDBFeature(s)
+			return modifyCloudPDBFeature(ctx, s)
 		}
-		return enableCloudPDBFeature(s)
+		return enableCloudPDBFeature(ctx, s)
 	}
-	return disableCloudPDBFeature(s)
+	return disableCloudPDBFeature(ctx, s)
 }
 
-func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	// default value
-	return disableCloudPDBFeature(s)
+	return disableCloudPDBFeature(ctx, s)
 }
 
 func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) SetData() error {
@@ -724,7 +725,7 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 	return baseObject, nil
 }
 
-func enableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+func enableCloudPDBFeature(ctx context.Context, s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
 	request := oci_database_management.EnablePluggableDatabaseManagementFeatureRequest{}
 
 	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
@@ -745,13 +746,13 @@ func enableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDataba
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.EnablePluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.EnablePluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -759,7 +760,7 @@ func enableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDataba
 	return nil
 }
 
-func disableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+func disableCloudPDBFeature(ctx context.Context, s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
 	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
 
 	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
@@ -771,13 +772,13 @@ func disableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatab
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisablePluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisablePluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -786,7 +787,7 @@ func disableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatab
 	return nil
 }
 
-func modifyCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+func modifyCloudPDBFeature(ctx context.Context, s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
 	request := oci_database_management.ModifyPluggableDatabaseManagementFeatureRequest{}
 	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
 		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
@@ -806,13 +807,13 @@ func modifyCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDataba
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.ModifyPluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.ModifyPluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

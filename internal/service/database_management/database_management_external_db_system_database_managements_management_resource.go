@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
-		Read:     readDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
-		Update:   updateDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
-		Delete:   deleteDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
+		ReadContext:   readDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
+		UpdateContext: updateDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
+		DeleteContext: deleteDatabaseManagementExternalDbSystemDatabaseManagementsManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_db_system_id": {
@@ -51,36 +52,36 @@ func DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource() *
 	}
 }
 
-func createDatabaseManagementExternalDbSystemDatabaseManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalDbSystemDatabaseManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalDbSystemDatabaseManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalDbSystemDatabaseManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementExternalDbSystemDatabaseManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalDbSystemDatabaseManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalDbSystemDatabaseManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalDbSystemDatabaseManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemDatabaseManagementsManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalDbSystemDatabaseManagementsManagementResponse struct {
@@ -99,7 +100,7 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource-", DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) Create() error {
+func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_database_management"); ok {
 		operation = enableOperation.(bool)
@@ -119,13 +120,13 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalDbSystemDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalDbSystemDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -142,13 +143,13 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -156,11 +157,11 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(workId, "database_management",
+	_, err := externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(ctx, workId, "database_management",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -193,7 +194,7 @@ func externalDbSystemDatabaseManagementsManagementWorkRequestShouldRetryFunc(tim
 	}
 }
 
-func externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalDbSystemDatabaseManagementsManagementWorkRequestShouldRetryFunc(timeout)
@@ -212,7 +213,7 @@ func externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(wId *string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -243,14 +244,14 @@ func externalDbSystemDatabaseManagementsManagementWaitForWorkRequest(wId *string
 	// The work request will not have any resources if the DB system is RAC and
 	// no connectors were added to any of its components except DB.
 	if response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalDbSystemDatabaseManagementsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalDbSystemDatabaseManagementsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalDbSystemDatabaseManagementsManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalDbSystemDatabaseManagementsManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -272,7 +273,7 @@ func getErrorFromDatabaseManagementExternalDbSystemDatabaseManagementsManagement
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) Update() error {
+func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_database_management"); ok {
 		operation = enableOperation.(bool)
@@ -292,13 +293,13 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalDbSystemDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalDbSystemDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -315,13 +316,13 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -329,7 +330,7 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_database_management"); ok {
 		operation = enableOperation.(bool)
@@ -348,13 +349,13 @@ func (s *DatabaseManagementExternalDbSystemDatabaseManagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemDatabaseManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

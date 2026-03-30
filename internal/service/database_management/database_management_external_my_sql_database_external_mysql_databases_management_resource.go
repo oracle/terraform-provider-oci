@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
-		Read:     readDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
-		Update:   updateDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
-		Delete:   deleteDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
+		ReadContext:   readDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
+		UpdateContext: updateDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
+		DeleteContext: deleteDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_my_sql_database_id": {
@@ -51,36 +52,36 @@ func DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementReso
 	}
 }
 
-func createDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResponse struct {
@@ -99,7 +100,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResource-", DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) Create() error {
+func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_mysql_database"); ok {
 		operation = enableOperation.(bool)
@@ -120,13 +121,13 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector")
 
-		response, err := s.Client.EnableExternalMySqlDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalMySqlDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -143,13 +144,13 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector")
 
-	response, err := s.Client.DisableExternalMySqlDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalMySqlDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -157,11 +158,11 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 	return nil
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(workId, "connector",
+	_, err := externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(ctx, workId, "connector",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -194,7 +195,7 @@ func externalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequestShouldRetry
 	}
 }
 
-func externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "connector")
 	retryPolicy.ShouldRetryOperation = externalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequestShouldRetryFunc(timeout)
@@ -213,7 +214,7 @@ func externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(wId
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -242,14 +243,14 @@ func externalMySqlDatabaseExternalMysqlDatabasesManagementWaitForWorkRequest(wId
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -271,7 +272,7 @@ func getErrorFromDatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesMa
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) Update() error {
+func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_mysql_database"); ok {
 		operation = enableOperation.(bool)
@@ -292,13 +293,13 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector")
 
-		response, err := s.Client.EnableExternalMySqlDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalMySqlDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -315,13 +316,13 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector")
 
-	response, err := s.Client.DisableExternalMySqlDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalMySqlDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -329,7 +330,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 	return nil
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_mysql_database"); ok {
 		operation = enableOperation.(bool)
@@ -348,13 +349,13 @@ func (s *DatabaseManagementExternalMySqlDatabaseExternalMysqlDatabasesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector")
 
-	response, err := s.Client.DisableExternalMySqlDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalMySqlDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalMySqlDatabaseExternalMysqlDatabasesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "connector"), oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

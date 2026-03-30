@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -23,11 +24,11 @@ import (
 
 func DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
-		Read:     readDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
-		Update:   updateDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
-		Delete:   deleteDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
+		ReadContext:   readDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
+		UpdateContext: updateDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
+		DeleteContext: deleteDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_pluggable_database_id": {
@@ -125,36 +126,36 @@ func DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesMana
 	}
 }
 
-func createDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResponse struct {
@@ -173,7 +174,7 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResource-", DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) Create() error {
+func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_pluggable_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -200,13 +201,13 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseManagementFeature(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseManagementFeature(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -227,13 +228,13 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -241,11 +242,11 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 	return nil
 }
 
-func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkRequest(workId, "pdb",
+	_, err := externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkRequest(ctx, workId, "pdb",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -278,7 +279,7 @@ func externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequestS
 	}
 }
 
-func externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequestShouldRetryFunc(timeout)
@@ -297,7 +298,7 @@ func externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkR
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -326,14 +327,14 @@ func externalpluggabledatabaseExternalPluggableDbmFeaturesManagementWaitForWorkR
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -355,7 +356,7 @@ func getErrorFromDatabaseManagementExternalpluggabledatabaseExternalPluggableDbm
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) Update() error {
+func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_pluggable_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -382,13 +383,13 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseManagementFeature(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseManagementFeature(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -417,13 +418,13 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -431,7 +432,7 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 	return nil
 }
 
-func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_management.DisableExternalPluggableDatabaseManagementFeatureRequest{}
 
 	if externalPluggableDatabaseId, ok := s.D.GetOkExists("external_pluggable_database_id"); ok {
@@ -443,13 +444,13 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseManagementFeature(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
