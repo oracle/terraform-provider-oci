@@ -53,13 +53,19 @@ func ResourceAnalyticsResourceAnalyticsInstanceOacManagementResource() *schema.R
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-						//"enable_oac": {
-						//	Type:     schema.TypeBool,
-						//	Required: true,
-						//},
-
 						// Optional
+						"capacity_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"capacity_value": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"idcs_domain_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -81,12 +87,6 @@ func ResourceAnalyticsResourceAnalyticsInstanceOacManagementResource() *schema.R
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-									//"enable_oac": {
-									//	Type:     schema.TypeBool,
-									//	Required: true,
-									//},
-
 									// Optional
 									"nsg_ids": {
 										Type:     schema.TypeSet,
@@ -674,6 +674,15 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Se
 func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) mapToResourceAnalyticsInstanceOacAttachmentDetails(fieldKeyFormat string) (oci_resource_analytics.ResourceAnalyticsInstanceOacAttachmentDetails, error) {
 	result := oci_resource_analytics.ResourceAnalyticsInstanceOacAttachmentDetails{}
 
+	if capacityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_type")); ok {
+		result.CapacityType = oci_resource_analytics.ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum(capacityType.(string))
+	}
+
+	if capacityValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_value")); ok {
+		tmp := capacityValue.(int)
+		result.CapacityValue = &tmp
+	}
+
 	if idcsDomainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idcs_domain_id")); ok {
 		tmp := idcsDomainId.(string)
 		result.IdcsDomainId = &tmp
@@ -718,6 +727,12 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) ma
 
 func ResourceAnalyticsInstanceOacAttachmentDetailsToMap(obj *oci_resource_analytics.ResourceAnalyticsInstanceOacAttachmentDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["capacity_type"] = string(obj.CapacityType)
+
+	if obj.CapacityValue != nil {
+		result["capacity_value"] = int(*obj.CapacityValue)
+	}
 
 	if obj.IdcsDomainId != nil {
 		result["idcs_domain_id"] = string(*obj.IdcsDomainId)

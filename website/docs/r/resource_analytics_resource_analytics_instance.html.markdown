@@ -33,6 +33,7 @@ resource "oci_resource_analytics_resource_analytics_instance" "test_resource_ana
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	compute_count = var.resource_analytics_instance_compute_count
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.resource_analytics_instance_description
 	display_name = var.resource_analytics_instance_display_name
@@ -52,6 +53,7 @@ The following arguments are supported:
 	* `password_type` - (Required) Password type
 	* `secret_id` - (Required when password_type=VAULT_SECRET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vault secret to use as the ADW admin password.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the ResourceAnalyticsInstance in. 
+* `compute_count` - (Optional) The compute amount (CPUs) available to the Autonomous Database.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A description of the ResourceAnalyticsInstance instance.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

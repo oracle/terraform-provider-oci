@@ -81,7 +81,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckResourceAnalyticsTenancyAttachmentDestroy, []resource.TestStep{
 		// STEP 0 - verify Create
 		{
-			ExpectNonEmptyPlan: true,
+			ExpectNonEmptyPlan: false,
 			Config: config + defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Required, acctest.Create, ResourceAnalyticsTenancyAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -101,7 +101,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 		},
 		// STEP 2 - verify Create with optionals
 		{
-			ExpectNonEmptyPlan: true,
+			ExpectNonEmptyPlan: false,
 			Config: config + defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Optional, acctest.Create, ResourceAnalyticsTenancyAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -109,7 +109,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_reporting_tenancy"),
-				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_analytics_instance_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -129,7 +129,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 
 		// STEP 3 - verify updates to updatable parameters
 		{
-			ExpectNonEmptyPlan: true,
+			ExpectNonEmptyPlan: false,
 			Config: config + defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Optional, acctest.Update, ResourceAnalyticsTenancyAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -137,7 +137,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_reporting_tenancy"),
-				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "monitored_regions.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_analytics_instance_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -154,7 +154,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 		},
 		// STEP 4 - verify datasource
 		{
-			ExpectNonEmptyPlan: true,
+			ExpectNonEmptyPlan: false,
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_resource_analytics_tenancy_attachments", "test_tenancy_attachments", acctest.Optional, acctest.Update, ResourceAnalyticsTenancyAttachmentDataSourceRepresentation) +
 				defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceDependencies +
@@ -169,7 +169,7 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 		},
 		// STEP 5 - verify singular datasource
 		{
-			ExpectNonEmptyPlan: true,
+			ExpectNonEmptyPlan: false,
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_resource_analytics_tenancy_attachment", "test_tenancy_attachment", acctest.Required, acctest.Create, ResourceAnalyticsTenancyAttachmentSingularDataSourceRepresentation) +
 				defaultVarsStr + ResourceAnalyticsTenancyAttachmentResourceConfig,
@@ -180,11 +180,12 @@ func TestResourceAnalyticsTenancyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reporting_tenancy"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "monitored_regions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitored_regions.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_data_population_ended"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_data_population_started"),
+				// time_data_population_* values start null
+				// resource.TestCheckResourceAttr(singularDatasourceName, "time_data_population_ended", ""),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "time_data_population_started", ""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},

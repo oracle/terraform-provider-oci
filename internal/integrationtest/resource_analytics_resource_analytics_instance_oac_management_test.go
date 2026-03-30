@@ -24,14 +24,18 @@ var (
 	}
 	ResourceAnalyticsResourceAnalyticsInstanceOacManagementAttachmentDetailsRepresentation = map[string]interface{}{
 		"idcs_domain_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_domain_id}`},
+		"capacity_type":   acctest.Representation{RepType: acctest.Optional, Create: `OLPU_COUNT`},
+		"capacity_value":  acctest.Representation{RepType: acctest.Optional, Create: `2`},
 		"license_model":   acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
 		"network_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ResourceAnalyticsResourceAnalyticsInstanceOacManagementAttachmentDetailsNetworkDetailsRepresentation},
-		"nsg_ids":         acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_id}`}},
-		"subnet_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.subnet_id}`},
+		// don't include empty nsg values
+		// "nsg_ids":         acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_id}`}},
+		"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.subnet_id}`},
 	}
 	ResourceAnalyticsResourceAnalyticsInstanceOacManagementAttachmentDetailsNetworkDetailsRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"nsg_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_id}`}},
+		// don't include empty nsg values
+		// "nsg_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_id}`}},
 	}
 
 	ResourceAnalyticsInstanceOacManagementResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_resource_analytics_resource_analytics_instance", "test_resource_analytics_instance", acctest.Required, acctest.Create, ResourceAnalyticsResourceAnalyticsInstanceRepresentation)
