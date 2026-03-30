@@ -16,4 +16,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_imported_models", GenerativeAiImportedModelsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_model", GenerativeAiModelDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_models", GenerativeAiModelsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_semantic_store", GenerativeAiSemanticStoreDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_semantic_stores", GenerativeAiSemanticStoresDataSource())
 }

@@ -86,6 +86,18 @@ var exportGenerativeAiImportedModelHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGenerativeAiSemanticStoreHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_semantic_store",
+	DatasourceClass:        "oci_generative_ai_semantic_stores",
+	DatasourceItemsAttr:    "semantic_store_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "semantic_store",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.SemanticStoreLifecycleStateActive),
+	},
+}
+
 var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiDedicatedAiClusterHints},
@@ -93,5 +105,6 @@ var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiModelHints},
 		{TerraformResourceHints: exportGenerativeAiGenerativeAiPrivateEndpointHints},
 		{TerraformResourceHints: exportGenerativeAiImportedModelHints},
+		{TerraformResourceHints: exportGenerativeAiSemanticStoreHints},
 	},
 }
