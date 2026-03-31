@@ -532,6 +532,13 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 
 	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
 
+	if len(s.Res.Ipv6CidrBlocks) > 0 && isEmptyString(s.D.Get("ipv6cidr_block").(string)) {
+		err := s.D.Set("ipv6cidr_block", s.Res.Ipv6CidrBlocks[0])
+		if err != nil {
+			return err
+		}
+	}
+
 	if s.Res.Ipv6VirtualRouterIp != nil {
 		s.D.Set("ipv6virtual_router_ip", *s.Res.Ipv6VirtualRouterIp)
 	}

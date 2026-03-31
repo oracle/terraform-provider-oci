@@ -153,8 +153,8 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				testCheckCanonicalResourceAttrPair(resourceName, "ipv6cidr_block", "ipv6cidr_blocks.0"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "ipv6cidr_block"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
@@ -173,6 +173,15 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					return err
 				},
 			),
+		},
+		// verify no diff after creating subnet with ipv6cidr_blocks
+		resource.TestStep{
+			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: []string{subnetCidrBlock}},
+				})),
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
 		},
 
 		// delete before next Create
@@ -229,6 +238,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4cidr_blocks.#", "2"),
+				testCheckCanonicalResourceAttrPair(resourceName, "ipv6cidr_block", "ipv6cidr_blocks.0"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "prohibit_internet_ingress", "false"),
@@ -248,6 +258,15 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					return err
 				},
 			),
+		},
+		// verify no diff after appending ipv6cidr_blocks to an existing ipv4-only subnet
+		resource.TestStep{
+			Config: config + compartmentIdVariableStr + CoreSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation2, map[string]interface{}{
+					"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Update: []string{subnetCidrBlock}},
+				})),
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
 		},
 
 		// delete before next Create
@@ -539,6 +558,34 @@ func convertToCanonical(block string) string {
 	result := strings.Join(final, ":")
 
 	return result + "/64"
+}
+
+func testCheckCanonicalResourceAttrPair(resourceName, lhsAttr, rhsAttr string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("resource not found in state: %s", resourceName)
+		}
+
+		lhs, ok := rs.Primary.Attributes[lhsAttr]
+		if !ok {
+			return fmt.Errorf("attribute not found in state: %s.%s", resourceName, lhsAttr)
+		}
+
+		rhs, ok := rs.Primary.Attributes[rhsAttr]
+		if !ok {
+			return fmt.Errorf("attribute not found in state: %s.%s", resourceName, rhsAttr)
+		}
+
+		if convertToCanonical(lhs) != convertToCanonical(rhs) {
+			return fmt.Errorf(
+				"expected canonical %s (%s) to equal canonical %s (%s)",
+				lhsAttr, lhs, rhsAttr, rhs,
+			)
+		}
+
+		return nil
+	}
 }
 
 func testAccCheckCoreSubnetDestroy(s *terraform.State) error {
