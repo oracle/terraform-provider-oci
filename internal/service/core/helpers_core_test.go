@@ -148,3 +148,57 @@ func Test_convertToCanonical(t *testing.T) {
 		})
 	}
 }
+
+func Test_isEmptyString(t *testing.T) {
+	type args struct {
+		input string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "Test empty string",
+			args: args{
+				input: "",
+			},
+			want: true,
+		},
+		{
+			name: "Test whitespace only string",
+			args: args{
+				input: " \t \n ",
+			},
+			want: true,
+		},
+		{
+			name: "Test non-empty string",
+			args: args{
+				input: "hello",
+			},
+			want: false,
+		},
+		{
+			name: "Test non-empty string with surrounding whitespace",
+			args: args{
+				input: "  hello  ",
+			},
+			want: false,
+		},
+		{
+			name: "Test newline wrapped text",
+			args: args{
+				input: "\nvalue\n",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isEmptyString(tt.args.input); got != tt.want {
+				t.Errorf("isEmptyString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
