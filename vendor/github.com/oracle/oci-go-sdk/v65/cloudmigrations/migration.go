@@ -45,6 +45,11 @@ type Migration struct {
 	// Indicates whether migration is marked as completed.
 	IsCompleted *bool `mandatory:"false" json:"isCompleted"`
 
+	// Type of migration project (OCI/OLVM). This determines the target environment for the migration.
+	MigrationType MigrationMigrationTypeEnum `mandatory:"false" json:"migrationType,omitempty"`
+
+	MigrationConfig *MigrationConfig `mandatory:"false" json:"migrationConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -71,6 +76,9 @@ func (m Migration) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMigrationLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingMigrationMigrationTypeEnum(string(m.MigrationType)); !ok && m.MigrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationType: %s. Supported values are: %s.", m.MigrationType, strings.Join(GetMigrationMigrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -136,5 +144,47 @@ func GetMigrationLifecycleStateEnumStringValues() []string {
 // GetMappingMigrationLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingMigrationLifecycleStateEnum(val string) (MigrationLifecycleStateEnum, bool) {
 	enum, ok := mappingMigrationLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MigrationMigrationTypeEnum Enum with underlying type: string
+type MigrationMigrationTypeEnum string
+
+// Set of constants representing the allowable values for MigrationMigrationTypeEnum
+const (
+	MigrationMigrationTypeOci  MigrationMigrationTypeEnum = "OCI"
+	MigrationMigrationTypeOlvm MigrationMigrationTypeEnum = "OLVM"
+)
+
+var mappingMigrationMigrationTypeEnum = map[string]MigrationMigrationTypeEnum{
+	"OCI":  MigrationMigrationTypeOci,
+	"OLVM": MigrationMigrationTypeOlvm,
+}
+
+var mappingMigrationMigrationTypeEnumLowerCase = map[string]MigrationMigrationTypeEnum{
+	"oci":  MigrationMigrationTypeOci,
+	"olvm": MigrationMigrationTypeOlvm,
+}
+
+// GetMigrationMigrationTypeEnumValues Enumerates the set of values for MigrationMigrationTypeEnum
+func GetMigrationMigrationTypeEnumValues() []MigrationMigrationTypeEnum {
+	values := make([]MigrationMigrationTypeEnum, 0)
+	for _, v := range mappingMigrationMigrationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMigrationMigrationTypeEnumStringValues Enumerates the set of values in String for MigrationMigrationTypeEnum
+func GetMigrationMigrationTypeEnumStringValues() []string {
+	return []string{
+		"OCI",
+		"OLVM",
+	}
+}
+
+// GetMappingMigrationMigrationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMigrationMigrationTypeEnum(val string) (MigrationMigrationTypeEnum, bool) {
+	enum, ok := mappingMigrationMigrationTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

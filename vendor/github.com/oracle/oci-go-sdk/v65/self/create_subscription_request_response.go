@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSubscriptionRequest wrapper for the CreateSubscription operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/CreateSubscription.go.html to see an example of how to use CreateSubscriptionRequest.
 type CreateSubscriptionRequest struct {
 
 	// Details for the new Subscription.

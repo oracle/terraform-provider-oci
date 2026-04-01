@@ -27,6 +27,11 @@ type UpdateMigrationDetails struct {
 	// Indicates whether migration is marked as complete.
 	IsCompleted *bool `mandatory:"false" json:"isCompleted"`
 
+	// Type of migration project (OCI/OLVM). This determines the target environment for the migration.
+	MigrationType MigrationMigrationTypeEnum `mandatory:"false" json:"migrationType,omitempty"`
+
+	MigrationConfig *MigrationConfig `mandatory:"false" json:"migrationConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -46,6 +51,9 @@ func (m UpdateMigrationDetails) String() string {
 func (m UpdateMigrationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMigrationMigrationTypeEnum(string(m.MigrationType)); !ok && m.MigrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationType: %s. Supported values are: %s.", m.MigrationType, strings.Join(GetMigrationMigrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

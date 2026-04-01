@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteSubscriptionRequest wrapper for the DeleteSubscription operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/DeleteSubscription.go.html to see an example of how to use DeleteSubscriptionRequest.
 type DeleteSubscriptionRequest struct {
 
 	// The unique identifier for the subscription.

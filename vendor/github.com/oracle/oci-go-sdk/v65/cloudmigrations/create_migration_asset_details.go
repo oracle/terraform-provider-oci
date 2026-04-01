@@ -39,6 +39,8 @@ type CreateMigrationAssetDetails struct {
 	// Replication schedule identifier
 	ReplicationScheduleId *string `mandatory:"false" json:"replicationScheduleId"`
 
+	ReplicationLocationDetail *ReplicationLocationDetail `mandatory:"false" json:"replicationLocationDetail"`
+
 	// List of migration assets that depends on this asset.
 	DependsOn []string `mandatory:"false" json:"dependsOn"`
 }

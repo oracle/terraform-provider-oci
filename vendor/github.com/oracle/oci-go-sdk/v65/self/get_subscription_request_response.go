@@ -12,6 +12,10 @@ import (
 )
 
 // GetSubscriptionRequest wrapper for the GetSubscription operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/GetSubscription.go.html to see an example of how to use GetSubscriptionRequest.
 type GetSubscriptionRequest struct {
 
 	// The unique identifier for the subscription.

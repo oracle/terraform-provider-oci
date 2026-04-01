@@ -59,6 +59,10 @@ func (m *updatetargetassetdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := UpdateVmTargetAssetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OLVM_INSTANCE":
+		mm := UpdateOlvmTargetAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for UpdateTargetAssetDetails: %s.", m.Type)
 		return *m, nil
@@ -91,15 +95,18 @@ type UpdateTargetAssetDetailsTypeEnum string
 
 // Set of constants representing the allowable values for UpdateTargetAssetDetailsTypeEnum
 const (
-	UpdateTargetAssetDetailsTypeInstance UpdateTargetAssetDetailsTypeEnum = "INSTANCE"
+	UpdateTargetAssetDetailsTypeInstance     UpdateTargetAssetDetailsTypeEnum = "INSTANCE"
+	UpdateTargetAssetDetailsTypeOlvmInstance UpdateTargetAssetDetailsTypeEnum = "OLVM_INSTANCE"
 )
 
 var mappingUpdateTargetAssetDetailsTypeEnum = map[string]UpdateTargetAssetDetailsTypeEnum{
-	"INSTANCE": UpdateTargetAssetDetailsTypeInstance,
+	"INSTANCE":      UpdateTargetAssetDetailsTypeInstance,
+	"OLVM_INSTANCE": UpdateTargetAssetDetailsTypeOlvmInstance,
 }
 
 var mappingUpdateTargetAssetDetailsTypeEnumLowerCase = map[string]UpdateTargetAssetDetailsTypeEnum{
-	"instance": UpdateTargetAssetDetailsTypeInstance,
+	"instance":      UpdateTargetAssetDetailsTypeInstance,
+	"olvm_instance": UpdateTargetAssetDetailsTypeOlvmInstance,
 }
 
 // GetUpdateTargetAssetDetailsTypeEnumValues Enumerates the set of values for UpdateTargetAssetDetailsTypeEnum
@@ -115,6 +122,7 @@ func GetUpdateTargetAssetDetailsTypeEnumValues() []UpdateTargetAssetDetailsTypeE
 func GetUpdateTargetAssetDetailsTypeEnumStringValues() []string {
 	return []string{
 		"INSTANCE",
+		"OLVM_INSTANCE",
 	}
 }
 
