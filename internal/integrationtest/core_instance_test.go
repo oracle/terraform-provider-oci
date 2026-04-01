@@ -36,7 +36,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, CoreInstanceRepresentation)
 
 	CoreInstanceIpv6ResourceConfig = CoreInstanceResourceDependenciesIPV6 +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, instanceWithAssignIPV6ResourceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, instanceWithAssignIPV6NoDefinedTagsResourceRepresentation)
 
 	CoreCoreInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
@@ -935,6 +935,13 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
 	}
+	instanceWithAssignIPV6NoDefinedTagsResourceRepresentation = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		"defined_tags",
+		"create_vnic_details.defined_tags",
+	}, instanceWithAssignIPV6ResourceRepresentation)
+	instanceWithAssignIPV6AutoResourceRepresentation = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
+		"create_vnic_details.ipv6address_ipv6subnet_cidr_pair_details",
+	}, instanceWithAssignIPV6NoDefinedTagsResourceRepresentation)
 	instanceUpdateShapeAndCapacityReservation = map[string]interface{}{
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -3979,7 +3986,7 @@ func TestCoreInstanceResource_AssignIpv6(t *testing.T) {
 			// Step 0: verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesIPV6 +
-					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, instanceWithAssignIPV6ResourceRepresentation),
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, instanceWithAssignIPV6NoDefinedTagsResourceRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
@@ -4013,7 +4020,7 @@ func TestCoreInstanceResource_AssignIpv6(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -4038,6 +4045,61 @@ func TestCoreInstanceResource_AssignIpv6(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreInstanceResource_AssignIpv6_AutoAssignedPairDetails(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceResource_AssignIpv6_AutoAssignedPairDetails")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := `
+		provider oci {
+			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+		}
+	` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	var resId string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// Step 0: verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesIPV6 +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, instanceWithAssignIPV6AutoResourceRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "true"),
+					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
