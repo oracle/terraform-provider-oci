@@ -137,7 +137,7 @@ func (client PartnerIntegerationClient) activateSubscription(ctx context.Context
 
 	var response ActivateSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ActivateSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -191,7 +191,7 @@ func (client PartnerIntegerationClient) listingSubscriptions(ctx context.Context
 
 	var response ListingSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ListingSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -250,7 +250,7 @@ func (client PartnerIntegerationClient) resolveSubscription(ctx context.Context,
 
 	var response ResolveSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ResolveSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
