@@ -210,6 +210,18 @@ const (
 	ListDatabaseConfigurationsDatabaseTypeAdwExacc             ListDatabaseConfigurationsDatabaseTypeEnum = "ADW-EXACC"
 	ListDatabaseConfigurationsDatabaseTypeExternalAdw          ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-ADW"
 	ListDatabaseConfigurationsDatabaseTypeExternalAtp          ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-ATP"
+	ListDatabaseConfigurationsDatabaseTypeLhD                  ListDatabaseConfigurationsDatabaseTypeEnum = "LH-D"
+	ListDatabaseConfigurationsDatabaseTypeApexD                ListDatabaseConfigurationsDatabaseTypeEnum = "APEX-D"
+	ListDatabaseConfigurationsDatabaseTypeAjdD                 ListDatabaseConfigurationsDatabaseTypeEnum = "AJD-D"
+	ListDatabaseConfigurationsDatabaseTypeAvdD                 ListDatabaseConfigurationsDatabaseTypeEnum = "AVD-D"
+	ListDatabaseConfigurationsDatabaseTypeLhS                  ListDatabaseConfigurationsDatabaseTypeEnum = "LH-S"
+	ListDatabaseConfigurationsDatabaseTypeApexS                ListDatabaseConfigurationsDatabaseTypeEnum = "APEX-S"
+	ListDatabaseConfigurationsDatabaseTypeAjdS                 ListDatabaseConfigurationsDatabaseTypeEnum = "AJD-S"
+	ListDatabaseConfigurationsDatabaseTypeAvdS                 ListDatabaseConfigurationsDatabaseTypeEnum = "AVD-S"
+	ListDatabaseConfigurationsDatabaseTypeLhExacc              ListDatabaseConfigurationsDatabaseTypeEnum = "LH-EXACC"
+	ListDatabaseConfigurationsDatabaseTypeApexExacc            ListDatabaseConfigurationsDatabaseTypeEnum = "APEX-EXACC"
+	ListDatabaseConfigurationsDatabaseTypeAjdExacc             ListDatabaseConfigurationsDatabaseTypeEnum = "AJD-EXACC"
+	ListDatabaseConfigurationsDatabaseTypeAvdExacc             ListDatabaseConfigurationsDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -237,6 +249,18 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseC
 	"ADW-EXACC":              ListDatabaseConfigurationsDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           ListDatabaseConfigurationsDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           ListDatabaseConfigurationsDatabaseTypeExternalAtp,
+	"LH-D":                   ListDatabaseConfigurationsDatabaseTypeLhD,
+	"APEX-D":                 ListDatabaseConfigurationsDatabaseTypeApexD,
+	"AJD-D":                  ListDatabaseConfigurationsDatabaseTypeAjdD,
+	"AVD-D":                  ListDatabaseConfigurationsDatabaseTypeAvdD,
+	"LH-S":                   ListDatabaseConfigurationsDatabaseTypeLhS,
+	"APEX-S":                 ListDatabaseConfigurationsDatabaseTypeApexS,
+	"AJD-S":                  ListDatabaseConfigurationsDatabaseTypeAjdS,
+	"AVD-S":                  ListDatabaseConfigurationsDatabaseTypeAvdS,
+	"LH-EXACC":               ListDatabaseConfigurationsDatabaseTypeLhExacc,
+	"APEX-EXACC":             ListDatabaseConfigurationsDatabaseTypeApexExacc,
+	"AJD-EXACC":              ListDatabaseConfigurationsDatabaseTypeAjdExacc,
+	"AVD-EXACC":              ListDatabaseConfigurationsDatabaseTypeAvdExacc,
 }
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -264,6 +288,18 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]List
 	"adw-exacc":              ListDatabaseConfigurationsDatabaseTypeAdwExacc,
 	"external-adw":           ListDatabaseConfigurationsDatabaseTypeExternalAdw,
 	"external-atp":           ListDatabaseConfigurationsDatabaseTypeExternalAtp,
+	"lh-d":                   ListDatabaseConfigurationsDatabaseTypeLhD,
+	"apex-d":                 ListDatabaseConfigurationsDatabaseTypeApexD,
+	"ajd-d":                  ListDatabaseConfigurationsDatabaseTypeAjdD,
+	"avd-d":                  ListDatabaseConfigurationsDatabaseTypeAvdD,
+	"lh-s":                   ListDatabaseConfigurationsDatabaseTypeLhS,
+	"apex-s":                 ListDatabaseConfigurationsDatabaseTypeApexS,
+	"ajd-s":                  ListDatabaseConfigurationsDatabaseTypeAjdS,
+	"avd-s":                  ListDatabaseConfigurationsDatabaseTypeAvdS,
+	"lh-exacc":               ListDatabaseConfigurationsDatabaseTypeLhExacc,
+	"apex-exacc":             ListDatabaseConfigurationsDatabaseTypeApexExacc,
+	"ajd-exacc":              ListDatabaseConfigurationsDatabaseTypeAjdExacc,
+	"avd-exacc":              ListDatabaseConfigurationsDatabaseTypeAvdExacc,
 }
 
 // GetListDatabaseConfigurationsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseConfigurationsDatabaseTypeEnum
@@ -302,6 +338,18 @@ func GetListDatabaseConfigurationsDatabaseTypeEnumStringValues() []string {
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

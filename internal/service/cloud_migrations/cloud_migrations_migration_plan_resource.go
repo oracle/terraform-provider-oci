@@ -123,21 +123,14 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"subnet": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"target_environment_type": {
 							Type:             schema.TypeString,
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"OLVM_TARGET_ENV",
 								"VM_TARGET_ENV",
 							}, true),
-						},
-						"vcn": {
-							Type:     schema.TypeString,
-							Required: true,
 						},
 
 						// Optional
@@ -146,6 +139,11 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"cluster_asset_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"dedicated_vm_host": {
 							Type:     schema.TypeString,
@@ -162,12 +160,33 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"olvm_templates": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"preferred_shape_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
+						"subnet": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"target_compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vcn": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vnic_profile_asset_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -198,6 +217,64 @@ func CloudMigrationsMigrationPlanResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"cost_to_migrate": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"asset_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"currency_code": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"oci_data_transfer_costs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"source_data_transfer_costs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"current_monthly_cost": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"asset_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"compute_amount": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"currency_code": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"storage_amount": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"time_updated": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -942,8 +1019,60 @@ func CostEstimationToMap(obj *oci_cloud_migrations.CostEstimation) map[string]in
 	return result
 }
 
+func CostToMigrateToMap(obj *oci_cloud_migrations.CostToMigrate) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AssetCount != nil {
+		result["asset_count"] = int(*obj.AssetCount)
+	}
+
+	if obj.CurrencyCode != nil {
+		result["currency_code"] = string(*obj.CurrencyCode)
+	}
+
+	if obj.OciDataTransferCosts != nil {
+		result["oci_data_transfer_costs"] = float32(*obj.OciDataTransferCosts)
+	}
+
+	if obj.SourceDataTransferCosts != nil {
+		result["source_data_transfer_costs"] = float32(*obj.SourceDataTransferCosts)
+	}
+
+	return result
+}
+
+func CurrentMonthlyCostToMap(obj *oci_cloud_migrations.CurrentMonthlyCost) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AssetCount != nil {
+		result["asset_count"] = int(*obj.AssetCount)
+	}
+
+	if obj.ComputeAmount != nil {
+		result["compute_amount"] = float32(*obj.ComputeAmount)
+	}
+
+	if obj.CurrencyCode != nil {
+		result["currency_code"] = string(*obj.CurrencyCode)
+	}
+
+	if obj.StorageAmount != nil {
+		result["storage_amount"] = float32(*obj.StorageAmount)
+	}
+
+	return result
+}
+
 func MigrationPlanStatsToMap(obj *oci_cloud_migrations.MigrationPlanStats) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.CostToMigrate != nil {
+		result["cost_to_migrate"] = []interface{}{CostToMigrateToMap(obj.CostToMigrate)}
+	}
+
+	if obj.CurrentMonthlyCost != nil {
+		result["current_monthly_cost"] = []interface{}{CurrentMonthlyCostToMap(obj.CurrentMonthlyCost)}
+	}
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
@@ -1220,6 +1349,23 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) mapToTargetEnvironment(fieldK
 		targetEnvironmentType = "" // default value
 	}
 	switch strings.ToLower(targetEnvironmentType) {
+	case strings.ToLower("OLVM_TARGET_ENV"):
+		details := oci_cloud_migrations.OlvmTargetEnvironment{}
+		if clusterAssetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_asset_id")); ok {
+			tmp := clusterAssetId.(string)
+			details.ClusterAssetId = &tmp
+		}
+		if olvmTemplates, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "olvm_templates")); ok {
+			details.OlvmTemplates = tfresource.ObjectMapToStringMap(olvmTemplates.(map[string]interface{}))
+		}
+		if preferredShapeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preferred_shape_type")); ok {
+			details.PreferredShapeType = oci_cloud_migrations.VmTargetAssetPreferredShapeTypeEnum(preferredShapeType.(string))
+		}
+		if vnicProfileAssetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_profile_asset_id")); ok {
+			tmp := vnicProfileAssetId.(string)
+			details.VnicProfileAssetId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("VM_TARGET_ENV"):
 		details := oci_cloud_migrations.VmTargetEnvironment{}
 		if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
@@ -1267,6 +1413,20 @@ func (s *CloudMigrationsMigrationPlanResourceCrud) mapToTargetEnvironment(fieldK
 func TargetEnvironmentToMap(obj oci_cloud_migrations.TargetEnvironment) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_cloud_migrations.OlvmTargetEnvironment:
+		result["target_environment_type"] = "OLVM_TARGET_ENV"
+
+		if v.ClusterAssetId != nil {
+			result["cluster_asset_id"] = string(*v.ClusterAssetId)
+		}
+
+		result["olvm_templates"] = v.OlvmTemplates
+
+		result["preferred_shape_type"] = string(v.PreferredShapeType)
+
+		if v.VnicProfileAssetId != nil {
+			result["vnic_profile_asset_id"] = string(*v.VnicProfileAssetId)
+		}
 	case oci_cloud_migrations.VmTargetEnvironment:
 		result["target_environment_type"] = "VM_TARGET_ENV"
 

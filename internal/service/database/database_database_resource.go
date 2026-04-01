@@ -185,6 +185,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"is_zero_data_loss_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+												},
 												"remote_region": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1271,6 +1275,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 		result.IsRetentionLockEnabled = &tmp
 	}
 
+	if isZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
+		tmp := isZeroDataLossEnabled.(bool)
+		result.IsZeroDataLossEnabled = &tmp
+	}
+
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
 		tmp := remoteRegion.(string)
 		result.RemoteRegion = &tmp
@@ -1420,6 +1429,12 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(field
 		result.IsRetentionLockEnabled = &tmp
 	}
 
+	// handle bool field
+	if isZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
+		tmp := isZeroDataLossEnabled.(bool)
+		result.IsZeroDataLossEnabled = &tmp
+	}
+
 	// handle enum field
 	if backupRetentionPolicyOnTerminate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_retention_policy_on_terminate")); ok {
 		result.BackupRetentionPolicyOnTerminate = oci_database.BackupDestinationDetailsBackupRetentionPolicyOnTerminateEnum(backupRetentionPolicyOnTerminate.(string))
@@ -1489,6 +1504,10 @@ func (s *DatabaseDatabaseResourceCrud) BackupDestinationDetailsToMap(obj oci_dat
 		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
+	if obj.IsZeroDataLossEnabled != nil {
+		result["is_zero_data_loss_enabled"] = bool(*obj.IsZeroDataLossEnabled)
+	}
+
 	if obj.RemoteRegion != nil {
 		result["remote_region"] = string(*obj.RemoteRegion)
 	}
@@ -1529,6 +1548,10 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 
 	if obj.IsRetentionLockEnabled != nil {
 		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_zero_data_loss_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
 	if obj.RemoteRegion != nil {

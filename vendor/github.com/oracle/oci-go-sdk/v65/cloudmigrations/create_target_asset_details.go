@@ -60,6 +60,10 @@ func (m *createtargetassetdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.Type {
+	case "OLVM_INSTANCE":
+		mm := CreateOlvmTargetAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INSTANCE":
 		mm := CreateVmTargetAssetDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -101,15 +105,18 @@ type CreateTargetAssetDetailsTypeEnum string
 
 // Set of constants representing the allowable values for CreateTargetAssetDetailsTypeEnum
 const (
-	CreateTargetAssetDetailsTypeInstance CreateTargetAssetDetailsTypeEnum = "INSTANCE"
+	CreateTargetAssetDetailsTypeInstance     CreateTargetAssetDetailsTypeEnum = "INSTANCE"
+	CreateTargetAssetDetailsTypeOlvmInstance CreateTargetAssetDetailsTypeEnum = "OLVM_INSTANCE"
 )
 
 var mappingCreateTargetAssetDetailsTypeEnum = map[string]CreateTargetAssetDetailsTypeEnum{
-	"INSTANCE": CreateTargetAssetDetailsTypeInstance,
+	"INSTANCE":      CreateTargetAssetDetailsTypeInstance,
+	"OLVM_INSTANCE": CreateTargetAssetDetailsTypeOlvmInstance,
 }
 
 var mappingCreateTargetAssetDetailsTypeEnumLowerCase = map[string]CreateTargetAssetDetailsTypeEnum{
-	"instance": CreateTargetAssetDetailsTypeInstance,
+	"instance":      CreateTargetAssetDetailsTypeInstance,
+	"olvm_instance": CreateTargetAssetDetailsTypeOlvmInstance,
 }
 
 // GetCreateTargetAssetDetailsTypeEnumValues Enumerates the set of values for CreateTargetAssetDetailsTypeEnum
@@ -125,6 +132,7 @@ func GetCreateTargetAssetDetailsTypeEnumValues() []CreateTargetAssetDetailsTypeE
 func GetCreateTargetAssetDetailsTypeEnumStringValues() []string {
 	return []string{
 		"INSTANCE",
+		"OLVM_INSTANCE",
 	}
 }
 
