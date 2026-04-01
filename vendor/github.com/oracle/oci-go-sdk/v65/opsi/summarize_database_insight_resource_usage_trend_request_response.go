@@ -225,6 +225,18 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAdwExacc             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "ADW-EXACC"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAdw          SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "EXTERNAL-ADW"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAtp          SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "EXTERNAL-ATP"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhD                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "LH-D"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexD                SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "APEX-D"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdD                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AJD-D"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdD                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AVD-D"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhS                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "LH-S"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexS                SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "APEX-S"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdS                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AJD-S"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdS                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AVD-S"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhExacc              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "LH-EXACC"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexExacc            SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "APEX-EXACC"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdExacc             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AJD-EXACC"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdExacc             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
@@ -252,6 +264,18 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[stri
 	"ADW-EXACC":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAtp,
+	"LH-D":                   SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhD,
+	"APEX-D":                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexD,
+	"AJD-D":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdD,
+	"AVD-D":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdD,
+	"LH-S":                   SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhS,
+	"APEX-S":                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexS,
+	"AJD-S":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdS,
+	"AVD-S":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdS,
+	"LH-EXACC":               SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhExacc,
+	"APEX-EXACC":             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexExacc,
+	"AJD-EXACC":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdExacc,
+	"AVD-EXACC":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdExacc,
 }
 
 var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
@@ -279,6 +303,18 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumLowerCase =
 	"adw-exacc":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAdwExacc,
 	"external-adw":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAdw,
 	"external-atp":           SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalAtp,
+	"lh-d":                   SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhD,
+	"apex-d":                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexD,
+	"ajd-d":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdD,
+	"avd-d":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdD,
+	"lh-s":                   SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhS,
+	"apex-s":                 SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexS,
+	"ajd-s":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdS,
+	"avd-s":                  SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdS,
+	"lh-exacc":               SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeLhExacc,
+	"apex-exacc":             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeApexExacc,
+	"ajd-exacc":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAjdExacc,
+	"avd-exacc":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeAvdExacc,
 }
 
 // GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum
@@ -317,6 +353,18 @@ func GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues()
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

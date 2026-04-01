@@ -206,6 +206,18 @@ const (
 	ListDatabaseInsightsDatabaseTypeAdwExacc             ListDatabaseInsightsDatabaseTypeEnum = "ADW-EXACC"
 	ListDatabaseInsightsDatabaseTypeExternalAdw          ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-ADW"
 	ListDatabaseInsightsDatabaseTypeExternalAtp          ListDatabaseInsightsDatabaseTypeEnum = "EXTERNAL-ATP"
+	ListDatabaseInsightsDatabaseTypeLhD                  ListDatabaseInsightsDatabaseTypeEnum = "LH-D"
+	ListDatabaseInsightsDatabaseTypeApexD                ListDatabaseInsightsDatabaseTypeEnum = "APEX-D"
+	ListDatabaseInsightsDatabaseTypeAjdD                 ListDatabaseInsightsDatabaseTypeEnum = "AJD-D"
+	ListDatabaseInsightsDatabaseTypeAvdD                 ListDatabaseInsightsDatabaseTypeEnum = "AVD-D"
+	ListDatabaseInsightsDatabaseTypeLhS                  ListDatabaseInsightsDatabaseTypeEnum = "LH-S"
+	ListDatabaseInsightsDatabaseTypeApexS                ListDatabaseInsightsDatabaseTypeEnum = "APEX-S"
+	ListDatabaseInsightsDatabaseTypeAjdS                 ListDatabaseInsightsDatabaseTypeEnum = "AJD-S"
+	ListDatabaseInsightsDatabaseTypeAvdS                 ListDatabaseInsightsDatabaseTypeEnum = "AVD-S"
+	ListDatabaseInsightsDatabaseTypeLhExacc              ListDatabaseInsightsDatabaseTypeEnum = "LH-EXACC"
+	ListDatabaseInsightsDatabaseTypeApexExacc            ListDatabaseInsightsDatabaseTypeEnum = "APEX-EXACC"
+	ListDatabaseInsightsDatabaseTypeAjdExacc             ListDatabaseInsightsDatabaseTypeEnum = "AJD-EXACC"
+	ListDatabaseInsightsDatabaseTypeAvdExacc             ListDatabaseInsightsDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsightsDatabaseTypeEnum{
@@ -233,6 +245,18 @@ var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsight
 	"ADW-EXACC":              ListDatabaseInsightsDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           ListDatabaseInsightsDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           ListDatabaseInsightsDatabaseTypeExternalAtp,
+	"LH-D":                   ListDatabaseInsightsDatabaseTypeLhD,
+	"APEX-D":                 ListDatabaseInsightsDatabaseTypeApexD,
+	"AJD-D":                  ListDatabaseInsightsDatabaseTypeAjdD,
+	"AVD-D":                  ListDatabaseInsightsDatabaseTypeAvdD,
+	"LH-S":                   ListDatabaseInsightsDatabaseTypeLhS,
+	"APEX-S":                 ListDatabaseInsightsDatabaseTypeApexS,
+	"AJD-S":                  ListDatabaseInsightsDatabaseTypeAjdS,
+	"AVD-S":                  ListDatabaseInsightsDatabaseTypeAvdS,
+	"LH-EXACC":               ListDatabaseInsightsDatabaseTypeLhExacc,
+	"APEX-EXACC":             ListDatabaseInsightsDatabaseTypeApexExacc,
+	"AJD-EXACC":              ListDatabaseInsightsDatabaseTypeAjdExacc,
+	"AVD-EXACC":              ListDatabaseInsightsDatabaseTypeAvdExacc,
 }
 
 var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDatabaseInsightsDatabaseTypeEnum{
@@ -260,6 +284,18 @@ var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDataba
 	"adw-exacc":              ListDatabaseInsightsDatabaseTypeAdwExacc,
 	"external-adw":           ListDatabaseInsightsDatabaseTypeExternalAdw,
 	"external-atp":           ListDatabaseInsightsDatabaseTypeExternalAtp,
+	"lh-d":                   ListDatabaseInsightsDatabaseTypeLhD,
+	"apex-d":                 ListDatabaseInsightsDatabaseTypeApexD,
+	"ajd-d":                  ListDatabaseInsightsDatabaseTypeAjdD,
+	"avd-d":                  ListDatabaseInsightsDatabaseTypeAvdD,
+	"lh-s":                   ListDatabaseInsightsDatabaseTypeLhS,
+	"apex-s":                 ListDatabaseInsightsDatabaseTypeApexS,
+	"ajd-s":                  ListDatabaseInsightsDatabaseTypeAjdS,
+	"avd-s":                  ListDatabaseInsightsDatabaseTypeAvdS,
+	"lh-exacc":               ListDatabaseInsightsDatabaseTypeLhExacc,
+	"apex-exacc":             ListDatabaseInsightsDatabaseTypeApexExacc,
+	"ajd-exacc":              ListDatabaseInsightsDatabaseTypeAjdExacc,
+	"avd-exacc":              ListDatabaseInsightsDatabaseTypeAvdExacc,
 }
 
 // GetListDatabaseInsightsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseInsightsDatabaseTypeEnum
@@ -298,6 +334,18 @@ func GetListDatabaseInsightsDatabaseTypeEnumStringValues() []string {
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

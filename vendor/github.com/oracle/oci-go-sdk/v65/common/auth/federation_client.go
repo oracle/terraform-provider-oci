@@ -13,8 +13,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"maps"
 	"math"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"sync"
@@ -135,7 +137,7 @@ func newStaticFederationClient(sessionToken string, supplier sessionKeySupplier)
 
 // oAuth2FederationClient retrieves a security token from the scoped OAuth endpoint in Auth Service
 type oAuth2FederationClient struct {
-	sessionKeySupplier    sessionKeySupplier
+	sessionKeySupplier    cacheableSessionKeySupplier
 	authClientKeyProvider common.KeyProvider
 	authClient            *common.BaseClient
 	securityToken         securityToken
@@ -148,7 +150,7 @@ type oAuth2FederationClient struct {
 var OAuthTokenStaleWindow = 20 * time.Minute
 
 // newOAuth2FederationClient creates a new oAuth2FederationClient from the provided configProvider and Auth request parameters
-func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier sessionKeySupplier) (federationClient, error) {
+func newOAuth2FederationClient(configProvider common.ConfigurationProvider, scope string, targetCompartment string, sessionKeySupplier cacheableSessionKeySupplier) (federationClient, error) {
 	client := &oAuth2FederationClient{}
 	client.sessionKeySupplier = sessionKeySupplier
 	region, err := configProvider.Region()
@@ -200,7 +202,8 @@ func (c *oAuth2FederationClient) renewSecurityTokenIfNotValid() (err error) {
 			if c.securityToken != nil && c.securityToken.Valid() {
 				// Token is stale but still valid. We failed to get a new token
 				// but we can still use the old one
-				common.Debugln("failed to refresh OAuth token. Using valid cached token")
+				common.Debugln("failed to refresh OAuth token. Using valid cached token  and cached session keys")
+				c.sessionKeySupplier.Revert()
 				return nil
 			}
 
@@ -571,6 +574,12 @@ type sessionKeySupplier interface {
 	PublicKeyPemRaw() []byte
 }
 
+// cacheableSessionKeySupplier extends sessionKeySupplier with the ability to revert to the previous key pair.
+type cacheableSessionKeySupplier interface {
+	sessionKeySupplier
+	Revert()
+}
+
 // genericKeySupplier implements sessionKeySupplier and provides an arbitrary refresh mechanism
 type genericKeySupplier struct {
 	RefreshFn func() (*rsa.PrivateKey, []byte, error)
@@ -727,6 +736,58 @@ func (s *inMemorySessionKeySupplier) PublicKeyPemRaw() []byte {
 	return c
 }
 
+type inMemoryCacheableSessionKeySupplier struct {
+	inMemorySessionKeySupplier
+	cachedPublicKeyPemRaw []byte
+	cachedPrivateKey      *rsa.PrivateKey
+}
+
+// newCacheableSessionKeySupplier creates and returns an inMemoryCacheableSessionKeySupplier instance which generates key pairs of size 2048.
+func newCacheableSessionKeySupplier() cacheableSessionKeySupplier {
+	return &inMemoryCacheableSessionKeySupplier{inMemorySessionKeySupplier: inMemorySessionKeySupplier{keySize: 2048}}
+}
+
+func (s *inMemoryCacheableSessionKeySupplier) Refresh() (err error) {
+
+	common.Debugln("Refreshing cacheable session key")
+
+	// Cache current keys before generating new ones
+	s.cachedPrivateKey = s.privateKey
+	if s.publicKeyPemRaw != nil {
+		s.cachedPublicKeyPemRaw = make([]byte, len(s.publicKeyPemRaw))
+		copy(s.cachedPublicKeyPemRaw, s.publicKeyPemRaw)
+	} else {
+		s.cachedPublicKeyPemRaw = nil
+	}
+	var privateKey *rsa.PrivateKey
+	privateKey, err = rsa.GenerateKey(rand.Reader, s.keySize)
+	if err != nil {
+		return fmt.Errorf("failed to generate a new keypair: %s", err)
+	}
+	var publicKeyAsnBytes []byte
+	if publicKeyAsnBytes, err = x509.MarshalPKIXPublicKey(privateKey.Public()); err != nil {
+		return fmt.Errorf("failed to marshal the public part of the new keypair: %s", err.Error())
+	}
+	publicKeyPemRaw := pem.EncodeToMemory(&pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: publicKeyAsnBytes,
+	})
+	s.privateKey = privateKey
+	s.publicKeyPemRaw = publicKeyPemRaw
+
+	return nil
+}
+
+func (s *inMemoryCacheableSessionKeySupplier) Revert() {
+	s.privateKey = s.cachedPrivateKey
+	if s.cachedPublicKeyPemRaw != nil {
+		s.publicKeyPemRaw = make([]byte, len(s.cachedPublicKeyPemRaw))
+		copy(s.publicKeyPemRaw, s.cachedPublicKeyPemRaw)
+	} else {
+		s.publicKeyPemRaw = nil
+	}
+}
+
 type securityToken interface {
 	fmt.Stringer
 	Valid() bool
@@ -765,4 +826,220 @@ func (t *principalToken) GetClaim(key string) (interface{}, error) {
 		return value, nil
 	}
 	return nil, ErrNoSuchClaim
+}
+
+// nilSigner is required to avoid common.BaseClient panic.
+type nilSigner struct{}
+
+// Sign fulfills the HTTPRequestSigner interface.
+func (e nilSigner) Sign(r *http.Request) error {
+	return nil
+}
+
+// newIDAuthClient returns a BaseClient that does not sign requests and has the auth
+// client circuit breaker
+func newIDAuthClient(host string, authBasePath string) *common.BaseClient {
+	client := common.DefaultBaseClientWithSigner(nilSigner{})
+	client.Host = host
+	client.BasePath = authBasePath
+	if common.GlobalAuthClientCircuitBreakerSetting != nil {
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.GlobalAuthClientCircuitBreakerSetting)
+	} else if !common.IsEnvVarFalse("OCI_SDK_AUTH_CLIENT_CIRCUIT_BREAKER_ENABLED") {
+		common.Logf("Configuring DefaultAuthClientCircuitBreakerSetting for federation client")
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultAuthClientCircuitBreakerSetting())
+	}
+	return &client
+}
+
+// tokenExchangeResponse provides a struct for unmarshaling tokens.
+type tokenExchangeResponse struct {
+	Token `presentIn:"body"`
+}
+
+// tokenExchangeFederationClient implements federationClient.
+type tokenExchangeFederationClient struct {
+	client                    *common.BaseClient
+	securityToken             securityToken
+	privateKey                *rsa.PrivateKey
+	tokenIssuer               TokenIssuer
+	domainUrl                 string
+	authCode                  string
+	requestData               map[string][]string
+	instancePrincipalProvider common.ConfigurationProvider
+	mux                       sync.Mutex
+}
+
+// newTokenExchangeFederationClient creates a federation client.
+func newTokenExchangeFederationClient(issuer TokenIssuer, host string,
+	authCode string, requestData map[string][]string,
+	instancePrincipalProvider common.ConfigurationProvider) *tokenExchangeFederationClient {
+	defaultGenericHeaders := []string{"date", "(request-target)", "host"}
+	bodyHeaders := []string{"content-length", "content-type", "x-content-sha256"}
+	var client *common.BaseClient
+	if instancePrincipalProvider != nil {
+		signer := common.RequestSigner(instancePrincipalProvider, defaultGenericHeaders, bodyHeaders)
+		baseClient := common.DefaultBaseClientWithSigner(signer)
+		client = &baseClient
+		client.Host = host
+		client.BasePath = "oauth2/v1/token"
+	} else {
+		client = newIDAuthClient(host, "/oauth2/v1/token")
+	}
+	fc := tokenExchangeFederationClient{
+		tokenIssuer:               issuer,
+		client:                    client,
+		authCode:                  authCode,
+		requestData:               requestData,
+		instancePrincipalProvider: instancePrincipalProvider,
+	}
+	return &fc
+}
+
+// PrivateKey receiver implements federationClient interface. Safe for concurrent use.
+func (fc *tokenExchangeFederationClient) PrivateKey() (*rsa.PrivateKey, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return nil, err
+	}
+	return fc.privateKey, nil
+}
+
+// SecurityToken receiver implements federationClient interface. Safe for concurrent
+// use.
+func (fc *tokenExchangeFederationClient) SecurityToken() (string, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("ST$%s", fc.securityToken.String()), nil
+}
+
+// GetClaim returns claims embedded in the Security Token.
+func (fc *tokenExchangeFederationClient) GetClaim(key string) (interface{}, error) {
+	if err := fc.renewSecurityTokenIfNotValid(); err != nil {
+		return nil, fmt.Errorf("unable to retrieve claim: %w", err)
+	}
+	return fc.securityToken.GetClaim(key)
+}
+
+// renewSecurityTokenIfNotValid checks if token is valid and initiates refresh if needed.
+// Mutex is locked here if an operation is needed to prevent concurrency errors.
+func (fc *tokenExchangeFederationClient) renewSecurityTokenIfNotValid() error {
+	if fc.securityToken == nil || !fc.securityToken.Valid() {
+		// Lock here to prevent renewSecurityToken from making surplus calls to the
+		// authorization server and identity domain
+		fc.mux.Lock()
+		defer fc.mux.Unlock()
+		// Ensure token is not renewed by previously blocked operation
+		if fc.securityToken != nil && fc.securityToken.Valid() {
+			return nil
+		}
+		return fc.renewSecurityToken()
+	}
+	return nil
+}
+
+// renewSecurityToken initiates renewal of the Security Token returned by the
+// tokenExchangeFederationClient. Should only be called by renewSecurityTokenIfNotValid.
+// Rotates RSA key and updates federation client with fresh Security Token and private key.
+func (fc *tokenExchangeFederationClient) renewSecurityToken() (err error) {
+	var token string
+	// Since we are running arbitrary code, we catch panics and return the cause
+	// as an error
+	func() {
+		// Scope recover around caller-provided code
+		common.Logf("attempting to retrieve token from issuer")
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic occurred during token renewal: %v", r)
+			}
+		}()
+		// Get a fresh token from the issuer
+		token, err = fc.tokenIssuer.GetToken()
+	}()
+	if err != nil {
+		return fmt.Errorf("unable to refresh JWT: %w", err)
+	}
+	privateKey, err := rsa.GenerateKey(rand.Reader, 3072)
+	if err != nil {
+		return fmt.Errorf("unable to generate RSA key: %w", err)
+	}
+	publicKey, err := privateToPublicDERBase64(privateKey)
+	if err != nil {
+		return fmt.Errorf("unable to derive public key: %w", err)
+	}
+	securityToken, err := fc.newTokenExchangeToken(token, publicKey)
+	if err != nil {
+		return fmt.Errorf("unable to exchange JWT for security token: %w", err)
+	}
+	// privateKey and securityToken ONLY updated here while under lock from renewSecurityTokenIfNotValid
+	fc.privateKey = privateKey
+	fc.securityToken = securityToken
+	return nil
+}
+
+// newTokenExchangeToken assembles and returns a tokenExchangeToken issued by OCI.
+func (fc *tokenExchangeFederationClient) newTokenExchangeToken(token string,
+	publicKey string) (tokenExchangeToken, error) {
+	var t tokenExchangeToken
+	var err error
+	// Retry and backoff
+	maxRetries := 3
+	var httpResponse *http.Response
+	defer common.CloseBodyIfValid(httpResponse)
+	for retry := 1; retry <= maxRetries; retry++ {
+		common.Logf("attempt %d to retrieve Security Token", retry)
+		form := make(url.Values, 0)
+		maps.Copy(form, fc.requestData)
+		form.Set("public_key", publicKey)
+		if token != "" {
+			form.Set("subject_token", token)
+		}
+		formString := form.Encode()
+		formBody := strings.NewReader(formString)
+		httpRequest, err := http.NewRequest(http.MethodPost, fc.client.Host, formBody)
+		if err != nil {
+			return t, fmt.Errorf("failed to make request to token endpoint: %w", err)
+		}
+		httpRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		if fc.instancePrincipalProvider != nil {
+			httpRequest.Header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
+		} else if fc.authCode != "" {
+			httpRequest.Header.Set("Authorization", "Basic "+fc.authCode)
+		}
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		response, err := fc.client.Call(ctx, httpRequest)
+		if (err == nil && response.StatusCode == http.StatusOK) ||
+			// Do not retry 4XX response codes
+			(response != nil && response.StatusCode >= 400 && response.StatusCode <= 499) ||
+			// Skip last sleep on max attempts
+			(retry == maxRetries) {
+			httpResponse = response
+			cancel()
+			break
+		}
+		if response != nil {
+			common.Logf("invalid response from domain: %s", response.Status)
+		} else {
+			common.Logf("invalid response from domain: %v", err)
+		}
+		common.CloseBodyIfValid(response)
+		cancel()
+		sleep := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
+		time.Sleep(sleep)
+	}
+	if httpResponse == nil {
+		return t, fmt.Errorf("no response from domain")
+	}
+	if httpResponse.StatusCode != http.StatusOK {
+		return t, fmt.Errorf("invalid token endpoint response %s", httpResponse.Status)
+	}
+	responseBody := tokenExchangeResponse{}
+	if err = common.UnmarshalResponse(httpResponse, &responseBody); err != nil {
+		return t, fmt.Errorf("failed to unmarshal response: %w", err)
+	}
+	parsedToken, err := parseJwt(responseBody.Token.Token)
+	if err != nil {
+		return t, fmt.Errorf("unable to parse token: %w", err)
+	}
+	t.token = *parsedToken
+	return t, nil
 }

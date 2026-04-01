@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateVmWareAssetSourceDetails Asset source update details.
+// UpdateVmWareAssetSourceDetails VMware asset source update request.
 type UpdateVmWareAssetSourceDetails struct {
 
 	// A user-friendly name for the asset source. Does not have to be unique, and it's mutable.
@@ -25,6 +25,9 @@ type UpdateVmWareAssetSourceDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
 	AssetsCompartmentId *string `mandatory:"false" json:"assetsCompartmentId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
+	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
 	// Example: `{"bar-key": "value"}`
@@ -51,8 +54,8 @@ type UpdateVmWareAssetSourceDetails struct {
 	// Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 	AreRealtimeMetricsCollected *bool `mandatory:"false" json:"areRealtimeMetricsCollected"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule that is going to be assigned to an asset source.
-	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -63,6 +66,11 @@ func (m UpdateVmWareAssetSourceDetails) GetDisplayName() *string {
 // GetAssetsCompartmentId returns AssetsCompartmentId
 func (m UpdateVmWareAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
+}
+
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
+func (m UpdateVmWareAssetSourceDetails) GetDiscoveryScheduleId() *string {
+	return m.DiscoveryScheduleId
 }
 
 // GetFreeformTags returns FreeformTags
@@ -80,6 +88,11 @@ func (m UpdateVmWareAssetSourceDetails) GetSystemTags() map[string]map[string]in
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m UpdateVmWareAssetSourceDetails) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 func (m UpdateVmWareAssetSourceDetails) String() string {
 	return common.PointerString(m)
 }
@@ -90,6 +103,9 @@ func (m UpdateVmWareAssetSourceDetails) String() string {
 func (m UpdateVmWareAssetSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

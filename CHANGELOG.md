@@ -1,3 +1,19 @@
+## 8.8.0 (April 1, 2026)
+
+### Added
+- Support for Subscription Model/Tiered pricing for SaaS Listings [SELF]
+- support for zero data enable flag
+- Support for Minor changes to existing OIC CP Public API to support approved existing DR design
+- File Storage Service IPv6 mount target support, support for Custom CA certificates for LDAP Feature on Mount Targets
+- Adding support for additional ADB types in Ops Insights
+- Support for NLBCP - Reserved Private IP Support
+- Support for Oracle Cloud Migration (OCM) - Bring Your Own Subnet (BYOS)
+- Support for Custom CA certificates for LDAP Feature on Mount Targets
+- Support for Data Science: Support Public Internet Access for Model Deployment
+
+### Bug Fix
+- correct oci_artifacts_container_repository import docs
+
 ## 8.7.0 (March 24, 2026)
 
 ### Bug Fix

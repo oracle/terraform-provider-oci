@@ -240,6 +240,18 @@ const (
 	SummarizeSqlStatisticsDatabaseTypeAdwExacc             SummarizeSqlStatisticsDatabaseTypeEnum = "ADW-EXACC"
 	SummarizeSqlStatisticsDatabaseTypeExternalAdw          SummarizeSqlStatisticsDatabaseTypeEnum = "EXTERNAL-ADW"
 	SummarizeSqlStatisticsDatabaseTypeExternalAtp          SummarizeSqlStatisticsDatabaseTypeEnum = "EXTERNAL-ATP"
+	SummarizeSqlStatisticsDatabaseTypeLhD                  SummarizeSqlStatisticsDatabaseTypeEnum = "LH-D"
+	SummarizeSqlStatisticsDatabaseTypeApexD                SummarizeSqlStatisticsDatabaseTypeEnum = "APEX-D"
+	SummarizeSqlStatisticsDatabaseTypeAjdD                 SummarizeSqlStatisticsDatabaseTypeEnum = "AJD-D"
+	SummarizeSqlStatisticsDatabaseTypeAvdD                 SummarizeSqlStatisticsDatabaseTypeEnum = "AVD-D"
+	SummarizeSqlStatisticsDatabaseTypeLhS                  SummarizeSqlStatisticsDatabaseTypeEnum = "LH-S"
+	SummarizeSqlStatisticsDatabaseTypeApexS                SummarizeSqlStatisticsDatabaseTypeEnum = "APEX-S"
+	SummarizeSqlStatisticsDatabaseTypeAjdS                 SummarizeSqlStatisticsDatabaseTypeEnum = "AJD-S"
+	SummarizeSqlStatisticsDatabaseTypeAvdS                 SummarizeSqlStatisticsDatabaseTypeEnum = "AVD-S"
+	SummarizeSqlStatisticsDatabaseTypeLhExacc              SummarizeSqlStatisticsDatabaseTypeEnum = "LH-EXACC"
+	SummarizeSqlStatisticsDatabaseTypeApexExacc            SummarizeSqlStatisticsDatabaseTypeEnum = "APEX-EXACC"
+	SummarizeSqlStatisticsDatabaseTypeAjdExacc             SummarizeSqlStatisticsDatabaseTypeEnum = "AJD-EXACC"
+	SummarizeSqlStatisticsDatabaseTypeAvdExacc             SummarizeSqlStatisticsDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingSummarizeSqlStatisticsDatabaseTypeEnum = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
@@ -267,6 +279,18 @@ var mappingSummarizeSqlStatisticsDatabaseTypeEnum = map[string]SummarizeSqlStati
 	"ADW-EXACC":              SummarizeSqlStatisticsDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           SummarizeSqlStatisticsDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           SummarizeSqlStatisticsDatabaseTypeExternalAtp,
+	"LH-D":                   SummarizeSqlStatisticsDatabaseTypeLhD,
+	"APEX-D":                 SummarizeSqlStatisticsDatabaseTypeApexD,
+	"AJD-D":                  SummarizeSqlStatisticsDatabaseTypeAjdD,
+	"AVD-D":                  SummarizeSqlStatisticsDatabaseTypeAvdD,
+	"LH-S":                   SummarizeSqlStatisticsDatabaseTypeLhS,
+	"APEX-S":                 SummarizeSqlStatisticsDatabaseTypeApexS,
+	"AJD-S":                  SummarizeSqlStatisticsDatabaseTypeAjdS,
+	"AVD-S":                  SummarizeSqlStatisticsDatabaseTypeAvdS,
+	"LH-EXACC":               SummarizeSqlStatisticsDatabaseTypeLhExacc,
+	"APEX-EXACC":             SummarizeSqlStatisticsDatabaseTypeApexExacc,
+	"AJD-EXACC":              SummarizeSqlStatisticsDatabaseTypeAjdExacc,
+	"AVD-EXACC":              SummarizeSqlStatisticsDatabaseTypeAvdExacc,
 }
 
 var mappingSummarizeSqlStatisticsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
@@ -294,6 +318,18 @@ var mappingSummarizeSqlStatisticsDatabaseTypeEnumLowerCase = map[string]Summariz
 	"adw-exacc":              SummarizeSqlStatisticsDatabaseTypeAdwExacc,
 	"external-adw":           SummarizeSqlStatisticsDatabaseTypeExternalAdw,
 	"external-atp":           SummarizeSqlStatisticsDatabaseTypeExternalAtp,
+	"lh-d":                   SummarizeSqlStatisticsDatabaseTypeLhD,
+	"apex-d":                 SummarizeSqlStatisticsDatabaseTypeApexD,
+	"ajd-d":                  SummarizeSqlStatisticsDatabaseTypeAjdD,
+	"avd-d":                  SummarizeSqlStatisticsDatabaseTypeAvdD,
+	"lh-s":                   SummarizeSqlStatisticsDatabaseTypeLhS,
+	"apex-s":                 SummarizeSqlStatisticsDatabaseTypeApexS,
+	"ajd-s":                  SummarizeSqlStatisticsDatabaseTypeAjdS,
+	"avd-s":                  SummarizeSqlStatisticsDatabaseTypeAvdS,
+	"lh-exacc":               SummarizeSqlStatisticsDatabaseTypeLhExacc,
+	"apex-exacc":             SummarizeSqlStatisticsDatabaseTypeApexExacc,
+	"ajd-exacc":              SummarizeSqlStatisticsDatabaseTypeAjdExacc,
+	"avd-exacc":              SummarizeSqlStatisticsDatabaseTypeAvdExacc,
 }
 
 // GetSummarizeSqlStatisticsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlStatisticsDatabaseTypeEnum
@@ -332,6 +368,18 @@ func GetSummarizeSqlStatisticsDatabaseTypeEnumStringValues() []string {
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

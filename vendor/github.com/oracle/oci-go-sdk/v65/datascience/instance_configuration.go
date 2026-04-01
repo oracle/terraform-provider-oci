@@ -29,6 +29,9 @@ type InstanceConfiguration struct {
 
 	// The OCID of a Data Science private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	// Network Access type of model deployment.
+	NetworkAccessType InstanceConfigurationNetworkAccessTypeEnum `mandatory:"false" json:"networkAccessType,omitempty"`
 }
 
 func (m InstanceConfiguration) String() string {
@@ -41,8 +44,57 @@ func (m InstanceConfiguration) String() string {
 func (m InstanceConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstanceConfigurationNetworkAccessTypeEnum(string(m.NetworkAccessType)); !ok && m.NetworkAccessType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetworkAccessType: %s. Supported values are: %s.", m.NetworkAccessType, strings.Join(GetInstanceConfigurationNetworkAccessTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// InstanceConfigurationNetworkAccessTypeEnum Enum with underlying type: string
+type InstanceConfigurationNetworkAccessTypeEnum string
+
+// Set of constants representing the allowable values for InstanceConfigurationNetworkAccessTypeEnum
+const (
+	InstanceConfigurationNetworkAccessTypeManagedNetworkingNoInternetAccess InstanceConfigurationNetworkAccessTypeEnum = "MANAGED_NETWORKING_NO_INTERNET_ACCESS"
+	InstanceConfigurationNetworkAccessTypeManagedNetworkingInternetAccess   InstanceConfigurationNetworkAccessTypeEnum = "MANAGED_NETWORKING_INTERNET_ACCESS"
+	InstanceConfigurationNetworkAccessTypeCustomNetworking                  InstanceConfigurationNetworkAccessTypeEnum = "CUSTOM_NETWORKING"
+)
+
+var mappingInstanceConfigurationNetworkAccessTypeEnum = map[string]InstanceConfigurationNetworkAccessTypeEnum{
+	"MANAGED_NETWORKING_NO_INTERNET_ACCESS": InstanceConfigurationNetworkAccessTypeManagedNetworkingNoInternetAccess,
+	"MANAGED_NETWORKING_INTERNET_ACCESS":    InstanceConfigurationNetworkAccessTypeManagedNetworkingInternetAccess,
+	"CUSTOM_NETWORKING":                     InstanceConfigurationNetworkAccessTypeCustomNetworking,
+}
+
+var mappingInstanceConfigurationNetworkAccessTypeEnumLowerCase = map[string]InstanceConfigurationNetworkAccessTypeEnum{
+	"managed_networking_no_internet_access": InstanceConfigurationNetworkAccessTypeManagedNetworkingNoInternetAccess,
+	"managed_networking_internet_access":    InstanceConfigurationNetworkAccessTypeManagedNetworkingInternetAccess,
+	"custom_networking":                     InstanceConfigurationNetworkAccessTypeCustomNetworking,
+}
+
+// GetInstanceConfigurationNetworkAccessTypeEnumValues Enumerates the set of values for InstanceConfigurationNetworkAccessTypeEnum
+func GetInstanceConfigurationNetworkAccessTypeEnumValues() []InstanceConfigurationNetworkAccessTypeEnum {
+	values := make([]InstanceConfigurationNetworkAccessTypeEnum, 0)
+	for _, v := range mappingInstanceConfigurationNetworkAccessTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceConfigurationNetworkAccessTypeEnumStringValues Enumerates the set of values in String for InstanceConfigurationNetworkAccessTypeEnum
+func GetInstanceConfigurationNetworkAccessTypeEnumStringValues() []string {
+	return []string{
+		"MANAGED_NETWORKING_NO_INTERNET_ACCESS",
+		"MANAGED_NETWORKING_INTERNET_ACCESS",
+		"CUSTOM_NETWORKING",
+	}
+}
+
+// GetMappingInstanceConfigurationNetworkAccessTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceConfigurationNetworkAccessTypeEnum(val string) (InstanceConfigurationNetworkAccessTypeEnum, bool) {
+	enum, ok := mappingInstanceConfigurationNetworkAccessTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

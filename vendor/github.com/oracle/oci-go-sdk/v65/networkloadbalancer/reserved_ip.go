@@ -18,12 +18,16 @@ import (
 // ReservedIp An object representing a reserved IP address to be attached or that is already attached to a network load balancer.
 type ReservedIp struct {
 
-	// OCID of the reserved public IP address created with the virtual cloud network.
-	// Reserved public IP addresses are IP addresses that are registered using the virtual cloud network API.
-	// Create a reserved public IP address. When you create the network load balancer, enter the OCID of the reserved public IP address in the
-	// reservedIp field to attach the IP address to the network load balancer. This task configures the network load balancer to listen to traffic on this IP address.
-	// Reserved public IP addresses are not deleted when the network load balancer is deleted. The IP addresses become unattached from the network load balancer.
-	// Example: "ocid1.publicip.oc1.phx.unique_ID"
+	// Ocid of the Reserved IP (Public IP, Private IP or IPv6) created with VCN.
+	// Reserved IPs are IPs which are already registered using VCN API.
+	// For public Network load balancers, customer can create a reserved Public IP and/or reserved private IP and/or reserved IPv6 and pass the OCID's in the
+	// reservedIps array field to attach the IP addresses to the network load balancer during create
+	// For private Network load balancers, customer can create a reserved Private IP and/or reserved IPv6 and pass the OCID's in the
+	// reservedIps array field to attach the IP addresses to the network load balancer during create
+	// Reserved IPs will not be deleted when the Network Load balancer is deleted. They will be detached from the Network Load balancer.
+	// Public IP Example: "ocid1.publicip.oc1.phx.unique_ID"
+	// Private IP Example: "ocid1.privateip.oc1.phx.unique_ID"
+	// IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID"
 	Id *string `mandatory:"false" json:"id"`
 }
 
