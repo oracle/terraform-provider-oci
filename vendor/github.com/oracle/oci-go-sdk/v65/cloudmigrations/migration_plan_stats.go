@@ -24,6 +24,10 @@ type MigrationPlanStats struct {
 
 	// The total count of VMs in migration
 	VmCount *int `mandatory:"false" json:"vmCount"`
+
+	CurrentMonthlyCost *CurrentMonthlyCost `mandatory:"false" json:"currentMonthlyCost"`
+
+	CostToMigrate *CostToMigrate `mandatory:"false" json:"costToMigrate"`
 }
 
 func (m MigrationPlanStats) String() string {

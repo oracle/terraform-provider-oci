@@ -12,6 +12,10 @@ import (
 )
 
 // ListingSubscriptionsRequest wrapper for the ListingSubscriptions operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListingSubscriptions.go.html to see an example of how to use ListingSubscriptionsRequest.
 type ListingSubscriptionsRequest struct {
 
 	// The unique identifier for the listing.

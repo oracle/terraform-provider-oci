@@ -122,6 +122,10 @@ func (m *targetasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := VmTargetAsset{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OLVM_INSTANCE":
+		mm := OlvmTargetAsset{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for TargetAsset: %s.", m.Type)
 		return *m, nil
@@ -284,15 +288,18 @@ type TargetAssetTypeEnum string
 
 // Set of constants representing the allowable values for TargetAssetTypeEnum
 const (
-	TargetAssetTypeInstance TargetAssetTypeEnum = "INSTANCE"
+	TargetAssetTypeInstance     TargetAssetTypeEnum = "INSTANCE"
+	TargetAssetTypeOlvmInstance TargetAssetTypeEnum = "OLVM_INSTANCE"
 )
 
 var mappingTargetAssetTypeEnum = map[string]TargetAssetTypeEnum{
-	"INSTANCE": TargetAssetTypeInstance,
+	"INSTANCE":      TargetAssetTypeInstance,
+	"OLVM_INSTANCE": TargetAssetTypeOlvmInstance,
 }
 
 var mappingTargetAssetTypeEnumLowerCase = map[string]TargetAssetTypeEnum{
-	"instance": TargetAssetTypeInstance,
+	"instance":      TargetAssetTypeInstance,
+	"olvm_instance": TargetAssetTypeOlvmInstance,
 }
 
 // GetTargetAssetTypeEnumValues Enumerates the set of values for TargetAssetTypeEnum
@@ -308,6 +315,7 @@ func GetTargetAssetTypeEnumValues() []TargetAssetTypeEnum {
 func GetTargetAssetTypeEnumStringValues() []string {
 	return []string{
 		"INSTANCE",
+		"OLVM_INSTANCE",
 	}
 }
 

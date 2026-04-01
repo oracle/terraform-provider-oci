@@ -5,8 +5,10 @@ package auth
 
 import (
 	"bytes"
+	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"net/http/httputil"
@@ -95,4 +97,14 @@ func GetGenericConfigurationProvider(configProvider common.ConfigurationProvider
 		}
 	}
 	return configProvider, nil
+}
+
+// privateToPublicDERBase64 takes an RSA Private Key and returns a public key in
+// DER format.
+func privateToPublicDERBase64(pk *rsa.PrivateKey) (string, error) {
+	publicBytes, err := x509.MarshalPKIXPublicKey(pk.Public())
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(publicBytes), nil
 }

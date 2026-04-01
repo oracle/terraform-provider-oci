@@ -12,6 +12,10 @@ import (
 )
 
 // ResolveSubscriptionRequest wrapper for the ResolveSubscription operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ResolveSubscription.go.html to see an example of how to use ResolveSubscriptionRequest.
 type ResolveSubscriptionRequest struct {
 
 	// Details for the new Subscription.

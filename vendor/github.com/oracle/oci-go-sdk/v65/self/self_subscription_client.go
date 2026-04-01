@@ -92,6 +92,10 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 }
 
 // CancelWorkRequest Cancels a work request.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client SubscriptionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -147,6 +151,10 @@ func (client SubscriptionClient) cancelWorkRequest(ctx context.Context, request 
 
 // ChangeSubscriptionCompartment Moves a Subscription into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartment API.
 // A default retry strategy applies to this operation ChangeSubscriptionCompartment()
 func (client SubscriptionClient) ChangeSubscriptionCompartment(ctx context.Context, request ChangeSubscriptionCompartmentRequest) (response ChangeSubscriptionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -206,6 +214,10 @@ func (client SubscriptionClient) changeSubscriptionCompartment(ctx context.Conte
 }
 
 // CreateSubscription Creates a Subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/CreateSubscription.go.html to see an example of how to use CreateSubscription API.
 // A default retry strategy applies to this operation CreateSubscription()
 func (client SubscriptionClient) CreateSubscription(ctx context.Context, request CreateSubscriptionRequest) (response CreateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,6 +277,10 @@ func (client SubscriptionClient) createSubscription(ctx context.Context, request
 }
 
 // DeleteSubscription Deletes a Subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/DeleteSubscription.go.html to see an example of how to use DeleteSubscription API.
 // A default retry strategy applies to this operation DeleteSubscription()
 func (client SubscriptionClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -319,6 +335,10 @@ func (client SubscriptionClient) deleteSubscription(ctx context.Context, request
 }
 
 // GetSubscription Gets information about a Subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/GetSubscription.go.html to see an example of how to use GetSubscription API.
 // A default retry strategy applies to this operation GetSubscription()
 func (client SubscriptionClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -373,6 +393,10 @@ func (client SubscriptionClient) getSubscription(ctx context.Context, request co
 }
 
 // GetSubscriptionToken Gets a token of Subscriptions.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/GetSubscriptionToken.go.html to see an example of how to use GetSubscriptionToken API.
 // A default retry strategy applies to this operation GetSubscriptionToken()
 func (client SubscriptionClient) GetSubscriptionToken(ctx context.Context, request GetSubscriptionTokenRequest) (response GetSubscriptionTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -427,6 +451,10 @@ func (client SubscriptionClient) getSubscriptionToken(ctx context.Context, reque
 }
 
 // GetWorkRequest Gets the details of a work request.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client SubscriptionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -482,6 +510,10 @@ func (client SubscriptionClient) getWorkRequest(ctx context.Context, request com
 
 // ListSubscriptions Lists the subscriptions which have been created in the specified compartment.
 // You can filter results by specifying query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 // A default retry strategy applies to this operation ListSubscriptions()
 func (client SubscriptionClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -536,6 +568,10 @@ func (client SubscriptionClient) listSubscriptions(ctx context.Context, request 
 }
 
 // ListWorkRequestErrors Lists the errors for a work request.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client SubscriptionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -590,6 +626,10 @@ func (client SubscriptionClient) listWorkRequestErrors(ctx context.Context, requ
 }
 
 // ListWorkRequestLogs Lists the logs for a work request.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client SubscriptionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -644,6 +684,10 @@ func (client SubscriptionClient) listWorkRequestLogs(ctx context.Context, reques
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client SubscriptionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -698,6 +742,10 @@ func (client SubscriptionClient) listWorkRequests(ctx context.Context, request c
 }
 
 // UpdateSubscription Updates a Subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 // A default retry strategy applies to this operation UpdateSubscription()
 func (client SubscriptionClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeSubscriptionCompartmentRequest wrapper for the ChangeSubscriptionCompartment operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartmentRequest.
 type ChangeSubscriptionCompartmentRequest struct {
 
 	// The unique identifier for the subscription.

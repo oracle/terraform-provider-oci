@@ -92,6 +92,10 @@ func (client *PartnerIntegerationClient) ConfigurationProvider() *common.Configu
 }
 
 // ActivateSubscription Activates a subscription identified by the provided subscription ID and updates its status.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ActivateSubscription.go.html to see an example of how to use ActivateSubscription API.
 // A default retry strategy applies to this operation ActivateSubscription()
 func (client PartnerIntegerationClient) ActivateSubscription(ctx context.Context, request ActivateSubscriptionRequest) (response ActivateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -151,6 +155,10 @@ func (client PartnerIntegerationClient) activateSubscription(ctx context.Context
 }
 
 // ListingSubscriptions Gets information about a Subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListingSubscriptions.go.html to see an example of how to use ListingSubscriptions API.
 // A default retry strategy applies to this operation ListingSubscriptions()
 func (client PartnerIntegerationClient) ListingSubscriptions(ctx context.Context, request ListingSubscriptionsRequest) (response ListingSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -205,6 +213,10 @@ func (client PartnerIntegerationClient) listingSubscriptions(ctx context.Context
 }
 
 // ResolveSubscription This API returns the subscription details by resolving JWT token to corresponding subscription and move its state to Pending Activation state.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ResolveSubscription.go.html to see an example of how to use ResolveSubscription API.
 // A default retry strategy applies to this operation ResolveSubscription()
 func (client PartnerIntegerationClient) ResolveSubscription(ctx context.Context, request ResolveSubscriptionRequest) (response ResolveSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

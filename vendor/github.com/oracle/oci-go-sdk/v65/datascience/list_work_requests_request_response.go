@@ -24,6 +24,9 @@ type ListWorkRequestsRequest struct {
 	// <b>Filter</b> results by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// <b>Filter</b> results by the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource associated with the work request.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
 	// <b>Filter</b> results by the type of the operation associated with the work request.
 	OperationType ListWorkRequestsOperationTypeEnum `mandatory:"false" contributesTo:"query" name:"operationType" omitEmpty:"true"`
 

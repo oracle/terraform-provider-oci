@@ -39,6 +39,9 @@ type ReplicationProgress struct {
 	// Status of the last replication task. It can be Completed or Failed.
 	LastReplicationStatus ReplicationProgressLastReplicationStatusEnum `mandatory:"false" json:"lastReplicationStatus,omitempty"`
 
+	// The child status of the last replication task.
+	LastReplicationSubStatus *string `mandatory:"false" json:"lastReplicationSubStatus"`
+
 	// Error message if the last finished replication failed.
 	LastReplicationError *string `mandatory:"false" json:"lastReplicationError"`
 }

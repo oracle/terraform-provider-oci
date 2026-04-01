@@ -12,6 +12,10 @@ import (
 )
 
 // ActivateSubscriptionRequest wrapper for the ActivateSubscription operation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ActivateSubscription.go.html to see an example of how to use ActivateSubscriptionRequest.
 type ActivateSubscriptionRequest struct {
 
 	// The unique identifier for the subscription.
