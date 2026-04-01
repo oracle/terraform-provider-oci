@@ -65,6 +65,8 @@ resource "oci_file_storage_outbound_connector" "test_outbound_connector" {
 	}
 	password_secret_id = oci_vault_secret.test_secret.id
 	password_secret_version = var.outbound_connector_password_secret_version
+	trusted_certificate_secret_id = oci_vault_secret.test_secret.id
+	trusted_certificate_secret_version = var.outbound_connector_trusted_certificate_secret_version
 }
 ```
 
@@ -89,6 +91,8 @@ The following arguments are supported:
 	* `type` - (Required) Type of the lock.
 * `password_secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the password for the LDAP bind account in the Vault.
 * `password_secret_version` - (Optional) Version of the password secret in the Vault to use.
+* `trusted_certificate_secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the trusted certificate for the LDAP server in the Vault.
+* `trusted_certificate_secret_version` - (Optional) Version of the trusted certificate secret in the Vault to use.
 
 
 ** IMPORTANT **
@@ -119,6 +123,8 @@ The following attributes are exported:
 * `state` - The current state of this outbound connector.
 * `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the outbound connector was created in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `trusted_certificate_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the trusted certificate for the LDAP server in the Vault .
+* `trusted_certificate_secret_version` - Version of the trusted certificate secret in the Vault to use.
 
 ## Timeouts
 

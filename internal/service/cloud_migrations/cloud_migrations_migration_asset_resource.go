@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,12 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudMigrationsMigrationAsset,
-		Read:     readCloudMigrationsMigrationAsset,
-		Update:   updateCloudMigrationsMigrationAsset,
-		Delete:   deleteCloudMigrationsMigrationAsset,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudMigrationsMigrationAssetWithContext,
+		ReadContext:   readCloudMigrationsMigrationAssetWithContext,
+		UpdateContext: updateCloudMigrationsMigrationAssetWithContext,
+		DeleteContext: deleteCloudMigrationsMigrationAssetWithContext,
+		CustomizeDiff: customizeDiffReplicationLocationDetailMetadata(),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -68,6 +69,33 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"replication_location_detail": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"metadata": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"replication_location_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -90,6 +118,11 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"destination_disks": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -139,37 +172,37 @@ func CloudMigrationsMigrationAssetResource() *schema.Resource {
 	}
 }
 
-func createCloudMigrationsMigrationAsset(d *schema.ResourceData, m interface{}) error {
+func createCloudMigrationsMigrationAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudMigrationsMigrationAsset(d *schema.ResourceData, m interface{}) error {
+func readCloudMigrationsMigrationAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudMigrationsMigrationAsset(d *schema.ResourceData, m interface{}) error {
+func updateCloudMigrationsMigrationAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudMigrationsMigrationAsset(d *schema.ResourceData, m interface{}) error {
+func deleteCloudMigrationsMigrationAssetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudMigrationsMigrationAssetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MigrationClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudMigrationsMigrationAssetResourceCrud struct {
@@ -208,7 +241,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudMigrationsMigrationAssetResourceCrud) Create() error {
+func (s *CloudMigrationsMigrationAssetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.CreateMigrationAssetRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -249,6 +282,17 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Create() error {
 		request.ReplicationCompartmentId = &tmp
 	}
 
+	if replicationLocationDetail, ok := s.D.GetOkExists("replication_location_detail"); ok {
+		if tmpList := replicationLocationDetail.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_location_detail", 0)
+			tmp, err := s.mapToReplicationLocationDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationLocationDetail = &tmp
+		}
+	}
+
 	if replicationScheduleId, ok := s.D.GetOkExists("replication_schedule_id"); ok {
 		tmp := replicationScheduleId.(string)
 		request.ReplicationScheduleId = &tmp
@@ -261,7 +305,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.CreateMigrationAsset(context.Background(), request)
+	response, err := s.Client.CreateMigrationAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -272,20 +316,20 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMigrationAssetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMigrationAssetFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudMigrationsMigrationAssetResourceCrud) getMigrationAssetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudMigrationsMigrationAssetResourceCrud) getMigrationAssetFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_migrations.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	migrationAssetId, err := migrationAssetWaitForWorkRequest(workId, "migrationAsset",
+	migrationAssetId, err := migrationAssetWaitForWorkRequest(ctx, workId, "migrationAsset",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, migrationAssetId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_cloud_migrations.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -299,7 +343,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) getMigrationAssetFromWorkReq
 	}
 	s.D.SetId(*migrationAssetId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func migrationAssetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -325,7 +369,7 @@ func migrationAssetWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func migrationAssetWaitForWorkRequest(wId *string, entityType string, action oci_cloud_migrations.ActionTypeEnum,
+func migrationAssetWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_migrations.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_migrations.MigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_migrations")
 	retryPolicy.ShouldRetryOperation = migrationAssetWorkRequestShouldRetryFunc(timeout)
@@ -344,7 +388,7 @@ func migrationAssetWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cloud_migrations.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -373,14 +417,14 @@ func migrationAssetWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_migrations.OperationStatusFailed || response.Status == oci_cloud_migrations.OperationStatusCanceled {
-		return nil, getErrorFromCloudMigrationsMigrationAssetWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudMigrationsMigrationAssetWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudMigrationsMigrationAssetWorkRequest(client *oci_cloud_migrations.MigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_migrations.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromCloudMigrationsMigrationAssetWorkRequest(ctx context.Context, client *oci_cloud_migrations.MigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_migrations.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_cloud_migrations.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -402,7 +446,7 @@ func getErrorFromCloudMigrationsMigrationAssetWorkRequest(client *oci_cloud_migr
 	return workRequestErr
 }
 
-func (s *CloudMigrationsMigrationAssetResourceCrud) Get() error {
+func (s *CloudMigrationsMigrationAssetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.GetMigrationAssetRequest{}
 
 	tmp := s.D.Id()
@@ -410,7 +454,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.GetMigrationAsset(context.Background(), request)
+	response, err := s.Client.GetMigrationAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -419,7 +463,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudMigrationsMigrationAssetResourceCrud) Update() error {
+func (s *CloudMigrationsMigrationAssetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.UpdateMigrationAssetRequest{}
 
 	if dependsOn, ok := s.D.GetOkExists("migration_asset_depends_on"); ok {
@@ -450,7 +494,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.UpdateMigrationAsset(context.Background(), request)
+	response, err := s.Client.UpdateMigrationAsset(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -459,7 +503,7 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CloudMigrationsMigrationAssetResourceCrud) Delete() error {
+func (s *CloudMigrationsMigrationAssetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_migrations.DeleteMigrationAssetRequest{}
 
 	tmp := s.D.Id()
@@ -467,14 +511,14 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
-	response, err := s.Client.DeleteMigrationAsset(context.Background(), request)
+	response, err := s.Client.DeleteMigrationAsset(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := migrationAssetWaitForWorkRequest(workId, "migrationAsset",
+	_, delWorkRequestErr := migrationAssetWaitForWorkRequest(ctx, workId, "migrationAsset",
 		oci_cloud_migrations.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -493,6 +537,8 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) SetData() error {
 
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
 	s.D.Set("migration_asset_depends_on", s.Res.DependsOn)
+
+	s.D.Set("destination_disks", s.Res.DestinationDisks)
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
@@ -515,6 +561,12 @@ func (s *CloudMigrationsMigrationAssetResourceCrud) SetData() error {
 
 	if s.Res.ReplicationCompartmentId != nil {
 		s.D.Set("replication_compartment_id", *s.Res.ReplicationCompartmentId)
+	}
+
+	if s.Res.ReplicationLocationDetail != nil {
+		s.D.Set("replication_location_detail", []interface{}{ReplicationLocationDetailToMap(s.Res.ReplicationLocationDetail)})
+	} else {
+		s.D.Set("replication_location_detail", nil)
 	}
 
 	if s.Res.ReplicationScheduleId != nil {
@@ -566,6 +618,8 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 	result["migration_asset_depends_on"] = obj.DependsOn
 	result["migration_asset_depends_on"] = obj.DependsOn
 
+	result["destination_disks"] = obj.DestinationDisks
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -587,6 +641,10 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 
 	if obj.ParentSnapshot != nil {
 		result["parent_snapshot"] = string(*obj.ParentSnapshot)
+	}
+
+	if obj.ReplicationLocationDetail != nil {
+		result["replication_location_detail"] = []interface{}{ReplicationLocationDetailToMap(obj.ReplicationLocationDetail)}
 	}
 
 	if obj.ReplicationScheduleId != nil {
@@ -623,4 +681,75 @@ func MigrationAssetSummaryToMap(obj oci_cloud_migrations.MigrationAssetSummary) 
 	}
 
 	return result
+}
+
+func (s *CloudMigrationsMigrationAssetResourceCrud) mapToReplicationLocationDetail(fieldKeyFormat string) (oci_cloud_migrations.ReplicationLocationDetail, error) {
+	result := oci_cloud_migrations.ReplicationLocationDetail{}
+
+	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
+		stringMap := tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
+		var temp interface{} = stringMap
+		result.Metadata = &temp
+	}
+
+	if replicationLocationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replication_location_type")); ok {
+		result.ReplicationLocationType = oci_cloud_migrations.ReplicationLocationDetailReplicationLocationTypeEnum(replicationLocationType.(string))
+	}
+
+	return result, nil
+}
+
+func ReplicationLocationDetailToMap(obj *oci_cloud_migrations.ReplicationLocationDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["metadata"] = obj.Metadata
+
+	result["replication_location_type"] = string(obj.ReplicationLocationType)
+
+	return result
+}
+
+func customizeDiffReplicationLocationDetailMetadata() schema.CustomizeDiffFunc {
+	return func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+		if !d.HasChange("replication_location_detail") {
+			return nil
+		}
+
+		oldRaw, newRaw := d.GetChange("replication_location_detail")
+		oldList, _ := oldRaw.([]interface{})
+		newList, _ := newRaw.([]interface{})
+
+		if len(oldList) == 0 || len(newList) == 0 || oldList[0] == nil || newList[0] == nil {
+			return nil
+		}
+
+		old0, ok := oldList[0].(map[string]interface{})
+		if !ok {
+			return nil
+		}
+		new0, ok := newList[0].(map[string]interface{})
+		if !ok {
+			return nil
+		}
+
+		oldMeta, _ := old0["metadata"].(map[string]interface{})
+		newMeta, _ := new0["metadata"].(map[string]interface{})
+
+		if len(oldMeta) == 0 || newMeta == nil {
+			return nil
+		}
+
+		merged := make(map[string]interface{}, len(oldMeta)+len(newMeta))
+		for k, v := range oldMeta {
+			merged[k] = v
+		}
+		for k, v := range newMeta {
+			merged[k] = v
+		}
+
+		new0["metadata"] = merged
+		newList[0] = new0
+
+		return d.SetNew("replication_location_detail", newList)
+	}
 }

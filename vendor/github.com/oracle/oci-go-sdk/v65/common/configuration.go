@@ -29,6 +29,8 @@ const (
 	ResourcePrincipalDelegationToken AuthenticationType = "resource_principle_delegation_token"
 	// OAuth2DelegationToken is used for oauth delegation token auth type
 	OAuthDelegationToken AuthenticationType = "oauth_delegation_token"
+	// WorkloadIdentityFederation is used for token exchange grant auth type
+	WorkloadIdentityFederation AuthenticationType = "workload_identity_federation"
 	// UnknownAuthenticationType is used for none meaningful auth type
 	UnknownAuthenticationType AuthenticationType = "unknown_auth_type"
 )

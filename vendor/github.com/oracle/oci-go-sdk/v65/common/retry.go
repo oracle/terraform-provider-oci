@@ -74,7 +74,7 @@ const (
 var (
 	defaultRetryStatusCodeMap = map[StatErrCode]bool{
 		{409, "IncorrectState"}:  true,
-		{409, "LockConflict"}:  true,
+		{409, "LockConflict"}:    true,
 		{429, "TooManyRequests"}: true,
 
 		{501, "MethodNotImplemented"}: false,

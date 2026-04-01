@@ -207,6 +207,18 @@ const (
 	SummarizeSqlInsightsDatabaseTypeAdwExacc             SummarizeSqlInsightsDatabaseTypeEnum = "ADW-EXACC"
 	SummarizeSqlInsightsDatabaseTypeExternalAdw          SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-ADW"
 	SummarizeSqlInsightsDatabaseTypeExternalAtp          SummarizeSqlInsightsDatabaseTypeEnum = "EXTERNAL-ATP"
+	SummarizeSqlInsightsDatabaseTypeLhD                  SummarizeSqlInsightsDatabaseTypeEnum = "LH-D"
+	SummarizeSqlInsightsDatabaseTypeApexD                SummarizeSqlInsightsDatabaseTypeEnum = "APEX-D"
+	SummarizeSqlInsightsDatabaseTypeAjdD                 SummarizeSqlInsightsDatabaseTypeEnum = "AJD-D"
+	SummarizeSqlInsightsDatabaseTypeAvdD                 SummarizeSqlInsightsDatabaseTypeEnum = "AVD-D"
+	SummarizeSqlInsightsDatabaseTypeLhS                  SummarizeSqlInsightsDatabaseTypeEnum = "LH-S"
+	SummarizeSqlInsightsDatabaseTypeApexS                SummarizeSqlInsightsDatabaseTypeEnum = "APEX-S"
+	SummarizeSqlInsightsDatabaseTypeAjdS                 SummarizeSqlInsightsDatabaseTypeEnum = "AJD-S"
+	SummarizeSqlInsightsDatabaseTypeAvdS                 SummarizeSqlInsightsDatabaseTypeEnum = "AVD-S"
+	SummarizeSqlInsightsDatabaseTypeLhExacc              SummarizeSqlInsightsDatabaseTypeEnum = "LH-EXACC"
+	SummarizeSqlInsightsDatabaseTypeApexExacc            SummarizeSqlInsightsDatabaseTypeEnum = "APEX-EXACC"
+	SummarizeSqlInsightsDatabaseTypeAjdExacc             SummarizeSqlInsightsDatabaseTypeEnum = "AJD-EXACC"
+	SummarizeSqlInsightsDatabaseTypeAvdExacc             SummarizeSqlInsightsDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -234,6 +246,18 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsight
 	"ADW-EXACC":              SummarizeSqlInsightsDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           SummarizeSqlInsightsDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           SummarizeSqlInsightsDatabaseTypeExternalAtp,
+	"LH-D":                   SummarizeSqlInsightsDatabaseTypeLhD,
+	"APEX-D":                 SummarizeSqlInsightsDatabaseTypeApexD,
+	"AJD-D":                  SummarizeSqlInsightsDatabaseTypeAjdD,
+	"AVD-D":                  SummarizeSqlInsightsDatabaseTypeAvdD,
+	"LH-S":                   SummarizeSqlInsightsDatabaseTypeLhS,
+	"APEX-S":                 SummarizeSqlInsightsDatabaseTypeApexS,
+	"AJD-S":                  SummarizeSqlInsightsDatabaseTypeAjdS,
+	"AVD-S":                  SummarizeSqlInsightsDatabaseTypeAvdS,
+	"LH-EXACC":               SummarizeSqlInsightsDatabaseTypeLhExacc,
+	"APEX-EXACC":             SummarizeSqlInsightsDatabaseTypeApexExacc,
+	"AJD-EXACC":              SummarizeSqlInsightsDatabaseTypeAjdExacc,
+	"AVD-EXACC":              SummarizeSqlInsightsDatabaseTypeAvdExacc,
 }
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -261,6 +285,18 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeS
 	"adw-exacc":              SummarizeSqlInsightsDatabaseTypeAdwExacc,
 	"external-adw":           SummarizeSqlInsightsDatabaseTypeExternalAdw,
 	"external-atp":           SummarizeSqlInsightsDatabaseTypeExternalAtp,
+	"lh-d":                   SummarizeSqlInsightsDatabaseTypeLhD,
+	"apex-d":                 SummarizeSqlInsightsDatabaseTypeApexD,
+	"ajd-d":                  SummarizeSqlInsightsDatabaseTypeAjdD,
+	"avd-d":                  SummarizeSqlInsightsDatabaseTypeAvdD,
+	"lh-s":                   SummarizeSqlInsightsDatabaseTypeLhS,
+	"apex-s":                 SummarizeSqlInsightsDatabaseTypeApexS,
+	"ajd-s":                  SummarizeSqlInsightsDatabaseTypeAjdS,
+	"avd-s":                  SummarizeSqlInsightsDatabaseTypeAvdS,
+	"lh-exacc":               SummarizeSqlInsightsDatabaseTypeLhExacc,
+	"apex-exacc":             SummarizeSqlInsightsDatabaseTypeApexExacc,
+	"ajd-exacc":              SummarizeSqlInsightsDatabaseTypeAjdExacc,
+	"avd-exacc":              SummarizeSqlInsightsDatabaseTypeAvdExacc,
 }
 
 // GetSummarizeSqlInsightsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlInsightsDatabaseTypeEnum
@@ -299,6 +335,18 @@ func GetSummarizeSqlInsightsDatabaseTypeEnumStringValues() []string {
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

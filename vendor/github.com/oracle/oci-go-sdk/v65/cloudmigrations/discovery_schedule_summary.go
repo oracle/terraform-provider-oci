@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DiscoveryScheduleSummary Sumarized information about a discovery schedule.
+// DiscoveryScheduleSummary Summarized information about a discovery schedule.
 type DiscoveryScheduleSummary struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the discovery schedule.

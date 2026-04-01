@@ -222,6 +222,18 @@ const (
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAdwExacc             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "ADW-EXACC"
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAdw          SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "EXTERNAL-ADW"
 	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAtp          SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "EXTERNAL-ATP"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhD                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "LH-D"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexD                SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "APEX-D"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdD                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AJD-D"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdD                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AVD-D"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhS                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "LH-S"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexS                SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "APEX-S"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdS                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AJD-S"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdS                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AVD-S"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhExacc              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "LH-EXACC"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexExacc            SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "APEX-EXACC"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdExacc             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AJD-EXACC"
+	SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdExacc             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
@@ -249,6 +261,18 @@ var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum = 
 	"ADW-EXACC":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAtp,
+	"LH-D":                   SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhD,
+	"APEX-D":                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexD,
+	"AJD-D":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdD,
+	"AVD-D":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdD,
+	"LH-S":                   SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhS,
+	"APEX-S":                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexS,
+	"AJD-S":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdS,
+	"AVD-S":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdS,
+	"LH-EXACC":               SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhExacc,
+	"APEX-EXACC":             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexExacc,
+	"AJD-EXACC":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdExacc,
+	"AVD-EXACC":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdExacc,
 }
 
 var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum{
@@ -276,6 +300,18 @@ var mappingSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumLow
 	"adw-exacc":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAdwExacc,
 	"external-adw":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAdw,
 	"external-atp":           SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeExternalAtp,
+	"lh-d":                   SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhD,
+	"apex-d":                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexD,
+	"ajd-d":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdD,
+	"avd-d":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdD,
+	"lh-s":                   SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhS,
+	"apex-s":                 SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexS,
+	"ajd-s":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdS,
+	"avd-s":                  SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdS,
+	"lh-exacc":               SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeLhExacc,
+	"apex-exacc":             SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeApexExacc,
+	"ajd-exacc":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAjdExacc,
+	"avd-exacc":              SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeAvdExacc,
 }
 
 // GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnum
@@ -314,6 +350,18 @@ func GetSummarizeDatabaseInsightResourceUtilizationInsightDatabaseTypeEnumString
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

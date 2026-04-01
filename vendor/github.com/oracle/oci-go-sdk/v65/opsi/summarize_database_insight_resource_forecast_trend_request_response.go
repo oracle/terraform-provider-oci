@@ -258,6 +258,18 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "ADW-EXACC"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw          SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-ADW"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp          SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "EXTERNAL-ATP"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhD                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "LH-D"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexD                SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "APEX-D"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdD                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AJD-D"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdD                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AVD-D"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhS                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "LH-S"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexS                SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "APEX-S"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdS                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AJD-S"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdS                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AVD-S"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhExacc              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "LH-EXACC"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexExacc            SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "APEX-EXACC"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdExacc             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AJD-EXACC"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdExacc             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "AVD-EXACC"
 )
 
 var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
@@ -285,6 +297,18 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[s
 	"ADW-EXACC":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc,
 	"EXTERNAL-ADW":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw,
 	"EXTERNAL-ATP":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp,
+	"LH-D":                   SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhD,
+	"APEX-D":                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexD,
+	"AJD-D":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdD,
+	"AVD-D":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdD,
+	"LH-S":                   SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhS,
+	"APEX-S":                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexS,
+	"AJD-S":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdS,
+	"AVD-S":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdS,
+	"LH-EXACC":               SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhExacc,
+	"APEX-EXACC":             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexExacc,
+	"AJD-EXACC":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdExacc,
+	"AVD-EXACC":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdExacc,
 }
 
 var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum{
@@ -312,6 +336,18 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumLowerCas
 	"adw-exacc":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAdwExacc,
 	"external-adw":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAdw,
 	"external-atp":           SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeExternalAtp,
+	"lh-d":                   SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhD,
+	"apex-d":                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexD,
+	"ajd-d":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdD,
+	"avd-d":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdD,
+	"lh-s":                   SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhS,
+	"apex-s":                 SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexS,
+	"ajd-s":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdS,
+	"avd-s":                  SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdS,
+	"lh-exacc":               SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeLhExacc,
+	"apex-exacc":             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeApexExacc,
+	"ajd-exacc":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAjdExacc,
+	"avd-exacc":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeAvdExacc,
 }
 
 // GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum
@@ -350,6 +386,18 @@ func GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValue
 		"ADW-EXACC",
 		"EXTERNAL-ADW",
 		"EXTERNAL-ATP",
+		"LH-D",
+		"APEX-D",
+		"AJD-D",
+		"AVD-D",
+		"LH-S",
+		"APEX-S",
+		"AJD-S",
+		"AVD-S",
+		"LH-EXACC",
+		"APEX-EXACC",
+		"AJD-EXACC",
+		"AVD-EXACC",
 	}
 }
 

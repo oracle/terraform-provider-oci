@@ -57,6 +57,16 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in Failed state.
 * `migration_id` - The OCID of the associated migration.
 * `migration_plan_stats` - Status of the migration plan.
+	* `cost_to_migrate` - Summary of costs to migrate.
+		* `asset_count` - Number of assets used in this calculation.
+		* `currency_code` - Currency code as defined by ISO-4217.
+		* `oci_data_transfer_costs` - Data transfer costs from OCI.
+		* `source_data_transfer_costs` - Data transfer costs from source cloud provider.
+	* `current_monthly_cost` - Current monthly compute and storage costs.
+		* `asset_count` - Number of assets used in this calculation.
+		* `compute_amount` - Current monthly compute costs.
+		* `currency_code` - Currency code as defined by ISO-4217.
+		* `storage_amount` - Current monthly storage costs.
 	* `time_updated` - The time when the migration plan was calculated. An RFC3339 formatted datetime string.
 	* `total_estimated_cost` - Cost estimation description
 		* `compute` - Cost estimation for compute
@@ -100,14 +110,17 @@ The following attributes are exported:
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_environments` - List of target environments.
 	* `availability_domain` - Availability Domain of the VM configuration.
+	* `cluster_asset_id` - Inventory asset id of the olvm cluster
 	* `dedicated_vm_host` - OCID of the dedicated VM configuration host.
 	* `fault_domain` - Fault domain of the VM configuration.
 	* `ms_license` - Microsoft license for the VM configuration.
+	* `olvm_templates` - OLVM OS type to inventory asset id of the template
 	* `preferred_shape_type` - Preferred VM shape type provided by the customer.
 	* `subnet` - OCID of the VM configuration subnet.
 	* `target_compartment_id` - Target compartment identifier
 	* `target_environment_type` - The type of target environment.
 	* `vcn` - OCID of the VM configuration VCN.
+	* `vnic_profile_asset_id` - Inventory asset Id of the vnic profile
 * `time_created` - The time when the migration plan was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time when the migration plan was updated. An RFC3339 formatted datetime string.
 

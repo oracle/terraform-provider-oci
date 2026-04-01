@@ -53,4 +53,6 @@ The following attributes are exported:
 * `state` - The current state of this outbound connector.
 * `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the outbound connector was created in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `trusted_certificate_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the trusted certificate for the LDAP server in the Vault .
+* `trusted_certificate_secret_version` - Version of the trusted certificate secret in the Vault to use.
 

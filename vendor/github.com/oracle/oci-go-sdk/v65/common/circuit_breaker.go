@@ -166,7 +166,7 @@ func NewGoCircuitBreaker(st gobreaker.Settings) *gobreaker.CircuitBreaker {
 func DefaultCircuitBreakerSetting() *CircuitBreakerSetting {
 	successStatErrCodeMap := map[StatErrCode]bool{
 		{409, "IncorrectState"}: false,
-		{409, "LockConflict"}: false,
+		{409, "LockConflict"}:   false,
 	}
 	successStatCodeMap := map[int]bool{
 		429: false,
@@ -191,7 +191,7 @@ func DefaultCircuitBreakerSetting() *CircuitBreakerSetting {
 func DefaultCircuitBreakerSettingWithServiceName(servicename string) *CircuitBreakerSetting {
 	successStatErrCodeMap := map[StatErrCode]bool{
 		{409, "IncorrectState"}: false,
-		{409, "LockConflict"}: false,
+		{409, "LockConflict"}:   false,
 	}
 	successStatCodeMap := map[int]bool{
 		429: false,

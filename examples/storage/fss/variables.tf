@@ -5,12 +5,15 @@ variable "tenancy_ocid" {
 }
 
 variable "user_ocid" {
+  default = "myocid"
 }
 
 variable "fingerprint" {
+  default = "myfinger"
 }
 
 variable "private_key_path" {
+  default = "mypath"
 }
 
 variable "region" {
@@ -34,9 +37,9 @@ variable "my_subnet_cidr" {
   default = "10.0.1.0/24"
 }
 
-/*variable "my_subnet1_cidr" {
+variable "my_subnet1_cidr" {
   default = "10.0.2.0/24"
-}*/
+}
 
 variable "file_system_1_display_name" {
   default = "my_fs_1"
@@ -47,23 +50,23 @@ variable "file_system_2_display_name" {
 }
 
 variable "file_system_clone_display_name" {
-	default= "my_fs_clone"
+  default= "my_fs_clone"
 }
 
 variable "file_system_clone_with_detach_display_name" {
-	default= "my_fs_clone_with_detach"
+  default= "my_fs_clone_with_detach"
 }
 
 variable "file_system_simple_display_name" {
-	default= "my_fs_simple"
+  default= "my_fs_simple"
 }
 
 variable "file_system_simple_1_display_name" {
-	default= "my_fs_simple_1"
+  default= "my_fs_simple_1"
 }
 
 variable "clone_attach_status_value" {
-    default= "DETACH"
+  default= "DETACH"
 }
 
 variable "quota_rule_enabled" {
@@ -82,9 +85,9 @@ variable "mount_target_2_display_name" {
   default = "my_mount_target_2"
 }
 
-/*variable "mount_target_3_display_name" {
+variable "mount_target_3_display_name" {
   default = "my_mount_target_3"
-}*/
+}
 
 variable "export_path_fs1_mt1" {
   default = "/myfsspaths/fs1/path1"
@@ -252,6 +255,10 @@ variable "ldap_outbound_connector_display_name" {
   default = "my_ldap_outbound_connector"
 }
 
+variable "ldap_outbound_connector_display_name_new" {
+  default = "my_ldap_outbound_connector_2"
+}
+
 variable "ldap_outbound_connector_bind_distinguished_name" {
   default = "bindDistinguishedName"
 }
@@ -294,6 +301,10 @@ variable "krb_keytab_content" {
 
 variable "krb_ldap_pwd_content" {
   default = "dGVzdHB3ZAo="
+}
+
+variable "selfsigned_ldap_pwd_content" {
+  default = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZxekNDQTVPZ0F3SUJBZ0lVZEt2TThaeHBodVV4dkxpRzdKaTRVMTgwWUhvd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1pURUxNQWtHQTFVRUJoTUNWVk14RGpBTUJnTlZCQWdNQlV4dlkyRnNNUTR3REFZRFZRUUhEQVZNYjJOaApiREVNTUFvR0ExVUVDZ3dEVDNKbk1SRXdEd1lEVlFRTERBaFRaV04xY21sMGVURVZNQk1HQTFVRUF3d01iR1JoCmNESXRVbTl2ZEVOQk1CNFhEVEkyTURFeE9URTBNak16TjFvWERUUTJNREV4TkRFME1qTXpOMW93WlRFTE1Ba0cKQTFVRUJoTUNWVk14RGpBTUJnTlZCQWdNQlV4dlkyRnNNUTR3REFZRFZRUUhEQVZNYjJOaGJERU1NQW9HQTFVRQpDZ3dEVDNKbk1SRXdEd1lEVlFRTERBaFRaV04xY21sMGVURVZNQk1HQTFVRUF3d01iR1JoY0RJdFVtOXZkRU5CCk1JSUNJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBZzhBTUlJQ0NnS0NBZ0VBcTBIQXJSejBlUU9UV01vY05IS3AKL0hJajhIeEJ2R0FWNXVNQ0VjSmZvaG1rRzg4dHNqNVpIWi9mZDUwdjJ4OFBUUmY2VjlVL0VMb0JtSTBmVmcrRwpEd2g4czF2QlVaYyswTzByYXJ5aE9kZnZlLzcxZmYwVGhMdWcrOTg4MkpyWWh6dkVYQkZjSlg4S05qOGFuZlFZCjF1YlFZMDRpVnZRbC9xd3d5MzhPQ2E4SVhHVTdvY1ZDVWpXNEFrLzBUMklRRlFtOUpKM3lNbVdoV2hudXJUWjcKcXhCRllXaThkazBiM1FtVnlkeDZrVVliWm1PbWRDdk9LUW5WelFqcWJ6UlBpeXFDNHRpcnZ1dnNkZmhoVEsrcgpLMTIyK3hxMytZQUtYZmJQOFYvQ0s2K2RkOUxJSjZuVFpwUDIxek1TcU04T2ZsNzVxbStnbzV3ZEpJQks1ZDd6Ckh0UERjVUdMZUM2WUR6NnNYUkZ2KzMyRDE0MHZrTmZ5djh4Y0RuelZjNjZNOXJLdU4wZlJia05CZTFpMjlhd0cKTDJRME42citucUxkU2ErZnJvR2xxUk4wTVNsbHZ2OHoycVBLWkFMMUJzRTZ4cHNaODE3YzkvMFRyQXZuUmVSagpFeDIrWWdnNEZ6V1NZTnFDaEs2YlBPVXpzSHVncjJwbE93Y0E2UXZYT0xGVEE4VmRpcWZGZ2ZMOEQ1QkNjSWhlCkNtKzRSTnlGbEtINyt4d0hucGFEbmxNekJCTFA3c0N4RUhQMWVSajlZODlLWVNTcmZRRlU3KzJROE9jWDJOcEQKWUdOSlBlb1VLVlp0WXZmc3JDaGZpajY1UHE4djBoVUtrK2lLUE5HTEJ4NlBCUk5VWDg4L3QzbjFZVW1EbTZPcgpYWUpQVkI2eXBDdGF3c2tNUW1tWFA1TUNBd0VBQWFOVE1GRXdIUVlEVlIwT0JCWUVGSU9vSVAveGo3b3hXb1NuCmxwRUtDNG4vZjJaTU1COEdBMVVkSXdRWU1CYUFGSU9vSVAveGo3b3hXb1NubHBFS0M0bi9mMlpNTUE4R0ExVWQKRXdFQi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dJQkFHdkRKaFVFN1VJa2F3RTZGbXJmYU9yOQoyOFI0dWJWOXFMcWZFVGhtdXV1V0JyOVNRU2FDcGxKNjNUQ3pTSFk3Ym9kQ2RoZnlNNmNhbVdjemo4V1NjZVFJClJVNTRGTGpUMDdRRHBQNVpCY1liUVp6WWJHeHhTaS9ocmkySFA0bGpGazF4dUhpMDZSTFhvYjNrQjJKQ09VZDcKd3JyNUdhUnRrUksrSmVkeGwrNDh3WVZIVHRIdlRjWHhIZ3JHNzlsZHhJTHpCelRmanZ6ZkRJYkNlNE5mRkd0agptWmdZUGp6bHVIMDQ0TTBWcUt3bXJhK3h2K3JmYS9hb0dhd3U4OU9hS21XSVROcm9ENm1nclQ2RWozN2E1UUY1CnhVdUZpSWxRMFJLUlduRkZ2MlhQdnA1R1dQWTVKS05TWUs5MjRrOXdyUWZXM0w3WWdGaTdQTjcxbDkxT1M3T0oKL0xDQ3liOUlLRmludHR5VitWRXU5bjdQcFRETmlnS2wvNW1kVzJiSkorWWtjMW54dnBGNDc1dlAzR253aTBaQQo5eDA3anlpZmFwRzg4ZEVUM2lHMVpndE82Vmg1Y2JUQUk1cGs4dGFNV0dnY3dXMCtJOHJ3NHUwZVVOaFZDQTY0CjV1Y1BGNzZPcndIUmJaWnM1S3F6d0ZnVDViRTRwUEtrWEJJVDVSTUx1Sy9BWFRjYWh4Z0xvcTltSVZHbHVLMjcKNVdHZW1qSnE4Q3JSN095dWFmcEtkbEVzREZ1YldDQ3hUTlF0Yk5IS0ozU3JBdkdiYmd5YUFxKzY3S1Q1WVNYdwpPSDhkK0dlSVViU0U0VXJZa1NDWVBISGlPV2FVeTUrcmx4am84YzJWbHBGR1ZmZjl1b2d5M2gwQ0NLU3JFWGdHClNFNUJsUzRwYkNtZUUydE5DN2szCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
 }
 
 variable "export_path_kfs_kmt" {
@@ -361,6 +372,5 @@ variable "mount_target_secret_attributes_display_name" {
 }
 
 variable "mount_target_secret_attributes_hostname_label" {
-default = "secretattributeshostnamelabel"
-
+  default = "secretattributeshostnamelabel"
 }

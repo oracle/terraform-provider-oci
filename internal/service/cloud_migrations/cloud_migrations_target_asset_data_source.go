@@ -149,6 +149,68 @@ func (s *CloudMigrationsTargetAssetDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_cloud_migrations.OlvmTargetAsset:
+		s.D.Set("type", "OLVM_INSTANCE")
+
+		if v.MsLicense != nil {
+			s.D.Set("ms_license", *v.MsLicense)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		compatibilityMessages := []interface{}{}
+		for _, item := range v.CompatibilityMessages {
+			compatibilityMessages = append(compatibilityMessages, CompatibilityMessageToMap(item))
+		}
+		s.D.Set("compatibility_messages", compatibilityMessages)
+
+		if v.CreatedResourceId != nil {
+			s.D.Set("created_resource_id", *v.CreatedResourceId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EstimatedCost != nil {
+			s.D.Set("estimated_cost", []interface{}{CostEstimationToMap(v.EstimatedCost)})
+		} else {
+			s.D.Set("estimated_cost", nil)
+		}
+
+		if v.IsExcludedFromExecution != nil {
+			s.D.Set("is_excluded_from_execution", *v.IsExcludedFromExecution)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.MigrationAsset != nil {
+			s.D.Set("migration_asset", []interface{}{MigrationAssetToMap(v.MigrationAsset)})
+		} else {
+			s.D.Set("migration_asset", nil)
+		}
+
+		if v.MigrationPlanId != nil {
+			s.D.Set("migration_plan_id", *v.MigrationPlanId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.TimeAssessed != nil {
+			s.D.Set("time_assessed", v.TimeAssessed.String())
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", s.Res.TargetAsset)
 		return nil

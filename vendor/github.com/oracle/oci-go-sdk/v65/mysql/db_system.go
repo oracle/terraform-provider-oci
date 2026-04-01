@@ -114,6 +114,8 @@ type DbSystem struct {
 	// ListShapes operation.
 	ShapeName *string `mandatory:"false" json:"shapeName"`
 
+	ControlledUpdate *ControlledUpdate `mandatory:"false" json:"controlledUpdate"`
+
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
 	Source DbSystemSource `mandatory:"false" json:"source"`
@@ -229,6 +231,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
 		FaultDomain                *string                           `json:"faultDomain"`
 		ShapeName                  *string                           `json:"shapeName"`
+		ControlledUpdate           *ControlledUpdate                 `json:"controlledUpdate"`
 		BackupPolicy               *BackupPolicy                     `json:"backupPolicy"`
 		Source                     dbsystemsource                    `json:"source"`
 		ConfigurationId            *string                           `json:"configurationId"`
@@ -294,6 +297,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.FaultDomain = model.FaultDomain
 
 	m.ShapeName = model.ShapeName
+
+	m.ControlledUpdate = model.ControlledUpdate
 
 	m.BackupPolicy = model.BackupPolicy
 
