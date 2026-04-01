@@ -76,6 +76,11 @@ type MigrationAssetSummary struct {
 
 	// Tenancy Identifier
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	ReplicationLocationDetail *ReplicationLocationDetail `mandatory:"false" json:"replicationLocationDetail"`
+
+	// Mapping of source disk id to destination disk details
+	DestinationDisks map[string]DestinationDisk `mandatory:"false" json:"destinationDisks"`
 }
 
 func (m MigrationAssetSummary) String() string {

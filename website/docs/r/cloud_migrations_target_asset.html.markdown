@@ -23,8 +23,12 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
 	#Required
 	is_excluded_from_execution = var.target_asset_is_excluded_from_execution
 	migration_plan_id = oci_cloud_migrations_migration_plan.test_migration_plan.id
-	preferred_shape_type = var.target_asset_preferred_shape_type
 	type = var.target_asset_type
+
+	#Optional
+	block_volumes_performance = var.target_asset_block_volumes_performance
+	ms_license = var.target_asset_ms_license
+	preferred_shape_type = var.target_asset_preferred_shape_type
 	user_spec {
 
 		#Optional
@@ -35,7 +39,8 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
 			is_management_disabled = var.target_asset_user_spec_agent_config_is_management_disabled
 			is_monitoring_disabled = var.target_asset_user_spec_agent_config_is_monitoring_disabled
 			plugins_config {
-				#Required
+
+				#Optional
 				desired_state = var.target_asset_user_spec_agent_config_plugins_config_desired_state
 				name = var.target_asset_user_spec_agent_config_plugins_config_name
 			}
@@ -72,7 +77,8 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
 		ipxe_script = var.target_asset_user_spec_ipxe_script
 		is_pv_encryption_in_transit_enabled = var.target_asset_user_spec_is_pv_encryption_in_transit_enabled
 		preemptible_instance_config {
-			#Required
+
+			#Optional
 			preemption_action {
 				#Required
 				type = var.target_asset_user_spec_preemptible_instance_config_preemption_action_type
@@ -101,10 +107,6 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
 			kms_key_id = oci_kms_key.test_key.id
 		}
 	}
-
-	#Optional
-	block_volumes_performance = var.target_asset_block_volumes_performance
-	ms_license = var.target_asset_ms_license
 }
 ```
 
@@ -112,44 +114,44 @@ resource "oci_cloud_migrations_target_asset" "test_target_asset" {
 
 The following arguments are supported:
 
-* `block_volumes_performance` - (Optional) (Updatable) Performance of the block volumes.
+* `block_volumes_performance` - (Applicable when type=INSTANCE) (Updatable) Performance of the block volumes.
 * `is_excluded_from_execution` - (Required) (Updatable) A boolean indicating whether the asset should be migrated.
 * `migration_plan_id` - (Required) OCID of the associated migration plan.
 * `ms_license` - (Optional) (Updatable) Microsoft license for the VM configuration.
-* `preferred_shape_type` - (Required) (Updatable) Preferred VM shape type that you provide.
+* `preferred_shape_type` - (Required when type=INSTANCE) (Updatable) Preferred VM shape type that you provide.
 * `type` - (Required) (Updatable) The type of target asset.
-* `user_spec` - (Required) (Updatable) Instance launch details. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance. 
-	* `agent_config` - (Optional) (Updatable) Configuration options for the Oracle Cloud Agent software running on the instance.
-		* `are_all_plugins_disabled` - (Optional) (Updatable) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
+* `user_spec` - (Required when type=INSTANCE) (Updatable) Instance launch details. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance. 
+	* `agent_config` - (Applicable when type=INSTANCE) (Updatable) Configuration options for the Oracle Cloud Agent software running on the instance.
+		* `are_all_plugins_disabled` - (Applicable when type=INSTANCE) (Updatable) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
 
 			To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
-		* `is_management_disabled` - (Optional) (Updatable) Whether Oracle Cloud Agent can run all the available management plugins. By default, the value is false (management plugins are enabled).
+		* `is_management_disabled` - (Applicable when type=INSTANCE) (Updatable) Whether Oracle Cloud Agent can run all the available management plugins. By default, the value is false (management plugins are enabled).
 
 			These are the management plugins: OS Management Service Agent and Compute instance run command.
 
 			The management plugins are controlled by this parameter and the per-plugin configuration in the `pluginsConfig` object.
 			* If `isManagementDisabled` is true, all the management plugins are disabled, regardless of the per-plugin configuration.
 			* If `isManagementDisabled` is false, all the management plugins are enabled. You can optionally disable individual management plugins by providing a value in the `pluginsConfig` object. 
-		* `is_monitoring_disabled` - (Optional) (Updatable) Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. By default, the value is false (monitoring plugins are enabled).
+		* `is_monitoring_disabled` - (Applicable when type=INSTANCE) (Updatable) Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. By default, the value is false (monitoring plugins are enabled).
 
 			These are the monitoring plugins: Compute instance monitoring and Custom logs monitoring.
 
 			The monitoring plugins are controlled by this parameter and by the per-plugin configuration in the `pluginsConfig` object.
 			* If `isMonitoringDisabled` is true, all the monitoring plugins are disabled, regardless of the per-plugin configuration.
 			* If `isMonitoringDisabled` is false, all the monitoring plugins are enabled. You can optionally disable individual monitoring plugins by providing a value in the `pluginsConfig` object. 
-		* `plugins_config` - (Optional) (Updatable) The configuration of plugins associated with this instance.
-			* `desired_state` - (Required) (Updatable) Whether the plugin should be enabled or disabled.
+		* `plugins_config` - (Applicable when type=INSTANCE) (Updatable) The configuration of plugins associated with this instance.
+			* `desired_state` - (Required when type=INSTANCE) (Updatable) Whether the plugin should be enabled or disabled.
 
 				To enable the monitoring and management plugins, the `isMonitoringDisabled` and `isManagementDisabled` attributes must also be set to false. 
-			* `name` - (Required) (Updatable) The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
-	* `availability_domain` - (Optional) (Updatable) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
-	* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation under which this instance is launched. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
-	* `compartment_id` - (Optional) (Updatable) The OCID of the compartment.
-	* `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-		* `assign_private_dns_record` - (Optional) (Updatable) Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. By default, the value is true.
+			* `name` - (Required when type=INSTANCE) (Updatable) The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
+	* `availability_domain` - (Applicable when type=INSTANCE) (Updatable) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
+	* `capacity_reservation_id` - (Applicable when type=INSTANCE) (Updatable) The OCID of the compute capacity reservation under which this instance is launched. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
+	* `compartment_id` - (Applicable when type=INSTANCE) (Updatable) The OCID of the compartment.
+	* `create_vnic_details` - (Applicable when type=INSTANCE) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
+		* `assign_private_dns_record` - (Applicable when type=INSTANCE) (Updatable) Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. By default, the value is true.
 
 			If you specify a `hostnameLabel`, then `assignPrivateDnsRecord` must be set to true. 
-		* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where `prohibitPublicIpOnVnic` = true in the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/)), then no public IP address is assigned. If not set and the subnet is public (`prohibitPublicIpOnVnic` = false), then a public IP address is assigned. If set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
+		* `assign_public_ip` - (Applicable when type=INSTANCE) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where `prohibitPublicIpOnVnic` = true in the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/)), then no public IP address is assigned. If not set and the subnet is public (`prohibitPublicIpOnVnic` = false), then a public IP address is assigned. If set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 
 			**Note:** This public IP address is associated with the primary private IP on the VNIC. For more information, see [IP Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).
 
@@ -158,10 +160,10 @@ The following arguments are supported:
 			Example: `false`
 
 			If you specify a `vlanId`, then `assignPublicIp` must be set to false. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
-		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-		* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-		* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: `{"bar-key": "value"}` 
-		* `hostname_label` - (Optional) (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`). Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
+		* `defined_tags` - (Applicable when type=INSTANCE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+		* `display_name` - (Applicable when type=INSTANCE) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+		* `freeform_tags` - (Applicable when type=INSTANCE) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: `{"bar-key": "value"}` 
+		* `hostname_label` - (Applicable when type=INSTANCE) (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`). Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
 
 			For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
@@ -170,40 +172,40 @@ The following arguments are supported:
 			Example: `bminstance-1`
 
 			If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN can not be assigned a hostname. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
-		* `nsg_ids` - (Optional) (Updatable) List of OCIDs of the network security groups (NSGs) that are added to the VNIC. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
+		* `nsg_ids` - (Applicable when type=INSTANCE) (Updatable) List of OCIDs of the network security groups (NSGs) that are added to the VNIC. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
 
 			If a `vlanId` is specified, the `nsgIds` cannot be specified. The `vlanId` indicates that the VNIC will belong to a VLAN instead of a subnet. With VLANs, all VNICs in the VLAN belong to the NSGs that are associated with the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
-		* `private_ip` - (Optional) (Updatable) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
+		* `private_ip` - (Applicable when type=INSTANCE) (Updatable) A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's *primary* private IP address. The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
 
 			 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 			Example: `10.0.3.3` 
-		* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you should skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
+		* `skip_source_dest_check` - (Applicable when type=INSTANCE) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you should skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 			 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 			Example: `true` 
-		* `subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match.
+		* `subnet_id` - (Applicable when type=INSTANCE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match.
 
 			If you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN instead of a subnet, provide a `vlanId` instead of a `subnetId`. If you provide both `vlanId` and `subnetId`, the request fails. 
-		* `vlan_id` - (Optional) (Updatable) Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
+		* `vlan_id` - (Applicable when type=INSTANCE) (Updatable) Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 			Provide a `vlanId` instead of a `subnetId`. If you provide both `vlanId` and `subnetId`, the request fails. 
-	* `dedicated_vm_host_id` - (Optional) (Updatable) The OCID of the dedicated VM host. 
-	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `fault_domain` - (Optional) (Updatable) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains lets you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+	* `dedicated_vm_host_id` - (Applicable when type=INSTANCE) (Updatable) The OCID of the dedicated VM host. 
+	* `defined_tags` - (Applicable when type=INSTANCE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+	* `display_name` - (Applicable when type=INSTANCE) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `fault_domain` - (Applicable when type=INSTANCE) (Updatable) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains lets you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
 
 		If you do not specify the fault domain, the system selects one for you.
 
 		 To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
 		Example: `FAULT-DOMAIN-1` 
-	* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: `{"bar-key": "value"}` 
-	* `hostname_label` - (Optional) (Updatable) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). If you provide both, the values must match. 
-	* `instance_options` - (Optional) (Updatable) Optional mutable instance options
-		* `are_legacy_imds_endpoints_disabled` - (Optional) (Updatable) Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
-	* `ipxe_script` - (Optional) (Updatable) This is an advanced option.
+	* `freeform_tags` - (Applicable when type=INSTANCE) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility. Example: `{"bar-key": "value"}` 
+	* `hostname_label` - (Applicable when type=INSTANCE) (Updatable) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). If you provide both, the values must match. 
+	* `instance_options` - (Applicable when type=INSTANCE) (Updatable) Optional mutable instance options
+		* `are_legacy_imds_endpoints_disabled` - (Applicable when type=INSTANCE) (Updatable) Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
+	* `ipxe_script` - (Applicable when type=INSTANCE) (Updatable) This is an advanced option.
 
 		When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance is configured to run an iPXE script to continue the boot process.
 
@@ -216,28 +218,28 @@ The following arguments are supported:
 		For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 		For more information about iPXE, see http://ipxe.org. 
-	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. By default, the value is false.
-	* `preemptible_instance_config` - (Optional) (Updatable) Configuration options for preemptible instances. 
-		* `preemption_action` - (Required) (Updatable) The action to run when the preemptible instance is interrupted for eviction. 
+	* `is_pv_encryption_in_transit_enabled` - (Applicable when type=INSTANCE) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. By default, the value is false.
+	* `preemptible_instance_config` - (Applicable when type=INSTANCE) (Updatable) Configuration options for preemptible instances. 
+		* `preemption_action` - (Required when type=INSTANCE) (Updatable) The action to run when the preemptible instance is interrupted for eviction. 
 			* `preserve_boot_volume` - (Optional) (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. By default, it is false if not specified. 
 			* `type` - (Required) (Updatable) The type of action to run when the instance is interrupted for eviction.
-	* `shape` - (Optional) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
+	* `shape` - (Applicable when type=INSTANCE) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 		You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
-	* `shape_config` - (Optional) (Updatable) The shape configuration requested for the instance.
+	* `shape_config` - (Applicable when type=INSTANCE) (Updatable) The shape configuration requested for the instance.
 
 		If the parameter is provided, the instance is created with the resources that you specify. If some properties are missing or the entire parameter is not provided, the instance is created with the default configuration values for the `shape` that you specify.
 
 		Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
-		* `baseline_ocpu_utilization` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+		* `baseline_ocpu_utilization` - (Applicable when type=INSTANCE) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
 
 			The following values are supported:
 			* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 			* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 			* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
-		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory in gigabytes that is available to the instance. 
-		* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
-	* `source_details` - (Optional) (Updatable) 
+		* `memory_in_gbs` - (Applicable when type=INSTANCE) (Updatable) The total amount of memory in gigabytes that is available to the instance. 
+		* `ocpus` - (Applicable when type=INSTANCE) (Updatable) The total number of OCPUs available to the instance. 
+	* `source_details` - (Applicable when type=INSTANCE) (Updatable) 
 		* `boot_volume_id` - (Required when source_type=bootVolume) (Updatable) The OCID of the boot volume used to boot the instance.
 		* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 32,768 GB (32 TB). 
 		* `boot_volume_vpus_per_gb` - (Applicable when source_type=image) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB that represents the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
@@ -303,6 +305,8 @@ The following attributes are exported:
 	* `availability_domain` - Availability domain
 	* `compartment_id` - Compartment Identifier
 	* `depended_on_by` - List of migration assets that depend on the asset.
+	* `destination_disks` - Mapping of source disk id to destination disk details
+		* `uuid` - UUID of disk
 	* `depends_on` - List of migration assets that depends on the asset.
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	* `id` - Asset ID generated by mirgration service. It is used in the mirgration service pipeline.
@@ -311,6 +315,9 @@ The following attributes are exported:
 	* `notifications` - List of notifications
 	* `parent_snapshot` - The parent snapshot of the migration asset to be used by the replication task.
 	* `replication_compartment_id` - Replication compartment identifier
+	* `replication_location_detail` - Replication location detail where the snapshots reside
+		* `metadata` - Properties for each of the replication location types
+		* `replication_location_type` - The type of replication location
 	* `replication_schedule_id` - Replication schedule identifier
 	* `snap_shot_bucket_name` - Name of snapshot bucket
 	* `snapshots` - Key-value pair representing disks ID mapped to the OCIDs of replicated or hydration server volume snapshots. Example: `{"bar-key": "value"}` 

@@ -64,6 +64,9 @@ type AssetSource interface {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	GetEnvironmentType() EnvironmentTypeEnum
 }
 
 type assetsource struct {
@@ -72,6 +75,7 @@ type assetsource struct {
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	EnvironmentType     EnvironmentTypeEnum               `mandatory:"false" json:"environmentType,omitempty"`
 	Id                  *string                           `mandatory:"true" json:"id"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
@@ -110,6 +114,7 @@ func (m *assetsource) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.EnvironmentType = s.Model.EnvironmentType
 	m.Type = s.Model.Type
 
 	return err
@@ -126,6 +131,14 @@ func (m *assetsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	switch m.Type {
 	case "VMWARE":
 		mm := VmWareAssetSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OLVM":
+		mm := OlvmAssetSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AWS":
+		mm := AwsAssetSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -152,6 +165,11 @@ func (m assetsource) GetDefinedTags() map[string]map[string]interface{} {
 // GetSystemTags returns SystemTags
 func (m assetsource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetEnvironmentType returns EnvironmentType
+func (m assetsource) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
 }
 
 // GetId returns Id
@@ -217,6 +235,9 @@ func (m assetsource) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetSourceLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

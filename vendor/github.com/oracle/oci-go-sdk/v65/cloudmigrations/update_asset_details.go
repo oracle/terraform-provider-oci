@@ -1,0 +1,131 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Oracle Cloud Migrations API
+//
+// A description of the Oracle Cloud Migrations API.
+//
+
+package cloudmigrations
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// UpdateAssetDetails The information of asset to be updated.
+type UpdateAssetDetails interface {
+
+	// Asset display name.
+	GetDisplayName() *string
+
+	// List of asset source OCID.
+	GetAssetSourceIds() []string
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. It exists only for cross-compatibility.
+	// Example: `{"bar-key": "value"}`
+	GetFreeformTags() map[string]string
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	GetDefinedTags() map[string]map[string]interface{}
+}
+
+type updateassetdetails struct {
+	JsonData       []byte
+	DisplayName    *string                           `mandatory:"false" json:"displayName"`
+	AssetSourceIds []string                          `mandatory:"false" json:"assetSourceIds"`
+	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	AssetType      string                            `json:"assetType"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *updateassetdetails) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalerupdateassetdetails updateassetdetails
+	s := struct {
+		Model Unmarshalerupdateassetdetails
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.DisplayName = s.Model.DisplayName
+	m.AssetSourceIds = s.Model.AssetSourceIds
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
+	m.AssetType = s.Model.AssetType
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *updateassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.AssetType {
+	case "VM":
+		mm := UpdateVmAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AWS_EBS":
+		mm := UpdateAwsEbsAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VMWARE_VM":
+		mm := UpdateVmwareVmAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AWS_EC2":
+		mm := UpdateAwsEc2AssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Received unsupported enum value for UpdateAssetDetails: %s.", m.AssetType)
+		return *m, nil
+	}
+}
+
+// GetDisplayName returns DisplayName
+func (m updateassetdetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetAssetSourceIds returns AssetSourceIds
+func (m updateassetdetails) GetAssetSourceIds() []string {
+	return m.AssetSourceIds
+}
+
+// GetFreeformTags returns FreeformTags
+func (m updateassetdetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m updateassetdetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+func (m updateassetdetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m updateassetdetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

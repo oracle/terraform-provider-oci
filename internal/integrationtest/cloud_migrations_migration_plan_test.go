@@ -77,6 +77,27 @@ var (
 	}
 
 	CloudMigrationsMigrationPlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Required, acctest.Create, CloudMigrationsMigrationRepresentation)
+
+	// OLVM
+	CloudMigrationsOlvmMigrationPlanRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"migration_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_migrations_migration.test_migration_olvm.id}`},
+		"target_environments": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsOlvmMigrationPlanTargetEnvironmentsRepresentation},
+	}
+	CloudMigrationsOlvmMigrationPlanTargetEnvironmentsRepresentation = map[string]interface{}{
+		"target_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OLVM_TARGET_ENV`},
+		"cluster_asset_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.clusterAssetId}`, Update: `${var.clusterAssetIdUpdated}`},
+		"vnic_profile_asset_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.vnicProfileAssetId}`, Update: `${var.vnicProfileAssetIdUpdated}`},
+	}
+	CloudMigrationsCloudMigrationsOlvmMigrationPlanDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"migration_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_migration.test_migration_olvm.id}`},
+		"migration_plan_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_migration_plan.test_migration_plan.id}`},
+		"state":             acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":            acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudMigrationsMigrationPlanDataSourceFilterRepresentation}}
+	CloudMigrationsOlvmMigrationPlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration_olvm", acctest.Required, acctest.Create, CloudMigrationsOlvmMigrationRepresentation)
 )
 
 // issue-routing-tag: cloud_migrations/default
@@ -95,6 +116,16 @@ func TestCloudMigrationsMigrationPlanResource_basic(t *testing.T) {
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnetId")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnetId\" { default = \"%s\" }\n", subnetId)
 
+	clusterAssetId := utils.GetEnvSettingWithBlankDefault("clusterAssetId")
+	clusterAssetIdVariableStr := fmt.Sprintf("variable \"clusterAssetId\" { default = \"%s\" }\n", clusterAssetId)
+	clusterAssetIdUpdated := utils.GetEnvSettingWithBlankDefault("clusterAssetIdUpdated")
+	clusterAssetIdUpdatedVariableStr := fmt.Sprintf("variable \"clusterAssetIdUpdated\" { default = \"%s\" }\n", clusterAssetIdUpdated)
+
+	vnicProfileAssetId := utils.GetEnvSettingWithBlankDefault("vnicProfileAssetId")
+	vnicProfileAssetIdVariableStr := fmt.Sprintf("variable \"vnicProfileAssetId\" { default = \"%s\" }\n", vnicProfileAssetId)
+	vnicProfileAssetIdUpdated := utils.GetEnvSettingWithBlankDefault("vnicProfileAssetIdUpdated")
+	vnicProfileAssetIdUpdatedVariableStr := fmt.Sprintf("variable \"vnicProfileAssetIdUpdated\" { default = \"%s\" }\n", vnicProfileAssetIdUpdated)
+
 	variableStr := compartmentIdVariableStr + vcnIdVariableStr + subnetIdVariableStr
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
@@ -110,6 +141,90 @@ func TestCloudMigrationsMigrationPlanResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Optional, acctest.Create, CloudMigrationsMigrationPlanRepresentation), "cloudmigrations", "migrationPlan", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudMigrationsMigrationPlanDestroy, []resource.TestStep{
+		// OLVM
+		// verify create
+		{
+			Config: config + variableStr + clusterAssetIdVariableStr + clusterAssetIdUpdatedVariableStr + vnicProfileAssetIdVariableStr + vnicProfileAssetIdUpdatedVariableStr + CloudMigrationsOlvmMigrationPlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Optional, acctest.Create, CloudMigrationsOlvmMigrationPlanRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.target_environment_type", "OLVM_TARGET_ENV"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.cluster_asset_id", clusterAssetId),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.vnic_profile_asset_id", vnicProfileAssetId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + variableStr + clusterAssetIdVariableStr + clusterAssetIdUpdatedVariableStr + vnicProfileAssetIdVariableStr + vnicProfileAssetIdUpdatedVariableStr + CloudMigrationsOlvmMigrationPlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Optional, acctest.Update, CloudMigrationsOlvmMigrationPlanRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.target_environment_type", "OLVM_TARGET_ENV"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.cluster_asset_id", clusterAssetIdUpdated),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.vnic_profile_asset_id", vnicProfileAssetIdUpdated),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migration_plans", "test_migration_plans", acctest.Optional, acctest.Update, CloudMigrationsCloudMigrationsOlvmMigrationPlanDataSourceRepresentation) +
+				variableStr + clusterAssetIdVariableStr + clusterAssetIdUpdatedVariableStr + vnicProfileAssetIdVariableStr + vnicProfileAssetIdUpdatedVariableStr + CloudMigrationsOlvmMigrationPlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Optional, acctest.Update, CloudMigrationsOlvmMigrationPlanRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "migration_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "migration_plan_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "migration_plan_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "migration_plan_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Required, acctest.Create, CloudMigrationsCloudMigrationsMigrationPlanSingularDataSourceRepresentation) +
+				variableStr + clusterAssetIdVariableStr + clusterAssetIdUpdatedVariableStr + vnicProfileAssetIdVariableStr + vnicProfileAssetIdUpdatedVariableStr + CloudMigrationsOlvmMigrationPlanResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration_plan", "test_migration_plan", acctest.Optional, acctest.Update, CloudMigrationsOlvmMigrationPlanRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_plan_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "migration_plan_stats.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.target_environment_type", "OLVM_TARGET_ENV"),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.cluster_asset_id", clusterAssetIdUpdated),
+				resource.TestCheckResourceAttr(resourceName, "target_environments.0.vnic_profile_asset_id", vnicProfileAssetIdUpdated),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + variableStr,
+		},
+
+		// OCI
 		// verify Create
 		{
 			Config: config + variableStr + CloudMigrationsMigrationPlanResourceDependencies +
@@ -130,6 +245,7 @@ func TestCloudMigrationsMigrationPlanResource_basic(t *testing.T) {
 		{
 			Config: config + variableStr + CloudMigrationsMigrationPlanResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + variableStr + CloudMigrationsMigrationPlanResourceDependencies +

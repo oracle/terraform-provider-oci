@@ -88,6 +88,14 @@ func (s *FileStorageOutboundConnectorDataSourceCrud) SetData() error {
 			s.D.Set("password_secret_version", *v.PasswordSecretVersion)
 		}
 
+		if v.TrustedCertificateSecretId != nil {
+			s.D.Set("trusted_certificate_secret_id", *v.TrustedCertificateSecretId)
+		}
+
+		if v.TrustedCertificateSecretVersion != nil {
+			s.D.Set("trusted_certificate_secret_version", *v.TrustedCertificateSecretVersion)
+		}
+
 		if v.AvailabilityDomain != nil {
 			s.D.Set("availability_domain", *v.AvailabilityDomain)
 		}

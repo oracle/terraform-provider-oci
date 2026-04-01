@@ -51,10 +51,24 @@ var (
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"is_completed":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"migration_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsMigrationMigrationConfigRepresentation},
+		"migration_type":          acctest.Representation{RepType: acctest.Optional, Create: `OCI`},
 		"replication_schedule_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_replication_schedule.test_replication_schedule.id}`},
+	}
+	CloudMigrationsMigrationMigrationConfigRepresentation = map[string]interface{}{
+		"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.subnetId}`},
 	}
 
 	CloudMigrationsMigrationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_replication_schedule", "test_replication_schedule", acctest.Required, acctest.Create, CloudMigrationsReplicationScheduleRepresentation)
+
+	// OLVM
+	CloudMigrationsOlvmMigrationRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayNameOlvm`, Update: `displayNameOlvm2`},
+		"is_completed":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"migration_type":          acctest.Representation{RepType: acctest.Optional, Create: `OLVM`},
+		"replication_schedule_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_replication_schedule.test_replication_schedule.id}`},
+	}
 )
 
 // issue-routing-tag: cloud_migrations/default
@@ -74,9 +88,12 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_cloud_migrations_migrations.test_migrations"
 	singularDatasourceName := "data.oci_cloud_migrations_migration.test_migration"
 
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnetId")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnetId\" { default = \"%s\" }\n", subnetId)
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudMigrationsMigrationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+subnetId+CloudMigrationsMigrationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Optional, acctest.Create, CloudMigrationsMigrationRepresentation), "cloudmigrations", "migration", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudMigrationsMigrationDestroy, []resource.TestStep{
@@ -87,6 +104,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "migration_type", "OCI"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -97,17 +115,20 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + CloudMigrationsMigrationResourceDependencies,
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + CloudMigrationsMigrationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CloudMigrationsMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + CloudMigrationsMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Optional, acctest.Create, CloudMigrationsMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_completed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "migration_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "migration_config.0.subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "migration_type", "OCI"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -126,7 +147,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudMigrationsMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + compartmentIdUVariableStr + CloudMigrationsMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CloudMigrationsMigrationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -136,6 +157,9 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_completed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "migration_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_config.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "migration_type", "OCI"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -152,13 +176,15 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CloudMigrationsMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + CloudMigrationsMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Optional, acctest.Update, CloudMigrationsMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_completed", "true"),
+				resource.TestCheckResourceAttr(resourceName, "migration_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_config.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -176,7 +202,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migrations", "test_migrations", acctest.Optional, acctest.Update, CloudMigrationsCloudMigrationsMigrationDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudMigrationsMigrationResourceDependencies +
+				compartmentIdVariableStr + subnetIdVariableStr + CloudMigrationsMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Optional, acctest.Update, CloudMigrationsMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -192,7 +218,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_migrations_migration", "test_migration", acctest.Required, acctest.Create, CloudMigrationsCloudMigrationsMigrationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CloudMigrationsMigrationResourceConfig,
+				compartmentIdVariableStr + subnetIdVariableStr + CloudMigrationsMigrationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
 
@@ -200,6 +226,8 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_completed", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "migration_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "migration_type", "OCI"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
